@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">מרש\"ל</string>
+    <string name="navigation_drawer_about">אודות בסמ\"ח</string>
+    <string name="navigation_drawer_close"></string>
+    <string name="navigation_drawer_contact_us">צור קשר</string>
+    <string name="navigation_drawer_courses">קורסים והשתלמויות</string>
+    <string name="navigation_drawer_discussions">דיונים</string>
+    <string name="navigation_drawer_malshab">מידע למלש\"ב</string>
+    <string name="navigation_drawer_materials">חומרי עזר ולימוד</string>
+    <string name="action_settings">הגדרות</string>
+    <string name="navigation_drawer_more">עוד</string>
+    <string name="navigation_drawer_name">ישראל ישראלי</string>
+    <string name="title_activity_settings">הגדרות</string>
+    <string name="pref_title_vibrate">רטט</string>
+    <string name="pref_title_system_sync_settings">הגדרות סנכרון מערכת</string>
+    <string name="pref_title_sync_frequency">תדירות סנכרון</string>
+    <string-array name="pref_sync_frequency_titles">
+        <item>15 דקות</item>
+        <item>30 דקות</item>
+        <item>שעה אחת</item>
+        <item>3 שעות</item>
+        <item>6 שעות</item>
+        <item>אף פעם</item>
+    </string-array>
+    <string name="pref_title_social_recommendations">אפשר המלצות חברתיות</string>
+    <string name="pref_title_ringtone">צלצול</string>
+    <string name="pref_title_new_message_notifications">התראות הודעה חדשה</string>
+    <string name="pref_ringtone_silent">שקט</string>
+    <string name="pref_header_notifications">התראות</string>
+    <string name="pref_header_general">כללי</string>
+    <string name="pref_default_display_name">ג\'ון סמית\'</string>
+    <string name="pref_title_add_friends_to_messages">הוסף חברים להודעות</string>
+    <string-array name="pref_example_list_titles">
+        <item>תמיד</item>
+        <item>כאשר אפשרי</item>
+        <item>אף פעם</item>
+    </string-array>
+    <string name="pref_title_display_name">הצג שם</string>
+    <string name="pref_header_data_sync">סנכרון ונתונים</string>
+    <string name="pref_description_social_recommendations"></string>
+</resources>

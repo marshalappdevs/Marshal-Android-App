@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_courses"
+            android:icon="@drawable/ic_menu_classroom"
+            android:title="@string/navigation_drawer_courses" />
+        <item
+            android:id="@+id/nav_materials"
+            android:icon="@drawable/ic_menu_books"
+            android:title="@string/navigation_drawer_materials" />
+        <item
+            android:id="@+id/nav_discussions"
+            android:icon="@drawable/ic_menu_discussions"
+            android:title="@string/navigation_drawer_discussions" />
+        <item
+            android:id="@+id/nav_malshab"
+            android:icon="@drawable/ic_menu_user"
+            android:title="@string/navigation_drawer_malshab" />
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_menu_settings"
+            android:title="@string/action_settings" />
+    </group>
+
+    <item android:title="@string/navigation_drawer_more">
+        <menu>
+            <item
+                android:id="@+id/nav_contact_us"
+                android:title="@string/navigation_drawer_contact_us" />
+            <item
+                android:id="@+id/nav_about"
+                android:title="@string/navigation_drawer_about" />
+        </menu>
+    </item>
+
+</menu>
