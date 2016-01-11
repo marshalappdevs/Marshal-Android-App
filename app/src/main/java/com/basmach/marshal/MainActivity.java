@@ -89,6 +89,8 @@ public class MainActivity extends AppCompatActivity
             fm.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
         } else if (id == R.id.nav_materials) {
             fm.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+        } else if (id == R.id.nav_meetups) {
+            fm.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
         } else if (id == R.id.nav_discussions) {
             fm.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
         } else if (id == R.id.nav_malshab) {
