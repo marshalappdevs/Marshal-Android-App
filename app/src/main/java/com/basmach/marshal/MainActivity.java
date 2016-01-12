@@ -26,9 +26,12 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        FragmentManager fragmentManager = getFragmentManager();
-        fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-        setTitle(R.string.navigation_drawer_courses);
+
+        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+
+        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
+        navigationView.setCheckedItem(R.id.nav_courses);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -46,9 +49,6 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
-
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
     }
 
     private long mLastPress = 0;
@@ -71,9 +71,10 @@ public class MainActivity extends AppCompatActivity
                 }
             }
             else {
-                FragmentManager fragmentManager = getFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                setTitle(R.string.navigation_drawer_courses);
+                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+                navigationView.setNavigationItemSelectedListener(this);
+                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
+                navigationView.setCheckedItem(R.id.nav_courses);
             }
         }
     }
@@ -96,7 +97,6 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
