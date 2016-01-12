@@ -83,25 +83,30 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fm = getFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_courses) {
-            fm.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            getSupportActionBar().setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            fm.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            getSupportActionBar().setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
-            fm.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            getSupportActionBar().setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
-            fm.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
+            getSupportActionBar().setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
-            fm.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
+            getSupportActionBar().setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(getSettingsIntent);
         } else if (id == R.id.nav_contact_us) {
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            intent.putExtra(android.content.Intent.EXTRA_EMAIL,new String[] { "marshaldevs@gmail.com" });
+            intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
