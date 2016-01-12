@@ -26,6 +26,9 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        FragmentManager fragmentManager = getFragmentManager();
+        fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+        setTitle(R.string.navigation_drawer_courses);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
@@ -70,7 +73,7 @@ public class MainActivity extends AppCompatActivity
             else {
                 FragmentManager fragmentManager = getFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                getSupportActionBar().setTitle(R.string.navigation_drawer_courses);
+                setTitle(R.string.navigation_drawer_courses);
             }
         }
     }
@@ -106,19 +109,19 @@ public class MainActivity extends AppCompatActivity
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-            getSupportActionBar().setTitle(item.getTitle());
+            setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
-            getSupportActionBar().setTitle(item.getTitle());
+            setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
-            getSupportActionBar().setTitle(item.getTitle());
+            setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
-            getSupportActionBar().setTitle(item.getTitle());
+            setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
-            getSupportActionBar().setTitle(item.getTitle());
+            setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(getSettingsIntent);
