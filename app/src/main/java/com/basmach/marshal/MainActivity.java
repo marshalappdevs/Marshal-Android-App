@@ -1,5 +1,6 @@
 package com.basmach.marshal;
 
+import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
 import android.net.Uri;
@@ -16,6 +17,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -46,13 +48,30 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
     }
 
+    private long mLastPress = 0;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            super.onBackPressed();
+            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (currentFragment instanceof CoursesFragment) {
+                Toast onBackPressedToast = Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT);
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - mLastPress > 2500) {
+                    onBackPressedToast.show();
+                    mLastPress = currentTime;
+                } else {
+                    onBackPressedToast.cancel();
+                    super.onBackPressed();
+                }
+            }
+            else {
+                FragmentManager fragmentManager = getFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+                getSupportActionBar().setTitle(R.string.navigation_drawer_courses);
+            }
         }
     }
 

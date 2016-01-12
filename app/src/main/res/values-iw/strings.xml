@@ -13,6 +13,7 @@
 
     <string name="action_settings">הגדרות</string>
     <string name="title_activity_settings">הגדרות</string>
+    <string name="confirm_exit">לחץ חזור שוב בכדי לצאת</string>
 
     <!-- Strings related to Settings -->
 
