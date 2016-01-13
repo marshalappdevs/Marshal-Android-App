@@ -51,7 +51,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private long mLastPress = 0;
+    long lastPress;
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -60,13 +60,11 @@ public class MainActivity extends AppCompatActivity
         } else {
             Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof CoursesFragment) {
-                Toast onBackPressedToast = Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT);
                 long currentTime = System.currentTimeMillis();
-                if (currentTime - mLastPress > 2500) {
-                    onBackPressedToast.show();
-                    mLastPress = currentTime;
-                } else {
-                    onBackPressedToast.cancel();
+                if(currentTime - lastPress > 3000){
+                    Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
+                    lastPress = currentTime;
+                }else{
                     super.onBackPressed();
                 }
             }
