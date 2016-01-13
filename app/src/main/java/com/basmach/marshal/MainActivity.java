@@ -1,13 +1,19 @@
 package com.basmach.marshal;
 
+import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.content.Intent;
+import android.content.IntentSender;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -17,10 +23,24 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+import com.squareup.picasso.Picasso;
+
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+
+    private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 1;
+    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mResolvingError = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,6 +54,8 @@ public class MainActivity extends AppCompatActivity
         navigationView.setCheckedItem(R.id.nav_courses);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+
+        checkForGetAccountsPremission();
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -49,6 +71,54 @@ public class MainActivity extends AppCompatActivity
                 this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         drawer.setDrawerListener(toggle);
         toggle.syncState();
+    }
+
+    private void checkForGetAccountsPremission() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this,
+                Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
+                    Manifest.permission.GET_ACCOUNTS)) {
+
+            } else {
+                ActivityCompat.requestPermissions(MainActivity.this,
+                        new String[]{Manifest.permission.GET_ACCOUNTS},
+                        MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
+            }
+        } else {
+            initializeGoogleApiClient();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    initializeGoogleApiClient();
+                } else {
+                    ((TextView) findViewById(R.id.profile_name)).setText(R.string.anonymous_name);
+                    ((TextView) findViewById(R.id.profile_email)).setText(R.string.anonymous_email);
+                }
+                return;
+            }
+        }
+    }
+
+    private void initializeGoogleApiClient() {
+        mGoogleApiClient = buildGoogleApiClient();
+        mGoogleApiClient.connect();
+    }
+
+    public GoogleApiClient buildGoogleApiClient() {
+        return new GoogleApiClient.Builder(this)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .addApi(Plus.API)
+                .addScope(Plus.SCOPE_PLUS_LOGIN)
+                .build();
     }
 
     long lastPress;
@@ -73,6 +143,84 @@ public class MainActivity extends AppCompatActivity
                 navigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
                 navigationView.setCheckedItem(R.id.nav_courses);
+            }
+        }
+    }
+
+    @Override
+    public void onConnectionFailed(ConnectionResult result) {
+        if (mResolvingError) {
+            return;
+        } else if (result.hasResolution()) {
+            try {
+                mResolvingError = true;
+                result.startResolutionForResult(this, REQUEST_RESOLVE_ERROR);
+            } catch (IntentSender.SendIntentException e) {
+                mGoogleApiClient.connect();
+            }
+        } else {
+            mResolvingError = true;
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (requestCode == REQUEST_RESOLVE_ERROR) {
+            mResolvingError = false;
+            if (resultCode == RESULT_OK) {
+                if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected()) {
+                    mGoogleApiClient.connect();
+                }
+            }
+        }
+        super.onActivityResult(requestCode, resultCode, data);
+    }
+
+    @Override
+    public void onConnectionSuspended(int cause) {
+        if (mGoogleApiClient != null) {
+            mGoogleApiClient.connect();
+        }
+    }
+
+    @Override
+    public void onConnected(Bundle bundle) {
+        // get current users account
+        Person user = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
+        if (user != null) {
+            // if the user has a profile image
+            if (user.getImage().hasUrl()) {
+                String portrait = user.getImage().getUrl();
+                Log.i("imageUrl",portrait.split("\\?")[0]);
+                //load into the portrait imageview
+                Picasso.with(this)
+                        //remove parameters since the image url makes the image really small
+                        .load(portrait.split("\\?")[0])
+                        .into((CircleImageView) findViewById(R.id.profile_image));
+            }
+            // set the account name
+            TextView tvMail = (TextView) findViewById(R.id.profile_email);
+            if(tvMail != null)
+                tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
+            Log.i("email",Plus.AccountApi.getAccountName(mGoogleApiClient));
+            // set the user's name
+            Person.Name userName = user.getName();
+            ((TextView) findViewById(R.id.profile_name))
+                    .setText(String.format("%s %s", userName.getGivenName(), userName.getFamilyName()));
+        }
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        if (mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.disconnect();
             }
         }
     }
