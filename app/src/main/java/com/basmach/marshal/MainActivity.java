@@ -6,6 +6,8 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
@@ -288,6 +290,8 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.setShowTitle(true);
             int color = getResources().getColor(R.color.colorPrimary);
             customTabsIntent.setToolbarColor(color);
+            Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back);
+            customTabsIntent.setCloseButtonIcon(closeIcon);
             String url = "https://goo.gl/s6thV1";
             customTabsIntent.build().launchUrl(this, Uri.parse(url));
         }

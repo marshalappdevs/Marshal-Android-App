@@ -8,13 +8,20 @@
         android:id="@+id/banner_image"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:adjustViewBounds="true"
         android:background="@android:color/darker_gray"
         android:src="@drawable/bg_default_profile_art"/>
 
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:alpha="0.4"
+        android:background="@android:color/black"/>
+
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
-        android:layout_width="63dp"
-        android:layout_height="63dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_marginTop="38dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/person_image_empty"/>
@@ -41,7 +48,7 @@
             <TextView
                 android:id="@+id/profile_email"
                 android:layout_below="@id/profile_name"
-                android:textColor="@android:color/primary_text_dark"
+                android:textColor="@android:color/secondary_text_dark"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textStyle="normal"
