@@ -8,14 +8,13 @@
     <string name="navigation_drawer_meetups">Meetups</string>
     <string name="navigation_drawer_discussions">Discussions</string>
     <string name="navigation_drawer_malshab">Information for Malshab</string>
-    <string name="navigation_drawer_about">About Basmach</string>
+    <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_contact_us">Contact Us</string>
+    <string name="navigation_drawer_about">About Basmach</string>
     <string name="permission_denied">Contacts access is required to show profile details</string>
     <string name="undo_string">OK</string>
-
-    <string name="action_settings">Settings</string>
-    <string name="title_activity_settings">Settings</string>
     <string name="confirm_exit">Press back again to exit</string>
+    <string name="search_title">Search</string>
 
     <!-- Strings related to Settings -->
 
