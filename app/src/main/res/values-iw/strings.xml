@@ -9,7 +9,9 @@
     <string name="navigation_drawer_malshab">מידע למלש\"ב</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
-    <string name="anonymous_name">אלמוני פלוני</string>
+    <string name="anonymous_name">ישראל ישראלי</string>
+    <string name="anonymous_email">israelisraeli@gmail.com</string>
+    <string name="permission_denied">הרשאה נדחתה - תמיכה חלקית</string>
 
     <string name="action_settings">הגדרות</string>
     <string name="title_activity_settings">הגדרות</string>

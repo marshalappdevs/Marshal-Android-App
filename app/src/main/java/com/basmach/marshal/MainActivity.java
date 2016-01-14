@@ -23,6 +23,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -99,8 +100,7 @@ public class MainActivity extends AppCompatActivity
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initializeGoogleApiClient();
                 } else {
-                    ((TextView) findViewById(R.id.profile_name)).setText(R.string.anonymous_name);
-                    ((TextView) findViewById(R.id.profile_email)).setText(R.string.anonymous_email);
+                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
                 }
                 return;
             }
@@ -191,18 +191,22 @@ public class MainActivity extends AppCompatActivity
             // if the user has a profile image
             if (user.getImage().hasUrl()) {
                 String portrait = user.getImage().getUrl();
-                Log.i("imageUrl",portrait.split("\\?")[0]);
                 //load into the portrait imageview
                 Picasso.with(this)
                         //remove parameters since the image url makes the image really small
                         .load(portrait.split("\\?")[0])
                         .into((CircleImageView) findViewById(R.id.profile_image));
             }
+
+            // load the banner into the background
+            Picasso.with(this)
+                    .load(user.getCover().getCoverPhoto().getUrl())
+                    .into((ImageView) findViewById(R.id.banner_image));
+
             // set the account name
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
             if(tvMail != null)
                 tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            Log.i("email",Plus.AccountApi.getAccountName(mGoogleApiClient));
             // set the user's name
             Person.Name userName = user.getName();
             ((TextView) findViewById(R.id.profile_name))
