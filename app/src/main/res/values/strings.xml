@@ -10,8 +10,6 @@
     <string name="navigation_drawer_malshab">Information for Malshab</string>
     <string name="navigation_drawer_about">About Basmach</string>
     <string name="navigation_drawer_contact_us">Contact Us</string>
-    <string name="anonymous_name">John Doe</string>
-    <string name="anonymous_email">johndoe@gmail.com</string>
     <string name="permission_denied">Permission Denied - Partial Support</string>
 
     <string name="action_settings">Settings</string>

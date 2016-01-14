@@ -279,6 +279,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
             intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
+            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "תמיכה טכנית");
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
