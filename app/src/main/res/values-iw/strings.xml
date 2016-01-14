@@ -9,7 +9,8 @@
     <string name="navigation_drawer_malshab">מידע למלש\"ב</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
-    <string name="permission_denied">הרשאה נדחתה - תמיכה חלקית</string>
+    <string name="permission_denied">גישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל</string>
+    <string name="undo_string">אוקיי</string>
 
     <string name="action_settings">הגדרות</string>
     <string name="title_activity_settings">הגדרות</string>

@@ -102,10 +102,20 @@ public class MainActivity extends AppCompatActivity
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initializeGoogleApiClient();
                 } else {
-                    Toast.makeText(this, R.string.permission_denied, Toast.LENGTH_SHORT).show();
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
+                    mySnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
+                    mySnackbar.show();
                 }
                 return;
             }
+        }
+    }
+
+    public class PermissionDeniedListener implements View.OnClickListener{
+
+        @Override
+        public void onClick(View v) {
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
         }
     }
 
@@ -187,29 +197,25 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onConnected(Bundle bundle) {
-        // get current users account
         Person user = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
         if (user != null) {
-            // if the user has a profile image
             if (user.getImage().hasUrl()) {
                 String portrait = user.getImage().getUrl();
-                //load into the portrait imageview
                 Picasso.with(this)
-                        //remove parameters since the image url makes the image really small
                         .load(portrait.split("\\?")[0])
                         .into((CircleImageView) findViewById(R.id.profile_image));
             }
 
-            // load the banner into the background
-            Picasso.with(this)
-                    .load(user.getCover().getCoverPhoto().getUrl())
-                    .into((ImageView) findViewById(R.id.banner_image));
+            if (user.getCover() != null) {
+                Picasso.with(this)
+                        .load(user.getCover().getCoverPhoto().getUrl())
+                        .into((ImageView) findViewById(R.id.banner_image));
+            }
 
-            // set the account name
-            TextView tvMail = (TextView) findViewById(R.id.profile_email);
-            if(tvMail != null)
-                tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
-            // set the user's name
+            TextView textview = (TextView) findViewById(R.id.profile_email);
+            if(textview != null)
+                textview.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
+
             Person.Name userName = user.getName();
             ((TextView) findViewById(R.id.profile_name))
                     .setText(String.format("%s %s", userName.getGivenName(), userName.getFamilyName()));
