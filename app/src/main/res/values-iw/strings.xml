@@ -14,6 +14,7 @@
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
     <string name="search_title">חיפוש</string>
+    <string name="mail_subject">תמיכה טכנית</string>
 
     <!-- Strings related to Settings -->
 

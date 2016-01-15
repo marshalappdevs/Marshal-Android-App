@@ -140,6 +140,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         if (id == android.R.id.home) {
             if (!super.onMenuItemSelected(featureId, item)) {
                 NavUtils.navigateUpFromSameTask(this);
+                //finish();
             }
             return true;
         }

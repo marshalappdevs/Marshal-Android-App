@@ -6,6 +6,7 @@ import android.app.FragmentManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -287,7 +288,7 @@ public class MainActivity extends AppCompatActivity
             Intent intent = new Intent(Intent.ACTION_SENDTO);
             intent.setData(Uri.parse("mailto:")); // only email apps should handle this
             intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, "תמיכה טכנית");
+            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
             if (intent.resolveActivity(getPackageManager()) != null) {
                 startActivity(intent);
             }
@@ -296,8 +297,14 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.setShowTitle(true);
             int color = getResources().getColor(R.color.colorPrimary);
             customTabsIntent.setToolbarColor(color);
-            Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back);
-            customTabsIntent.setCloseButtonIcon(closeIcon);
+            Configuration config = getResources().getConfiguration();
+            if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+                Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_rtl);
+                customTabsIntent.setCloseButtonIcon(closeIcon);
+            }else {
+                    Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back);
+                    customTabsIntent.setCloseButtonIcon(closeIcon);
+            }
             String url = "https://goo.gl/s6thV1";
             customTabsIntent.build().launchUrl(this, Uri.parse(url));
         }
