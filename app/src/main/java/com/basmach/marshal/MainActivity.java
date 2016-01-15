@@ -77,12 +77,6 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-//    public void headerClicked(View viewClicked) {
-//        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        Snackbar.make(viewClicked, "Header Clicked", Snackbar.LENGTH_LONG).setAction("Action", null).show();
-//    }
-
     private void checkForGetAccountsPremission() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.GET_ACCOUNTS)
