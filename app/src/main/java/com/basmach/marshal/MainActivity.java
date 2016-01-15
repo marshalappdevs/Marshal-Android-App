@@ -295,7 +295,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             CustomTabsIntent.Builder customTabsIntent = new CustomTabsIntent.Builder();
             customTabsIntent.setShowTitle(true);
-            int color = getResources().getColor(R.color.colorPrimary);
+            int color = ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary);
             customTabsIntent.setToolbarColor(color);
             Configuration config = getResources().getConfiguration();
             if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
