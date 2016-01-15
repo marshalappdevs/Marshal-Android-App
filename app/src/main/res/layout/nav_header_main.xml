@@ -10,11 +10,11 @@
         android:layout_height="match_parent"
         android:adjustViewBounds="true"
         android:background="@android:color/darker_gray"
-        android:src="@drawable/bg_default_profile_art"
-        android:clickable="true"
+        android:src="@drawable/bg_default_profile_art"/>
+        <!-- android:clickable="true"
         android:focusable="true"
         android:onClick="headerClicked"
-        android:foreground="?android:selectableItemBackground"/>
+        android:foreground="?android:selectableItemBackground"/> -->
 
     <View
         android:layout_width="match_parent"
