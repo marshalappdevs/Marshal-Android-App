@@ -213,9 +213,9 @@ public class MainActivity extends AppCompatActivity
                         .into((ImageView) findViewById(R.id.banner_image));
             }
 
-            TextView textview = (TextView) findViewById(R.id.profile_email);
-            if(textview != null)
-                textview.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
+            TextView tvMail = (TextView) findViewById(R.id.profile_email);
+            if(tvMail != null)
+                tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
 
             Person.Name userName = user.getName();
             ((TextView) findViewById(R.id.profile_name))
