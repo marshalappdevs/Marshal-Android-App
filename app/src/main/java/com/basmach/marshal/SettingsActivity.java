@@ -135,17 +135,28 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     }
 
     @Override
-    public boolean onMenuItemSelected(int featureId, MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            if (!super.onMenuItemSelected(featureId, item)) {
-                NavUtils.navigateUpFromSameTask(this);
-                //finish();
-            }
-            return true;
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()) {
+            case android.R.id.home:
+                onBackPressed();
+                return true;
+            default:
+                break;
         }
-        return super.onMenuItemSelected(featureId, item);
+        return super.onOptionsItemSelected(item);
     }
+
+    //@Override
+    //public boolean onMenuItemSelected(int featureId, MenuItem item) {
+    //    int id = item.getItemId();
+    //    if (id == android.R.id.home) {
+    //        if (!super.onMenuItemSelected(featureId, item)) {
+    //            NavUtils.navigateUpFromSameTask(this);
+    //        }
+    //        return true;
+    //    }
+    //    return super.onMenuItemSelected(featureId, item);
+    //}
 
     /**
      * {@inheritDoc}
