@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        checkForGetAccountsPremission();
+        checkForGetAccountsPermission();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private void checkForGetAccountsPremission() {
+    private void checkForGetAccountsPermission() {
         if (ContextCompat.checkSelfPermission(MainActivity.this,
                 Manifest.permission.GET_ACCOUNTS)
                 != PackageManager.PERMISSION_GRANTED) {
@@ -103,9 +103,9 @@ public class MainActivity extends AppCompatActivity
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initializeGoogleApiClient();
                 } else {
-                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
-                    mySnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
-                    mySnackbar.show();
+                    Snackbar pSnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
+                    pSnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
+                    pSnackbar.show();
                 }
                 return;
             }
