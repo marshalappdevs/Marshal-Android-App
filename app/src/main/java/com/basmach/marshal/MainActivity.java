@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity
         String calendarPermission = Manifest.permission.WRITE_CALENDAR;
         int hasConPermission = ContextCompat.checkSelfPermission(this, contactsPermission);
         int hasCalPermission = ContextCompat.checkSelfPermission(this, calendarPermission);
-        List<String> permissions = new ArrayList<String>();
+        List<String> permissions = new ArrayList<>();
         if (hasConPermission != PackageManager.PERMISSION_GRANTED) {
             permissions.add(contactsPermission);
         }
