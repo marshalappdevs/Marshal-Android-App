@@ -290,7 +290,7 @@ public class MainActivity extends AppCompatActivity
             intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
             if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(intent);
+                startActivity(Intent.createChooser(intent, getResources().getText(R.string.send_to)));
             }
         } else if (id == R.id.nav_about) {
             CustomTabsIntent.Builder customTabsIntent = new CustomTabsIntent.Builder();
