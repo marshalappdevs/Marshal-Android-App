@@ -107,15 +107,17 @@ public class MainActivity extends AppCompatActivity
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
             case REQUEST_PERMISSIONS: {
-                if (grantResults.length > 0
-                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                String contactsPermission = Manifest.permission.GET_ACCOUNTS;
+                String calendarPermission = Manifest.permission.WRITE_CALENDAR;
+                int hasConPermission = ContextCompat.checkSelfPermission(MainActivity.this, contactsPermission);
+                int hasCalPermission = ContextCompat.checkSelfPermission(MainActivity.this, calendarPermission);
+                if (hasConPermission == PackageManager.PERMISSION_GRANTED && hasCalPermission == PackageManager.PERMISSION_GRANTED) {
                     initializeGoogleApiClient();
                 } else {
                     Snackbar pSnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
                     pSnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
                     pSnackbar.show();
                 }
-                return;
             }
         }
     }
