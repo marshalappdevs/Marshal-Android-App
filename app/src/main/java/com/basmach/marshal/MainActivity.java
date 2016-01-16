@@ -39,11 +39,14 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private static final int MY_PERMISSIONS_REQUEST_GET_ACCOUNTS = 1;
+    private static final int REQUEST_PERMISSIONS = 1;
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
@@ -61,7 +64,7 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        checkForGetAccountsPermission();
+        requestMultiplePermissions();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -79,20 +82,23 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private void checkForGetAccountsPermission() {
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.GET_ACCOUNTS)
-                != PackageManager.PERMISSION_GRANTED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(MainActivity.this,
-                    Manifest.permission.GET_ACCOUNTS)) {
-
-            } else {
-                ActivityCompat.requestPermissions(MainActivity.this,
-                        new String[]{Manifest.permission.GET_ACCOUNTS},
-                        MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
-            }
+    private void requestMultiplePermissions() {
+        String contactsPermission = Manifest.permission.GET_ACCOUNTS;
+        String calendarPermission = Manifest.permission.WRITE_CALENDAR;
+        int hasConPermission = ContextCompat.checkSelfPermission(this, contactsPermission);
+        int hasCalPermission = ContextCompat.checkSelfPermission(this, calendarPermission);
+        List<String> permissions = new ArrayList<String>();
+        if (hasConPermission != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(contactsPermission);
+        }
+        if (hasCalPermission != PackageManager.PERMISSION_GRANTED) {
+            permissions.add(calendarPermission);
+        }
+        if (!permissions.isEmpty()) {
+            String[] params = permissions.toArray(new String[permissions.size()]);
+            ActivityCompat.requestPermissions(this, params, REQUEST_PERMISSIONS);
         } else {
+            // We already have permission, so handle as normal
             initializeGoogleApiClient();
         }
     }
@@ -100,7 +106,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
         switch (requestCode) {
-            case MY_PERMISSIONS_REQUEST_GET_ACCOUNTS: {
+            case REQUEST_PERMISSIONS: {
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     initializeGoogleApiClient();
@@ -115,10 +121,19 @@ public class MainActivity extends AppCompatActivity
     }
 
     public class PermissionDeniedListener implements View.OnClickListener{
-
         @Override
         public void onClick(View v) {
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, MY_PERMISSIONS_REQUEST_GET_ACCOUNTS);
+            String contactsPermission = Manifest.permission.GET_ACCOUNTS;
+            String calendarPermission = Manifest.permission.WRITE_CALENDAR;
+            int hasConPermission = ContextCompat.checkSelfPermission(MainActivity.this, contactsPermission);
+            int hasCalPermission = ContextCompat.checkSelfPermission(MainActivity.this, calendarPermission);
+
+            if (hasConPermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_PERMISSIONS);
+            }
+            if (hasCalPermission != PackageManager.PERMISSION_GRANTED) {
+                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSIONS);
+            }
         }
     }
 
