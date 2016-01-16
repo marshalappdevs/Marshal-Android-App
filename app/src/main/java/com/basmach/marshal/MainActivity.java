@@ -3,6 +3,7 @@ package com.basmach.marshal;
 import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
+import android.app.SearchManager;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -46,8 +47,6 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
-    private String mFilterText;
-    private SearchView mSearchView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -245,48 +244,11 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
-        mSearchView = (SearchView) searchItem.getActionView();
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Text has changed, apply filtering?
-                //setFilter(newText);
-                return false;
-            }
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Perform the final search
-                //setFilter(query);
-                mSearchView.clearFocus();
-                return true;
-            }
-        });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        //setFilter(null);
-                        return true; // Return true to collapse action view
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true; // Return true to expand action view
-                    }
-                });
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
+        SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
+        searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         return true;
     }
-
-//    private void setFilter(String filterText) {
-//        mFilterText = filterText;
-//        reloadItems();
-//    }
-//
-//    private void reloadItems() {
-//        mAdapter.getFilter().filter(mFilterText);
-//    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
