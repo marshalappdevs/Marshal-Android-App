@@ -285,12 +285,12 @@ public class MainActivity extends AppCompatActivity
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
             startActivity(getSettingsIntent);
         } else if (id == R.id.nav_contact_us) {
-            Intent intent = new Intent(Intent.ACTION_SENDTO);
-            intent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            intent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            intent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            if (intent.resolveActivity(getPackageManager()) != null) {
-                startActivity(Intent.createChooser(intent, getResources().getText(R.string.send_to)));
+            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
+            sendIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
+            sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
+            if (sendIntent.resolveActivity(getPackageManager()) != null) {
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }
         } else if (id == R.id.nav_about) {
             CustomTabsIntent.Builder customTabsIntent = new CustomTabsIntent.Builder();
