@@ -125,17 +125,7 @@ public class MainActivity extends AppCompatActivity
     public class PermissionDeniedListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
-            String contactsPermission = Manifest.permission.GET_ACCOUNTS;
-            String calendarPermission = Manifest.permission.WRITE_CALENDAR;
-            int hasConPermission = ContextCompat.checkSelfPermission(MainActivity.this, contactsPermission);
-            int hasCalPermission = ContextCompat.checkSelfPermission(MainActivity.this, calendarPermission);
-
-            if (hasConPermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_PERMISSIONS);
-            }
-            if (hasCalPermission != PackageManager.PERMISSION_GRANTED) {
-                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.WRITE_CALENDAR}, REQUEST_PERMISSIONS);
-            }
+            requestMultiplePermissions();
         }
     }
 
