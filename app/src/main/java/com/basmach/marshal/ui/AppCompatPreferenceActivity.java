@@ -1,4 +1,4 @@
-package com.basmach.marshal;
+package com.basmach.marshal.ui;
 
 import android.content.res.Configuration;
 import android.os.Bundle;

@@ -1,4 +1,4 @@
-package com.basmach.marshal;
+package com.basmach.marshal.ui;
 
 
 import android.annotation.TargetApi;
@@ -19,7 +19,8 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.text.TextUtils;
 import android.view.MenuItem;
-import android.support.v4.app.NavUtils;
+
+import com.basmach.marshal.R;
 
 import java.util.List;
 

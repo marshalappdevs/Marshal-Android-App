@@ -1,4 +1,4 @@
-package com.basmach.marshal;
+package com.basmach.marshal.ui;
 
 import android.Manifest;
 import android.app.Fragment;
@@ -13,13 +13,11 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +31,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basmach.marshal.R;
+import com.basmach.marshal.ui.fragments.CoursesFragment;
+import com.basmach.marshal.ui.fragments.DiscussionsFragment;
+import com.basmach.marshal.ui.fragments.MalshabFragment;
+import com.basmach.marshal.ui.fragments.MaterialsFragment;
+import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
