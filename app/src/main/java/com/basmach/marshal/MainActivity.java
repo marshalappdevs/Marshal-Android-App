@@ -104,21 +104,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_PERMISSIONS: {
-                String contactsPermission = Manifest.permission.GET_ACCOUNTS;
-                String calendarPermission = Manifest.permission.WRITE_CALENDAR;
-                int hasConPermission = ContextCompat.checkSelfPermission(MainActivity.this, contactsPermission);
-                int hasCalPermission = ContextCompat.checkSelfPermission(MainActivity.this, calendarPermission);
-                if (hasConPermission == PackageManager.PERMISSION_GRANTED && hasCalPermission == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_PERMISSIONS:
+                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    // Handle permission granted
                     initializeGoogleApiClient();
                 } else {
-                    Snackbar pSnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
-                    pSnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
-                    pSnackbar.show();
+                    // Handle permission denied
+                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
+                    mySnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
+                    mySnackbar.show();
                 }
-            }
+                break;
+            default:
+                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
