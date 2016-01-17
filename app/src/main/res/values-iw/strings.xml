@@ -53,7 +53,7 @@
     <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">התראות</string>
 
-    <string name="pref_title_new_message_notifications">התראות הודעה חדשה</string>
+    <string name="pref_title_new_course_notifications">התראות השתלמות חדשה</string>
 
     <string name="pref_title_ringtone">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
