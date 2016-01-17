@@ -106,17 +106,19 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
-            case REQUEST_PERMISSIONS:
-                if (grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+            case REQUEST_PERMISSIONS: {
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS ) == PackageManager.PERMISSION_GRANTED &&
+                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
                     // Handle permission granted
                     initializeGoogleApiClient();
                 } else {
                     // Handle permission denied
-                    Snackbar mySnackbar = Snackbar.make(findViewById(R.id.myCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG);
-                    mySnackbar.setAction(R.string.undo_string, new PermissionDeniedListener());
-                    mySnackbar.show();
+                    Snackbar.make(findViewById(R.id.mainCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG)
+                            .setAction(R.string.undo_string, new PermissionDeniedListener())
+                            .show();
                 }
-                break;
+            }
+            break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
