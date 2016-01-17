@@ -114,8 +114,7 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     // Handle permission denied
                     Snackbar.make(findViewById(R.id.mainCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo_string, new PermissionDeniedListener())
-                            .show();
+                            .setAction(R.string.undo_string, new PermissionDeniedListener()).show();
                 }
             }
             break;
@@ -251,8 +250,8 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.main, menu);
+        // Retrieve the SearchView and plug it into SearchManager
         final SearchView searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.action_search));
         SearchManager searchManager = (SearchManager) getSystemService(SEARCH_SERVICE);
         searchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
