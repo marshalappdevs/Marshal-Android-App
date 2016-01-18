@@ -118,19 +118,17 @@ public class MainActivity extends AppCompatActivity
                 } else {
                     // Handle permission denied
                     Snackbar.make(findViewById(R.id.mainCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG)
-                            .setAction(R.string.undo_string, new PermissionDeniedListener()).show();
+                            .setAction(R.string.undo_string, new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    requestMultiplePermissions();
+                                }
+                            }).show();
                 }
             }
             break;
             default:
                 super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
-
-    public class PermissionDeniedListener implements View.OnClickListener{
-        @Override
-        public void onClick(View v) {
-            requestMultiplePermissions();
         }
     }
 
