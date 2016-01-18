@@ -223,6 +223,10 @@ public class MainActivity extends AppCompatActivity
                 Picasso.with(this)
                         .load(user.getCover().getCoverPhoto().getUrl())
                         .into((ImageView) findViewById(R.id.banner_image));
+            } else {
+                Picasso.with(this)
+                        .load(R.drawable.bg_default_profile_art_empty)
+                        .into((ImageView) findViewById(R.id.banner_image));
             }
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
