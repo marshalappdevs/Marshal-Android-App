@@ -117,7 +117,7 @@ public class MainActivity extends AppCompatActivity
                     initializeGoogleApiClient();
                 } else {
                     // Handle permission denied
-                    Snackbar.make(findViewById(R.id.mainCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_LONG)
+                    Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.undo_string, new View.OnClickListener() {
                                 @Override
                                 public void onClick(View view) {
