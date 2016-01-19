@@ -17,8 +17,6 @@
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>
     <string name="mail_subject">Technical Support</string>
-    <string name="google_plus_logout">Logout from Google Plus</string>
-    <string name="logout_successfully">You\'ve been logged out successfully</string>
 
     <!-- Strings related to Settings -->
 

@@ -16,8 +16,6 @@
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
     <string name="mail_subject">תמיכה טכנית</string>
-    <string name="google_plus_logout">התנתק מחשבון גוגל פלוס</string>
-    <string name="logout_successfully">התנתקת בהצלחה</string>
 
     <!-- Strings related to Settings -->
 

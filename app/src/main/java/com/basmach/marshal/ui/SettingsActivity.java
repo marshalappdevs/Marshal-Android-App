@@ -222,7 +222,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
      * activity is showing a two-pane settings UI.
      */
     @TargetApi(Build.VERSION_CODES.HONEYCOMB)
-    public static class DataSyncPreferenceFragment extends PreferenceFragment implements Preference.OnPreferenceClickListener {
+    public static class DataSyncPreferenceFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -234,15 +234,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
-            findPreference("google_logout").setOnPreferenceClickListener(this);
-        }
-
-        @Override
-        public boolean onPreferenceClick(Preference preference) {
-            if (preference.getKey().equals("google_logout")) {
-                Toast.makeText(getActivity(), R.string.logout_successfully, Toast.LENGTH_LONG).show();
-            }
-            return true;
         }
 
         @Override

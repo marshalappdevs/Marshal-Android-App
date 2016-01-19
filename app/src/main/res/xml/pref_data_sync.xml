@@ -18,6 +18,4 @@
         <intent android:action="android.settings.SYNC_SETTINGS" />
     </Preference>
 
-    <Preference android:title="@string/google_plus_logout" android:key="google_logout" />
-
 </PreferenceScreen>

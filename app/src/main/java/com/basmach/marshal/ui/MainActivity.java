@@ -254,6 +254,15 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void switchAccount(View v)
+    {
+        if (mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                mGoogleApiClient.clearDefaultAccountAndReconnect();
+            }
+        }
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
