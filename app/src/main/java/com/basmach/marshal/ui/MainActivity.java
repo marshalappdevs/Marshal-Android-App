@@ -224,10 +224,8 @@ public class MainActivity extends AppCompatActivity
                         .load(user.getCover().getCoverPhoto().getUrl())
                         .into((ImageView) findViewById(R.id.banner_image));
             } else {
-                int[] images = new int[] {R.drawable.bg_empty_1, R.drawable.bg_empty_2, R.drawable.bg_empty_3, R.drawable.bg_empty_4};
-                int imageId = (int)(Math.round((Math.random() * images.length)));
                 Picasso.with(this)
-                        .load(images[imageId])
+                        .load(R.drawable.bg_empty_profile_art)
                         .into((ImageView) findViewById(R.id.banner_image));
             }
 
