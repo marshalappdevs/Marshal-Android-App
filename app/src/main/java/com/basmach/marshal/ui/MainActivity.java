@@ -208,24 +208,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void switchAccount(View v) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this,
-                Manifest.permission.GET_ACCOUNTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            requestMultiplePermissions();
-        } else {
-            if (mGoogleApiClient != null) {
-                if (mGoogleApiClient.isConnected()) {
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-                    mGoogleApiClient.clearDefaultAccountAndReconnect();
-                }
-            }
-        }
-    }
-
     @Override
     public void onConnected(Bundle bundle) {
         Person user = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
@@ -271,6 +253,27 @@ public class MainActivity extends AppCompatActivity
             }
         }
     }
+
+    public void switchAccount(View v) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            requestMultiplePermissions();
+        } else {
+            if (mGoogleApiClient != null) {
+                if (mGoogleApiClient.isConnected()) {
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    mGoogleApiClient.clearDefaultAccountAndReconnect();
+                } else{
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    mGoogleApiClient.connect();
+                    }
+                }
+            }
+        }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
