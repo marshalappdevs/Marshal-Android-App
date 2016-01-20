@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.SearchManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.pm.PackageManager;
@@ -19,6 +20,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -120,13 +122,23 @@ public class MainActivity extends AppCompatActivity
                 } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS) ||
                         ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
                     // User denied permissions dialog
-                    Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
-                            .setAction(R.string.undo_string, new View.OnClickListener() {
-                                @Override
-                                public void onClick(View view) {
-                                    requestMultiplePermissions();
-                                }
-                            }).show();
+                    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                    builder.setTitle(R.string.permission_denied_title);
+                    builder.setMessage(R.string.permission_denied_explanation);
+                    builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    });
+                    builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            requestMultiplePermissions();
+                        }
+                    });
+                    builder.show();
                 } else {
                     // User denied permissions dialog and checked never ask again
                     Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied_settings, Snackbar.LENGTH_LONG);
