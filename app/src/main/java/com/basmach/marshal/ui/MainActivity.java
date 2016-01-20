@@ -208,6 +208,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public void switchAccount(View v) {
+        if (mGoogleApiClient != null) {
+            if (mGoogleApiClient.isConnected()) {
+                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                drawer.closeDrawer(GravityCompat.START);
+                mGoogleApiClient.clearDefaultAccountAndReconnect();
+            }
+        }
+    }
+
     @Override
     public void onConnected(Bundle bundle) {
         Person user = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
@@ -252,16 +262,6 @@ public class MainActivity extends AppCompatActivity
                 mGoogleApiClient.disconnect();
             }
         }
-    }
-
-    public void switchAccount(View v) {
-            if (mGoogleApiClient != null) {
-                if (mGoogleApiClient.isConnected()) {
-                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                    drawer.closeDrawer(GravityCompat.START);
-                    mGoogleApiClient.clearDefaultAccountAndReconnect();
-                }
-            }
     }
 
     @Override
