@@ -11,6 +11,7 @@
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
     <string name="permission_denied">הגישה נדרשת עבור הצגת פרטי פרופיל ויצירת אירועים ביומן</string>
+    <string name="permission_denied_settings">אנא הפעל גישה להרשאות בהגדרות</string>
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
     <string name="search_title">חיפוש</string>

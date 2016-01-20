@@ -12,6 +12,7 @@
     <string name="navigation_drawer_contact_us">Contact Us</string>
     <string name="navigation_drawer_about">About Basmach</string>
     <string name="permission_denied">Access is required to show profile details and create calendar events</string>
+    <string name="permission_denied_settings">Please enable permissions in Settings</string>
     <string name="undo_string">OK</string>
     <string name="confirm_exit">Press back again to exit</string>
     <string name="search_title">Search</string>

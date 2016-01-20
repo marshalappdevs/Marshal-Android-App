@@ -12,6 +12,8 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -107,16 +109,17 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         switch (requestCode) {
             case REQUEST_PERMISSIONS: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS ) == PackageManager.PERMISSION_GRANTED &&
+                if (ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED &&
                         ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-                    // Handle permission granted
+                    // User granted permissions dialog
                     initializeGoogleApiClient();
-                } else {
-                    // Handle permission denied
+                } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS) ||
+                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+                    // User denied permissions dialog
                     Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied, Snackbar.LENGTH_INDEFINITE)
                             .setAction(R.string.undo_string, new View.OnClickListener() {
                                 @Override
@@ -124,11 +127,22 @@ public class MainActivity extends AppCompatActivity
                                     requestMultiplePermissions();
                                 }
                             }).show();
+                } else {
+                    // User denied permissions dialog and checked never ask again
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied_settings, Snackbar.LENGTH_LONG);
+                    snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent();
+                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                            Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                            intent.setData(uri);
+                            startActivity(intent);
+                        }
+                    });
+                    snackbar.show();
                 }
             }
-            break;
-            default:
-                super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -255,12 +269,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void switchAccount(View v) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)
-                != PackageManager.PERMISSION_GRANTED) {
-            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-            drawer.closeDrawer(GravityCompat.START);
-            requestMultiplePermissions();
-        } else {
             if (mGoogleApiClient != null) {
                 if (mGoogleApiClient.isConnected()) {
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -272,7 +280,6 @@ public class MainActivity extends AppCompatActivity
                     mGoogleApiClient.connect();
                     }
                 }
-            }
         }
 
     @Override
