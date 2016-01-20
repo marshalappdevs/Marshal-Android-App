@@ -280,7 +280,13 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void switchAccount(View v) {
+    public void avatarClicked(View v) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)
+                != PackageManager.PERMISSION_GRANTED) {
+            DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+            drawer.closeDrawer(GravityCompat.START);
+            requestMultiplePermissions();
+        } else {
             if (mGoogleApiClient != null) {
                 if (mGoogleApiClient.isConnected()) {
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -290,9 +296,10 @@ public class MainActivity extends AppCompatActivity
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.closeDrawer(GravityCompat.START);
                     mGoogleApiClient.connect();
-                    }
                 }
+            }
         }
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
