@@ -256,10 +256,12 @@ public class MainActivity extends AppCompatActivity
 
     public void switchAccount(View v) {
             if (mGoogleApiClient != null) {
-                DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
-                drawer.closeDrawer(GravityCompat.START);
-                mGoogleApiClient.clearDefaultAccountAndReconnect();
-        }
+                if (mGoogleApiClient.isConnected()) {
+                    DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+                    drawer.closeDrawer(GravityCompat.START);
+                    mGoogleApiClient.clearDefaultAccountAndReconnect();
+                }
+            }
     }
 
     @Override
