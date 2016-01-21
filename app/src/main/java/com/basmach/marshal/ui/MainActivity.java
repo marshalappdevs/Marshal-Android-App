@@ -150,7 +150,7 @@ public class MainActivity extends AppCompatActivity
                 builder.show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_LONG);
                 snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
@@ -189,7 +189,7 @@ public class MainActivity extends AppCompatActivity
                 builder.show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_SHORT);
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_LONG);
                 snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
