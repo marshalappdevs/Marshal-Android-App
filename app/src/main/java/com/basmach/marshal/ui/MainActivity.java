@@ -57,11 +57,11 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final int REQUEST_CONTACTS = 0;
     private static final int REQUEST_CALENDAR = 1;
+    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR};
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
-    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
-            Manifest.permission.WRITE_CALENDAR};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,16 +71,19 @@ public class MainActivity extends AppCompatActivity
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
-        onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
-        navigationView.setCheckedItem(R.id.nav_courses);
+        if (savedInstanceState == null) {
+            onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
+            navigationView.setCheckedItem(R.id.nav_courses);
+        }
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isfirstrun", true);
+        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             checkForGetAccountsPermission();
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).commit();
         }
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)== PackageManager.PERMISSION_GRANTED) {
