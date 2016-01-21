@@ -11,9 +11,13 @@
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
     <string name="permission_denied_title">שים לב</string>
-    <string name="permission_denied_explanation">"האפליקציה צריכה גישה אל: \n\n\ \u0009\u0009• אנשי קשר – על מנת להציג פרטי
-\u0009\u0009\u0009 פרופיל \n\n\ \u0009\u0009• יומן – על מנת ליצור אירועי מיטאפ
-\u0009\u0009\u0009 ביומן\n\n\ האם אתה בטוח שברצונך לדחות הרשאות אלו?"</string>
+    <string name="permission_denied_explanation">"האפליקציה צריכה גישה אל:
+
+• אנשי קשר – על מנת להציג פרטי פרופיל מחשבון הגוגל פלוס שלך
+
+• יומן – על מנת ליצור אירועי מיטאפ ביומן
+
+האם אתה בטוח שברצונך לדחות הרשאות אלו?"</string>
     <string name="permission_dialog_positive">אני בטוח</string>
     <string name="permission_dialog_negative">בקש שוב</string>
     <string name="permission_denied_settings">אנא התר הרשאות בהגדרות והפעל את האפליקציה מחדש</string>
