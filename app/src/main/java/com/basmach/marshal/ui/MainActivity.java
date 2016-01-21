@@ -160,7 +160,7 @@ public class MainActivity extends AppCompatActivity
                             Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
                             intent.setData(uri);
                             startActivity(intent);
-                            System.exit(0);
+                            finishAffinity();
                         }
                     });
                     snackbar.show();
