@@ -21,7 +21,7 @@
 Are you sure you want to deny those permissions?"</string>
     <string name="permission_dialog_positive">I\'M SURE</string>
     <string name="permission_dialog_negative">ASK AGAIN</string>
-    <string name="permission_denied_settings">Please enable permissions in Settings and re-start the app</string>
+    <string name="permission_denied_settings">Please enable permissions in settings and restart the app</string>
     <string name="undo_string">OK</string>
     <string name="confirm_exit">Press back again to exit</string>
     <string name="search_title">Search</string>

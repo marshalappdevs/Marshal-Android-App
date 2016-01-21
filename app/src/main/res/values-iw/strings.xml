@@ -20,7 +20,7 @@
 האם אתה בטוח שברצונך לדחות הרשאות אלו?"</string>
     <string name="permission_dialog_positive">אני בטוח</string>
     <string name="permission_dialog_negative">בקש שוב</string>
-    <string name="permission_denied_settings">אנא התר הרשאות בהגדרות והפעל את האפליקציה מחדש</string>
+    <string name="permission_denied_settings">אנא התר הרשאות בהגדרות והפעל מחדש את האפליקציה</string>
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
     <string name="search_title">חיפוש</string>
