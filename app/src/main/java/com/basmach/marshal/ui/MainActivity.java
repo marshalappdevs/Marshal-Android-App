@@ -41,6 +41,7 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.ui.utils.PermissionUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
@@ -54,10 +55,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
-    private static final int REQUEST_PERMISSIONS = 1;
+    private static final int REQUEST_CONTACTS = 0;
+    private static final int REQUEST_CALENDAR = 1;
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
+    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
+            Manifest.permission.WRITE_CALENDAR};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -75,7 +79,7 @@ public class MainActivity extends AppCompatActivity
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isfirstrun", true);
 
         if (isFirstRun) {
-            requestMultiplePermissions();
+            checkForGetAccountsPermission();
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
         }
 
@@ -100,72 +104,108 @@ public class MainActivity extends AppCompatActivity
         toggle.syncState();
     }
 
-    private void requestMultiplePermissions() {
-        String contactsPermission = Manifest.permission.GET_ACCOUNTS;
-        String calendarPermission = Manifest.permission.WRITE_CALENDAR;
-        int hasConPermission = ContextCompat.checkSelfPermission(this, contactsPermission);
-        int hasCalPermission = ContextCompat.checkSelfPermission(this, calendarPermission);
-        List<String> permissions = new ArrayList<>();
-        if (hasConPermission != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(contactsPermission);
-        }
-        if (hasCalPermission != PackageManager.PERMISSION_GRANTED) {
-            permissions.add(calendarPermission);
-        }
-        if (!permissions.isEmpty()) {
-            String[] params = permissions.toArray(new String[permissions.size()]);
-            ActivityCompat.requestPermissions(this, params, REQUEST_PERMISSIONS);
+    private void checkForGetAccountsPermission() {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+            // Contacts permission has not been granted
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
         } else {
-            // We already have permission, so handle as normal
+            // Contacts permissions is already available
             initializeGoogleApiClient();
         }
     }
 
+    private void checkForCalendarPermissions() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+            // Calendar permissions have not been granted
+            ActivityCompat.requestPermissions(this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
+        } else {
+            // Calendar permissions is already available
+        }
+    }
+
+    @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        switch (requestCode) {
-            case REQUEST_PERMISSIONS: {
-                if (ContextCompat.checkSelfPermission(this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED &&
-                        ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) == PackageManager.PERMISSION_GRANTED) {
-                    // User granted permissions dialog
-                    initializeGoogleApiClient();
-                } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS) ||
-                        ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-                    // User denied permissions dialog
-                    AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
-                    builder.setTitle(R.string.permission_denied_title);
-                    builder.setMessage(R.string.permission_denied_explanation);
-                    builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    });
-                    builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            requestMultiplePermissions();
-                        }
-                    });
-                    builder.show();
-                } else {
-                    // User denied permissions dialog and checked never ask again
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_denied_settings, Snackbar.LENGTH_SHORT);
-                    snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            Intent intent = new Intent();
-                            intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                            Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                            intent.setData(uri);
-                            startActivity(intent);
-                            finishAffinity();
-                        }
-                    });
-                    snackbar.show();
+        if (requestCode == REQUEST_CONTACTS) {
+            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                // User granted permissions dialog
+                initializeGoogleApiClient();
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
+                // User denied permissions dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                builder.setTitle(R.string.permission_denied_title);
+                builder.setMessage(R.string.contacts_permission_denied_explanation);
+                builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
+                    }
+                });
+                builder.show();
+            } else {
+                // User denied permissions dialog and checked never ask again
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_SHORT);
+                snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+                });
+                snackbar.show();
                 }
+            } if (requestCode == REQUEST_CALENDAR) {
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+                // User granted permissions dialog
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+                // User denied permissions dialog
+                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                builder.setTitle(R.string.permission_denied_title);
+                builder.setMessage(R.string.calendar_permission_denied_explanation);
+                builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                        ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
+                    }
+                });
+                builder.show();
+            } else {
+                // User denied permissions dialog and checked never ask again
+                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_SHORT);
+                snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent();
+                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                        intent.setData(uri);
+                        startActivity(intent);
+                        finishAffinity();
+                    }
+                });
+                snackbar.show();
             }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
         }
     }
 
@@ -295,7 +335,7 @@ public class MainActivity extends AppCompatActivity
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
-            requestMultiplePermissions();
+            checkForGetAccountsPermission();
         } else {
             if (mGoogleApiClient != null) {
                 if (mGoogleApiClient.isConnected()) {
@@ -349,6 +389,10 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+                checkForCalendarPermissions();
+            }
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
