@@ -79,6 +79,10 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isfirstrun", false).commit();
         }
 
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)== PackageManager.PERMISSION_GRANTED) {
+            initializeGoogleApiClient();
+        }
+
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -156,6 +160,7 @@ public class MainActivity extends AppCompatActivity
                             Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
                             intent.setData(uri);
                             startActivity(intent);
+                            System.exit(0);
                         }
                     });
                     snackbar.show();
@@ -287,8 +292,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void avatarClicked(View v) {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)
-                != PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
             DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
             drawer.closeDrawer(GravityCompat.START);
             requestMultiplePermissions();

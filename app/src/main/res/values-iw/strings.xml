@@ -10,11 +10,13 @@
     <string name="navigation_drawer_settings">הגדרות</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
-    <string name="permission_denied_title">הגישה נדחתה</string>
-    <string name="permission_denied_explanation">"הגישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל\n\n\ הגישה אל היומן נדרשת עבור יצירת אירועי מיטאפ ביומן\n\n\ האם אתה בטוח שברצונך לדחות הרשאות אלו?"</string>
+    <string name="permission_denied_title">שים לב</string>
+    <string name="permission_denied_explanation">"האפליקציה צריכה גישה אל: \n\n\ \u0009\u0009• אנשי קשר – על מנת להציג פרטי
+\u0009\u0009\u0009 פרופיל \n\n\ \u0009\u0009• יומן – על מנת ליצור אירועי מיטאפ
+\u0009\u0009\u0009 ביומן\n\n\ האם אתה בטוח שברצונך לדחות הרשאות אלו?"</string>
     <string name="permission_dialog_positive">אני בטוח</string>
     <string name="permission_dialog_negative">בקש שוב</string>
-    <string name="permission_denied_settings">אנא התר הרשאות בהגדרות</string>
+    <string name="permission_denied_settings">אנא התר הרשאות בהגדרות והפעל את האפליקציה מחדש</string>
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
     <string name="search_title">חיפוש</string>
