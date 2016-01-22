@@ -3,8 +3,6 @@ package com.basmach.marshal.ui;
 import android.Manifest;
 import android.app.Fragment;
 import android.app.FragmentManager;
-import android.app.SearchManager;
-import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -21,6 +19,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -84,7 +83,7 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).commit();
         }
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS)== PackageManager.PERMISSION_GRANTED) {
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
             initializeGoogleApiClient();
         }
 
@@ -165,8 +164,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 });
                 snackbar.show();
-                }
-            } if (requestCode == REQUEST_CALENDAR) {
+            }
+        }
+        if (requestCode == REQUEST_CALENDAR) {
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 // User granted permissions dialog
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
@@ -225,6 +225,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     long lastPress;
+
     @Override
     public void onBackPressed() {
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
@@ -234,14 +235,13 @@ public class MainActivity extends AppCompatActivity
             Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof CoursesFragment) {
                 long currentTime = System.currentTimeMillis();
-                if(currentTime - lastPress > 3000){
+                if (currentTime - lastPress > 3000) {
                     Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
                     lastPress = currentTime;
-                }else{
+                } else {
                     super.onBackPressed();
                 }
-            }
-            else {
+            } else {
                 NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 navigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
@@ -308,7 +308,7 @@ public class MainActivity extends AppCompatActivity
             }
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
-            if(tvMail != null)
+            if (tvMail != null)
                 tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
 
             Person.Name userName = user.getName();
@@ -343,7 +343,7 @@ public class MainActivity extends AppCompatActivity
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.closeDrawer(GravityCompat.START);
                     mGoogleApiClient.clearDefaultAccountAndReconnect();
-                } else{
+                } else {
                     DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
                     drawer.closeDrawer(GravityCompat.START);
                     mGoogleApiClient.connect();
@@ -355,10 +355,25 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        SearchView searchView = (SearchView) menu.findItem(R.id.action_search).getActionView();
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        ComponentName componentName = new ComponentName(context, SearchableActivity.class);
-        searchView.setSearchableInfo(searchManager.getSearchableInfo(componentName));
+        MenuItem searchItem = menu.findItem(R.id.action_search);
+        final SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        searchView.setQueryHint(getString(R.string.search_hint));
+
+        searchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                // Text has changed, apply filtering?
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                // Perform the final search
+                searchView.clearFocus();
+                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
+                return true;
+            }
+        });
         return true;
     }
 
