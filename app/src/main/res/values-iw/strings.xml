@@ -11,7 +11,7 @@
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
     <string name="permission_denied_title">שים לב</string>
-    <string name="contacts_permission_denied_explanation">גישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל מחשבון הגוגל פלוס שלך.\n\n\ האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
+    <string name="contacts_permission_denied_explanation">גישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל מחשבון Google+ שלך.\n\n\ האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
     <string name="calendar_permission_denied_explanation">גישה אל היומן נדרשת עבור יצירת אירועים ביומן למיטאפים.\n\n\ האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
     <string name="permission_dialog_positive">אני בטוח</string>
     <string name="permission_dialog_negative">בקש שוב</string>
@@ -20,6 +20,7 @@
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
     <string name="search_title">חיפוש</string>
+    <string name="search_hint">חפש ב-מרש\"ל</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
     <string name="mail_subject">תמיכה טכנית</string>
 

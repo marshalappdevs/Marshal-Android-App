@@ -12,7 +12,7 @@
     <string name="navigation_drawer_contact_us">Contact Us</string>
     <string name="navigation_drawer_about">About Basmach</string>
     <string name="permission_denied_title">Notice</string>
-    <string name="contacts_permission_denied_explanation">Contacts permission is needed to show profile details from your Google Plus account.\n\n\ Are you sure you want to continue without this permission?</string>
+    <string name="contacts_permission_denied_explanation">Contacts permission is needed to show profile details from your Google+ account.\n\n\ Are you sure you want to continue without this permission?</string>
     <string name="calendar_permission_denied_explanation">Calendar permission is needed to create calendar events for Meetups.\n\n\ Are you sure you want to continue without this permission?</string>
     <string name="permission_dialog_positive">I\'M SURE</string>
     <string name="permission_dialog_negative">ASK AGAIN</string>
@@ -21,6 +21,7 @@
     <string name="undo_string">OK</string>
     <string name="confirm_exit">Press back again to exit</string>
     <string name="search_title">Search</string>
+    <string name="search_hint">Search Marshal</string>
     <string name="send_to">Send email via</string>
     <string name="mail_subject">Technical Support</string>
 
