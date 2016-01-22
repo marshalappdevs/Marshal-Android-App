@@ -58,7 +58,6 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
-    Context context = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -370,7 +369,7 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String query) {
                 // Perform the final search
                 searchView.clearFocus();
-                Toast.makeText(getApplicationContext(), query, Toast.LENGTH_LONG).show();
+                Toast.makeText(getApplicationContext(), "מציג תוצאות עבור: " + query, Toast.LENGTH_LONG).show();
                 return true;
             }
         });
