@@ -1,7 +1,8 @@
 package com.basmach.marshal.ui;
 
 import android.Manifest;
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
+import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -16,7 +17,6 @@ import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -231,7 +231,7 @@ public class MainActivity extends AppCompatActivity
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
-            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof CoursesFragment) {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPress > 3000) {
@@ -399,7 +399,7 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentManager fragmentManager = getFragmentManager();
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
