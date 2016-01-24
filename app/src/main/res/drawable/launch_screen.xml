@@ -1,8 +1,11 @@
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android" android:opacity="opaque">
-    <item android:drawable="@android:color/white"/>
-    <item>
-        <bitmap
-            android:src="@drawable/product_logo_144dp"
-            android:gravity="center"/>
-    </item>
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list android:opacity="opaque"
+xmlns:android="http://schemas.android.com/apk/res/android">
+<item android:drawable="@android:color/white" />
+<item android:bottom="@dimen/product_logo_center">
+    <bitmap android:gravity="center" android:src="@drawable/product_logo_144dp" />
+</item>
+<item android:bottom="@dimen/product_logo_bottom">
+    <bitmap android:gravity="bottom|center" android:src="@drawable/product_logo_basmach" />
+</item>
 </layer-list>
