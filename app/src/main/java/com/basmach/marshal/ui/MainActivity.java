@@ -449,9 +449,7 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.build().launchUrl(this, Uri.parse(url));
         }
 
-        if (mDrawerLayout != null) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        }
+        if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
 }
