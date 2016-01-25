@@ -61,15 +61,16 @@ public class MainActivity extends AppCompatActivity
     private boolean mResolvingError = false;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
 
-        NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
+        navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
@@ -245,7 +246,6 @@ public class MainActivity extends AppCompatActivity
                     super.onBackPressed();
                 }
             } else {
-                NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
                 navigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
                 navigationView.setCheckedItem(R.id.nav_courses);
