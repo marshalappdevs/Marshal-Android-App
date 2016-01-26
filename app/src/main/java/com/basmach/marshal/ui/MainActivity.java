@@ -77,13 +77,13 @@ public class MainActivity extends AppCompatActivity
         if (savedInstanceState == null) {
             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
             mNavigationView.setCheckedItem(R.id.nav_courses);
-        } else {
-            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
-            if (currentFragment instanceof CoursesFragment) setTitle(R.string.navigation_drawer_courses);
-            if (currentFragment instanceof MaterialsFragment) setTitle(R.string.navigation_drawer_materials);
-            if (currentFragment instanceof MeetupsFragment) setTitle(R.string.navigation_drawer_meetups);
-            if (currentFragment instanceof DiscussionsFragment) setTitle(R.string.navigation_drawer_discussions);
-            if (currentFragment instanceof MalshabFragment) setTitle(R.string.navigation_drawer_malshab);
+        //} else {
+        //    Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
+        //    if (currentFragment instanceof CoursesFragment) setTitle(R.string.navigation_drawer_courses);
+        //    if (currentFragment instanceof MaterialsFragment) setTitle(R.string.navigation_drawer_materials);
+        //    if (currentFragment instanceof MeetupsFragment) setTitle(R.string.navigation_drawer_meetups);
+        //    if (currentFragment instanceof DiscussionsFragment) setTitle(R.string.navigation_drawer_discussions);
+        //    if (currentFragment instanceof MalshabFragment) setTitle(R.string.navigation_drawer_malshab);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
