@@ -59,6 +59,7 @@ public class MainActivity extends AppCompatActivity
     private static final int REQUEST_RESOLVE_ERROR = 1001;
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
+    private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
@@ -68,7 +69,8 @@ public class MainActivity extends AppCompatActivity
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme_NoActionBar);
         super.onCreate(savedInstanceState);
-        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        // enable on final release
+        //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -78,16 +80,10 @@ public class MainActivity extends AppCompatActivity
             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
             mNavigationView.setCheckedItem(R.id.nav_courses);
         //} else {
-        //    Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
-        //    if (currentFragment instanceof CoursesFragment) setTitle(R.string.navigation_drawer_courses);
-        //    if (currentFragment instanceof MaterialsFragment) setTitle(R.string.navigation_drawer_materials);
-        //    if (currentFragment instanceof MeetupsFragment) setTitle(R.string.navigation_drawer_meetups);
-        //    if (currentFragment instanceof DiscussionsFragment) setTitle(R.string.navigation_drawer_discussions);
-        //    if (currentFragment instanceof MalshabFragment) setTitle(R.string.navigation_drawer_malshab);
         }
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
 
         Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
@@ -112,7 +108,7 @@ public class MainActivity extends AppCompatActivity
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
     }
