@@ -23,7 +23,7 @@
     <string name="search_title">Search</string>
     <string name="search_hint">Search Marshal</string>
     <string name="send_to">Send email via</string>
-    <string name="mail_subject">Technical Support</string>
+    <string name="mail_subject">Feedback/Bug Report</string>
 
     <!-- Strings related to Settings -->
 

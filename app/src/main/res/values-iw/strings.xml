@@ -22,7 +22,7 @@
     <string name="search_title">חיפוש</string>
     <string name="search_hint">חפש ב-מרש\"ל</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
-    <string name="mail_subject">תמיכה טכנית</string>
+    <string name="mail_subject">משוב/דיווח תקלה</string>
 
     <!-- Strings related to Settings -->
 
