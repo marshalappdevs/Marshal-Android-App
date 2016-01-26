@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity
     private boolean mResolvingError = false;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
-    private NavigationView navigationView;
+    private NavigationView mNavigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,12 +70,12 @@ public class MainActivity extends AppCompatActivity
         getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
 
-        navigationView = (NavigationView) findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        mNavigationView = (NavigationView) findViewById(R.id.nav_view);
+        mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState == null) {
-            onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
-            navigationView.setCheckedItem(R.id.nav_courses);
+            onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+            mNavigationView.setCheckedItem(R.id.nav_courses);
         }
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -246,9 +246,9 @@ public class MainActivity extends AppCompatActivity
                     super.onBackPressed();
                 }
             } else {
-                navigationView.setNavigationItemSelectedListener(this);
-                onNavigationItemSelected(navigationView.getMenu().findItem(R.id.nav_courses));
-                navigationView.setCheckedItem(R.id.nav_courses);
+                mNavigationView.setNavigationItemSelectedListener(this);
+                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+                mNavigationView.setCheckedItem(R.id.nav_courses);
             }
         }
     }
