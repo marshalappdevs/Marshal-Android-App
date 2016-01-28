@@ -4,38 +4,38 @@
     <group android:checkableBehavior="single" android:id="@+id/grp1">
         <item
             android:id="@+id/nav_courses"
-            android:icon="@drawable/ic_menu_school"
+            android:icon="@drawable/ic_drawer_school"
             android:title="@string/navigation_drawer_courses" />
         <item
             android:id="@+id/nav_materials"
-            android:icon="@drawable/ic_menu_books"
+            android:icon="@drawable/ic_drawer_books"
             android:title="@string/navigation_drawer_materials" />
         <item
             android:id="@+id/nav_meetups"
-            android:icon="@drawable/ic_menu_meetup"
+            android:icon="@drawable/ic_drawer_meetup"
             android:title="@string/navigation_drawer_meetups" />
         <item
             android:id="@+id/nav_discussions"
-            android:icon="@drawable/ic_menu_discussions"
+            android:icon="@drawable/ic_drawer_discussions"
             android:title="@string/navigation_drawer_discussions" />
         <item
             android:id="@+id/nav_malshab"
-            android:icon="@drawable/ic_menu_person"
+            android:icon="@drawable/ic_drawer_person"
             android:title="@string/navigation_drawer_malshab" />
     </group>
 
     <group android:id="@+id/grp2">
         <item
             android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_menu_settings"
+            android:icon="@drawable/ic_drawer_settings"
             android:title="@string/navigation_drawer_settings" />
         <item
             android:id="@+id/nav_contact_us"
-            android:icon="@drawable/ic_menu_email"
+            android:icon="@drawable/ic_drawer_email"
             android:title="@string/navigation_drawer_contact_us" />
         <item
             android:id="@+id/nav_about"
-            android:icon="@drawable/ic_menu_info"
+            android:icon="@drawable/ic_drawer_info"
             android:title="@string/navigation_drawer_about" />
     </group>
 

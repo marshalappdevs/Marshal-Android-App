@@ -444,7 +444,7 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.setToolbarColor(color);
             Configuration config = getResources().getConfiguration();
             if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_rtl);
+                Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_forward);
                 customTabsIntent.setCloseButtonIcon(closeIcon);
             }else {
                     Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back);
