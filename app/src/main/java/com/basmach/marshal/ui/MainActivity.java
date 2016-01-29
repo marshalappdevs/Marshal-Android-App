@@ -75,12 +75,8 @@ public class MainActivity extends AppCompatActivity
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-
-        if (savedInstanceState == null) {
-            onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
-            mNavigationView.setCheckedItem(R.id.nav_courses);
-        //} else {
-        }
+        onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+        mNavigationView.setCheckedItem(R.id.nav_courses);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
