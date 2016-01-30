@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity
                 initializeGoogleApiClient();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
                 // User denied permissions dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.permission_denied_title);
                 builder.setMessage(R.string.contacts_permission_denied_explanation);
                 builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
@@ -176,7 +176,7 @@ public class MainActivity extends AppCompatActivity
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
                     || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
                 // User denied permissions dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this, R.style.AppCompatAlertDialogStyle);
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
                 builder.setTitle(R.string.permission_denied_title);
                 builder.setMessage(R.string.calendar_permission_denied_explanation);
                 builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
