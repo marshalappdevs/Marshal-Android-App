@@ -433,20 +433,17 @@ public class MainActivity extends AppCompatActivity
                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }
         } else if (id == R.id.nav_about) {
-            CustomTabsIntent.Builder customTabsIntent = new CustomTabsIntent.Builder();
-            customTabsIntent.setShowTitle(true);
-            int color = ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary);
-            customTabsIntent.setToolbarColor(color);
+            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
+            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary)).setShowTitle(true);
             Configuration config = getResources().getConfiguration();
             if(config.getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-                Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_forward);
-                customTabsIntent.setCloseButtonIcon(closeIcon);
-            }else {
-                    Bitmap closeIcon = BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back);
-                    customTabsIntent.setCloseButtonIcon(closeIcon);
+                builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_forward));
+            } else {
+                builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back));
             }
             String url = "https://goo.gl/s6thV1";
-            customTabsIntent.build().launchUrl(this, Uri.parse(url));
+            CustomTabsIntent customTabsIntent = builder.build();
+            customTabsIntent.launchUrl(this, Uri.parse(url));
         }
 
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
