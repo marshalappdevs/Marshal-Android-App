@@ -226,30 +226,6 @@ public class MainActivity extends AppCompatActivity
                 .build();
     }
 
-    long lastPress;
-
-    @Override
-    public void onBackPressed() {
-        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-        } else {
-            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
-            if (currentFragment instanceof CoursesFragment) {
-                long currentTime = System.currentTimeMillis();
-                if (currentTime - lastPress > 3000) {
-                    Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
-                    lastPress = currentTime;
-                } else {
-                    super.onBackPressed();
-                }
-            } else {
-                mNavigationView.setNavigationItemSelectedListener(this);
-                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
-                mNavigationView.setCheckedItem(R.id.nav_courses);
-            }
-        }
-    }
-
     @Override
     public void onConnectionFailed(ConnectionResult result) {
         if (mResolvingError) {
@@ -328,6 +304,30 @@ public class MainActivity extends AppCompatActivity
         if (mGoogleApiClient != null) {
             if (mGoogleApiClient.isConnected()) {
                 mGoogleApiClient.disconnect();
+            }
+        }
+    }
+
+    long lastPress;
+
+    @Override
+    public void onBackPressed() {
+        if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+        } else {
+            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
+            if (currentFragment instanceof CoursesFragment) {
+                long currentTime = System.currentTimeMillis();
+                if (currentTime - lastPress > 3000) {
+                    Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
+                    lastPress = currentTime;
+                } else {
+                    super.onBackPressed();
+                }
+            } else {
+                mNavigationView.setNavigationItemSelectedListener(this);
+                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+                mNavigationView.setCheckedItem(R.id.nav_courses);
             }
         }
     }
