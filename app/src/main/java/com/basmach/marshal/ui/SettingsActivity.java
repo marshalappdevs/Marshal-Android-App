@@ -127,9 +127,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
-        AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+        AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
         root.addView(appBarLayout, 0); // insert at top
-        mToolbar = (Toolbar) appBarLayout.findViewById(R.id.settings_toolbar);
+        mToolbar = (Toolbar) appBarLayout.findViewById(R.id.toolbar_settings);
         mToolbar.setTitle(getString(R.string.navigation_drawer_settings));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
