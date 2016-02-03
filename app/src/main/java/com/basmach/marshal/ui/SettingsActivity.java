@@ -16,6 +16,7 @@ import android.preference.PreferenceActivity;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.support.design.widget.AppBarLayout;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -126,8 +127,9 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
-        mToolbar = (Toolbar) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
-        root.addView(mToolbar, 0); // insert at top
+        AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.settings_toolbar, root, false);
+        root.addView(appBarLayout, 0); // insert at top
+        mToolbar = (Toolbar) appBarLayout.findViewById(R.id.settings_toolbar);
         mToolbar.setTitle(getString(R.string.navigation_drawer_settings));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
