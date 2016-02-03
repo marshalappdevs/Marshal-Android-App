@@ -1,11 +1,12 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light">
         <!-- Customize your theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="actionBarStyle">@style/ActionBarTheme</item>
     </style>
 
     <style name="AppTheme.Launcher">
@@ -16,6 +17,22 @@
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
         <item name="windowNoTitle">true</item>
+    </style>
+
+    <style name="AppTheme.Settings">
+        <item name="homeAsUpIndicator">@drawable/ic_arrow_back</item>
+    </style>
+
+    <style name="ToolbarTheme">
+        <item name="colorControlHighlight">#20000000</item>
+    </style>
+
+    <style name="ActionBarTheme" parent="@style/Widget.AppCompat.Light.ActionBar.Solid.Inverse">
+        <item name="titleTextStyle">@style/ActionBarTitle</item>
+    </style>
+
+    <style name="ActionBarTitle" parent="@style/TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:textColor">#FFFFFF</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
