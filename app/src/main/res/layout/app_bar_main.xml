@@ -19,7 +19,6 @@
             android:layout_height="56dp"
             android:minHeight="56dp"
             android:background="?attr/colorPrimary"
-            app:theme="@style/ToolbarTheme"
             app:popupTheme="@style/AppTheme.PopupOverlay"
             app:titleTextAppearance="@style/titleTextAppearance" />
 
