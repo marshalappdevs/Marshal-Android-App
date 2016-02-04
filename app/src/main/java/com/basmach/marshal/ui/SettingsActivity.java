@@ -136,7 +136,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                finish();
+                onBackPressed();
             }
         });
     }
