@@ -65,7 +65,7 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme_NoActionBar);
+        setTheme(R.style.AppTheme);
         super.onCreate(savedInstanceState);
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
