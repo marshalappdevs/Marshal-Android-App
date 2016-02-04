@@ -17,6 +17,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.design.widget.AppBarLayout;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -129,6 +130,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         LinearLayout root = (LinearLayout)findViewById(android.R.id.list).getParent().getParent().getParent();
         AppBarLayout appBarLayout = (AppBarLayout) LayoutInflater.from(this).inflate(R.layout.toolbar_settings, root, false);
         root.addView(appBarLayout, 0); // insert at top
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark));
         mToolbar = (Toolbar) appBarLayout.findViewById(R.id.toolbar_settings);
         mToolbar.setTitle(getString(R.string.navigation_drawer_settings));
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
