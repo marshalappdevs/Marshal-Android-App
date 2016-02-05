@@ -4,4 +4,5 @@
     <color name="colorPrimaryDark">#3367D6</color>
     <color name="colorAccent">#F44336</color>
     <color name="colorEdgeEffect">#FFBDBDBD</color>
+    <color name="colorSearchView">#757575</color>
 </resources>

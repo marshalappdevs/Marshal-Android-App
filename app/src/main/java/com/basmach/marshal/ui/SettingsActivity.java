@@ -133,6 +133,7 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark));
         mToolbar = (Toolbar) appBarLayout.findViewById(R.id.toolbar);
         mToolbar.setTitle(getString(R.string.navigation_drawer_settings));
+        mToolbar.setNavigationIcon(R.drawable.ic_arrow_back_wht);
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
