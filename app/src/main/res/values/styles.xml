@@ -17,7 +17,6 @@
 
     <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlHighlight">#20000000</item>
-        <item name="homeAsUpIndicator">@drawable/ic_arrow_back</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
