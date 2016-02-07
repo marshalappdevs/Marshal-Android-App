@@ -75,21 +75,8 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         }
     };
 
-    /**
-     * Binds a preference's summary to its value. More specifically, when the
-     * preference's value is changed, its summary (line of text below the
-     * preference title) is updated to reflect the value. The summary is also
-     * immediately updated upon calling this method. The exact display format is
-     * dependent on the type of preference.
-     *
-     * @see #sBindPreferenceSummaryToValueListener
-     */
     private static void bindPreferenceSummaryToValue(Preference preference) {
-        // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
-
-        // Trigger the listener immediately with the preference's
-        // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
@@ -118,10 +105,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
         loadHeadersFromResource(R.xml.pref_headers, target);
     }
 
-    /**
-     * This method stops fragment injection in malicious applications.
-     * Make sure to deny any unknown fragments here.
-     */
     protected boolean isValidFragment(String fragmentName) {
         return PreferenceFragment.class.getName().equals(fragmentName)
                 || DataSyncPreferenceFragment.class.getName().equals(fragmentName)
@@ -135,11 +118,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             mToolbar.setTitle(getString(R.string.pref_header_notifications));
             addPreferencesFromResource(R.xml.pref_notification);
             setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
         }
 
@@ -161,11 +139,6 @@ public class SettingsActivity extends AppCompatPreferenceActivity {
             mToolbar.setTitle(getString(R.string.pref_header_data_sync));
             addPreferencesFromResource(R.xml.pref_data_sync);
             setHasOptionsMenu(true);
-
-            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
-            // to their values. When their values change, their summaries are
-            // updated to reflect the new value, per the Android Design
-            // guidelines.
             bindPreferenceSummaryToValue(findPreference("sync_frequency"));
         }
 
