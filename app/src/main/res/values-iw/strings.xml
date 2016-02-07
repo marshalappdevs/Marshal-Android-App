@@ -25,29 +25,9 @@
     <string name="mail_subject">משוב/דיווח תקלה</string>
 
     <!-- Strings related to Settings -->
-
-    <!-- Example settings for Data & Sync -->
-    <string name="pref_header_data_sync">סנכרון ונתונים</string>
-
-    <string name="pref_title_sync_frequency">תדירות סנכרון</string>
-    <string-array name="pref_sync_frequency_titles">
-        <item>15 דקות</item>
-        <item>30 דקות</item>
-        <item>שעה אחת</item>
-        <item>3 שעות</item>
-        <item>6 שעות</item>
-        <item>אף פעם</item>
-    </string-array>
-
-    <string name="pref_title_system_sync_settings">הגדרות סנכרון מערכת</string>
-
-    <!-- Example settings for Notifications -->
     <string name="pref_header_notifications">התראות</string>
-
     <string name="pref_title_new_course_notifications">התראות השתלמות חדשה</string>
-
     <string name="pref_title_ringtone">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
-
     <string name="pref_title_vibrate">רטט</string>
 </resources>
