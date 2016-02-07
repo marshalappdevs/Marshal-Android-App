@@ -26,7 +26,7 @@
     <string name="mail_subject">Feedback/Bug Report</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_header_notifications">Notifications</string>
+    <string name="pref_category_notifications">Notifications</string>
     <string name="pref_title_new_course_notifications">New course notifications</string>
     <string name="pref_title_ringtone">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>

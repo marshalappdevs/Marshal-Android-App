@@ -25,7 +25,7 @@
     <string name="mail_subject">משוב/דיווח תקלה</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_header_notifications">התראות</string>
+    <string name="pref_category_notifications">התראות</string>
     <string name="pref_title_new_course_notifications">התראות השתלמות חדשה</string>
     <string name="pref_title_ringtone">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
