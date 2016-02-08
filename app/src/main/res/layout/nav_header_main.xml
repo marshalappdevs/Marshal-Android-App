@@ -1,5 +1,5 @@
-<RelativeLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height">
 
@@ -10,7 +10,8 @@
         android:src="@drawable/bg_default_profile_art"
         android:scaleType="centerCrop"
         android:background="@android:color/darker_gray"
-        android:foreground="#66000000" />
+        android:foreground="#66000000"
+        tools:ignore="ContentDescription" />
 
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/profile_image"
