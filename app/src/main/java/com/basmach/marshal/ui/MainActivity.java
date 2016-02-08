@@ -400,38 +400,23 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_courses) {
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
-                    .replace(R.id.content_frame, new CoursesFragment())
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
-                    .replace(R.id.content_frame, new MaterialsFragment())
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 checkForCalendarPermissions();
             }
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
-                    .replace(R.id.content_frame, new MeetupsFragment())
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
-                    .replace(R.id.content_frame, new DiscussionsFragment())
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
-            fragmentManager.beginTransaction()
-                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
-                    .replace(R.id.content_frame, new MalshabFragment())
-                    .commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
