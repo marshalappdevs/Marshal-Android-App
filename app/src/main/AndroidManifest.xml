@@ -27,6 +27,7 @@
             android:name=".ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
+            android:theme="@style/AppTheme.Settings"
             android:parentActivityName=".ui.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
