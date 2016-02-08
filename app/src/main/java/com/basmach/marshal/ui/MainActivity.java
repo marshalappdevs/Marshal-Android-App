@@ -1,8 +1,6 @@
 package com.basmach.marshal.ui;
 
 import android.Manifest;
-import android.app.Fragment;
-import android.app.FragmentManager;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -15,6 +13,8 @@ import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
@@ -90,14 +90,14 @@ public class MainActivity extends AppCompatActivity
             initializeGoogleApiClient();
         }
 
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
+        // FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        // fab.setOnClickListener(new View.OnClickListener() {
+        //     @Override
+        //     public void onClick(View view) {
+        //         Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+        //                 .setAction("Action", null).show();
+        //     }
+        // });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -315,7 +315,7 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
-            Fragment currentFragment = getFragmentManager().findFragmentById(R.id.content_frame);
+            Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof CoursesFragment) {
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPress > 3000) {
@@ -397,26 +397,41 @@ public class MainActivity extends AppCompatActivity
     public boolean onNavigationItemSelected(MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
-        FragmentManager fragmentManager = getFragmentManager();
+        FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_courses) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
+                    .replace(R.id.content_frame, new CoursesFragment())
+                    .commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
+                    .replace(R.id.content_frame, new MaterialsFragment())
+                    .commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
                     || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
                 checkForCalendarPermissions();
             }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
+                    .replace(R.id.content_frame, new MeetupsFragment())
+                    .commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
+                    .replace(R.id.content_frame, new DiscussionsFragment())
+                    .commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
+            fragmentManager.beginTransaction()
+                    .setCustomAnimations(R.anim.slide_in_bottom, 0)
+                    .replace(R.id.content_frame, new MalshabFragment())
+                    .commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
