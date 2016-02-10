@@ -423,10 +423,11 @@ public class MainActivity extends AppCompatActivity
             startActivity(getSettingsIntent);
         } else if (id == R.id.nav_contact_us) {
             String versionName = BuildConfig.VERSION_NAME;
+            int versionCode = BuildConfig.VERSION_CODE;
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
             sendIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject) + " (v" + versionName + ")");
+            sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject) + " (v" + versionName + " / " + versionCode + ")");
             if (sendIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }

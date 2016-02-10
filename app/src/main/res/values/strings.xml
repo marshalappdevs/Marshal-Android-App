@@ -26,9 +26,12 @@
     <string name="mail_subject">Feedback/Bug Report</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_category_notifications">Notifications</string>
-    <string name="pref_title_new_course_notifications">New course notifications</string>
-    <string name="pref_title_ringtone">Ringtone</string>
+    <string name="pref_notifications_category">Notifications</string>
+    <string name="pref_new_course_notifications_title">New course available</string>
+    <string name="pref_new_course_notifications_summary">Notify when a new course is available</string>
+    <string name="pref_ringtone_title">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
-    <string name="pref_title_vibrate">Vibrate</string>
+    <string name="pref_vibrate_title">Vibrate</string>
+    <string name="pref_about_category">About</string>
+    <string name="pref_version_title">App version</string>
 </resources>
