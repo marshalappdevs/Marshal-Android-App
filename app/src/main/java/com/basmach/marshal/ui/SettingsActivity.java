@@ -82,8 +82,8 @@ public class SettingsActivity extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
-            Preference preference = findPreference("version");
-            preference.setSummary(versionName);
+            Preference prefVersion = findPreference("version");
+            prefVersion.setSummary(versionName);
         }
     }
 }
