@@ -15,8 +15,6 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
-    <style name="AppTheme.Settings" parent="AppTheme.Base" />
-
     <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlHighlight">#20000000</item>
     </style>
