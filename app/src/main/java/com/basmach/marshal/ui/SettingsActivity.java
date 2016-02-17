@@ -92,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
         Locale myLocale;
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {q
+        public void onCreate(Bundle savedInstanceState) {
             String versionName = BuildConfig.VERSION_NAME;
             super.onCreate(savedInstanceState);
 
