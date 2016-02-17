@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.Ringtone;
@@ -93,7 +92,7 @@ public class SettingsActivity extends AppCompatActivity {
         Locale myLocale;
 
         @Override
-        public void onCreate(Bundle savedInstanceState) {
+        public void onCreate(Bundle savedInstanceState) {q
             String versionName = BuildConfig.VERSION_NAME;
             super.onCreate(savedInstanceState);
 
