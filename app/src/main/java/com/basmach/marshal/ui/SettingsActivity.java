@@ -1,5 +1,8 @@
 package com.basmach.marshal.ui;
 
+import android.content.Intent;
+import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -15,10 +18,14 @@ import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
+import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+
+import java.util.Locale;
 
 public class SettingsActivity extends AppCompatActivity {
     @Override
@@ -27,7 +34,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_container);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark));
+            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
         }
 
         Toolbar mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -83,6 +90,8 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment {
+        Locale myLocale;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             String versionName = BuildConfig.VERSION_NAME;
@@ -93,6 +102,54 @@ public class SettingsActivity extends AppCompatActivity {
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
             Preference prefVersion = findPreference("version");
             prefVersion.setSummary(versionName);
+
+            ListPreference langPref = (ListPreference) findPreference("language");
+            //langPref.setSummary(langPref.getEntry());
+
+            langPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    preference.setSummary(o.toString());
+                    return true;
+                }
+            });
+
+            ListPreference langPreference = (ListPreference) findPreference("language");
+            langPreference.setOnPreferenceChangeListener(languageChangeListener);
+        }
+
+        Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
+
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+
+                switch (newValue.toString()) {
+                    case "iw":
+                        PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").commit();
+                        setLocale("iw");
+                        Toast.makeText(getActivity().getBaseContext(), R.string.pref_language_changed, Toast.LENGTH_LONG).show();
+                        break;
+                    case "en":
+                        PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").commit();
+                        setLocale("en");
+                        Toast.makeText(getActivity().getBaseContext(), R.string.pref_language_changed, Toast.LENGTH_LONG).show();
+                        break;
+                }
+                return true;
+            }
+        };
+
+        public void setLocale(String lang) {
+            myLocale = new Locale(lang);
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            Locale.setDefault(myLocale);
+            conf.locale = myLocale;
+            res.updateConfiguration(conf, dm);
+            conf.setLayoutDirection(myLocale);
+            //getActivity().recreate();
+            //System.exit(0);
         }
     }
 }

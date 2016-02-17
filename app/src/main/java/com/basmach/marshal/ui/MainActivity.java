@@ -4,10 +4,13 @@ import android.Manifest;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
@@ -45,6 +48,9 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Picasso;
+
+import java.util.Locale;
+
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
@@ -62,11 +68,27 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SearchView mSearchView;
+    private Locale locale = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
+        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         super.onCreate(savedInstanceState);
+
+        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        Configuration config = getBaseContext().getResources().getConfiguration();
+
+        String lang = settings.getString("LANG", "iw");
+        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+            locale = new Locale(lang);
+            Locale.setDefault(locale);
+            config.locale = locale;
+            config.locale = locale;
+            config.setLayoutDirection(locale);
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
+
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
@@ -83,7 +105,7 @@ public class MainActivity extends AppCompatActivity
 
         if (isFirstRun) {
             checkForGetAccountsPermission();
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
+            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).commit();
         }
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {

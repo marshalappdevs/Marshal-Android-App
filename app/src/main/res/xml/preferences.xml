@@ -1,5 +1,15 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <PreferenceCategory
+        android:title="@string/pref_general_category">
+        <ListPreference
+            android:defaultValue="@string/pref_languages_default"
+            android:entries="@array/languages"
+            android:entryValues="@array/listValues"
+            android:key="language"
+            android:title="@string/pref_language_title"
+            android:summary="%s" />
+    </PreferenceCategory>
+    <PreferenceCategory
         android:title="@string/pref_notifications_category">
         <CheckBoxPreference
             android:defaultValue="true"
