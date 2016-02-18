@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.content.DialogInterface;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.Ringtone;
@@ -14,12 +15,12 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
-import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
@@ -109,19 +110,17 @@ public class SettingsActivity extends AppCompatActivity {
             Preference prefVersion = findPreference("version");
             prefVersion.setSummary(versionName);
 
-            ListPreference langPref = (ListPreference) findPreference("language");
+            ListPreference prefLanguage = (ListPreference) findPreference("language");
             //langPref.setSummary(langPref.getEntry());
 
-            langPref.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            prefLanguage.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object o) {
                     preference.setSummary(o.toString());
                     return true;
                 }
             });
-
-            ListPreference langPreference = (ListPreference) findPreference("language");
-            langPreference.setOnPreferenceChangeListener(languageChangeListener);
+            prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
         }
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
@@ -133,12 +132,10 @@ public class SettingsActivity extends AppCompatActivity {
                     case "iw":
                         PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").commit();
                         setLocale("iw");
-                        Toast.makeText(getActivity().getBaseContext(), R.string.pref_language_changed, Toast.LENGTH_LONG).show();
                         break;
                     case "en":
                         PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").commit();
                         setLocale("en");
-                        Toast.makeText(getActivity().getBaseContext(), R.string.pref_language_changed, Toast.LENGTH_LONG).show();
                         break;
                 }
                 return true;
@@ -154,8 +151,14 @@ public class SettingsActivity extends AppCompatActivity {
             conf.locale = myLocale;
             res.updateConfiguration(conf, dm);
             conf.setLayoutDirection(myLocale);
-            //getActivity().recreate();
-            //System.exit(0);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+            builder.setMessage(R.string.pref_language_changed);
+            builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    getActivity().finishAffinity();
+                }
+            }).show();
         }
     }
 }
