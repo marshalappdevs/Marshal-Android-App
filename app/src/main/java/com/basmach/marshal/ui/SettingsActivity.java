@@ -54,6 +54,21 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        String lang = sharedPreferences.getString("LANG", "iw");
+        Locale locale = new Locale(lang);
+        Resources res = getResources();
+        DisplayMetrics dm = res.getDisplayMetrics();
+        Configuration conf = res.getConfiguration();
+        Locale.setDefault(locale);
+        conf.locale = locale;
+        res.updateConfiguration(conf, dm);
+        conf.setLayoutDirection(locale);
+    }
+
+    @Override
     protected void onResume(){
         super.onResume();
         mToolbar.setTitle(R.string.navigation_drawer_settings);
@@ -96,8 +111,6 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment {
-        Locale myLocale;
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             String versionName = BuildConfig.VERSION_NAME;
@@ -120,21 +133,6 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
-        }
-
-        @Override
-        public void onConfigurationChanged(Configuration newConfig) {
-            super.onConfigurationChanged(newConfig);
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
-            String lang = sharedPreferences.getString("LANG", "iw");
-            myLocale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            Locale.setDefault(myLocale);
-            conf.locale = myLocale;
-            res.updateConfiguration(conf, dm);
-            conf.setLayoutDirection(myLocale);
         }
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
@@ -160,14 +158,14 @@ public class SettingsActivity extends AppCompatActivity {
         };
 
         public void setLocale(String lang) {
-            myLocale = new Locale(lang);
+            Locale locale = new Locale(lang);
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
-            Locale.setDefault(myLocale);
-            conf.locale = myLocale;
+            Locale.setDefault(locale);
+            conf.locale = locale;
             res.updateConfiguration(conf, dm);
-            conf.setLayoutDirection(myLocale);
+            conf.setLayoutDirection(locale);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.pref_language_changed);
             builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
