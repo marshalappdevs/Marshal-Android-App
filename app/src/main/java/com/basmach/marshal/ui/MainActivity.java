@@ -68,28 +68,15 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SearchView mSearchView;
-    private Locale locale = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         setTheme(R.style.AppTheme);
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         super.onCreate(savedInstanceState);
-
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        Configuration config = getBaseContext().getResources().getConfiguration();
-
-        String lang = sharedPreferences.getString("LANG", "iw");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            locale = new Locale(lang);
-            Locale.setDefault(locale);
-            config.locale = locale;
-            config.setLayoutDirection(locale);
-            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-        }
-
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
+        updateLocale();
         setContentView(R.layout.activity_main);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
@@ -125,6 +112,26 @@ public class MainActivity extends AppCompatActivity
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.setDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLocale();
+    }
+
+    private void updateLocale() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        String lang = sharedPreferences.getString("LANG", "iw");
+        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+            Locale locale;
+            locale = new Locale(lang);
+            Locale.setDefault(locale);
+            config.locale = locale;
+            config.setLayoutDirection(locale);
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
     }
 
     private void checkForGetAccountsPermission() {

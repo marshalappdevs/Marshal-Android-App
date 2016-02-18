@@ -2,6 +2,7 @@ package com.basmach.marshal.ui;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.Ringtone;
@@ -15,7 +16,6 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -49,9 +49,6 @@ public class SettingsActivity extends AppCompatActivity {
                 finish();
             }
         });
-
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
         getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
     }
@@ -123,6 +120,21 @@ public class SettingsActivity extends AppCompatActivity {
                 }
             });
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
+        }
+
+        @Override
+        public void onConfigurationChanged(Configuration newConfig) {
+            super.onConfigurationChanged(newConfig);
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String lang = sharedPreferences.getString("LANG", "iw");
+            myLocale = new Locale(lang);
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            Locale.setDefault(myLocale);
+            conf.locale = myLocale;
+            res.updateConfiguration(conf, dm);
+            conf.setLayoutDirection(myLocale);
         }
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
