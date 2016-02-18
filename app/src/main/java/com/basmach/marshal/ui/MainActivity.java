@@ -76,14 +76,13 @@ public class MainActivity extends AppCompatActivity
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         super.onCreate(savedInstanceState);
 
-        SharedPreferences settings = PreferenceManager.getDefaultSharedPreferences(this);
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration config = getBaseContext().getResources().getConfiguration();
 
-        String lang = settings.getString("LANG", "iw");
+        String lang = sharedPreferences.getString("LANG", "iw");
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             locale = new Locale(lang);
             Locale.setDefault(locale);
-            config.locale = locale;
             config.locale = locale;
             config.setLayoutDirection(locale);
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
