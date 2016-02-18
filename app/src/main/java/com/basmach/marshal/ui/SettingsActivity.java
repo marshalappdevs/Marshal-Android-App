@@ -161,9 +161,9 @@ public class SettingsActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    //getActivity().finishAffinity();
                     Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
                     intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    getActivity().finishAffinity();
                     startActivity(intent);
                 }
             }).show();
