@@ -16,6 +16,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -34,6 +35,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        updateLocale();
         setContentView(R.layout.activity_container);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -50,28 +52,36 @@ public class SettingsActivity extends AppCompatActivity {
             }
         });
 
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
+
         getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
     }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        String lang = sharedPreferences.getString("LANG", "iw");
-        Locale locale = new Locale(lang);
-        Resources res = getResources();
-        DisplayMetrics dm = res.getDisplayMetrics();
-        Configuration conf = res.getConfiguration();
-        Locale.setDefault(locale);
-        conf.locale = locale;
-        res.updateConfiguration(conf, dm);
-        conf.setLayoutDirection(locale);
+        updateLocale();
     }
 
     @Override
     protected void onResume(){
         super.onResume();
         mToolbar.setTitle(R.string.navigation_drawer_settings);
+    }
+
+    private void updateLocale() {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        Configuration config = getBaseContext().getResources().getConfiguration();
+        String lang = sharedPreferences.getString("LANG", "iw");
+        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+            Locale locale;
+            locale = new Locale(lang);
+            Locale.setDefault(locale);
+            config.locale = locale;
+            config.setLayoutDirection(locale);
+            getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
+        }
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
