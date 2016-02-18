@@ -28,7 +28,7 @@
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>
-    <string name="pref_language_changed">Language changed, please restart the app</string>
+    <string name="pref_language_changed">Language changed, application restart is required</string>
     <string name="pref_notifications_category">Notifications</string>
     <string name="pref_new_course_notifications_title">New course available</string>
     <string name="pref_new_course_notifications_summary">Notify when a new course is available</string>

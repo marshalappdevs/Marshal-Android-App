@@ -1,6 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.media.Ringtone;
@@ -26,6 +27,7 @@ import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
 
 import java.util.Locale;
+import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -127,15 +129,19 @@ public class SettingsActivity extends AppCompatActivity {
 
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-
+                ListPreference prefLanguage = (ListPreference) findPreference("language");
                 switch (newValue.toString()) {
                     case "iw":
-                        PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").commit();
-                        setLocale("iw");
+                        if(!Objects.equals(prefLanguage.getValue(), "iw")) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
+                            setLocale("iw");
+                        }
                         break;
                     case "en":
-                        PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").commit();
-                        setLocale("en");
+                        if(!Objects.equals(prefLanguage.getValue(), "en")) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
+                            setLocale("en");
+                        }
                         break;
                 }
                 return true;
@@ -156,7 +162,10 @@ public class SettingsActivity extends AppCompatActivity {
             builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    getActivity().finishAffinity();
+                    //getActivity().finishAffinity();
+                    Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                    intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    startActivity(intent);
                 }
             }).show();
         }
