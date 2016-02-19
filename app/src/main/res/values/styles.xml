@@ -6,7 +6,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="popupOverlay">@style/AppTheme.PopupOverlay</item>
     </style>
 
     <style name="AppTheme.Light.Base.Launcher">
@@ -21,7 +20,6 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
-        <item name="popupOverlay">@style/AppTheme.Dark.PopupOverlay</item>
     </style>
 
     <style name="AppTheme.Dark" parent="AppTheme.Dark.Base" />
@@ -33,8 +31,6 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
-
-    <style name="AppTheme.Dark.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
     <style name="titleTextAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
