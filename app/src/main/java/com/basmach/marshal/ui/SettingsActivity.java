@@ -77,9 +77,8 @@ public class SettingsActivity extends AppCompatActivity {
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             Locale locale;
             locale = new Locale(lang);
+            config.setLocale(locale);
             Locale.setDefault(locale);
-            config.locale = locale;
-            config.setLayoutDirection(locale);
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
     }
@@ -172,10 +171,9 @@ public class SettingsActivity extends AppCompatActivity {
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
+            conf.setLocale(locale);
             Locale.setDefault(locale);
-            conf.locale = locale;
             res.updateConfiguration(conf, dm);
-            conf.setLayoutDirection(locale);
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
             builder.setMessage(R.string.pref_language_changed);
             builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {

@@ -127,9 +127,8 @@ public class MainActivity extends AppCompatActivity
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             Locale locale;
             locale = new Locale(lang);
+            config.setLocale(locale);
             Locale.setDefault(locale);
-            config.locale = locale;
-            config.setLayoutDirection(locale);
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
         }
     }
