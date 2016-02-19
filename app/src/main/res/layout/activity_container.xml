@@ -17,7 +17,7 @@
            android:minHeight="@dimen/toolbar_height"
            android:background="?attr/colorPrimary"
            app:theme="@style/AppTheme.Toolbar"
-           app:popupTheme="@style/AppTheme.PopupOverlay"
+           app:popupTheme="?attr/popupOverlay"
            app:titleTextAppearance="@style/titleTextAppearance" />
 
    </android.support.design.widget.AppBarLayout>

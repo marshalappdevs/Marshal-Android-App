@@ -71,7 +71,12 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        setTheme(R.style.AppTheme);
+        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
+        if (isNightMode) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme_Light);
+        }
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
         super.onCreate(savedInstanceState);
         // enable on final release

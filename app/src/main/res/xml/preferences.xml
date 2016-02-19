@@ -8,6 +8,10 @@
             android:key="language"
             android:title="@string/pref_language_title"
             android:summary="%s" />
+        <SwitchPreference
+            android:defaultValue="false"
+            android:key="night_mode"
+            android:title="@string/pref_night_mode_title" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_notifications_category">

@@ -1,19 +1,30 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme.Base" parent="Theme.AppCompat.Light.NoActionBar">
-        <!-- Customize your theme here. -->
+    <style name="AppTheme.Light.Base" parent="Theme.AppCompat.Light.NoActionBar">
+        <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="popupOverlay">@style/AppTheme.PopupOverlay</item>
     </style>
 
-    <style name="AppTheme.Base.Launcher">
+    <style name="AppTheme.Light.Base.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
     </style>
 
-    <style name="AppTheme" parent="AppTheme.Base" />
+    <style name="AppTheme.Light" parent="AppTheme.Light.Base" />
+
+    <style name="AppTheme.Dark.Base" parent="Theme.AppCompat.NoActionBar">
+        <!-- Customize your dark theme here. -->
+        <item name="colorPrimary">@color/colorPrimary</item>
+        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="popupOverlay">@style/AppTheme.Dark.PopupOverlay</item>
+    </style>
+
+    <style name="AppTheme.Dark" parent="AppTheme.Dark.Base" />
 
     <style name="AppTheme.Toolbar" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlHighlight">#20000000</item>
@@ -22,6 +33,8 @@
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AppTheme.Dark.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
     <style name="titleTextAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>

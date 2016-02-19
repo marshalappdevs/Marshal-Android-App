@@ -15,6 +15,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -32,8 +33,15 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
+        if (isNightMode) {
+            setTheme(R.style.AppTheme_Dark);
+        } else {
+            setTheme(R.style.AppTheme_Light);
+        }
         super.onCreate(savedInstanceState);
         updateLocale();
         setContentView(R.layout.activity_container);
@@ -65,7 +73,7 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     @Override
-    protected void onResume(){
+    protected void onResume() {
         super.onResume();
         mToolbar.setTitle(R.string.navigation_drawer_settings);
     }
@@ -131,6 +139,30 @@ public class SettingsActivity extends AppCompatActivity {
             Preference prefVersion = findPreference("version");
             prefVersion.setSummary(versionName);
 
+            final SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
+            prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+                @Override
+                public boolean onPreferenceChange(Preference preference, Object o) {
+                    if (prefNightMode.isChecked()) {
+                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
+                    } else {
+                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
+                    }
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setMessage(R.string.pref_theme_changed);
+                    builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
+                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                            getActivity().finishAffinity();
+                            startActivity(intent);
+                        }
+                    }).show();
+                    return true;
+                }
+            });
+
             ListPreference prefLanguage = (ListPreference) findPreference("language");
             //langPref.setSummary(langPref.getEntry());
 
@@ -150,13 +182,13 @@ public class SettingsActivity extends AppCompatActivity {
                 ListPreference prefLanguage = (ListPreference) findPreference("language");
                 switch (newValue.toString()) {
                     case "iw":
-                        if(!Objects.equals(prefLanguage.getValue(), "iw")) {
+                        if (!Objects.equals(prefLanguage.getValue(), "iw")) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
                             setLocale("iw");
                         }
                         break;
                     case "en":
-                        if(!Objects.equals(prefLanguage.getValue(), "en")) {
+                        if (!Objects.equals(prefLanguage.getValue(), "en")) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
                             setLocale("en");
                         }
