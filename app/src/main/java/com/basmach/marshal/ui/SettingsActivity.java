@@ -135,6 +135,9 @@ public class SettingsActivity extends AppCompatActivity {
             Preference prefVersion = findPreference("version");
             prefVersion.setSummary(versionName);
 
+            ListPreference prefLanguage = (ListPreference) findPreference("language");
+            prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
+
             final SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
@@ -158,18 +161,6 @@ public class SettingsActivity extends AppCompatActivity {
                     return true;
                 }
             });
-
-            ListPreference prefLanguage = (ListPreference) findPreference("language");
-            //langPref.setSummary(langPref.getEntry());
-
-            prefLanguage.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    preference.setSummary(o.toString());
-                    return true;
-                }
-            });
-            prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
         }
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
