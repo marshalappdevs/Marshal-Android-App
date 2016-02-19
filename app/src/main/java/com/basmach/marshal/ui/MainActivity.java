@@ -71,13 +71,9 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
-        if (isNightMode) {
-            setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme_Light);
-        }
         PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
+        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
+        if (isNightMode) setTheme(R.style.AppTheme_Dark); else setTheme(R.style.AppTheme_Light);
         super.onCreate(savedInstanceState);
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -92,7 +88,7 @@ public class MainActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        Boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             checkForGetAccountsPermission();

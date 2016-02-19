@@ -37,11 +37,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
-        if (isNightMode) {
-            setTheme(R.style.AppTheme_Dark);
-        } else {
-            setTheme(R.style.AppTheme_Light);
-        }
+        if (isNightMode) setTheme(R.style.AppTheme_Dark); else setTheme(R.style.AppTheme_Light);
         super.onCreate(savedInstanceState);
         updateLocale();
         setContentView(R.layout.activity_container);
