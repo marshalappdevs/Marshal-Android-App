@@ -141,11 +141,11 @@ public class SettingsActivity extends AppCompatActivity {
             final SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
-                public boolean onPreferenceChange(Preference preference, Object o) {
-                    if (prefNightMode.isChecked()) {
-                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
-                    } else {
+                public boolean onPreferenceChange(Preference preference, Object newValue) {
+                    if (!prefNightMode.isChecked()) {
                         getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
+                    } else {
+                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
                     }
                     AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
                     builder.setMessage(R.string.pref_theme_changed);
