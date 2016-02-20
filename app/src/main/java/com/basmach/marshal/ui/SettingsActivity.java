@@ -24,6 +24,7 @@ import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.view.View;
+import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
@@ -132,7 +133,9 @@ public class SettingsActivity extends AppCompatActivity {
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
             bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+
             Preference prefVersion = findPreference("version");
+            prefVersion.setOnPreferenceClickListener(versionClickListener);
             prefVersion.setSummary(versionName);
 
             ListPreference prefLanguage = (ListPreference) findPreference("language");
@@ -141,6 +144,24 @@ public class SettingsActivity extends AppCompatActivity {
             SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
         }
+
+        int unicode = 0x1F483;
+        public String getEmojiByUnicode(int unicode){
+            return new String(Character.toChars(unicode));
+        }
+
+        Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
+            int clickCount = 0;
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                clickCount = clickCount + 1;
+                if (clickCount == 20) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + getEmojiByUnicode(unicode), Toast.LENGTH_LONG).show();
+                    clickCount = 0;
+                }
+                return false;
+            }
+        };
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
