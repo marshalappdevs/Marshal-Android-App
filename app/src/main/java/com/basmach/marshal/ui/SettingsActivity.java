@@ -142,22 +142,12 @@ public class SettingsActivity extends AppCompatActivity {
             prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if(((Boolean) newValue)) {
+                    if (((Boolean) newValue)) {
                         getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
                     } else {
                         getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
                     }
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                    builder.setMessage(R.string.pref_theme_changed);
-                    builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            getActivity().finishAffinity();
-                            startActivity(intent);
-                        }
-                    }).show();
+                    restartApp();
                     return true;
                 }
             });
@@ -193,8 +183,12 @@ public class SettingsActivity extends AppCompatActivity {
             conf.setLocale(locale);
             Locale.setDefault(locale);
             res.updateConfiguration(conf, dm);
+            restartApp();
+        }
+
+        private void restartApp() {
             AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-            builder.setMessage(R.string.pref_language_changed);
+            builder.setMessage(R.string.pref_restart_required);
             builder.setPositiveButton(R.string.undo_string, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
