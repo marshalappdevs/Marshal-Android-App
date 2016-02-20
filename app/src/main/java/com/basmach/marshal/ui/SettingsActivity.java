@@ -138,11 +138,11 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference prefLanguage = (ListPreference) findPreference("language");
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
 
-            final SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
+            SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
                 @Override
                 public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if (!prefNightMode.isChecked()) {
+                    if(((Boolean) newValue)) {
                         getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
                     } else {
                         getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
