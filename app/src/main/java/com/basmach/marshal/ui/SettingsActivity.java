@@ -145,18 +145,13 @@ public class SettingsActivity extends AppCompatActivity {
             prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
         }
 
-        int unicode = 0x1F483;
-        public String getEmojiByUnicode(int unicode){
-            return new String(Character.toChars(unicode));
-        }
-
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
             int clickCount = 0;
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 clickCount = clickCount + 1;
                 if (clickCount == 20) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + getEmojiByUnicode(unicode), Toast.LENGTH_LONG).show();
+                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     clickCount = 0;
                 }
                 return false;
