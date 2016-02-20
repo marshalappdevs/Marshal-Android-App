@@ -139,18 +139,7 @@ public class SettingsActivity extends AppCompatActivity {
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
 
             SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
-            prefNightMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
-                @Override
-                public boolean onPreferenceChange(Preference preference, Object newValue) {
-                    if (((Boolean) newValue)) {
-                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
-                    } else {
-                        getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
-                    }
-                    restartApp();
-                    return true;
-                }
-            });
+            prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
         }
 
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
@@ -175,7 +164,20 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-        public void setLocale(String lang) {
+        Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if (((Boolean) newValue)) {
+                    getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
+                } else {
+                    getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
+                }
+                restartApp();
+                return true;
+            }
+        };
+
+            public void setLocale(String lang) {
             Locale locale = new Locale(lang);
             Resources res = getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
