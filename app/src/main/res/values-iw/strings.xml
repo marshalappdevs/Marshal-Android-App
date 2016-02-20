@@ -18,7 +18,7 @@
     <string name="contacts_permission_denied_settings">הפעולה אינה זמינה, אנא התר גישה אל אנשי הקשר בהגדרות.</string>
     <string name="calendar_permission_denied_settings">הפעולה אינה זמינה, אנא התר גישה אל היומן בהגדרות.</string>
     <string name="undo_string">אוקיי</string>
-    <string name="confirm_exit">לחץ חזור שוב כדי לצאת</string>
+    <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="search_hint">חפש ב-מרש\"ל</string>
     <string name="send_to">שלח דוא\"ל דרך</string>

@@ -19,7 +19,7 @@
     <string name="contacts_permission_denied_settings">Action unavailable, please enable contacts permission in settings.</string>
     <string name="calendar_permission_denied_settings">Action unavailable, please enable calendar permission in settings.</string>
     <string name="undo_string">OK</string>
-    <string name="confirm_exit">Press back again to exit</string>
+    <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="search_hint">Search Marshal</string>
     <string name="send_to">Send email via</string>
