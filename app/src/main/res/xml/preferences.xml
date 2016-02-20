@@ -2,7 +2,7 @@
     <PreferenceCategory
         android:title="@string/pref_general_category">
         <ListPreference
-            android:defaultValue="@string/pref_language_default"
+            android:defaultValue="iw"
             android:entries="@array/LanguageName"
             android:entryValues="@array/LanguageCode"
             android:key="language"

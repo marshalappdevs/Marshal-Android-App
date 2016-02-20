@@ -40,7 +40,6 @@
     <string name="pref_vibrate_title">Vibrate</string>
     <string name="pref_about_category">About</string>
     <string name="pref_version_title">App version</string>
-    <string translatable="false" name="pref_language_default">iw</string>
     <string-array name="LanguageName">
         <item name="iw">עברית</item>
         <item name="en">English</item>
