@@ -20,7 +20,6 @@
     <string name="undo_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
-    <string name="search_hint">חפש ב-מרש\"ל</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
     <string name="mail_subject">משוב/דיווח תקלה</string>
 
