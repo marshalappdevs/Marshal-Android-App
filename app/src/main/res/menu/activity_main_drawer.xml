@@ -8,7 +8,7 @@
             android:title="@string/navigation_drawer_courses" />
         <item
             android:id="@+id/nav_materials"
-            android:icon="@drawable/ic_drawer_books"
+            android:icon="@drawable/ic_drawer_library"
             android:title="@string/navigation_drawer_materials" />
         <item
             android:id="@+id/nav_meetups"
