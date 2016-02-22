@@ -12,7 +12,7 @@
             android:title="@string/navigation_drawer_materials" />
         <item
             android:id="@+id/nav_meetups"
-            android:icon="@drawable/ic_drawer_meetup"
+            android:icon="@drawable/ic_drawer_event"
             android:title="@string/navigation_drawer_meetups" />
         <item
             android:id="@+id/nav_discussions"

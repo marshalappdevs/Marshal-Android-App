@@ -1,6 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.Manifest;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
@@ -8,6 +9,8 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
@@ -95,6 +98,8 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
         }
 
+        checkInternetConnection();
+
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
             initializeGoogleApiClient();
         }
@@ -116,9 +121,35 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        checkInternetConnection();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLocale();
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+
+    private void checkInternetConnection() {
+        if(!isNetworkAvailable()){
+            Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_INDEFINITE);
+            snackbar.setAction(R.string.load_retry, new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    checkInternetConnection();
+                }
+            });
+            snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light));
+            snackbar.show();
+        }
     }
 
     private void updateLocale() {
