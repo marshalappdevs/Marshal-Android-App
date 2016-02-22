@@ -1,9 +1,11 @@
 package com.basmach.marshal.ui;
 
 import android.Manifest;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -98,8 +100,6 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
         }
 
-        checkNetworkConnection();
-
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
             initializeGoogleApiClient();
         }
@@ -121,37 +121,52 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        checkNetworkConnection();
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLocale();
     }
 
-    private boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
-        return networkInfo != null && networkInfo.isConnected();
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerInternetCheckReceiver();
     }
 
-    private void checkNetworkConnection() {
-        if(!isNetworkAvailable()){
-            Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_LONG)
-                    .setAction(R.string.load_retry, new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            if(isNetworkAvailable()) Toast.makeText(MainActivity.this, R.string.connection_established, Toast.LENGTH_SHORT).show();
-                            else checkNetworkConnection();
-                        }
-                    })
-                    .setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light))
-                    .show();
-        }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(broadcastReceiver);
     }
+
+    private void registerInternetCheckReceiver() {
+        IntentFilter internetFilter = new IntentFilter();
+        internetFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
+        registerReceiver(broadcastReceiver, internetFilter);
+    }
+
+    private boolean isConnected() {
+        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
+        return activeNetwork != null && activeNetwork.isConnected();
+    }
+
+    public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(final Context context, final Intent intent) {
+            if (!isConnected()) {
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_no_connection, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (isConnected()) Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_connection_established, Snackbar.LENGTH_SHORT).show();
+                                else onReceive(context, intent);
+                            }
+                        })
+                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light))
+                        .show();
+            }
+        }
+    };
 
     private void updateLocale() {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);

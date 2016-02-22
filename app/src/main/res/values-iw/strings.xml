@@ -10,9 +10,9 @@
     <string name="navigation_drawer_settings">הגדרות</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות בסמ\"ח</string>
-    <string name="network_error">אין חיבור</string>
-    <string name="load_retry">נסה שוב</string>
-    <string name="connection_established">החיבור נוצר.</string>
+    <string name="offline_snackbar_no_connection">אין חיבור</string>
+    <string name="offline_snackbar_retry">נסה שוב</string>
+    <string name="offline_snackbar_connection_established">החיבור נוצר</string>
     <string name="permission_denied_title">שים לב</string>
     <string name="contacts_permission_denied_explanation">גישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל מחשבון Google+ שלך.\n\n\ האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
     <string name="calendar_permission_denied_explanation">גישה אל היומן נדרשת עבור יצירת אירועים ביומן למיטאפים.\n\n\ האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
