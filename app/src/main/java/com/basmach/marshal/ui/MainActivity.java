@@ -98,7 +98,7 @@ public class MainActivity extends AppCompatActivity
             getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
         }
 
-        checkInternetConnection();
+        checkNetworkConnection();
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
             initializeGoogleApiClient();
@@ -123,7 +123,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onResume(){
         super.onResume();
-        checkInternetConnection();
+        checkNetworkConnection();
     }
 
     @Override
@@ -134,18 +134,18 @@ public class MainActivity extends AppCompatActivity
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        NetworkInfo networkInfo = connectivityManager.getActiveNetworkInfo();
+        return networkInfo != null && networkInfo.isConnected();
     }
 
-    private void checkInternetConnection() {
+    private void checkNetworkConnection() {
         if(!isNetworkAvailable()){
             Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_LONG)
                     .setAction(R.string.load_retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            if(isNetworkAvailable()) Toast.makeText(MainActivity.this, R.string.connected, Toast.LENGTH_SHORT).show();
-                            else checkInternetConnection();
+                            if(isNetworkAvailable()) Toast.makeText(MainActivity.this, R.string.connection_established, Toast.LENGTH_SHORT).show();
+                            else checkNetworkConnection();
                         }
                     })
                     .setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light))
