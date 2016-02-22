@@ -154,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (!isConnected()) {
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_no_connection, Snackbar.LENGTH_LONG)
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_LONG)
                         .setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
