@@ -121,12 +121,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    protected void onResume(){
-        super.onResume();
-        checkInternetConnection();
-    }
-
-    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLocale();
