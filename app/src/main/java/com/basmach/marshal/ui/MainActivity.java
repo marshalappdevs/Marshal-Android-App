@@ -140,15 +140,15 @@ public class MainActivity extends AppCompatActivity
 
     private void checkInternetConnection() {
         if(!isNetworkAvailable()){
-            Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_INDEFINITE);
-            snackbar.setAction(R.string.load_retry, new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    checkInternetConnection();
-                }
-            });
-            snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light));
-            snackbar.show();
+            Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_LONG)
+                    .setAction(R.string.load_retry, new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            checkInternetConnection();
+                        }
+                    })
+                    .setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light))
+                    .show();
         }
     }
 
@@ -212,19 +212,19 @@ public class MainActivity extends AppCompatActivity
                 builder.show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        finish();
-                    }
-                });
-                snackbar.show();
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.undo_string, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                                finish();
+                            }
+                        })
+                        .show();
             }
         }
         if (requestCode == REQUEST_CALENDAR) {
@@ -252,19 +252,19 @@ public class MainActivity extends AppCompatActivity
                 builder.show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_LONG);
-                snackbar.setAction(R.string.undo_string, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent();
-                        intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                        Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                        intent.setData(uri);
-                        startActivity(intent);
-                        finishAffinity();
-                    }
-                });
-                snackbar.show();
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.undo_string, new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                Intent intent = new Intent();
+                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                                intent.setData(uri);
+                                startActivity(intent);
+                                finishAffinity();
+                            }
+                        })
+                .show();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
