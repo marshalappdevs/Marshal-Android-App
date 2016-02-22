@@ -140,7 +140,7 @@ public class MainActivity extends AppCompatActivity
 
     private void checkInternetConnection() {
         if(!isNetworkAvailable()){
-            Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_INDEFINITE)
+            Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.network_error, Snackbar.LENGTH_LONG)
                     .setAction(R.string.load_retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
