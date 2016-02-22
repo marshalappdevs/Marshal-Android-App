@@ -121,6 +121,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
+    protected void onResume(){
+        super.onResume();
+        checkInternetConnection();
+    }
+
+    @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLocale();
@@ -138,7 +144,8 @@ public class MainActivity extends AppCompatActivity
                     .setAction(R.string.load_retry, new View.OnClickListener() {
                         @Override
                         public void onClick(View v) {
-                            checkInternetConnection();
+                            if(isNetworkAvailable()) Toast.makeText(MainActivity.this, R.string.connected, Toast.LENGTH_SHORT).show();
+                            else checkInternetConnection();
                         }
                     })
                     .setActionTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.holo_orange_light))
