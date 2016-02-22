@@ -513,7 +513,7 @@ public class MainActivity extends AppCompatActivity
             CustomTabsIntent customTabsIntent = builder.build();
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
-
+        registerInternetCheckReceiver();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
