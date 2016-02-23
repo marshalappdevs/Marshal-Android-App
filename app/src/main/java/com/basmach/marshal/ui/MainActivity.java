@@ -216,27 +216,26 @@ public class MainActivity extends AppCompatActivity
                 initializeGoogleApiClient();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
                 // User denied permissions dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.permission_denied_title);
-                builder.setMessage(R.string.contacts_permission_denied_explanation);
-                builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
-                    }
-                });
-                builder.show();
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.permission_contacts_access_for_gplus)
+                        .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
+                            }
+                        })
+                        .show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.contacts_permission_denied_settings, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.undo_string, new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_contacts_access, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.permission_settings_open, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent();
@@ -256,27 +255,26 @@ public class MainActivity extends AppCompatActivity
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
                     || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
                 // User denied permissions dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(this);
-                builder.setTitle(R.string.permission_denied_title);
-                builder.setMessage(R.string.calendar_permission_denied_explanation);
-                builder.setPositiveButton(R.string.permission_dialog_positive, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                    }
-                });
-                builder.setNegativeButton(R.string.permission_dialog_negative, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        dialog.dismiss();
-                        ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
-                    }
-                });
-                builder.show();
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.permission_calendar_access_for_meetups)
+                        .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
+                            }
+                        })
+                        .show();
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.calendar_permission_denied_settings, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.undo_string, new View.OnClickListener() {
+                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_calendar_access, Snackbar.LENGTH_LONG)
+                        .setAction(R.string.permission_settings_open, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 Intent intent = new Intent();
