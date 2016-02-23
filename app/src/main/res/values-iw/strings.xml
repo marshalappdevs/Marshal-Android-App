@@ -13,12 +13,12 @@
     <string name="offline_snackbar_network_unavailable">אין חיבור לאינטרנט</string>
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="offline_snackbar_connection_established">החיבור נוצר</string>
-    <string name="permission_contacts_access_for_gplus">גישה אל אנשי הקשר נדרשת עבור הצגת פרטי פרופיל מחשבון Google+ שלך. האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
-    <string name="permission_calendar_access_for_meetups">גישה אל היומן נדרשת עבור יצירת אירועים ביומן לימי עיון. האם אתה בטוח שתרצה להמשיך ללא הרשאה זו?</string>
+    <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
+    <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי ימי עיון ביומן, התר למרש\"ל גישה אל היומן.</string>
     <string name="permission_contacts_access">הפעולה אינה זמינה, אנא התר גישה אל אנשי הקשר בהגדרות.</string>
     <string name="permission_calendar_access">הפעולה אינה זמינה, אנא התר גישה אל היומן בהגדרות.</string>
-    <string name="permission_continue">אני בטוח</string>
-    <string name="permission_cancel">בקש שוב</string>
+    <string name="permission_continue">המשך</string>
+    <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
     <string name="ok_string">אוקיי</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>

@@ -14,12 +14,12 @@
     <string name="offline_snackbar_network_unavailable">No internet connection</string>
     <string name="offline_snackbar_retry">Retry</string>
     <string name="offline_snackbar_connection_established">Connection established</string>
-    <string name="permission_contacts_access_for_gplus">Contacts permission is needed to show profile details from your Google+ account. Are you sure you want to continue without this permission?</string>
-    <string name="permission_calendar_access_for_meetups">Calendar permission is needed to create calendar events for Meetups. Are you sure you want to continue without this permission?</string>
+    <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
+    <string name="permission_calendar_access_for_meetups">To create calendar events for Meetups, allow Marshal access your calendar.</string>
     <string name="permission_contacts_access">Action unavailable, please enable contacts permission in settings.</string>
     <string name="permission_calendar_access">Action unavailable, please enable calendar permission in settings.</string>
-    <string name="permission_continue">I\'M SURE</string>
-    <string name="permission_cancel">ASK AGAIN</string>
+    <string name="permission_continue">CONTINUE</string>
+    <string name="permission_cancel">NOT NOW</string>
     <string name="permission_settings_open">SETTINGS</string>
     <string name="ok_string">OK</string>
     <string name="confirm_exit">Press back again to exit.</string>
