@@ -15,6 +15,7 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -154,16 +155,22 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (!isConnected()) {
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
+                final Snackbar snackbar = Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_INDEFINITE);
+                snackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
                                 if (isConnected()) Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.offline_snackbar_connection_established, Snackbar.LENGTH_SHORT).show();
                                 else onReceive(context, intent);
                             }
-                        })
-                        .setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light))
-                        .show();
+                        });
+                snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
+                snackbar.show();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        snackbar.dismiss();
+                    }
+                }, 8000);
             }
         }
     };
