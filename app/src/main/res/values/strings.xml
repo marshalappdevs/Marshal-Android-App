@@ -21,7 +21,7 @@
     <string name="permission_continue">I\'M SURE</string>
     <string name="permission_cancel">ASK AGAIN</string>
     <string name="permission_settings_open">SETTINGS</string>
-    <string name="undo_string">OK</string>
+    <string name="ok_string">OK</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>
