@@ -15,7 +15,6 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
-import android.preference.SwitchPreference;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
@@ -141,7 +140,7 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference prefLanguage = (ListPreference) findPreference("language");
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
 
-            SwitchPreference prefNightMode = (SwitchPreference) findPreference("night_mode");
+            ListPreference prefNightMode = (ListPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
         }
 
@@ -183,25 +182,34 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if (((Boolean) newValue)) {
-                    getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
-                } else {
-                    getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
+                ListPreference prefLanguage = (ListPreference) findPreference("night_mode");
+                switch (newValue.toString()) {
+                    case "light":
+                        if (!Objects.equals(prefLanguage.getValue(), "light")) {
+                            getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
+                            restartApp();
+                        }
+                        break;
+                    case "dark":
+                        if (!Objects.equals(prefLanguage.getValue(), "dark")) {
+                            getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
+                            restartApp();
+                        }
+                        break;
                 }
-                restartApp();
                 return true;
             }
         };
 
             public void setLocale(String lang) {
-            Locale locale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.setLocale(locale);
-            Locale.setDefault(locale);
-            res.updateConfiguration(conf, dm);
-            restartApp();
+                Locale locale = new Locale(lang);
+                Resources res = getResources();
+                DisplayMetrics dm = res.getDisplayMetrics();
+                Configuration conf = res.getConfiguration();
+                conf.setLocale(locale);
+                Locale.setDefault(locale);
+                res.updateConfiguration(conf, dm);
+                restartApp();
         }
 
         private void restartApp() {

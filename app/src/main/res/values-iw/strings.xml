@@ -15,8 +15,8 @@
     <string name="offline_snackbar_connection_established">החיבור נוצר</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
     <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי ימי עיון ביומן, התר למרש\"ל גישה אל היומן.</string>
-    <string name="permission_contacts_access">הפעולה אינה זמינה, אנא התר גישה אל אנשי הקשר בהגדרות.</string>
-    <string name="permission_calendar_access">הפעולה אינה זמינה, אנא התר גישה אל היומן בהגדרות.</string>
+    <string name="permission_contacts_access">הפעולה אינה זמינה. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
+    <string name="permission_calendar_access">הפעולה אינה זמינה. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
@@ -31,8 +31,9 @@
     <string name="pref_language_title">שפה</string>
     <string name="language_english">אנגלית</string>
     <string name="language_hebrew">עברית</string>
-    <string name="pref_night_mode_title">מצב לילה</string>
-    <string name="pref_night_mode_summary">טקסט בהיר על רקע כהה</string>
+    <string name="night_mode_title">עיצוב</string>
+    <string name="night_mode_no">בהיר</string>
+    <string name="night_mode_yes">כהה</string>
     <string name="pref_notifications_category">הודעות</string>
     <string name="pref_new_course_notifications_title">השתלמות חדשה זמינה</string>
     <string name="pref_new_course_notifications_summary">הצג הודעה כאשר השתלמות חדשה זמינה</string>

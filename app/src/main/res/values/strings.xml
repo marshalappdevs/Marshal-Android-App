@@ -16,8 +16,8 @@
     <string name="offline_snackbar_connection_established">Connection established</string>
     <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
     <string name="permission_calendar_access_for_meetups">To create calendar events for Meetups, allow Marshal access your calendar.</string>
-    <string name="permission_contacts_access">Action unavailable, please enable contacts permission in settings.</string>
-    <string name="permission_calendar_access">Action unavailable, please enable calendar permission in settings.</string>
+    <string name="permission_contacts_access">Action unavailable. Tap Settings > Permissions, and turn Contacts on.</string>
+    <string name="permission_calendar_access">Action unavailable. Tap Settings > Permissions, and turn Calendar on.</string>
     <string name="permission_continue">CONTINUE</string>
     <string name="permission_cancel">NOT NOW</string>
     <string name="permission_settings_open">SETTINGS</string>
@@ -32,8 +32,9 @@
     <string name="pref_language_title">Language</string>
     <string name="language_english">English</string>
     <string name="language_hebrew">Hebrew</string>
-    <string name="pref_night_mode_title">Night mode</string>
-    <string name="pref_night_mode_summary">Light text on dark background</string>
+    <string name="night_mode_title">Theme</string>
+    <string name="night_mode_no">Light</string>
+    <string name="night_mode_yes">Dark</string>
     <string name="pref_notifications_category">Notifications</string>
     <string name="pref_new_course_notifications_title">New course available</string>
     <string name="pref_new_course_notifications_summary">Notify when a new course is available</string>
@@ -50,5 +51,13 @@
     <string-array name="language_values" translatable="false">
         <item name="iw">iw</item>
         <item name="en">en</item>
+    </string-array>
+    <string-array name="night_mode_entries" translatable="false">
+        <item>@string/night_mode_no</item>
+        <item>@string/night_mode_yes</item>
+    </string-array>
+    <string-array name="night_mode_values" translatable="false">
+        <item>light</item>
+        <item>dark</item>
     </string-array>
 </resources>
