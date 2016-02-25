@@ -150,7 +150,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 clickCount = clickCount + 1;
-                if (clickCount == 10) {
+                if (clickCount == 7) {
                     Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     clickCount = 0;
                 }
