@@ -14,9 +14,9 @@
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="offline_snackbar_connection_established">החיבור נוצר</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
+    <string name="permission_contacts_access">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
     <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי ימי עיון ביומן, התר למרש\"ל גישה אל היומן.</string>
-    <string name="permission_contacts_access">הפעולה אינה זמינה. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
-    <string name="permission_calendar_access">הפעולה אינה זמינה. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
+    <string name="permission_calendar_access">כדי ליצור אירועי ימי עיון ביומן, התר למרש\"ל גישה אל היומן. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>

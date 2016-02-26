@@ -246,6 +246,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CONTACTS) {
+            boolean contactsNeverAskAgain = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("contactsNeverAskAgain", false);
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // User granted permissions dialog
                 initializeGoogleApiClient();
@@ -253,22 +254,33 @@ public class MainActivity extends AppCompatActivity
                 // User denied permissions dialog
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_contacts_access, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.permission_settings_open, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                                finish();
-                            }
-                        })
-                        .show();
+                if (contactsNeverAskAgain) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.permission_contacts_access)
+                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("contactsNeverAskAgain", true).apply();
             }
         }
         if (requestCode == REQUEST_CALENDAR) {
+            boolean calendarNeverAskAgain = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("calendarNeverAskAgain", false);
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 // User granted permissions dialog
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
@@ -276,19 +288,29 @@ public class MainActivity extends AppCompatActivity
                 // User denied permissions dialog
             } else {
                 // User denied permissions dialog and checked never ask again
-                Snackbar.make(findViewById(R.id.mCoordinatorLayout), R.string.permission_calendar_access, Snackbar.LENGTH_LONG)
-                        .setAction(R.string.permission_settings_open, new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                Intent intent = new Intent();
-                                intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                                intent.setData(uri);
-                                startActivity(intent);
-                                finishAffinity();
-                            }
-                        })
-                .show();
+                if (calendarNeverAskAgain) {
+                    new AlertDialog.Builder(this)
+                            .setMessage(R.string.permission_calendar_access)
+                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    Intent intent = new Intent();
+                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+                                    intent.setData(uri);
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            })
+                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    dialog.dismiss();
+                                }
+                            })
+                            .show();
+                }
+                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("calendarNeverAskAgain", true).apply();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);
