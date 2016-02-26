@@ -74,12 +74,12 @@ public class MainActivity extends AppCompatActivity
     private ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SearchView mSearchView;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        PreferenceManager.setDefaultValues(this, R.xml.preferences, false);
-        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
-        if (isNightMode) setTheme(R.style.AppTheme_Dark); else setTheme(R.style.AppTheme_Light);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        updateTheme();
         super.onCreate(savedInstanceState);
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -94,11 +94,11 @@ public class MainActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        boolean isFirstRun = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isFirstRun", true);
+        boolean isFirstRun = mSharedPreferences.getBoolean("isFirstRun", true);
 
         if (isFirstRun) {
             requestContactsPermission();
-            getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isFirstRun", false).apply();
+            mSharedPreferences.edit().putBoolean("isFirstRun", false).apply();
         }
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
@@ -175,10 +175,15 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
+    private void updateTheme() {
+        String theme = mSharedPreferences.getString("THEME", "light");
+        if (theme.equals("light")) setTheme(R.style.AppTheme_Light);
+        if (theme.equals("dark")) setTheme(R.style.AppTheme_Dark);
+    }
+
     private void updateLocale() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration config = getBaseContext().getResources().getConfiguration();
-        String lang = sharedPreferences.getString("LANG", "iw");
+        String lang = mSharedPreferences.getString("LANG", "iw");
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             Locale locale;
             locale = new Locale(lang);
@@ -246,7 +251,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if (requestCode == REQUEST_CONTACTS) {
-            boolean contactsNeverAskAgain = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("contactsNeverAskAgain", false);
+            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // User granted permissions dialog
                 initializeGoogleApiClient();
@@ -276,11 +281,11 @@ public class MainActivity extends AppCompatActivity
                             })
                             .show();
                 }
-                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("contactsNeverAskAgain", true).apply();
+                mSharedPreferences.edit().putBoolean("contactsNeverAskAgain", true).apply();
             }
         }
         if (requestCode == REQUEST_CALENDAR) {
-            boolean calendarNeverAskAgain = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("calendarNeverAskAgain", false);
+            boolean calendarNeverAskAgain = mSharedPreferences.getBoolean("calendarNeverAskAgain", false);
             if (PermissionUtil.verifyPermissions(grantResults)) {
                 // User granted permissions dialog
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
@@ -310,7 +315,7 @@ public class MainActivity extends AppCompatActivity
                             })
                             .show();
                 }
-                getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("calendarNeverAskAgain", true).apply();
+                mSharedPreferences.edit().putBoolean("calendarNeverAskAgain", true).apply();
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

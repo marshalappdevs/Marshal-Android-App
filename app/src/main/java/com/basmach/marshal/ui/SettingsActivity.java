@@ -33,11 +33,12 @@ import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        boolean isNightMode = getSharedPreferences("PREFERENCE", MODE_PRIVATE).getBoolean("isNightMode", false);
-        if (isNightMode) setTheme(R.style.AppTheme_Dark); else setTheme(R.style.AppTheme_Light);
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
         setContentView(R.layout.activity_container);
@@ -74,10 +75,15 @@ public class SettingsActivity extends AppCompatActivity {
         mToolbar.setTitle(R.string.navigation_drawer_settings);
     }
 
+    private void updateTheme() {
+        String theme = mSharedPreferences.getString("THEME", "light");
+        if (theme.equals("light")) setTheme(R.style.AppTheme_Light);
+        if (theme.equals("dark")) setTheme(R.style.AppTheme_Dark);
+    }
+
     private void updateLocale() {
-        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         Configuration config = getBaseContext().getResources().getConfiguration();
-        String lang = sharedPreferences.getString("LANG", "iw");
+        String lang = mSharedPreferences.getString("LANG", "iw");
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
             Locale locale;
             locale = new Locale(lang);
@@ -186,13 +192,13 @@ public class SettingsActivity extends AppCompatActivity {
                 switch (newValue.toString()) {
                     case "light":
                         if (!Objects.equals(prefLanguage.getValue(), "light")) {
-                            getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", false).apply();
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "light").apply();
                             restartApp();
                         }
                         break;
                     case "dark":
                         if (!Objects.equals(prefLanguage.getValue(), "dark")) {
-                            getActivity().getSharedPreferences("PREFERENCE", MODE_PRIVATE).edit().putBoolean("isNightMode", true).apply();
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "dark").apply();
                             restartApp();
                         }
                         break;
