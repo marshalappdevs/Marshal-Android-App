@@ -159,7 +159,7 @@ public class MainActivity extends AppCompatActivity
                 snackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                             @Override
                             public void onClick(View v) {
-                                if (isConnected()) Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_connection_established, Snackbar.LENGTH_SHORT).show();
+                                if (isConnected()) snackbar.dismiss();
                                 else onReceive(context, intent);
                             }
                         });
@@ -170,7 +170,7 @@ public class MainActivity extends AppCompatActivity
                     public void run() {
                         snackbar.dismiss();
                     }
-                }, 8000);
+                }, 10000);
             }
         }
     };

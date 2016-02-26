@@ -13,7 +13,6 @@
     <string name="navigation_drawer_about">About Basmach</string>
     <string name="offline_snackbar_network_unavailable">No internet connection</string>
     <string name="offline_snackbar_retry">Retry</string>
-    <string name="offline_snackbar_connection_established">Connection established</string>
     <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
 	<string name="permission_contacts_access">To show profile details from your Google+ account, allow Marshal access your contacts. Tap Settings > Permissions, and turn Contacts on.</string>
     <string name="permission_calendar_access_for_meetups">To create calendar events for Meetups, allow Marshal access your calendar.</string>
