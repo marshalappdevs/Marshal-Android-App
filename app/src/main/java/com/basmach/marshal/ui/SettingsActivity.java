@@ -43,10 +43,6 @@ public class SettingsActivity extends AppCompatActivity {
         updateLocale();
         setContentView(R.layout.activity_container);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimaryDark));
-        }
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 

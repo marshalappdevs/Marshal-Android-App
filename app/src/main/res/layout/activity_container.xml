@@ -1,31 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<android.support.v4.widget.DrawerLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="locale"
-    android:orientation="vertical">
+    android:fitsSystemWindows="true">
 
-   <android.support.design.widget.AppBarLayout
-       android:layout_width="match_parent"
-       android:layout_height="wrap_content"
-       android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
-
-       <android.support.v7.widget.Toolbar
-           android:id="@+id/toolbar"
-           android:layout_width="match_parent"
-           android:layout_height="@dimen/toolbar_height"
-           android:minHeight="@dimen/toolbar_height"
-           android:background="?attr/colorPrimary"
-           app:theme="@style/AppTheme.Toolbar"
-           app:popupTheme="?attr/customPopupTheme"
-           app:titleTextAppearance="@style/titleTextAppearance" />
-
-   </android.support.design.widget.AppBarLayout>
-
-    <FrameLayout
-        android:id="@+id/container"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent"
+        android:orientation="vertical">
 
-</LinearLayout>
+        <android.support.design.widget.AppBarLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
+
+        <android.support.v7.widget.Toolbar
+            android:id="@+id/toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/toolbar_height"
+            android:minHeight="@dimen/toolbar_height"
+            android:background="?attr/colorPrimary"
+            app:theme="@style/AppTheme.Toolbar"
+            app:popupTheme="?attr/customPopupTheme"
+            app:titleTextAppearance="@style/titleTextAppearance" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <FrameLayout
+            android:id="@+id/container"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </LinearLayout>
+
+</android.support.v4.widget.DrawerLayout>
