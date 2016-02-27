@@ -8,6 +8,25 @@
     tools:context=".ui.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
+    <RelativeLayout android:layout_height="200dp"
+        android:layout_width="match_parent"
+        android:id="@+id/catalog_preview">
+
+        <android.support.v4.view.ViewPager
+            android:id="@+id/main_catalog_images_viewPager"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_alignParentTop="true"/>
+
+        <com.pixelcan.inkpageindicator.InkPageIndicator
+            android:id="@+id/main_catalog_images_indicator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="20dp" />
+
+    </RelativeLayout>
+
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"

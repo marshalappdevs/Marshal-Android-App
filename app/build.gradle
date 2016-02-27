@@ -40,4 +40,5 @@ dependencies {
     compile 'com.android.support:customtabs:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
+    compile 'com.pacioianu.david:ink-page-indicator:1.1.1'
 }

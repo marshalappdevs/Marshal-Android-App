@@ -26,6 +26,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.view.View;
@@ -38,6 +39,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -49,10 +51,12 @@ import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.PermissionUtil;
+import com.basmach.marshal.ui.utils.CatalogImagesPagerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
@@ -119,6 +123,13 @@ public class MainActivity extends AppCompatActivity
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.main_catalog_images_viewPager);
+        CatalogImagesPagerAdapter adapter = new CatalogImagesPagerAdapter(MainActivity.this);
+        mViewPager.setAdapter(adapter);
+
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_images_indicator);
+        inkPageIndicator.setViewPager(mViewPager);
     }
 
     @Override
@@ -507,10 +518,12 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_preview);
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
+            relativeLayout.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
@@ -549,6 +562,7 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
+        if (id != R.id.nav_courses) relativeLayout.setVisibility(View.INVISIBLE);
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
