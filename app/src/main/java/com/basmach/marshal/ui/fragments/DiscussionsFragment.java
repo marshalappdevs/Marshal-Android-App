@@ -7,7 +7,6 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.RelativeLayout;
 
 import com.basmach.marshal.R;
 
@@ -30,8 +29,6 @@ public class DiscussionsFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        RelativeLayout relativeLayout = (RelativeLayout) getActivity().findViewById(R.id.catalog_preview);
-        relativeLayout.setVisibility(View.INVISIBLE);
         return inflater.inflate(R.layout.fragment_discussions, container, false);
     }
 

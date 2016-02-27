@@ -42,6 +42,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -531,13 +532,16 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_preview);
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
+            relativeLayout.setVisibility(View.VISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
@@ -545,12 +549,15 @@ public class MainActivity extends AppCompatActivity
                 requestCalendarPermission();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
+            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
+            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
