@@ -11,8 +11,10 @@ public class CatalogImagesPagerAdapter extends PagerAdapter {
     Context context;
     private int[] AllImages = new int[] {
             R.drawable.cyber,
+            R.drawable.java,
             R.drawable.ux,
-            R.drawable.it
+            R.drawable.cloud,
+            R.drawable.photoshop
     };
 
     public CatalogImagesPagerAdapter(Context context){
