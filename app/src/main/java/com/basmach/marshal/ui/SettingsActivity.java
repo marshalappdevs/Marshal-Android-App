@@ -89,8 +89,7 @@ public class SettingsActivity extends AppCompatActivity {
         Configuration config = getBaseContext().getResources().getConfiguration();
         String lang = mSharedPreferences.getString("LANG", "iw");
         if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            Locale locale;
-            locale = new Locale(lang);
+            Locale locale = new Locale(lang);
             config.setLocale(locale);
             Locale.setDefault(locale);
             getBaseContext().getResources().updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
