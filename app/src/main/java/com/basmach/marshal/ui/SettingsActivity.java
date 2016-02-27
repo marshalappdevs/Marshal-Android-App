@@ -17,6 +17,7 @@ import android.preference.RingtonePreference;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -71,8 +72,17 @@ public class SettingsActivity extends AppCompatActivity {
 
     private void updateTheme() {
         String theme = mSharedPreferences.getString("THEME", "light");
-        if (theme.equals("light")) setTheme(R.style.AppTheme_Light);
-        if (theme.equals("dark")) setTheme(R.style.AppTheme_Dark);
+        if (theme.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        if (theme.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if (theme.equals("auto")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        }
+        getDelegate().applyDayNight();
+        setTheme(R.style.AppTheme);
     }
 
     private void updateLocale() {
@@ -193,6 +203,12 @@ public class SettingsActivity extends AppCompatActivity {
                     case "dark":
                         if (!Objects.equals(prefLanguage.getValue(), "dark")) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "dark").apply();
+                            restartApp();
+                        }
+                        break;
+                    case "auto":
+                        if (!Objects.equals(prefLanguage.getValue(), "auto")) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "auto").apply();
                             restartApp();
                         }
                         break;

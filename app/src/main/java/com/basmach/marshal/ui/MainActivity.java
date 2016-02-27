@@ -28,6 +28,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -188,8 +189,17 @@ public class MainActivity extends AppCompatActivity
 
     private void updateTheme() {
         String theme = mSharedPreferences.getString("THEME", "light");
-        if (theme.equals("light")) setTheme(R.style.AppTheme_Light);
-        if (theme.equals("dark")) setTheme(R.style.AppTheme_Dark);
+        if (theme.equals("light")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+        }
+        if (theme.equals("dark")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        if (theme.equals("auto")) {
+            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        }
+        getDelegate().applyDayNight();
+        setTheme(R.style.AppTheme);
     }
 
     private void updateLocale() {
@@ -518,12 +528,10 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_preview);
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
-            relativeLayout.setVisibility(View.VISIBLE);
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
@@ -562,7 +570,6 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
-        if (id != R.id.nav_courses) relativeLayout.setVisibility(View.INVISIBLE);
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

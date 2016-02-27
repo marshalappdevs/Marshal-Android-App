@@ -34,6 +34,7 @@
     <string name="night_mode_title">Theme</string>
     <string name="night_mode_no">Light</string>
     <string name="night_mode_yes">Dark</string>
+    <string name="night_mode_auto">Automatic</string>
     <string name="pref_notifications_category">Notifications</string>
     <string name="pref_new_course_notifications_title">New course available</string>
     <string name="pref_new_course_notifications_summary">Notify when a new course is available</string>
@@ -54,9 +55,11 @@
     <string-array name="night_mode_entries" translatable="false">
         <item>@string/night_mode_no</item>
         <item>@string/night_mode_yes</item>
+        <item>@string/night_mode_auto</item>
     </string-array>
     <string-array name="night_mode_values" translatable="false">
         <item>light</item>
         <item>dark</item>
+        <item>auto</item>
     </string-array>
 </resources>
