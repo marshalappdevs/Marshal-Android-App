@@ -36,7 +36,7 @@ public class CatalogImagesPagerAdapter extends PagerAdapter {
         ImageView imageView = new ImageView(context);
 //        int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
 //        imageView.setPadding(padding, padding, padding, padding);
-        imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageResource(AllImages[position]);
         container.addView(imageView, 0);
         return imageView;
