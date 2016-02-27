@@ -85,9 +85,9 @@ public class MainActivity extends AppCompatActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         updateTheme();
         super.onCreate(savedInstanceState);
+        updateLocale();
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
-        updateLocale();
         setContentView(R.layout.activity_main);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
