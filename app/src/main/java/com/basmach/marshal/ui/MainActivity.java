@@ -57,13 +57,13 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.PermissionUtil;
 import com.basmach.marshal.ui.utils.CatalogImagesPagerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.pixelcan.inkpageindicator.InkPageIndicator;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
