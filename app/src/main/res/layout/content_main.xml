@@ -13,13 +13,13 @@
         android:id="@+id/catalog_preview">
 
         <android.support.v4.view.ViewPager
-            android:id="@+id/main_catalog_images_viewPager"
+            android:id="@+id/main_catalog_view_pager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_alignParentTop="true"/>
 
         <com.basmach.marshal.ui.utils.InkPageIndicator
-            android:id="@+id/main_catalog_images_indicator"
+            android:id="@+id/main_catalog_indicator"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"

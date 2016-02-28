@@ -57,9 +57,9 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.ui.utils.ViewPagerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.PermissionUtil;
-import com.basmach.marshal.ui.utils.CatalogImagesPagerAdapter;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
@@ -67,6 +67,7 @@ import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -85,6 +86,7 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
+    public ArrayList<String> IMAGES;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,11 +132,18 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.main_catalog_images_viewPager);
-        CatalogImagesPagerAdapter adapter = new CatalogImagesPagerAdapter(MainActivity.this);
+        IMAGES = new ArrayList<>();
+        IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
+        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
+        IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
+        IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
+        IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
+
+        ViewPager mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
         mViewPager.setAdapter(adapter);
 
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_images_indicator);
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
         inkPageIndicator.setViewPager(mViewPager);
     }
 
