@@ -28,14 +28,12 @@ public class CatalogImagesPagerAdapter extends PagerAdapter {
 
     @Override
     public boolean isViewFromObject(View view, Object object) {
-        return view == ((ImageView) object);
+        return view == object;
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
-//        int padding = context.getResources().getDimensionPixelSize(R.dimen.padding_medium);
-//        imageView.setPadding(padding, padding, padding, padding);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         imageView.setImageResource(AllImages[position]);
         container.addView(imageView, 0);
