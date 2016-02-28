@@ -36,6 +36,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -69,6 +70,8 @@ import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements CoursesFragment.OnFragmentInteractionListener, DiscussionsFragment.OnFragmentInteractionListener, MalshabFragment.OnFragmentInteractionListener, MaterialsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener,
@@ -87,6 +90,10 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     public ArrayList<String> IMAGES;
+    private ViewPager mViewPager;
+    private TimerTask mTimerTask;
+    private Timer mTimer;
+    Handler mTimerTaskHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -139,12 +146,67 @@ public class MainActivity extends AppCompatActivity
         IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
         IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
 
-        ViewPager mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
+        mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
         mViewPager.setAdapter(adapter);
+        stopTimerOnTouch();
 
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
         inkPageIndicator.setViewPager(mViewPager);
+    }
+
+    private void stopTimerOnTouch() {
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                stopImagesTimerTask();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mTimer != null) {
+                            mTimer.cancel();
+                            mTimer = null;
+                        }
+                        startImagesTimer();
+                    }
+                }, 2000);
+                return false;
+            }
+        });
+    }
+
+    private void stopImagesTimerTask() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
+
+    private void startImagesTimer() {
+        // Set a new timer
+        mTimer = new Timer();
+        // Initialize the TimerTask's job
+        initializeImagesTimerTask();
+        // Schedule the timer, after the first 5000ms the TimerTask will run every 5000ms
+        mTimer.schedule(mTimerTask, 5000, 5000);
+    }
+
+    private void initializeImagesTimerTask() {
+        mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                mTimerTaskHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mViewPager.getCurrentItem() < mViewPager.getAdapter().getCount() - 1) {
+                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                        } else {
+                            mViewPager.setCurrentItem(0);
+                        }
+                    }
+                });
+            }
+        };
     }
 
     @Override
@@ -157,12 +219,16 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerInternetCheckReceiver();
+        // onResume we start our timer so it can start when the app comes from the background
+        startImagesTimer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+        // Stop the timer, if it's not already null
+        stopImagesTimerTask();
     }
 
     private void registerInternetCheckReceiver() {
