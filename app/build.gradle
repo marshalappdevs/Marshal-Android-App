@@ -35,10 +35,9 @@ dependencies {
     testCompile 'junit:junit:4.12'
     compile files('libs/YouTubeAndroidPlayerApi.jar')
     compile 'com.google.android.gms:play-services-plus:8.4.0'
-    compile 'com.squareup.picasso:picasso:2.5.2'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
     compile 'com.android.support:customtabs:23.2.0'
     compile 'com.android.support:appcompat-v7:23.2.0'
     compile 'com.android.support:design:23.2.0'
+    compile 'com.squareup.picasso:picasso:2.5.2'
     compile 'com.pacioianu.david:ink-page-indicator:1.1.1'
 }

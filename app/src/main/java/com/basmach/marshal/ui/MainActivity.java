@@ -11,7 +11,9 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -26,6 +28,8 @@ import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
@@ -60,11 +64,10 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.pixelcan.inkpageindicator.InkPageIndicator;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
-
-import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements CoursesFragment.OnFragmentInteractionListener, DiscussionsFragment.OnFragmentInteractionListener, MalshabFragment.OnFragmentInteractionListener, MaterialsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener,
@@ -405,7 +408,19 @@ public class MainActivity extends AppCompatActivity
                 String portrait = user.getImage().getUrl();
                 Picasso.with(this)
                         .load(portrait.split("\\?")[0])
-                        .into((CircleImageView) findViewById(R.id.profile_image));
+                        .into((ImageView) findViewById(R.id.profile_image), new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                ImageView imageView = (ImageView) findViewById(R.id.profile_image);
+                                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                                RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                                rounded.setCornerRadius(bitmap.getWidth());
+                                imageView.setImageDrawable(rounded);
+                            }
+                            @Override
+                            public void onError() {
+                            }
+                        });
             }
 
             if (user.getCover() != null) {
