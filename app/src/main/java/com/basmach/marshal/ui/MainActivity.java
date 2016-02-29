@@ -149,7 +149,6 @@ public class MainActivity extends AppCompatActivity
         mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
         mViewPager.setAdapter(adapter);
-        stopTimerOnTouch();
 
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
         inkPageIndicator.setViewPager(mViewPager);
@@ -625,6 +624,7 @@ public class MainActivity extends AppCompatActivity
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             relativeLayout.setVisibility(View.VISIBLE);
             startImagesTimer();
+            stopTimerOnTouch();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
