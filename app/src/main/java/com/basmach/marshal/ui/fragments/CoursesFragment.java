@@ -12,7 +12,10 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.ui.utils.InkPageIndicator;
+import com.basmach.marshal.ui.utils.ViewPagerAdapter;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -27,6 +30,7 @@ public class CoursesFragment extends Fragment {
     private TimerTask mTimerTask;
     private Timer mTimer;
     Handler mTimerTaskHandler = new Handler();
+    public ArrayList<String> IMAGES;
 
     private OnFragmentInteractionListener mListener;
 
@@ -34,14 +38,27 @@ public class CoursesFragment extends Fragment {
         // Required empty public constructor
     }
 
-
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
+        IMAGES = new ArrayList<>();
+        IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
+        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
+        IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
+        IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
+        IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
+
         mViewPager = (ViewPager) getActivity().findViewById(R.id.main_catalog_view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity(), IMAGES);
+        mViewPager.setAdapter(adapter);
+
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) getActivity().findViewById(R.id.main_catalog_indicator);
+        inkPageIndicator.setViewPager(mViewPager);
+
         startImagesTimer();
         stopTimerOnTouch();
+
+        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_courses, container, false);
     }
 
@@ -120,6 +137,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
+        stopImagesTimerTask();
         mListener = null;
     }
 
