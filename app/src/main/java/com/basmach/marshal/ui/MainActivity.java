@@ -618,7 +618,7 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_preview);
+        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_highlights);
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
