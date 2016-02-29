@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.content.res.Configuration;
@@ -56,8 +55,16 @@ import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.PermissionUtil;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
+import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Callback;
@@ -66,14 +73,13 @@ import com.squareup.picasso.Picasso;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private static final int REQUEST_CONTACTS = 0;
     private static final int REQUEST_CALENDAR = 1;
     private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
             Manifest.permission.WRITE_CALENDAR};
-    private static final int REQUEST_RESOLVE_ERROR = 1001;
+    private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
-    private boolean mResolvingError = false;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -340,111 +346,103 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeGoogleApiClient() {
-        mGoogleApiClient = buildGoogleApiClient();
-        mGoogleApiClient.connect();
-    }
-
-    public GoogleApiClient buildGoogleApiClient() {
-        return new GoogleApiClient.Builder(this)
-                .addConnectionCallbacks(this)
-                .addOnConnectionFailedListener(this)
-                .addApi(Plus.API)
-                .addScope(Plus.SCOPE_PLUS_LOGIN)
+        // Configure sign-in to request the user's ID, email address, and basic
+        // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestProfile().requestEmail().requestScopes(Plus.SCOPE_PLUS_LOGIN, Plus.SCOPE_PLUS_PROFILE, new Scope("https://www.googleapis.com/auth/plus.profile.emails.read"))
                 .build();
+        // Build a GoogleApiClient with access to the Google Sign-In API and the
+        // options specified by gso.
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .enableAutoManage(this, this)
+                .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
+                .addApi(Plus.API)
+                .build();
+        signIn();
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
-        if (mResolvingError) {
-            return;
-        } else if (result.hasResolution()) {
-            try {
-                mResolvingError = true;
-                result.startResolutionForResult(this, REQUEST_RESOLVE_ERROR);
-            } catch (IntentSender.SendIntentException e) {
-                mGoogleApiClient.connect();
-            }
-        } else {
-            mResolvingError = true;
-        }
-    }
-
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (requestCode == REQUEST_RESOLVE_ERROR) {
-            mResolvingError = false;
-            if (resultCode == RESULT_OK) {
-                if (!mGoogleApiClient.isConnecting() && !mGoogleApiClient.isConnected()) {
-                    mGoogleApiClient.connect();
-                }
-            }
-        }
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-    }
 
-    @Override
-    public void onConnectionSuspended(int cause) {
-        if (mGoogleApiClient != null) {
-            mGoogleApiClient.connect();
+        // Result returned from launching the Intent from GoogleSignInApi.getSignInIntent(...);
+        if (requestCode == RC_SIGN_IN) {
+            GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
+            handleSignInResult(result);
         }
     }
 
-    @Override
-    public void onConnected(Bundle bundle) {
-        Person user = Plus.PeopleApi.getCurrentPerson(mGoogleApiClient);
-        if (user != null) {
-            if (user.getImage().hasUrl()) {
-                String portrait = user.getImage().getUrl();
-                Picasso.with(this)
-                        .load(portrait.split("\\?")[0])
-                        .into((ImageView) findViewById(R.id.profile_image), new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                ImageView imageView = (ImageView) findViewById(R.id.profile_image);
-                                Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                                RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                                rounded.setCornerRadius(bitmap.getWidth());
-                                imageView.setImageDrawable(rounded);
-                            }
-                            @Override
-                            public void onError() {
-                            }
-                        });
-            }
+    private void handleSignInResult(GoogleSignInResult result) {
+        if (result.isSuccess()) {
+            // Signed in successfully, show authenticated UI.
+            GoogleSignInAccount acct = result.getSignInAccount();
 
-            if (user.getCover() != null) {
-                Picasso.with(this)
-                        .load(user.getCover().getCoverPhoto().getUrl())
-                        .into((ImageView) findViewById(R.id.banner_image));
-            } else {
-                Picasso.with(this)
-                        .load(R.drawable.bg_empty_profile_art)
-                        .into((ImageView) findViewById(R.id.banner_image));
-            }
+            assert acct != null;
+            Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                @Override
+                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
+                    Person person = loadPeopleResult.getPersonBuffer().get(0);
+
+                    if (person.getImage().hasUrl()) {
+                        String portrait = person.getImage().getUrl();
+                        Picasso.with(MainActivity.this)
+                                .load(portrait.split("\\?")[0])
+                                .into((ImageView) findViewById(R.id.profile_image), new Callback() {
+                                    @Override
+                                    public void onSuccess() {
+                                        ImageView imageView = (ImageView) findViewById(R.id.profile_image);
+                                        Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+                                        RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                                        rounded.setCornerRadius(bitmap.getWidth());
+                                        imageView.setImageDrawable(rounded);
+                                    }
+
+                                    @Override
+                                    public void onError() {
+                                    }
+                                });
+                    }
+
+                    if (person.getCover() != null) {
+                        Picasso.with(MainActivity.this)
+                                .load(person.getCover().getCoverPhoto().getUrl())
+                                .into((ImageView) findViewById(R.id.banner_image));
+                    } else {
+                        Picasso.with(MainActivity.this)
+                                .load(R.drawable.bg_empty_profile_art)
+                                .into((ImageView) findViewById(R.id.banner_image));
+
+                    }
+                }
+            });
+            TextView tvName = (TextView) findViewById(R.id.profile_name);
+            if (tvName != null)
+                tvName.setText(acct.getDisplayName());
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
             if (tvMail != null)
-                tvMail.setText(Plus.AccountApi.getAccountName(mGoogleApiClient));
-
-            Person.Name userName = user.getName();
-            ((TextView) findViewById(R.id.profile_name))
-                    .setText(String.format("%s %s", userName.getGivenName(), userName.getFamilyName()));
+                tvMail.setText(acct.getEmail());
         }
     }
 
     @Override
-    protected void onStart() {
-        super.onStart();
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-        if (mGoogleApiClient != null) {
-            if (mGoogleApiClient.isConnected()) {
-                mGoogleApiClient.disconnect();
-            }
-        }
+    public void onConnectionFailed(ConnectionResult connectionResult) {
     }
 
     long lastPress;
@@ -476,14 +474,13 @@ public class MainActivity extends AppCompatActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             requestContactsPermission();
         } else {
-            if (mGoogleApiClient != null) {
-                if (mGoogleApiClient.isConnected()) {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                    mGoogleApiClient.clearDefaultAccountAndReconnect();
-                } else {
-                    mDrawerLayout.closeDrawer(GravityCompat.START);
-                    mGoogleApiClient.connect();
-                }
+            if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                signOut();
+                signIn();
+            } else {
+                mDrawerLayout.closeDrawer(GravityCompat.START);
+                signIn();
             }
         }
     }
