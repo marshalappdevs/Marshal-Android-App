@@ -105,6 +105,8 @@ public class MainActivity extends AppCompatActivity
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
 
+        mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
+
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -146,40 +148,11 @@ public class MainActivity extends AppCompatActivity
         IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
         IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
 
-        mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
         ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
         mViewPager.setAdapter(adapter);
-        stopTimerOnTouch();
 
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
         inkPageIndicator.setViewPager(mViewPager);
-    }
-
-    private void stopTimerOnTouch() {
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                stopImagesTimerTask();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer = null;
-                        }
-                        startImagesTimer();
-                    }
-                }, 2000);
-                return false;
-            }
-        });
-    }
-
-    private void stopImagesTimerTask() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
     }
 
     private void startImagesTimer() {
@@ -207,6 +180,33 @@ public class MainActivity extends AppCompatActivity
                 });
             }
         };
+    }
+
+    private void stopImagesTimerTask() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
+
+    private void stopTimerOnTouch() {
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                stopImagesTimerTask();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mTimer != null) {
+                            mTimer.cancel();
+                            mTimer = null;
+                        }
+                        startImagesTimer();
+                    }
+                }, 2000);
+                return false;
+            }
+        });
     }
 
     @Override
@@ -625,6 +625,7 @@ public class MainActivity extends AppCompatActivity
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             relativeLayout.setVisibility(View.VISIBLE);
             startImagesTimer();
+            stopTimerOnTouch();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
