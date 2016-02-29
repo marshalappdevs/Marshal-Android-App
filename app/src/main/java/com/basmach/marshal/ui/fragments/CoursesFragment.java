@@ -30,7 +30,7 @@ public class CoursesFragment extends Fragment {
     private ViewPager mViewPager;
     private TimerTask mTimerTask;
     private Timer mTimer;
-    Handler mTimerTaskHandler = new Handler();
+    private Handler mTimerTaskHandler = new Handler();
 
     private OnFragmentInteractionListener mListener;
 
@@ -59,22 +59,14 @@ public class CoursesFragment extends Fragment {
         InkPageIndicator inkPageIndicator = (InkPageIndicator) rootView.findViewById(R.id.main_catalog_indicator);
         inkPageIndicator.setViewPager(mViewPager);
 
-        startImagesTimer();
-        stopTimerOnTouch();
+        startViewPagerTimer();
+        stopViewPagerTimerOnTouch();
 
         return rootView;
     }
 
-    private void startImagesTimer() {
-        // Set a new timer
+    private void startViewPagerTimer() {
         mTimer = new Timer();
-        // Initialize the TimerTask's job
-        initializeImagesTimerTask();
-        // Schedule the timer, after the first 5000ms the TimerTask will run every 5000ms
-        mTimer.schedule(mTimerTask, 5000, 5000);
-    }
-
-    private void initializeImagesTimerTask() {
         mTimerTask = new TimerTask() {
             @Override
             public void run() {
@@ -90,13 +82,17 @@ public class CoursesFragment extends Fragment {
                 });
             }
         };
+        mTimer.schedule(mTimerTask, 5000, 5000);
     }
 
-    private void stopTimerOnTouch() {
+    private void stopViewPagerTimerOnTouch() {
         mViewPager.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
-                stopImagesTimerTask();
+                if (mTimer != null) {
+                    mTimer.cancel();
+                    mTimer = null;
+                }
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
@@ -104,19 +100,12 @@ public class CoursesFragment extends Fragment {
                             mTimer.cancel();
                             mTimer = null;
                         }
-                        startImagesTimer();
+                        startViewPagerTimer();
                     }
                 }, 2000);
                 return false;
             }
         });
-    }
-
-    private void stopImagesTimerTask() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
     }
 
     // TODO: Rename method, update argument and hook method into UI event
