@@ -31,7 +31,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.MenuItemCompat;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
@@ -46,7 +45,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -68,8 +66,7 @@ import com.squareup.picasso.Picasso;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
-        implements CoursesFragment.OnFragmentInteractionListener, DiscussionsFragment.OnFragmentInteractionListener, MalshabFragment.OnFragmentInteractionListener, MaterialsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener,
-        NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
+        implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
     private static final int REQUEST_CONTACTS = 0;
     private static final int REQUEST_CALENDAR = 1;
     private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
@@ -527,10 +524,6 @@ public class MainActivity extends AppCompatActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
-    }
-
-    public void onFragmentInteraction(Uri uri){
-        //you can leave it empty
     }
 
     @SuppressWarnings("StatementWithEmptyBody")
