@@ -404,8 +404,7 @@ public class MainActivity extends AppCompatActivity
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            assert acct != null;
-            Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+            Plus.PeopleApi.load(mGoogleApiClient, acct != null ? acct.getId() : null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                 @Override
                 public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
                     Person person = loadPeopleResult.getPersonBuffer().get(0);
