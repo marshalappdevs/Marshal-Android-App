@@ -31,10 +31,12 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
+import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -56,6 +58,8 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.ui.utils.ViewPagerAdapter;
+import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.PermissionUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -64,7 +68,10 @@ import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.Locale;
+import java.util.Timer;
+import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements CoursesFragment.OnFragmentInteractionListener, DiscussionsFragment.OnFragmentInteractionListener, MalshabFragment.OnFragmentInteractionListener, MaterialsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener,
@@ -82,6 +89,11 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
+    public ArrayList<String> IMAGES;
+    private ViewPager mViewPager;
+    private TimerTask mTimerTask;
+    private Timer mTimer;
+    Handler mTimerTaskHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -127,6 +139,74 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
+        IMAGES = new ArrayList<>();
+        IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
+        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
+        IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
+        IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
+        IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
+
+        mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
+        ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
+        mViewPager.setAdapter(adapter);
+        stopTimerOnTouch();
+
+        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
+        inkPageIndicator.setViewPager(mViewPager);
+    }
+
+    private void stopTimerOnTouch() {
+        mViewPager.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                stopImagesTimerTask();
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mTimer != null) {
+                            mTimer.cancel();
+                            mTimer = null;
+                        }
+                        startImagesTimer();
+                    }
+                }, 2000);
+                return false;
+            }
+        });
+    }
+
+    private void stopImagesTimerTask() {
+        if (mTimer != null) {
+            mTimer.cancel();
+            mTimer = null;
+        }
+    }
+
+    private void startImagesTimer() {
+        // Set a new timer
+        mTimer = new Timer();
+        // Initialize the TimerTask's job
+        initializeImagesTimerTask();
+        // Schedule the timer, after the first 5000ms the TimerTask will run every 5000ms
+        mTimer.schedule(mTimerTask, 5000, 5000);
+    }
+
+    private void initializeImagesTimerTask() {
+        mTimerTask = new TimerTask() {
+            @Override
+            public void run() {
+                mTimerTaskHandler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        if (mViewPager.getCurrentItem() < mViewPager.getAdapter().getCount() - 1) {
+                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
+                        } else {
+                            mViewPager.setCurrentItem(0);
+                        }
+                    }
+                });
+            }
+        };
     }
 
     @Override
@@ -139,7 +219,7 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerInternetCheckReceiver();
-        }
+    }
 
     @Override
     protected void onPause() {
@@ -541,9 +621,10 @@ public class MainActivity extends AppCompatActivity
         RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_highlights);
 
         if (id == R.id.nav_courses) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment(), "Courses").commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             relativeLayout.setVisibility(View.VISIBLE);
+            startImagesTimer();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
@@ -587,6 +668,7 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
+        if (id != R.id.nav_courses) stopImagesTimerTask();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

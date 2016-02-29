@@ -26,10 +26,6 @@ import java.util.TimerTask;
  * to handle interaction events.
  */
 public class CoursesFragment extends Fragment {
-    private ViewPager mViewPager;
-    private TimerTask mTimerTask;
-    private Timer mTimer;
-    Handler mTimerTaskHandler = new Handler();
     public ArrayList<String> IMAGES;
 
     private OnFragmentInteractionListener mListener;
@@ -41,80 +37,14 @@ public class CoursesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        IMAGES = new ArrayList<>();
-        IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
-        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
-        IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
-        IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
-        IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
-
-        mViewPager = (ViewPager) getActivity().findViewById(R.id.main_catalog_view_pager);
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity(), IMAGES);
-        mViewPager.setAdapter(adapter);
-
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) getActivity().findViewById(R.id.main_catalog_indicator);
-        inkPageIndicator.setViewPager(mViewPager);
-
-        startImagesTimer();
-        stopTimerOnTouch();
-
         // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_courses, container, false);
     }
 
-    public void stopTimerOnTouch() {
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                stopImagesTimerTask();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer = null;
-                        }
-                        startImagesTimer();
-                    }
-                }, 2000);
-                return false;
-            }
-        });
-    }
-
-    public void stopImagesTimerTask() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
-    }
-
-    public void startImagesTimer() {
-        // Set a new timer
-        mTimer = new Timer();
-        // Initialize the TimerTask's job
-        initializeImagesTimerTask();
-        // Schedule the timer, after the first 5000ms the TimerTask will run every 5000ms
-        mTimer.schedule(mTimerTask, 5000, 5000);
-    }
-
-    private void initializeImagesTimerTask() {
-        mTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                mTimerTaskHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mViewPager.getCurrentItem() < mViewPager.getAdapter().getCount() - 1) {
-                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                        } else {
-                            mViewPager.setCurrentItem(0);
-                        }
-                    }
-                });
-            }
-        };
-    }
+//    @Override
+//    public void onResume() {
+//        super.onResume();
+//    }
 
     // TODO: Rename method, update argument and hook method into UI event
     public void onButtonPressed(Uri uri) {
@@ -137,7 +67,6 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        stopImagesTimerTask();
         mListener = null;
     }
 
