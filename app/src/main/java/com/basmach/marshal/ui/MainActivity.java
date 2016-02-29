@@ -219,16 +219,12 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerInternetCheckReceiver();
-        // onResume we start our timer so it can start when the app comes from the background
-        startImagesTimer();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
-        // Stop the timer, if it's not already null
-        stopImagesTimerTask();
     }
 
     private void registerInternetCheckReceiver() {
@@ -628,6 +624,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             relativeLayout.setVisibility(View.VISIBLE);
+            startImagesTimer();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
@@ -671,6 +668,7 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
+        if (id != R.id.nav_courses) stopImagesTimerTask();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
