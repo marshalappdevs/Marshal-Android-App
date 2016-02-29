@@ -36,7 +36,6 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -58,8 +57,6 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
-import com.basmach.marshal.ui.utils.ViewPagerAdapter;
-import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.PermissionUtil;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -68,10 +65,7 @@ import com.google.android.gms.plus.model.people.Person;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import java.util.ArrayList;
 import java.util.Locale;
-import java.util.Timer;
-import java.util.TimerTask;
 
 public class MainActivity extends AppCompatActivity
         implements CoursesFragment.OnFragmentInteractionListener, DiscussionsFragment.OnFragmentInteractionListener, MalshabFragment.OnFragmentInteractionListener, MaterialsFragment.OnFragmentInteractionListener, MeetupsFragment.OnFragmentInteractionListener,
@@ -89,11 +83,6 @@ public class MainActivity extends AppCompatActivity
     private NavigationView mNavigationView;
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
-    public ArrayList<String> IMAGES;
-    private ViewPager mViewPager;
-    private TimerTask mTimerTask;
-    private Timer mTimer;
-    Handler mTimerTaskHandler = new Handler();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -104,8 +93,6 @@ public class MainActivity extends AppCompatActivity
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         setContentView(R.layout.activity_main);
-
-        mViewPager = (ViewPager) findViewById(R.id.main_catalog_view_pager);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -141,72 +128,6 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        IMAGES = new ArrayList<>();
-        IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
-        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
-        IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
-        IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
-        IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
-
-        ViewPagerAdapter adapter = new ViewPagerAdapter(MainActivity.this, IMAGES);
-        mViewPager.setAdapter(adapter);
-
-        InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.main_catalog_indicator);
-        inkPageIndicator.setViewPager(mViewPager);
-    }
-
-    private void startImagesTimer() {
-        // Set a new timer
-        mTimer = new Timer();
-        // Initialize the TimerTask's job
-        initializeImagesTimerTask();
-        // Schedule the timer, after the first 5000ms the TimerTask will run every 5000ms
-        mTimer.schedule(mTimerTask, 5000, 5000);
-    }
-
-    private void initializeImagesTimerTask() {
-        mTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                mTimerTaskHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mViewPager.getCurrentItem() < mViewPager.getAdapter().getCount() - 1) {
-                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                        } else {
-                            mViewPager.setCurrentItem(0);
-                        }
-                    }
-                });
-            }
-        };
-    }
-
-    private void stopImagesTimerTask() {
-        if (mTimer != null) {
-            mTimer.cancel();
-            mTimer = null;
-        }
-    }
-
-    private void stopTimerOnTouch() {
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                stopImagesTimerTask();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer = null;
-                        }
-                        startImagesTimer();
-                    }
-                }, 2000);
-                return false;
-            }
-        });
     }
 
     @Override
@@ -618,18 +539,13 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
-        RelativeLayout relativeLayout = (RelativeLayout) findViewById(R.id.catalog_highlights);
 
         if (id == R.id.nav_courses) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
-            relativeLayout.setVisibility(View.VISIBLE);
-            startImagesTimer();
-            stopTimerOnTouch();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
-            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
@@ -637,15 +553,12 @@ public class MainActivity extends AppCompatActivity
                 requestCalendarPermission();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
-            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
-            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
-            relativeLayout.setVisibility(View.INVISIBLE);
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
@@ -669,7 +582,6 @@ public class MainActivity extends AppCompatActivity
             customTabsIntent.launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
-        if (id != R.id.nav_courses) stopImagesTimerTask();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }

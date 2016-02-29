@@ -8,25 +8,6 @@
     tools:context=".ui.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
-    <RelativeLayout android:layout_height="200dp"
-        android:layout_width="match_parent"
-        android:id="@+id/catalog_highlights">
-
-        <android.support.v4.view.ViewPager
-            android:id="@+id/main_catalog_view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_alignParentTop="true"/>
-
-        <com.basmach.marshal.ui.utils.InkPageIndicator
-            android:id="@+id/main_catalog_indicator"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_alignParentBottom="true"
-            android:layout_marginBottom="10dp" />
-
-    </RelativeLayout>
-
     <FrameLayout
         android:id="@+id/content_frame"
         android:layout_width="match_parent"
