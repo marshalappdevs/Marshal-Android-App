@@ -100,10 +100,6 @@ public class CoursesFragment extends Fragment {
                 new Handler().postDelayed(new Runnable() {
                     @Override
                     public void run() {
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer = null;
-                        }
                         startImagesTimer();
                     }
                 }, 2000);
