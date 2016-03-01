@@ -70,7 +70,6 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
-import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -382,7 +381,7 @@ public class MainActivity extends AppCompatActivity
                 showProgressDialog();
                 opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                     @Override
-                    public void onResult(GoogleSignInResult googleSignInResult) {
+                    public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
                         hideProgressDialog();
                         handleSignInResult(googleSignInResult);
                     }
@@ -407,13 +406,12 @@ public class MainActivity extends AppCompatActivity
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
 
-            Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+            Plus.PeopleApi.load(mGoogleApiClient, acct != null ? acct.getId() : null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                 @Override
                 public void onResult(@NonNull People.LoadPeopleResult peopleData) {
                     if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                        PersonBuffer personBuffer = peopleData.getPersonBuffer();
-                        Person person = personBuffer.get(0);
-                        personBuffer.release();
+                        Person person = peopleData.getPersonBuffer().get(0);
+                        peopleData.release();
                         if (person.getImage().hasUrl()) {
                             String portrait = person.getImage().getUrl();
                             Picasso.with(MainActivity.this)
@@ -447,10 +445,10 @@ public class MainActivity extends AppCompatActivity
                 }
             });
             TextView tvName = (TextView) findViewById(R.id.profile_name);
-            if (tvName !=null) tvName.setText(acct.getDisplayName());
+            if (tvName !=null && acct != null) tvName.setText(acct.getDisplayName());
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
-            if (tvMail !=null) tvMail.setText(acct.getEmail());
+            if (tvMail !=null && acct != null) tvMail.setText(acct.getEmail());
         }
     }
 
@@ -463,7 +461,7 @@ public class MainActivity extends AppCompatActivity
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
-                    public void onResult(Status status) {
+                    public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
                         // [END_EXCLUDE]
                     }
@@ -471,7 +469,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult connectionResult) {
+    public void onConnectionFailed(@NonNull ConnectionResult connectionResult) {
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
 //        Log.d(TAG, "onConnectionFailed:" + connectionResult);
