@@ -395,9 +395,9 @@ public class MainActivity extends AppCompatActivity
 
             Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                 @Override
-                public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
-                    if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                        Person person = loadPeopleResult.getPersonBuffer().get(0);
+                public void onResult(@NonNull People.LoadPeopleResult peopleData) {
+                    if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                        Person person = peopleData.getPersonBuffer().get(0);
                         try {
                         if (person.getImage().hasUrl()) {
                             String portrait = person.getImage().getUrl();
@@ -426,7 +426,7 @@ public class MainActivity extends AppCompatActivity
                                     .load(R.drawable.bg_empty_profile_art)
                                     .into((ImageView) findViewById(R.id.banner_image));
                         }} finally {
-                                loadPeopleResult.release();
+                            peopleData.release();
                         }
                     } else {
 //                        Log.e(TAG, "Error requesting people data: " + loadPeopleResult.getStatus());
