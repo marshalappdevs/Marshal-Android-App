@@ -398,6 +398,7 @@ public class MainActivity extends AppCompatActivity
                 public void onResult(@NonNull People.LoadPeopleResult loadPeopleResult) {
                     if (loadPeopleResult.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
                         Person person = loadPeopleResult.getPersonBuffer().get(0);
+                        try {
                         if (person.getImage().hasUrl()) {
                             String portrait = person.getImage().getUrl();
                             Picasso.with(MainActivity.this)
@@ -424,6 +425,8 @@ public class MainActivity extends AppCompatActivity
                             Picasso.with(MainActivity.this)
                                     .load(R.drawable.bg_empty_profile_art)
                                     .into((ImageView) findViewById(R.id.banner_image));
+                        }} finally {
+                                loadPeopleResult.release();
                         }
                     } else {
 //                        Log.e(TAG, "Error requesting people data: " + loadPeopleResult.getStatus());
