@@ -1,6 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.Manifest;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -62,12 +63,14 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -81,6 +84,7 @@ public class MainActivity extends AppCompatActivity
             Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
+    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -114,7 +118,7 @@ public class MainActivity extends AppCompatActivity
         }
 
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
-            initializeGoogleApiClient();
+            initializeGoogleSignIn();
         }
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
@@ -277,7 +281,7 @@ public class MainActivity extends AppCompatActivity
             boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                 // User granted permissions dialog
-                initializeGoogleApiClient();
+                initializeGoogleSignIn();
             } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
                 // User denied permissions dialog
             } else {
@@ -345,7 +349,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void initializeGoogleApiClient() {
+    private void initializeGoogleSignIn() {
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
@@ -361,20 +365,30 @@ public class MainActivity extends AppCompatActivity
         signIn();
     }
 
-    private void signIn() {
-        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
-        startActivityForResult(signInIntent, RC_SIGN_IN);
-    }
-
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
+    @Override
+    public void onStart() {
+        super.onStart();
+        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
+                showProgressDialog();
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                     @Override
-                    public void onResult(Status status) {
-                        // [START_EXCLUDE]
-                        // [END_EXCLUDE]
+                    public void onResult(GoogleSignInResult googleSignInResult) {
+                        hideProgressDialog();
+                        handleSignInResult(googleSignInResult);
                     }
                 });
+            }
+        }
     }
 
     @Override
@@ -397,8 +411,9 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onResult(@NonNull People.LoadPeopleResult peopleData) {
                     if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                        Person person = peopleData.getPersonBuffer().get(0);
-                        peopleData.release();
+                        PersonBuffer personBuffer = peopleData.getPersonBuffer();
+                        Person person = personBuffer.get(0);
+                        personBuffer.release();
                         if (person.getImage().hasUrl()) {
                             String portrait = person.getImage().getUrl();
                             Picasso.with(MainActivity.this)
@@ -432,15 +447,49 @@ public class MainActivity extends AppCompatActivity
                 }
             });
             TextView tvName = (TextView) findViewById(R.id.profile_name);
-            tvName.setText(acct.getDisplayName());
+            if (tvName !=null) tvName.setText(acct.getDisplayName());
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
-            tvMail.setText(acct.getEmail());
+            if (tvMail !=null) tvMail.setText(acct.getEmail());
         }
+    }
+
+    private void signIn() {
+        Intent signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleApiClient);
+        startActivityForResult(signInIntent, RC_SIGN_IN);
+    }
+
+    private void signOut() {
+        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+                new ResultCallback<Status>() {
+                    @Override
+                    public void onResult(Status status) {
+                        // [START_EXCLUDE]
+                        // [END_EXCLUDE]
+                    }
+                });
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
+        // An unresolvable error has occurred and Google APIs (including Sign-In) will not
+        // be available.
+//        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    private void showProgressDialog() {
+        if (mProgressDialog == null) {
+            mProgressDialog = new ProgressDialog(this);
+            mProgressDialog.setMessage(getString(R.string.loading));
+            mProgressDialog.setIndeterminate(true);
+        }
+        mProgressDialog.show();
+    }
+
+    private void hideProgressDialog() {
+        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+            mProgressDialog.hide();
+        }
     }
 
     long lastPress;

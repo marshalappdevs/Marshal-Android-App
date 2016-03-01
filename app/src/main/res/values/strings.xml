@@ -21,6 +21,7 @@
     <string name="permission_cancel">NOT NOW</string>
     <string name="permission_settings_open">SETTINGS</string>
     <string name="ok_string">OK</string>
+    <string name="loading">Loading…</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>

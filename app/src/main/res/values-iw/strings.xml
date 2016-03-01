@@ -20,6 +20,7 @@
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
     <string name="ok_string">אוקיי</string>
+    <string name="loading">טוען…</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
