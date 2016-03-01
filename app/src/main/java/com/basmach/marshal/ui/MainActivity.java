@@ -398,7 +398,7 @@ public class MainActivity extends AppCompatActivity
                 public void onResult(@NonNull People.LoadPeopleResult peopleData) {
                     if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
                         Person person = peopleData.getPersonBuffer().get(0);
-                        try {
+                        peopleData.release();
                         if (person.getImage().hasUrl()) {
                             String portrait = person.getImage().getUrl();
                             Picasso.with(MainActivity.this)
@@ -425,21 +425,17 @@ public class MainActivity extends AppCompatActivity
                             Picasso.with(MainActivity.this)
                                     .load(R.drawable.bg_empty_profile_art)
                                     .into((ImageView) findViewById(R.id.banner_image));
-                        }} finally {
-                            peopleData.release();
                         }
                     } else {
-//                        Log.e(TAG, "Error requesting people data: " + loadPeopleResult.getStatus());
+//                        Log.e(TAG, "Error requesting people data: " + peopleData.getStatus());
                     }
                 }
             });
             TextView tvName = (TextView) findViewById(R.id.profile_name);
-            if (tvName != null)
-                tvName.setText(acct.getDisplayName());
+            tvName.setText(acct.getDisplayName());
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
-            if (tvMail != null)
-                tvMail.setText(acct.getEmail());
+            tvMail.setText(acct.getEmail());
         }
     }
 
