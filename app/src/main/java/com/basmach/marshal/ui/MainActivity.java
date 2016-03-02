@@ -161,9 +161,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean isConnected() {
-        ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetwork = cm.getActiveNetworkInfo();
-        return activeNetwork != null && activeNetwork.isConnected();
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
@@ -624,7 +624,6 @@ public class MainActivity extends AppCompatActivity
                     .build()
                     .launchUrl(this, Uri.parse(url));
         }
-        registerInternetCheckReceiver();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
