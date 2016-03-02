@@ -615,12 +615,14 @@ public class MainActivity extends AppCompatActivity
                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }
         } else if (id == R.id.nav_about) {
-            CustomTabsIntent.Builder builder = new CustomTabsIntent.Builder();
-            builder.setToolbarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary)).setShowTitle(true);
-            builder.setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_wht));
             String url = "https://goo.gl/s6thV1";
-            CustomTabsIntent customTabsIntent = builder.build();
-            customTabsIntent.launchUrl(this, Uri.parse(url));
+            new CustomTabsIntent.Builder()
+                    .setToolbarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary))
+                    .setShowTitle(true)
+                    .addDefaultShareMenuItem()
+                    .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_wht))
+                    .build()
+                    .launchUrl(this, Uri.parse(url));
         }
         registerInternetCheckReceiver();
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
