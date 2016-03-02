@@ -525,19 +525,14 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void avatarClicked(View v) {
+    public void profileClicked(View v) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             requestContactsPermission();
         } else {
-            if (mGoogleApiClient.hasConnectedApi(Plus.API)) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                signOut();
-                signIn();
-            } else {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                signIn();
-            }
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            signOut();
+            signIn();
         }
     }
 

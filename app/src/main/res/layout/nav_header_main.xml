@@ -17,7 +17,7 @@
         android:id="@+id/profile_image"
         android:clickable="true"
         android:focusable="true"
-        android:onClick="avatarClicked"
+        android:onClick="profileClicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_marginTop="38dp"
