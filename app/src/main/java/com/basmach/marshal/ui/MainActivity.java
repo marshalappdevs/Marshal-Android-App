@@ -18,7 +18,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.NonNull;
@@ -179,13 +178,8 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                 snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
+                snackbar.setDuration(10000);
                 snackbar.show();
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        snackbar.dismiss();
-                    }
-                }, 10000);
             }
         }
     };
@@ -531,8 +525,12 @@ public class MainActivity extends AppCompatActivity
             requestContactsPermission();
         } else {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            signOut();
-            signIn();
+            if (mGoogleApiClient.hasConnectedApi(Auth.GOOGLE_SIGN_IN_API)) {
+                signOut();
+                signIn();
+            } else {
+                initializeGoogleSignIn();
+            }
         }
     }
 
