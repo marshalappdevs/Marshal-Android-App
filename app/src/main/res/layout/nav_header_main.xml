@@ -20,7 +20,7 @@
         android:onClick="profileClicked"
         android:layout_width="64dp"
         android:layout_height="64dp"
-        android:layout_marginTop="38dp"
+        android:layout_marginTop="41dp"
         android:layout_marginStart="16dp"
         android:src="@drawable/ic_profile_none"
         android:foreground="@drawable/avatar_pressed"
@@ -29,7 +29,7 @@
     <RelativeLayout
         android:layout_alignBottom="@+id/banner_image"
         android:layout_width="match_parent"
-        android:layout_height="58dp">
+        android:layout_height="56dp">
 
         <RelativeLayout
             android:layout_marginStart="16dp"
