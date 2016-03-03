@@ -409,11 +409,11 @@ public class MainActivity extends AppCompatActivity
             if (user.getCover() != null) {
                 Picasso.with(this)
                         .load(user.getCover().getCoverPhoto().getUrl())
-                        .into((ImageView) findViewById(R.id.banner_image));
+                        .into((ImageView) findViewById(R.id.profile_cover_image));
             } else {
                 Picasso.with(this)
                         .load(R.drawable.bg_empty_profile_art)
-                        .into((ImageView) findViewById(R.id.banner_image));
+                        .into((ImageView) findViewById(R.id.profile_cover_image));
             }
 
             TextView tvMail = (TextView) findViewById(R.id.profile_email);
