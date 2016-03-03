@@ -348,7 +348,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     @Override
-    public void onConnectionFailed(ConnectionResult result) {
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
         if (mResolvingError) {
             return;
         } else if (result.hasResolution()) {
