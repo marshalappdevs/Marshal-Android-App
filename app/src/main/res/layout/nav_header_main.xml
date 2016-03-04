@@ -5,16 +5,18 @@
     android:layout_height="wrap_content"
     android:layout_weight="1">
 
-    <ImageView android:layout_width="match_parent"
+    <ImageView
+        android:id="@+id/profile_cover_image"
+        android:layout_width="match_parent"
         android:layout_height="@dimen/nav_header_height"
         android:layout_gravity="top"
         android:src="@drawable/bg_default_profile_art"
         android:scaleType="centerCrop"
         android:background="@android:color/darker_gray"
-        android:foreground="#66000000"
-        android:id="@+id/profile_cover_image" />
+        android:foreground="#66000000" />
 
     <LinearLayout
+        android:id="@+id/chosen_account_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:gravity="bottom"
@@ -47,6 +49,9 @@
             android:id="@+id/profile_email"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
             android:textSize="14sp"
             android:textColor="@android:color/secondary_text_dark"/>
 
