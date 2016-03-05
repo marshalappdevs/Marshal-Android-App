@@ -233,7 +233,7 @@ public class SettingsActivity extends AppCompatActivity {
         private void restartApp() {
             new AlertDialog.Builder(getActivity())
                     .setMessage(R.string.pref_restart_required)
-                    .setPositiveButton(R.string.ok_string, new DialogInterface.OnClickListener() {
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());

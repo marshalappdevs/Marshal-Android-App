@@ -553,7 +553,7 @@ public class MainActivity extends AppCompatActivity
                 mDrawerLayout.closeDrawer(GravityCompat.START);
                 new AlertDialog.Builder(this)
                         .setMessage(R.string.sign_out_confirm)
-                        .setPositiveButton(R.string.yes_string, new DialogInterface.OnClickListener() {
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -561,7 +561,7 @@ public class MainActivity extends AppCompatActivity
                                 recreate();
                             }
                         })
-                        .setNegativeButton(R.string.no_string, new DialogInterface.OnClickListener() {
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();

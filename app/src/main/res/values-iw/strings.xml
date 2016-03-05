@@ -19,13 +19,10 @@
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
-    <string name="ok_string">אוקיי</string>
-    <string name="yes_string">כן</string>
-    <string name="no_string">לא</string>
     <string name="loading">טוען…</string>
     <string name="sign_in_progress">נכנס…</string>
-    <string name="sign_out">צא</string>
-    <string name="sign_out_confirm">האם אתה בטוח שברצונך לצאת?</string>
+    <string name="sign_out_progress">יוצא…</string>
+    <string name="sign_out_confirm">האם ברצונך לצאת מחשבון זה?</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
