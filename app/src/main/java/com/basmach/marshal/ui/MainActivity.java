@@ -62,7 +62,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
@@ -71,6 +70,7 @@ import com.google.android.gms.common.api.Status;
 import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -445,21 +445,22 @@ public class MainActivity extends AppCompatActivity
                 Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                     @Override
                     public void onResult(@NonNull People.LoadPeopleResult peopleData) {
-                        if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                            Person person = peopleData.getPersonBuffer().get(0);
-                            peopleData.release();
-                            if (person.getCover() != null) {
-                                Picasso.with(MainActivity.this)
-                                        .load(person.getCover().getCoverPhoto().getUrl())
-                                        .into(mCoverImageView);
-                            } else {
-                                Picasso.with(MainActivity.this)
-                                        .load(R.drawable.bg_empty_profile_art)
-                                        .into(mCoverImageView);
-                            }
-                        } else {
-//                        Log.e(TAG, "Error requesting people data: " + peopleData.getStatus());
-                        }
+                        if (peopleData.getStatus().isSuccess()) {
+                            PersonBuffer personBuffer = peopleData.getPersonBuffer();
+                            if (personBuffer != null && personBuffer.getCount() > 0) {
+                                Person person = personBuffer.get(0);
+                                personBuffer.release();
+                                if (person.getCover() != null) {
+                                    Picasso.with(MainActivity.this)
+                                            .load(person.getCover().getCoverPhoto().getUrl())
+                                            .into(mCoverImageView);
+                                } else {
+                                    Picasso.with(MainActivity.this)
+                                            .load(R.drawable.bg_empty_profile_art)
+                                            .into(mCoverImageView);
+                                }
+                            } // else Log.e(TAG, "Plus response was empty! Failed to load profile.");
+                        } // else Log.e(TAG, "Failed to load plus proflie, error " + loadPeopleResult.getStatus().getStatusCode());
                     }
                 });
             }
