@@ -593,7 +593,8 @@ public class MainActivity extends AppCompatActivity
             public boolean onQueryTextSubmit(String query) {
                 // Perform the final search
                 mSearchView.clearFocus();
-                Toast.makeText(getApplicationContext(), "מציג תוצאות עבור: " + query, Toast.LENGTH_LONG).show();
+                String searchResult = String.format(getString(R.string.search_result), query);
+                Toast.makeText(getApplicationContext(), searchResult, Toast.LENGTH_LONG).show();
                 return true;
             }
         });

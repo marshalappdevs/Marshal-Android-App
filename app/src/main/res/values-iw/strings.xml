@@ -27,6 +27,7 @@
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
     <string name="mail_subject">משוב/דיווח תקלה</string>
+    <string name="search_result">מציג תוצאות חיפוש עבור: %1$s</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
