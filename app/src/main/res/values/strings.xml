@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Marshal</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
@@ -21,7 +21,12 @@
     <string name="permission_cancel">NOT NOW</string>
     <string name="permission_settings_open">SETTINGS</string>
     <string name="ok_string">OK</string>
+    <string name="yes_string">Yes</string>
+    <string name="no_string">No</string>
     <string name="loading">Loading…</string>
+    <string name="sign_in_progress">Signing in…</string>
+    <string name="sign_out">Sign out</string>
+    <string name="sign_out_confirm">Are you sure you want to sign out?</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>
@@ -63,4 +68,8 @@
         <item>dark</item>
         <item>auto</item>
     </string-array>
+
+    <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
+     from https://console.developers.google.com/ -->
+    <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
 </resources>

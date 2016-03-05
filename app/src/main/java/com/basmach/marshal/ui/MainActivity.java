@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
+    private boolean signedIn = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -409,6 +410,7 @@ public class MainActivity extends AppCompatActivity
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
             GoogleSignInAccount acct = result.getSignInAccount();
+            signedIn = true;
 
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
@@ -434,6 +436,7 @@ public class MainActivity extends AppCompatActivity
                                             rounded.setCornerRadius(bitmap.getWidth());
                                             imageView.setImageDrawable(rounded);
                                         }
+
                                         @Override
                                         public void onError() {
                                         }
@@ -453,6 +456,9 @@ public class MainActivity extends AppCompatActivity
                     }
                 }
             });
+        } else {
+            // Signed out, show unauthenticated UI.
+            signedIn = false;
         }
     }
 
@@ -467,6 +473,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
+                        signedIn = false;
                         // [END_EXCLUDE]
                     }
                 });
@@ -478,6 +485,7 @@ public class MainActivity extends AppCompatActivity
                     @Override
                     public void onResult(@NonNull Status status) {
                         // [START_EXCLUDE]
+                        signedIn = false;
                         // [END_EXCLUDE]
                     }
                 });
@@ -534,13 +542,27 @@ public class MainActivity extends AppCompatActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             requestContactsPermission();
         } else {
-            if (mGoogleApiClient.hasConnectedApi(Auth.GOOGLE_SIGN_IN_API)) {
+            if (signedIn) {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                signOut();
-                signIn();
+                new AlertDialog.Builder(this)
+                        .setMessage(R.string.sign_out_confirm)
+                        .setPositiveButton(R.string.yes_string, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                revokeAccess();
+                                recreate();
+                            }
+                        })
+                        .setNegativeButton(R.string.no_string, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
             } else {
                 mDrawerLayout.closeDrawer(GravityCompat.START);
-                initializeGoogleSignIn();
                 signIn();
             }
         }
