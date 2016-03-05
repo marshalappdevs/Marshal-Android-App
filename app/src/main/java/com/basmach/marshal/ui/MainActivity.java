@@ -92,6 +92,7 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
+    private ImageView mProfileImageView, mCoverImageView;
     private boolean signedIn = false;
 
     @Override
@@ -111,6 +112,8 @@ public class MainActivity extends AppCompatActivity
 
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email);
+        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -415,47 +418,45 @@ public class MainActivity extends AppCompatActivity
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
-            }
+                Uri uri = acct.getPhotoUrl();
+                Picasso.with(this)
+                        .load(uri)
+                        .into(mProfileImageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                Bitmap bitmap = ((BitmapDrawable) mProfileImageView.getDrawable()).getBitmap();
+                                RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                                rounded.setCornerRadius(bitmap.getWidth());
+                                mProfileImageView.setImageDrawable(rounded);
+                            }
 
-            Plus.PeopleApi.load(mGoogleApiClient, acct != null ? acct.getId() : null).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-                @Override
-                public void onResult(@NonNull People.LoadPeopleResult peopleData) {
-                    if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
-                        Person person = peopleData.getPersonBuffer().get(0);
-                        peopleData.release();
-                        if (person.getImage().hasUrl()) {
-                            String portrait = person.getImage().getUrl();
-                            Picasso.with(MainActivity.this)
-                                    .load(portrait.split("\\?")[0])
-                                    .into((ImageView) findViewById(R.id.profile_image), new Callback() {
-                                        @Override
-                                        public void onSuccess() {
-                                            ImageView imageView = (ImageView) findViewById(R.id.profile_image);
-                                            Bitmap bitmap = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-                                            RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                                            rounded.setCornerRadius(bitmap.getWidth());
-                                            imageView.setImageDrawable(rounded);
-                                        }
+                            @Override
+                            public void onError() {
 
-                                        @Override
-                                        public void onError() {
-                                        }
-                                    });
-                        }
-                        if (person.getCover() != null) {
-                            Picasso.with(MainActivity.this)
-                                    .load(person.getCover().getCoverPhoto().getUrl())
-                                    .into((ImageView) findViewById(R.id.profile_cover_image));
+                            }
+                        });
+
+                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                    @Override
+                    public void onResult(@NonNull People.LoadPeopleResult peopleData) {
+                        if (peopleData.getStatus().getStatusCode() == CommonStatusCodes.SUCCESS) {
+                            Person person = peopleData.getPersonBuffer().get(0);
+                            peopleData.release();
+                            if (person.getCover() != null) {
+                                Picasso.with(MainActivity.this)
+                                        .load(person.getCover().getCoverPhoto().getUrl())
+                                        .into(mCoverImageView);
+                            } else {
+                                Picasso.with(MainActivity.this)
+                                        .load(R.drawable.bg_empty_profile_art)
+                                        .into(mCoverImageView);
+                            }
                         } else {
-                            Picasso.with(MainActivity.this)
-                                    .load(R.drawable.bg_empty_profile_art)
-                                    .into((ImageView) findViewById(R.id.profile_cover_image));
-                        }
-                    } else {
 //                        Log.e(TAG, "Error requesting people data: " + peopleData.getStatus());
+                        }
                     }
-                }
-            });
+                });
+            }
         } else {
             // Signed out, show unauthenticated UI.
             signedIn = false;
