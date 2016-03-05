@@ -2,6 +2,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlHighlight">#33ffffff</item>
+        <!--@color/ripple_material_dark-->
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
