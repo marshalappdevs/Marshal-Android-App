@@ -110,8 +110,8 @@ public class MainActivity extends AppCompatActivity
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
 
-        mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name);
-        mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email);
+        mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
+        mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
         mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
 

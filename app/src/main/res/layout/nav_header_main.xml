@@ -39,7 +39,7 @@
             tools:ignore="ContentDescription" />
 
         <TextView
-            android:id="@+id/profile_name"
+            android:id="@+id/profile_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:textSize="14sp"
@@ -47,7 +47,7 @@
             android:textColor="@android:color/primary_text_dark"/>
 
         <TextView
-            android:id="@+id/profile_email"
+            android:id="@+id/profile_email_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:maxLines="1"
