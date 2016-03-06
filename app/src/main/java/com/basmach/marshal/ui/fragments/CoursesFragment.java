@@ -31,7 +31,7 @@ public class CoursesFragment extends Fragment {
 
         IMAGES = new ArrayList<>();
         IMAGES.add("http://cdn2.hubspot.net/hubfs/206683/cyber-security-training.jpg?t%5Cu003d1430137590751");
-        IMAGES.add("http://tutorialedge.net/uploads/courses/angularjs.png");
+        IMAGES.add("https://www.dunebook.com/wp-content/uploads/2015/07/angular-dunebook.png");
         IMAGES.add("http://www.wingnity.com/uploads/Courses/1396070428_android-course.png");
         IMAGES.add("https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg");
         IMAGES.add("https://udemy-images.udemy.com/course/750x422/352132_74cf_2.jpg");
