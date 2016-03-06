@@ -181,12 +181,6 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                 snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
-//                if (AppCompatDelegate.getDefaultNightMode() == AppCompatDelegate.MODE_NIGHT_YES) {
-//                    View view = snackbar.getView();
-//                    view.setBackgroundColor(ContextCompat.getColor(getApplicationContext(),android.R.color.white));
-//                    TextView textView = (TextView) view.findViewById(android.support.design.R.id.snackbar_text);
-//                    textView.setTextColor(ContextCompat.getColor(getApplicationContext(),android.R.color.black));
-//                }
                 snackbar.setDuration(10000);
                 snackbar.show();
             }
