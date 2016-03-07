@@ -15,12 +15,12 @@
         <item name="colorPrimaryDark">@android:color/darker_gray</item>
     </style>
 
-    <style name="titleTextAppearance" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
+    <style name="TextAppearance.Toolbar.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlHighlight">#1f000000</item>
+        <item name="colorControlHighlight">#1F000000</item>
         <!--@color/ripple_material_light-->
     </style>
 

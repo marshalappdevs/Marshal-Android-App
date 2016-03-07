@@ -20,17 +20,19 @@
         android:id="@+id/chosen_account_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:clickable="true"
         android:gravity="bottom"
         android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
         android:paddingBottom="9dp"
+        android:background="?attr/selectableItemBackground"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <ImageView
             android:id="@+id/profile_image"
             android:clickable="true"
-            android:onClick="profileClicked"
+            android:onClick="profileImageClicked"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginBottom="20dp"
@@ -42,9 +44,8 @@
             android:id="@+id/profile_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textSize="14sp"
-            android:fontFamily="sans-serif-medium"
-            android:textColor="@android:color/primary_text_dark"/>
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:fontFamily="sans-serif-medium" />
 
         <TextView
             android:id="@+id/profile_email_text"
@@ -53,8 +54,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textSize="14sp"
-            android:textColor="@android:color/secondary_text_dark"/>
+            android:textColor="#BEBEBE" />
 
     </LinearLayout>
 

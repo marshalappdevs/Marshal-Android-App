@@ -539,7 +539,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void profileClicked(View v) {
+    public void profileImageClicked(View v) {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             requestContactsPermission();
