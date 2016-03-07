@@ -46,8 +46,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColor="@android:color/white"
+            android:textAppearance="@style/TextAppearance.Nav.Name"
             android:fontFamily="sans-serif-medium" />
 
         <TextView
@@ -57,7 +56,6 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="@android:color/white"
             android:alpha="0.72" />
 

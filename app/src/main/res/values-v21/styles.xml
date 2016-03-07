@@ -5,4 +5,8 @@
         <item name="android:statusBarColor">@android:color/transparent</item>
     </style>
 
+    <style name="TextAppearance.Nav.Name" parent="@style/TextAppearance.AppCompat.Body1">
+        <item name="android:textStyle">normal</item>
+    </style>
+
 </resources>
