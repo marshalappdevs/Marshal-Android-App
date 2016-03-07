@@ -231,14 +231,15 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void restartApp() {
-            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
-            Intent settingsIntent = getActivity().getIntent();
+            Intent main = new Intent(getActivity(), MainActivity.class);
+            Intent settings = getActivity().getIntent();
             getActivity().overridePendingTransition(0, 0);
-            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            settings.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             getActivity().finishAffinity();
             getActivity().overridePendingTransition(0, 0);
-            startActivity(mainIntent);
-            startActivity(settingsIntent);
+            startActivity(main);
+            startActivity(settings);
         }
     }
 }
