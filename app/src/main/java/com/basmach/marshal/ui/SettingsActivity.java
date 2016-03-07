@@ -231,17 +231,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void restartApp() {
-            new AlertDialog.Builder(getActivity())
-                    .setMessage(R.string.pref_restart_required)
-                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            Intent intent = getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName());
-                            intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                            getActivity().finishAffinity();
-                            startActivity(intent);
-                        }
-                    }).show();
+            Intent mainIntent = new Intent(getActivity(), MainActivity.class);
+            Intent settingsIntent = getActivity().getIntent();
+            getActivity().overridePendingTransition(0, 0);
+            mainIntent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
+            getActivity().finishAffinity();
+            getActivity().overridePendingTransition(0, 0);
+            startActivity(mainIntent);
+            startActivity(settingsIntent);
         }
     }
 }
