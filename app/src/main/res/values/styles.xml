@@ -19,7 +19,7 @@
         <item name="android:textSize">20sp</item>
     </style>
 
-    <style name="TextAppearance.Nav.Name" parent="@style/TextAppearance.AppCompat.Body1">
+    <style name="TextAppearance.NavView.Header.Name" parent="@style/TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">bold</item>
     </style>
 
