@@ -1,14 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navview_main_header_view"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_weight="1">
+    android:layout_width="fill_parent"
+    android:layout_height="@dimen/nav_header_height">
 
     <ImageView
         android:id="@+id/profile_cover_image"
-        android:layout_width="match_parent"
-        android:layout_height="@dimen/nav_header_height"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:layout_gravity="top"
         android:src="@drawable/bg_default_profile_art"
         android:scaleType="centerCrop"
@@ -18,8 +17,8 @@
 
     <LinearLayout
         android:id="@+id/chosen_account_content_view"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
         android:clickable="true"
         android:gravity="bottom"
         android:orientation="vertical"
@@ -44,7 +43,11 @@
             android:id="@+id/profile_name_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:maxLines="1"
+            android:singleLine="true"
+            android:ellipsize="end"
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@android:color/white"
             android:fontFamily="sans-serif-medium" />
 
         <TextView
@@ -54,7 +57,9 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:textColor="#BEBEBE" />
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="@android:color/white"
+            android:alpha="0.72" />
 
     </LinearLayout>
 
