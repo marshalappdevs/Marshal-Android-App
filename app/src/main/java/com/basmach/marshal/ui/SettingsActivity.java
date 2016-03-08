@@ -41,6 +41,7 @@ public class SettingsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_container);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.navigation_drawer_settings);
         setSupportActionBar(mToolbar);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -54,18 +55,6 @@ public class SettingsActivity extends AppCompatActivity {
         if (actionBar != null) actionBar.setDisplayHomeAsUpEnabled(true);
 
         getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        updateLocale();
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-        mToolbar.setTitle(R.string.navigation_drawer_settings);
     }
 
     private void updateTheme() {
