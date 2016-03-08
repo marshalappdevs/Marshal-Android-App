@@ -42,6 +42,10 @@ public class SettingsActivity extends AppCompatActivity {
         updateLocale();
         setContentView(R.layout.activity_container);
 
+        // Translucent navigation bar
+//        Window window = this.getWindow();
+//        window.addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
