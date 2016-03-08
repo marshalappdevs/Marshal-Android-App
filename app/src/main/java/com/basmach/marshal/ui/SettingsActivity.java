@@ -218,15 +218,11 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void restartApp() {
-            Intent main = new Intent(getActivity(), MainActivity.class);
-            Intent settings = getActivity().getIntent();
-            getActivity().overridePendingTransition(0, 0);
-            main.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
-            settings.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION);
             getActivity().finishAffinity();
             getActivity().overridePendingTransition(0, 0);
-            startActivity(main);
-            startActivity(settings);
+            startActivity(getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName()));
+            startActivity(getActivity().getIntent());
+            getActivity().overridePendingTransition(0, 0);
         }
     }
 }
