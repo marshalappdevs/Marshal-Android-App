@@ -21,8 +21,7 @@
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notifications_new_message"
-            android:title="@string/pref_new_course_notifications_title"
-            android:summary="@string/pref_new_course_notifications_summary" />
+            android:title="@string/pref_notifications_title" />
 
         <RingtonePreference
             android:defaultValue="content://settings/system/notification_sound"
