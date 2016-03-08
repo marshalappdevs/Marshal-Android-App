@@ -220,7 +220,7 @@ public class SettingsActivity extends AppCompatActivity {
         private void restartApp() {
             getActivity().finishAffinity();
             getActivity().overridePendingTransition(0, 0);
-            startActivity(getActivity().getBaseContext().getPackageManager().getLaunchIntentForPackage(getActivity().getBaseContext().getPackageName()));
+            startActivity(new Intent(getActivity(), MainActivity.class));
             startActivity(getActivity().getIntent());
             getActivity().overridePendingTransition(0, 0);
         }
