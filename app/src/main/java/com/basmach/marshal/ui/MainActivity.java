@@ -423,6 +423,7 @@ public class MainActivity extends AppCompatActivity
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)
+                        .placeholder(R.drawable.ic_profile_none)
                         .into(mProfileImageView, new Callback() {
                             @Override
                             public void onSuccess() {
