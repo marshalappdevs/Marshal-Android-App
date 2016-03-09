@@ -114,8 +114,14 @@ public class MainActivity extends AppCompatActivity
 
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
-        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
+        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mProfileImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                profileImageClicked();
+            }
+        });
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -541,7 +547,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void profileImageClicked(View v) {
+    public void profileImageClicked() {
         if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             requestContactsPermission();
@@ -639,8 +645,7 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
-            Intent getSettingsIntent = new Intent(this, SettingsActivity.class);
-            startActivity(getSettingsIntent);
+            startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_contact_us) {
             String versionName = BuildConfig.VERSION_NAME;
             int versionCode = BuildConfig.VERSION_CODE;
