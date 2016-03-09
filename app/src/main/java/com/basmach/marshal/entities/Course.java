@@ -1,5 +1,9 @@
 package com.basmach.marshal.entities;
 
+import android.content.Context;
+import android.widget.ImageView;
+import com.basmach.marshal.R;
+import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class Course {
@@ -18,6 +22,8 @@ public class Course {
     private int passingGrade;
     private double price;
     private ArrayList cycles;
+    private String photoUrl;
+    private Boolean isMooc;
 
     public long getId() {
         return id;
@@ -138,4 +144,28 @@ public class Course {
     public void setCycles(ArrayList cycles) {
         this.cycles = cycles;
     }
+
+    public String getPhotoUrl() {
+        return photoUrl;
+    }
+
+    public void setPhotoUrl(String photoUrl) {
+        this.photoUrl = photoUrl;
+    }
+
+    public Boolean getIsMooc() {
+        return isMooc;
+    }
+
+    public void setIsMooc(Boolean isMooc) {
+        this.isMooc = isMooc;
+    }
+
+    public void getPhotoViaPicasso(Context context, ImageView imageView) {
+        Picasso.with(context).load(this.getPhotoUrl())
+                .error(R.drawable.ic_error_24dp)
+                .placeholder(R.drawable.ic_photo_library_24dp)
+                .into(imageView);
+    }
+
 }

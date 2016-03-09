@@ -29,6 +29,8 @@
     <string name="send_to">Send email via</string>
     <string name="mail_subject">Feedback/Bug Report</string>
     <string name="search_result">Showing search results for: %1$s</string>
+    <string name="see_all">See All</string>
+    <string name="course_type_programming">Programming</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
