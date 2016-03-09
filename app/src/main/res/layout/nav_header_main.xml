@@ -31,7 +31,6 @@
         <ImageView
             android:id="@+id/profile_image"
             android:clickable="true"
-            android:onClick="profileImageClicked"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginBottom="20dp"
