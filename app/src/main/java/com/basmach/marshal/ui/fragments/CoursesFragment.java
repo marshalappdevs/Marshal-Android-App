@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -32,10 +33,20 @@ public class CoursesFragment extends Fragment {
     private Timer mTimer;
     private Handler mTimerTaskHandler = new Handler();
 
-    private RecyclerView mRecycler;
-    private LinearLayoutManager mLinearLayoutManager;
-    private CoursesRecyclerAdapter mRecyclerAdapter;
-    private Button mBtnShowAll;
+    private RecyclerView mRecyclerProgramming;
+    private LinearLayoutManager mLinearLayoutManagerProgramming;
+    private CoursesRecyclerAdapter mRecyclerAdapterProgramming;
+    private Button mBtnShowAllProgramming;
+
+    private RecyclerView mRecyclerCyber;
+    private LinearLayoutManager mLinearLayoutManagerCyber;
+    private CoursesRecyclerAdapter mRecyclerAdapterCyber;
+    private Button mBtnShowAllCyber;
+
+    private RecyclerView mRecyclerIT;
+    private LinearLayoutManager mLinearLayoutManagerIT;
+    private CoursesRecyclerAdapter mRecyclerAdapterIT;
+    private Button mBtnShowAllIT;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -90,20 +101,58 @@ public class CoursesFragment extends Fragment {
         startViewPagerTimer();
         stopViewPagerTimerOnTouch();
 
-        // Recycler
-        mBtnShowAll = (Button) rootView.findViewById(R.id.fragment_courses_programming_btnShowAll);
-        mBtnShowAll.setOnClickListener(new View.OnClickListener() {
+        initializeProgrammingComponents(rootView);
+        initializeCyberComponents(rootView);
+        initializeITComponents(rootView);
+        return rootView;
+    }
+
+    private void initializeITComponents(View rootView) {
+        mBtnShowAllIT = (Button) rootView.findViewById(R.id.fragment_courses_it_btnShowAll);
+        mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), "Show all", Toast.LENGTH_LONG).show();
             }
         });
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_programming_recyclerView);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        mRecycler.setLayoutManager(mLinearLayoutManager);
-        mRecyclerAdapter = new CoursesRecyclerAdapter(getActivity(), COURSES);
-        mRecycler.setAdapter(mRecyclerAdapter);
-        return rootView;
+        mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
+        mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerIT.setAdapter(mRecyclerAdapterIT);
+    }
+
+    private void initializeCyberComponents(View rootView) {
+        mBtnShowAllCyber = (Button) rootView.findViewById(R.id.fragment_courses_cyber_btnShowAll);
+        mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Show all", Toast.LENGTH_LONG).show();
+            }
+        });
+        mRecyclerCyber = (RecyclerView) rootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
+        mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
+    }
+
+    private void initializeProgrammingComponents(View rootView) {
+        mBtnShowAllProgramming = (Button) rootView.findViewById(R.id.fragment_courses_programming_btnShowAll);
+        mBtnShowAllProgramming.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(getActivity(), "Show all", Toast.LENGTH_LONG).show();
+            }
+        });
+        mRecyclerProgramming = (RecyclerView) rootView.findViewById(R.id.fragment_courses_programming_recyclerView);
+        mLinearLayoutManagerProgramming = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerProgramming.setLayoutManager(mLinearLayoutManagerProgramming);
+        mRecyclerAdapterProgramming = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerProgramming.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerProgramming.setAdapter(mRecyclerAdapterProgramming);
     }
 
     private void startViewPagerTimer() {
