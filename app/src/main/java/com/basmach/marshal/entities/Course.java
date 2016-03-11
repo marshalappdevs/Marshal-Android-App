@@ -21,9 +21,13 @@ public class Course {
     private int durationInDays;
     private int passingGrade;
     private double price;
-    private ArrayList cycles;
+    private ArrayList<Cycle> cycles;
     private String photoUrl;
     private Boolean isMooc;
+
+    public Course () {
+        cycles = new ArrayList<>();
+    }
 
     public long getId() {
         return id;
@@ -151,6 +155,12 @@ public class Course {
 
     public void setPhotoUrl(String photoUrl) {
         this.photoUrl = photoUrl;
+    }
+
+    ///////////////////////////
+
+    public void addCycle(Cycle cycle) {
+        cycles.add(cycle);
     }
 
     public Boolean getIsMooc() {

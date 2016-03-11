@@ -1,6 +1,8 @@
 package com.basmach.marshal.ui.utils;
 
 import android.content.Context;
+import android.content.Intent;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,8 +13,12 @@ import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.ui.CourseActivity;
+import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecyclerAdapter.CourseVH> {
 
@@ -34,11 +40,23 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     @Override
     public void onBindViewHolder(CourseVH holder, int position) {
 
+        // Set card onClickListener
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                mContext.startActivity(new Intent(mContext, CourseActivity.class));
+            }
+        });
+
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
 
         // Set course starting Date
-        holder.courseStartDateTime.setText(mCourses.get(position).getDayTime());
+        if (mCourses.get(position).getCycles().size() > 0) {
+            holder.courseStartDateTime
+                    .setText(DateHelper.dateToString(((Cycle)
+                            (mCourses.get(position).getCycles().get(0))).getStartDate()));
+        }
 
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage);
@@ -56,6 +74,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     public class CourseVH extends RecyclerView.ViewHolder{
 
+        CardView cardView;
         ImageView courseImage;
         ImageView moocFlag;
         TextView courseName;
@@ -64,17 +83,11 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         public CourseVH(View itemView) {
             super(itemView);
 
+            cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;
             courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
-
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    Toast.makeText(mContext, "Syllabus Activity", Toast.LENGTH_LONG).show();
-                }
-            });
         }
     }
 }
