@@ -29,7 +29,7 @@
     <string name="mail_subject">משוב/דיווח תקלה</string>
     <string name="search_result">מציג תוצאות חיפוש עבור: %1$s</string>
     <string name="see_all">ראה הכל</string>
-    <string name="course_type_programming">תוכנה</string>
+    <string name="course_type_software">תוכנה</string>
     <string name="course_type_it">הפעלה</string>
     <string name="course_type_cyber">סייבר</string>
 

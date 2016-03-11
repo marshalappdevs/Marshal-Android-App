@@ -30,7 +30,7 @@
     <string name="mail_subject">Feedback/Bug Report</string>
     <string name="search_result">Showing search results for: %1$s</string>
     <string name="see_all">See All</string>
-    <string name="course_type_programming">Programming</string>
+    <string name="course_type_software">Software</string>
     <string name="course_type_it">IT</string>
     <string name="course_type_cyber">Cyber</string>
 

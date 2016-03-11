@@ -33,10 +33,10 @@ public class CoursesFragment extends Fragment {
     private Timer mTimer;
     private Handler mTimerTaskHandler = new Handler();
 
-    private RecyclerView mRecyclerProgramming;
-    private LinearLayoutManager mLinearLayoutManagerProgramming;
-    private CoursesRecyclerAdapter mRecyclerAdapterProgramming;
-    private Button mBtnShowAllProgramming;
+    private RecyclerView mRecyclerSoftware;
+    private LinearLayoutManager mLinearLayoutManagerSoftware;
+    private CoursesRecyclerAdapter mRecyclerAdapterSoftware;
+    private Button mBtnShowAllSoftware;
 
     private RecyclerView mRecyclerCyber;
     private LinearLayoutManager mLinearLayoutManagerCyber;
@@ -101,26 +101,26 @@ public class CoursesFragment extends Fragment {
         startViewPagerTimer();
         stopViewPagerTimerOnTouch();
 
-        initializeProgrammingComponents(rootView);
+        initializeSoftwareComponents(rootView);
         initializeCyberComponents(rootView);
         initializeITComponents(rootView);
         return rootView;
     }
 
-    private void initializeITComponents(View rootView) {
-        mBtnShowAllIT = (Button) rootView.findViewById(R.id.fragment_courses_it_seeAll);
-        mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
+    private void initializeSoftwareComponents(View rootView) {
+        mBtnShowAllSoftware = (Button) rootView.findViewById(R.id.fragment_courses_software_seeAll);
+        mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
             }
         });
-        mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
-        mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), COURSES);
-        mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerIT.setAdapter(mRecyclerAdapterIT);
+        mRecyclerSoftware = (RecyclerView) rootView.findViewById(R.id.fragment_courses_software_recyclerView);
+        mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
     }
 
     private void initializeCyberComponents(View rootView) {
@@ -139,21 +139,22 @@ public class CoursesFragment extends Fragment {
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
     }
 
-    private void initializeProgrammingComponents(View rootView) {
-        mBtnShowAllProgramming = (Button) rootView.findViewById(R.id.fragment_courses_programming_seeAll);
-        mBtnShowAllProgramming.setOnClickListener(new View.OnClickListener() {
+    private void initializeITComponents(View rootView) {
+        mBtnShowAllIT = (Button) rootView.findViewById(R.id.fragment_courses_it_seeAll);
+        mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
             }
         });
-        mRecyclerProgramming = (RecyclerView) rootView.findViewById(R.id.fragment_courses_programming_recyclerView);
-        mLinearLayoutManagerProgramming = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
-        mRecyclerProgramming.setLayoutManager(mLinearLayoutManagerProgramming);
-        mRecyclerAdapterProgramming = new CoursesRecyclerAdapter(getActivity(), COURSES);
-        mRecyclerProgramming.setItemAnimator(new DefaultItemAnimator());
-        mRecyclerProgramming.setAdapter(mRecyclerAdapterProgramming);
+        mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
+        mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerIT.setAdapter(mRecyclerAdapterIT);
     }
+
 
     private void startViewPagerTimer() {
         mTimer = new Timer();
