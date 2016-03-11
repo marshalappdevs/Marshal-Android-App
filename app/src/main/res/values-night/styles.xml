@@ -7,4 +7,6 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat" />
 
+    <style name="AppTheme.CardView" parent="CardView.Dark" />
+
 </resources>
