@@ -37,6 +37,9 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
 
+        // Set course starting Date
+        holder.courseStartDateTime.setText(mCourses.get(position).getDayTime());
+
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage);
 
@@ -54,15 +57,17 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     public class CourseVH extends RecyclerView.ViewHolder{
 
         ImageView courseImage;
-        TextView courseName;
         ImageView moocFlag;
+        TextView courseName;
+        TextView courseStartDateTime;
 
         public CourseVH(View itemView) {
             super(itemView);
 
             courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
-            courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
+            courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
+            courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override

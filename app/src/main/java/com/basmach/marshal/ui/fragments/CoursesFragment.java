@@ -67,26 +67,31 @@ public class CoursesFragment extends Fragment {
         courseCyber.setPhotoUrl(IMAGES.get(0));
         courseCyber.setName("Cyber Warfare Techniques");
         courseCyber.setIsMooc(false);
+        courseCyber.setDayTime("23/02/16");
         COURSES.add(courseCyber);
         Course courseAngular = new Course();
         courseAngular.setPhotoUrl(IMAGES.get(1));
         courseAngular.setName("Angular JS");
         courseAngular.setIsMooc(true);
+        courseAngular.setDayTime("17/05/16");
         COURSES.add(courseAngular);
         Course courseAndroid = new Course();
         courseAndroid.setPhotoUrl(IMAGES.get(2));
         courseAndroid.setName("Android Applications Development");
         courseAndroid.setIsMooc(false);
+        courseAndroid.setDayTime("04/09/16");
         COURSES.add(courseAndroid);
         Course courseFrontend = new Course();
         courseFrontend.setPhotoUrl(IMAGES.get(3));
         courseFrontend.setName("Frontend - HTML5, CSS, JavaScript");
         courseFrontend.setIsMooc(false);
+        courseFrontend.setDayTime("27/07/16");
         COURSES.add(courseFrontend);
         Course coursePhotshop = new Course();
         coursePhotshop.setPhotoUrl(IMAGES.get(4));
         coursePhotshop.setName("Advanced Photoshop");
         coursePhotshop.setIsMooc(true);
+        coursePhotshop.setDayTime("11/04/16");
         COURSES.add(coursePhotshop);
 
         //////////////////////////////////////////////////////////////////////////////////
