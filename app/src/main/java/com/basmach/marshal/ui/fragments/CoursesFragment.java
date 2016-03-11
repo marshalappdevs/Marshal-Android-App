@@ -77,7 +77,7 @@ public class CoursesFragment extends Fragment {
         COURSES.add(courseAngular);
         Course courseAndroid = new Course();
         courseAndroid.setPhotoUrl(IMAGES.get(2));
-        courseAndroid.setName("Android Applications Development");
+        courseAndroid.setName("Android Applications Development - For beginners");
         courseAndroid.setIsMooc(false);
         courseAndroid.setDayTime("04/09/16");
         COURSES.add(courseAndroid);
