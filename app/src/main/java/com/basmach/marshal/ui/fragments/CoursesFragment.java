@@ -85,7 +85,7 @@ public class CoursesFragment extends Fragment {
 
         Course courseAndroid = new Course();
         courseAndroid.setPhotoUrl(IMAGES.get(2));
-        courseAndroid.setName("Android Applications Development - For beginners");
+        courseAndroid.setName("Android Applications Development");
         courseAndroid.setIsMooc(false);
         Cycle androidCycle = new Cycle();
         androidCycle.setStartDate(DateHelper.stringToDate("04/09/16"));
