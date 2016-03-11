@@ -26,7 +26,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     @Override
     public CourseVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.courses_list_item, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview, null);
         CourseVH viewHolder = new CourseVH(view);
         return viewHolder;
     }
@@ -60,9 +60,9 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         public CourseVH(View itemView) {
             super(itemView);
 
-            courseImage = (ImageView) itemView.findViewById(R.id.courses_list_item_image);
-            courseName = (TextView) itemView.findViewById(R.id.courses_list_item_name);
-            moocFlag = (ImageView) itemView.findViewById(R.id.courses_list_item_moocFlag);
+            courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
+            courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
+            moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
 
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
