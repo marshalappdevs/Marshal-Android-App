@@ -78,7 +78,7 @@ import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
-    private static final int REQUEST_CONTACTS = 0;
+//    private static final int REQUEST_CONTACTS = 0;
     private static final int REQUEST_CALENDAR = 1;
     private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
             Manifest.permission.WRITE_CALENDAR};
@@ -126,9 +126,7 @@ public class MainActivity extends AppCompatActivity
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
-            initializeGoogleSignIn();
-        }
+        initializeGoogleSignIn();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {
@@ -224,32 +222,32 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void requestContactsPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.permission_contacts_access_for_gplus)
-                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
-                        }
-                    })
-                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            // Contact permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
-        }
-    }
+//    private void requestContactsPermission() {
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
+//            // Provide an additional rationale to the user if the permission was not granted
+//            // and the user would benefit from additional context for the use of the permission.
+//            // For example, if the request has been denied previously.
+//            new AlertDialog.Builder(this)
+//                    .setMessage(R.string.permission_contacts_access_for_gplus)
+//                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
+//                        }
+//                    })
+//                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    })
+//                    .show();
+//        } else {
+//            // Contact permission has not been granted yet. Request it directly.
+//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
+//        }
+//    }
 
     private void requestCalendarPermission() {
         if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
@@ -281,41 +279,41 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_CONTACTS) {
-            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
-            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // User granted permissions dialog
-                initializeGoogleSignIn();
-                signIn();
-            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
-                // User denied permissions dialog
-            } else {
-                // User denied permissions dialog and checked never ask again
-                if (contactsNeverAskAgain) {
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.permission_contacts_access)
-                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent();
-                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-                mSharedPreferences.edit().putBoolean("contactsNeverAskAgain", true).apply();
-            }
-        }
+//        if (requestCode == REQUEST_CONTACTS) {
+//            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
+//            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+//                // User granted permissions dialog
+//                initializeGoogleSignIn();
+//                signIn();
+//            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
+//                // User denied permissions dialog
+//            } else {
+//                // User denied permissions dialog and checked never ask again
+//                if (contactsNeverAskAgain) {
+//                    new AlertDialog.Builder(this)
+//                            .setMessage(R.string.permission_contacts_access)
+//                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Intent intent = new Intent();
+//                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+//                                    intent.setData(uri);
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            })
+//                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+//                }
+//                mSharedPreferences.edit().putBoolean("contactsNeverAskAgain", true).apply();
+//            }
+//        }
         if (requestCode == REQUEST_CALENDAR) {
             boolean calendarNeverAskAgain = mSharedPreferences.getBoolean("calendarNeverAskAgain", false);
             if (PermissionUtil.verifyPermissions(grantResults)) {
@@ -383,7 +381,6 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) == PackageManager.PERMISSION_GRANTED) {
             OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
             if (opr.isDone()) {
                 // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -404,7 +401,6 @@ public class MainActivity extends AppCompatActivity
                 });
             }
         }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -548,15 +544,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void profileImageClicked() {
-        if (ContextCompat.checkSelfPermission(MainActivity.this, Manifest.permission.GET_ACCOUNTS) != PackageManager.PERMISSION_GRANTED) {
+        if (signedIn) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            requestContactsPermission();
-        } else {
-            if (signedIn) {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                new AlertDialog.Builder(this)
-                        .setMessage(R.string.sign_out_confirm)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.sign_out_confirm)
+                    .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
@@ -564,19 +556,19 @@ public class MainActivity extends AppCompatActivity
                                 recreate();
                             }
                         })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                             }
                         })
-                        .show();
-            } else {
-                mDrawerLayout.closeDrawer(GravityCompat.START);
-                signIn();
-            }
+                    .show();
+        } else {
+            mDrawerLayout.closeDrawer(GravityCompat.START);
+            signIn();
         }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
