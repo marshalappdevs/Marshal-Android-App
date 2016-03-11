@@ -9,11 +9,11 @@
         android:id="@+id/course_cardview_widget"
         android:layout_width="130dp"
         android:layout_height="170dp"
-        app:cardBackgroundColor="@color/cardview_light_background"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:foreground="?attr/selectableItemBackground">
+        android:foreground="?attr/selectableItemBackground"
+        app:cardBackgroundColor="@color/cardview_light_background">
 
         <FrameLayout
             android:layout_width="match_parent"
