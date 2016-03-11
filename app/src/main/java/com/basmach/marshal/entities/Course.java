@@ -163,8 +163,6 @@ public class Course {
 
     public void getPhotoViaPicasso(Context context, ImageView imageView) {
         Picasso.with(context).load(this.getPhotoUrl())
-                .error(R.drawable.ic_error_24dp)
-                .placeholder(R.drawable.ic_photo_library_24dp)
                 .into(imageView);
     }
 

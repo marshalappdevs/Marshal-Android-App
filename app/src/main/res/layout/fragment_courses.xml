@@ -1,147 +1,138 @@
-<android.support.v4.widget.SwipeRefreshLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context="com.basmach.marshal.ui.fragments.CoursesFragment">
 
-    <ScrollView
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="wrap_content">
 
         <RelativeLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:id="@+id/fragment_courses_relativeLayout_viewPager"
+            android:layout_height="200dp"
+            android:layout_width="match_parent">
 
-            <RelativeLayout
-                android:layout_height="200dp"
+            <android.support.v4.view.ViewPager
+                android:id="@+id/main_catalog_view_pager"
                 android:layout_width="match_parent"
-                android:id="@+id/fragment_courses_relativeLayout_photosViewPager">
+                android:layout_height="match_parent"
+                android:layout_alignParentTop="true" />
 
-                <android.support.v4.view.ViewPager
-                    android:id="@+id/main_catalog_view_pager"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_alignParentTop="true" />
-
-                <com.basmach.marshal.ui.utils.InkPageIndicator
-                    android:id="@+id/main_catalog_indicator"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_alignParentBottom="true"
-                    android:layout_marginBottom="10dp" />
-
-            </RelativeLayout>
-
-            <RelativeLayout
+            <com.basmach.marshal.ui.utils.InkPageIndicator
+                android:id="@+id/main_catalog_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_relativeLayout_photosViewPager"
-                android:layout_alignParentStart="true"
-                android:id="@+id/fragment_courses_relativeLayout_programming">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/see_all"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:id="@+id/fragment_courses_programming_btnShowAll"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/course_type_programming"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_alignBaseline="@+id/fragment_courses_programming_btnShowAll" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/fragment_courses_programming_btnShowAll"
-                    android:id="@+id/fragment_courses_programming_recyclerView" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_relativeLayout_programming"
-                android:layout_alignParentStart="true"
-                android:id="@+id/fragment_courses_relativeLayout_cyber">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/see_all"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:id="@+id/fragment_courses_cyber_btnShowAll"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/course_type_cyber"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_alignBaseline="@+id/fragment_courses_cyber_btnShowAll" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/fragment_courses_cyber_btnShowAll"
-                    android:id="@+id/fragment_courses_cyber_recyclerView" />
-            </RelativeLayout>
-
-            <RelativeLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_relativeLayout_cyber"
-                android:layout_alignParentStart="true"
-                android:id="@+id/fragment_courses_relativeLayout_it">
-
-                <Button
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/see_all"
-                    android:textColor="@color/colorAccent"
-                    android:textStyle="bold"
-                    android:background="?attr/selectableItemBackground"
-                    android:id="@+id/fragment_courses_it_btnShowAll"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentEnd="true" />
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/course_type_it"
-                    android:textColor="@color/colorPrimary"
-                    android:textStyle="bold"
-                    android:layout_alignParentTop="true"
-                    android:layout_alignParentStart="true"
-                    android:layout_marginStart="15dp"
-                    android:layout_alignBaseline="@+id/fragment_courses_it_btnShowAll" />
-
-                <android.support.v7.widget.RecyclerView
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_below="@+id/fragment_courses_it_btnShowAll"
-                    android:id="@+id/fragment_courses_it_recyclerView" />
-            </RelativeLayout>
-
+                android:layout_alignParentBottom="true"
+                android:layout_marginBottom="10dp" />
         </RelativeLayout>
-    </ScrollView>
-</android.support.v4.widget.SwipeRefreshLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_courses_relativeLayout_programming"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_courses_relativeLayout_viewPager"
+            android:layout_alignParentStart="true">
+
+            <Button
+                android:id="@+id/fragment_courses_programming_seeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:background="?attr/selectableItemBackground"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_type_programming"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_alignBaseline="@+id/fragment_courses_programming_seeAll" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_courses_programming_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_courses_programming_seeAll" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_courses_relativeLayout_cyber"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_courses_relativeLayout_programming"
+            android:layout_alignParentStart="true">
+
+            <Button
+                android:id="@+id/fragment_courses_cyber_seeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:background="?attr/selectableItemBackground"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_type_cyber"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_alignBaseline="@+id/fragment_courses_cyber_seeAll" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_courses_cyber_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_courses_cyber_seeAll" />
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/fragment_courses_relativeLayout_it"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/fragment_courses_relativeLayout_cyber"
+            android:layout_alignParentStart="true">
+
+            <Button
+                android:id="@+id/fragment_courses_it_seeAll"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/see_all"
+                android:textColor="@color/colorAccent"
+                android:textStyle="bold"
+                android:background="?attr/selectableItemBackground"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentEnd="true" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_type_it"
+                android:textStyle="bold"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginStart="15dp"
+                android:layout_alignBaseline="@+id/fragment_courses_it_seeAll" />
+
+            <android.support.v7.widget.RecyclerView
+                android:id="@+id/fragment_courses_it_recyclerView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@+id/fragment_courses_it_seeAll" />
+        </RelativeLayout>
+
+    </RelativeLayout>
+</ScrollView>
 

@@ -31,6 +31,8 @@
     <string name="search_result">Showing search results for: %1$s</string>
     <string name="see_all">See All</string>
     <string name="course_type_programming">Programming</string>
+    <string name="course_type_it">IT</string>
+    <string name="course_type_cyber">Cyber</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
@@ -71,6 +73,4 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
-    <string name="course_type_it">IT</string>
-    <string name="course_type_cyber">Cyber</string>
 </resources>
