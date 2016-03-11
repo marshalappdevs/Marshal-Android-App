@@ -112,7 +112,7 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "See all", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
             }
         });
         mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
@@ -128,7 +128,7 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "See all", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
             }
         });
         mRecyclerCyber = (RecyclerView) rootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
@@ -144,7 +144,7 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllProgramming.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), "See all", Toast.LENGTH_LONG).show();
+                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
             }
         });
         mRecyclerProgramming = (RecyclerView) rootView.findViewById(R.id.fragment_courses_programming_recyclerView);

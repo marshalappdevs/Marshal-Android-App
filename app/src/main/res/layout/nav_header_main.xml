@@ -1,13 +1,13 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navview_main_header_view"
-    android:layout_width="fill_parent"
+    android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height">
 
     <ImageView
         android:id="@+id/profile_cover_image"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_gravity="top"
         android:src="@drawable/bg_default_profile_art"
         android:scaleType="centerCrop"
@@ -17,8 +17,8 @@
 
     <LinearLayout
         android:id="@+id/chosen_account_content_view"
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:clickable="true"
         android:gravity="bottom"
         android:orientation="vertical"
