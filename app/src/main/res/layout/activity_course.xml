@@ -24,20 +24,14 @@
             app:expandedTitleTextAppearance="@style/TextAppearance.Expanded.Toolbar.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <FrameLayout
+            <ImageView
+                android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                tools:ignore="ContentDescription" >
-
-                <ImageView
-                    android:id="@+id/header"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:scaleType="centerCrop" />
-
-            </FrameLayout>
+                tools:ignore="ContentDescription" />
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
