@@ -1,4 +1,4 @@
-package com.basmach.marshal.utils;
+package com.basmach.marshal.ui.utils;
 import com.basmach.marshal.Constants;
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -6,9 +6,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-/**
- * Created by Ido on 11/8/2015.
- */
 public class DateHelper {
 
     public static final String DATE_FORMAT = "dd/MM/yy";

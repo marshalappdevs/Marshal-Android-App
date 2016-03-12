@@ -20,7 +20,7 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
-import com.basmach.marshal.utils.DateHelper;
+import com.basmach.marshal.ui.utils.DateHelper;
 
 import java.util.ArrayList;
 import java.util.Timer;
