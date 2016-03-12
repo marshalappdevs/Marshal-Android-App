@@ -36,13 +36,15 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     }
 
     @Override
-    public void onBindViewHolder(CourseVH holder, int position) {
+    public void onBindViewHolder(CourseVH holder, final int position) {
 
         // Set card onClickListener
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mContext.startActivity(new Intent(mContext, CourseActivity.class));
+                Intent intent = new Intent(mContext, CourseActivity.class);
+                intent.putExtra(CourseActivity.COURSE_EXTRA,mCourses.get(position));
+                mContext.startActivity(intent);
             }
         });
 

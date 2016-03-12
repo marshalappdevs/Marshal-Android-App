@@ -1,15 +1,18 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.ui.utils.DateHelper;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
-public class Course {
+public class Course implements Parcelable {
     private long id;
     private String courseCode;
     private String name;
@@ -24,13 +27,11 @@ public class Course {
     private int durationInDays;
     private int passingGrade;
     private double price;
-    private ArrayList<Cycle> cycles;
+    private ArrayList<Cycle> cycles = new ArrayList<>();
     private String photoUrl;
     private Boolean isMooc;
 
-    public Course () {
-        cycles = new ArrayList<>();
-    }
+    public Course () {}
 
     public long getId() {
         return id;
@@ -160,7 +161,7 @@ public class Course {
         this.photoUrl = photoUrl;
     }
 
-    ///////////////////////////
+    /////////////////////////// methods ////////////////////////////
 
     public void addCycle(Cycle cycle) {
         cycles.add(cycle);
@@ -186,4 +187,73 @@ public class Course {
                     }
                 });
     }
+
+    ///////////////////// Parcelable methods //////////////////////
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Storing the Course data to Parcel object
+     **/
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeLong(id);
+        dest.writeString(courseCode);
+        dest.writeString(name);
+        dest.writeInt(minimumPeople);
+        dest.writeInt(maximumPeople);
+        dest.writeString(description);
+        dest.writeString(targetPopulation);
+        dest.writeString(professionalDomain);
+        dest.writeString(syllabus);
+        dest.writeString(dayTime);
+        dest.writeInt(durationInHours);
+        dest.writeInt(durationInDays);
+        dest.writeInt(passingGrade);
+        dest.writeDouble(price);
+        dest.writeTypedList(cycles);
+        dest.writeString(photoUrl);
+        dest.writeInt((isMooc) ? 1 : 0);
+    }
+
+    /**
+     * Retrieving Student data from Parcel object
+     * This constructor is invoked by the method createFromParcel(Parcel source) of
+     * the object CREATOR
+     **/
+    private Course(Parcel in){
+        this.id = in.readLong();
+        this.courseCode = in.readString();
+        this.name = in.readString();
+        this.minimumPeople = in.readInt();
+        this.maximumPeople = in.readInt();
+        this.description = in.readString();
+        this.targetPopulation = in.readString();
+        this.professionalDomain = in.readString();
+        this.syllabus = in.readString();
+        this.dayTime = in.readString();
+        this.durationInHours = in.readInt();
+        this.durationInDays = in.readInt();
+        this.passingGrade = in.readInt();
+        this.price = in.readDouble();
+        in.readTypedList(cycles, Cycle.CREATOR);
+        this.photoUrl = in.readString();
+        this.isMooc = (in.readInt() != 0);
+    }
+
+    public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
+
+        @Override
+        public Course createFromParcel(Parcel source) {
+            return new Course(source);
+        }
+
+        @Override
+        public Course[] newArray(int size) {
+            return new Course[size];
+        }
+    };
 }
