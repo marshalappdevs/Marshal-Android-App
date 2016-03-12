@@ -52,7 +52,7 @@ public class CourseActivity extends AppCompatActivity {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
 
         final ImageView header = (ImageView) findViewById(R.id.header);
-        Picasso.with(this).load(R.drawable.bg_empty_profile_art).into(header, new Callback() {
+        Picasso.with(this).load("http://timbuchalka.com/wp-content/uploads/2015/05/pythoncourseimagev1.png").into(header, new Callback() {
             @Override public void onSuccess() {
                 Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
