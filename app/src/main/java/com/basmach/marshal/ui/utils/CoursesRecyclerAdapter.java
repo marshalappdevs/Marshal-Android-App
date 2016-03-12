@@ -56,7 +56,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course image
-        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage);
+        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage, holder.itemView);
 
         // Check if MOOC
         if(mCourses.get(position).getIsMooc()){

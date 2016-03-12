@@ -1,7 +1,10 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.view.View;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
+
 import com.basmach.marshal.R;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -171,9 +174,20 @@ public class Course {
         this.isMooc = isMooc;
     }
 
-    public void getPhotoViaPicasso(Context context, ImageView imageView) {
+    public void getPhotoViaPicasso(Context context, ImageView imageView, final View view) {
         Picasso.with(context).load(this.getPhotoUrl())
-                .into(imageView);
+                .into(imageView, new com.squareup.picasso.Callback() {
+                    @Override public void onSuccess() {
+                        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.course_cardview_progressBar);
+                        progressBar.setVisibility(View.GONE);
+                        ImageView imageView = (ImageView) view.findViewById(R.id.course_cardview_image);
+                        imageView.setVisibility(View.VISIBLE);
+                    }
+                    @Override public void onError() {
+
+                    }
+                });
     }
+
 
 }

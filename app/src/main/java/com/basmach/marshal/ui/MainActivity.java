@@ -71,7 +71,6 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.Locale;
@@ -425,7 +424,7 @@ public class MainActivity extends AppCompatActivity
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)
-                        .into(mProfileImageView, new Callback() {
+                        .into(mProfileImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
                                 Bitmap bitmap = ((BitmapDrawable) mProfileImageView.getDrawable()).getBitmap();
