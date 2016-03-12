@@ -64,7 +64,6 @@ public class CourseActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -106,11 +105,6 @@ public class CourseActivity extends AppCompatActivity {
 
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
-
-            // Set MOOC flag if course is MOOC
-            if (mCourse.getIsMooc()) {
-                findViewById(R.id.courseActivity_moocFlag).setVisibility(View.VISIBLE);
-            }
         }
     }
 
