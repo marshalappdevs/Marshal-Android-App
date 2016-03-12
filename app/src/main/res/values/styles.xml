@@ -32,4 +32,8 @@
 
     <style name="AppTheme.CardView" parent="CardView.Light" />
 
+    <style name="TextAppearanceExpandedTitle">
+        <item name="android:textSize">28sp</item>
+    </style>
+
 </resources>

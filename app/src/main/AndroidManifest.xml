@@ -34,7 +34,7 @@
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme">
+            android:theme="@style/AppTheme.Base">
 	</activity>
     </application>
 
