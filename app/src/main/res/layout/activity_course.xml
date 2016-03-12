@@ -23,14 +23,29 @@
             app:expandedTitleMargin="16dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
-            <ImageView
-                android:id="@+id/header"
+            <FrameLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:scaleType="centerCrop"
                 android:fitsSystemWindows="true"
                 app:layout_collapseMode="parallax"
-                tools:ignore="ContentDescription" />
+                tools:ignore="ContentDescription" >
+
+                <ImageView
+                    android:id="@+id/header"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:scaleType="centerCrop" />
+
+                <ImageView
+                    android:id="@+id/courseActivity_moocFlag"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:src="@drawable/mooc_flag"
+                    android:layout_gravity="top|end"
+                    android:visibility="gone"
+                    tools:ignore="ContentDescription"/>
+            </FrameLayout>
+
 
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"

@@ -1,21 +1,20 @@
 package com.basmach.marshal.ui.utils;
 
 import android.content.Context;
-import android.content.Intent;
+import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
-
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
-
 import java.util.ArrayList;
 
 public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecyclerAdapter.CourseVH> {
@@ -36,15 +35,16 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     }
 
     @Override
-    public void onBindViewHolder(CourseVH holder, final int position) {
+    public void onBindViewHolder(final CourseVH holder, final int position) {
 
         // Set card onClickListener
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, CourseActivity.class);
-                intent.putExtra(CourseActivity.COURSE_EXTRA,mCourses.get(position));
-                mContext.startActivity(intent);
+//                Intent intent = new Intent(mContext, CourseActivity.class);
+//                intent.putExtra(CourseActivity.EXTRA_COURSE,mCourses.get(position));
+//                mContext.startActivity(intent);
+                CourseActivity.navigate((AppCompatActivity)mContext, holder.courseImage, mCourses.get(position));
             }
         });
 
@@ -75,6 +75,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     public class CourseVH extends RecyclerView.ViewHolder{
 
+        FrameLayout frameLayout;
         CardView cardView;
         ImageView courseImage;
         ImageView moocFlag;
@@ -85,6 +86,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         public CourseVH(View itemView) {
             super(itemView);
 
+            frameLayout = (FrameLayout) itemView.findViewById(R.id.course_cardview_mainFrame);
             cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;
             courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);

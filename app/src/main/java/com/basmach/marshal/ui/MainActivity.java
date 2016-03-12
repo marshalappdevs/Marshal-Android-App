@@ -594,6 +594,10 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    @Override public void onEnterAnimationComplete() {
+        super.onEnterAnimationComplete();
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
