@@ -35,7 +35,10 @@
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
             android:theme="@style/AppTheme.Base">
-	</activity>
+            <!--<meta-data-->
+                <!--android:name="android.support.PARENT_ACTIVITY"-->
+                <!--android:value=".ui.MainActivity" />-->
+        </activity>
     </application>
 
 </manifest>
