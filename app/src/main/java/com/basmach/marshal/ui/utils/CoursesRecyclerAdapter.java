@@ -60,6 +60,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         // Check if MOOC
         if(mCourses.get(position).getIsMooc()){
+            // if (holder.courseImage.getVisibility() == View.VISIBLE)
             holder.moocFlag.setVisibility(View.VISIBLE);
         }
     }
