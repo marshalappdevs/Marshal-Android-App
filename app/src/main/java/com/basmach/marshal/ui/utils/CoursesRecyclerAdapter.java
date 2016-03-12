@@ -8,6 +8,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.basmach.marshal.R;
@@ -56,7 +57,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course image
-        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage, holder.itemView);
+        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage, holder.courseProgressBar);
 
         // Check if MOOC
         if(mCourses.get(position).getIsMooc()){
@@ -77,6 +78,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         ImageView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
+        ProgressBar courseProgressBar;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -86,6 +88,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
+            courseProgressBar = (ProgressBar) itemView.findViewById(R.id.course_cardview_progressBar);
         }
     }
 }

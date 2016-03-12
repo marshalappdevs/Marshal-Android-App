@@ -56,6 +56,7 @@ public class CourseActivity extends AppCompatActivity {
                 Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                     public void onGenerated(Palette palette) {
                         collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary)));
+//                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                         collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(getApplicationContext(), R.color.black_trans80));
                     }
                 });

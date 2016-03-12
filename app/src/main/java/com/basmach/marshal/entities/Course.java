@@ -174,13 +174,11 @@ public class Course {
         this.isMooc = isMooc;
     }
 
-    public void getPhotoViaPicasso(Context context, ImageView imageView, final View view) {
+    public void getPhotoViaPicasso(Context context, final ImageView imageView, final ProgressBar progressBar) {
         Picasso.with(context).load(this.getPhotoUrl())
                 .into(imageView, new com.squareup.picasso.Callback() {
                     @Override public void onSuccess() {
-                        ProgressBar progressBar = (ProgressBar) view.findViewById(R.id.course_cardview_progressBar);
                         progressBar.setVisibility(View.GONE);
-                        ImageView imageView = (ImageView) view.findViewById(R.id.course_cardview_image);
                         imageView.setVisibility(View.VISIBLE);
                     }
                     @Override public void onError() {
@@ -188,6 +186,4 @@ public class Course {
                     }
                 });
     }
-
-
 }
