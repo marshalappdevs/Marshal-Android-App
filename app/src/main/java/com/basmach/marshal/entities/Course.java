@@ -9,6 +9,7 @@ import android.widget.ProgressBar;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.ui.utils.DateHelper;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
@@ -175,17 +176,9 @@ public class Course implements Parcelable {
         this.isMooc = isMooc;
     }
 
-    public void getPhotoViaPicasso(Context context, final ImageView imageView, final ProgressBar progressBar) {
+    public void getPhotoViaPicasso(Context context, final ImageView imageView, Callback callback) {
         Picasso.with(context).load(this.getPhotoUrl())
-                .into(imageView, new com.squareup.picasso.Callback() {
-                    @Override public void onSuccess() {
-                        progressBar.setVisibility(View.GONE);
-                        imageView.setVisibility(View.VISIBLE);
-                    }
-                    @Override public void onError() {
-
-                    }
-                });
+                .into(imageView, callback);
     }
 
     ///////////////////// Parcelable methods //////////////////////

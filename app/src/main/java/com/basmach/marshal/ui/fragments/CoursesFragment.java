@@ -72,6 +72,7 @@ public class CoursesFragment extends Fragment {
         Cycle cyberCycle = new Cycle();
         cyberCycle.setStartDate(DateHelper.stringToDate("08/05/17"));
         courseCyber.addCycle(cyberCycle);
+        courseCyber.setDescription("Cyber course description");
         COURSES.add(courseCyber);
 
         Course courseAngular = new Course();

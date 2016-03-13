@@ -15,6 +15,8 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
+import com.squareup.picasso.Callback;
+
 import java.util.ArrayList;
 
 public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecyclerAdapter.CourseVH> {
@@ -59,13 +61,22 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course image
-        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage, holder.courseProgressBar);
+        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
+            @Override public void onSuccess() {
+                holder.courseProgressBar.setVisibility(View.GONE);
+                holder.courseImage.setVisibility(View.VISIBLE);
 
-        // Check if MOOC
-        if(mCourses.get(position).getIsMooc()){
-            // if (holder.courseImage.getVisibility() == View.VISIBLE)
-            holder.moocFlag.setVisibility(View.VISIBLE);
-        }
+                // Check if MOOC
+                if(mCourses.get(position).getIsMooc()){
+                    // if (holder.courseImage.getVisibility() == View.VISIBLE)
+                    holder.moocFlag.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override public void onError() {
+
+            }
+        });
     }
 
     @Override

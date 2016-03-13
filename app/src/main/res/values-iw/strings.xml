@@ -50,4 +50,11 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
+    <string name="description">תיאור</string>
+    <string name="syllabus">סילבוס</string>
+    <string name="course_code">סימול</string>
+    <string name="target_population">אוכלוסיית יעד</string>
+    <string name="day_time">זמן ביום</string>
+    <string name="days_duration">מספר ימים</string>
+    <string name="hours_duration">מספר שעות</string>
 </resources>

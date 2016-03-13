@@ -8,10 +8,283 @@
     tools:context="com.basmach.marshal.ui.CourseActivity"
     tools:showIn="@layout/activity_course">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="@dimen/text_margin"
-        android:text="@string/large_text" />
+        android:orientation="vertical"
+        android:padding="@dimen/course_content_padding">
 
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_description">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_descriptionIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_info_24dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_descriptionTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/description"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_descriptionIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_descriptionIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_description"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Description"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_descriptionTitle"
+                android:layout_alignStart="@+id/course_content_textView_descriptionTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Syllabus-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_syllabus">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_syllabusIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentTop="true"
+                android:src="@drawable/ic_syllabus_24dp"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_syllabusTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/syllabus"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_syllabusIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_syllabusIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_syllabus"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Syllabus"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_syllabusTitle"
+                android:layout_alignStart="@+id/course_content_textView_syllabusTitle"
+                android:layout_marginTop="4dp" />
+
+        </RelativeLayout>
+
+        <!--Course code-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_courseCode">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_courseCodeIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_fingerprint_24dp"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentTop="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_courseCodeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/course_code"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_courseCodeIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_courseCodeIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_courseCode"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Course code"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_courseCodeTitle"
+                android:layout_alignStart="@+id/course_content_textView_courseCodeTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Target population-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_targetPopulation">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_targetPopulationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_people_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_targetPopulationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/target_population"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_targetPopulationIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_targetPopulationIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_targetPopulation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Target population"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_targetPopulationTitle"
+                android:layout_alignStart="@+id/course_content_textView_targetPopulationTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Day time-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_dayTime">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_dayTimeIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_daytime_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_dayTimeTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/day_time"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_dayTimeIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_dayTimeIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_dayTime"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Day time"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_dayTimeTitle"
+                android:layout_alignStart="@+id/course_content_textView_dayTimeTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Days duration-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_dayDuration">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_daysDurationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_date_range_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_daysDurationTitle"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/days_duration"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_daysDurationIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_daysDurationIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_daysDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Days duration"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_daysDurationTitle"
+                android:layout_alignStart="@+id/course_content_textView_daysDurationTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Hours duration-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_hoursDuration">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_hoursDurationIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:src="@drawable/ic_duration_hours_24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginTop="8dp"
+                android:layout_marginEnd="8dp" />
+
+            <TextView
+                android:id="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="@string/hours_duration"
+                android:layout_gravity="start|center_vertical"
+                android:textStyle="bold"
+                android:layout_toEndOf="@+id/course_content_imageView_hoursDurationIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_hoursDurationIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_hoursDuration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:text="Hours duration"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_alignStart="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+    </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
