@@ -1,7 +1,11 @@
 package com.basmach.marshal.ui.utils;
 
+import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -43,10 +47,17 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Intent intent = new Intent(mContext, CourseActivity.class);
-//                intent.putExtra(CourseActivity.EXTRA_COURSE,mCourses.get(position));
-//                mContext.startActivity(intent);
-                CourseActivity.navigate((AppCompatActivity)mContext, holder.courseImage, mCourses.get(position));
+                Intent intent = new Intent(mContext, CourseActivity.class);
+                intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    ImageView courseImage = (ImageView) view.findViewById(R.id.course_cardview_image);
+                    TextView courseName = (TextView) view.findViewById(R.id.course_cardview_name);
+                    Pair<View, String> p1 = Pair.create((View) courseImage, "course_image");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
+                    mContext.startActivity(intent, options.toBundle());
+                } else {
+                    mContext.startActivity(intent);
+                }
             }
         });
 

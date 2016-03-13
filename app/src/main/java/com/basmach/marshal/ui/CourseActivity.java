@@ -1,28 +1,20 @@
 package com.basmach.marshal.ui;
 
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -55,41 +47,28 @@ public class CourseActivity extends AppCompatActivity {
     private int contentColor = -1;
     private int scrimColor = - 1;
 
-    public static void navigate(AppCompatActivity activity, View transitionImage, Course course) {
-        Intent intent = new Intent(activity, CourseActivity.class);
-        intent.putExtra(EXTRA_COURSE, course);
-
-        ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation(activity, transitionImage, EXTRA_COURSE);
-        ActivityCompat.startActivity(activity, intent, options.toBundle());
-    }
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
-        initActivityTransitions();
         setContentView(R.layout.activity_course);
-
-        ViewCompat.setTransitionName(findViewById(R.id.app_bar), EXTRA_COURSE);
-        supportPostponeEnterTransition();
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                finish();
+                supportFinishAfterTransition();
             }
         });
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
+        // hide toolbar expanded title
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(),android.R.color.transparent));
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
@@ -108,13 +87,7 @@ public class CourseActivity extends AppCompatActivity {
                             collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
                             collapsingToolbarLayout.setContentScrimColor(contentColor);
 //                            paintTitlesTextColor(contentColor);
-//                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
-                            supportStartPostponedEnterTransition();
-
-                            // Set MOOC flag if course is MOOC
-                            if (mCourse.getIsMooc()) {
-                                findViewById(R.id.courseActivity_moocFlag).setVisibility(View.VISIBLE);
-                            }
+//                            collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                         }
                     });
                 }
@@ -162,7 +135,7 @@ public class CourseActivity extends AppCompatActivity {
                 (!mCourse.getCourseCode().equals(""))) {
             mTextViewCourseCode.setText(mCourse.getCourseCode());
         } else {
-            findViewById(R.id.course_content_relativeLayout_courseCode).setVisibility(View.GONE);
+            findViewById(R.id.course_content_relativeLayout_id).setVisibility(View.GONE);
         }
 
         // Set course's Target population
@@ -176,7 +149,7 @@ public class CourseActivity extends AppCompatActivity {
         // Set course's DayTime
         if((mCourse.getDayTime() != null) &&
                 (!mCourse.getDayTime().equals(""))) {
-            mTextViewDescription.setText(mCourse.getDayTime());
+            mTextViewDayTime.setText(mCourse.getDayTime());
         } else {
             findViewById(R.id.course_content_relativeLayout_dayTime).setVisibility(View.GONE);
         }
@@ -200,29 +173,11 @@ public class CourseActivity extends AppCompatActivity {
         if (contentColor != -1) {
             ((TextView)(findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
             ((TextView)(findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_courseCodeTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_idTitle))).setTextColor(contentColor);
             ((TextView)(findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
             ((TextView)(findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
             ((TextView)(findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
             ((TextView)(findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
-        }
-    }
-
-
-    private void initActivityTransitions() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Slide transition = new Slide();
-            transition.excludeTarget(android.R.id.statusBarBackground, true);
-            getWindow().setEnterTransition(transition);
-            getWindow().setReturnTransition(transition);
-        }
-    }
-
-    @Override public boolean dispatchTouchEvent(MotionEvent motionEvent) {
-        try {
-            return super.dispatchTouchEvent(motionEvent);
-        } catch (NullPointerException e) {
-            return false;
         }
     }
 

@@ -32,6 +32,13 @@
     <string name="course_type_software">תוכנה</string>
     <string name="course_type_it">הפעלה</string>
     <string name="course_type_cyber">סייבר</string>
+    <string name="course_description">תיאור</string>
+    <string name="course_syllabus">סילבוס</string>
+    <string name="course_id">סימול</string>
+    <string name="course_target_population">אוכלוסיית יעד</string>
+    <string name="course_day_time">זמן ביום</string>
+    <string name="course_days_duration">מספר ימים</string>
+    <string name="course_hours_duration">מספר שעות</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
@@ -50,11 +57,4 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="description">תיאור</string>
-    <string name="syllabus">סילבוס</string>
-    <string name="course_code">סימול</string>
-    <string name="target_population">אוכלוסיית יעד</string>
-    <string name="day_time">זמן ביום</string>
-    <string name="days_duration">מספר ימים</string>
-    <string name="hours_duration">מספר שעות</string>
 </resources>
