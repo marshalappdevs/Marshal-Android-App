@@ -25,6 +25,8 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
+
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.squareup.picasso.Callback;
@@ -41,6 +43,17 @@ public class CourseActivity extends AppCompatActivity {
     private SharedPreferences mSharedPreferences;
 
     private Course mCourse;
+
+    private TextView mTextViewDescription;
+    private TextView mTextViewSyllabus;
+    private TextView mTextViewCourseCode;
+    private TextView mTextViewTargetPopulation;
+    private TextView mTextViewDayTime;
+    private TextView mTextViewDaysDuration;
+    private TextView mTextViewHoursDuration;
+
+    private int contentColor = -1;
+    private int scrimColor = - 1;
 
     public static void navigate(AppCompatActivity activity, View transitionImage, Course course) {
         Intent intent = new Intent(activity, CourseActivity.class);
@@ -64,6 +77,7 @@ public class CourseActivity extends AppCompatActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
@@ -75,6 +89,7 @@ public class CourseActivity extends AppCompatActivity {
         });
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout.setExpandedTitleColor(getResources().getColor(android.R.color.transparent));
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
@@ -88,10 +103,18 @@ public class CourseActivity extends AppCompatActivity {
                     Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
-                            collapsingToolbarLayout.setContentScrimColor(palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary)));
+                            contentColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
+                            scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
+                            collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
+                            collapsingToolbarLayout.setContentScrimColor(contentColor);
+//                            paintTitlesTextColor(contentColor);
 //                        collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
-                            collapsingToolbarLayout.setStatusBarScrimColor(ContextCompat.getColor(getApplicationContext(), R.color.black_trans80));
                             supportStartPostponedEnterTransition();
+
+                            // Set MOOC flag if course is MOOC
+                            if (mCourse.getIsMooc()) {
+                                findViewById(R.id.courseActivity_moocFlag).setVisibility(View.VISIBLE);
+                            }
                         }
                     });
                 }
@@ -104,8 +127,87 @@ public class CourseActivity extends AppCompatActivity {
 
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
+
+            mTextViewDescription = (TextView) findViewById(R.id.course_content_textView_description);
+            mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
+            mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
+            mTextViewTargetPopulation = (TextView) findViewById(R.id.course_content_textView_targetPopulation);
+            mTextViewDayTime = (TextView) findViewById(R.id.course_content_textView_dayTime);
+            mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
+            mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
+
+            initializeTextViews();
         }
     }
+
+    private void initializeTextViews() {
+        // Set course's Description
+        if((mCourse.getDescription() != null) &&
+                (!mCourse.getDescription().equals(""))) {
+            mTextViewDescription.setText(mCourse.getDescription());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_description).setVisibility(View.GONE);
+        }
+
+        // Set course's Syllabus
+        if((mCourse.getSyllabus() != null) &&
+                (!mCourse.getSyllabus().equals(""))) {
+            mTextViewSyllabus.setText(mCourse.getSyllabus());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_syllabus).setVisibility(View.GONE);
+        }
+
+        // Set course's Code
+        if((mCourse.getCourseCode() != null) &&
+                (!mCourse.getCourseCode().equals(""))) {
+            mTextViewCourseCode.setText(mCourse.getCourseCode());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_courseCode).setVisibility(View.GONE);
+        }
+
+        // Set course's Target population
+        if((mCourse.getTargetPopulation() != null) &&
+                (!mCourse.getTargetPopulation().equals(""))) {
+            mTextViewTargetPopulation.setText(mCourse.getTargetPopulation());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_targetPopulation).setVisibility(View.GONE);
+        }
+
+        // Set course's DayTime
+        if((mCourse.getDayTime() != null) &&
+                (!mCourse.getDayTime().equals(""))) {
+            mTextViewDescription.setText(mCourse.getDayTime());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_dayTime).setVisibility(View.GONE);
+        }
+
+        // Set course's Days duration
+        if(mCourse.getDurationInDays() != 0) {
+            mTextViewDaysDuration.setText(mCourse.getDurationInDays());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_dayDuration).setVisibility(View.GONE);
+        }
+
+        // Set course's Hours duration
+        if(mCourse.getDurationInHours() != 0) {
+            mTextViewHoursDuration.setText(mCourse.getDurationInHours());
+        } else {
+            findViewById(R.id.course_content_relativeLayout_hoursDuration).setVisibility(View.GONE);
+        }
+    }
+
+    private void paintTitlesTextColor(int contentColor) {
+        if (contentColor != -1) {
+            ((TextView)(findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_courseCodeTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
+            ((TextView)(findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
+        }
+    }
+
 
     private void initActivityTransitions() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {

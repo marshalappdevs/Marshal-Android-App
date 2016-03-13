@@ -163,4 +163,11 @@
         "For example, position the FAB to one side of stream of a cards so the FAB won’t interfere "
         "when a user tries to pick up one of cards.\n\n"
     </string>
+    <string name="description">Description</string>
+    <string name="syllabus">Syllabus</string>
+    <string name="course_code">Course code</string>
+    <string name="target_population">Target population</string>
+    <string name="day_time">Day time</string>
+    <string name="days_duration">Days duration</string>
+    <string name="hours_duration">Hours duration</string>
 </resources>
