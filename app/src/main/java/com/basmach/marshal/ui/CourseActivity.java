@@ -5,6 +5,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -13,6 +14,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.View;
@@ -45,7 +47,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewHoursDuration;
 
     private int contentColor = -1;
-    private int scrimColor = - 1;
+    private int scrimColor = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +55,7 @@ public class CourseActivity extends AppCompatActivity {
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
+        initActivityTransitions();
         setContentView(R.layout.activity_course);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -68,7 +71,7 @@ public class CourseActivity extends AppCompatActivity {
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         // hide toolbar expanded title
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(),android.R.color.transparent));
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
@@ -115,7 +118,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private void initializeTextViews() {
         // Set course's Description
-        if((mCourse.getDescription() != null) &&
+        if ((mCourse.getDescription() != null) &&
                 (!mCourse.getDescription().equals(""))) {
             mTextViewDescription.setText(mCourse.getDescription());
         } else {
@@ -123,7 +126,7 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         // Set course's Syllabus
-        if((mCourse.getSyllabus() != null) &&
+        if ((mCourse.getSyllabus() != null) &&
                 (!mCourse.getSyllabus().equals(""))) {
             mTextViewSyllabus.setText(mCourse.getSyllabus());
         } else {
@@ -131,7 +134,7 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         // Set course's Code
-        if((mCourse.getCourseCode() != null) &&
+        if ((mCourse.getCourseCode() != null) &&
                 (!mCourse.getCourseCode().equals(""))) {
             mTextViewCourseCode.setText(mCourse.getCourseCode());
         } else {
@@ -139,7 +142,7 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         // Set course's Target population
-        if((mCourse.getTargetPopulation() != null) &&
+        if ((mCourse.getTargetPopulation() != null) &&
                 (!mCourse.getTargetPopulation().equals(""))) {
             mTextViewTargetPopulation.setText(mCourse.getTargetPopulation());
         } else {
@@ -147,7 +150,7 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         // Set course's DayTime
-        if((mCourse.getDayTime() != null) &&
+        if ((mCourse.getDayTime() != null) &&
                 (!mCourse.getDayTime().equals(""))) {
             mTextViewDayTime.setText(mCourse.getDayTime());
         } else {
@@ -155,14 +158,14 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         // Set course's Days duration
-        if(mCourse.getDurationInDays() != 0) {
+        if (mCourse.getDurationInDays() != 0) {
             mTextViewDaysDuration.setText(mCourse.getDurationInDays());
         } else {
             findViewById(R.id.course_content_relativeLayout_dayDuration).setVisibility(View.GONE);
         }
 
         // Set course's Hours duration
-        if(mCourse.getDurationInHours() != 0) {
+        if (mCourse.getDurationInHours() != 0) {
             mTextViewHoursDuration.setText(mCourse.getDurationInHours());
         } else {
             findViewById(R.id.course_content_relativeLayout_hoursDuration).setVisibility(View.GONE);
@@ -171,13 +174,13 @@ public class CourseActivity extends AppCompatActivity {
 
     private void paintTitlesTextColor(int contentColor) {
         if (contentColor != -1) {
-            ((TextView)(findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_idTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
-            ((TextView)(findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_idTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
         }
     }
 
@@ -213,6 +216,16 @@ public class CourseActivity extends AppCompatActivity {
             conf.setLocale(locale);
             Locale.setDefault(locale);
             res.updateConfiguration(conf, dm);
+        }
+    }
+
+    private void initActivityTransitions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            Fade fade = new Fade();
+            fade.excludeTarget(android.R.id.statusBarBackground, true);
+            fade.excludeTarget(android.R.id.navigationBarBackground, true);
+            getWindow().setEnterTransition(fade);
+            getWindow().setReturnTransition(fade);
         }
     }
 }
