@@ -9,7 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import com.basmach.marshal.R;
 import com.basmach.marshal.ui.utils.CyclesRecyclerAdapter;
 
-public class CycleActivity extends AppCompatActivity {
+public class CyclesActivity extends AppCompatActivity {
 
     RecyclerView mRecyclerView;
     LinearLayoutManager mLinearLayoutManager;
@@ -18,12 +18,14 @@ public class CycleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_cycle);
+        setContentView(R.layout.activity_cycles);
 
         // Initialize RecyclerView
         mRecyclerView = (RecyclerView) findViewById(R.id.cycle_activity_recyclerView);
         mLinearLayoutManager = new LinearLayoutManager(this);
         mRecyclerView.setLayoutManager(mLinearLayoutManager);
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        // Get course from Intent
     }
 }

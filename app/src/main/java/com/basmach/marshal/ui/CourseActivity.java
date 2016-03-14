@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -81,16 +82,20 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        mFabCycles.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                //TODO: Cycles fab onClick
-            }
-        });
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
             Log.i("Course Activity", "course passed");
+
+            // Initialize Cycles FAB onClick event
+            mFabCycles.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(CourseActivity.this, CyclesActivity.class);
+                    intent.putExtra(EXTRA_COURSE, mCourse);
+                    startActivity(intent);
+                }
+            });
 
             // Set the course photo
             final ImageView header = (ImageView) findViewById(R.id.header);
