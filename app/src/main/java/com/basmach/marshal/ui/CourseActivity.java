@@ -101,10 +101,6 @@ public class CourseActivity extends AppCompatActivity {
             mFabCycles.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-//                    Intent intent = new Intent(CourseActivity.this, CyclesActivity.class);
-//                    intent.putExtra(EXTRA_COURSE, mCourse);
-//                    startActivity(intent);
-
                     if (mCourse.getCycles().size() > 0) {
                         CyclesBottomSheetDialogFragment bottomSheet =
                                 CyclesBottomSheetDialogFragment.newInstance(mCourse);
