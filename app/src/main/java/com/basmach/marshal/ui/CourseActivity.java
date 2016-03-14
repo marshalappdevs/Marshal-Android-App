@@ -9,6 +9,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -17,6 +18,8 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -24,8 +27,6 @@ import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.github.clans.fab.FloatingActionButton;
-import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -51,9 +52,8 @@ public class CourseActivity extends AppCompatActivity {
 
     private int contentColor = -1;
     private int scrimColor = -1;
-    private FloatingActionButton mFabRelatedArticles;
-    private FloatingActionButton mFabShare;
-    private FloatingActionMenu mFabMenu;
+
+    private FloatingActionButton mFabCycles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,9 +63,9 @@ public class CourseActivity extends AppCompatActivity {
         updateLocale();
         initActivityTransitions();
         setContentView(R.layout.activity_course);
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -79,22 +79,12 @@ public class CourseActivity extends AppCompatActivity {
         // hide toolbar expanded title
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
-        // Initialize FAB Menu and it FABs
-        mFabMenu = (FloatingActionMenu) findViewById(R.id.course_activity_fabMenu);
-        mFabRelatedArticles = (FloatingActionButton) findViewById(R.id.course_activity_fab_relatedArticles);
-        mFabShare = (FloatingActionButton) findViewById(R.id.course_activity_fab_share);
-
-        mFabRelatedArticles.setOnClickListener(new View.OnClickListener() {
+        //Initialize Cycles FAB
+        mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+        mFabCycles.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(CourseActivity.this, mFabRelatedArticles.getLabelText(), Toast.LENGTH_LONG).show();
-            }
-        });
-
-        mFabShare.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Toast.makeText(CourseActivity.this, mFabShare.getLabelText(), Toast.LENGTH_LONG).show();
+                //TODO: Cycles fab onClick
             }
         });
 
@@ -213,6 +203,23 @@ public class CourseActivity extends AppCompatActivity {
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
         updateLocale();
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_course_options, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == R.id.course_menu_item_related_materials) {
+            Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
+        } else if (item.getItemId() == R.id.course_menu_item_share) {
+            Toast.makeText(CourseActivity.this, "Share", Toast.LENGTH_LONG).show();
+        }
+
+        return super.onOptionsItemSelected(item);
     }
 
     private void updateTheme() {
