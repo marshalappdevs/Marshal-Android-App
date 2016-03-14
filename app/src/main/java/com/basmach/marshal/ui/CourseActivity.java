@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
+import android.transition.Slide;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -54,8 +55,6 @@ public class CourseActivity extends AppCompatActivity {
     private int contentColor = -1;
     private int scrimColor = -1;
 
-    private FloatingActionButton mFabCycles;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -64,9 +63,9 @@ public class CourseActivity extends AppCompatActivity {
         updateLocale();
         initActivityTransitions();
         setContentView(R.layout.activity_course);
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
@@ -81,14 +80,14 @@ public class CourseActivity extends AppCompatActivity {
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
         //Initialize Cycles FAB
-        mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+        FloatingActionButton floatingActionButton = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
             Log.i("Course Activity", "course passed");
 
             // Initialize Cycles FAB onClick event
-            mFabCycles.setOnClickListener(new View.OnClickListener() {
+            floatingActionButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(CourseActivity.this, CyclesActivity.class);
@@ -212,18 +211,24 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_course_options, menu);
+        getMenuInflater().inflate(R.menu.activity_course_menu, menu);
         return true;
     }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.course_menu_item_related_materials) {
+        // Handle action bar item clicks here. The action bar will
+        // automatically handle clicks on the Home/Up button, so long
+        // as you specify a parent activity in AndroidManifest.xml.
+        int id = item.getItemId();
+
+        //noinspection SimplifiableIfStatement
+        if (id == R.id.course_menu_item_related_materials) {
             Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
-        } else if (item.getItemId() == R.id.course_menu_item_share) {
+        }
+        if (id == R.id.course_menu_item_share) {
             Toast.makeText(CourseActivity.this, "Share", Toast.LENGTH_LONG).show();
         }
-
         return super.onOptionsItemSelected(item);
     }
 

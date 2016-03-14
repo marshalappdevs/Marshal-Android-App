@@ -55,32 +55,4 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end" />
 
-    <!--<com.github.clans.fab.FloatingActionMenu-->
-    <!--android:id="@+id/course_activity_fabMenu"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:layout_gravity="bottom|end"-->
-    <!--android:layout_margin="@dimen/fab_margin"-->
-    <!--fab:menu_icon="@drawable/ic_menu_24dp"-->
-    <!--fab:menu_openDirection="up"-->
-    <!--fab:menu_labels_position="right">-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/course_activity_fab_relatedArticles"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_course_syllabus"-->
-    <!--fab:fab_label="@string/course_fab_label_related_content"-->
-    <!--style="@style/MenuButtonsStyle" />-->
-
-    <!--<com.github.clans.fab.FloatingActionButton-->
-    <!--android:id="@+id/course_activity_fab_share"-->
-    <!--android:layout_width="wrap_content"-->
-    <!--android:layout_height="wrap_content"-->
-    <!--android:src="@drawable/ic_share_24dp"-->
-    <!--fab:fab_label="@string/share"-->
-    <!--style="@style/MenuButtonsStyle" />-->
-
-    <!--</com.github.clans.fab.FloatingActionMenu>-->
-
 </android.support.design.widget.CoordinatorLayout>
