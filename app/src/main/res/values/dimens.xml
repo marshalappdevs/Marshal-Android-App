@@ -15,4 +15,5 @@
     <dimen name="course_content_padding">16dp</dimen>
     <dimen name="course_content_relativeLayouts_top_margin">16dp</dimen>
     <dimen name="course_image_elevation">4dp</dimen>
+    <dimen name="cycle_item_margin">4dp</dimen>
 </resources>
