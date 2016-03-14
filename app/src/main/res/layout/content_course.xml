@@ -29,7 +29,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_description"
                 tools:ignore="ContentDescription" />

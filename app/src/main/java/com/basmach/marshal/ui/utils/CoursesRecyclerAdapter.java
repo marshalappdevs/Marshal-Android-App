@@ -36,8 +36,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     @Override
     public CourseVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview, null);
-        CourseVH viewHolder = new CourseVH(view);
-        return viewHolder;
+        return new CourseVH(view);
     }
 
     @Override

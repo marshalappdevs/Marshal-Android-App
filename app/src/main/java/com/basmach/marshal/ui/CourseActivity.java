@@ -9,12 +9,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
@@ -22,12 +27,15 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
+import com.basmach.marshal.ui.utils.CyclesRecyclerAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -55,6 +63,7 @@ public class CourseActivity extends AppCompatActivity {
     private int scrimColor = -1;
 
     private FloatingActionButton mFabCycles;
+    private CoordinatorLayout mCoordinatorLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,6 +74,7 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.course_activity_coordinatorLayout) ;
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -91,9 +101,15 @@ public class CourseActivity extends AppCompatActivity {
             mFabCycles.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent intent = new Intent(CourseActivity.this, CyclesActivity.class);
-                    intent.putExtra(EXTRA_COURSE, mCourse);
-                    startActivity(intent);
+//                    Intent intent = new Intent(CourseActivity.this, CyclesActivity.class);
+//                    intent.putExtra(EXTRA_COURSE, mCourse);
+//                    startActivity(intent);
+
+                    if (mCourse.getCycles().size() > 0) {
+                        CyclesBottomSheetDialogFragment bottomSheet =
+                                CyclesBottomSheetDialogFragment.newInstance(mCourse);
+                        bottomSheet.show(getSupportFragmentManager(),"CyclesBottomSheet");
+                    }
                 }
             });
 

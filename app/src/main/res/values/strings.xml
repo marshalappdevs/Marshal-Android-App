@@ -83,4 +83,7 @@
     <string name="title_activity_course">CourseActivity</string>
     <string name="course_fab_label_related_content">Articles</string>
     <string name="share">Share</string>
+    <string name="temp_cycle_desc">ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה.</string>
+    <string name="start_date">Start Date</string>
+    <string name="end_date">End Date</string>
 </resources>
