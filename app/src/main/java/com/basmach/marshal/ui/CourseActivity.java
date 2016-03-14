@@ -85,6 +85,7 @@ public class CourseActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mFabCycles.setVisibility(View.GONE);
                 supportFinishAfterTransition();
             }
         });
@@ -219,6 +220,12 @@ public class CourseActivity extends AppCompatActivity {
             ((TextView) (findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        mFabCycles.setVisibility(View.GONE);
+        super.onBackPressed();
     }
 
     @Override
