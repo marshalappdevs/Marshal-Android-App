@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -27,7 +28,9 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -74,7 +77,7 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.course_activity_coordinatorLayout) ;
+        mCoordinatorLayout = (CoordinatorLayout) findViewById(R.id.course_activity_coordinatorLayout);
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -92,6 +95,8 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+        Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.simple_grow);
+        mFabCycles.startAnimation(animation);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
@@ -224,7 +229,7 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_course_options, menu);
+        getMenuInflater().inflate(R.menu.activity_course_menu, menu);
         return true;
     }
 
