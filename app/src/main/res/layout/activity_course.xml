@@ -15,7 +15,6 @@
         android:layout_height="@dimen/app_bar_height"
         android:fitsSystemWindows="true"
         android:theme="@style/AppTheme.AppBarOverlay"
-        android:translationZ="4dp"
         android:elevation="4dp">
 
         <android.support.design.widget.CollapsingToolbarLayout
