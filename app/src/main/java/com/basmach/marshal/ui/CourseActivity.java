@@ -159,14 +159,14 @@ public class CourseActivity extends AppCompatActivity {
 
         // Set course's Days duration
         if (mCourse.getDurationInDays() != 0) {
-            mTextViewDaysDuration.setText(mCourse.getDurationInDays());
+            mTextViewDaysDuration.setText(String.valueOf(mCourse.getDurationInDays()));
         } else {
             findViewById(R.id.course_content_relativeLayout_dayDuration).setVisibility(View.GONE);
         }
 
         // Set course's Hours duration
         if (mCourse.getDurationInHours() != 0) {
-            mTextViewHoursDuration.setText(mCourse.getDurationInHours());
+            mTextViewHoursDuration.setText(String.valueOf(mCourse.getDurationInHours()));
         } else {
             findViewById(R.id.course_content_relativeLayout_hoursDuration).setVisibility(View.GONE);
         }

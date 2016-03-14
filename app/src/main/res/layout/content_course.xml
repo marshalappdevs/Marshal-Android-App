@@ -6,18 +6,19 @@
     android:layout_height="match_parent"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.basmach.marshal.ui.CourseActivity"
-    tools:showIn="@layout/activity_course">
+    tools:showIn="@layout/activity_course"
+    android:padding="@dimen/course_content_padding">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:padding="@dimen/course_content_padding">
+        android:orientation="vertical">
 
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_description">
+            android:id="@+id/course_content_relativeLayout_description"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_descriptionIcon"
@@ -25,7 +26,7 @@
                 android:layout_height="24dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp"
+
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_description"
                 tools:ignore="ContentDescription" />
@@ -59,7 +60,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_syllabus">
+            android:id="@+id/course_content_relativeLayout_syllabus"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_syllabusIcon"
@@ -67,7 +69,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_syllabus"
                 tools:ignore="ContentDescription" />
@@ -102,7 +103,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_id">
+            android:id="@+id/course_content_relativeLayout_id"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_idIcon"
@@ -110,7 +112,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_id"
                 tools:ignore="ContentDescription" />
@@ -144,7 +145,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_targetPopulation">
+            android:id="@+id/course_content_relativeLayout_targetPopulation"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_targetPopulationIcon"
@@ -152,7 +154,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_target_population"
                 tools:ignore="ContentDescription" />
@@ -186,7 +187,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_dayTime">
+            android:id="@+id/course_content_relativeLayout_dayTime"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_dayTimeIcon"
@@ -194,7 +196,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_daytime"
                 tools:ignore="ContentDescription" />
@@ -228,7 +229,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_dayDuration">
+            android:id="@+id/course_content_relativeLayout_dayDuration"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_daysDurationIcon"
@@ -236,7 +238,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_days_duration"
                 tools:ignore="ContentDescription" />
@@ -270,7 +271,8 @@
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:id="@+id/course_content_relativeLayout_hoursDuration">
+            android:id="@+id/course_content_relativeLayout_hoursDuration"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
 
             <ImageView
                 android:id="@+id/course_content_imageView_hoursDurationIcon"
@@ -278,7 +280,6 @@
                 android:layout_height="24dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
-                android:layout_marginTop="8dp"
                 android:layout_marginEnd="8dp"
                 android:src="@drawable/ic_course_hours_duration"
                 tools:ignore="ContentDescription" />

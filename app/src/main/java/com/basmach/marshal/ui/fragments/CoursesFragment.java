@@ -72,7 +72,13 @@ public class CoursesFragment extends Fragment {
         Cycle cyberCycle = new Cycle();
         cyberCycle.setStartDate(DateHelper.stringToDate("08/05/17"));
         courseCyber.addCycle(cyberCycle);
-        courseCyber.setDescription("Cyber course description");
+        courseCyber.setDescription("ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה. ");
+        courseCyber.setTargetPopulation("אקדמאים בוגרי מקצועות המחשב, או תוכניתנים אשר מתוכננים לפתח פרוייקטים ב- ++C.");
+        courseCyber.setSyllabus("History & Future C++ Recap Copying and Conversions Scope Subscripting Techniques Delegation Techniques Templates Iterators and Algorithms Exceptions Memory Management Inheritance Techniques Template Techniques Miscellaneous Techniques ");
+        courseCyber.setDayTime("בוקר-צהריים-ערב");
+        courseCyber.setDurationInDays(5);
+        courseCyber.setDurationInHours(45);
+        courseCyber.setCourseCode("1951");
         COURSES.add(courseCyber);
 
         Course courseAngular = new Course();
