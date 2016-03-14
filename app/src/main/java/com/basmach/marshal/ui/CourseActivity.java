@@ -20,9 +20,12 @@ import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.github.clans.fab.FloatingActionButton;
+import com.github.clans.fab.FloatingActionMenu;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -48,6 +51,9 @@ public class CourseActivity extends AppCompatActivity {
 
     private int contentColor = -1;
     private int scrimColor = -1;
+    private FloatingActionButton mFabRelatedArticles;
+    private FloatingActionButton mFabShare;
+    private FloatingActionMenu mFabMenu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,6 +78,25 @@ public class CourseActivity extends AppCompatActivity {
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         // hide toolbar expanded title
         collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+
+        // Initialize FAB Menu and it FABs
+        mFabMenu = (FloatingActionMenu) findViewById(R.id.course_activity_fabMenu);
+        mFabRelatedArticles = (FloatingActionButton) findViewById(R.id.course_activity_fab_relatedArticles);
+        mFabShare = (FloatingActionButton) findViewById(R.id.course_activity_fab_share);
+
+        mFabRelatedArticles.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CourseActivity.this, mFabRelatedArticles.getLabelText(), Toast.LENGTH_LONG).show();
+            }
+        });
+
+        mFabShare.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Toast.makeText(CourseActivity.this, mFabShare.getLabelText(), Toast.LENGTH_LONG).show();
+            }
+        });
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {

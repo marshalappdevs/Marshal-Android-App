@@ -81,4 +81,6 @@
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
     <string name="title_activity_course">CourseActivity</string>
+    <string name="course_fab_label_related_content">Articles</string>
+    <string name="share">Share</string>
 </resources>
