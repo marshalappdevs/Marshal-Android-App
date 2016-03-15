@@ -3,12 +3,8 @@ package com.basmach.marshal.entities;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.view.View;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 
-import com.basmach.marshal.R;
-import com.basmach.marshal.ui.utils.DateHelper;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;

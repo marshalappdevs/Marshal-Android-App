@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.utils;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

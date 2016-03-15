@@ -2,7 +2,7 @@ package com.basmach.marshal.entities;
 
 import android.os.Parcel;
 import android.os.Parcelable;
-import com.basmach.marshal.ui.utils.DateHelper;
+import com.basmach.marshal.utils.DateHelper;
 import java.util.Date;
 
 public class Cycle implements Parcelable{

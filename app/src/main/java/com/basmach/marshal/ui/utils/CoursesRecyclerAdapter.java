@@ -3,7 +3,6 @@ package com.basmach.marshal.ui.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.os.Build;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
@@ -19,6 +18,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
+import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
 
 import java.util.ArrayList;

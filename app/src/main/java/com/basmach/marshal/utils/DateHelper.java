@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.utils;
 import com.basmach.marshal.Constants;
 import java.text.DateFormat;
 import java.text.ParseException;

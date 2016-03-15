@@ -20,7 +20,7 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
-import com.basmach.marshal.ui.utils.DateHelper;
+import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
 import java.util.Timer;
@@ -69,33 +69,6 @@ public class CoursesFragment extends Fragment {
         courseCyber.setPhotoUrl(IMAGES.get(0));
         courseCyber.setName("Cyber Warfare Techniques");
         courseCyber.setIsMooc(false);
-
-        Cycle cyberCycle1 = new Cycle();
-        cyberCycle1.setStartDate(DateHelper.stringToDate("17/06/16"));
-        cyberCycle1.setEndDate(DateHelper.stringToDate("22/06/16"));
-        courseCyber.addCycle(cyberCycle1);
-        Cycle cyberCycle2 = new Cycle();
-        cyberCycle2.setStartDate(DateHelper.stringToDate("05/09/16"));
-        cyberCycle2.setEndDate(DateHelper.stringToDate("10/09/16"));
-        courseCyber.addCycle(cyberCycle2);
-        Cycle cyberCycle3 = new Cycle();
-        cyberCycle3.setStartDate(DateHelper.stringToDate("08/05/17"));
-        cyberCycle3.setEndDate(DateHelper.stringToDate("13/05/17"));
-        courseCyber.addCycle(cyberCycle3);
-
-        courseCyber.addCycle(cyberCycle1);
-        courseCyber.addCycle(cyberCycle2);
-        courseCyber.addCycle(cyberCycle3);
-        courseCyber.addCycle(cyberCycle1);
-        courseCyber.addCycle(cyberCycle2);
-        courseCyber.addCycle(cyberCycle3);
-        courseCyber.addCycle(cyberCycle1);
-        courseCyber.addCycle(cyberCycle2);
-        courseCyber.addCycle(cyberCycle3);
-        courseCyber.addCycle(cyberCycle1);
-        courseCyber.addCycle(cyberCycle2);
-        courseCyber.addCycle(cyberCycle3);
-
         courseCyber.setDescription("ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה. ");
         courseCyber.setTargetPopulation("אקדמאים בוגרי מקצועות המחשב, או תוכניתנים אשר מתוכננים לפתח פרוייקטים ב- ++C.");
         courseCyber.setSyllabus("History & Future C++ Recap Copying and Conversions Scope Subscripting Techniques Delegation Techniques Templates Iterators and Algorithms Exceptions Memory Management Inheritance Techniques Template Techniques Miscellaneous Techniques ");
@@ -103,6 +76,37 @@ public class CoursesFragment extends Fragment {
         courseCyber.setDurationInDays(5);
         courseCyber.setDurationInHours(45);
         courseCyber.setCourseCode("1951");
+        Cycle cyberCycle1 = new Cycle();
+        cyberCycle1.setStartDate(DateHelper.stringToDate("17/06/16"));
+        cyberCycle1.setEndDate(DateHelper.stringToDate("22/06/16"));
+        cyberCycle1.setName(courseCyber.getName());
+        cyberCycle1.setDescription(courseCyber.getDescription());
+        courseCyber.addCycle(cyberCycle1);
+        Cycle cyberCycle2 = new Cycle();
+        cyberCycle2.setStartDate(DateHelper.stringToDate("05/09/16"));
+        cyberCycle2.setEndDate(DateHelper.stringToDate("10/09/16"));
+        cyberCycle2.setName(courseCyber.getName());
+        cyberCycle2.setDescription(courseCyber.getDescription());
+        courseCyber.addCycle(cyberCycle2);
+        Cycle cyberCycle3 = new Cycle();
+        cyberCycle3.setStartDate(DateHelper.stringToDate("08/05/17"));
+        cyberCycle3.setEndDate(DateHelper.stringToDate("13/05/17"));
+        cyberCycle3.setName(courseCyber.getName());
+        cyberCycle3.setDescription(courseCyber.getDescription());
+        courseCyber.addCycle(cyberCycle3);
+
+        courseCyber.addCycle(cyberCycle1);
+        courseCyber.addCycle(cyberCycle2);
+        courseCyber.addCycle(cyberCycle3);
+        courseCyber.addCycle(cyberCycle1);
+        courseCyber.addCycle(cyberCycle2);
+        courseCyber.addCycle(cyberCycle3);
+        courseCyber.addCycle(cyberCycle1);
+        courseCyber.addCycle(cyberCycle2);
+        courseCyber.addCycle(cyberCycle3);
+        courseCyber.addCycle(cyberCycle1);
+        courseCyber.addCycle(cyberCycle2);
+        courseCyber.addCycle(cyberCycle3);
         COURSES.add(courseCyber);
 
         Course courseAngular = new Course();
