@@ -9,10 +9,10 @@
         android:layout_height="wrap_content"
         android:id="@+id/cycle_activity_textViewTitle"
         android:text="@string/choose_cycle"
-        android:textStyle="bold"
+        android:textColor="?android:textColorSecondary"
+        android:textAppearance="@android:style/TextAppearance.Medium"
         android:gravity="center_vertical"
-        android:padding="8dp"
-        android:textColor="?android:textColorSecondary" />
+        android:padding="16dp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cycle_activity_recyclerView"
