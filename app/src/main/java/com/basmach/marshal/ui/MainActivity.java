@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -8,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
@@ -19,11 +17,9 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -54,7 +50,6 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
-import com.basmach.marshal.utils.PermissionUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -78,12 +73,12 @@ import java.util.Locale;
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 //    private static final int REQUEST_CONTACTS = 0;
-    private static final int REQUEST_CALENDAR = 1;
-    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
-            Manifest.permission.WRITE_CALENDAR};
+//    private static final int REQUEST_CALENDAR = 1;
+//    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
+//            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private GoogleApiClient mGoogleApiClient;
-    private ProgressDialog mProgressDialog;
+//    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -248,36 +243,36 @@ public class MainActivity extends AppCompatActivity
 //        }
 //    }
 
-    private void requestCalendarPermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
-                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.permission_calendar_access_for_meetups)
-                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
-                        }
-                    })
-                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            // Calendar permissions have not been granted yet. Request them directly.
-            ActivityCompat.requestPermissions(this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
-        }
-    }
+//    private void requestCalendarPermission() {
+//        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
+//                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+//            // Provide an additional rationale to the user if the permission was not granted
+//            // and the user would benefit from additional context for the use of the permission.
+//            // For example, if the request has been denied previously.
+//            new AlertDialog.Builder(this)
+//                    .setMessage(R.string.permission_calendar_access_for_meetups)
+//                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                            ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
+//                        }
+//                    })
+//                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialog, int which) {
+//                            dialog.dismiss();
+//                        }
+//                    })
+//                    .show();
+//        } else {
+//            // Calendar permissions have not been granted yet. Request them directly.
+//            ActivityCompat.requestPermissions(this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
+//        }
+//    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        if (requestCode == REQUEST_CONTACTS) {
 //            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
 //            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -313,43 +308,43 @@ public class MainActivity extends AppCompatActivity
 //                mSharedPreferences.edit().putBoolean("contactsNeverAskAgain", true).apply();
 //            }
 //        }
-        if (requestCode == REQUEST_CALENDAR) {
-            boolean calendarNeverAskAgain = mSharedPreferences.getBoolean("calendarNeverAskAgain", false);
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                // User granted permissions dialog
-            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-                // User denied permissions dialog
-            } else {
-                // User denied permissions dialog and checked never ask again
-                if (calendarNeverAskAgain) {
-                    new AlertDialog.Builder(this)
-                            .setMessage(R.string.permission_calendar_access)
-                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    Intent intent = new Intent();
-                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-                                    intent.setData(uri);
-                                    startActivity(intent);
-                                    finish();
-                                }
-                            })
-                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.dismiss();
-                                }
-                            })
-                            .show();
-                }
-                mSharedPreferences.edit().putBoolean("calendarNeverAskAgain", true).apply();
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
-    }
+//        if (requestCode == REQUEST_CALENDAR) {
+//            boolean calendarNeverAskAgain = mSharedPreferences.getBoolean("calendarNeverAskAgain", false);
+//            if (PermissionUtil.verifyPermissions(grantResults)) {
+//                // User granted permissions dialog
+//            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
+//                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+//                // User denied permissions dialog
+//            } else {
+//                // User denied permissions dialog and checked never ask again
+//                if (calendarNeverAskAgain) {
+//                    new AlertDialog.Builder(this)
+//                            .setMessage(R.string.permission_calendar_access)
+//                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    Intent intent = new Intent();
+//                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+//                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
+//                                    intent.setData(uri);
+//                                    startActivity(intent);
+//                                    finish();
+//                                }
+//                            })
+//                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialog, int which) {
+//                                    dialog.dismiss();
+//                                }
+//                            })
+//                            .show();
+//                }
+//                mSharedPreferences.edit().putBoolean("calendarNeverAskAgain", true).apply();
+//            }
+//        } else {
+//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+//        }
+//    }
 
     private void initializeGoogleSignIn() {
         // Configure sign-in to request the user's ID, email address, and basic
@@ -390,11 +385,11 @@ public class MainActivity extends AppCompatActivity
                 // If the user has not previously signed in on this device or the sign-in has expired,
                 // this asynchronous branch will attempt to sign in the user silently.  Cross-device
                 // single sign-on will occur in this branch.
-                showProgressDialog();
+//                showProgressDialog();
                 opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
                     @Override
                     public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-                        hideProgressDialog();
+//                        hideProgressDialog();
                         handleSignInResult(googleSignInResult);
                     }
                 });
@@ -472,17 +467,17 @@ public class MainActivity extends AppCompatActivity
         startActivityForResult(signInIntent, RC_SIGN_IN);
     }
 
-    private void signOut() {
-        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
-                new ResultCallback<Status>() {
-                    @Override
-                    public void onResult(@NonNull Status status) {
-                        // [START_EXCLUDE]
-                        signedIn = false;
-                        // [END_EXCLUDE]
-                    }
-                });
-    }
+//    private void signOut() {
+//        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
+//                new ResultCallback<Status>() {
+//                    @Override
+//                    public void onResult(@NonNull Status status) {
+//                        // [START_EXCLUDE]
+//                        signedIn = false;
+//                        // [END_EXCLUDE]
+//                    }
+//                });
+//    }
 
     private void revokeAccess() {
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
@@ -503,20 +498,20 @@ public class MainActivity extends AppCompatActivity
 //        Log.d(TAG, "onConnectionFailed:" + connectionResult);
     }
 
-    private void showProgressDialog() {
-        if (mProgressDialog == null) {
-            mProgressDialog = new ProgressDialog(this);
-            mProgressDialog.setMessage(getString(R.string.loading));
-            mProgressDialog.setIndeterminate(true);
-        }
-        mProgressDialog.show();
-    }
-
-    private void hideProgressDialog() {
-        if (mProgressDialog != null && mProgressDialog.isShowing()) {
-            mProgressDialog.hide();
-        }
-    }
+//    private void showProgressDialog() {
+//        if (mProgressDialog == null) {
+//            mProgressDialog = new ProgressDialog(this);
+//            mProgressDialog.setMessage(getString(R.string.loading));
+//            mProgressDialog.setIndeterminate(true);
+//        }
+//        mProgressDialog.show();
+//    }
+//
+//    private void hideProgressDialog() {
+//        if (mProgressDialog != null && mProgressDialog.isShowing()) {
+//            mProgressDialog.hide();
+//        }
+//    }
 
     long lastPress;
 
@@ -623,10 +618,10 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-                requestCalendarPermission();
-            }
+//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
+//                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
+//                requestCalendarPermission();
+//            }
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {

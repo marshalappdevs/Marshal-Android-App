@@ -14,6 +14,7 @@ import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -44,7 +45,9 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -77,8 +80,24 @@ public class CourseActivity extends AppCompatActivity {
         updateLocale();
         initActivityTransitions();
         setContentView(R.layout.activity_course);
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
+        setEnterSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                mFabCycles.setVisibility(View.GONE);
+                super.onMapSharedElements(names, sharedElements);
+            }
+
+            @Override
+            public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
+                mFabCycles.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.simple_grow);
+                mFabCycles.startAnimation(animation);
+                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
+            }
+        });
+
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -86,7 +105,6 @@ public class CourseActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                mFabCycles.setVisibility(View.GONE);
                 supportFinishAfterTransition();
             }
         });
@@ -97,8 +115,6 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.simple_grow);
-        mFabCycles.startAnimation(animation);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
         if (mCourse != null) {
@@ -235,11 +251,6 @@ public class CourseActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public void onBackPressed() {
-        mFabCycles.setVisibility(View.GONE);
-        super.onBackPressed();
-    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {

@@ -48,9 +48,9 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             public void onClick(View view) {
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                    Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");
-                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
-                    mContext.startActivity(intent, options.toBundle());
+                Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
+                mContext.startActivity(intent, options.toBundle());
             }
         });
 
