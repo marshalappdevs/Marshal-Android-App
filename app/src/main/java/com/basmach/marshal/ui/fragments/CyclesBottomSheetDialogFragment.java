@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -42,16 +43,21 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.activity_cycles, container, false);
 
-        Course course = getArguments().getParcelable(CourseActivity.EXTRA_COURSE);
-        ArrayList<Cycle> cycles = course.getCycles();
+        try {
+            Course course = getArguments().getParcelable(CourseActivity.EXTRA_COURSE);
+            ArrayList<Cycle> cycles = course.getCycles();
 
-        // Initialize RecyclerView
-        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cycle_activity_recyclerView);
-        mLinearLayoutManager = new LinearLayoutManager(getActivity());
-        mRecyclerView.setLayoutManager(mLinearLayoutManager);
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-        mAdapter = new CyclesRecyclerAdapter(getActivity(), cycles);
-        mRecyclerView.setAdapter(mAdapter);
+            // Initialize RecyclerView
+            mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cycle_activity_recyclerView);
+            mLinearLayoutManager = new LinearLayoutManager(getActivity());
+            mRecyclerView.setLayoutManager(mLinearLayoutManager);
+            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+            mAdapter = new CyclesRecyclerAdapter(getActivity(), cycles);
+            mRecyclerView.setAdapter(mAdapter);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
 
         return rootView;
     }

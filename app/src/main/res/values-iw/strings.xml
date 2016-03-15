@@ -62,4 +62,5 @@
     <string name="start_date">תאריך התחלה</string>
     <string name="end_date">תאריך סיום</string>
     <string name="choose_cycle">בחר מחזור</string>
+    <string name="no_cycles_message">אין מחזורים לקורס זה</string>
 </resources>

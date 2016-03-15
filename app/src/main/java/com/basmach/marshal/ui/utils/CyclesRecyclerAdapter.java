@@ -38,21 +38,32 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
 
     @Override
     public void onBindViewHolder(CycleVH holder, final int position) {
-        holder.mStartDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getStartDate()));
-        holder.mEndDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getEndDate()));
-        holder.mMainLayout.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                calIntent.setType("vnd.android.cursor.item/event");
-                calIntent.putExtra(Events.TITLE, mCycles.get(position).getName());
-                calIntent.putExtra(Events.DESCRIPTION, mCycles.get(position).getDescription());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, mCycles.get(position).getStartDate().getTime());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, mCycles.get(position).getEndDate().getTime());
-                mContext.startActivity(calIntent);
-            }
-        });
+        try {
+            holder.mStartDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getStartDate()));
+            holder.mEndDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getEndDate()));
+            holder.mMainLayout.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    GregorianCalendar startDate = new GregorianCalendar();
+                    startDate.setTime(mCycles.get(position).getStartDate());
+
+                    GregorianCalendar endDate = new GregorianCalendar();
+                    endDate.setTime(mCycles.get(position).getEndDate());
+                    endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
+
+                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                    calIntent.setType("vnd.android.cursor.item/event");
+                    calIntent.putExtra(Events.TITLE, mCycles.get(position).getName());
+                    calIntent.putExtra(Events.DESCRIPTION, mCycles.get(position).getDescription());
+                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
+                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
+                    mContext.startActivity(calIntent);
+                }
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

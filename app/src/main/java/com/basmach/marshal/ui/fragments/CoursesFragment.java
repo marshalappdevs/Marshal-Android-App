@@ -77,8 +77,8 @@ public class CoursesFragment extends Fragment {
         courseCyber.setDurationInHours(45);
         courseCyber.setCourseCode("1951");
         Cycle cyberCycle1 = new Cycle();
-        cyberCycle1.setStartDate(DateHelper.stringToDate("17/06/16"));
-        cyberCycle1.setEndDate(DateHelper.stringToDate("22/06/16"));
+        cyberCycle1.setStartDate(DateHelper.stringToDate("23/06/16"));
+        cyberCycle1.setEndDate(DateHelper.stringToDate("01/07/16"));
         cyberCycle1.setName(courseCyber.getName());
         cyberCycle1.setDescription(courseCyber.getDescription());
         courseCyber.addCycle(cyberCycle1);
