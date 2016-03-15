@@ -10,6 +10,7 @@ import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 public class Course implements Parcelable {
+
     private long id;
     private String courseCode;
     private String name;

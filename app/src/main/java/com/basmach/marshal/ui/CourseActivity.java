@@ -184,10 +184,14 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     private void initializeTextViews() {
+
+        boolean isAnyDataExist = false;
+
         // Set course's Description
         if ((mCourse.getDescription() != null) &&
                 (!mCourse.getDescription().equals(""))) {
             mTextViewDescription.setText(mCourse.getDescription());
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_description).setVisibility(View.GONE);
         }
@@ -196,6 +200,7 @@ public class CourseActivity extends AppCompatActivity {
         if ((mCourse.getSyllabus() != null) &&
                 (!mCourse.getSyllabus().equals(""))) {
             mTextViewSyllabus.setText(mCourse.getSyllabus());
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_syllabus).setVisibility(View.GONE);
         }
@@ -204,6 +209,7 @@ public class CourseActivity extends AppCompatActivity {
         if ((mCourse.getCourseCode() != null) &&
                 (!mCourse.getCourseCode().equals(""))) {
             mTextViewCourseCode.setText(mCourse.getCourseCode());
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_id).setVisibility(View.GONE);
         }
@@ -212,6 +218,7 @@ public class CourseActivity extends AppCompatActivity {
         if ((mCourse.getTargetPopulation() != null) &&
                 (!mCourse.getTargetPopulation().equals(""))) {
             mTextViewTargetPopulation.setText(mCourse.getTargetPopulation());
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_targetPopulation).setVisibility(View.GONE);
         }
@@ -220,6 +227,7 @@ public class CourseActivity extends AppCompatActivity {
         if ((mCourse.getDayTime() != null) &&
                 (!mCourse.getDayTime().equals(""))) {
             mTextViewDayTime.setText(mCourse.getDayTime());
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_dayTime).setVisibility(View.GONE);
         }
@@ -227,6 +235,7 @@ public class CourseActivity extends AppCompatActivity {
         // Set course's Days duration
         if (mCourse.getDurationInDays() != 0) {
             mTextViewDaysDuration.setText(String.valueOf(mCourse.getDurationInDays()));
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_dayDuration).setVisibility(View.GONE);
         }
@@ -234,8 +243,13 @@ public class CourseActivity extends AppCompatActivity {
         // Set course's Hours duration
         if (mCourse.getDurationInHours() != 0) {
             mTextViewHoursDuration.setText(String.valueOf(mCourse.getDurationInHours()));
+            isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_hoursDuration).setVisibility(View.GONE);
+        }
+
+        if(!isAnyDataExist) {
+            findViewById(R.id.course_content_textView_noDetailsMessage).setVisibility(View.VISIBLE);
         }
     }
 

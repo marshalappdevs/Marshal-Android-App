@@ -63,4 +63,6 @@
     <string name="end_date">תאריך סיום</string>
     <string name="choose_cycle">בחר מחזור</string>
     <string name="no_cycles_message">אין מחזורים לקורס זה</string>
+    <string name="course_no_details_to_show_message">מצטערים, אין לנו כרגע פרטים להציג על קורס זה.</string>
+    <string name="cycle_item_onclick_error_message">מצטערים, אירעה שגיאה.\n נסה שוב מאוחר יותר בבקשה.</string>
 </resources>

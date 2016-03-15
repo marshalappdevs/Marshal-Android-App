@@ -3,8 +3,8 @@
     package="com.basmach.marshal">
 
     <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
-    <!--<uses-permission android:name="android.permission.READ_CALENDAR" />-->
-    <!--<uses-permission android:name="android.permission.WRITE_CALENDAR" />-->
+    <!-- <uses-permission android:name="android.permission.READ_CALENDAR" /> -->
+    <!-- <uses-permission android:name="android.permission.WRITE_CALENDAR" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
@@ -29,7 +29,7 @@
             android:name=".ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
-            android:theme="@style/AppTheme.Base"></activity>
+            android:theme="@style/AppTheme.Base" />
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
@@ -39,6 +39,9 @@
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
             <!-- android:value=".ui.MainActivity" /> -->
         </activity>
+        <activity
+            android:name=".ui.ShowAllCoursesActivity"
+            android:theme="@style/AppTheme.Base"/>
     </application>
 
 </manifest>

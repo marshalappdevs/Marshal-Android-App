@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -17,6 +18,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
@@ -168,13 +170,17 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
+//                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, COURSES);
+                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
+                startActivity(intent);
             }
         });
         mRecyclerSoftware = (RecyclerView) rootView.findViewById(R.id.fragment_courses_software_recyclerView);
         mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
-        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(), COURSES, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
     }
@@ -190,7 +196,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerCyber = (RecyclerView) rootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
         mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
-        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(), COURSES, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
     }
@@ -206,7 +212,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
         mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), COURSES);
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), COURSES, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
     }

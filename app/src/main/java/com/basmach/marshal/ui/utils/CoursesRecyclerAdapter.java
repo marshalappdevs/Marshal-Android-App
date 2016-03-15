@@ -7,6 +7,8 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -25,12 +27,17 @@ import java.util.ArrayList;
 
 public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecyclerAdapter.CourseVH> {
 
+    public static final int LAYOUT_TYPE_LIST = 1;
+    public static final int LAYOUT_TYPE_GRID = 2;
+
     private Context mContext;
     private ArrayList<Course> mCourses;
+    private int mRecyclerLayoutType;
 
-    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses) {
+    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses, int layoutType) {
         this.mCourses = courses;
         this.mContext = context;
+        this.mRecyclerLayoutType = layoutType;
     }
 
     @Override
@@ -108,6 +115,17 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
             courseProgressBar = (ProgressBar) itemView.findViewById(R.id.course_cardview_progressBar);
+
+            if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
+                CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();
+                cardLayoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 110, mContext.getResources().getDisplayMetrics());
+                cardLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, mContext.getResources().getDisplayMetrics());
+                int dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
+                cardLayoutParams.setMargins(dp4, dp4, dp4 ,dp4);
+
+                courseName.setMaxLines(2);
+                courseName.setEllipsize(TextUtils.TruncateAt.END);
+            }
         }
     }
 }

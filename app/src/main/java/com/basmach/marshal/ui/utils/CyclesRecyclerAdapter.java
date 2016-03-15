@@ -10,6 +10,8 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.provider.CalendarContract.Events;
+import android.widget.Toast;
+
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.utils.DateHelper;
@@ -38,26 +40,6 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
         try {
             holder.mStartDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getStartDate()));
             holder.mEndDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getEndDate()));
-            holder.mMainLayout.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    GregorianCalendar startDate = new GregorianCalendar();
-                    startDate.setTime(mCycles.get(position).getStartDate());
-
-                    GregorianCalendar endDate = new GregorianCalendar();
-                    endDate.setTime(mCycles.get(position).getEndDate());
-                    endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
-
-                    Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                    calIntent.setType("vnd.android.cursor.item/event");
-                    calIntent.putExtra(Events.TITLE, mCycles.get(position).getName());
-                    calIntent.putExtra(Events.DESCRIPTION, mCycles.get(position).getDescription());
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
-                    calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
-                    mContext.startActivity(calIntent);
-                }
-            });
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -69,7 +51,7 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
     }
 
 
-    public class CycleVH extends RecyclerView.ViewHolder {
+    public class CycleVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mStartDateTextView;
         TextView mEndDateTextView;
@@ -81,6 +63,34 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
             mMainLayout = (LinearLayout) itemView.findViewById(R.id.cycles_list_item_linearLayout_mainLayout);
             mStartDateTextView = (TextView) itemView.findViewById(R.id.cycles_list_item_textView_startDate);
             mEndDateTextView = (TextView) itemView.findViewById(R.id.cycles_list_item_textView_endDate);
+
+            itemView.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View view) {
+            try {
+                GregorianCalendar startDate = new GregorianCalendar();
+                startDate.setTime(mCycles.get(getAdapterPosition()).getStartDate());
+
+                GregorianCalendar endDate = new GregorianCalendar();
+                endDate.setTime(mCycles.get(getAdapterPosition()).getEndDate());
+                endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
+
+                Intent calIntent = new Intent(Intent.ACTION_INSERT);
+                calIntent.setType("vnd.android.cursor.item/event");
+                calIntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
+                calIntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
+                calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
+                mContext.startActivity(calIntent);
+            } catch (Exception e) {
+                e.printStackTrace();
+                Toast.makeText(mContext,
+                        mContext.getString(R.string.cycle_item_onclick_error_message),
+                        Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

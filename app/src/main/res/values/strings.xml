@@ -88,4 +88,7 @@
     <string name="end_date">End Date</string>
     <string name="choose_cycle">Choose cycle</string>
     <string name="no_cycles_message">This course has no cycles</string>
+    <string name="course_no_details_to_show_message">We are sorry, currently there\'s no details to show about this course.</string>
+    <string name="cycle_item_onclick_error_message">Sorry, there was an error./nPlease try again later</string>
+    <string name="title_activity_temp">TempActivity</string>
 </resources>
