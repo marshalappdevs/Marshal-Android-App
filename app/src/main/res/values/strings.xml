@@ -86,4 +86,5 @@
     <string name="temp_cycle_desc">ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה.</string>
     <string name="start_date">Start Date</string>
     <string name="end_date">End Date</string>
+    <string name="choose_cycle">Choose cycle</string>
 </resources>

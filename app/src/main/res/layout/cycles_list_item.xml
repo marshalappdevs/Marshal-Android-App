@@ -1,53 +1,83 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<LinearLayout android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="horizontal"
-    android:padding="8dp"
+    android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    xmlns:android="http://schemas.android.com/apk/res/android">
 
-    <!--<ImageView-->
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="@android:color/darker_gray" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_gravity="center"
+        android:padding="4dp"
+        android:layoutDirection="ltr">
+
+        <!--<ImageView-->
         <!--android:layout_width="0dp"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_weight="1"-->
         <!--android:src="@drawable/ic_clock_start_24dp"-->
         <!--android:layout_margin="@dimen/cycle_item_margin"/>-->
 
-    <TextView
-        android:id="@+id/cycles_list_item_textView_startDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:text="19/10/16"
-        android:gravity="center"
-        android:textColor="#4285F4"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:padding="4dp"/>
+        <ImageView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:src="@drawable/google_calendar_icon"
+            android:padding="4dp"
+            android:visibility="gone"/>
 
-    <ImageView
-        android:layout_width="0dp"
-        android:layout_height="match_parent"
-        android:layout_weight="1"
-        android:src="@drawable/ic_start_48dp"/>
+        <TextView
+            android:id="@+id/cycles_list_item_textView_startDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:text="19/10/16"
+            android:gravity="center"
+            android:textColor="#4285F4"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:padding="8dp" />
 
-    <TextView
-        android:id="@+id/cycles_list_item_textView_endDate"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="3"
-        android:textColor="@color/colorAccent"
-        android:text="24/10/16"
-        android:gravity="center"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:padding="4dp"/>
+        <!--<TextView-->
+            <!--android:layout_width="0dp"-->
+            <!--android:layout_height="match_parent"-->
+            <!--android:layout_weight="1"-->
+            <!--android:text="-"-->
+            <!--android:gravity="center"-->
+            <!--android:padding="8dp"-->
+            <!--android:textAppearance="@android:style/TextAppearance.Medium"/>-->
 
-    <!--<ImageView-->
+        <View
+            android:layout_width="8dp"
+            android:layout_height="2dp"
+            android:background="@android:color/black"
+            android:layout_gravity="center_vertical"/>
+
+        <TextView
+            android:id="@+id/cycles_list_item_textView_endDate"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="3"
+            android:textColor="@color/colorAccent"
+            android:text="24/10/16"
+            android:gravity="center"
+            android:textAppearance="@android:style/TextAppearance.Medium"
+            android:padding="8dp" />
+
+        <!--<ImageView-->
         <!--android:layout_width="0dp"-->
         <!--android:layout_height="wrap_content"-->
         <!--android:layout_weight="1"-->
         <!--android:src="@drawable/ic_clock_end_24dp"-->
         <!--android:layout_margin="@dimen/cycle_item_margin"/>-->
+
+    </LinearLayout>
 
 </LinearLayout>
