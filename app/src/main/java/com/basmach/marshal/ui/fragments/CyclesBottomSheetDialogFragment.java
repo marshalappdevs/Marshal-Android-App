@@ -18,11 +18,15 @@ import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.utils.CyclesRecyclerAdapter;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 
 /**
  * Created by Ido on 3/14/2016.
  */
 public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
+
+    private ArrayList<Cycle> mCycles;
 
     public static CyclesBottomSheetDialogFragment newInstance(Course course){
         CyclesBottomSheetDialogFragment instance = new CyclesBottomSheetDialogFragment();
@@ -45,14 +49,16 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
         try {
             Course course = getArguments().getParcelable(CourseActivity.EXTRA_COURSE);
-            ArrayList<Cycle> cycles = course.getCycles();
+            mCycles = course.getCycles();
+
+            orderCyclesByAscending();
 
             // Initialize RecyclerView
             mRecyclerView = (RecyclerView) rootView.findViewById(R.id.cycle_activity_recyclerView);
             mLinearLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mAdapter = new CyclesRecyclerAdapter(getActivity(), cycles);
+            mAdapter = new CyclesRecyclerAdapter(getActivity(), mCycles);
             mRecyclerView.setAdapter(mAdapter);
 
         } catch (Exception e) {
@@ -60,5 +66,15 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
         }
 
         return rootView;
+    }
+
+    private void orderCyclesByAscending() {
+        Collections.sort(mCycles, new Comparator<Cycle>() {
+            public int compare(Cycle cycle1, Cycle cycle2) {
+                if (cycle1.getStartDate() == null || cycle2.getStartDate() == null)
+                    return 0;
+                return cycle1.getStartDate().compareTo(cycle2.getStartDate());
+            }
+        });
     }
 }
