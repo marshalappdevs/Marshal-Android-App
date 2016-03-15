@@ -72,6 +72,12 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        updateLocale();
+    }
+
     private void updateTheme() {
         String theme = mSharedPreferences.getString("THEME", "light");
         if (theme.equals("light")) {
