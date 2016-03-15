@@ -118,10 +118,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();
-                cardLayoutParams.width = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 110, mContext.getResources().getDisplayMetrics());
+                cardLayoutParams.width = CardView.LayoutParams.MATCH_PARENT;
                 cardLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, mContext.getResources().getDisplayMetrics());
                 int dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-                cardLayoutParams.setMargins(dp4, dp4, dp4 ,dp4);
+                cardLayoutParams.setMargins(dp4, dp4*3, dp4 ,dp4);
 
                 courseName.setMaxLines(2);
                 courseName.setEllipsize(TextUtils.TruncateAt.END);
