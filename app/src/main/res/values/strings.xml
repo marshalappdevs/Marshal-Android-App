@@ -27,7 +27,7 @@
     <string name="sign_out_confirm">Do you want to sign out of this account?</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
-    <string name="send_to">Send email via</string>
+    <string name="contact_support_via">Contact support via…</string>
     <string name="mail_subject">Feedback/Bug Report about Marshal</string>
     <string name="search_result">Showing search results for: %1$s</string>
     <string name="see_all">See All</string>

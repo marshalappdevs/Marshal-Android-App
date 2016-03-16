@@ -25,7 +25,7 @@
     <string name="sign_out_confirm">האם ברצונך לצאת מחשבון זה?</string>
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
-    <string name="send_to">שלח דוא\"ל דרך</string>
+    <string name="contact_support_via">יצירת קשר עם התמיכה על ידי…</string>
     <string name="mail_subject">משוב/דיווח תקלה אודות מרש\"ל</string>
     <string name="search_result">מציג תוצאות חיפוש עבור: %1$s</string>
     <string name="see_all">ראה הכל</string>
