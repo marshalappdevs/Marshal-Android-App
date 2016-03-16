@@ -1,6 +1,6 @@
 package com.basmach.marshal.ui;
 
-import android.content.Intent;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -8,20 +8,16 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Handler;
+import android.os.Vibrator;
 import android.preference.PreferenceManager;
-import android.support.design.widget.BottomSheetBehavior;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
 import android.util.DisplayMetrics;
@@ -31,19 +27,15 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.animation.DecelerateInterpolator;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
-import com.basmach.marshal.ui.utils.CyclesRecyclerAdapter;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
@@ -66,6 +58,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewDayTime;
     private TextView mTextViewDaysDuration;
     private TextView mTextViewHoursDuration;
+    private TextView mTextViewName;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -117,6 +110,7 @@ public class CourseActivity extends AppCompatActivity {
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
+
         if (mCourse != null) {
             Log.i("Course Activity", "course passed");
 
@@ -144,8 +138,21 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
 
+            // Set the course title
+            collapsingToolbarLayout.setTitle(mCourse.getName());
+
+            mTextViewName = (TextView) findViewById(R.id.course_content_textView_courseName);
+            mTextViewDescription = (TextView) findViewById(R.id.course_content_textView_description);
+            mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
+            mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
+            mTextViewTargetPopulation = (TextView) findViewById(R.id.course_content_textView_targetPopulation);
+            mTextViewDayTime = (TextView) findViewById(R.id.course_content_textView_dayTime);
+            mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
+            mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
+
             // Set the course photo
             final ImageView header = (ImageView) findViewById(R.id.header);
+
             Picasso.with(this).load(mCourse.getPhotoUrl()).into(header, new Callback() {
                 @Override
                 public void onSuccess() {
@@ -156,6 +163,7 @@ public class CourseActivity extends AppCompatActivity {
                             scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
                             collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
                             collapsingToolbarLayout.setContentScrimColor(contentColor);
+//                            mTextViewName.setTextColor(contentColor);
 //                            paintTitlesTextColor(contentColor);
 //                            collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                         }
@@ -168,17 +176,22 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
 
-            // Set the course title
-            collapsingToolbarLayout.setTitle(mCourse.getName());
+            header.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mCourse.getName() != null) {
 
-            mTextViewDescription = (TextView) findViewById(R.id.course_content_textView_description);
-            mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
-            mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
-            mTextViewTargetPopulation = (TextView) findViewById(R.id.course_content_textView_targetPopulation);
-            mTextViewDayTime = (TextView) findViewById(R.id.course_content_textView_dayTime);
-            mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
-            mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
+                        Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
 
+                        try {
+                            Vibrator vibrator = (Vibrator) CourseActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
+                            vibrator.vibrate(100);
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            });
             initializeTextViews();
         }
     }
@@ -186,6 +199,14 @@ public class CourseActivity extends AppCompatActivity {
     private void initializeTextViews() {
 
         boolean isAnyDataExist = false;
+
+        // Set course's Description
+//        if ((mCourse.getName() != null) &&
+//                (!mCourse.getName().equals(""))) {
+//            mTextViewName.setText(mCourse.getName());
+//        } else {
+//            mTextViewName.setVisibility(View.GONE);
+//        }
 
         // Set course's Description
         if ((mCourse.getDescription() != null) &&

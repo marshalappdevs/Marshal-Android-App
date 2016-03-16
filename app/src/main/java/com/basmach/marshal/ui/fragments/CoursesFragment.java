@@ -170,7 +170,6 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-//                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, COURSES);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
@@ -190,7 +189,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, COURSES);
+                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
+                startActivity(intent);
             }
         });
         mRecyclerCyber = (RecyclerView) rootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
@@ -206,7 +208,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(getActivity(), R.string.see_all, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, COURSES);
+                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
+                startActivity(intent);
             }
         });
         mRecyclerIT = (RecyclerView) rootView.findViewById(R.id.fragment_courses_it_recyclerView);
