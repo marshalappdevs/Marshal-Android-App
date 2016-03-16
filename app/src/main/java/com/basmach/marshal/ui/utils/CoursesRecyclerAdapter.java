@@ -16,6 +16,8 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -58,6 +60,15 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
                 mContext.startActivity(intent, options.toBundle());
+            }
+        });
+
+        // Set card onLongClickListener
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Toast.makeText(mContext, mCourses.get(position).getName(), Toast.LENGTH_LONG).show();
+                return false;
             }
         });
 

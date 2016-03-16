@@ -1,5 +1,6 @@
 <resources xmlns:tools="http://schemas.android.com/tools">
     <string name="app_name">Marshal</string>
+    <string name="title_activity_course">CourseActivity</string>
 
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
@@ -40,6 +41,13 @@
     <string name="course_day_time">Day time</string>
     <string name="course_days_duration">Days duration</string>
     <string name="course_hours_duration">Hours duration</string>
+    <string name="course_related_content">Articles</string>
+    <string name="course_share">Share</string>
+    <string name="course_choose_cycle">Choose cycle</string>
+    <string name="course_no_cycles_error">This course has no cycles</string>
+    <string name="course_no_details_error">We are sorry, currently there are no details to show about this course.</string>
+    <string name="course_cycle_item_onclick_error">Sorry, there was an error./nPlease try again later</string>
+    <string name="temp_cycle_desc">ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
@@ -80,15 +88,4 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
-    <string name="title_activity_course">CourseActivity</string>
-    <string name="course_fab_label_related_content">Articles</string>
-    <string name="share">Share</string>
-    <string name="temp_cycle_desc">ההשתלמות היא השתלמות מתקדמת בשפת C++, באה להעלות תוכניתן C++ רמה אחת למעלה.</string>
-    <string name="start_date">Start Date</string>
-    <string name="end_date">End Date</string>
-    <string name="choose_cycle">Choose cycle</string>
-    <string name="no_cycles_message">This course has no cycles</string>
-    <string name="course_no_details_to_show_message">We are sorry, currently there\'s no details to show about this course.</string>
-    <string name="cycle_item_onclick_error_message">Sorry, there was an error./nPlease try again later</string>
-    <string name="title_activity_temp">TempActivity</string>
 </resources>

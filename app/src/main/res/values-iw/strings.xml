@@ -39,6 +39,12 @@
     <string name="course_day_time">זמן ביום</string>
     <string name="course_days_duration">מספר ימים</string>
     <string name="course_hours_duration">מספר שעות</string>
+    <string name="course_related_content">מאמרים</string>
+    <string name="course_share">שתף</string>
+    <string name="course_choose_cycle">בחר מחזור</string>
+    <string name="course_no_cycles_error">אין מחזורים לקורס זה</string>
+    <string name="course_no_details_error">מצטערים, אין לנו כרגע פרטים להציג על קורס זה.</string>
+    <string name="course_cycle_item_onclick_error">מצטערים, אירעה שגיאה.\n נסה שוב מאוחר יותר בבקשה.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
@@ -57,12 +63,4 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="course_fab_label_related_content">מאמרים</string>
-    <string name="share">שתף</string>
-    <string name="start_date">תאריך התחלה</string>
-    <string name="end_date">תאריך סיום</string>
-    <string name="choose_cycle">בחר מחזור</string>
-    <string name="no_cycles_message">אין מחזורים לקורס זה</string>
-    <string name="course_no_details_to_show_message">מצטערים, אין לנו כרגע פרטים להציג על קורס זה.</string>
-    <string name="cycle_item_onclick_error_message">מצטערים, אירעה שגיאה.\n נסה שוב מאוחר יותר בבקשה.</string>
 </resources>

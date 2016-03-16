@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -8,11 +7,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Vibrator;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -58,7 +55,6 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewDayTime;
     private TextView mTextViewDaysDuration;
     private TextView mTextViewHoursDuration;
-    private TextView mTextViewName;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -84,7 +80,7 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
                 mFabCycles.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.simple_grow);
+                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
                 mFabCycles.startAnimation(animation);
                 super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
             }
@@ -132,7 +128,7 @@ public class CourseActivity extends AppCompatActivity {
                         bottomSheet.show(getSupportFragmentManager(),"CyclesBottomSheet");
                     } else {
                         Toast.makeText(CourseActivity.this,
-                                getResources().getString(R.string.no_cycles_message),
+                                getResources().getString(R.string.course_no_cycles_error),
                                 Toast.LENGTH_LONG).show();
                     }
                 }
@@ -141,7 +137,6 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
 
-            mTextViewName = (TextView) findViewById(R.id.course_content_textView_courseName);
             mTextViewDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
@@ -163,7 +158,6 @@ public class CourseActivity extends AppCompatActivity {
                             scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
                             collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
                             collapsingToolbarLayout.setContentScrimColor(contentColor);
-//                            mTextViewName.setTextColor(contentColor);
 //                            paintTitlesTextColor(contentColor);
 //                            collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                         }
@@ -175,23 +169,6 @@ public class CourseActivity extends AppCompatActivity {
 
                 }
             });
-
-            header.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mCourse.getName() != null) {
-
-                        Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
-
-                        try {
-                            Vibrator vibrator = (Vibrator) CourseActivity.this.getSystemService(Context.VIBRATOR_SERVICE);
-                            vibrator.vibrate(100);
-                        } catch (Exception e) {
-                            e.printStackTrace();
-                        }
-                    }
-                }
-            });
             initializeTextViews();
         }
     }
@@ -199,14 +176,6 @@ public class CourseActivity extends AppCompatActivity {
     private void initializeTextViews() {
 
         boolean isAnyDataExist = false;
-
-        // Set course's Description
-//        if ((mCourse.getName() != null) &&
-//                (!mCourse.getName().equals(""))) {
-//            mTextViewName.setText(mCourse.getName());
-//        } else {
-//            mTextViewName.setVisibility(View.GONE);
-//        }
 
         // Set course's Description
         if ((mCourse.getDescription() != null) &&

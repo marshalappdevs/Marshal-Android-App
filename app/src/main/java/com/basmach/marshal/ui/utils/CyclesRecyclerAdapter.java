@@ -88,7 +88,7 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
             } catch (Exception e) {
                 e.printStackTrace();
                 Toast.makeText(mContext,
-                        mContext.getString(R.string.cycle_item_onclick_error_message),
+                        mContext.getString(R.string.course_cycle_item_onclick_error),
                         Toast.LENGTH_LONG).show();
             }
         }
