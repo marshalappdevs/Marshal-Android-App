@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,7 +14,10 @@ import android.graphics.drawable.BitmapDrawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.os.Environment;
+import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
@@ -633,17 +635,23 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_contact_us) {
-            String versionName = BuildConfig.VERSION_NAME;
-            int versionCode = BuildConfig.VERSION_CODE;
-            String debugInfo="\n";
-            debugInfo += "\n Device Model: " + android.os.Build.MODEL;
-            debugInfo += "\n OS and API Version: "+android.os.Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
-            debugInfo += "\n Screen Specs: " +  getResources().getDisplayMetrics().widthPixels + "X" + getResources().getDisplayMetrics().heightPixels
-                    +" ("+getResources().getDisplayMetrics().density+")";
+            StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
+            long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
+            String gbAvailable = String.format(Locale.getDefault(), "%.2f", bytesAvailable / Math.pow(2, 30));
+            String debugInfo="\n\n --Support Info--";
+            debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
+            debugInfo += "\n LC: " + Locale.getDefault().getCountry();
+            debugInfo += "\n LG: " + Locale.getDefault().getLanguage();
+            debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
+            debugInfo += "\n Model: " + Build.MODEL;
+            debugInfo += "\n OS: " + Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
+            debugInfo += "\n Free Space: " + bytesAvailable + " (" + gbAvailable + " GB)";
+            debugInfo += "\n Screen Density: " + getResources().getDisplayMetrics().density;
+            debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
             sendIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             sendIntent.putExtra(android.content.Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject) + " (v" + versionName + " / " + versionCode + ")");
+            sendIntent.putExtra(android.content.Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
             sendIntent.putExtra(Intent.EXTRA_TEXT, debugInfo);
             if (sendIntent.resolveActivity(getPackageManager()) != null) {
                 startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));

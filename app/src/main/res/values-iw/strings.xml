@@ -26,7 +26,7 @@
     <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
-    <string name="mail_subject">משוב/דיווח תקלה</string>
+    <string name="mail_subject">משוב/דיווח תקלה אודות מרש\"ל</string>
     <string name="search_result">מציג תוצאות חיפוש עבור: %1$s</string>
     <string name="see_all">ראה הכל</string>
     <string name="course_type_software">תוכנה</string>
@@ -43,8 +43,8 @@
     <string name="course_share">שתף</string>
     <string name="course_choose_cycle">בחר מחזור</string>
     <string name="course_no_cycles_error">אין מחזורים לקורס זה</string>
-    <string name="course_no_details_error">מצטערים, אין לנו כרגע פרטים להציג על קורס זה.</string>
-    <string name="course_cycle_item_onclick_error">מצטערים, אירעה שגיאה.\n נסה שוב מאוחר יותר בבקשה.</string>
+    <string name="course_no_details_error">מצטערים, כרגע אין פרטים להציג על קורס זה.</string>
+    <string name="course_cycle_item_onclick_error">משהו השתבש. נסה שוב מאוחר יותר.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
