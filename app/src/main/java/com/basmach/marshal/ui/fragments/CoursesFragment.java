@@ -239,7 +239,7 @@ public class CoursesFragment extends Fragment {
                 });
             }
         };
-        mTimer.schedule(mTimerTask, 5000, 5000);
+        mTimer.schedule(mTimerTask, 8000, 8000);
     }
 
     private void stopViewPagerTimerOnTouch() {
