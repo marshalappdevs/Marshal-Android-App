@@ -8,6 +8,7 @@ import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
+import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -44,12 +45,15 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     @Override
     public CourseVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        Log.i("COURSES_RECYCLER", "onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview, null);
         return new CourseVH(view);
     }
 
     @Override
     public void onBindViewHolder(final CourseVH holder, final int position) {
+
+        Log.i("COURSES_RECYCLER", "onBindViewHolder");
 
         // Set card onClickListener
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -118,6 +122,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         public CourseVH(View itemView) {
             super(itemView);
+
+            Log.i("COURSES_RECYCLER", "CourseVH Ctor");
 
             frameLayout = (FrameLayout) itemView.findViewById(R.id.course_cardview_mainFrame);
             cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;

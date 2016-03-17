@@ -1,0 +1,151 @@
+package com.basmach.marshal.ui.utils;
+
+import android.content.Context;
+import android.support.v7.widget.CardView;
+import android.support.v7.widget.RecyclerView;
+import android.util.Log;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.ProgressBar;
+import android.widget.TextView;
+import com.basmach.marshal.R;
+import com.basmach.marshal.entities.MaterialItem;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
+import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
+import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+import java.util.ArrayList;
+
+public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecyclerAdapter.MaterialVH> {
+
+    private Context mContext;
+    private ArrayList<MaterialItem> mMaterials;
+    private int lastPosition = -1;
+
+    public MaterialsRecyclerAdapter(Context context, ArrayList<MaterialItem> materials) {
+        this.mMaterials = materials;
+        this.mContext = context;
+    }
+
+    @Override
+    public MaterialVH onCreateViewHolder(ViewGroup parent, int viewType) {
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_cardview, null);
+        return new MaterialVH(view);
+    }
+
+    @Override
+    public void onBindViewHolder(final MaterialVH holder, final int position) {
+
+        if (holder.materialItem == null) {
+            holder.materialItem = mMaterials.get(position);
+            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- SET MATERIAL ITEM: " + position + "\n" +
+                mMaterials.get(position).getUrl());
+        }
+
+        if (holder.materialItem.getSourceContent() == null) {
+            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- GET DATA FOR " + position);
+            holder.textCrawler.makePreview(new LinkPreviewCallback() {
+                @Override
+                public void onPre() {
+
+                }
+
+                @Override
+                public void onPos(SourceContent sourceContent, boolean b) {
+
+                    holder.materialItem.setSourceContent(sourceContent);
+
+                    holder.progressBar.setVisibility(View.GONE);
+
+                    holder.titleTextView.setText(sourceContent.getTitle());
+                    holder.descriptionTextView.setText(sourceContent.getDescription());
+                    holder.siteUrlTextView.setText(sourceContent.getCannonicalUrl());
+
+                    Picasso.with(mContext).load(sourceContent.getImages().get(0))
+                            .placeholder(R.drawable.ic_temp_photo_24dp).error(R.drawable.ic_failed_24dp)
+                            .into(holder.imageView, new Callback() {
+                                @Override
+                                public void onSuccess() {
+                                    holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                                }
+
+                                @Override
+                                public void onError() {
+
+                                }
+                            });
+
+                    holder.cardView.setVisibility(View.VISIBLE);
+    //                setAnimation(holder.cardView, position);
+                }
+            }, mMaterials.get(position).getUrl());
+        } else {
+            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- " + position + "\n --- " +
+                holder.materialItem.getSourceContent().getCannonicalUrl());
+        }
+    }
+
+    @Override
+    public int getItemCount() {
+        return mMaterials.size();
+    }
+
+//    @Override
+//    public void onViewDetachedFromWindow(MaterialVH holder) {
+//        super.onViewDetachedFromWindow(holder);
+//
+//        holder.clearAppearAnimation();
+//    }
+
+    /**
+     * Here is the key method to apply the animation
+     */
+    private void setAnimation(View viewToAnimate, int position)
+    {
+        // If the bound view wasn't previously displayed on screen, it's animated
+        if (position > lastPosition)
+        {
+            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
+            viewToAnimate.startAnimation(animation);
+            lastPosition = position;
+        }
+    }
+
+    public class MaterialVH extends RecyclerView.ViewHolder{
+
+        CardView cardView;
+        ImageView imageView;
+        TextView titleTextView;
+        TextView descriptionTextView;
+        TextView siteUrlTextView;
+        ProgressBar progressBar;
+
+        TextCrawler textCrawler;
+
+        MaterialItem materialItem = null;
+
+        public MaterialVH(View itemView) {
+            super(itemView);
+
+            cardView = (CardView) itemView.findViewById(R.id.material_cardview_cardView);
+            imageView = (ImageView) itemView.findViewById(R.id.material_cardview_imageView);
+            titleTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_title);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_description);
+            siteUrlTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_siteUrl);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.material_cardview_progressBar);
+
+            textCrawler = new TextCrawler();
+
+            Log.i("MATERIAL_RECYCLER", "CTOR");
+        }
+
+        public void clearAppearAnimation() {
+            cardView.clearAnimation();
+        }
+    }
+}
