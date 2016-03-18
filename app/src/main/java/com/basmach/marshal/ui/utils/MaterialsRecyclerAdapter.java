@@ -126,7 +126,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             siteUrlTextView.setText(sourceContent.getCannonicalUrl());
 
             Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                    .placeholder(R.drawable.ic_temp_photo_24dp).error(R.drawable.ic_failed_24dp)
+                    .placeholder(R.drawable.ic_link)
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
