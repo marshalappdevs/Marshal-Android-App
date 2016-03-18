@@ -17,7 +17,7 @@
             android:orientation="horizontal"
             android:id="@+id/link_preview_content"
             android:background="@drawable/link_preview_background"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minWidth="280.0dip">
 
