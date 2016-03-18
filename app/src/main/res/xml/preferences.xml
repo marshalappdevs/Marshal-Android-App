@@ -15,6 +15,11 @@
             android:summary="%s"
             android:entries="@array/night_mode_entries"
             android:entryValues="@array/night_mode_values" />
+        <CheckBoxPreference
+            android:defaultValue="true"
+            android:key="chrome_custom_tabs"
+            android:title="@string/custom_tabs_pref_title"
+            android:summary="@string/custom_tabs_pref_summary" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_notifications_category">

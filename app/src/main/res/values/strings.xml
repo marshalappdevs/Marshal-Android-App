@@ -27,8 +27,8 @@
     <string name="sign_out_confirm">Do you want to sign out of this account?</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
-    <string name="contact_support_via">Contact support via…</string>
-    <string name="mail_subject">Feedback/Bug Report about Marshal</string>
+    <string name="send_to">Send email via</string>
+    <string name="mail_subject">Feedback/Bug Report</string>
     <string name="search_result">Showing search results for: %1$s</string>
     <string name="see_all">See All</string>
     <string name="course_type_software">Software</string>
@@ -57,6 +57,8 @@
     <string name="night_mode_no">Light</string>
     <string name="night_mode_yes">Dark</string>
     <string name="night_mode_auto">Automatic</string>
+    <string name="custom_tabs_pref_summary">Turn on for faster browsing</string>
+    <string name="custom_tabs_pref_title">Open web links in app</string>
     <string name="pref_notifications_category">Notifications</string>
     <string name="pref_notifications_title">Notify on this device</string>
     <string name="pref_ringtone_title">Ringtone</string>

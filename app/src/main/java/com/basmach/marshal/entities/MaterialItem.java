@@ -2,9 +2,6 @@ package com.basmach.marshal.entities;
 
 import com.leocardz.link.preview.library.SourceContent;
 
-/**
- * Created by Ido on 3/17/2016.
- */
 public class MaterialItem {
 
     private String url;

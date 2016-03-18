@@ -654,17 +654,22 @@ public class MainActivity extends AppCompatActivity
             sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
             sendIntent.putExtra(Intent.EXTRA_TEXT, debugInfo);
             if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.contact_support_via)));
+                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
             }
         } else if (id == R.id.nav_about) {
             String url = "https://goo.gl/s6thV1";
-            new CustomTabsIntent.Builder()
-                    .setToolbarColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimary))
-                    .setShowTitle(true)
-                    .addDefaultShareMenuItem()
-                    .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_wht))
-                    .build()
-                    .launchUrl(this, Uri.parse(url));
+            Boolean cct = mSharedPreferences.getBoolean("CCT", true);
+            if (cct) {
+                new CustomTabsIntent.Builder()
+                        .setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
+                        .setShowTitle(true)
+                        .addDefaultShareMenuItem()
+                        .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_wht))
+                        .build()
+                        .launchUrl(this, Uri.parse(url));
+            } else {
+                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+            }
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

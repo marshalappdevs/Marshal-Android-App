@@ -8,6 +8,7 @@ import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
 import android.os.Bundle;
+import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
@@ -30,10 +31,12 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        mEditor = mSharedPreferences.edit();
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
@@ -144,6 +147,9 @@ public class SettingsActivity extends AppCompatActivity {
 
             ListPreference prefNightMode = (ListPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
+
+            CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("chrome_custom_tabs");
+            prefCCT.setOnPreferenceChangeListener(cctChangeListener);
         }
 
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
@@ -209,15 +215,27 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-            public void setLocale(String lang) {
-                Locale locale = new Locale(lang);
-                Resources res = getResources();
-                DisplayMetrics dm = res.getDisplayMetrics();
-                Configuration conf = res.getConfiguration();
-                conf.setLocale(locale);
-                Locale.setDefault(locale);
-                res.updateConfiguration(conf, dm);
-                restartApp();
+        Preference.OnPreferenceChangeListener cctChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                if ((Boolean) newValue) {
+                    PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putBoolean("CCT", true).apply();
+                } else {
+                    PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putBoolean("CCT", false).apply();
+                }
+                return true;
+            }
+        };
+
+        public void setLocale(String lang) {
+            Locale locale = new Locale(lang);
+            Resources res = getResources();
+            DisplayMetrics dm = res.getDisplayMetrics();
+            Configuration conf = res.getConfiguration();
+            conf.setLocale(locale);
+            Locale.setDefault(locale);
+            res.updateConfiguration(conf, dm);
+            restartApp();
         }
 
         private void restartApp() {
