@@ -70,22 +70,6 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
 
-        setEnterSharedElementCallback(new SharedElementCallback() {
-            @Override
-            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                mFabCycles.setVisibility(View.GONE);
-                super.onMapSharedElements(names, sharedElements);
-            }
-
-            @Override
-            public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
-                mFabCycles.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
-                mFabCycles.startAnimation(animation);
-                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
-            }
-        });
-
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -104,6 +88,8 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+        Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
+        mFabCycles.startAnimation(animation);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
 
