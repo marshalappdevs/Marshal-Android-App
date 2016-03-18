@@ -41,14 +41,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     @Override
     public void onBindViewHolder(final MaterialVH holder, final int position) {
 
-        if (holder.materialItem == null) {
-            holder.materialItem = mMaterials.get(position);
-            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- SET MATERIAL ITEM: " + position + "\n" +
-                mMaterials.get(position).getUrl());
-        }
-
-        if (holder.materialItem.getSourceContent() == null) {
-            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- GET DATA FOR " + position);
+        if (mMaterials.get(position).getSourceContent() == null) {
             holder.textCrawler.makePreview(new LinkPreviewCallback() {
                 @Override
                 public void onPre() {
@@ -58,35 +51,14 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                 @Override
                 public void onPos(SourceContent sourceContent, boolean b) {
 
-                    holder.materialItem.setSourceContent(sourceContent);
+                    mMaterials.get(position).setSourceContent(sourceContent);
 
-                    holder.progressBar.setVisibility(View.GONE);
-
-                    holder.titleTextView.setText(sourceContent.getTitle());
-                    holder.descriptionTextView.setText(sourceContent.getDescription());
-                    holder.siteUrlTextView.setText(sourceContent.getCannonicalUrl());
-
-                    Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                            .placeholder(R.drawable.ic_temp_photo_24dp).error(R.drawable.ic_failed_24dp)
-                            .into(holder.imageView, new Callback() {
-                                @Override
-                                public void onSuccess() {
-                                    holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                                }
-
-                                @Override
-                                public void onError() {
-
-                                }
-                            });
-
-                    holder.cardView.setVisibility(View.VISIBLE);
-    //                setAnimation(holder.cardView, position);
+                    holder.showContent(sourceContent);
+                    //                setAnimation(holder.cardView, position);
                 }
             }, mMaterials.get(position).getUrl());
         } else {
-            Log.i("MATERIAL_RECYCLER", "onBindViewHolder -- " + position + "\n --- " +
-                holder.materialItem.getSourceContent().getCannonicalUrl());
+            holder.showContent(mMaterials.get(position).getSourceContent());
         }
     }
 
@@ -127,8 +99,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
         TextCrawler textCrawler;
 
-        MaterialItem materialItem = null;
-
         public MaterialVH(View itemView) {
             super(itemView);
 
@@ -146,6 +116,30 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
         public void clearAppearAnimation() {
             cardView.clearAnimation();
+        }
+
+        public void showContent(SourceContent sourceContent) {
+            progressBar.setVisibility(View.GONE);
+
+            titleTextView.setText(sourceContent.getTitle());
+            descriptionTextView.setText(sourceContent.getDescription());
+            siteUrlTextView.setText(sourceContent.getCannonicalUrl());
+
+            Picasso.with(mContext).load(sourceContent.getImages().get(0))
+                    .placeholder(R.drawable.ic_temp_photo_24dp).error(R.drawable.ic_failed_24dp)
+                    .into(imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        }
+
+                        @Override
+                        public void onError() {
+
+                        }
+                    });
+
+            cardView.setVisibility(View.VISIBLE);
         }
     }
 }
