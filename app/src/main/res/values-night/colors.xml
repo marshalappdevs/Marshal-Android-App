@@ -2,4 +2,5 @@
 <resources>
     <color name="colorPrimary">#274F92</color>
     <color name="colorPrimaryDark">#1E3D80</color>
+    <color name="url_color">#AAFFFFFF</color>
 </resources>

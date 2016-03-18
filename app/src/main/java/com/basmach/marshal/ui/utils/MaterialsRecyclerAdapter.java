@@ -102,12 +102,12 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         public MaterialVH(View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView.findViewById(R.id.material_cardview_cardView);
-            imageView = (ImageView) itemView.findViewById(R.id.material_cardview_imageView);
-            titleTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_title);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_description);
-            siteUrlTextView = (TextView) itemView.findViewById(R.id.material_cardview_textView_siteUrl);
-            progressBar = (ProgressBar) itemView.findViewById(R.id.material_cardview_progressBar);
+            cardView = (CardView) itemView.findViewById(R.id.link_preview_cardView);
+            imageView = (ImageView) itemView.findViewById(R.id.thumb);
+            titleTextView = (TextView) itemView.findViewById(R.id.title);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
+            siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
+            progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
 
             textCrawler = new TextCrawler();
 
@@ -126,7 +126,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             siteUrlTextView.setText(sourceContent.getCannonicalUrl());
 
             Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                    .placeholder(R.drawable.ic_link)
                     .into(imageView, new Callback() {
                         @Override
                         public void onSuccess() {
