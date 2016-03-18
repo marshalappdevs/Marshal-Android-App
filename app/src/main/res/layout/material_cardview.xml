@@ -33,6 +33,7 @@
                     android:layout_width="@dimen/link_preview_thumb_width"
                     android:layout_height="@dimen/link_preview_thumb_height"
                     android:scaleType="centerCrop"
+                    android:src="@drawable/link_image_placeholder"
                     tools:ignore="ContentDescription" />
 
                 <LinearLayout
