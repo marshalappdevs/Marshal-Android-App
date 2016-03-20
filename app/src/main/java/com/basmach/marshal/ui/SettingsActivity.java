@@ -31,12 +31,10 @@ import java.util.Objects;
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
     private SharedPreferences mSharedPreferences;
-    private SharedPreferences.Editor mEditor;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        mEditor = mSharedPreferences.edit();
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();

@@ -16,8 +16,6 @@ import android.net.NetworkInfo;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
-import android.os.StatFs;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
@@ -70,6 +68,7 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Picasso;
 
+import java.io.File;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -635,9 +634,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_contact_us) {
-            StatFs stat = new StatFs(Environment.getExternalStorageDirectory().getPath());
-            long bytesAvailable = stat.getBlockSizeLong() * stat.getAvailableBlocksLong();
-            String gbAvailable = String.format(Locale.getDefault(), "%.2f", bytesAvailable / Math.pow(2, 30));
+            long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
+            String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
             String debugInfo="\n\n\n --Support Info--";
             debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
             debugInfo += "\n LC: " + getBaseContext().getResources().getConfiguration().locale.getCountry();
@@ -645,7 +643,7 @@ public class MainActivity extends AppCompatActivity
             debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
             debugInfo += "\n Model: " + Build.MODEL;
             debugInfo += "\n OS: " + Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
-            debugInfo += "\n Free Space: " + bytesAvailable + " (" + gbAvailable + " GB)";
+            debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
             debugInfo += "\n Screen Density: " + getResources().getDisplayMetrics().density;
             debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);

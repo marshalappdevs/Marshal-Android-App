@@ -34,7 +34,7 @@
     <string name="course_type_software">Software</string>
     <string name="course_type_it">IT</string>
     <string name="course_type_cyber">Cyber</string>
-    <string name="course_description">Description</string>
+    <string name="course_general_description">General Description</string>
     <string name="course_syllabus">Syllabus</string>
     <string name="course_id">Course ID</string>
     <string name="course_target_population">Target population</string>
