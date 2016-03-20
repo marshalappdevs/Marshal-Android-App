@@ -1,8 +1,5 @@
 package com.basmach.marshal.entities;
 
-/**
- * Created by Ido on 3/19/2016.
- */
 public class LinkContent {
 
     private String title = null;

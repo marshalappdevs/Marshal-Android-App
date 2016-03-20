@@ -2,19 +2,10 @@ package com.basmach.marshal.utils;
 
 import android.content.Context;
 import android.os.Handler;
-import android.util.AttributeSet;
 import android.util.Log;
-import android.widget.ImageView;
-import android.widget.TextView;
 
-import com.basmach.marshal.R;
 import com.basmach.marshal.entities.LinkContent;
 import com.basmach.marshal.interfaces.LinkPreviewCallback;
-import com.squareup.okhttp.Callback;
-import com.squareup.okhttp.OkHttpClient;
-import com.squareup.okhttp.Request;
-import com.squareup.okhttp.Response;
-import com.squareup.picasso.Picasso;
 
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -22,9 +13,12 @@ import org.jsoup.select.Elements;
 
 import java.io.IOException;
 
-/**
- * Created by Ido on 3/19/2016.
- */
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.OkHttpClient;
+import okhttp3.Request;
+import okhttp3.Response;
+
 public class LinkPreviewUtil {
     private static String TAG = LinkPreviewUtil.class.getSimpleName();
     private Context mContext;
@@ -42,62 +36,35 @@ public class LinkPreviewUtil {
         this.mLinkContent = new LinkContent();
     }
 
-    public void setData(String title,String description,String image, String site)
-    {
-        mTitle=title;
-        mDescription=description;
-        mImageLink=image;
-        mSiteName=site;
+    public void setData(String title,String description,String image, String site) {
+        mTitle = title;
+        mDescription = description;
+        mImageLink = image;
+        mSiteName = site;
         if (mTitle != null) {
             Log.v(TAG, mTitle);
-            if(mTitle.length()>=50) {
-                mTitle=mTitle.substring(0,49)+"...";
+            if (mTitle.length() >= 50) {
+                mTitle = mTitle.substring(0, 49) + "...";
             }
             mLinkContent.setTitle(mTitle);
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mTxtViewTitle.setText(mTitle);
-//                }
-//            });
         }
         if (mDescription != null) {
             Log.v(TAG, mDescription);
-            if(mDescription.length()>=100) {
-                mDescription=mDescription.substring(0,99)+"...";
+            if (mDescription.length() >= 100) {
+                mDescription = mDescription.substring(0, 99) + "...";
             }
             mLinkContent.setDescription(mDescription);
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mTxtViewDescription.setText(mDescription);
-//                }
-//            });
         }
         if (mImageLink != null) {
             Log.v(TAG, mImageLink);
             mLinkContent.setImageUrl(mImageLink);
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    Glide.with(mContext)
-//                            .load(mImageLink)
-//                            .into(mImgViewImage);
-//                }
-//            });
-        }
-        if (mSiteName != null) {
-            Log.v(TAG, mSiteName);
-            if(mSiteName.length()>=30) {
-                mSiteName=mSiteName.substring(0,29)+"...";
+            if (mSiteName != null) {
+                Log.v(TAG, mSiteName);
+                if (mSiteName.length() >= 30) {
+                    mSiteName = mSiteName.substring(0, 29) + "...";
+                }
+                mLinkContent.setSiteName(mSiteName);
             }
-            mLinkContent.setSiteName(mSiteName);
-//            runOnUiThread(new Runnable() {
-//                @Override
-//                public void run() {
-//                    mTxtViewSiteName.setText(mSiteName);
-//                }
-//            });
         }
     }
 
@@ -112,12 +79,14 @@ public class LinkPreviewUtil {
                 .build();
 
         client.newCall(request).enqueue(new Callback() {
-            @Override public void onFailure(Request request, IOException throwable) {
-                Log.e(TAG,throwable.getMessage());
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.e(TAG,e.getMessage());
                 mLinkPreviewCallback.onFailure();
             }
 
-            @Override public void onResponse(Response response) throws IOException {
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
                 if (!response.isSuccessful()) throw new IOException("Unexpected code " + response);
 
                 Elements titleElements;
@@ -158,12 +127,6 @@ public class LinkPreviewUtil {
                         mTitle=mTitle.substring(0,49)+"...";
                     }
                     mLinkContent.setTitle(mTitle);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mTxtViewTitle.setText(mTitle);
-//                        }
-//                    });
                 }
                 if (mDescription != null) {
                     Log.v(TAG, mDescription);
@@ -171,25 +134,10 @@ public class LinkPreviewUtil {
                         mDescription=mDescription.substring(0,99)+"...";
                     }
                     mLinkContent.setDescription(mDescription);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mTxtViewDescription.setText(mDescription);
-//                        }
-//                    });
                 }
                 if (mImageLink != null) {
                     Log.v(TAG, mImageLink);
                     mLinkContent.setImageUrl(mImageLink);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            Picasso.with(mContext)
-//                                    .load(mImageLink)
-//                                    .placeholder(R.drawable.link_image_placeholder)
-//                                    .into(mImageView);
-//                        }
-//                    });
                 }
                 if(url.toLowerCase().contains("amazon"))
                     if(mSiteName==null||mSiteName.equals(""))
@@ -200,12 +148,6 @@ public class LinkPreviewUtil {
                         mSiteName=mSiteName.substring(0,29)+"...";
                     }
                     mLinkContent.setSiteName(mSiteName);
-//                    runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            mTxtViewSiteName.setText(mSiteName);
-//                        }
-//                    });
                 }
 
                 mLinkPreviewCallback.onSuccess(mLinkContent, itemPosition);
