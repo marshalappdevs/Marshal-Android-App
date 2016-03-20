@@ -12,7 +12,7 @@ import java.util.ArrayList;
 public class Course implements Parcelable {
 
     private long id;
-    private String courseCode;
+    private String courseID;
     private String name;
     private int minimumPeople;
     private int maximumPeople;
@@ -23,6 +23,7 @@ public class Course implements Parcelable {
     private String dayTime;
     private int durationInHours;
     private int durationInDays;
+    private String comments;
     private int passingGrade;
     private double price;
     private ArrayList<Cycle> cycles = new ArrayList<>();
@@ -40,11 +41,11 @@ public class Course implements Parcelable {
     }
 
     public String getCourseCode() {
-        return courseCode;
+        return courseID;
     }
 
     public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+        this.courseID = courseCode;
     }
 
     public String getName() {
@@ -127,6 +128,14 @@ public class Course implements Parcelable {
         this.durationInDays = durationInDays;
     }
 
+    public String getComments() {
+        return comments;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
+    }
+
     public int getPassingGrade() {
         return passingGrade;
     }
@@ -191,7 +200,7 @@ public class Course implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeLong(id);
-        dest.writeString(courseCode);
+        dest.writeString(courseID);
         dest.writeString(name);
         dest.writeInt(minimumPeople);
         dest.writeInt(maximumPeople);
@@ -202,6 +211,7 @@ public class Course implements Parcelable {
         dest.writeString(dayTime);
         dest.writeInt(durationInHours);
         dest.writeInt(durationInDays);
+        dest.writeString(comments);
         dest.writeInt(passingGrade);
         dest.writeDouble(price);
         dest.writeTypedList(cycles);
@@ -216,7 +226,7 @@ public class Course implements Parcelable {
      **/
     private Course(Parcel in){
         this.id = in.readLong();
-        this.courseCode = in.readString();
+        this.courseID = in.readString();
         this.name = in.readString();
         this.minimumPeople = in.readInt();
         this.maximumPeople = in.readInt();
@@ -227,6 +237,7 @@ public class Course implements Parcelable {
         this.dayTime = in.readString();
         this.durationInHours = in.readInt();
         this.durationInDays = in.readInt();
+        this.comments = in.readString();
         this.passingGrade = in.readInt();
         this.price = in.readDouble();
         in.readTypedList(cycles, Cycle.CREATOR);

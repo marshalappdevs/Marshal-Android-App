@@ -3,6 +3,7 @@ package com.basmach.marshal.ui.utils;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Handler;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
@@ -56,14 +57,25 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         Log.i("COURSES_RECYCLER", "onBindViewHolder");
 
         // Set card onClickListener
+        final int[] clickCount = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(mContext, CourseActivity.class);
-                intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
-                mContext.startActivity(intent, options.toBundle());
+                clickCount[0] = clickCount[0] + 1;
+                if (clickCount[0] == 1) {
+                    Intent intent = new Intent(mContext, CourseActivity.class);
+                    intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
+                    Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
+                    mContext.startActivity(intent, options.toBundle());
+                    Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            clickCount[0] = 0;
+                        }
+                    }, 1000);
+                }
             }
         });
 
