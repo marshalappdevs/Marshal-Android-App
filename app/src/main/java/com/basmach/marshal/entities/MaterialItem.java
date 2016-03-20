@@ -7,6 +7,7 @@ public class MaterialItem {
     private String url;
     private String[] tags;
     private SourceContent sourceContent;
+    private LinkContent linkContent;
 
     // Constructors
     public MaterialItem() {}
@@ -43,5 +44,13 @@ public class MaterialItem {
 
     public void setSourceContent(SourceContent sourceContent) {
         this.sourceContent = sourceContent;
+    }
+
+    public LinkContent getLinkContent() {
+        return linkContent;
+    }
+
+    public void setLinkContent(LinkContent linkContent) {
+        this.linkContent = linkContent;
     }
 }
