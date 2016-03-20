@@ -32,7 +32,7 @@
     <string name="course_type_software">תוכנה</string>
     <string name="course_type_it">הפעלה</string>
     <string name="course_type_cyber">סייבר</string>
-    <string name="course_description">תיאור</string>
+    <string name="course_general_description">תיאור כללי</string>
     <string name="course_syllabus">סילבוס</string>
     <string name="course_id">סימול</string>
     <string name="course_target_population">אוכלוסיית יעד</string>
