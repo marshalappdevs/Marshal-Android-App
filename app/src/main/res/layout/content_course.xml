@@ -59,7 +59,7 @@
                 android:layout_alignBottom="@+id/course_content_imageView_idIcon" />
 
             <TextView
-                android:id="@+id/course_content_textView_courseCode"
+                android:id="@+id/course_content_textView_courseID"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="Course ID"
@@ -321,6 +321,48 @@
                 android:layout_gravity="start|center_vertical"
                 android:layout_below="@+id/course_content_textView_hoursDurationTitle"
                 android:layout_alignStart="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_marginTop="4dp" />
+        </RelativeLayout>
+
+        <!--Comments-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_relativeLayout_comments"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin">
+
+            <ImageView
+                android:id="@+id/course_content_imageView_commentsIcon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentStart="true"
+                android:layout_marginEnd="8dp"
+                app:srcCompat="@drawable/ic_course_comments"
+                tools:ignore="ContentDescription" />
+
+            <TextView
+                android:id="@+id/course_content_textView_commentsTitle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/course_comments"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="bold"
+                android:layout_gravity="start|center_vertical"
+                android:layout_toEndOf="@+id/course_content_imageView_commentsIcon"
+                android:layout_alignBottom="@+id/course_content_imageView_commentsIcon" />
+
+            <TextView
+                android:id="@+id/course_content_textView_comments"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Comments"
+                android:textAppearance="@android:style/TextAppearance.Medium"
+                android:textColor="?android:textColorSecondary"
+                android:layout_gravity="start|center_vertical"
+                android:layout_below="@+id/course_content_textView_commentsTitle"
+                android:layout_alignStart="@+id/course_content_textView_commentsTitle"
                 android:layout_marginTop="4dp" />
         </RelativeLayout>
     </LinearLayout>

@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -34,9 +33,7 @@ import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
-import java.util.Map;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -48,13 +45,14 @@ public class CourseActivity extends AppCompatActivity {
 
     private Course mCourse;
 
-    private TextView mTextViewDescription;
+    private TextView mTextViewCourseID;
+    private TextView mTextViewGeneralDescription;
     private TextView mTextViewSyllabus;
-    private TextView mTextViewCourseCode;
     private TextView mTextViewTargetPopulation;
     private TextView mTextViewDayTime;
     private TextView mTextViewDaysDuration;
     private TextView mTextViewHoursDuration;
+    private TextView mTextViewComments;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -123,13 +121,14 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
 
-            mTextViewDescription = (TextView) findViewById(R.id.course_content_textView_description);
+            mTextViewCourseID = (TextView) findViewById(R.id.course_content_textView_courseID);
+            mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
-            mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
             mTextViewTargetPopulation = (TextView) findViewById(R.id.course_content_textView_targetPopulation);
             mTextViewDayTime = (TextView) findViewById(R.id.course_content_textView_dayTime);
             mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
             mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
+            mTextViewComments = (TextView) findViewById(R.id.course_content_textView_comments);
 
             // Set the course photo
             final ImageView header = (ImageView) findViewById(R.id.header);
@@ -163,10 +162,19 @@ public class CourseActivity extends AppCompatActivity {
 
         boolean isAnyDataExist = false;
 
+        // Set course's ID
+        if ((mCourse.getCourseCode() != null) &&
+                (!mCourse.getCourseCode().equals(""))) {
+            mTextViewCourseID.setText(mCourse.getCourseCode());
+            isAnyDataExist = true;
+        } else {
+            findViewById(R.id.course_content_relativeLayout_id).setVisibility(View.GONE);
+        }
+
         // Set course's Description
         if ((mCourse.getDescription() != null) &&
                 (!mCourse.getDescription().equals(""))) {
-            mTextViewDescription.setText(mCourse.getDescription());
+            mTextViewGeneralDescription.setText(mCourse.getDescription());
             isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_description).setVisibility(View.GONE);
@@ -179,15 +187,6 @@ public class CourseActivity extends AppCompatActivity {
             isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_syllabus).setVisibility(View.GONE);
-        }
-
-        // Set course's Code
-        if ((mCourse.getCourseCode() != null) &&
-                (!mCourse.getCourseCode().equals(""))) {
-            mTextViewCourseCode.setText(mCourse.getCourseCode());
-            isAnyDataExist = true;
-        } else {
-            findViewById(R.id.course_content_relativeLayout_id).setVisibility(View.GONE);
         }
 
         // Set course's Target population
@@ -223,7 +222,14 @@ public class CourseActivity extends AppCompatActivity {
         } else {
             findViewById(R.id.course_content_relativeLayout_hoursDuration).setVisibility(View.GONE);
         }
-
+        // Set course's Target comments
+        if ((mCourse.getComments() != null) &&
+                (!mCourse.getComments().equals(""))) {
+            mTextViewComments.setText(mCourse.getComments());
+            isAnyDataExist = true;
+        } else {
+            findViewById(R.id.course_content_relativeLayout_comments).setVisibility(View.GONE);
+        }
         if(!isAnyDataExist) {
             findViewById(R.id.course_content_textView_noDetailsMessage).setVisibility(View.VISIBLE);
         }
@@ -231,13 +237,14 @@ public class CourseActivity extends AppCompatActivity {
 
     private void paintTitlesTextColor(int contentColor) {
         if (contentColor != -1) {
+            ((TextView) (findViewById(R.id.course_content_textView_idTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_idTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
             ((TextView) (findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
+            ((TextView) (findViewById(R.id.course_content_textView_comments))).setTextColor(contentColor);
         }
     }
 

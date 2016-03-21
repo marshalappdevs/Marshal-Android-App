@@ -39,6 +39,7 @@
     <string name="course_day_time">זמן ביום</string>
     <string name="course_days_duration">מספר ימים</string>
     <string name="course_hours_duration">מספר שעות</string>
+    <string name="course_comments">הערות</string>
     <string name="course_related_content">מאמרים</string>
     <string name="course_share">שתף</string>
     <string name="course_choose_cycle">בחר מחזור</string>

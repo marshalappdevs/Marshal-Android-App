@@ -29,7 +29,6 @@ public class MaterialItem extends DBObject{
     private String imageUrl;
 
     private SourceContent sourceContent;
-//    private LinkContent linkContent;
 
     // Constructors
     public MaterialItem(Context context) {
@@ -92,12 +91,4 @@ public class MaterialItem extends DBObject{
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
-    //    public LinkContent getLinkContent() {
-//        return linkContent;
-//    }
-//
-//    public void setLinkContent(LinkContent linkContent) {
-//        this.linkContent = linkContent;
-//    }
 }
