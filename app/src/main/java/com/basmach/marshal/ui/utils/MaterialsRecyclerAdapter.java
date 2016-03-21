@@ -153,18 +153,21 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             descriptionTextView.setText(sourceContent.getDescription());
             siteUrlTextView.setText(sourceContent.getCannonicalUrl());
 
-            Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                    .into(imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        }
+            if (sourceContent.getImages() != null &&
+                    sourceContent.getImages().size() > 0) {
+                Picasso.with(mContext).load(sourceContent.getImages().get(0))
+                        .into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            }
 
-                        @Override
-                        public void onError() {
+                            @Override
+                            public void onError() {
 
-                        }
-                    });
+                            }
+                        });
+            }
 
             cardView.setVisibility(View.VISIBLE);
         }

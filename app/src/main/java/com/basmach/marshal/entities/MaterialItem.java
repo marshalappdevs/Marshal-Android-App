@@ -1,24 +1,39 @@
 package com.basmach.marshal.entities;
 
+import android.content.Context;
+
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.DBObject;
+import com.basmach.marshal.localdb.annotations.Column;
+import com.basmach.marshal.localdb.annotations.TableName;
 import com.leocardz.link.preview.library.SourceContent;
 
-public class MaterialItem {
+@TableName(name = DBConstants.T_MATERIAL_ITEM)
+public class MaterialItem extends DBObject{
 
+    @Column(name = DBConstants.COL_URL)
     private String url;
+
     private String[] tags;
+
+    @Column(name = DBConstants.COL_TITLE)
+    private String title;
+
+    @Column(name = DBConstants.COL_DESCRIPTION)
+    private String description;
+
+    @Column(name = DBConstants.COL_CANNONICIAL_URL)
+    private String cannonicalUrl;
+
+    @Column(name = DBConstants.COL_IMAGE_URL)
+    private String imageUrl;
+
     private SourceContent sourceContent;
-    private LinkContent linkContent;
+//    private LinkContent linkContent;
 
     // Constructors
-    public MaterialItem() {}
-
-    public MaterialItem(String url) {
-        this.url = url;
-    }
-
-    public MaterialItem(String url, String[] tags) {
-        this.url = url;
-        this.tags = tags;
+    public MaterialItem(Context context) {
+        super(context);
     }
 
     // Getters and Setters
@@ -46,11 +61,43 @@ public class MaterialItem {
         this.sourceContent = sourceContent;
     }
 
-    public LinkContent getLinkContent() {
-        return linkContent;
+    public String getTitle() {
+        return title;
     }
 
-    public void setLinkContent(LinkContent linkContent) {
-        this.linkContent = linkContent;
+    public void setTitle(String title) {
+        this.title = title;
     }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getCannonicalUrl() {
+        return cannonicalUrl;
+    }
+
+    public void setCannonicalUrl(String cannonicalUrl) {
+        this.cannonicalUrl = cannonicalUrl;
+    }
+
+    public String getImageUrl() {
+        return imageUrl;
+    }
+
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    //    public LinkContent getLinkContent() {
+//        return linkContent;
+//    }
+//
+//    public void setLinkContent(LinkContent linkContent) {
+//        this.linkContent = linkContent;
+//    }
 }
