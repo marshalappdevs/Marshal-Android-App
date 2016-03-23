@@ -1,8 +1,6 @@
 package com.basmach.marshal.ui.utils;
 
-import android.app.Activity;
 import android.content.Context;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -15,9 +13,7 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import com.basmach.marshal.R;
-import com.basmach.marshal.entities.LinkContent;
 import com.basmach.marshal.entities.MaterialItem;
-import com.basmach.marshal.utils.LinkPreviewUtil;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
@@ -44,6 +40,27 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     @Override
     public void onBindViewHolder(final MaterialVH holder, final int position) {
+
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (holder.tags.getVisibility() != View.VISIBLE) {
+                    holder.tags.setVisibility(View.VISIBLE);
+                    holder.tags.animate().alpha(1.0f);
+                } else {
+                    holder.tags.setVisibility(View.GONE);
+                    holder.tags.animate().alpha(0.0f);
+                }
+                return false;
+            }
+        });
 
 //        if(mMaterials.get(position).getLinkContent() == null) {
 //            holder.linkPreviewUtil.getData(mMaterials.get(position).getUrl(), position, new com.basmach.marshal.interfaces.LinkPreviewCallback() {
@@ -122,6 +139,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         TextView descriptionTextView;
         TextView siteUrlTextView;
         ProgressBar progressBar;
+        TextView tags;
 
 //        LinkPreviewUtil linkPreviewUtil;
         TextCrawler textCrawler;
@@ -135,6 +153,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             descriptionTextView = (TextView) itemView.findViewById(R.id.description);
             siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
             progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
+            tags = (TextView) itemView.findViewById(R.id.tags);
 
 //            linkPreviewUtil = new LinkPreviewUtil(mContext);
             textCrawler = new TextCrawler();
@@ -153,18 +172,21 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             descriptionTextView.setText(sourceContent.getDescription());
             siteUrlTextView.setText(sourceContent.getCannonicalUrl());
 
-            Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                    .into(imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        }
+            if (sourceContent.getImages() != null &&
+                    sourceContent.getImages().size() > 0) {
+                Picasso.with(mContext).load(sourceContent.getImages().get(0))
+                        .into(imageView, new Callback() {
+                            @Override
+                            public void onSuccess() {
+                                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                            }
 
-                        @Override
-                        public void onError() {
+                            @Override
+                            public void onError() {
 
-                        }
-                    });
+                            }
+                        });
+            }
 
             cardView.setVisibility(View.VISIBLE);
         }
