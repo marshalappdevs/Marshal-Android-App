@@ -30,7 +30,6 @@ import java.util.List;
 public class MaterialsFragment extends Fragment {
 
     private ProgressBar mProgressBar;
-    private FloatingActionButton mFabPlus;
     private RecyclerView mRecycler;
     private LinearLayoutManager mLayoutManager;
     private MaterialsRecyclerAdapter mAdapter;
@@ -61,7 +60,6 @@ public class MaterialsFragment extends Fragment {
                     }
                 });
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
-        mFabPlus = (FloatingActionButton) rootView.findViewById(R.id.materials_fab_plus);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);

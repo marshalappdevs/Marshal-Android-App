@@ -18,13 +18,4 @@
         android:id="@+id/materials_progressBar"
         android:visibility="gone"/>
 
-    <android.support.design.widget.FloatingActionButton
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentEnd="true"
-        android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_plus"
-        android:id="@+id/materials_fab_plus"/>
-
 </RelativeLayout>

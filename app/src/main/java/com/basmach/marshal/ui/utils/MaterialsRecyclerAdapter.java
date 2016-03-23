@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
@@ -52,9 +53,14 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     @Override
     public void onBindViewHolder(final MaterialVH holder, final int position) {
 
+        final long[] mLastClickTime = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (SystemClock.elapsedRealtime() - mLastClickTime[0] < 1000) {
+                    return;
+                }
+                mLastClickTime[0] = SystemClock.elapsedRealtime();
                 String url = mMaterials.get(position).getUrl();
                 Boolean cct = mSharedPreferences.getBoolean("CCT", true);
                 if (cct) {
