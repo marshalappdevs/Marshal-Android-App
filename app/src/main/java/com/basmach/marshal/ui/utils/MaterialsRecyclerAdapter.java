@@ -41,6 +41,49 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     @Override
     public void onBindViewHolder(final MaterialVH holder, final int position) {
 
+        holder.cardView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
+        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                if (holder.tags.getVisibility() != View.VISIBLE) {
+                    holder.tags.setVisibility(View.VISIBLE);
+                    holder.tags.animate().alpha(1.0f);
+                } else {
+                    holder.tags.setVisibility(View.GONE);
+                    holder.tags.animate().alpha(0.0f);
+                }
+                return false;
+            }
+        });
+
+//        if(mMaterials.get(position).getLinkContent() == null) {
+//            holder.linkPreviewUtil.getData(mMaterials.get(position).getUrl(), position, new com.basmach.marshal.interfaces.LinkPreviewCallback() {
+//                @Override
+//                public void onFailure() {
+//
+//                }
+//
+//                @Override
+//                public void onSuccess(LinkContent linkContent, final int itemPosition) {
+//                    mMaterials.get(itemPosition).setLinkContent(linkContent);
+//
+//                    ((Activity)mContext).runOnUiThread(new Runnable() {
+//                        @Override
+//                        public void run() {
+//                            holder.showContent(mMaterials.get(itemPosition).getLinkContent());
+//                        }
+//                    });
+//                }
+//            });
+//        } else {
+//            holder.showContent(mMaterials.get(position).getLinkContent());
+//        }
         if (mMaterials.get(position).getSourceContent() == null) {
             holder.textCrawler.makePreview(new LinkPreviewCallback() {
                 @Override
@@ -96,7 +139,9 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         TextView descriptionTextView;
         TextView siteUrlTextView;
         ProgressBar progressBar;
+        TextView tags;
 
+//        LinkPreviewUtil linkPreviewUtil;
         TextCrawler textCrawler;
 
         public MaterialVH(View itemView) {
@@ -108,6 +153,9 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             descriptionTextView = (TextView) itemView.findViewById(R.id.description);
             siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
             progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
+            tags = (TextView) itemView.findViewById(R.id.tags);
+
+//            linkPreviewUtil = new LinkPreviewUtil(mContext);
             textCrawler = new TextCrawler();
 
             Log.i("MATERIAL_RECYCLER", "CTOR");
@@ -142,5 +190,28 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
             cardView.setVisibility(View.VISIBLE);
         }
+
+//        public void showContent(LinkContent linkContent) {
+//            progressBar.setVisibility(View.GONE);
+//
+//            titleTextView.setText(linkContent.getTitle());
+//            descriptionTextView.setText(linkContent.getDescription());
+//            siteUrlTextView.setText(linkContent.getSiteName());
+//
+//            Picasso.with(mContext).load(linkContent.getImageUrl())
+//                    .into(imageView, new Callback() {
+//                        @Override
+//                        public void onSuccess() {
+//                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+//                        }
+//
+//                        @Override
+//                        public void onError() {
+//
+//                        }
+//                    });
+//
+//            cardView.setVisibility(View.VISIBLE);
+//        }
     }
 }
