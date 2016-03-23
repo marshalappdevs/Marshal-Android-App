@@ -10,6 +10,7 @@ import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
+import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.utils.DateHelper;
 import java.util.Date;
@@ -44,6 +45,7 @@ public class Cycle extends DBObject implements Parcelable {
         return id;
     }
 
+    @PrimaryKeySetter
     @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;

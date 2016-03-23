@@ -13,6 +13,7 @@ import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.EntityArraySetter;
 import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
+import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -87,6 +88,7 @@ public class Course extends DBObject implements Parcelable{
         return id;
     }
 
+    @PrimaryKeySetter
     @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;

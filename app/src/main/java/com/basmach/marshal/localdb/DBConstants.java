@@ -46,7 +46,7 @@ public class DBConstants {
             COL_NAME + " TEXT, " +
             COL_MAX_PEOPLE + " INTEGER," +
             COL_DESCRIPTION + " TEXT," +
-            COL_START_DATE + " TEXT," +
+            COL_START_DATE + " TEXT UNIQUE," +
             COL_END_DATE + " TEXT);";
 
     public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +

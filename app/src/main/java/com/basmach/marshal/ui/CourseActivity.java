@@ -116,7 +116,7 @@ public class CourseActivity extends AppCompatActivity {
             mFabCycles.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ArrayList<Cycle> cycles = mCourse.getCycles();
+                    ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
 
                     for(int index = 0; index < cycles.size(); index++) {
                         if(cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {

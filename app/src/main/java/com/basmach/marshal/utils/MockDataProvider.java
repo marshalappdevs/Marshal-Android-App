@@ -6,6 +6,7 @@ import android.util.Log;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 
 import java.util.ArrayList;
@@ -27,14 +28,14 @@ public class MockDataProvider {
 
     public void insertAllCycles() {
         ArrayList<Cycle> items = getAllCycles();
-        for (Cycle item:items) {
-            try {
+        try {
+            for (Cycle item:items) {
                 item.create();
                 Log.i("INSERT CYCLE ", String.valueOf(item.getId()));
-            } catch (Exception e) {
-                e.printStackTrace();
-                Log.e("INSERT CYCLE ",e.getMessage());
             }
+        } catch (Exception e) {
+            e.printStackTrace();
+            Log.e("INSERT CYCLE ",e.getMessage());
         }
     }
 
@@ -123,8 +124,14 @@ public class MockDataProvider {
         courseCyber.setComments("יש לעבור מבחן כניסה");
         courseCyber.setIsMooc(false);
 
-        for (Cycle cycle:getAllCycles()) {
-            courseCyber.addCycle(cycle);
+        List<Object> cycles = null;
+        try {
+            cycles = Cycle.getAll(DBConstants.COL_START_DATE, mContext, Cycle.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        for (Object cycle:cycles) {
+            courseCyber.addCycle((Cycle) cycle);
         }
 
         tempList.add(courseCyber);
@@ -185,7 +192,6 @@ public class MockDataProvider {
 
         return tempList;
     }
-
     private ArrayList<MaterialItem> getAllMaterials() {
         ArrayList<MaterialItem> tempList = new ArrayList<>();
 

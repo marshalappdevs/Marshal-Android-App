@@ -133,8 +133,8 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 //            holder.showContent(mMaterials.get(position).getSourceContent());
 //        }
         holder.titleTextView.setText(mMaterials.get(position).getTitle());
-        holder.descriptionTextView.setText(mMaterials.get(0).getDescription());
-        holder.siteUrlTextView.setText(mMaterials.get(0).getCannonicalUrl());
+        holder.descriptionTextView.setText(mMaterials.get(position).getDescription());
+        holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
         holder.progressBar.setVisibility(View.GONE);
 
         Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
