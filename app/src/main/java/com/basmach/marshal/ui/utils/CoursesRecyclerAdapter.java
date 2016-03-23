@@ -83,16 +83,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                clickCount[0] = 2;
                 Toast.makeText(mContext, mCourses.get(position).getName(), Toast.LENGTH_LONG).show();
-                Handler handler = new Handler();
-                handler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        clickCount[0] = 0;
-                    }
-                }, 1000);
-                return false;
+                return true;
             }
         });
 

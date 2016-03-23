@@ -81,7 +81,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                     holder.tags.setVisibility(View.GONE);
                     holder.tags.animate().alpha(0.0f);
                 }
-                return false;
+                return true;
             }
         });
 
