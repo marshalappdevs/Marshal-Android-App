@@ -6,7 +6,10 @@ import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
 import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.TableName;
+import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
 
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
 public class MaterialItem extends DBObject{
@@ -29,6 +32,7 @@ public class MaterialItem extends DBObject{
     private String imageUrl;
 
     private SourceContent sourceContent;
+    private boolean isGetLinkDataExecute;
 
     // Constructors
     public MaterialItem(Context context) {
@@ -36,6 +40,16 @@ public class MaterialItem extends DBObject{
     }
 
     // Getters and Setters
+
+
+    public boolean isGetLinkDataExecute() {
+        return isGetLinkDataExecute;
+    }
+
+    public void setGetLinkDataExecute(boolean getLinkDataExecute) {
+        isGetLinkDataExecute = getLinkDataExecute;
+    }
+
     public String[] getTags() {
         return tags;
     }
@@ -90,5 +104,32 @@ public class MaterialItem extends DBObject{
 
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+
+    ///////////////////////////////////////////
+
+    public void getLinkData(TextCrawler textCrawler, MaterialsRecyclerAdapter adapter) {
+
+        isGetLinkDataExecute = true;
+        textCrawler.makePreview(new LinkPreviewCallback() {
+            @Override
+            public void onPre() {
+
+            }
+
+            @Override
+            public void onPos(SourceContent sourceContent, boolean b) {
+                if (sourceContent != null) {
+                    setSourceContent(sourceContent);
+                    setTitle(sourceContent.getTitle());
+                    setDescription(sourceContent.getDescription());
+                    setCannonicalUrl(sourceContent.getCannonicalUrl());
+                    if (sourceContent.getImages().size() > 0) {
+                        setImageUrl(sourceContent.getImages().get(0));
+                    }
+                }
+            }
+        }, getUrl());
     }
 }
