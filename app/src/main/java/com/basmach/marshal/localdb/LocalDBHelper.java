@@ -6,9 +6,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
-/**
- * Created by Ido on 9/14/2015.
- */
 public class LocalDBHelper extends SQLiteOpenHelper {
 
     public static final String DATABASE_NAME = "marshal_local_db";

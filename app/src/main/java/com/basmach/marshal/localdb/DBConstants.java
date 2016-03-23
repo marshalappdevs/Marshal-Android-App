@@ -1,8 +1,5 @@
 package com.basmach.marshal.localdb;
 
-/**
- * Created by Ido on 3/20/2016.
- */
 public class DBConstants {
 
     // Tables

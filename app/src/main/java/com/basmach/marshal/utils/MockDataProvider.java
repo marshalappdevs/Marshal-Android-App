@@ -11,9 +11,6 @@ import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by Ido on 3/23/2016.
- */
 public class MockDataProvider {
 
     private final Context mContext;
@@ -115,7 +112,7 @@ public class MockDataProvider {
         Course courseCyber = new Course(mContext);
         courseCyber.setImageUrl(IMAGES[0]);
         courseCyber.setName("מתודולוגיות פיתוח מאובטח");
-        courseCyber.setIsMooc(false);
+        courseCyber.setCourseCode("0440");
         courseCyber.setDescription("פיתוח מערכות הוא אחת מנקודות הקשר המעניינות ביותר בין עולם הפיתוח לעולם אבטחת המידע. בעוד שאנשי הפיתוח ניצבים מול אתרים טכנולוגיים מורכבים, לו\"ז קשוח ועומס עבודה טבעי, הם נדרשים גם לעמוד לא פעם בפני אתגרים הנוגעים להיבטי אבטחת המידע של המערכת. פיתוח ההשתלמות החל במטרה לספק הכשרה רחבה יותר ומקיפה על יישום תכונות אבטחה ברמות שונות. ההשתלמות מכשירה להבנת האיומים על מערכת באמצעות ניתוח מודל איומים וזיהוי כשלי אבטחה עוד לפני כתיבת הקוד. בנוסף, נושא הגדרת מדיניות מאובטחת בארגון ואכיפתה נכנס במטרה להטמיע את אופן החשיבה המאובטח והצבת תשתית תפיסתית לפיה יעבדו התכניתנים.");
         courseCyber.setPrerequisites("לחייל יש מקצוע מגן בסייבר או לחייל יש השכלה אקדמאי מוסמך או לחייל יש מקצוע תכניתן וגם ישנה יתרת שירות חצי שנה");
         courseCyber.setTargetPopulation("תוכניתנים או בוגרי מדעי המחשב או בוגרי הנדסה.");
@@ -123,8 +120,8 @@ public class MockDataProvider {
         courseCyber.setDurationInDays(5);
         courseCyber.setDurationInHours(40);
         courseCyber.setDayTime("בוקר-צהריים");
-        courseCyber.setCourseCode("1951");
         courseCyber.setComments("יש לעבור מבחן כניסה");
+        courseCyber.setIsMooc(false);
 
         for (Cycle cycle:getAllCycles()) {
             courseCyber.addCycle(cycle);
@@ -134,30 +131,56 @@ public class MockDataProvider {
 
         Course courseAngular = new Course(mContext);
         courseAngular.setImageUrl(IMAGES[1]);
-        courseAngular.setName("Angular JS");
-        courseAngular.setCourseCode("64351");
+        courseAngular.setName("AngularJS");
+        courseAngular.setCourseCode("4669");
+        courseAngular.setDescription("השתלמות אנגולר רשתית - \r\nמטרתה של השתלמות AngularJS היא להקנות ידע ואת הכלים הנדרשים להתחלת פיתוח בטכנולוגיה זו. AngularJS הינה הפלטפורמה המובילה כיום לפיתוח בתחום ה - WEB. \r\nהכשרה כוללת סקירה כללית של הספריה, יתרונותיה והסבר הארכיטקטורה, קטעי טקסט ווידאו ללמידה עצמית. ומלווה בתרגיל מתגלגל מעשי הנדרש להגשה לאורך ההתקדמות בהשתלמות. \r\nההשתלמות הינה 90 שעות, הפרושים על שלושה שבועות. במהלך שבועות אלו, תידרשו לבצע מטלות ולהגישם בהתאם לתאריך ההגשה המפורסם במערכת השעות הקורסית. בסוף ההשתלמות יתבצע מבחן סיום מעשי בכיתה בבסמ\"ח. ניתן יהיה לגשת לבחינה רק לאחר הגשת כל המטלות ומעבר כל הבחנים בקורס. \r\n-מעבר הקורס מותנה בציון מעבר 70 בכלל הבחנים ומבחן ההסמכה. \r\n-שימו לב כי נדרש להצטייד באוזניות על מנת לשמוע את הסרטונים שיש במהלך הקורס. ");
+        courseAngular.setTargetPopulation("תוכניתנים עם רקע בפיתוח WEB.");
+        courseAngular.setSyllabus("מבוא לספריית הAngular\r\nData Bindings & Controller\r\nServices\r\nRouting\r\nHTTP\r\nרכיבים נפוצים באנגולר\r\nBasic Directives\r\nAdvanced Directives\r\nAdvanced Scope\r\nPromise\r\nProvider&Forms\r\nמבחן הסמכה");
+        courseAngular.setDurationInDays(15);
+        courseAngular.setDurationInHours(80);
+        courseAngular.setDayTime("בוקר-צהריים");
+        courseAngular.setComments("נדרש ניסיון בפיתוח WEB. חובה לבצע כניסה ראשונית למערכת \"יוחנן המלמד\" לפני הגשת הבקשה לקורס בכתובת -  https://learn.joe.idf");
         courseAngular.setIsMooc(true);
         tempList.add(courseAngular);
 
         Course courseAndroid = new Course(mContext);
         courseAndroid.setImageUrl(IMAGES[2]);
-        courseAndroid.setName("Android Applications Development");
-        courseAndroid.setCourseCode("5423");
+        courseAndroid.setName("פיתוח אפליקציות בAndroid");
+        courseAndroid.setCourseCode("9777");
+        courseAndroid.setDescription("בקורס ילמדו מגוון היבטים הדרושים לפיתוח אפליקציות למכשירים מבוססי Android.");
+        courseAndroid.setTargetPopulation("תכניתנים, עתודאים בוגרי תואר ראשון במדמ\"ח / הנדסת תכנה");
+        courseAndroid.setSyllabus("מבוא לפיתוח אנדרואיד\r\nממשק משתמש ? מבוא ופקדים בסיסיים\r\nממשק משתמש ? פקדים מתקדמים\r\nממשק משתמש ? פקדים מורכבים\r\nActivities & Fragments\r\nData Storage\r\nBackground Tasks\r\nIntents\r\nSystem Services\r\nLocation-based apps\r\nSensors\r\nApp Release & Google Play");
+        courseAndroid.setDurationInDays(5);
+        courseAndroid.setDurationInHours(45);
+        courseAndroid.setDayTime("בוקר-צהריים");
         courseAndroid.setIsMooc(false);
         tempList.add(courseAndroid);
 
         Course courseFrontend = new Course(mContext);
         courseFrontend.setImageUrl(IMAGES[3]);
-        courseFrontend.setName("Frontend - HTML5, CSS, JavaScript");
-        courseFrontend.setCourseCode("8827");
+        courseFrontend.setName("פיתוח Front-end");
+        courseFrontend.setCourseCode("2633");
+        courseFrontend.setDescription("עקרונות בניית אפליקציות WEB דינאמיות תוך שימוש ביכולות השונות של השפות ? HTML ו Javascript וספריות JQuery וBootStrap.");
+        courseFrontend.setTargetPopulation("תכניתנים, מגן בסייבר, כותב לומדה, נתמ\"מ");
+        courseFrontend.setSyllabus("מבוא ל-HTML\r\nThe new structure and semantics in HTML5\r\nForms\r\nHTML5 Forms\r\nמבוא ל-CSS\r\nCSS3\r\nמבוא ל-Javascript\r\nAdvanced Javascript\r\njQuery\r\njQuery & AJAX\r\nWeb Storage\r\nWeb Sockets & SSE\r\nWeb Workers\r\nBootstrap\r\nWeb Security\r\nECMAScript6");
+        courseFrontend.setDurationInDays(5);
+        courseFrontend.setDurationInHours(45);
+        courseFrontend.setDayTime("בוקר-צהריים");
         courseFrontend.setIsMooc(false);
         tempList.add(courseFrontend);
 
         Course coursePhotshop = new Course(mContext);
         coursePhotshop.setImageUrl(IMAGES[4]);
-        coursePhotshop.setName("Advanced Photoshop");
-        coursePhotshop.setCourseCode("90185");
-        coursePhotshop.setIsMooc(true);
+        coursePhotshop.setName("Adobe Photoshop CS4");
+        coursePhotshop.setCourseCode("0285");
+        coursePhotshop.setDescription("הקניית ידע וכלים בעריכת תמונות בתוכנת Photoshop.");
+        coursePhotshop.setTargetPopulation("כלל צה\"ל.");
+        coursePhotshop.setSyllabus("מבוא לגרפיקה\r\nמבוא לפוטושופ\r\nציור וצבעים\r\nבחירה ושינוי צורה\r\nהיסטוריה\r\nשכבות\r\nשכפול ותיקון\r\nפילטרים\r\nמסלולים\r\nמסכות\r\nצורות\r\nטקסט\r\nאפקטים וסגנונות\r\nעצמים חכמים\r\nעריכת צבע\r\nאנימציה\r\nאוטומציה");
+        coursePhotshop.setDurationInDays(5);
+        coursePhotshop.setDurationInHours(45);
+        coursePhotshop.setDayTime("בוקר-צהריים");
+        courseCyber.setComments("אין.");
+        coursePhotshop.setIsMooc(false);
         tempList.add(coursePhotshop);
 
         return tempList;

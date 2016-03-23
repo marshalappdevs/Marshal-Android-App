@@ -2,9 +2,6 @@ package com.basmach.marshal.localdb;
 
 import java.lang.reflect.Method;
 
-/**
- * Created by Ido on 10/1/2015.
- */
 public class Validator {
 
     public static final int VALID_FLAG = 999;

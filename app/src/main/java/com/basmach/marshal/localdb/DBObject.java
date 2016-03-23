@@ -31,9 +31,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 
-/**
- * Created by Ido on 9/19/2015.
- */
 public abstract class DBObject {
     // Database fields
     public static final String TYPE_INT = "int";
