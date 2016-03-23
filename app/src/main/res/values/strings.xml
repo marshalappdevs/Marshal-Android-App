@@ -36,11 +36,12 @@
     <string name="course_type_cyber">Cyber</string>
     <string name="course_general_description">General Description</string>
     <string name="course_syllabus">Syllabus</string>
-    <string name="course_id">Course ID</string>
+    <string name="course_code">Course Code</string>
+    <string name="course_prerequisites">Prerequisites</string>
     <string name="course_target_population">Target Population</string>
-    <string name="course_day_time">Day Time</string>
     <string name="course_days_duration">Days Duration</string>
     <string name="course_hours_duration">Hours Duration</string>
+    <string name="course_day_time">Day Time</string>
     <string name="course_comments">Comments</string>
     <string name="course_related_content">Articles</string>
     <string name="course_share">Share</string>

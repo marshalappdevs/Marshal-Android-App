@@ -34,11 +34,12 @@
     <string name="course_type_cyber">סייבר</string>
     <string name="course_general_description">תיאור כללי</string>
     <string name="course_syllabus">סילבוס</string>
-    <string name="course_id">סימול</string>
+    <string name="course_code">סימול</string>
+    <string name="course_prerequisites">דרישות קדם</string>
     <string name="course_target_population">אוכלוסיית יעד</string>
-    <string name="course_day_time">זמן ביום</string>
     <string name="course_days_duration">מספר ימים</string>
     <string name="course_hours_duration">מספר שעות</string>
+    <string name="course_day_time">זמן ביום</string>
     <string name="course_comments">הערות</string>
     <string name="course_related_content">מאמרים</string>
     <string name="course_share">שתף</string>

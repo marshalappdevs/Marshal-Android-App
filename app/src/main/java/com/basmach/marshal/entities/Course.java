@@ -17,6 +17,7 @@ public class Course implements Parcelable {
     private int minimumPeople;
     private int maximumPeople;
     private String description;
+    private String prerequisites;
     private String targetPopulation;
     private String professionalDomain;
     private String syllabus;
@@ -78,6 +79,14 @@ public class Course implements Parcelable {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getPrerequisites() {
+        return prerequisites;
+    }
+
+    public void setPrerequisites(String prerequisites) {
+        this.prerequisites = prerequisites;
     }
 
     public String getTargetPopulation() {
@@ -205,6 +214,7 @@ public class Course implements Parcelable {
         dest.writeInt(minimumPeople);
         dest.writeInt(maximumPeople);
         dest.writeString(description);
+        dest.writeString(prerequisites);
         dest.writeString(targetPopulation);
         dest.writeString(professionalDomain);
         dest.writeString(syllabus);
@@ -231,6 +241,7 @@ public class Course implements Parcelable {
         this.minimumPeople = in.readInt();
         this.maximumPeople = in.readInt();
         this.description = in.readString();
+        this.prerequisites = in.readString();
         this.targetPopulation = in.readString();
         this.professionalDomain = in.readString();
         this.syllabus = in.readString();
