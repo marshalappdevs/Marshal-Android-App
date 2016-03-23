@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.SharedElementCallback;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
@@ -33,7 +34,9 @@ import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -69,6 +72,22 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
 
+        setEnterSharedElementCallback(new SharedElementCallback() {
+            @Override
+            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
+                mFabCycles.setVisibility(View.GONE);
+                super.onMapSharedElements(names, sharedElements);
+            }
+
+            @Override
+            public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
+                mFabCycles.setVisibility(View.VISIBLE);
+                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
+                mFabCycles.startAnimation(animation);
+                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
+            }
+        });
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -87,8 +106,6 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
-        mFabCycles.startAnimation(animation);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
 
