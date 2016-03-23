@@ -21,7 +21,13 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(DBConstants.CREATE_MATERIAL_ITEM);
+            db.execSQL(DBConstants.CREATE_T_MATERIAL_ITEM);
+            Log.i(DATABASE_NAME, "t_material_item created");
+            db.execSQL(DBConstants.CREATE_T_CYCLE);
+            Log.i(DATABASE_NAME, "t_cycle created");
+            db.execSQL(DBConstants.CREATE_T_COURSE);
+            Log.i(DATABASE_NAME, "t_course created");
+
             Log.i(DATABASE_NAME, "database created");
         }
         catch (SQLException e){
@@ -35,6 +41,8 @@ public class LocalDBHelper extends SQLiteOpenHelper {
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
         db.execSQL(DBConstants.DROP_T_MATERIAL_ITEM);
+        db.execSQL(DBConstants.DROP_T_COURSE);
+        db.execSQL(DBConstants.DROP_T_CYCLE);
         onCreate(db);
     }
 }

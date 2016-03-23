@@ -5,6 +5,8 @@ import android.content.Context;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
 import com.basmach.marshal.localdb.annotations.Column;
+import com.basmach.marshal.localdb.annotations.ColumnGetter;
+import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -58,10 +60,12 @@ public class MaterialItem extends DBObject{
         this.tags = tags;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_URL)
     public String getUrl() {
         return url;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_URL, type = TYPE_STRING)
     public void setUrl(String url) {
         this.url = url;
     }
@@ -74,34 +78,42 @@ public class MaterialItem extends DBObject{
         this.sourceContent = sourceContent;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_TITLE)
     public String getTitle() {
         return title;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_TITLE, type = TYPE_STRING)
     public void setTitle(String title) {
         this.title = title;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_DESCRIPTION)
     public String getDescription() {
         return description;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_DESCRIPTION, type = TYPE_STRING)
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_CANNONICIAL_URL)
     public String getCannonicalUrl() {
         return cannonicalUrl;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_CANNONICIAL_URL, type = TYPE_STRING)
     public void setCannonicalUrl(String cannonicalUrl) {
         this.cannonicalUrl = cannonicalUrl;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
     public String getImageUrl() {
         return imageUrl;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }

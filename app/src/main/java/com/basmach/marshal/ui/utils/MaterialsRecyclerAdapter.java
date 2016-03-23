@@ -1,6 +1,14 @@
 package com.basmach.marshal.ui.utils;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -26,10 +34,13 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     private Context mContext;
     private ArrayList<MaterialItem> mMaterials;
     private int lastPosition = -1;
+    private SharedPreferences mSharedPreferences;
 
-    public MaterialsRecyclerAdapter(Context context, ArrayList<MaterialItem> materials) {
+    public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials) {
         this.mMaterials = materials;
-        this.mContext = context;
+        this.mContext = activity;
+
+        this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
 
     @Override
@@ -44,7 +55,19 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                String url = mMaterials.get(position).getUrl();
+                Boolean cct = mSharedPreferences.getBoolean("CCT", true);
+                if (cct) {
+                    new CustomTabsIntent.Builder()
+                            .setToolbarColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.colorPrimary))
+                            .setShowTitle(true)
+                            .addDefaultShareMenuItem()
+                            .setCloseButtonIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_arrow_back_wht))
+                            .build()
+                            .launchUrl((Activity) mContext, Uri.parse(url));
+                } else {
+                    mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
+                }
             }
         });
 
@@ -84,25 +107,42 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 //        } else {
 //            holder.showContent(mMaterials.get(position).getLinkContent());
 //        }
-        if (mMaterials.get(position).getSourceContent() == null) {
-            holder.textCrawler.makePreview(new LinkPreviewCallback() {
-                @Override
-                public void onPre() {
+//        if (mMaterials.get(position).getSourceContent() == null) {
+//            holder.textCrawler.makePreview(new LinkPreviewCallback() {
+//                @Override
+//                public void onPre() {
+//
+//                }
+//
+//                @Override
+//                public void onPos(SourceContent sourceContent, boolean b) {
+//
+//                    mMaterials.get(position).setSourceContent(sourceContent);
+//
+//                    holder.showContent(mMaterials.get(position).getSourceContent());
+//                    //                setAnimation(holder.cardView, position);
+//                }
+//            }, mMaterials.get(position).getUrl());
+//        } else {
+//            holder.showContent(mMaterials.get(position).getSourceContent());
+//        }
+        holder.titleTextView.setText(mMaterials.get(position).getTitle());
+        holder.descriptionTextView.setText(mMaterials.get(0).getDescription());
+        holder.siteUrlTextView.setText(mMaterials.get(0).getCannonicalUrl());
+        holder.progressBar.setVisibility(View.GONE);
 
-                }
+        Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
+                .into(holder.imageView, new Callback() {
+                    @Override
+                    public void onSuccess() {
+                        holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                    }
 
-                @Override
-                public void onPos(SourceContent sourceContent, boolean b) {
+                    @Override
+                    public void onError() {
 
-                    mMaterials.get(position).setSourceContent(sourceContent);
-
-                    holder.showContent(mMaterials.get(position).getSourceContent());
-                    //                setAnimation(holder.cardView, position);
-                }
-            }, mMaterials.get(position).getUrl());
-        } else {
-            holder.showContent(mMaterials.get(position).getSourceContent());
-        }
+                    }
+                });
     }
 
     @Override

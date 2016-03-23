@@ -101,9 +101,9 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     ArrayList<Cycle> cycles = mCourse.getCycles();
 
-                    for(Cycle cycle:cycles) {
-                        if(cycle.getStartDate() == null || cycle.getEndDate() == null) {
-                            cycles.remove(cycle);
+                    for(int index = 0; index < cycles.size(); index++) {
+                        if(cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
+                            cycles.remove(cycles.get(index));
                         }
                     }
 
@@ -135,7 +135,7 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course photo
             final ImageView header = (ImageView) findViewById(R.id.header);
 
-            Picasso.with(this).load(mCourse.getPhotoUrl()).into(header, new Callback() {
+            Picasso.with(this).load(mCourse.getImageUrl()).into(header, new Callback() {
                 @Override
                 public void onSuccess() {
                     Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();

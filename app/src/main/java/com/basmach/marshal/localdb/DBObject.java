@@ -8,6 +8,8 @@ import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import org.jetbrains.annotations.NotNull;
+
+import com.basmach.marshal.R;
 import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
@@ -49,6 +51,8 @@ public abstract class DBObject {
     private ArrayList<Method> allSetters;
     private String tableName;
     private PrimaryKey primaryKey;
+
+    public DBObject() {}
 
     public DBObject(Context context) {
         dbHelper = new LocalDBHelper(context);
@@ -296,7 +300,7 @@ public abstract class DBObject {
                                 } else if (columnSetter.type().equals(TYPE_LONG)) {
                                     setter.invoke(this, cursor.getLong(cursor.getColumnIndex(column)));
                                 } else if (columnSetter.type().equals(TYPE_BOOLEAN)) {
-                                    setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(column))) != 1);
+                                    setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(column))) != 0);
                                 } else if (columnSetter.type().equals(TYPE_STRING)) {
                                     setter.invoke(this, cursor.getString(cursor.getColumnIndex(column)));
                                 } else if (columnSetter.type().equals(TYPE_DATE)) {
@@ -527,6 +531,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }
@@ -573,6 +578,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }
@@ -619,6 +625,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }
@@ -666,6 +673,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }
@@ -714,6 +722,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }
@@ -765,6 +774,7 @@ public abstract class DBObject {
 
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
                     progressDialog.show();
                 }
             }

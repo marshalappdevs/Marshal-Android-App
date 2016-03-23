@@ -5,176 +5,271 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
 
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.DBObject;
+import com.basmach.marshal.localdb.annotations.Column;
+import com.basmach.marshal.localdb.annotations.ColumnGetter;
+import com.basmach.marshal.localdb.annotations.ColumnSetter;
+import com.basmach.marshal.localdb.annotations.EntityArraySetter;
+import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
+import com.basmach.marshal.localdb.annotations.PrimaryKey;
+import com.basmach.marshal.localdb.annotations.TableName;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
-public class Course implements Parcelable {
+@TableName(name = DBConstants.T_COURSE)
+public class Course extends DBObject implements Parcelable{
 
+    @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
+
+    @Column(name = DBConstants.COL_COURSE_ID)
     private String courseID;
+
+    @Column(name = DBConstants.COL_NAME)
     private String name;
+
+    @Column(name = DBConstants.COL_MIN_PEOPLE)
     private int minimumPeople;
+
+    @Column(name = DBConstants.COL_MAX_PEOPLE)
     private int maximumPeople;
+
+    @Column(name = DBConstants.COL_DESCRIPTION)
     private String description;
+
+    @Column(name = DBConstants.COL_PREREQUISITES)
     private String prerequisites;
+
+    @Column(name = DBConstants.COL_TARGET_POPULATION)
     private String targetPopulation;
+
+    @Column(name = DBConstants.COL_PROFESSIONAL_DOMAIN)
     private String professionalDomain;
+
+    @Column(name = DBConstants.COL_SYLLABUS)
     private String syllabus;
+
+    @Column(name = DBConstants.COL_DAYTIME)
     private String dayTime;
+
+    @Column(name = DBConstants.COL_DURATION_IN_HOURS)
     private int durationInHours;
+
+    @Column(name = DBConstants.COL_DURATION_IN_DAYS)
     private int durationInDays;
+
+    @Column(name = DBConstants.COL_COMMENTS)
     private String comments;
+
+    @Column(name = DBConstants.COL_PASSING_GRADE)
     private int passingGrade;
-    private double price;
+
+    @Column(name = DBConstants.COL_PRICE)
+    private long price;
+
+    @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
-    private String photoUrl;
+
+    @Column(name = DBConstants.COL_IMAGE_URL)
+    private String imageUrl;
+
+    @Column(name = DBConstants.COL_IS_MOOC)
     private Boolean isMooc;
 
-    public Course () {}
+    public Course (Context context) {
+        super(context);
+    }
 
+    @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
         return id;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_COURSE_ID)
     public String getCourseCode() {
         return courseID;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_COURSE_ID, type = TYPE_STRING)
     public void setCourseCode(String courseCode) {
         this.courseID = courseCode;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_NAME)
     public String getName() {
         return name;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_NAME, type = TYPE_STRING)
     public void setName(String name) {
         this.name = name;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_MIN_PEOPLE)
     public int getMinimumPeople() {
         return minimumPeople;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_MIN_PEOPLE, type = TYPE_INT)
     public void setMinimumPeople(int minimumPeople) {
         this.minimumPeople = minimumPeople;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_MAX_PEOPLE)
     public int getMaximumPeople() {
         return maximumPeople;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_MAX_PEOPLE, type = TYPE_INT)
     public void setMaximumPeople(int maximumPeople) {
         this.maximumPeople = maximumPeople;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_DESCRIPTION)
     public String getDescription() {
         return description;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_DESCRIPTION, type = TYPE_STRING)
     public void setDescription(String description) {
         this.description = description;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_PREREQUISITES)
     public String getPrerequisites() {
         return prerequisites;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_PREREQUISITES, type = TYPE_STRING)
     public void setPrerequisites(String prerequisites) {
         this.prerequisites = prerequisites;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_TARGET_POPULATION)
     public String getTargetPopulation() {
         return targetPopulation;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_TARGET_POPULATION, type = TYPE_STRING)
     public void setTargetPopulation(String targetPopulation) {
         this.targetPopulation = targetPopulation;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_PROFESSIONAL_DOMAIN)
     public String getProfessionalDomain() {
         return professionalDomain;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_PROFESSIONAL_DOMAIN, type = TYPE_STRING)
     public void setProfessionalDomain(String professionalDomain) {
         this.professionalDomain = professionalDomain;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_SYLLABUS)
     public String getSyllabus() {
         return syllabus;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_SYLLABUS, type = TYPE_STRING)
     public void setSyllabus(String syllabus) {
         this.syllabus = syllabus;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_DAYTIME)
     public String getDayTime() {
         return dayTime;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_DAYTIME, type = TYPE_STRING)
     public void setDayTime(String dayTime) {
         this.dayTime = dayTime;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_DURATION_IN_HOURS)
     public int getDurationInHours() {
         return durationInHours;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_DURATION_IN_HOURS, type = TYPE_INT)
     public void setDurationInHours(int durationInHours) {
         this.durationInHours = durationInHours;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_DURATION_IN_DAYS)
     public int getDurationInDays() {
         return durationInDays;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_DURATION_IN_DAYS, type = TYPE_INT)
     public void setDurationInDays(int durationInDays) {
         this.durationInDays = durationInDays;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_COMMENTS)
     public String getComments() {
         return comments;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_COMMENTS, type = TYPE_STRING)
     public void setComments(String comments) {
         this.comments = comments;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_PASSING_GRADE)
     public int getPassingGrade() {
         return passingGrade;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_PASSING_GRADE, type = TYPE_INT)
     public void setPassingGrade(int passingGrade) {
         this.passingGrade = passingGrade;
     }
 
-    public double getPrice() {
+    @ColumnGetter(columnName = DBConstants.COL_PRICE)
+    public long getPrice() {
         return price;
     }
 
-    public void setPrice(double price) {
+    @ColumnSetter(columnName = DBConstants.COL_PRICE, type = TYPE_LONG)
+    public void setPrice(long price) {
         this.price = price;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_CYCLES)
     public ArrayList getCycles() {
         return cycles;
     }
 
+    @EntityArraySetter(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     public void setCycles(ArrayList cycles) {
         this.cycles = cycles;
     }
 
-    public String getPhotoUrl() {
-        return photoUrl;
+    @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
+    public String getImageUrl() {
+        return imageUrl;
     }
 
-    public void setPhotoUrl(String photoUrl) {
-        this.photoUrl = photoUrl;
+    @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
+    public void setImageUrl(String imageUrl) {
+        this.imageUrl = imageUrl;
+    }
+
+    @ColumnGetter(columnName = DBConstants.COL_IS_MOOC)
+    public Boolean getIsMooc() {
+        return isMooc;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_IS_MOOC, type = TYPE_BOOLEAN)
+    public void setIsMooc(Boolean isMooc) {
+        this.isMooc = isMooc;
     }
 
     /////////////////////////// methods ////////////////////////////
@@ -183,16 +278,8 @@ public class Course implements Parcelable {
         cycles.add(cycle);
     }
 
-    public Boolean getIsMooc() {
-        return isMooc;
-    }
-
-    public void setIsMooc(Boolean isMooc) {
-        this.isMooc = isMooc;
-    }
-
     public void getPhotoViaPicasso(Context context, final ImageView imageView, Callback callback) {
-        Picasso.with(context).load(this.getPhotoUrl())
+        Picasso.with(context).load(this.getImageUrl())
                 .into(imageView, callback);
     }
 
@@ -223,9 +310,9 @@ public class Course implements Parcelable {
         dest.writeInt(durationInDays);
         dest.writeString(comments);
         dest.writeInt(passingGrade);
-        dest.writeDouble(price);
+        dest.writeLong(price);
         dest.writeTypedList(cycles);
-        dest.writeString(photoUrl);
+        dest.writeString(imageUrl);
         dest.writeInt((isMooc) ? 1 : 0);
     }
 
@@ -250,9 +337,9 @@ public class Course implements Parcelable {
         this.durationInDays = in.readInt();
         this.comments = in.readString();
         this.passingGrade = in.readInt();
-        this.price = in.readDouble();
+        this.price = in.readLong();
         in.readTypedList(cycles, Cycle.CREATOR);
-        this.photoUrl = in.readString();
+        this.imageUrl = in.readString();
         this.isMooc = (in.readInt() != 0);
     }
 

@@ -16,6 +16,8 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
@@ -23,6 +25,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MaterialsFragment extends Fragment {
 
@@ -38,18 +41,38 @@ public class MaterialsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
 
-        mMaterialsList = getAllMockMaterials();
+//        mMaterialsList = getAllMockMaterials();
 
+        MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+                true, new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        mMaterialsList = new ArrayList<>();
+                        for(Object item:data) {
+                            Log.i("GET MATERIALS "," ITEM: " + ((MaterialItem)item).getTitle());
+                            mMaterialsList.add((MaterialItem)item);
+                            showData();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        Log.e("GET MATERIALS "," ERROR");
+                    }
+                });
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mFabPlus = (FloatingActionButton) rootView.findViewById(R.id.materials_fab_plus);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
-        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mMaterialsList);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mRecycler.setAdapter(mAdapter);
 
         return rootView;
+    }
+
+    private void showData() {
+        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mMaterialsList);
+        mRecycler.setAdapter(mAdapter);
     }
 
     private ArrayList<MaterialItem> getAllMockMaterials() {

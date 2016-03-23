@@ -50,6 +50,7 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.utils.MockDataProvider;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -137,6 +138,11 @@ public class MainActivity extends AppCompatActivity
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
+        MockDataProvider mockDataProvider = new MockDataProvider(this);
+        mockDataProvider.insertAllMaterialItems();
+        mockDataProvider.insertAllCycles();
+        mockDataProvider.insertAllCourses();
     }
 
     @Override
