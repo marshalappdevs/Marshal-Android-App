@@ -139,7 +139,7 @@ public class MockDataProvider {
         courseAngular.setDurationInDays(15);
         courseAngular.setDurationInHours(80);
         courseAngular.setDayTime("בוקר-צהריים");
-        courseAngular.setComments("נדרש ניסיון בפיתוח WEB. חובה לבצע כניסה ראשונית למערכת \"יוחנן המלמד\" לפני הגשת הבקשה לקורס בכתובת -  https://learn.joe.idf");
+        courseAngular.setComments("חובה לבצע כניסה ראשונית למערכת \"יוחנן המלמד\" לפני הגשת הבקשה לקורס בכתובת -  https://learn.joe.idf");
         courseAngular.setIsMooc(true);
         tempList.add(courseAngular);
 
