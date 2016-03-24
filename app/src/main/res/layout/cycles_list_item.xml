@@ -30,7 +30,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:gravity="center"
-            android:text="-"
+            android:text="@string/course_cycle_date_separator"
             android:textColor="?android:textColorPrimary"
             android:textAppearance="@android:style/TextAppearance.Medium" />
 

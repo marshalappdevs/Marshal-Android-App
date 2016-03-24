@@ -1,5 +1,4 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/navview_main_header_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height">
@@ -13,7 +12,7 @@
         android:scaleType="centerCrop"
         android:background="@android:color/darker_gray"
         android:foreground="#66000000"
-        tools:ignore="ContentDescription" />
+        android:contentDescription="@null" />
 
     <LinearLayout
         android:id="@+id/chosen_account_content_view"
@@ -36,7 +35,7 @@
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_profile_none"
             android:foreground="@drawable/avatar_pressed"
-            tools:ignore="ContentDescription" />
+            android:contentDescription="@string/navigation_drawer_profile_image_content_description" />
 
         <TextView
             android:id="@+id/profile_name_text"
