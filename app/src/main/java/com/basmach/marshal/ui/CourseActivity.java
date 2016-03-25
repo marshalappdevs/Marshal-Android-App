@@ -73,6 +73,25 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
 
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(mToolbar);
+
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                supportFinishAfterTransition();
+            }
+        });
+
+        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        // hide toolbar expanded title
+        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+
+        //Initialize Cycles FAB
+        mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
@@ -105,25 +124,6 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
         }
-
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(mToolbar);
-
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                supportFinishAfterTransition();
-            }
-        });
-
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        // hide toolbar expanded title
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
-
-        //Initialize Cycles FAB
-        mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
 
         mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
 
