@@ -17,6 +17,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Fade;
+import android.transition.Transition;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -72,21 +73,38 @@ public class CourseActivity extends AppCompatActivity {
         initActivityTransitions();
         setContentView(R.layout.activity_course);
 
-        setEnterSharedElementCallback(new SharedElementCallback() {
-            @Override
-            public void onMapSharedElements(List<String> names, Map<String, View> sharedElements) {
-                mFabCycles.setVisibility(View.GONE);
-                super.onMapSharedElements(names, sharedElements);
-            }
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
+            sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
+                @Override
+                public void onTransitionStart(Transition transition) {
+//                    mFabCycles.hide();
+                    mToolbar.setVisibility(View.GONE);
+                    mFabCycles.setVisibility(View.GONE);
+                }
 
-            @Override
-            public void onSharedElementEnd(List<String> sharedElementNames, List<View> sharedElements, List<View> sharedElementSnapshots) {
-                mFabCycles.setVisibility(View.VISIBLE);
-                Animation animation = AnimationUtils.loadAnimation(CourseActivity.this, R.anim.fab_in_animation);
-                mFabCycles.startAnimation(animation);
-                super.onSharedElementEnd(sharedElementNames, sharedElements, sharedElementSnapshots);
-            }
-        });
+                @Override
+                public void onTransitionEnd(Transition transition) {
+                    mToolbar.setVisibility(View.VISIBLE);
+                    mFabCycles.show();
+                }
+
+                @Override
+                public void onTransitionCancel(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionPause(Transition transition) {
+
+                }
+
+                @Override
+                public void onTransitionResume(Transition transition) {
+
+                }
+            });
+        }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
