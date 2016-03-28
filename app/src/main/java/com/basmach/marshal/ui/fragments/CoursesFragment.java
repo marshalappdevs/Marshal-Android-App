@@ -248,7 +248,6 @@ public class CoursesFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
                         CoursesSearchFragment.newInstance(query,mCoursesList)).commit();
-                mSearchView.setQuery(query,false);
                 return true;
             }
 

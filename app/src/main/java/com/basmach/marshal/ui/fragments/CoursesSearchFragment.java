@@ -103,7 +103,6 @@ public class CoursesSearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filter(query);
-                mSearchView.clearFocus();
                 return true;
             }
 
@@ -126,6 +125,8 @@ public class CoursesSearchFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
+        MenuItemCompat.expandActionView(searchItem);
+        mSearchView.setQuery(mSearchQuery,true);
     }
 
     private void filter(String filterText) {
