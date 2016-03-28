@@ -16,7 +16,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
+import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
 import java.util.ArrayList;
 
@@ -67,6 +69,15 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
+
+        // Set course starting Date
+        if (mCourses.get(position).getCycles().size() > 0) {
+            holder.courseStartDateTime
+                    .setText(DateHelper.dateToString(((Cycle)
+                            (mCourses.get(position).getCycles().get(0))).getStartDate()));
+        } else {
+            holder.courseStartDateTime.setVisibility(View.GONE);
+        }
 
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
@@ -148,7 +159,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         ImageView courseImage;
         ImageView moocFlag;
         TextView courseName;
-        TextView courseDate;
+        TextView courseStartDateTime;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -157,7 +168,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             courseImage = (ImageView) itemView.findViewById(R.id.course_searchable_imageView);
             moocFlag = (ImageView) itemView.findViewById(R.id.course_searchable_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
-            courseDate = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
+            courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
         }
     }
 }

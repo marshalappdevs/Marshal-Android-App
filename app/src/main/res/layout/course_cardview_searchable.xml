@@ -73,9 +73,7 @@
                         android:singleLine="true"
                         android:lineSpacingMultiplier="1.08" />
 
-                    <!--Optional course date-->
                     <TextView
-                        android:visibility="gone"
                         android:textColor="?android:textColorSecondary"
                         android:textSize="12.0sp"
                         android:ellipsize="end"
