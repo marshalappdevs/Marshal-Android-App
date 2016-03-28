@@ -574,7 +574,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -604,7 +604,7 @@ public class MainActivity extends AppCompatActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_search) {
+        if (id == R.id.menu_main_searchView) {
             return true;
         }
         return super.onOptionsItemSelected(item);

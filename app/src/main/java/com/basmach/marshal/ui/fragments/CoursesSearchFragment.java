@@ -1,7 +1,6 @@
 package com.basmach.marshal.ui.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -15,73 +14,69 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.TextView;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MaterialsFragment extends Fragment {
+public class CoursesSearchFragment extends Fragment {
+
+    public static final String EXTRA_SEARCH_QUERY = "search_query";
+    public static final String EXTRA_ALL_COURSES = "all_courses";
 
     private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecycler;
     private LinearLayoutManager mLayoutManager;
-    private MaterialsRecyclerAdapter mAdapter;
-    private ArrayList<MaterialItem> mMaterialsList;
-    private ArrayList<MaterialItem> mFilteredMaterilsList;
+    private CoursesSearchRecyclerAdapter mAdapter;
+    private ArrayList<Course> mCoursesList;
+    private ArrayList<Course> mFilteredCourseList;
     private String mFilterText;
+    private String mSearchQuery;
+
+    public static CoursesSearchFragment newInstance(String query,
+                                                    ArrayList<Course> courses) {
+        Bundle bundle = new Bundle();
+        bundle.putString(EXTRA_SEARCH_QUERY,query);
+        bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
+        CoursesSearchFragment coursesSearchFragment = new CoursesSearchFragment();
+        coursesSearchFragment.setArguments(bundle);
+        return coursesSearchFragment;
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_courses_search, container, false);
 
         setHasOptionsMenu(true);
 
-        MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                true, new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        mMaterialsList = new ArrayList<>();
-                        for(Object item:data) {
-                            Log.i("GET MATERIALS "," ITEM: " + ((MaterialItem)item).getTitle());
-                            mMaterialsList.add((MaterialItem)item);
-                            showData();
-                        }
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        Log.e("GET MATERIALS "," ERROR");
-                    }
-                });
-
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
+        mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
+        mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
+
+        mFilteredCourseList = new ArrayList<>(mCoursesList);
+        mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
+        mRecycler.setAdapter(mAdapter);
+
         return rootView;
     }
 
-    private void showData() {
-        mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
-        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterilsList);
-        mRecycler.setAdapter(mAdapter);
-    }
+//    private void showData() {
+//
+//    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -99,7 +94,6 @@ public class MaterialsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.main, menu);
 
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
@@ -123,7 +117,7 @@ public class MaterialsFragment extends Fragment {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        filter(null);
+                        getActivity().onBackPressed();
                         return true; // Return true to collapse action view
                     }
 
@@ -136,24 +130,21 @@ public class MaterialsFragment extends Fragment {
 
     private void filter(String filterText) {
         if (filterText == null) {
-            mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
-            mAdapter.setIsDataFiltered(false);
+            mFilteredCourseList = new ArrayList<>(mCoursesList);
         } else if (filterText.equals("")) {
-            mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
-            mAdapter.setIsDataFiltered(false);
+            mFilteredCourseList = new ArrayList<>(mCoursesList);
         } else {
             mFilterText = filterText.toLowerCase();
-            mFilteredMaterilsList = new ArrayList<>();
-            for(MaterialItem item:mMaterialsList) {
-                if (item.getTitle().toLowerCase().contains(mFilterText) ||
+            mFilteredCourseList = new ArrayList<>();
+            for(Course item:mCoursesList) {
+                if (item.getName().toLowerCase().contains(mFilterText) ||
                         item.getDescription().toLowerCase().contains(mFilterText)) {
-                    mFilteredMaterilsList.add(item);
+                    mFilteredCourseList.add(item);
                 }
             }
         }
 
-        mAdapter.setIsDataFiltered(true);
-        mAdapter.animateTo(mFilteredMaterilsList);
+        mAdapter.animateTo(mFilteredCourseList);
         mRecycler.scrollToPosition(0);
     }
 }

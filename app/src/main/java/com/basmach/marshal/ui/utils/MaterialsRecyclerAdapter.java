@@ -34,14 +34,27 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     private Context mContext;
     private ArrayList<MaterialItem> mMaterials;
-    private int lastPosition = -1;
     private SharedPreferences mSharedPreferences;
+    private Boolean mIsDataFiltered = false;
 
     public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials) {
         this.mMaterials = materials;
         this.mContext = activity;
 
         this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+    }
+
+    public Boolean getIsDataFiltered() {
+        return mIsDataFiltered;
+    }
+
+    public void setIsDataFiltered(Boolean mIsDataFiltered) {
+        this.mIsDataFiltered = mIsDataFiltered;
+    }
+
+    public void setItems(ArrayList<MaterialItem> items) {
+        this.mMaterials = items;
+        notifyDataSetChanged();
     }
 
     @Override
@@ -52,6 +65,8 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     @Override
     public void onBindViewHolder(final MaterialVH holder, final int position) {
+
+        Log.i("FILTER: ON BIND --> ", String.valueOf(position) + " : " + mIsDataFiltered);
 
         final long[] mLastClickTime = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -91,47 +106,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             }
         });
 
-//        if(mMaterials.get(position).getLinkContent() == null) {
-//            holder.linkPreviewUtil.getData(mMaterials.get(position).getUrl(), position, new com.basmach.marshal.interfaces.LinkPreviewCallback() {
-//                @Override
-//                public void onFailure() {
-//
-//                }
-//
-//                @Override
-//                public void onSuccess(LinkContent linkContent, final int itemPosition) {
-//                    mMaterials.get(itemPosition).setLinkContent(linkContent);
-//
-//                    ((Activity)mContext).runOnUiThread(new Runnable() {
-//                        @Override
-//                        public void run() {
-//                            holder.showContent(mMaterials.get(itemPosition).getLinkContent());
-//                        }
-//                    });
-//                }
-//            });
-//        } else {
-//            holder.showContent(mMaterials.get(position).getLinkContent());
-//        }
-//        if (mMaterials.get(position).getSourceContent() == null) {
-//            holder.textCrawler.makePreview(new LinkPreviewCallback() {
-//                @Override
-//                public void onPre() {
-//
-//                }
-//
-//                @Override
-//                public void onPos(SourceContent sourceContent, boolean b) {
-//
-//                    mMaterials.get(position).setSourceContent(sourceContent);
-//
-//                    holder.showContent(mMaterials.get(position).getSourceContent());
-//                    //                setAnimation(holder.cardView, position);
-//                }
-//            }, mMaterials.get(position).getUrl());
-//        } else {
-//            holder.showContent(mMaterials.get(position).getSourceContent());
-//        }
         holder.titleTextView.setText(mMaterials.get(position).getTitle());
         holder.descriptionTextView.setText(mMaterials.get(position).getDescription());
         holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
@@ -156,25 +130,55 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         return mMaterials.size();
     }
 
-//    @Override
-//    public void onViewDetachedFromWindow(MaterialVH holder) {
-//        super.onViewDetachedFromWindow(holder);
-//
-//        holder.clearAppearAnimation();
-//    }
+    public void animateTo(ArrayList<MaterialItem> materilsList) {
+        applyAndAnimateRemovals(materilsList);
+        applyAndAnimateAdditions(materilsList);
+        applyAndAnimateMovedItems(materilsList);
+    }
 
-    /**
-     * Here is the key method to apply the animation
-     */
-    private void setAnimation(View viewToAnimate, int position)
-    {
-        // If the bound view wasn't previously displayed on screen, it's animated
-        if (position > lastPosition)
-        {
-            Animation animation = AnimationUtils.loadAnimation(mContext, android.R.anim.slide_in_left);
-            viewToAnimate.startAnimation(animation);
-            lastPosition = position;
+    private void applyAndAnimateRemovals(ArrayList<MaterialItem> newItems) {
+        for (int i = mMaterials.size() - 1; i >= 0; i--) {
+            final MaterialItem item = mMaterials.get(i);
+            if (!newItems.contains(item)) {
+                removeItem(i);
+            }
         }
+    }
+
+    private void applyAndAnimateAdditions(ArrayList<MaterialItem> newItems) {
+        for (int i = 0, count = newItems.size(); i < count; i++) {
+            final MaterialItem item = newItems.get(i);
+            if (!mMaterials.contains(item)) {
+                addItem(i, item);
+            }
+        }
+    }
+
+    private void applyAndAnimateMovedItems(ArrayList<MaterialItem> newItems) {
+        for (int toPosition = newItems.size() - 1; toPosition >= 0; toPosition--) {
+            final MaterialItem item = newItems.get(toPosition);
+            final int fromPosition = mMaterials.indexOf(item);
+            if (fromPosition >= 0 && fromPosition != toPosition) {
+                moveItem(fromPosition, toPosition);
+            }
+        }
+    }
+
+    public MaterialItem removeItem(int position) {
+        final MaterialItem item = mMaterials.remove(position);
+        notifyItemRemoved(position);
+        return item;
+    }
+
+    public void addItem(int position, MaterialItem item) {
+        mMaterials.add(position, item);
+        notifyItemInserted(position);
+    }
+
+    public void moveItem(int fromPosition, int toPosition) {
+        final MaterialItem item = mMaterials.remove(fromPosition);
+        mMaterials.add(toPosition, item);
+        notifyItemMoved(fromPosition, toPosition);
     }
 
     public class MaterialVH extends RecyclerView.ViewHolder{
@@ -187,9 +191,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         ProgressBar progressBar;
         TextView tags;
 
-//        LinkPreviewUtil linkPreviewUtil;
-        TextCrawler textCrawler;
-
         public MaterialVH(View itemView) {
             super(itemView);
 
@@ -200,64 +201,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
             progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
             tags = (TextView) itemView.findViewById(R.id.tags);
-
-//            linkPreviewUtil = new LinkPreviewUtil(mContext);
-            textCrawler = new TextCrawler();
-
-            Log.i("MATERIAL_RECYCLER", "CTOR");
         }
-
-        public void clearAppearAnimation() {
-            cardView.clearAnimation();
-        }
-
-        public void showContent(SourceContent sourceContent) {
-            progressBar.setVisibility(View.GONE);
-
-            titleTextView.setText(sourceContent.getTitle());
-            descriptionTextView.setText(sourceContent.getDescription());
-            siteUrlTextView.setText(sourceContent.getCannonicalUrl());
-
-            if (sourceContent.getImages() != null &&
-                    sourceContent.getImages().size() > 0) {
-                Picasso.with(mContext).load(sourceContent.getImages().get(0))
-                        .into(imageView, new Callback() {
-                            @Override
-                            public void onSuccess() {
-                                imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
-            }
-
-            cardView.setVisibility(View.VISIBLE);
-        }
-
-//        public void showContent(LinkContent linkContent) {
-//            progressBar.setVisibility(View.GONE);
-//
-//            titleTextView.setText(linkContent.getTitle());
-//            descriptionTextView.setText(linkContent.getDescription());
-//            siteUrlTextView.setText(linkContent.getSiteName());
-//
-//            Picasso.with(mContext).load(linkContent.getImageUrl())
-//                    .into(imageView, new Callback() {
-//                        @Override
-//                        public void onSuccess() {
-//                            imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-//                        }
-//
-//                        @Override
-//                        public void onError() {
-//
-//                        }
-//                    });
-//
-//            cardView.setVisibility(View.VISIBLE);
-//        }
     }
 }

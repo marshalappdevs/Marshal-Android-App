@@ -1,19 +1,28 @@
 package com.basmach.marshal.ui.fragments;
 
 import android.content.Intent;
+import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -23,11 +32,14 @@ import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
+import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
+import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -61,10 +73,16 @@ public class CoursesFragment extends Fragment {
     private ArrayList<String> mCoursesImages;
     private InkPageIndicator mInkPageIndicator;
 
+    private SearchView mSearchView;
+    private ArrayList<String> mFilteredSuggestionsList;
+    private ArrayList<String> mSuggestionsList;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
+
+        setHasOptionsMenu(true);
 
         mCoursesImages = new ArrayList<>();
         mCoursesList = new ArrayList<>();
@@ -169,7 +187,6 @@ public class CoursesFragment extends Fragment {
         mRootView.findViewById(R.id.fragment_courses_relativeLayout_it).setVisibility(View.VISIBLE);
     }
 
-
     private void startViewPagerTimer() {
         mTimer = new Timer();
         mTimerTask = new TimerTask() {
@@ -212,4 +229,68 @@ public class CoursesFragment extends Fragment {
             }
         });
     }
+
+//    @Override
+//    public boolean onOptionsItemSelected(MenuItem item) {
+//        return super.onOptionsItemSelected(item);
+//    }
+
+    @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // Setup search button
+        final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        CoursesSearchFragment.newInstance(query,mCoursesList)).commit();
+                mSearchView.setQuery(query,false);
+                return true;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return true;
+            }
+        });
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true; // Return true to expand action view
+                    }
+                });
+    }
+
+    private void filter(String filterText) {
+        if (filterText == null) {
+            mFilteredSuggestionsList = new ArrayList<>(mSuggestionsList);
+        } else if (filterText.equals("")) {
+            mFilteredSuggestionsList = new ArrayList<>(mSuggestionsList);
+        } else {
+            mFilteredSuggestionsList = new ArrayList<>();
+            for(String item:mSuggestionsList) {
+                if (item.toLowerCase().contains(filterText) ||
+                        item.toLowerCase().contains(filterText)) {
+                    mFilteredSuggestionsList.add(item);
+                }
+            }
+        }
+
+        populateSuggstionsAdapter(mFilteredSuggestionsList);
+    }
+
+    private void populateSuggstionsAdapter(ArrayList<String> suggestionsList) {
+
+    }
+
 }

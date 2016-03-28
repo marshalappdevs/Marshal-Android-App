@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <android.support.v7.widget.CardView
+        android:layout_width="match_parent"
+        android:layout_height="80dp"
+        android:foreground="?attr/selectableItemBackground"
+        style="@style/AppTheme.CardView"
+        android:id="@+id/course_cardview_searchable_cardView"
+        android:layout_margin="4dp">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <FrameLayout
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1">
+
+                <ImageView
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:id="@+id/course_cardview_searchable_imageView"
+                    android:scaleType="centerCrop"
+                    android:contentDescription="@null" />
+
+                <ImageView
+                    android:id="@+id/course_cardview_searchable_moocFlag"
+                    android:layout_width="40dp"
+                    android:layout_height="40dp"
+                    android:src="@drawable/mooc_flag"
+                    android:layout_gravity="end"
+                    android:visibility="gone"
+                    android:contentDescription="@null" />
+            </FrameLayout>
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="3"
+                android:ellipsize="end"
+                android:id="@+id/course_cardview_searchable_textView" />
+
+        </LinearLayout>
+    </android.support.v7.widget.CardView>
+</FrameLayout>
