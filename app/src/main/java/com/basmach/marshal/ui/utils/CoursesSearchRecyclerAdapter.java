@@ -50,7 +50,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_searchable_imageView), "course_image");
+                Pair p1 = Pair.create(view.findViewById(R.id.course_searchable_imageView), "course_image");
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
                 mContext.startActivity(intent, options.toBundle());
             }
@@ -148,14 +148,16 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         ImageView courseImage;
         ImageView moocFlag;
         TextView courseName;
+        TextView courseDate;
 
         public CourseVH(View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView.findViewById(R.id.course_cardview_searchable_cardView) ;
-            courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_searchable_imageView);
-            moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_searchable_moocFlag);
-            courseName = (TextView) itemView.findViewById(R.id.course_cardview_searchable_textView);
+            cardView = (CardView) itemView.findViewById(R.id.course_searchable_cardView) ;
+            courseImage = (ImageView) itemView.findViewById(R.id.course_searchable_imageView);
+            moocFlag = (ImageView) itemView.findViewById(R.id.course_searchable_moocFlag);
+            courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
+            courseDate = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
         }
     }
 }
