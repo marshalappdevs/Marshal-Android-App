@@ -50,23 +50,25 @@ public class MaterialsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                true, new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        mMaterialsList = new ArrayList<>();
-                        for(Object item:data) {
-                            Log.i("GET MATERIALS "," ITEM: " + ((MaterialItem)item).getTitle());
-                            mMaterialsList.add((MaterialItem)item);
-                            showData();
+        if (mMaterialsList == null) {
+            MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+                    true, new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            mMaterialsList = new ArrayList<>();
+                            for(Object item:data) {
+                                Log.i("GET MATERIALS "," ITEM: " + ((MaterialItem)item).getTitle());
+                                mMaterialsList.add((MaterialItem)item);
+                                showData();
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onError(String error) {
-                        Log.e("GET MATERIALS "," ERROR");
-                    }
-                });
+                        @Override
+                        public void onError(String error) {
+                            Log.e("GET MATERIALS "," ERROR");
+                        }
+                    });
+        }
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);

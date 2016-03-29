@@ -45,9 +45,12 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class CoursesFragment extends Fragment {
-//    public ArrayList<String> IMAGES;
-//    public ArrayList<Course> COURSES;
-    public ArrayList<Course> mCoursesList;
+    private static final String EXTRA_COURSES_LIST = "extra_courses_list";
+    private static final String EXTRA_COURSES_IMAGES_LIST = "extra_courses_images_list";
+    private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
+
+    public ArrayList<Course> mCoursesList = null;
+    private ArrayList<String> mCoursesImages = null;
 
     private ViewPager mViewPager;
     private TimerTask mTimerTask;
@@ -70,8 +73,8 @@ public class CoursesFragment extends Fragment {
     private Button mBtnShowAllIT;
     
     private View mRootView;
-    private ArrayList<String> mCoursesImages;
     private InkPageIndicator mInkPageIndicator;
+    private ViewPagerAdapter mViewPagerAdapter;
 
     private SearchView mSearchView;
     private ArrayList<String> mFilteredSuggestionsList;
@@ -84,35 +87,57 @@ public class CoursesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mCoursesImages = new ArrayList<>();
-        mCoursesList = new ArrayList<>();
-
         mViewPager = (ViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
-        Course.getAllInBackground(DBConstants.COL_NAME, Course.class, getActivity(), true,
-                new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        for(Object item:data) {
-                            Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
-                            mCoursesList.add((Course)item);
-                            mCoursesImages.add(((Course) item).getImageUrl());
-                        }
-                        showImagesViewPager();
-                        showData();
-                    }
+        if (mCoursesList == null || mCoursesImages == null) {
 
-                    @Override
-                    public void onError(String error) {
+            if (savedInstanceState != null) {
+                mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
+                mCoursesImages = savedInstanceState.getStringArrayList(EXTRA_COURSES_IMAGES_LIST);
+            }
 
-                    }
-                });
+            if (mCoursesList == null || mCoursesImages == null) {
+                mCoursesImages = new ArrayList<>();
+                mCoursesList = new ArrayList<>();
+                Course.getAllInBackground(DBConstants.COL_NAME, Course.class, getActivity(), true,
+                        new BackgroundTaskCallBack() {
+                            @Override
+                            public void onSuccess(String result, List<Object> data) {
+                                for(Object item:data) {
+                                    Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
+                                    mCoursesList.add((Course)item);
+                                    mCoursesImages.add(((Course) item).getImageUrl());
+                                }
+                                showImagesViewPager();
+                                showData();
+                            }
+
+                            @Override
+                            public void onError(String error) {
+
+                            }
+                        });
+            } else {
+                showImagesViewPager();
+                showData();
+            }
+        } else {
+            showImagesViewPager();
+            showData();
+        }
+
         return mRootView;
     }
 
+    @Override
+    public void onStop() {
+        super.onStop();
+        mViewPager.setCurrentItem(0);
+    }
+
     private void showImagesViewPager() {
-        ViewPagerAdapter adapter = new ViewPagerAdapter(getActivity(), mCoursesImages);
-        mViewPager.setAdapter(adapter);
+        mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mCoursesImages);
+        mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
         mInkPageIndicator.setViewPager(mViewPager);
@@ -230,11 +255,6 @@ public class CoursesFragment extends Fragment {
         });
     }
 
-//    @Override
-//    public boolean onOptionsItemSelected(MenuItem item) {
-//        return super.onOptionsItemSelected(item);
-//    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -245,8 +265,9 @@ public class CoursesFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
+                mSearchView.clearFocus();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right).replace(R.id.content_frame,
                         CoursesSearchFragment.newInstance(query,mCoursesList)).commit();
                 return true;
             }
@@ -292,4 +313,12 @@ public class CoursesFragment extends Fragment {
 
     }
 
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+
+        outState.putParcelableArrayList(EXTRA_COURSES_LIST,mCoursesList);
+        outState.putStringArrayList(EXTRA_COURSES_IMAGES_LIST,mCoursesImages);
+        outState.putInt(EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
+    }
 }

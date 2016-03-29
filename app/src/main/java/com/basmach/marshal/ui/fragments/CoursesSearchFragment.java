@@ -103,6 +103,7 @@ public class CoursesSearchFragment extends Fragment {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filter(query);
+                mSearchView.clearFocus();
                 return true;
             }
 

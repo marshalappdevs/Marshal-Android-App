@@ -34,7 +34,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
     @Override
     public CourseVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview_searchable, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview_searchable, parent, false);
         return new CourseVH(view);
     }
 
@@ -79,16 +79,18 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             holder.courseStartDateTime.setVisibility(View.GONE);
         }
 
+        // Check if MOOC
+        if(mCourses.get(position).getIsMooc()){
+            // if (holder.courseImage.getVisibility() == View.VISIBLE)
+            holder.moocFlag.setVisibility(View.VISIBLE);
+        } else {
+            holder.moocFlag.setVisibility(View.GONE);
+        }
+
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
             @Override public void onSuccess() {
                 holder.courseImage.setVisibility(View.VISIBLE);
-
-                // Check if MOOC
-                if(mCourses.get(position).getIsMooc()){
-                    // if (holder.courseImage.getVisibility() == View.VISIBLE)
-                    holder.moocFlag.setVisibility(View.VISIBLE);
-                }
             }
 
             @Override public void onError() {
@@ -102,10 +104,13 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         return mCourses.size();
     }
 
-    public void animateTo(ArrayList<Course> materilsList) {
-        applyAndAnimateRemovals(materilsList);
-        applyAndAnimateAdditions(materilsList);
-        applyAndAnimateMovedItems(materilsList);
+    public void animateTo(ArrayList<Course> coursesList) {
+        applyAndAnimateRemovals(coursesList);
+        applyAndAnimateAdditions(coursesList);
+        applyAndAnimateMovedItems(coursesList);
+        for(int i = 0; i < mCourses.size(); i++) {
+            notifyItemChanged(i);
+        }
     }
 
     private void applyAndAnimateRemovals(ArrayList<Course> newItems) {

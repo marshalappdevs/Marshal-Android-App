@@ -22,6 +22,7 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -90,6 +91,10 @@ public class MainActivity extends AppCompatActivity
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView, mCoverImageView;
     private boolean signedIn = false;
+
+    // Fragments
+    private CoursesFragment mCourseFragment;
+    private MaterialsFragment mMaterialsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -616,13 +621,24 @@ public class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (id == R.id.nav_courses) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            if (mCourseFragment == null) {
+                mCourseFragment = new CoursesFragment();
+            }
+
+            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            fragmentTransaction.replace(R.id.content_frame, mCourseFragment).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            if (mMaterialsFragment == null) {
+                mMaterialsFragment = new MaterialsFragment();
+            }
+
+            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            fragmentTransaction.replace(R.id.content_frame, mMaterialsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
 //            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
