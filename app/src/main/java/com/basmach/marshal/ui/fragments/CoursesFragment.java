@@ -267,7 +267,7 @@ public class CoursesFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mSearchView.clearFocus();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right).replace(R.id.content_frame,
+                fragmentManager.beginTransaction().setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right).replace(R.id.content_frame,
                         CoursesSearchFragment.newInstance(query,mCoursesList)).commit();
                 return true;
             }

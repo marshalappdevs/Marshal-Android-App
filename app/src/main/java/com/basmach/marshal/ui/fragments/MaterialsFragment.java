@@ -52,7 +52,7 @@ public class MaterialsFragment extends Fragment {
 
         if (mMaterialsList == null) {
             MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                    true, new BackgroundTaskCallBack() {
+                    false, new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {
                             mMaterialsList = new ArrayList<>();

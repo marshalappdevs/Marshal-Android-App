@@ -628,7 +628,7 @@ public class MainActivity extends AppCompatActivity
                 mCourseFragment = new CoursesFragment();
             }
 
-            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
             fragmentTransaction.replace(R.id.content_frame, mCourseFragment).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
@@ -637,7 +637,7 @@ public class MainActivity extends AppCompatActivity
                 mMaterialsFragment = new MaterialsFragment();
             }
 
-            fragmentTransaction.setCustomAnimations(android.R.anim.slide_in_left, android.R.anim.slide_out_right);
+            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
             fragmentTransaction.replace(R.id.content_frame, mMaterialsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
