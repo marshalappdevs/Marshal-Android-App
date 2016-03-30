@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -15,17 +14,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
+import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.MaterialItem;
-import com.basmach.marshal.localdb.DBConstants;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
-import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class CoursesSearchFragment extends Fragment {
 
@@ -33,7 +28,6 @@ public class CoursesSearchFragment extends Fragment {
     public static final String EXTRA_ALL_COURSES = "all_courses";
 
     private SearchView mSearchView;
-    private ProgressBar mProgressBar;
     private RecyclerView mRecycler;
     private LinearLayoutManager mLayoutManager;
     private CoursesSearchRecyclerAdapter mAdapter;
@@ -41,6 +35,7 @@ public class CoursesSearchFragment extends Fragment {
     private ArrayList<Course> mFilteredCourseList;
     private String mFilterText;
     private String mSearchQuery;
+    private TextView mNoResults;
 
     public static CoursesSearchFragment newInstance(String query,
                                                     ArrayList<Course> courses) {
@@ -64,6 +59,7 @@ public class CoursesSearchFragment extends Fragment {
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
+        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
 
@@ -146,7 +142,13 @@ public class CoursesSearchFragment extends Fragment {
                 }
             }
         }
-
+        if (mFilteredCourseList.isEmpty()) {
+            String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
+            mNoResults.setText(searchResult);
+            mNoResults.setVisibility(View.VISIBLE);
+        } else {
+            mNoResults.setVisibility(View.GONE);
+        }
         mAdapter.animateTo(mFilteredCourseList);
         mRecycler.scrollToPosition(0);
     }

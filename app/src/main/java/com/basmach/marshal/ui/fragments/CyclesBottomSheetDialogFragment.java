@@ -21,9 +21,6 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-/**
- * Created by Ido on 3/14/2016.
- */
 public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
 
     private ArrayList<Cycle> mCycles;
