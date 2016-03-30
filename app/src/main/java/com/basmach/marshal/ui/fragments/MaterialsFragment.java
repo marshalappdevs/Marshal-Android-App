@@ -1,7 +1,6 @@
 package com.basmach.marshal.ui.fragments;
 
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -9,13 +8,13 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -24,10 +23,6 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
-import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -42,6 +37,7 @@ public class MaterialsFragment extends Fragment {
     private ArrayList<MaterialItem> mMaterialsList;
     private ArrayList<MaterialItem> mFilteredMaterilsList;
     private String mFilterText;
+    private TextView mNoResults;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -75,6 +71,7 @@ public class MaterialsFragment extends Fragment {
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
+        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
 
         return rootView;
     }
@@ -153,7 +150,14 @@ public class MaterialsFragment extends Fragment {
                 }
             }
         }
-
+        if (mFilteredMaterilsList.isEmpty()) {
+            String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
+            mNoResults.setText(searchResult);
+            mNoResults.setGravity(Gravity.CENTER);
+            mNoResults.setVisibility(View.VISIBLE);
+        } else {
+            mNoResults.setVisibility(View.GONE);
+        }
         mAdapter.setIsDataFiltered(true);
         mAdapter.animateTo(mFilteredMaterilsList);
         mRecycler.scrollToPosition(0);
