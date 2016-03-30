@@ -71,6 +71,8 @@ public class CoursesSearchFragment extends Fragment {
         mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
         mRecycler.setAdapter(mAdapter);
 
+        getActivity().setTitle(R.string.search_title);
+
         return rootView;
     }
 
@@ -117,7 +119,6 @@ public class CoursesSearchFragment extends Fragment {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        getActivity().onBackPressed();
                         return true; // Return true to collapse action view
                     }
 

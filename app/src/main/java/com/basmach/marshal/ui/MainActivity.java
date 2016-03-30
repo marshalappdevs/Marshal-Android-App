@@ -624,21 +624,11 @@ public class MainActivity extends AppCompatActivity
         FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
 
         if (id == R.id.nav_courses) {
-            if (mCourseFragment == null) {
-                mCourseFragment = new CoursesFragment();
-            }
-
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-            fragmentTransaction.replace(R.id.content_frame, mCourseFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            if (mMaterialsFragment == null) {
-                mMaterialsFragment = new MaterialsFragment();
-            }
-
-            fragmentTransaction.setCustomAnimations(R.anim.enter_from_left, R.anim.exit_to_right);
-            fragmentTransaction.replace(R.id.content_frame, mMaterialsFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
 //            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
