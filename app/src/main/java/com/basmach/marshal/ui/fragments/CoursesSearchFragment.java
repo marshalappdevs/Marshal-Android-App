@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -145,6 +146,7 @@ public class CoursesSearchFragment extends Fragment {
         if (mFilteredCourseList.isEmpty()) {
             String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
             mNoResults.setText(searchResult);
+            mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
         } else {
             mNoResults.setVisibility(View.GONE);
