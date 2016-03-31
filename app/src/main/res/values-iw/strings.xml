@@ -49,7 +49,7 @@
     <string name="course_cycle_item_onclick_error">משהו השתבש. נסה שוב מאוחר יותר.</string>
     <string name="no_results_for_query">לא נמצאו תוצאות עבור \"%1$s\".</string>
     <string name="share_with">שתף עם</string>
-    <string name="share_course_text">קורס מעניין מתוך מרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מגוגל פליי: https://play.google.com/store/apps/details?id=com.basmach.marshal</string>
+    <string name="share_course_text">קורס מעניין ממרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מ: https://play.google.com/store/apps/details?id=com.basmach.marshal</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
