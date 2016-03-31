@@ -337,7 +337,8 @@ public class CourseActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.course_menu_item_related_materials) {
             Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
         } else if (item.getItemId() == R.id.course_menu_item_share) {
-            String shareCourseText = String.format(getString(R.string.share_course_text),mCourse.getName());
+            String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
+            String shareCourseText = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
             Intent sendIntent = new Intent(Intent.ACTION_SEND);
             sendIntent.setType("text/plain");
             sendIntent.putExtra(Intent.EXTRA_TEXT, shareCourseText);

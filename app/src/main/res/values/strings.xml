@@ -46,14 +46,14 @@
     <string name="course_comments">Comments</string>
     <string name="course_related_content">Articles</string>
     <string name="course_share">Share</string>
+    <string name="share_with">Share with</string>
+    <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from: %2$s</string>
     <string name="course_choose_cycle">Choose cycle</string>
     <string name="course_no_cycles_error">This course has no cycles</string>
     <string name="course_no_details_error">Sorry, currently there are no details to show on this course.</string>
     <string name="course_cycle_item_onclick_error">Something went wrong. Try again later.</string>
     <string name="course_cycle_date_separator">-</string>
     <string name="no_results_for_query">No results found for \"%1$s\".</string>
-    <string name="share_with">Share with</string>
-    <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from: https://play.google.com/store/apps/details?id=com.basmach.marshal</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
