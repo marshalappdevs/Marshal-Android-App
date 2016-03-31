@@ -53,6 +53,7 @@
     <string name="course_cycle_date_separator">-</string>
     <string name="no_results_for_query">No results found for \"%1$s\".</string>
     <string name="share_with">Share with</string>
+    <string name="share_course_text">Interesting course from Marshal for Android: \"%1$s\". Download the app from Google Play: https://play.google.com/store/apps/details?id=com.basmach.marshal</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
