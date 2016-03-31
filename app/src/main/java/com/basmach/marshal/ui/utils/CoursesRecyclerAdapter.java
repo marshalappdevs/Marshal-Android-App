@@ -65,6 +65,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
+//                View decor = ((Activity)mContext).getWindow().getDecorView();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
                 Pair p1 = Pair.create(view.findViewById(R.id.course_cardview_image), "course_image");

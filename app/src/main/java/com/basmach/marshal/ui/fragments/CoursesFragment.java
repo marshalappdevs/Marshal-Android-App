@@ -1,14 +1,12 @@
 package com.basmach.marshal.ui.fragments;
 
 import android.content.Intent;
-import android.database.MatrixCursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
-import android.support.v4.widget.SimpleCursorAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -22,24 +20,17 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.Cycle;
-import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
-import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
-import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
-import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -77,8 +68,6 @@ public class CoursesFragment extends Fragment {
     private ViewPagerAdapter mViewPagerAdapter;
 
     private SearchView mSearchView;
-    private ArrayList<String> mFilteredSuggestionsList;
-    private ArrayList<String> mSuggestionsList;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -267,7 +256,7 @@ public class CoursesFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mSearchView.clearFocus();
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchFragment.newInstance(query,mCoursesList)).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query,mCoursesList)).commit();
                 return true;
             }
 
@@ -288,28 +277,6 @@ public class CoursesFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
-    }
-
-    private void filter(String filterText) {
-        if (filterText == null) {
-            mFilteredSuggestionsList = new ArrayList<>(mSuggestionsList);
-        } else if (filterText.equals("")) {
-            mFilteredSuggestionsList = new ArrayList<>(mSuggestionsList);
-        } else {
-            mFilteredSuggestionsList = new ArrayList<>();
-            for(String item:mSuggestionsList) {
-                if (item.toLowerCase().contains(filterText) ||
-                        item.toLowerCase().contains(filterText)) {
-                    mFilteredSuggestionsList.add(item);
-                }
-            }
-        }
-
-        populateSuggstionsAdapter(mFilteredSuggestionsList);
-    }
-
-    private void populateSuggstionsAdapter(ArrayList<String> suggestionsList) {
-
     }
 
     @Override

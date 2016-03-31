@@ -22,7 +22,7 @@ import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
 
 import java.util.ArrayList;
 
-public class CoursesSearchFragment extends Fragment {
+public class CoursesSearchableFragment extends Fragment {
 
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
@@ -37,14 +37,13 @@ public class CoursesSearchFragment extends Fragment {
     private String mSearchQuery;
     private TextView mNoResults;
 
-    public static CoursesSearchFragment newInstance(String query,
-                                                    ArrayList<Course> courses) {
+    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_SEARCH_QUERY,query);
         bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
-        CoursesSearchFragment coursesSearchFragment = new CoursesSearchFragment();
-        coursesSearchFragment.setArguments(bundle);
-        return coursesSearchFragment;
+        CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
+        coursesSearchableFragment.setArguments(bundle);
+        return coursesSearchableFragment;
     }
 
     @Override
@@ -107,7 +106,7 @@ public class CoursesSearchFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filter(newText);
+//                filter(newText);
                 return true;
             }
         });
