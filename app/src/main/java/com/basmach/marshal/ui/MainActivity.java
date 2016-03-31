@@ -575,7 +575,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
@@ -647,6 +646,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_contact_us) {
             long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
             String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
+            String installer = getPackageManager().getInstallerPackageName(getPackageName());
             String debugInfo="\n\n\n --Support Info--";
             debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
             debugInfo += "\n LC: " + getBaseContext().getResources().getConfiguration().locale.getCountry();
@@ -657,6 +657,11 @@ public class MainActivity extends AppCompatActivity
             debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
             debugInfo += "\n Screen Density: " + getResources().getDisplayMetrics().density;
             debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
+            if (installer != null && installer.startsWith("com.android.vending")) {
+                debugInfo += "\n Distribution: " + "play" ;
+            } else{
+                debugInfo += "\n Distribution: " + "apk" ;
+            }
             Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
             sendIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
