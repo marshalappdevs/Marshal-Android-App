@@ -52,6 +52,7 @@
     <string name="course_cycle_item_onclick_error">Something went wrong. Try again later.</string>
     <string name="course_cycle_date_separator">-</string>
     <string name="no_results_for_query">No results found for \"%1$s\".</string>
+    <string name="share_with">Share with</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>

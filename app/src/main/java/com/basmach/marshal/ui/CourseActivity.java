@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
@@ -336,9 +337,11 @@ public class CourseActivity extends AppCompatActivity {
         if (item.getItemId() == R.id.course_menu_item_related_materials) {
             Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
         } else if (item.getItemId() == R.id.course_menu_item_share) {
-            Toast.makeText(CourseActivity.this, "Share", Toast.LENGTH_LONG).show();
+            Intent sendIntent = new Intent(Intent.ACTION_SEND);
+            sendIntent.setType("text/plain");
+            sendIntent.putExtra(Intent.EXTRA_TEXT, mCourse.getName());
+            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_with)));
         }
-
         return super.onOptionsItemSelected(item);
     }
 

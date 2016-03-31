@@ -666,14 +666,12 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_contact_us) {
-            Intent sendIntent = new Intent(Intent.ACTION_SENDTO);
-            sendIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            sendIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            sendIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            sendIntent.putExtra(Intent.EXTRA_TEXT, debugInfo());
-            if (sendIntent.resolveActivity(getPackageManager()) != null) {
-                startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.send_to)));
-            }
+            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+            emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
+            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
+            emailIntent.putExtra(Intent.EXTRA_TEXT, debugInfo());
+            startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
             String url = "https://goo.gl/s6thV1";
             Boolean cct = mSharedPreferences.getBoolean("CCT", true);
