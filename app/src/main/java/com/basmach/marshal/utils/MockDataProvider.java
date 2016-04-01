@@ -16,7 +16,7 @@ public class MockDataProvider {
 
     private final Context mContext;
 
-    private final String[] IMAGES = {"https://www.hack2secure.com/images/Images/Training/Secure_SDLC.jpg",
+    private final String[] IMAGES = {"https://nyinfosec.com/wp-content/uploads/2015/09/CyberSecurityShield.jpg",
             "https://www.dunebook.com/wp-content/uploads/2015/07/angular-dunebook.png",
             "http://www.wingnity.com/uploads/Courses/1396070428_android-course.png",
             "https://academy.mymagic.my/app/uploads/2015/08/FRONTEND_ma-01-700x400-c-default.jpg",
