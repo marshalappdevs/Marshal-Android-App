@@ -106,7 +106,7 @@ public class CoursesSearchableFragment extends Fragment {
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                filter(newText);
+//                filter(newText);
                 return true;
             }
         });
