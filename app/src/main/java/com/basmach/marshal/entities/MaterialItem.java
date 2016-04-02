@@ -19,6 +19,7 @@ public class MaterialItem extends DBObject{
     @Column(name = DBConstants.COL_URL)
     private String url;
 
+    @Column(name = DBConstants.COL_TAGS)
     private String tags;
 
     @Column(name = DBConstants.COL_TITLE)
@@ -52,10 +53,12 @@ public class MaterialItem extends DBObject{
         isGetLinkDataExecute = getLinkDataExecute;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_TAGS)
     public String getTags() {
         return tags;
     }
 
+    @ColumnSetter(columnName = DBConstants.COL_TAGS, type = TYPE_STRING)
     public void setTags(String tags) {
         this.tags = tags;
     }

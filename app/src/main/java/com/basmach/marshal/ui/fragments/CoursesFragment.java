@@ -265,18 +265,18 @@ public class CoursesFragment extends Fragment {
                 return true;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        return true; // Return true to collapse action view
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true; // Return true to expand action view
-                    }
-                });
+//        MenuItemCompat.setOnActionExpandListener(searchItem,
+//                new MenuItemCompat.OnActionExpandListener() {
+//                    @Override
+//                    public boolean onMenuItemActionCollapse(MenuItem item) {
+//                        return true; // Return true to collapse action view
+//                    }
+//
+//                    @Override
+//                    public boolean onMenuItemActionExpand(MenuItem item) {
+//                        return true; // Return true to expand action view
+//                    }
+//                });
     }
 
     @Override

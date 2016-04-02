@@ -12,23 +12,25 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
+import android.text.SpannableString;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
+import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecyclerAdapter.MaterialVH> {
 
@@ -36,10 +38,12 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     private ArrayList<MaterialItem> mMaterials;
     private SharedPreferences mSharedPreferences;
     private Boolean mIsDataFiltered = false;
+    private OnHashTagClickListener hashTagClickListener;
 
-    public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials) {
+    public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials, OnHashTagClickListener hashtagClickListener) {
         this.mMaterials = materials;
         this.mContext = activity;
+        this.hashTagClickListener = hashtagClickListener;
 
         this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
     }
@@ -92,26 +96,43 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             }
         });
 
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                if (holder.tags.getVisibility() != View.VISIBLE) {
-                    holder.tags.setVisibility(View.VISIBLE);
-                    holder.tags.animate().alpha(1.0f);
-                } else {
-                    holder.tags.setVisibility(View.GONE);
-                    holder.tags.animate().alpha(0.0f);
-                }
-                return true;
-            }
-        });
-
         holder.titleTextView.setText(mMaterials.get(position).getTitle());
         holder.descriptionTextView.setText(mMaterials.get(position).getDescription());
         holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
+
+        // Set HashTags
+        if (mMaterials.get(position).getTags() != null) {
+            holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    if (holder.tags.getVisibility() != View.VISIBLE) {
+                        holder.tags.setVisibility(View.VISIBLE);
+                        holder.tags.animate().alpha(1.0f);
+                    } else {
+                        holder.tags.setVisibility(View.GONE);
+                        holder.tags.animate().alpha(0.0f);
+                    }
+                    return true;
+                }
+            });
+
+            holder.tags.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.tags.setText(holder.getHashTagsSpannableString(mMaterials.get(position).getTags()));
+        } else {
+            holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View v) {
+                    Toast.makeText(mContext, "No tags", Toast.LENGTH_LONG).show();
+                    return true;
+                }
+            });
+        }
+
         holder.progressBar.setVisibility(View.GONE);
 
         Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
+                .error(R.drawable.ic_image_loading_failed_24dp)
+                .placeholder(R.drawable.link_image_placeholder)
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
@@ -120,7 +141,9 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
                     @Override
                     public void onError() {
+                        if (mMaterials.get(position).getCannonicalUrl().contains("stackoverflow")) {
 
+                        }
                     }
                 });
     }
@@ -201,6 +224,43 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
             progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
             tags = (TextView) itemView.findViewById(R.id.tags);
+        }
+
+        private ArrayList<int[]> getSpans(String body, char prefix) {
+            ArrayList<int[]> spans = new ArrayList<>();
+
+            Pattern pattern = Pattern.compile(prefix + "\\w+");
+            Matcher matcher = pattern.matcher(body);
+
+            // Check all occurrences
+            while (matcher.find()) {
+                int[] currentSpan = new int[2];
+                currentSpan[0] = matcher.start();
+                currentSpan[1] = matcher.end();
+                spans.add(currentSpan);
+            }
+
+            return  spans;
+        }
+
+        private void setSpanTag(SpannableString tagsContent, ArrayList<int[]> hashTagSpans) {
+            for(int i = 0; i < hashTagSpans.size(); i++) {
+                int[] span = hashTagSpans.get(i);
+                int hashTagStart = span[0];
+                int hashTagEnd = span[1];
+
+                tagsContent.setSpan(new HashTag(mContext, hashTagClickListener),
+                        hashTagStart,
+                        hashTagEnd, 0);
+            }
+        }
+
+        public SpannableString getHashTagsSpannableString(String tags) {
+            ArrayList<int[]> hashTagsSpans = getSpans(tags, '#');
+            SpannableString spannableString = new SpannableString(tags);
+            setSpanTag(spannableString, hashTagsSpans);
+
+            return spannableString;
         }
     }
 }

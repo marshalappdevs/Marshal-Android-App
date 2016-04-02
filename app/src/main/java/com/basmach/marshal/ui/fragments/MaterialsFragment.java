@@ -20,6 +20,7 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
@@ -38,6 +39,7 @@ public class MaterialsFragment extends Fragment {
     private ArrayList<MaterialItem> mFilteredMaterilsList;
     private String mFilterText;
     private TextView mNoResults;
+    private MenuItem mSearchMenuItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -78,7 +80,17 @@ public class MaterialsFragment extends Fragment {
 
     private void showData() {
         mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
-        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterilsList);
+        OnHashTagClickListener hashTagClickListener = new OnHashTagClickListener() {
+            @Override
+            public void onClick(String hashTag) {
+                if (mSearchView != null && mSearchMenuItem != null) {
+                    MenuItemCompat.expandActionView(mSearchMenuItem);
+                    mSearchView.setQuery(hashTag, true);
+                }
+            }
+        };
+
+        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterilsList, hashTagClickListener);
         mRecycler.setAdapter(mAdapter);
     }
 
@@ -101,8 +113,8 @@ public class MaterialsFragment extends Fragment {
 //        inflater.inflate(R.menu.main, menu);
 
         // Setup search button
-        final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) mSearchMenuItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -118,7 +130,7 @@ public class MaterialsFragment extends Fragment {
                 return true;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
+        MenuItemCompat.setOnActionExpandListener(mSearchMenuItem,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
@@ -143,13 +155,18 @@ public class MaterialsFragment extends Fragment {
         } else {
             mFilterText = filterText.toLowerCase();
             mFilteredMaterilsList = new ArrayList<>();
-            for(MaterialItem item:mMaterialsList) {
-                if (item.getTitle().toLowerCase().contains(mFilterText) ||
-                        item.getDescription().toLowerCase().contains(mFilterText)) {
-                    mFilteredMaterilsList.add(item);
+
+                for(MaterialItem item:mMaterialsList) {
+                    if (item.getTitle() != null && item.getTitle().contains(filterText)) {
+                       mFilteredMaterilsList.add(item);
+                    } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {
+                        mFilteredMaterilsList.add(item);
+                    } else if (item.getTags() != null && item.getTags().contains(filterText)) {
+                        mFilteredMaterilsList.add(item);
+                    }
                 }
-            }
         }
+
         if (mFilteredMaterilsList.isEmpty()) {
             String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
             mNoResults.setText(searchResult);
@@ -158,6 +175,7 @@ public class MaterialsFragment extends Fragment {
         } else {
             mNoResults.setVisibility(View.GONE);
         }
+
         mAdapter.setIsDataFiltered(true);
         mAdapter.animateTo(mFilteredMaterilsList);
         mRecycler.scrollToPosition(0);

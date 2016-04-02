@@ -32,6 +32,7 @@ public class DBConstants {
     public static final String COL_IS_MOOC = "is_mooc";
     public static final String COL_START_DATE = "start_date";
     public static final String COL_END_DATE = "end_date";
+    public static final String COL_TAGS = "tags";
 
     // 'Create Table' commands
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
@@ -39,6 +40,7 @@ public class DBConstants {
             COL_TITLE + " TEXT UNIQUE, " +
             COL_DESCRIPTION + " TEXT," +
             COL_CANNONICIAL_URL + " TEXT," +
+            COL_TAGS + " TEXT," +
             COL_IMAGE_URL + " TEXT);";
 
     public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +

@@ -207,18 +207,21 @@ public class MockDataProvider {
         m1.setTitle("Android Recyclerview vs ListView with Viewholder");
         m1.setDescription("I recently came across the android RecycleView which was released with Android 5.0 and it seems that RecycleView is just an encapsulated traditional ListView with the ViewHolder pattern incorporate...");
         m1.setCannonicalUrl("stackoverflow.com");
+        m1.setTags("#android #recyclerview #listview #viewholder #stackoverflow");
         m1.setImageUrl("http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=73d79a89bded&a");
 
         m2.setUrl("https://github.com/LeonardoCardoso/Android-Link-Preview");
         m2.setTitle("LeonardoCardoso/Android-Link-Preview");
         m2.setDescription("Android-Link-Preview - It makes a preview from an url, grabbing all informations. Such as title, relevant texts and images. This a version for Android of my web link preview http://lab.leocardz.com/facebook-link-preview-php--jquery/");
         m2.setCannonicalUrl("github.com");
+        m2.setTags("#android #link #preview #linkpreview #git #library");
         m2.setImageUrl("https://avatars0.githubusercontent.com/u/1775157?v=3&s=400");
 
         m3.setUrl("https://www.youtube.com/watch?v=golN1j4rAug");
         m3.setTitle("How to connect android app to database (JSON) part 1");
         m3.setDescription("Our webSite http://www.mytechhive.com android development Java JSONParser, Json MySQl these our facebook pages : https://www.facebook.com/techapps.official h...");
         m3.setCannonicalUrl("m.youtube.com");
+        m3.setTags("#mysql #json #jsonparser #java #youtube #tutorial");
         m3.setImageUrl("https://i.ytimg.com/vi/golN1j4rAug/hqdefault.jpg");
 
         m4.setUrl("https://www.instagram.com/p/BCpzIvrnjCQ/?taken-by=ido.amram");

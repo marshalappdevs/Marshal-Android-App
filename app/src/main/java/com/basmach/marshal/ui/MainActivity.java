@@ -648,7 +648,10 @@ public class MainActivity extends AppCompatActivity
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+            if(mMaterialsFragment == null) {
+                mMaterialsFragment = new MaterialsFragment();
+            }
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
 //            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
