@@ -8,11 +8,11 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.basmach.marshal.interfaces.OnHashtagClickListener;
+import com.basmach.marshal.interfaces.OnHashTagClickListener;
 
 public class HashTag extends ClickableSpan {
 
-    OnHashtagClickListener onClickListener;
+    OnHashTagClickListener onClickListener;
     Context context;
     TextPaint textPaint;
 
@@ -21,7 +21,7 @@ public class HashTag extends ClickableSpan {
         context = ctx;
     }
 
-    public HashTag(Context ctx, OnHashtagClickListener clickListener) {
+    public HashTag(Context ctx, OnHashTagClickListener clickListener) {
         super();
         context = ctx;
         this.onClickListener = clickListener;
