@@ -125,6 +125,7 @@ public class CoursesFragment extends Fragment {
     public void onStop() {
         super.onStop();
         mViewPager.setCurrentItem(0);
+        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     private void showImagesViewPager() {
