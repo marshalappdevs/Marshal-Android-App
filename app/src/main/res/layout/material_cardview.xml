@@ -107,7 +107,7 @@
                 android:visibility="gone"
                 android:background="#10000000"
                 android:id="@+id/tags"
-                android:textColorLink="@color/colorPrimary"
+                android:textColorLink="?android:textColorLink"
                 android:paddingStart="8dp"
                 android:paddingTop="10dp"
                 android:paddingEnd="10dp"

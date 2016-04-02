@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
-import com.basmach.marshal.interfaces.OnHashTagClickListener;
+import com.basmach.marshal.interfaces.OnHashtagClickListener;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -38,9 +38,9 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     private ArrayList<MaterialItem> mMaterials;
     private SharedPreferences mSharedPreferences;
     private Boolean mIsDataFiltered = false;
-    private OnHashTagClickListener hashTagClickListener;
+    private OnHashtagClickListener hashTagClickListener;
 
-    public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials, OnHashTagClickListener hashtagClickListener) {
+    public MaterialsRecyclerAdapter(Context activity, ArrayList<MaterialItem> materials, OnHashtagClickListener hashtagClickListener) {
         this.mMaterials = materials;
         this.mContext = activity;
         this.hashTagClickListener = hashtagClickListener;

@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
-import com.basmach.marshal.interfaces.OnHashTagClickListener;
+import com.basmach.marshal.interfaces.OnHashtagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
@@ -80,7 +80,7 @@ public class MaterialsFragment extends Fragment {
 
     private void showData() {
         mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
-        OnHashTagClickListener hashTagClickListener = new OnHashTagClickListener() {
+        OnHashtagClickListener hashTagClickListener = new OnHashtagClickListener() {
             @Override
             public void onClick(String hashTag) {
                 if (mSearchView != null && mSearchMenuItem != null) {

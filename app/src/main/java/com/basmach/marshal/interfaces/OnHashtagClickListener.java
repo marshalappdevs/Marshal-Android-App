@@ -1,5 +1,5 @@
 package com.basmach.marshal.interfaces;
 
-public interface OnHashTagClickListener {
+public interface OnHashtagClickListener {
     void onClick(String hashTag);
 }
