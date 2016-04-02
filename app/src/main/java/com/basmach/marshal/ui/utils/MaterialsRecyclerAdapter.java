@@ -131,7 +131,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         holder.progressBar.setVisibility(View.GONE);
 
         Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
-                .error(R.drawable.ic_image_loading_failed_24dp)
+                .error(R.drawable.ic_loading_error)
                 .placeholder(R.drawable.link_image_placeholder)
                 .into(holder.imageView, new Callback() {
                     @Override
@@ -141,9 +141,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
                     @Override
                     public void onError() {
-                        if (mMaterials.get(position).getCannonicalUrl().contains("stackoverflow")) {
-
-                        }
                     }
                 });
     }
