@@ -1,11 +1,14 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
 import android.content.Intent;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -19,7 +22,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 
 import com.basmach.marshal.R;
@@ -29,6 +31,7 @@ import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
+import com.basmach.marshal.ui.utils.MySuggestionProvider;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -116,7 +119,7 @@ public class CoursesFragment extends Fragment {
             showData();
         }
 
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
 
         return mRootView;
     }
@@ -124,14 +127,14 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN | WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     @Override
     public void onStop() {
         super.onStop();
         mViewPager.setCurrentItem(0);
-        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
+//        getActivity().getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
     }
 
     private void showImagesViewPager() {
@@ -260,11 +263,37 @@ public class CoursesFragment extends Fragment {
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) searchItem.getActionView();
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
+        {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                mSearchView.clearFocus();
+                String suggestion = getSuggestion(position);
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(suggestion, mCoursesList)).commit();
+                return true;
+            }
+
+            private String getSuggestion(int position) {
+                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchView.clearFocus();
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query,mCoursesList)).commit();
                 return true;

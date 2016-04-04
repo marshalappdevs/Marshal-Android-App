@@ -1,6 +1,10 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.app.SearchManager;
+import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -19,6 +23,7 @@ import android.widget.TextView;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
+import com.basmach.marshal.ui.utils.MySuggestionProvider;
 
 import java.util.ArrayList;
 
@@ -95,12 +100,37 @@ public class CoursesSearchableFragment extends Fragment {
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) searchItem.getActionView();
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
+        {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                String suggestion = getSuggestion(position);
+                filter(suggestion);
+                mSearchView.clearFocus();
+                return true;
+            }
+
+            private String getSuggestion(int position) {
+                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filter(query);
                 mSearchView.clearFocus();
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query, null);
                 return true;
             }
 

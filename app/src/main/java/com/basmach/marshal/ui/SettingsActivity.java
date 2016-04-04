@@ -14,6 +14,7 @@ import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
+import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
@@ -24,6 +25,7 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+import com.basmach.marshal.ui.utils.MySuggestionProvider;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -146,6 +148,9 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference prefNightMode = (ListPreference) findPreference("night_mode");
             prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
 
+            Preference prefClearHistory = findPreference("clear-history");
+            prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
+
             CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("chrome_custom_tabs");
             prefCCT.setOnPreferenceChangeListener(cctChangeListener);
         }
@@ -210,6 +215,16 @@ public class SettingsActivity extends AppCompatActivity {
                         break;
                 }
                 return true;
+            }
+        };
+
+        Preference.OnPreferenceClickListener clearHistoryClickListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                suggestions.clearHistory();
+                return false;
             }
         };
 
