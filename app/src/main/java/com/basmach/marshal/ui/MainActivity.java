@@ -22,7 +22,6 @@ import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -431,6 +430,7 @@ public class MainActivity extends AppCompatActivity
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)
+                        .placeholder(R.drawable.ic_profile_none)
                         .into(mProfileImageView, new com.squareup.picasso.Callback() {
                             @Override
                             public void onSuccess() {
