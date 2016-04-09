@@ -580,13 +580,11 @@ public class MainActivity extends AppCompatActivity
     public String debugInfo() {
         long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
         String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
-        String installer = getPackageManager().getInstallerPackageName(getPackageName());
         String debugInfo="--Support Info--";
         debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
-        debugInfo += "\n LC: " + getBaseContext().getResources().getConfiguration().locale.getCountry();
-        debugInfo += "\n LG: " + getBaseContext().getResources().getConfiguration().locale.getLanguage();
         debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
         debugInfo += "\n Model: " + Build.MODEL;
+        debugInfo += "\n Locale: " + getBaseContext().getResources().getConfiguration().locale.toString();
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
         debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
         float density = getResources().getDisplayMetrics().density;
@@ -599,11 +597,6 @@ public class MainActivity extends AppCompatActivity
         if (density == 0.75) densityName = "ldpi";
         debugInfo += "\n Screen Density: " + density + " (" + densityName + ")";
         debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
-        if (installer != null && installer.startsWith("com.android.vending")) {
-            debugInfo += "\n Distribution: " + "play" ;
-        } else{
-            debugInfo += "\n Distribution: " + "apk" ;
-        }
         return debugInfo;
     }
 
