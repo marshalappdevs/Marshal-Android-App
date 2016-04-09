@@ -589,7 +589,15 @@ public class MainActivity extends AppCompatActivity
         debugInfo += "\n Model: " + Build.MODEL;
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
         debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
-        debugInfo += "\n Screen Density: " + getResources().getDisplayMetrics().density;
+        float density = getResources().getDisplayMetrics().density;
+        String densityName = null;
+        if (density == 4.0) densityName = "xxxhdpi";
+        if (density == 3.0) densityName = "xxhdpi";
+        if (density == 2.0) densityName = "xhdpi";
+        if (density == 1.5) densityName = "hdpi";
+        if (density == 1.0) densityName = "mdpi";
+        if (density == 0.75) densityName = "ldpi";
+        debugInfo += "\n Screen Density: " + density + " (" + densityName + ")";
         debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
         if (installer != null && installer.startsWith("com.android.vending")) {
             debugInfo += "\n Distribution: " + "play" ;
