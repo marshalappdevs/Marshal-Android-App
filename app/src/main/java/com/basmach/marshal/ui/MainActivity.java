@@ -70,6 +70,8 @@ import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Picasso;
 
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -579,7 +581,7 @@ public class MainActivity extends AppCompatActivity
         long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
         String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
         String installer = getPackageManager().getInstallerPackageName(getPackageName());
-        String debugInfo="\n\n\n --Support Info--";
+        String debugInfo="--Support Info--";
         debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
         debugInfo += "\n LC: " + getBaseContext().getResources().getConfiguration().locale.getCountry();
         debugInfo += "\n LG: " + getBaseContext().getResources().getConfiguration().locale.getLanguage();
@@ -673,7 +675,16 @@ public class MainActivity extends AppCompatActivity
             emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            emailIntent.putExtra(Intent.EXTRA_TEXT, debugInfo());
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "log.txt") ;
+            try {
+                FileWriter writer = new FileWriter(tempFile);
+                writer.write(debugInfo());
+                writer.close();
+                Uri log = Uri.fromFile(tempFile);
+                emailIntent.putExtra(Intent.EXTRA_STREAM, log);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
             startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
             String url = "https://goo.gl/s6thV1";
