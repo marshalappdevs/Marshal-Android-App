@@ -33,13 +33,13 @@
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fragment_courses_relativeLayout_software"
+            android:id="@+id/fragment_courses_software_relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="invisible">
 
             <Button
-                android:id="@+id/fragment_courses_software_seeAll"
+                android:id="@+id/fragment_courses_software_see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
@@ -58,23 +58,24 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                android:layout_alignBaseline="@+id/fragment_courses_software_seeAll" />
+                android:layout_toStartOf="@+id/fragment_courses_software_see_all"
+                android:layout_alignBaseline="@+id/fragment_courses_software_see_all" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_courses_software_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_software_seeAll" />
+                android:layout_below="@+id/fragment_courses_software_see_all" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fragment_courses_relativeLayout_cyber"
+            android:id="@+id/fragment_courses_cyber_relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="invisible">
 
             <Button
-                android:id="@+id/fragment_courses_cyber_seeAll"
+                android:id="@+id/fragment_courses_cyber_see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
@@ -93,23 +94,24 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                android:layout_alignBaseline="@+id/fragment_courses_cyber_seeAll" />
+                android:layout_toStartOf="@+id/fragment_courses_cyber_see_all"
+                android:layout_alignBaseline="@+id/fragment_courses_cyber_see_all" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_courses_cyber_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_cyber_seeAll" />
+                android:layout_below="@+id/fragment_courses_cyber_see_all" />
         </RelativeLayout>
 
         <RelativeLayout
-            android:id="@+id/fragment_courses_relativeLayout_it"
+            android:id="@+id/fragment_courses_it_relativeLayout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:visibility="invisible">
 
             <Button
-                android:id="@+id/fragment_courses_it_seeAll"
+                android:id="@+id/fragment_courses_it_see_all"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
@@ -128,13 +130,14 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true"
                 android:layout_marginStart="16dp"
-                android:layout_alignBaseline="@+id/fragment_courses_it_seeAll" />
+                android:layout_toStartOf="@+id/fragment_courses_it_see_all"
+                android:layout_alignBaseline="@+id/fragment_courses_it_see_all" />
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/fragment_courses_it_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_below="@+id/fragment_courses_it_seeAll" />
+                android:layout_below="@+id/fragment_courses_it_see_all" />
         </RelativeLayout>
 
     </LinearLayout>

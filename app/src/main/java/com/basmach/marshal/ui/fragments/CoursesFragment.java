@@ -155,7 +155,7 @@ public class CoursesFragment extends Fragment {
     }
 
     private void initializeSoftwareComponents() {
-        mBtnShowAllSoftware = (Button) mRootView.findViewById(R.id.fragment_courses_software_seeAll);
+        mBtnShowAllSoftware = (Button) mRootView.findViewById(R.id.fragment_courses_software_see_all);
         mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -171,11 +171,11 @@ public class CoursesFragment extends Fragment {
         mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
-        mRootView.findViewById(R.id.fragment_courses_relativeLayout_software).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_software_relativeLayout).setVisibility(View.VISIBLE);
     }
 
     private void initializeCyberComponents() {
-        mBtnShowAllCyber = (Button) mRootView.findViewById(R.id.fragment_courses_cyber_seeAll);
+        mBtnShowAllCyber = (Button) mRootView.findViewById(R.id.fragment_courses_cyber_see_all);
         mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -191,11 +191,11 @@ public class CoursesFragment extends Fragment {
         mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
-        mRootView.findViewById(R.id.fragment_courses_relativeLayout_cyber).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_cyber_relativeLayout).setVisibility(View.VISIBLE);
     }
 
     private void initializeITComponents() {
-        mBtnShowAllIT = (Button) mRootView.findViewById(R.id.fragment_courses_it_seeAll);
+        mBtnShowAllIT = (Button) mRootView.findViewById(R.id.fragment_courses_it_see_all);
         mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -211,7 +211,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
-        mRootView.findViewById(R.id.fragment_courses_relativeLayout_it).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_it_relativeLayout).setVisibility(View.VISIBLE);
     }
 
     private void startViewPagerTimer() {
