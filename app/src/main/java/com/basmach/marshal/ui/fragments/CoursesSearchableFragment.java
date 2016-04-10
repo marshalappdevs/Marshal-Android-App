@@ -108,6 +108,7 @@ public class CoursesSearchableFragment extends Fragment {
             @Override
             public boolean onSuggestionClick(int position) {
                 String suggestion = getSuggestion(position);
+                mSearchView.setQuery(suggestion, false);
                 filter(suggestion);
                 mSearchView.clearFocus();
                 return true;
