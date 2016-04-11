@@ -44,7 +44,7 @@ public class CoursesFragment extends Fragment {
     private static final String EXTRA_COURSES_IMAGES_LIST = "extra_courses_images_list";
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
 
-    public ArrayList<Course> mCoursesList = null;
+    public static ArrayList<Course> mCoursesList = null;
     private ArrayList<String> mCoursesImages = null;
 
     private ViewPager mViewPager;

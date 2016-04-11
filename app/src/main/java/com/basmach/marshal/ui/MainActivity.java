@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -46,6 +47,7 @@ import android.widget.Toast;
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
+import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
 import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
@@ -149,6 +151,18 @@ public class MainActivity extends AppCompatActivity
         mockDataProvider.insertAllMaterialItems();
         mockDataProvider.insertAllCycles();
         mockDataProvider.insertAllCourses();
+    }
+
+    //// TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
+    @Override
+    protected void onNewIntent(Intent intent) {
+        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+            String query = intent.getStringExtra(SearchManager.QUERY);
+            if(!isFinishing()) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList)).commitAllowingStateLoss();
+            }
+        }
     }
 
     @Override
