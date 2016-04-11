@@ -67,14 +67,16 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
-                View decor = ((Activity)mContext).getWindow().getDecorView();
-                View statusBar = decor.findViewById(android.R.id.statusBarBackground);
-                View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
                 List<Pair<View, String>> pairs = new ArrayList<>();
-                if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
-                if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    View decor = ((Activity)mContext).getWindow().getDecorView();
+                    View statusBar = decor.findViewById(android.R.id.statusBarBackground);
+                    View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);
+                    if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                }
                 pairs.add(Pair.create(view.findViewById(R.id.course_cardview_image), "course_image"));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
                 mContext.startActivity(intent, options.toBundle());

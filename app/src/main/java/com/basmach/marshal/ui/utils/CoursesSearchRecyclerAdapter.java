@@ -11,6 +11,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
 import java.util.ArrayList;
+import java.util.List;
 
 public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSearchRecyclerAdapter.CourseVH> {
 
@@ -52,8 +54,16 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                Pair p1 = Pair.create(view.findViewById(R.id.course_searchable_imageView), "course_image");
-                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, p1);
+                List<Pair<View, String>> pairs = new ArrayList<>();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    View decor = ((Activity)mContext).getWindow().getDecorView();
+                    View statusBar = decor.findViewById(android.R.id.statusBarBackground);
+                    View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);
+                    if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                }
+                pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), "course_image"));
+                ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
                 mContext.startActivity(intent, options.toBundle());
             }
         });
