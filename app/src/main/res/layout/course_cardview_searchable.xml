@@ -39,10 +39,10 @@
                         android:scaleType="centerCrop"
                         android:contentDescription="@null" />
 
-                    <View
+                    <ImageView
                         android:id="@+id/course_searchable_fake_space"
                         android:layout_width="match_parent"
-                        android:layout_height="0dp"
+                        android:layout_height="wrap_content"
                         android:transitionName="course_toolbar"
                         android:contentDescription="@null" />
 
