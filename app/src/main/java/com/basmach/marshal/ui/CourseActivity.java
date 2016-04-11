@@ -116,13 +116,13 @@ public class CourseActivity extends AppCompatActivity {
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionStart(Transition transition) {
-                    mToolbar.setVisibility(View.GONE);
+//                    mToolbar.setVisibility(View.GONE);
 //                    mFabCycles.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    mToolbar.setVisibility(View.VISIBLE);
+//                    mToolbar.setVisibility(View.VISIBLE);
                     mFabCycles.show();
                 }
 

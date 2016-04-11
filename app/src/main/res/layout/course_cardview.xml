@@ -66,6 +66,13 @@
 
             </LinearLayout>
 
+            <View
+                android:id="@+id/course_cardview_fake_space"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:transitionName="course_toolbar"
+                android:contentDescription="@null" />
+
             <ImageView
                 android:id="@+id/course_cardview_moocFlag"
                 android:layout_width="50dp"
