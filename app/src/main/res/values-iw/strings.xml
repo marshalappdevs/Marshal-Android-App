@@ -44,7 +44,7 @@
     <string name="course_related_content">מאמרים</string>
     <string name="course_share">שתף</string>
     <string name="share_with">שתף עם</string>
-    <string name="share_course_text">קורס מעניין ממרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מ: %2$s</string>
+    <string name="share_course_text">קורס מעניין ממרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מ-Google Play: \n\n%2$s</string>
     <string name="course_choose_cycle">בחר מחזור</string>
     <string name="course_no_cycles_error">אין מחזורים לקורס זה</string>
     <string name="course_no_details_error">מצטערים, כרגע אין פרטים להציג על קורס זה.</string>
