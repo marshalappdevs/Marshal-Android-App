@@ -67,13 +67,6 @@
             </LinearLayout>
 
             <ImageView
-                android:id="@+id/course_cardview_fake_space"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:transitionName="course_toolbar"
-                android:contentDescription="@null" />
-
-            <ImageView
                 android:id="@+id/course_cardview_moocFlag"
                 android:layout_width="50dp"
                 android:layout_height="50dp"

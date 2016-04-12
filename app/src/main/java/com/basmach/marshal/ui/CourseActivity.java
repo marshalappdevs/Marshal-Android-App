@@ -6,6 +6,8 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.preference.PreferenceManager;
@@ -32,6 +34,10 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Locale;
 
@@ -54,6 +60,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewDaysDuration;
     private TextView mTextViewHoursDuration;
     private TextView mTextViewComments;
+    private ImageView mHeader;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -116,13 +123,13 @@ public class CourseActivity extends AppCompatActivity {
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionStart(Transition transition) {
-//                    mToolbar.setVisibility(View.GONE);
+                    mToolbar.setVisibility(View.GONE);
 //                    mFabCycles.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
-//                    mToolbar.setVisibility(View.VISIBLE);
+                    mToolbar.setVisibility(View.VISIBLE);
                     mFabCycles.show();
                 }
 
@@ -186,12 +193,12 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewComments = (TextView) findViewById(R.id.course_content_textView_comments);
 
             // Set the course photo
-            final ImageView header = (ImageView) findViewById(R.id.header);
+            mHeader = (ImageView) findViewById(R.id.header);
 
-            Picasso.with(this).load(mCourse.getImageUrl()).into(header, new Callback() {
+            Picasso.with(this).load(mCourse.getImageUrl()).into(mHeader, new Callback() {
                 @Override
                 public void onSuccess() {
-                    Bitmap bitmap = ((BitmapDrawable) header.getDrawable()).getBitmap();
+                    Bitmap bitmap = ((BitmapDrawable) mHeader.getDrawable()).getBitmap();
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
                             contentColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
@@ -348,13 +355,41 @@ public class CourseActivity extends AppCompatActivity {
             Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
         } else if (item.getItemId() == R.id.course_menu_item_share) {
             String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
-            String shareCourseText = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
-            Intent sendIntent = new Intent(Intent.ACTION_SEND);
-            sendIntent.setType("text/plain");
-            sendIntent.putExtra(Intent.EXTRA_TEXT, shareCourseText);
-            startActivity(Intent.createChooser(sendIntent, getResources().getText(R.string.share_with)));
+            String shareCourseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
+            Intent shareIntent = new Intent(Intent.ACTION_SEND);
+            shareIntent.setType("text/plain");
+            shareIntent.putExtra(Intent.EXTRA_TEXT, shareCourseName);
+            Uri shareCourseImage = getLocalBitmapUri(mHeader);
+            if (shareCourseImage != null) {
+                shareIntent.setType("image/*");
+                shareIntent.putExtra(Intent.EXTRA_STREAM, shareCourseImage);
+            }
+            startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public Uri getLocalBitmapUri(ImageView imageView) {
+        // Extract Bitmap from ImageView drawable
+        Drawable drawable = imageView.getDrawable();
+        Bitmap bmp = null;
+        if (drawable instanceof BitmapDrawable){
+            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
+        } else {
+            return null;
+        }
+        // Store image to cache directory
+        Uri bmpUri = null;
+        try {
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "share_image.png") ;
+            FileOutputStream out = new FileOutputStream(tempFile);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
+            out.close();
+            bmpUri = Uri.fromFile(tempFile);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return bmpUri;
     }
 
     private void updateTheme() {

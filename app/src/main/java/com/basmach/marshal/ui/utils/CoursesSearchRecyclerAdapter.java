@@ -62,7 +62,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
                     if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                 }
-                pairs.add(Pair.create(view.findViewById(R.id.course_searchable_fake_space), "course_toolbar"));
                 pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), "course_image"));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
                 mContext.startActivity(intent, options.toBundle());
