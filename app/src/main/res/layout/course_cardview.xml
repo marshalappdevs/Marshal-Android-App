@@ -38,7 +38,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="2"
-                    android:transitionName="course_image"
+                    android:transitionName="@string/transition_header_image"
                     android:scaleType="centerCrop"
                     android:visibility="gone"
                     android:contentDescription="@null" />
