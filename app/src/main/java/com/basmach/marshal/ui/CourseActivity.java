@@ -381,10 +381,10 @@ public class CourseActivity extends AppCompatActivity {
         // Store image to cache directory
         Uri bmpUri = null;
         try {
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "share_image.png") ;
-            FileOutputStream out = new FileOutputStream(tempFile);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, out);
-            out.close();
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "share_header.png") ;
+            FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
+            bmp.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+            fileOutputStream.close();
             bmpUri = Uri.fromFile(tempFile);
         } catch (IOException e) {
             e.printStackTrace();
