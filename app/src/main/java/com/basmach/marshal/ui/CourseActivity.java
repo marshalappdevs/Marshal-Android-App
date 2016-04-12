@@ -355,14 +355,14 @@ public class CourseActivity extends AppCompatActivity {
             Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
         } else if (item.getItemId() == R.id.course_menu_item_share) {
             String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
-            String shareCourseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
+            String courseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
+            Uri courseImage = getLocalBitmapUri(mHeader);
             Intent shareIntent = new Intent(Intent.ACTION_SEND);
             shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, shareCourseName);
-            Uri shareCourseImage = getLocalBitmapUri(mHeader);
-            if (shareCourseImage != null) {
+            shareIntent.putExtra(Intent.EXTRA_TEXT, courseName);
+            if (courseImage != null) {
                 shareIntent.setType("image/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, shareCourseImage);
+                shareIntent.putExtra(Intent.EXTRA_STREAM, courseImage);
             }
             startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
         }
