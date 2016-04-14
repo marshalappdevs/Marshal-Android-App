@@ -680,6 +680,8 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
             setTitle(item.getTitle());
+        } else if (id == R.id.nav_update_data) {
+            startActivity(new Intent(MainActivity.this, UpdateDataActivity.class));
         } else if (id == R.id.nav_malshab) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
             setTitle(item.getTitle());

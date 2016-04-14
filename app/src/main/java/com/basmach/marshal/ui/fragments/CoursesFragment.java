@@ -7,13 +7,16 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
+import android.support.design.widget.AppBarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -22,7 +25,12 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.view.animation.LayoutAnimationController;
+import android.view.animation.Transformation;
 import android.widget.Button;
+import android.widget.FrameLayout;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -304,6 +312,7 @@ public class CoursesFragment extends Fragment {
                 return true;
             }
         });
+
 //        MenuItemCompat.setOnActionExpandListener(searchItem,
 //                new MenuItemCompat.OnActionExpandListener() {
 //                    @Override
@@ -313,6 +322,7 @@ public class CoursesFragment extends Fragment {
 //
 //                    @Override
 //                    public boolean onMenuItemActionExpand(MenuItem item) {
+//
 //                        return true; // Return true to expand action view
 //                    }
 //                });
