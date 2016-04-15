@@ -101,4 +101,5 @@
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
     <string name="update_data">Update Data</string>
+    <string name="refresh_button">Refresh</string>
 </resources>

@@ -20,7 +20,16 @@
             android:minHeight="@dimen/toolbar_height"
             android:background="?attr/colorPrimary"
             app:popupTheme="@style/AppTheme.PopupOverlay"
-            app:titleTextAppearance="@style/TextAppearance.Toolbar.Title" />
+            app:titleTextAppearance="@style/TextAppearance.Toolbar.Title">
+
+            <!--<ImageView-->
+                <!--android:id="@+id/main_appbar_imageView_refresh"-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="match_parent"-->
+                <!--app:srcCompat="@drawable/ic_refresh_animated"-->
+                <!--android:foreground="?android:selectableItemBackground"/>-->
+
+        </android.support.v7.widget.Toolbar>
 
     </android.support.design.widget.AppBarLayout>
 

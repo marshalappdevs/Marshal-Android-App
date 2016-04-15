@@ -11,7 +11,11 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.ColorFilter;
+import android.graphics.drawable.Animatable;
+import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,6 +25,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -46,6 +51,9 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+import com.basmach.marshal.interfaces.OnReceiveListener;
+import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
+import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
 import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
 import com.basmach.marshal.ui.fragments.DiscussionsFragment;
@@ -98,6 +106,9 @@ public class MainActivity extends AppCompatActivity
     // Fragments
     private CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
+    private MenuItem mRefreshMenuItem;
+
+    private UpdateBroadcastReceiver updateReceiver;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -151,6 +162,18 @@ public class MainActivity extends AppCompatActivity
         mockDataProvider.insertAllMaterialItems();
         mockDataProvider.insertAllCycles();
         mockDataProvider.insertAllCourses();
+
+        updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new OnReceiveListener() {
+            @Override
+            public void onReceive() {
+                if (mRefreshMenuItem != null) {
+                    Drawable drawable = mRefreshMenuItem.getIcon();
+                    if (drawable instanceof Animatable) {
+                        ((Animatable) drawable).stop();
+                    }
+                }
+            }
+        });
     }
 
     //// TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
@@ -175,18 +198,28 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         registerInternetCheckReceiver();
+        registerUpdateReceiver();
     }
 
     @Override
     protected void onPause() {
         super.onPause();
         unregisterReceiver(broadcastReceiver);
+        unregisterReceiver(updateReceiver);
     }
 
     private void registerInternetCheckReceiver() {
         IntentFilter internetFilter = new IntentFilter();
         internetFilter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         registerReceiver(broadcastReceiver, internetFilter);
+    }
+
+    private void registerUpdateReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addCategory(Intent.CATEGORY_DEFAULT);
+        filter.addAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
+        filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA);
+        registerReceiver(updateReceiver, filter);
     }
 
     private boolean isConnected() {
@@ -636,6 +669,23 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+        mRefreshMenuItem = menu.findItem(R.id.menu_main_refreshButton);
+        mRefreshMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                Drawable drawable = menuItem.getIcon();
+                if (drawable instanceof Animatable) {
+                    ((Animatable) drawable).start();
+
+                    Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
+                    updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
+                    startService(updateServiceIntent);
+                }
+                return true;
+            }
+        });
+
         return true;
     }
 

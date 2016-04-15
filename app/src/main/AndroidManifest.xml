@@ -55,7 +55,7 @@
             android:theme="@style/AppTheme.Base" />
 
         <service
-            android:name=".utils.UpdateIntentService"
+            android:name=".services.UpdateIntentService"
             android:exported="false" />
 
         <activity android:name=".ui.UpdateDataActivity"

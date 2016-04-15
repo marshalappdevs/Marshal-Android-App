@@ -1,8 +1,12 @@
-package com.basmach.marshal.utils;
+package com.basmach.marshal.services;
 
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
+import android.os.Handler;
+
+import java.util.Timer;
+import java.util.TimerTask;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -14,12 +18,14 @@ import android.content.Context;
 public class UpdateIntentService extends IntentService {
     // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    private static final String ACTION_FOO = "com.basmach.marshal.utils.action.FOO";
-    private static final String ACTION_BAZ = "com.basmach.marshal.utils.action.BAZ";
+    public static final String ACTION_CHECK_FOR_UPDATE = "com.basmach.marshal.utils.action.CHECK_FOR_UPDATE";
+    public static final String ACTION_UPDATE_DATA = "com.basmach.marshal.utils.action.UPDATE_DATA";
 
     // TODO: Rename parameters
     private static final String EXTRA_PARAM1 = "com.basmach.marshal.utils.extra.PARAM1";
     private static final String EXTRA_PARAM2 = "com.basmach.marshal.utils.extra.PARAM2";
+
+    public static final String RESULT_CHECK_FOR_UPDATE = "result_check_for_update";
 
     public UpdateIntentService() {
         super("UpdateIntentService");
@@ -32,9 +38,9 @@ public class UpdateIntentService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
-    public static void startActionFoo(Context context, String param1, String param2) {
+    public static void startCheckForUpdate(Context context, String param1, String param2) {
         Intent intent = new Intent(context, UpdateIntentService.class);
-        intent.setAction(ACTION_FOO);
+        intent.setAction(ACTION_CHECK_FOR_UPDATE);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
@@ -47,9 +53,9 @@ public class UpdateIntentService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
-    public static void startActionBaz(Context context, String param1, String param2) {
+    public static void startUpdateData(Context context, String param1, String param2) {
         Intent intent = new Intent(context, UpdateIntentService.class);
-        intent.setAction(ACTION_BAZ);
+        intent.setAction(ACTION_UPDATE_DATA);
         intent.putExtra(EXTRA_PARAM1, param1);
         intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
@@ -59,14 +65,14 @@ public class UpdateIntentService extends IntentService {
     protected void onHandleIntent(Intent intent) {
         if (intent != null) {
             final String action = intent.getAction();
-            if (ACTION_FOO.equals(action)) {
+            if (ACTION_CHECK_FOR_UPDATE.equals(action)) {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
                 final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionFoo(param1, param2);
-            } else if (ACTION_BAZ.equals(action)) {
+                handleActionCheckForUpdate(param1, param2);
+            } else if (ACTION_UPDATE_DATA.equals(action)) {
                 final String param1 = intent.getStringExtra(EXTRA_PARAM1);
                 final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionBaz(param1, param2);
+                handleActionUpdateData(param1, param2);
             }
         }
     }
@@ -75,17 +81,39 @@ public class UpdateIntentService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionFoo(String param1, String param2) {
+    private void handleActionCheckForUpdate(String param1, String param2) {
         // TODO: Handle action Foo
-        throw new UnsupportedOperationException("Not yet implemented");
+//        Handler handler = new Handler();
+//        handler.postDelayed(new Runnable() {
+//            @Override
+//            public void run() {
+//                Intent broadcastIntent = new Intent();
+//                broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
+//                broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+//                broadcastIntent.putExtra(RESULT_CHECK_FOR_UPDATE, false);
+//                sendBroadcast(broadcastIntent);
+//            }
+//        }, 1000);
+
+        try {
+            Thread.sleep(2000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
+        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        broadcastIntent.putExtra(RESULT_CHECK_FOR_UPDATE, false);
+        sendBroadcast(broadcastIntent);
     }
 
     /**
      * Handle action Baz in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionBaz(String param1, String param2) {
+    private void handleActionUpdateData(String param1, String param2) {
         // TODO: Handle action Baz
-        throw new UnsupportedOperationException("Not yet implemented");
+
     }
 }
