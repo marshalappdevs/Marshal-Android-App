@@ -24,13 +24,6 @@
             android:title="@string/navigation_drawer_malshab" />
     </group>
 
-    <group android:id="@+id/grp3">
-        <item
-            android:id="@+id/nav_update_data"
-            android:icon="@drawable/ic_update_24dp"
-            android:title="@string/update_data" />
-    </group>
-
     <group android:id="@+id/grp2">
         <item
             android:id="@+id/nav_settings"

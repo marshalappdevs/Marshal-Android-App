@@ -506,10 +506,7 @@ public class MainActivity extends AppCompatActivity
                                 if (person.getCover() != null) {
                                     Picasso.with(MainActivity.this)
                                             .load(person.getCover().getCoverPhoto().getUrl())
-                                            .into(mCoverImageView);
-                                } else {
-                                    Picasso.with(MainActivity.this)
-                                            .load(R.drawable.bg_empty_profile_art)
+                                            .placeholder(R.drawable.bg_default_profile_art)
                                             .into(mCoverImageView);
                                 }
                             } // else Log.e(TAG, "Plus response was empty! Failed to load profile.");
@@ -730,8 +727,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
             setTitle(item.getTitle());
-        } else if (id == R.id.nav_update_data) {
-            startActivity(new Intent(MainActivity.this, UpdateDataActivity.class));
         } else if (id == R.id.nav_malshab) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
             setTitle(item.getTitle());
