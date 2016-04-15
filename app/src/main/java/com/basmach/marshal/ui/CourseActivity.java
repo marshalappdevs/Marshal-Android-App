@@ -115,6 +115,7 @@ public class CourseActivity extends AppCompatActivity {
                                 @Override public void onAnimationStart(Animator animation) {}
 
                                 @Override public void onAnimationEnd(Animator animation) {
+                                    mToolbar.setVisibility(View.GONE);
                                     supportFinishAfterTransition();
                                 }
 
@@ -140,10 +141,7 @@ public class CourseActivity extends AppCompatActivity {
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
-                public void onTransitionStart(Transition transition) {
-//                    mToolbar.setVisibility(View.GONE);
-//                    mFabCycles.setVisibility(View.GONE);
-                }
+                public void onTransitionStart(Transition transition) {}
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
@@ -152,19 +150,13 @@ public class CourseActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onTransitionCancel(Transition transition) {
-
-                }
+                public void onTransitionCancel(Transition transition) {}
 
                 @Override
-                public void onTransitionPause(Transition transition) {
-
-                }
+                public void onTransitionPause(Transition transition) {}
 
                 @Override
-                public void onTransitionResume(Transition transition) {
-
-                }
+                public void onTransitionResume(Transition transition) {}
             });
         }
 
@@ -353,6 +345,7 @@ public class CourseActivity extends AppCompatActivity {
                         @Override public void onAnimationStart(Animator animation) {}
 
                         @Override public void onAnimationEnd(Animator animation) {
+                            mToolbar.setVisibility(View.GONE);
                             supportFinishAfterTransition();
                         }
 
