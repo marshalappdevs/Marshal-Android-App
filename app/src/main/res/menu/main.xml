@@ -9,7 +9,7 @@
         android:orderInCategory="100"
         android:title="@string/menu_refresh"
         android:icon="@drawable/avd_refresh"
-        app:showAsAction="always"/>
+        app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/menu_main_searchView"
