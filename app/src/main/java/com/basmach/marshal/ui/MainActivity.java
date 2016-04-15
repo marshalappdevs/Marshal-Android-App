@@ -667,14 +667,13 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mRefreshMenuItem = menu.findItem(R.id.menu_main_refreshButton);
+        mRefreshMenuItem = menu.findItem(R.id.menu_main_refresh);
         mRefreshMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
                 Drawable drawable = menuItem.getIcon();
                 if (drawable instanceof Animatable) {
                     ((Animatable) drawable).start();
-
                     Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
                     updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
                     startService(updateServiceIntent);
@@ -682,6 +681,21 @@ public class MainActivity extends AppCompatActivity
                 return true;
             }
         });
+
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        mRefreshMenuItem.setVisible(true);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        mRefreshMenuItem.setVisible(false);
+                        return true; // Return true to expand action view
+                    }
+                });
 
         return true;
     }

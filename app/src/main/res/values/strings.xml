@@ -55,6 +55,11 @@
     <string name="course_cycle_date_separator">-</string>
     <string name="no_results_for_query">No results found for \"%1$s\".</string>
     <string name="transition_header_image">course_image</string>
+    <string name="update_data">Update Data</string>
+    <string name="menu_refresh">Refresh</string>
+    <string name="refresh_no_update">No updates were found</string>
+    <string name="refresh_new_update">New updates were found</string>
+    <string name="refresh_data_updated">Data have been updated.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
@@ -100,6 +105,4 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
-    <string name="update_data">Update Data</string>
-    <string name="refresh_button">Refresh</string>
 </resources>

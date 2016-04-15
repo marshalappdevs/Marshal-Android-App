@@ -5,14 +5,15 @@
     tools:context=".MainActivity">
 
     <item
-        android:id="@+id/menu_main_refreshButton"
+        android:id="@+id/menu_main_refresh"
         android:orderInCategory="100"
-        android:icon="@drawable/ic_refresh_animated"
-        android:title="@string/refresh_button"
-        app:showAsAction="ifRoom"/>
+        android:title="@string/menu_refresh"
+        android:icon="@drawable/avd_refresh"
+        app:showAsAction="always"/>
 
     <item
         android:id="@+id/menu_main_searchView"
+        android:orderInCategory="200"
         android:title="@string/search_title"
         android:icon="@drawable/ic_action_search"
         app:showAsAction="ifRoom|collapseActionView"

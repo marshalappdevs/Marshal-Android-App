@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,11 +10,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
@@ -103,14 +104,24 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    mFabCycles.hide();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            supportFinishAfterTransition();
-                        }
-                    }, 200);
+                    mFabCycles.animate().cancel();
+                    mFabCycles.animate()
+                            .scaleX(0f)
+                            .scaleY(0f)
+                            .alpha(0f)
+                            .setDuration(200)
+                            .setInterpolator(new FastOutLinearInInterpolator())
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override public void onAnimationStart(Animator animation) {}
+
+                                @Override public void onAnimationEnd(Animator animation) {
+                                    supportFinishAfterTransition();
+                                }
+
+                                @Override public void onAnimationCancel(Animator animation) {}
+
+                                @Override public void onAnimationRepeat(Animator animation) {}
+                            });
                 } else {
                     finish();
                 }
@@ -331,14 +342,24 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            mFabCycles.hide();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    supportFinishAfterTransition();
-                }
-            }, 200);
+            mFabCycles.animate().cancel();
+            mFabCycles.animate()
+                    .scaleX(0f)
+                    .scaleY(0f)
+                    .alpha(0f)
+                    .setDuration(200)
+                    .setInterpolator(new FastOutLinearInInterpolator())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override public void onAnimationStart(Animator animation) {}
+
+                        @Override public void onAnimationEnd(Animator animation) {
+                            supportFinishAfterTransition();
+                        }
+
+                        @Override public void onAnimationCancel(Animator animation) {}
+
+                        @Override public void onAnimationRepeat(Animator animation) {}
+                    });
         } else {
             super.onBackPressed();
         }
