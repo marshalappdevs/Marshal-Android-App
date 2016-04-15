@@ -131,8 +131,9 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         holder.progressBar.setVisibility(View.GONE);
 
         Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
-                .error(R.drawable.ic_loading_error)
-                .placeholder(R.drawable.link_image_placeholder)
+                // TODO fix fc on pre-lollipop devices
+//                .error(R.drawable.ic_loading_error)
+//                .placeholder(R.drawable.link_image_placeholder)
                 .into(holder.imageView, new Callback() {
                     @Override
                     public void onSuccess() {
