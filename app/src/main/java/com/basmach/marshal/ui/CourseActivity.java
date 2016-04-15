@@ -19,6 +19,7 @@ import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -73,6 +74,12 @@ public class CourseActivity extends AppCompatActivity {
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_enter));
+            getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_return));
+        }
+
         setContentView(R.layout.activity_course);
 
         supportPostponeEnterTransition();
@@ -123,13 +130,13 @@ public class CourseActivity extends AppCompatActivity {
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
                 public void onTransitionStart(Transition transition) {
-                    mToolbar.setVisibility(View.GONE);
+//                    mToolbar.setVisibility(View.GONE);
 //                    mFabCycles.setVisibility(View.GONE);
                 }
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    mToolbar.setVisibility(View.VISIBLE);
+//                    mToolbar.setVisibility(View.VISIBLE);
                     mFabCycles.show();
                 }
 
