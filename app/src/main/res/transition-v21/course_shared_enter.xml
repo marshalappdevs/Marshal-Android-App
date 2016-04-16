@@ -29,7 +29,6 @@
 
     <transition class="com.basmach.marshal.ui.utils.CourseSharedEnter">
         <targets>
-            <target android:targetId="@id/toolbar" />
             <target android:targetId="@id/header" />
         </targets>
         <arcMotion />
