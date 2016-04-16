@@ -41,7 +41,7 @@
             android:title="@string/pref_vibrate_title" />
     </PreferenceCategory>
     <PreferenceCategory
-        android:title="@string/pref_internet_category">
+        android:title="@string/pref_advanced_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="chrome_custom_tabs"

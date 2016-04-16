@@ -72,7 +72,7 @@
     <string name="pref_ringtone_title">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
     <string name="pref_vibrate_title">רטט</string>
-    <string name="pref_internet_category">אינטרנט</string>
+    <string name="pref_advanced_category">מתקדם</string>
     <string name="custom_tabs_pref_summary">הפעלת הגדרה זו תאפשר גלישה מהירה יותר</string>
     <string name="custom_tabs_pref_title">‏פתיחת קישורי אינטרנט באפליקציה</string>
     <string name="pref_about_category">מידע כללי</string>

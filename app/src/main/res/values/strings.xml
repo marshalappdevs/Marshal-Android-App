@@ -78,7 +78,7 @@
     <string name="pref_ringtone_title">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_vibrate_title">Vibrate</string>
-    <string name="pref_internet_category">Internet</string>
+    <string name="pref_advanced_category">Advanced</string>
     <string name="custom_tabs_pref_summary">Turn on for faster browsing</string>
     <string name="custom_tabs_pref_title">Open web links in app</string>
     <string name="pref_about_category">About</string>
