@@ -41,6 +41,7 @@ public class CoursesSearchableFragment extends Fragment {
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
+    private MenuItem mRefreshMenuItem;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
@@ -95,10 +96,11 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
+        mRefreshMenuItem = menu.findItem(R.id.menu_main_refresh);
         // Setup search button
-        final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
@@ -150,8 +152,7 @@ public class CoursesSearchableFragment extends Fragment {
 
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
-                        MenuItem refresh = menu.findItem(R.id.menu_main_refresh);
-                        refresh.setVisible(false);
+                        mRefreshMenuItem.setVisible(false);
                         return true; // Return true to expand action view
                     }
                 });
