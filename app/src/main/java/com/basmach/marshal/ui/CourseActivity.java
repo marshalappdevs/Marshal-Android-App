@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.animation.Animator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -9,16 +10,17 @@ import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
+import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Menu;
@@ -73,6 +75,12 @@ public class CourseActivity extends AppCompatActivity {
         updateTheme();
         super.onCreate(savedInstanceState);
         updateLocale();
+
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_enter));
+            getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_return));
+        }
+
         setContentView(R.layout.activity_course);
 
         supportPostponeEnterTransition();
@@ -96,14 +104,25 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    mFabCycles.hide();
-                    Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            supportFinishAfterTransition();
-                        }
-                    }, 200);
+                    mFabCycles.animate().cancel();
+                    mFabCycles.animate()
+                            .scaleX(0f)
+                            .scaleY(0f)
+                            .alpha(0f)
+                            .setDuration(200)
+                            .setInterpolator(new FastOutLinearInInterpolator())
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override public void onAnimationStart(Animator animation) {}
+
+                                @Override public void onAnimationEnd(Animator animation) {
+                                    mToolbar.setVisibility(View.GONE);
+                                    supportFinishAfterTransition();
+                                }
+
+                                @Override public void onAnimationCancel(Animator animation) {}
+
+                                @Override public void onAnimationRepeat(Animator animation) {}
+                            });
                 } else {
                     finish();
                 }
@@ -116,37 +135,28 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        if (mFabCycles != null) mFabCycles.hide();
 
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (mFabCycles != null) mFabCycles.hide();
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
-                public void onTransitionStart(Transition transition) {
-                    mToolbar.setVisibility(View.GONE);
-//                    mFabCycles.setVisibility(View.GONE);
-                }
+                public void onTransitionStart(Transition transition) {}
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
-                    mToolbar.setVisibility(View.VISIBLE);
+//                    mToolbar.setVisibility(View.VISIBLE);
                     mFabCycles.show();
                 }
 
                 @Override
-                public void onTransitionCancel(Transition transition) {
-
-                }
+                public void onTransitionCancel(Transition transition) {}
 
                 @Override
-                public void onTransitionPause(Transition transition) {
-
-                }
+                public void onTransitionPause(Transition transition) {}
 
                 @Override
-                public void onTransitionResume(Transition transition) {
-
-                }
+                public void onTransitionResume(Transition transition) {}
             });
         }
 
@@ -324,14 +334,25 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-            mFabCycles.hide();
-            Handler handler = new Handler();
-            handler.postDelayed(new Runnable() {
-                @Override
-                public void run() {
-                    supportFinishAfterTransition();
-                }
-            }, 200);
+            mFabCycles.animate().cancel();
+            mFabCycles.animate()
+                    .scaleX(0f)
+                    .scaleY(0f)
+                    .alpha(0f)
+                    .setDuration(200)
+                    .setInterpolator(new FastOutLinearInInterpolator())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override public void onAnimationStart(Animator animation) {}
+
+                        @Override public void onAnimationEnd(Animator animation) {
+                            mToolbar.setVisibility(View.GONE);
+                            supportFinishAfterTransition();
+                        }
+
+                        @Override public void onAnimationCancel(Animator animation) {}
+
+                        @Override public void onAnimationRepeat(Animator animation) {}
+                    });
         } else {
             super.onBackPressed();
         }

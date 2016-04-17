@@ -50,6 +50,11 @@
     <string name="course_no_details_error">מצטערים, כרגע אין פרטים להציג על קורס זה.</string>
     <string name="course_cycle_item_onclick_error">משהו השתבש. נסה שוב מאוחר יותר.</string>
     <string name="no_results_for_query">לא נמצאו תוצאות עבור \"%1$s\".</string>
+    <string name="update_data">עדכון נתונים</string>
+    <string name="menu_refresh">רענן</string>
+    <string name="refresh_no_update">לא נמצאו עדכונים</string>
+    <string name="refresh_new_update">נמצאו עדכונים חדשים</string>
+    <string name="refresh_data_updated">הנתונים עודכנו.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
@@ -67,7 +72,7 @@
     <string name="pref_ringtone_title">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
     <string name="pref_vibrate_title">רטט</string>
-    <string name="pref_internet_category">אינטרנט</string>
+    <string name="pref_advanced_category">מתקדם</string>
     <string name="custom_tabs_pref_summary">הפעלת הגדרה זו תאפשר גלישה מהירה יותר</string>
     <string name="custom_tabs_pref_title">‏פתיחת קישורי אינטרנט באפליקציה</string>
     <string name="pref_about_category">מידע כללי</string>

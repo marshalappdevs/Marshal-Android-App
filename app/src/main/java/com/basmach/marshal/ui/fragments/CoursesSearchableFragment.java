@@ -95,7 +95,7 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public void onCreateOptionsMenu(final Menu menu, MenuInflater inflater) {
 
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
@@ -150,6 +150,8 @@ public class CoursesSearchableFragment extends Fragment {
 
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
+                        MenuItem refresh = menu.findItem(R.id.menu_main_refresh);
+                        refresh.setVisible(false);
                         return true; // Return true to expand action view
                     }
                 });
