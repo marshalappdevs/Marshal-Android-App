@@ -36,7 +36,6 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;

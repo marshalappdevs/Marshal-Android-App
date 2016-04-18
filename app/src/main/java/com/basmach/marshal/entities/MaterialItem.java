@@ -9,6 +9,7 @@ import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
+import com.google.gson.annotations.SerializedName;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
@@ -16,9 +17,11 @@ import com.leocardz.link.preview.library.TextCrawler;
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
 public class MaterialItem extends DBObject{
 
+    @SerializedName("url")
     @Column(name = DBConstants.COL_URL)
     private String url;
 
+    @SerializedName("hashTags")
     @Column(name = DBConstants.COL_TAGS)
     private String tags;
 

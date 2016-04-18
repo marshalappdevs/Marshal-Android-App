@@ -15,6 +15,7 @@ import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
+import com.google.gson.annotations.SerializedName;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -22,60 +23,78 @@ import java.util.ArrayList;
 @TableName(name = DBConstants.T_COURSE)
 public class Course extends DBObject implements Parcelable{
 
+    // TODO RETROFIT SerializedName
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
 
+    @SerializedName("ID")
     @Column(name = DBConstants.COL_COURSE_ID)
     private String courseID;
 
+    @SerializedName("Name")
     @Column(name = DBConstants.COL_NAME)
     private String name;
 
+    @SerializedName("MinimumPeople")
     @Column(name = DBConstants.COL_MIN_PEOPLE)
     private int minimumPeople;
 
+    @SerializedName("MaximumPeople")
     @Column(name = DBConstants.COL_MAX_PEOPLE)
     private int maximumPeople;
 
+    @SerializedName("Description")
     @Column(name = DBConstants.COL_DESCRIPTION)
     private String description;
 
     @Column(name = DBConstants.COL_PREREQUISITES)
     private String prerequisites;
 
+    @SerializedName("TargetPopulation")
     @Column(name = DBConstants.COL_TARGET_POPULATION)
     private String targetPopulation;
 
+    @SerializedName("ProfessionalDomain")
     @Column(name = DBConstants.COL_PROFESSIONAL_DOMAIN)
     private String professionalDomain;
 
+    @SerializedName("Syllabus")
     @Column(name = DBConstants.COL_SYLLABUS)
     private String syllabus;
 
+    @SerializedName("DayTime")
     @Column(name = DBConstants.COL_DAYTIME)
     private String dayTime;
 
+    @SerializedName("DurationInHours")
     @Column(name = DBConstants.COL_DURATION_IN_HOURS)
     private int durationInHours;
 
+    @SerializedName("DurationInDays")
     @Column(name = DBConstants.COL_DURATION_IN_DAYS)
     private int durationInDays;
 
+    @SerializedName("Comments")
     @Column(name = DBConstants.COL_COMMENTS)
     private String comments;
 
+    @SerializedName("PassingGrade")
     @Column(name = DBConstants.COL_PASSING_GRADE)
     private int passingGrade;
 
+    @SerializedName("Price")
     @Column(name = DBConstants.COL_PRICE)
     private long price;
 
+    @SerializedName("cycleList")
     @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
+    @SerializedName("PictureUrl")
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
 
+    @SerializedName("IsMooc")
     @Column(name = DBConstants.COL_IS_MOOC)
     private Boolean isMooc;
 
