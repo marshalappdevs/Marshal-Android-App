@@ -15,8 +15,8 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <provider
-            android:name=".ui.utils.MySuggestionProvider"
-            android:authorities="com.basmach.marshal.MySuggestionProvider" />
+            android:name=".ui.utils.SuggestionProvider"
+            android:authorities="com.basmach.marshal.SuggestionProvider" />
 
         <activity
             android:name=".ui.MainActivity"

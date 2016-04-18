@@ -25,7 +25,7 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
-import com.basmach.marshal.ui.utils.MySuggestionProvider;
+import com.basmach.marshal.ui.utils.SuggestionProvider;
 
 import java.util.Locale;
 import java.util.Objects;
@@ -222,7 +222,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.clearHistory();
                 return false;
             }

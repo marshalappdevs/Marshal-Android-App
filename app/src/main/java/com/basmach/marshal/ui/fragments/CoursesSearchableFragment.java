@@ -23,7 +23,7 @@ import android.widget.TextView;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
-import com.basmach.marshal.ui.utils.MySuggestionProvider;
+import com.basmach.marshal.ui.utils.SuggestionProvider;
 
 import java.util.ArrayList;
 
@@ -131,7 +131,7 @@ public class CoursesSearchableFragment extends Fragment {
                 filter(query);
                 mSearchView.clearFocus();
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
                 return true;
             }

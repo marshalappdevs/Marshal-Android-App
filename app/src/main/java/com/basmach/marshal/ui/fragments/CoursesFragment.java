@@ -31,7 +31,7 @@ import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
-import com.basmach.marshal.ui.utils.MySuggestionProvider;
+import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.utils.ViewPagerAdapter;
 
 import java.util.ArrayList;
@@ -292,7 +292,7 @@ public class CoursesFragment extends Fragment {
             public boolean onQueryTextSubmit(String query) {
                 mSearchView.clearFocus();
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        MySuggestionProvider.AUTHORITY, MySuggestionProvider.MODE);
+                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query,mCoursesList)).commit();
