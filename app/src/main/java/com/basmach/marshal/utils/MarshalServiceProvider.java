@@ -1,8 +1,15 @@
 package com.basmach.marshal.utils;
 
+import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.IMarshalService;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
+import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -15,7 +22,7 @@ public class MarshalServiceProvider {
 
     private static IMarshalService service;
 
-    public static IMarshalService getInstance() {
+    private static IMarshalService getInstance() {
         if (service != null) {
             return service;
         } else {
@@ -31,5 +38,13 @@ public class MarshalServiceProvider {
             service = retrofit.create(IMarshalService.class);
             return service;
         }
+    }
+
+    public static void getAllCourses(Callback<List<Course>> callback) {
+        getInstance().getAllCoureses().enqueue(callback);
+    }
+
+    public static void setGetAllMaterials(Callback<List<MaterialItem>> callback) {
+        getInstance().getAllMaterials().enqueue(callback);
     }
 }

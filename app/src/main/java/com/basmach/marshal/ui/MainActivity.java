@@ -51,6 +51,7 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.interfaces.OnReceiveListener;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.UpdateIntentService;
@@ -60,6 +61,7 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.basmach.marshal.utils.MockDataProvider;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -82,7 +84,12 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
