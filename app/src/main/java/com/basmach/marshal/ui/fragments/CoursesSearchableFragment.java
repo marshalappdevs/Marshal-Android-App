@@ -170,7 +170,8 @@ public class CoursesSearchableFragment extends Fragment {
             mFilteredCourseList = new ArrayList<>();
             for(Course item:mCoursesList) {
                 if (item.getName().toLowerCase().contains(mFilterText) ||
-                        item.getDescription().toLowerCase().contains(mFilterText)) {
+                        item.getDescription().toLowerCase().contains(mFilterText) ||
+                        item.getSyllabus().toLowerCase().contains(mFilterText)) {
                     mFilteredCourseList.add(item);
                 }
             }
