@@ -347,15 +347,11 @@ public class CoursesFragment extends Fragment {
             @Override
             public boolean onSuggestionClick(int position) {
                 mSearchView.clearFocus();
-                String suggestion = getSuggestion(position);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(suggestion, mCoursesList)).commit();
-                return true;
-            }
-
-            private String getSuggestion(int position) {
                 Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                return true;
             }
 
             @Override
