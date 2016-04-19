@@ -279,12 +279,12 @@ public class Course extends DBObject implements Parcelable{
     }
 
     @ColumnGetter(columnName = DBConstants.COL_CYCLES)
-    public ArrayList getCycles() {
+    public ArrayList<Cycle> getCycles() {
         return cycles;
     }
 
     @EntityArraySetter(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
-    public void setCycles(ArrayList cycles) {
+    public void setCycles(ArrayList<Cycle> cycles) {
         this.cycles = cycles;
     }
 

@@ -148,6 +148,9 @@ public class CoursesFragment extends Fragment {
 
             for(Course course : mCoursesList) {
                 switch (course.getCourseCode()) {
+                    case "34":
+                        mSoftwareCourses.add(course);
+                        break;
                     case "35683":
                         mITCourses.add(course);
                         break;

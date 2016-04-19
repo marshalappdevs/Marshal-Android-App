@@ -318,7 +318,7 @@ public abstract class DBObject {
                             }
                         }
                     }
-                    if (setter.isAnnotationPresent(EntitySetter.class)) {
+                    else if (setter.isAnnotationPresent(EntitySetter.class)) {
                         EntitySetter entitySetter = setter.getAnnotation(EntitySetter.class);
                         if (column.equals(entitySetter.fkColumnName())) {
                             try {
@@ -340,7 +340,7 @@ public abstract class DBObject {
                             }
                         }
                     }
-                    if (setter.isAnnotationPresent(EntityArraySetter.class)) {
+                    else if (setter.isAnnotationPresent(EntityArraySetter.class)) {
                         EntityArraySetter entityArraySetter =
                                 setter.getAnnotation(EntityArraySetter.class);
                         if (column.equals(entityArraySetter.fkColumnName())) {
@@ -353,27 +353,61 @@ public abstract class DBObject {
                                                 .getColumnIndex(entityArraySetter.fkColumnName()));
 
                                 if (idsArray != null) {
-                                    int startIndex = 0;
 
-                                    while (startIndex <= (idsArray.length() - 1)) {
+                                    String[] ids = idsArray.split(",");
 
+                                    for(String id : ids) {
                                         Object entityInstance = entityClass
                                                 .getConstructor(Context.class)
                                                 .newInstance(context);
 
-                                        long entityId = Long.valueOf(idsArray
-                                                .substring(startIndex, startIndex + 1));
+                                        long idLong = Long.valueOf(id);
 
-                                        entityClass.cast(entityInstance).getById(entityId, context);
+                                        entityClass.cast(entityInstance).getById(idLong, context);
 
                                         objectArray.add(entityInstance);
-
-                                        startIndex += 2;
                                     }
 
                                     setter.setAccessible(true);
                                     setter.invoke(this, objectArray);
                                 }
+//                                if (idsArray != null) {
+//                                    int startIndex = 0;
+//                                    boolean isOverTen = false;
+//
+//                                    while ((!isOverTen && (startIndex <= (idsArray.length() - 1))) ||
+//                                            (isOverTen && (startIndex <= (idsArray.length() - 3)))) {
+//
+//                                        Object entityInstance = entityClass
+//                                                .getConstructor(Context.class)
+//                                                .newInstance(context);
+//
+//                                        long entityId;
+//
+//                                        if (startIndex < 10) {
+//                                            entityId = Long.valueOf(idsArray.substring(startIndex, startIndex + 1));
+//                                        } else {
+//                                            entityId = Long.valueOf(idsArray.substring(startIndex, startIndex + 2));
+//                                        }
+//
+//                                        entityClass.cast(entityInstance).getById(entityId, context);
+//
+//                                        objectArray.add(entityInstance);
+//
+//                                        if (startIndex < 10) {
+//                                            startIndex += 2;
+//                                        } else {
+//                                            startIndex += 3;
+//                                        }
+//
+//                                        if(!isOverTen && startIndex >= 10) {
+//                                            isOverTen = true;
+//                                        }
+//                                    }
+//
+//                                    setter.setAccessible(true);
+//                                    setter.invoke(this, objectArray);
+//                                }
 
                             } catch (Exception e) {
                                 throw e;

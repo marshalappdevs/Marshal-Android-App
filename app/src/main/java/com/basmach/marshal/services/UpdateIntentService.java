@@ -138,11 +138,13 @@ public class UpdateIntentService extends IntentService {
         int progressPercents = 0;
 
         try {
-            List<Course> currentCourses = (List)Course.getAll(DBConstants.COL_ID, UpdateIntentService.this,
+            List<Cycle> currentCycles = (List) Cycle.getAll(DBConstants.COL_ID, UpdateIntentService.this,
+                    Cycle.class);
+            List<Course> currentCourses = (List) Course.getAll(DBConstants.COL_ID, UpdateIntentService.this,
                     Course.class);
             List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCoureses().execute().body();
 
-            itemPercentWeight = 100 / (currentCourses.size() + newCourses.size());
+            itemPercentWeight = 100 / (currentCourses.size() + newCourses.size() + currentCycles.size());
 
             for (Course course : currentCourses) {
                 try {
@@ -158,7 +160,34 @@ public class UpdateIntentService extends IntentService {
 
             Log.i(LOG_TAG, "old courses deleted successfully");
 
+            for (Cycle cycle : currentCycles) {
+                try {
+                    cycle.delete();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "cycle delete failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
+
+            Log.i(LOG_TAG, "old cycles deleted successfully");
+
             for (Course course : newCourses) {
+
+                if (course.getCycles() != null) {
+                    for (Cycle cycle : course.getCycles()) {
+                        try {
+                            cycle.Ctor(UpdateIntentService.this);
+                            cycle.create();
+                        } catch (Exception e) {
+                            Log.e(LOG_TAG, "cycle creation failed");
+                            e.printStackTrace();
+                        }
+                    }
+                }
+
                 try {
                     course.Ctor(UpdateIntentService.this);
                     course.setImageUrl(MarshalServiceProvider.IMAGES_URL + course.getCourseCode());
