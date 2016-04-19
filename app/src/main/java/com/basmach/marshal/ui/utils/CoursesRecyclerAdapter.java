@@ -17,7 +17,6 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
-import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -105,8 +104,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
             @Override public void onSuccess() {
-                holder.courseProgressBar.setVisibility(View.GONE);
-                holder.courseImage.setVisibility(View.VISIBLE);
+                holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 // Check if MOOC
                 if(mCourses.get(position).getIsMooc()){
@@ -134,7 +132,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         ImageView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
-        ProgressBar courseProgressBar;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -147,7 +144,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
-            courseProgressBar = (ProgressBar) itemView.findViewById(R.id.course_cardview_progressBar);
 
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();

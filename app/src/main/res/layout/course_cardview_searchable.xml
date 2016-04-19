@@ -36,7 +36,7 @@
                         android:id="@+id/course_searchable_imageView"
                         android:layout_width="@dimen/link_preview_thumb_width"
                         android:layout_height="@dimen/link_preview_thumb_height"
-                        android:scaleType="centerCrop"
+                        android:scaleType="centerInside"
                         android:contentDescription="@null" />
 
                     <ImageView

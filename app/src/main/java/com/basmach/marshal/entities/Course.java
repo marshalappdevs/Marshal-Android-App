@@ -5,6 +5,7 @@ import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
 
+import com.basmach.marshal.R;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
 import com.basmach.marshal.localdb.annotations.Column;
@@ -300,7 +301,9 @@ public class Course extends DBObject implements Parcelable{
     }
 
     public void getPhotoViaPicasso(Context context, final ImageView imageView, Callback callback) {
-        Picasso.with(context).load(this.getImageUrl())
+        Picasso.with(context)
+                .load(this.getImageUrl())
+                .placeholder(R.drawable.photo_placeholder)
                 .into(imageView, callback);
     }
 

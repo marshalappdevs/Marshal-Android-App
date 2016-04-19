@@ -89,18 +89,17 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             holder.courseStartDateTime.setVisibility(View.GONE);
         }
 
-        // Check if MOOC
-        if(mCourses.get(position).getIsMooc()){
-            // if (holder.courseImage.getVisibility() == View.VISIBLE)
-            holder.moocFlag.setVisibility(View.VISIBLE);
-        } else {
-            holder.moocFlag.setVisibility(View.GONE);
-        }
-
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
             @Override public void onSuccess() {
                 holder.courseImage.setVisibility(View.VISIBLE);
+                holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+
+                // Check if MOOC
+                if(mCourses.get(position).getIsMooc()){
+                    // if (holder.courseImage.getVisibility() == View.VISIBLE)
+                    holder.moocFlag.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override public void onError() {
