@@ -45,7 +45,11 @@ public class CoursesFragment extends Fragment {
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
 
     public static ArrayList<Course> mCoursesList = null;
-    private ArrayList<String> mCoursesImages = null;
+    public static ArrayList<Course> mSoftwareCourses = null;
+    public static ArrayList<Course> mCyberCourses = null;
+    public static ArrayList<Course> mITCourses = null;
+
+    private ArrayList<Course> mViewPagerCourses = null;
 
     private ViewPager mViewPager;
     private TimerTask mTimerTask;
@@ -82,27 +86,36 @@ public class CoursesFragment extends Fragment {
 
         mViewPager = (ViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
-        if (mCoursesList == null || mCoursesImages == null) {
+        if (mCoursesList == null || mViewPagerCourses == null) {
 
             if (savedInstanceState != null) {
                 mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
-                mCoursesImages = savedInstanceState.getStringArrayList(EXTRA_COURSES_IMAGES_LIST);
             }
 
-            if (mCoursesList == null || mCoursesImages == null) {
-                mCoursesImages = new ArrayList<>();
+            if (mCoursesList == null || mViewPagerCourses == null) {
+                mViewPagerCourses = new ArrayList<>();
                 mCoursesList = new ArrayList<>();
                 Course.getAllInBackground(DBConstants.COL_NAME, Course.class, getActivity(), true,
                         new BackgroundTaskCallBack() {
                             @Override
                             public void onSuccess(String result, List<Object> data) {
-                                for(Object item:data) {
-                                    Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
-                                    mCoursesList.add((Course)item);
-                                    mCoursesImages.add(((Course) item).getImageUrl());
+                                if (data != null && data.size() > 0) {
+                                    for(Object item : data) {
+                                        Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
+
+                                        mCoursesList.add((Course) item);
+
+                                        if (((Course) item).getImageUrl() != null) {
+                                            if (mViewPagerCourses.size() < 5) {
+                                                mViewPagerCourses.add(((Course) item));
+                                            }
+                                        }
+                                    }
+
+                                    filterData();
+                                    showImagesViewPager();
+                                    showData();
                                 }
-                                showImagesViewPager();
-                                showData();
                             }
 
                             @Override
@@ -124,6 +137,69 @@ public class CoursesFragment extends Fragment {
         return mRootView;
     }
 
+    private void filterData() {
+        if (mCyberCourses == null ||
+                mITCourses == null ||
+                mSoftwareCourses == null) {
+
+            mCyberCourses = new ArrayList<>();
+            mITCourses = new ArrayList<>();
+            mSoftwareCourses = new ArrayList<>();
+
+            for(Course course : mCoursesList) {
+                switch (course.getCourseCode()) {
+                    case "35683":
+                        mITCourses.add(course);
+                        break;
+                    case "26084":
+                        mITCourses.add(course);
+                        break;
+                    case "36984":
+                        mITCourses.add(course);
+                        break;
+                    case "36985":
+                        mITCourses.add(course);
+                        break;
+                    case "37322":
+                        mITCourses.add(course);
+                        break;
+                    case "37308":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "37395":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "37388":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "10162":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "31781":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "25555":
+                        mCyberCourses.add(course);
+                        break;
+                    case "37182":
+                        mCyberCourses.add(course);
+                        break;
+                    case "37222":
+                        mCyberCourses.add(course);
+                        break;
+                    case "37421":
+                        mCyberCourses.add(course);
+                        break;
+                    case "37249":
+                        mCyberCourses.add(course);
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+    }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -138,7 +214,7 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mCoursesImages);
+        mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
         mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
@@ -160,7 +236,7 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCoursesList);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mSoftwareCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
                 startActivity(intent);
             }
@@ -168,7 +244,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
         mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
-        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
         mRootView.findViewById(R.id.fragment_courses_software_relativeLayout).setVisibility(View.VISIBLE);
@@ -180,7 +256,7 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCoursesList);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCyberCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
                 startActivity(intent);
             }
@@ -188,7 +264,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
         mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
-        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
         mRootView.findViewById(R.id.fragment_courses_cyber_relativeLayout).setVisibility(View.VISIBLE);
@@ -200,7 +276,7 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mCoursesList);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mITCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
                 startActivity(intent);
             }
@@ -208,7 +284,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
         mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mCoursesList, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
         mRootView.findViewById(R.id.fragment_courses_it_relativeLayout).setVisibility(View.VISIBLE);
@@ -323,7 +399,6 @@ public class CoursesFragment extends Fragment {
         super.onSaveInstanceState(outState);
 
         outState.putParcelableArrayList(EXTRA_COURSES_LIST,mCoursesList);
-        outState.putStringArrayList(EXTRA_COURSES_IMAGES_LIST,mCoursesImages);
         outState.putInt(EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }
 }

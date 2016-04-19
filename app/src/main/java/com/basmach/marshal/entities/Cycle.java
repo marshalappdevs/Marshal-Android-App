@@ -13,6 +13,9 @@ import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.utils.DateHelper;
+import com.google.gson.annotations.Expose;
+import com.google.gson.annotations.SerializedName;
+
 import java.util.Date;
 
 @TableName(name = DBConstants.T_CYCLE)
@@ -21,18 +24,28 @@ public class Cycle extends DBObject implements Parcelable {
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
 
+    @Expose
+    @SerializedName("Name")
     @Column(name = DBConstants.COL_NAME)
     private String name;
 
+    @Expose
+    @SerializedName("MaximumPeople")
     @Column(name = DBConstants.COL_MAX_PEOPLE)
     private int maximumPeople;
 
+    @Expose
+    @SerializedName("Description")
     @Column(name = DBConstants.COL_DESCRIPTION)
     private String description;
 
+    @Expose
+    @SerializedName("StartDate")
     @Column(name = DBConstants.COL_START_DATE)
     private Date startDate;
 
+    @Expose
+    @SerializedName("EndDate")
     @Column(name = DBConstants.COL_END_DATE)
     private Date endDate;
 

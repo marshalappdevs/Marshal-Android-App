@@ -1,6 +1,7 @@
 package com.basmach.marshal.ui.utils;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Parcelable;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
@@ -9,22 +10,24 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.ui.CourseActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
 
 public class ViewPagerAdapter extends PagerAdapter {
     Context context;
-    private ArrayList<String> IMAGES = new ArrayList<>();
+    private ArrayList<Course> COURSES = new ArrayList<>();
 
-    public ViewPagerAdapter(Context context, ArrayList<String> IMAGES) {
-        this.IMAGES = IMAGES;
+    public ViewPagerAdapter(Context context, ArrayList<Course> COURSES) {
+        this.COURSES = new ArrayList<>(COURSES);
         this.context=context;
     }
 
     @Override
     public int getCount() {
-        return IMAGES.size();
+        return COURSES.size();
     }
 
     @Override
@@ -42,7 +45,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Picasso.with(context)
-                .load(IMAGES.get(position))
+                .load(COURSES.get(position).getImageUrl())
                 .placeholder(R.drawable.highlights_bottom_overlay)
                 .fit()
                 .into(imageView);
@@ -55,24 +58,11 @@ public class ViewPagerAdapter extends PagerAdapter {
     private View.OnClickListener imageClickListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            final int tag = (Integer) v.getTag();
-            switch (tag) {
-                case 0:
-                    Toast.makeText(context, "Item 1 Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case 1:
-                    Toast.makeText(context, "Item 2 Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case 2:
-                    Toast.makeText(context, "Item 3 Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case 3:
-                    Toast.makeText(context, "Item 4 Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-                case 4:
-                    Toast.makeText(context, "Item 5 Clicked", Toast.LENGTH_SHORT).show();
-                    break;
-            }
+            final int position = (Integer) v.getTag();
+
+            Intent intent = new Intent(context, CourseActivity.class);
+            intent.putExtra(CourseActivity.EXTRA_COURSE, COURSES.get(position));
+            context.startActivity(intent);
         }
     };
 

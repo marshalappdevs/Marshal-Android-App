@@ -78,4 +78,8 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
+    <string name="update_messages_there_is_an_update">קיים עדכון! אנא המתן בזמן שהנתונים מתעדכנים</string>
+    <string name="update_messages_no_update">הנתונים שלך עדכניים!</string>
+    <string name="update_messages_update_finished_successfully">ברכות! הנתונים שלך עדכניים!</string>
+    <string name="update_messages_checking_for_updates">מחפש עדכונים...</string>
 </resources>

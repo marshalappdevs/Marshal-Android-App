@@ -58,6 +58,13 @@ public abstract class DBObject {
         getGettersAndSetters();
     }
 
+    public void Ctor(Context context) {
+        dbHelper = new LocalDBHelper(context);
+        open();
+        getAnnotations();
+        getGettersAndSetters();
+    }
+
     public void open() throws SQLException {
         database = dbHelper.getWritableDatabase();
     }
@@ -501,10 +508,12 @@ public abstract class DBObject {
             }
 
             cursor.close();
+            database.close();
             return allObjects;
         }
         catch (Exception e) {
             cursor.close();
+            database.close();
             throw e;
         }
 
@@ -540,8 +549,10 @@ public abstract class DBObject {
                     create();
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
+                    database.close();
                     return e.getMessage();
                 }
+
             }
 
             @Override
@@ -772,6 +783,7 @@ public abstract class DBObject {
                 if (showProgressBar) {
                     progressDialog = new ProgressDialog(context);
                     progressDialog.setMessage(context.getResources().getString(R.string.loading));
+                    progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
                 }
             }
@@ -783,6 +795,7 @@ public abstract class DBObject {
                     data = getAll(orderByColumn, context, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
+                    database.close();
                     return e.getMessage();
                 }
             }

@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -11,9 +12,7 @@ import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.ColorFilter;
 import android.graphics.drawable.Animatable;
-import android.graphics.drawable.AnimatedVectorDrawable;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
@@ -25,7 +24,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
-import android.support.graphics.drawable.AnimatedVectorDrawableCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -50,9 +48,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
-import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.interfaces.OnReceiveListener;
+import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
@@ -61,7 +59,6 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
-import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.basmach.marshal.utils.MockDataProvider;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -84,12 +81,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.List;
 import java.util.Locale;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -117,6 +109,9 @@ public class MainActivity extends AppCompatActivity
 
     private UpdateBroadcastReceiver updateReceiver;
 
+    private boolean mIsRefreshAnimationRunning = false;
+    private ProgressDialog mUpdateProgressDialog;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -133,6 +128,8 @@ public class MainActivity extends AppCompatActivity
         mNavigationView.setNavigationItemSelectedListener(this);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
+
+        initializeUpdateProgressBar();
 
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
@@ -167,20 +164,62 @@ public class MainActivity extends AppCompatActivity
 
         MockDataProvider mockDataProvider = new MockDataProvider(this);
         mockDataProvider.insertAllMaterialItems();
-        mockDataProvider.insertAllCycles();
-        mockDataProvider.insertAllCourses();
+//        mockDataProvider.insertAllCycles();
+//        mockDataProvider.insertAllCourses();
 
-        updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new OnReceiveListener() {
+        updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
             @Override
-            public void onReceive() {
+            public void onFinish() {
                 if (mRefreshMenuItem != null) {
+
                     Drawable drawable = mRefreshMenuItem.getIcon();
+
                     if (drawable instanceof Animatable) {
                         ((Animatable) drawable).stop();
                     }
+
+                    mIsRefreshAnimationRunning = false;
+
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                    if (currentFragment instanceof CoursesFragment) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+                    } else if (currentFragment instanceof MaterialsFragment) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+                    }
+
+                    mUpdateProgressDialog.dismiss();
+                    initializeUpdateProgressBar();
                 }
             }
+
+            @Override
+            public void onProgressUpdate(String message, int progressPercent) {
+                mUpdateProgressDialog.setIndeterminate(false);
+                mUpdateProgressDialog.setMessage(message);
+                mUpdateProgressDialog.setProgress(progressPercent);
+                mUpdateProgressDialog.setSecondaryProgress(progressPercent);
+            }
         });
+
+        checkIfFirstRun();
+    }
+
+    private void initializeUpdateProgressBar() {
+        mUpdateProgressDialog = new ProgressDialog(MainActivity.this);
+        mUpdateProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
+        mUpdateProgressDialog.setCanceledOnTouchOutside(false);
+        mUpdateProgressDialog.setIndeterminate(true);
+        mUpdateProgressDialog.setMessage(getString(R.string.update_messages_checking_for_updates));
+        mUpdateProgressDialog.setProgress(0);
+    }
+
+    private void checkIfFirstRun() {
+        if(mSharedPreferences != null) {
+            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                updateData();
+                mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+            }
+        }
     }
 
     //// TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
@@ -226,6 +265,7 @@ public class MainActivity extends AppCompatActivity
         filter.addCategory(Intent.CATEGORY_DEFAULT);
         filter.addAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
         filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA);
+        filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA_PROGRESS_CHANGED);
         registerReceiver(updateReceiver, filter);
     }
 
@@ -678,12 +718,12 @@ public class MainActivity extends AppCompatActivity
         mRefreshMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                Drawable drawable = menuItem.getIcon();
-                if (drawable instanceof Animatable) {
-                    ((Animatable) drawable).start();
-                    Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
-                    updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
-                    startService(updateServiceIntent);
+                if (!mIsRefreshAnimationRunning) {
+                    Drawable drawable = menuItem.getIcon();
+                    if (drawable instanceof Animatable) {
+                        ((Animatable) drawable).start();
+                    }
+                    updateData();
                 }
                 return true;
             }
@@ -705,6 +745,14 @@ public class MainActivity extends AppCompatActivity
                 });
 
         return true;
+    }
+
+    private void updateData() {
+        mUpdateProgressDialog.show();
+        mIsRefreshAnimationRunning = true;
+        Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
+        updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
+        startService(updateServiceIntent);
     }
 
     @Override

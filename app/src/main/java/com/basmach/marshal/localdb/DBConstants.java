@@ -67,7 +67,7 @@ public class DBConstants {
             COL_DURATION_IN_DAYS + " INTEGER, " +
             COL_COMMENTS + " TEXT, " +
             COL_PASSING_GRADE + " INTEGER, " +
-            COL_PRICE + " INTEGER, " +
+            COL_PRICE + " REAL, " +
             COL_CYCLES + " TEXT, " +
             COL_IS_MOOC + " INTEGER, " +
             COL_IMAGE_URL + " TEXT);";

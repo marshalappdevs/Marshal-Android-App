@@ -8,7 +8,7 @@
         android:id="@+id/menu_main_refresh"
         android:orderInCategory="100"
         android:title="@string/menu_refresh"
-        android:icon="@drawable/avd_refresh"
+        android:icon="@drawable/ic_action_refresh"
         app:showAsAction="ifRoom"/>
 
     <item
