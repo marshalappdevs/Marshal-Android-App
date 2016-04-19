@@ -24,10 +24,10 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver {
         if (intent.getAction().equals(UpdateIntentService.ACTION_CHECK_FOR_UPDATE)) {
             boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_CHECK_FOR_UPDATE, false);
             if (result) {
-                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.update_messages_there_is_an_update), 0);
+                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_new_update), 0);
                 UpdateIntentService.startUpdateData(mContext, null, null);
             } else {
-                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.update_messages_no_update), 100);
+                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_no_update), 100);
                 mUpdateServiceListener.onFinish();
             }
         }
@@ -35,17 +35,17 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver {
             boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_UPDATE_DATA, false);
             if (result) {
                 Toast.makeText(context,
-                        context.getString(R.string.update_messages_update_finished_successfully),
+                        context.getString(R.string.refresh_updated_successfully),
                         Toast.LENGTH_LONG).show();
             } else {
-                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.update_messages_update_failed), 0);
+                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_update_failed), 0);
             }
 
             mUpdateServiceListener.onFinish();
         }
         else if (intent.getAction().equals(UpdateIntentService.ACTION_UPDATE_DATA_PROGRESS_CHANGED)) {
             int progress = intent.getIntExtra(UpdateIntentService.EXTRA_PROGRESS_PERCENT, 0);
-            mUpdateServiceListener.onProgressUpdate(context.getString(R.string.update_messages_there_is_an_update), progress);
+            mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_new_update), progress);
         }
     }
 

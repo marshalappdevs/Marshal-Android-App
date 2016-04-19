@@ -209,7 +209,7 @@ public class MainActivity extends AppCompatActivity
         mUpdateProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mUpdateProgressDialog.setCanceledOnTouchOutside(false);
         mUpdateProgressDialog.setIndeterminate(true);
-        mUpdateProgressDialog.setMessage(getString(R.string.update_messages_checking_for_updates));
+        mUpdateProgressDialog.setMessage(getString(R.string.refresh_checking_for_updates));
         mUpdateProgressDialog.setProgress(0);
     }
 

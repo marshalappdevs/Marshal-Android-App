@@ -52,9 +52,11 @@
     <string name="no_results_for_query">לא נמצאו תוצאות עבור \"%1$s\".</string>
     <string name="update_data">עדכון נתונים</string>
     <string name="menu_refresh">רענן</string>
-    <string name="refresh_no_update">לא נמצאו עדכונים</string>
-    <string name="refresh_new_update">נמצאו עדכונים חדשים</string>
-    <string name="refresh_data_updated">הנתונים עודכנו.</string>
+    <string name="refresh_checking_for_updates">מחפש עדכונים…</string>
+    <string name="refresh_no_update">הנתונים שלך עדכניים</string>
+    <string name="refresh_new_update">קיים עדכון! אנא המתן בזמן שאנו מאחזרים נתונים חדשים מהשרת</string>
+    <string name="refresh_updated_successfully">הידד, הנתונים שלך עדכנים כעת!</string>
+    <string name="refresh_update_failed">אירעה שגיאה במהלך ניסיון עדכון הנתונים. אנא נסה שוב מאוחר יותר.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
@@ -78,8 +80,4 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="update_messages_there_is_an_update">קיים עדכון! אנא המתן בזמן שהנתונים מתעדכנים</string>
-    <string name="update_messages_no_update">הנתונים שלך עדכניים!</string>
-    <string name="update_messages_update_finished_successfully">ברכות! הנתונים שלך עדכניים!</string>
-    <string name="update_messages_checking_for_updates">מחפש עדכונים...</string>
 </resources>
