@@ -30,7 +30,7 @@
                     android:layout_weight="2"
                     android:transitionName="@string/transition_header_image"
                     android:scaleType="centerInside"
-                    android:src="@drawable/photo_placeholder"
+                    android:src="@drawable/ic_course_placeholder"
                     android:contentDescription="@null" />
 
                 <TextView

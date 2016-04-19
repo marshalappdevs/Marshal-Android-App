@@ -37,6 +37,7 @@
                         android:layout_width="@dimen/link_preview_thumb_width"
                         android:layout_height="@dimen/link_preview_thumb_height"
                         android:scaleType="centerInside"
+                        android:src="@drawable/ic_course_placeholder"
                         android:contentDescription="@null" />
 
                     <ImageView

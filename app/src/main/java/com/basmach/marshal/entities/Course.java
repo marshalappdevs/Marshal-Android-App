@@ -303,7 +303,8 @@ public class Course extends DBObject implements Parcelable{
     public void getPhotoViaPicasso(Context context, final ImageView imageView, Callback callback) {
         Picasso.with(context)
                 .load(this.getImageUrl())
-                .placeholder(R.drawable.photo_placeholder)
+                .placeholder(R.drawable.ic_course_placeholder)
+                .error(R.drawable.ic_course_error)
                 .into(imageView, callback);
     }
 
