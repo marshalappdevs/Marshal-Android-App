@@ -189,6 +189,12 @@ public class MainActivity extends AppCompatActivity
 
                     mUpdateProgressDialog.dismiss();
                     initializeUpdateProgressBar();
+
+                    if(mSharedPreferences != null) {
+                        if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, false)) {
+                            mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+                        }
+                    }
                 }
             }
 
@@ -220,7 +226,7 @@ public class MainActivity extends AppCompatActivity
         if(mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                 updateData();
-                mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+                mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, true).apply();
             }
         }
     }

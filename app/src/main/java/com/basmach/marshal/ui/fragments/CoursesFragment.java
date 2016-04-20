@@ -82,6 +82,11 @@ public class CoursesFragment extends Fragment {
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
 
+        mCoursesList = null;
+        mCyberCourses = null;
+        mSoftwareCourses = null;
+        mITCourses = null;
+
         setHasOptionsMenu(true);
 
         mViewPager = (ViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
@@ -401,9 +406,5 @@ public class CoursesFragment extends Fragment {
 
         outState.putParcelableArrayList(EXTRA_COURSES_LIST,mCoursesList);
         outState.putInt(EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
-        mCoursesList = null;
-        mCyberCourses = null;
-        mSoftwareCourses = null;
-        mITCourses = null;
     }
 }
