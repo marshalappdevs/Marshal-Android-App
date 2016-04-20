@@ -102,21 +102,27 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course image
-        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
-            @Override public void onSuccess() {
-                holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+        if (mCourses.get(position).getImageUrl() != null) {
+            holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
+            mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
+                @Override public void onSuccess() {
+                    holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
-                // Check if MOOC
-                if(mCourses.get(position).getIsMooc()){
-                    // if (holder.courseImage.getVisibility() == View.VISIBLE)
-                    holder.moocFlag.setVisibility(View.VISIBLE);
+                    // Check if MOOC
+                    if(mCourses.get(position).getIsMooc()){
+                        // if (holder.courseImage.getVisibility() == View.VISIBLE)
+                        holder.moocFlag.setVisibility(View.VISIBLE);
+                    }
                 }
-            }
 
-            @Override public void onError() {
+                @Override public void onError() {
 
-            }
-        });
+                }
+            });
+        } else {
+            holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
+            holder.courseImage.setImageResource(R.drawable.ic_course_error);
+        }
     }
 
     @Override

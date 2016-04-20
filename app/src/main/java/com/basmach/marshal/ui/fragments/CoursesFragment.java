@@ -103,7 +103,9 @@ public class CoursesFragment extends Fragment {
                                     for(Object item : data) {
                                         Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
 
-                                        mCoursesList.add((Course) item);
+                                        if (mCoursesList != null) {
+                                            mCoursesList.add((Course) item);
+                                        }
 
                                         if (((Course) item).getImageUrl() != null) {
                                             if (mViewPagerCourses.size() < 5) {
@@ -399,5 +401,9 @@ public class CoursesFragment extends Fragment {
 
         outState.putParcelableArrayList(EXTRA_COURSES_LIST,mCoursesList);
         outState.putInt(EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
+        mCoursesList = null;
+        mCyberCourses = null;
+        mSoftwareCourses = null;
+        mITCourses = null;
     }
 }

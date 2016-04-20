@@ -61,14 +61,16 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
             }
         });
 
-        if (mCourses.size() > 0) {
-            mRecyclerView = (RecyclerView) findViewById(R.id.showAllCourses_activity_recyclerView);
-            mGridLayoutManager = new GridLayoutManager(ShowAllCoursesActivity.this, 3);
-            mRecyclerView.setLayoutManager(mGridLayoutManager);
-            mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mRecyclerView.setHasFixedSize(true);
-            mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_GRID);
-            mRecyclerView.setAdapter(mAdapter);
+        if (mCourses != null) {
+            if (mCourses.size() > 0) {
+                mRecyclerView = (RecyclerView) findViewById(R.id.showAllCourses_activity_recyclerView);
+                mGridLayoutManager = new GridLayoutManager(ShowAllCoursesActivity.this, 3);
+                mRecyclerView.setLayoutManager(mGridLayoutManager);
+                mRecyclerView.setItemAnimator(new DefaultItemAnimator());
+                mRecyclerView.setHasFixedSize(true);
+                mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_GRID);
+                mRecyclerView.setAdapter(mAdapter);
+            }
         }
     }
 

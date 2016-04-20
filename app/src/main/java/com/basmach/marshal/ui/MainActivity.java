@@ -194,7 +194,10 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onProgressUpdate(String message, int progressPercent) {
-                mUpdateProgressDialog.setIndeterminate(false);
+                if (progressPercent > 0) {
+                    mUpdateProgressDialog.setIndeterminate(false);
+                }
+
                 mUpdateProgressDialog.setMessage(message);
                 mUpdateProgressDialog.setProgress(progressPercent);
                 mUpdateProgressDialog.setSecondaryProgress(progressPercent);

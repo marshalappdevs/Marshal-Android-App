@@ -422,6 +422,9 @@ public abstract class DBObject {
     }
 
     public void close() {
+        if (database.isOpen()) {
+            database.close();
+        }
         dbHelper.close();
     }
 
@@ -436,6 +439,7 @@ public abstract class DBObject {
                 throw e;
             }
         } finally {
+            database.close();
             close();
         }
     }
@@ -450,6 +454,7 @@ public abstract class DBObject {
                 throw e;
             }
         } finally {
+            database.close();
             close();
         }
     }
@@ -466,6 +471,7 @@ public abstract class DBObject {
             throw e;
         } finally {
             cursor.close();
+            database.close();
             close();
         }
 
@@ -474,6 +480,7 @@ public abstract class DBObject {
     public void delete() throws Exception{
         open();
         database.delete(tableName, primaryKey.columnName() + " = " + getId(), null);
+        database.close();
         close();
     }
 
