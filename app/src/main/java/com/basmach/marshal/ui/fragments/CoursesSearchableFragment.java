@@ -22,7 +22,7 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.ui.utils.CoursesSearchRecyclerAdapter;
+import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 
 import java.util.ArrayList;

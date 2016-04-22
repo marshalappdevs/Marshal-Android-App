@@ -16,7 +16,7 @@ import android.view.View;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.ui.utils.CoursesRecyclerAdapter;
+import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Locale;

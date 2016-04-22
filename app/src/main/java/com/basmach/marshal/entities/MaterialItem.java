@@ -8,7 +8,7 @@ import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.TableName;
-import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
+import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.google.gson.annotations.SerializedName;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;

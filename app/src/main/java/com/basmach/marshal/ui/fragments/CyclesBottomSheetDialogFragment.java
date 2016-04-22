@@ -9,13 +9,12 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
-import com.basmach.marshal.ui.utils.CyclesRecyclerAdapter;
+import com.basmach.marshal.ui.adapters.CyclesRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.Collections;

@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;

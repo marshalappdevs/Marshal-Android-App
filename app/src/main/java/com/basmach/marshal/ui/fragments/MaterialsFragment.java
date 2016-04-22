@@ -23,7 +23,7 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmach.marshal.ui.utils.MaterialsRecyclerAdapter;
+import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
@@ -26,6 +26,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
+import com.basmach.marshal.ui.utils.HashTag;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
@@ -68,7 +69,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
     }
 
     @Override
-    public void onBindViewHolder(final MaterialVH holder, final int position) {
+    public void onBindViewHolder(final MaterialVH holder, int position) {
 
         Log.i("FILTER: ON BIND --> ", String.valueOf(position) + " : " + mIsDataFiltered);
 
@@ -80,7 +81,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
-                String url = mMaterials.get(position).getUrl();
+                String url = mMaterials.get(holder.getAdapterPosition()).getUrl();
                 Boolean cct = mSharedPreferences.getBoolean("CCT", true);
                 if (cct) {
                     new CustomTabsIntent.Builder()
@@ -200,6 +201,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         final MaterialItem item = mMaterials.remove(fromPosition);
         mMaterials.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
+        notifyItemChanged(toPosition);
     }
 
     public class MaterialVH extends RecyclerView.ViewHolder{

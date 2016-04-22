@@ -46,11 +46,13 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
@@ -77,10 +79,10 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 import com.squareup.picasso.Picasso;
-
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.List;
 import java.util.Locale;
 
 public class MainActivity extends AppCompatActivity
@@ -111,6 +113,10 @@ public class MainActivity extends AppCompatActivity
 
     private boolean mIsRefreshAnimationRunning = false;
     private ProgressDialog mUpdateProgressDialog;
+
+    private List<Object> mCoursesData;
+
+    public static int lastCoursesViewPagerIndex = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -843,5 +849,29 @@ public class MainActivity extends AppCompatActivity
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    public void getCoursesData(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+        if(mCoursesData != null) {
+            callBack.onSuccess("", mCoursesData);
+        } else {
+            Course.getAllInBackground(DBConstants.COL_NAME, Course.class, MainActivity.this,
+                    showProgressBar,
+                    new BackgroundTaskCallBack() {
+                @Override
+                public void onSuccess(String result, List<Object> data) {
+                    if (data != null && data.size() > 0) {
+                        mCoursesData = data;
+                    }
+
+                    callBack.onSuccess(result, mCoursesData);
+                }
+
+                @Override
+                public void onError(String error) {
+                    callBack.onError(error);
+                }
+            });
+        }
     }
 }

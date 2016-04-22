@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.ui.adapters;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,6 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAdapter.CycleVH>{
