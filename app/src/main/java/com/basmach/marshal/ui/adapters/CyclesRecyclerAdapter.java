@@ -85,14 +85,14 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
                                 endDate.setTime(mCycles.get(getAdapterPosition()).getEndDate());
                                 endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
 
-                                Intent calendarntent = new Intent(Intent.ACTION_INSERT);
-                                calendarntent.setType("vnd.android.cursor.item/event");
-                                calendarntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
-                                calendarntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
-                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
-                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
-                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
-                                mContext.startActivity(calendarntent);
+                                Intent calendarIntent = new Intent(Intent.ACTION_INSERT);
+                                calendarIntent.setType("vnd.android.cursor.item/event");
+                                calendarIntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
+                                calendarIntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
+                                calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                                calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
+                                calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
+                                mContext.startActivity(calendarIntent);
                             } catch (Exception e) {
                                 e.printStackTrace();
                                 Toast.makeText(mContext,
