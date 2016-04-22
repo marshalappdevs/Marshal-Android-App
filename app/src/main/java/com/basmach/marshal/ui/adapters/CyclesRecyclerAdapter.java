@@ -1,8 +1,10 @@
 package com.basmach.marshal.ui.adapters;
 
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.provider.CalendarContract;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -68,28 +70,38 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
 
         @Override
         public void onClick(View view) {
-            try {
-                GregorianCalendar startDate = new GregorianCalendar();
-                startDate.setTime(mCycles.get(getAdapterPosition()).getStartDate());
 
-                GregorianCalendar endDate = new GregorianCalendar();
-                endDate.setTime(mCycles.get(getAdapterPosition()).getEndDate());
-                endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
+            new AlertDialog.Builder(mContext, R.style.Cycle_DialogAlert)
+                    .setTitle(mContext.getString(R.string.cycle_alert_title))
+                    .setMessage(R.string.cycle_alert_message)
+                    .setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            try {
+                                GregorianCalendar startDate = new GregorianCalendar();
+                                startDate.setTime(mCycles.get(getAdapterPosition()).getStartDate());
 
-                Intent calIntent = new Intent(Intent.ACTION_INSERT);
-                calIntent.setType("vnd.android.cursor.item/event");
-                calIntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
-                calIntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
-                calIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
-                mContext.startActivity(calIntent);
-            } catch (Exception e) {
-                e.printStackTrace();
-                Toast.makeText(mContext,
-                        mContext.getString(R.string.course_cycle_item_onclick_error),
-                        Toast.LENGTH_LONG).show();
-            }
+                                GregorianCalendar endDate = new GregorianCalendar();
+                                endDate.setTime(mCycles.get(getAdapterPosition()).getEndDate());
+                                endDate.set(GregorianCalendar.DAY_OF_MONTH, ((endDate.get(GregorianCalendar.DAY_OF_MONTH)) + 1));
+
+                                Intent calendarntent = new Intent(Intent.ACTION_INSERT);
+                                calendarntent.setType("vnd.android.cursor.item/event");
+                                calendarntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
+                                calendarntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
+                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
+                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
+                                calendarntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());
+                                mContext.startActivity(calendarntent);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                                Toast.makeText(mContext,
+                                        mContext.getString(R.string.course_cycle_item_onclick_error),
+                                        Toast.LENGTH_LONG).show();
+                            }
+                        }
+                    })
+                    .show();
         }
     }
 }

@@ -41,4 +41,14 @@
         <item name="android:shadowRadius">1.0</item>
     </style>
 
+    <style name="Cycle.DialogAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowTitleStyle">@style/Cycle.DialogAlert.Title</item>
+    </style>
+
+    <style name="Cycle.DialogAlert.Title" parent="TextAppearance.AppCompat.Title">
+        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textAllCaps">true</item>
+    </style>
+
 </resources>
