@@ -119,9 +119,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
                 }
             });
-        } else {
-            holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-            holder.courseImage.setImageResource(R.drawable.ic_course_error);
         }
     }
 
