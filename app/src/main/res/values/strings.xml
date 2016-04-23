@@ -64,7 +64,7 @@
     <string name="refresh_updated_successfully">Hooray, your data is up to date now!</string>
     <string name="refresh_update_failed">An error occurred while trying to update your data. Please try again later</string>
     <string name="cycle_alert_title">Notice</string>
-    <string name="cycle_alert_message">This process will not register you to the course, but only save the date to your personal calendar. The registration to the course is done through the courses officer in your unit. </string>
+    <string name="cycle_alert_message">This action will not register you to the course, but only save the date to your personal calendar. The registration to the course is done through the courses officer in your unit.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
