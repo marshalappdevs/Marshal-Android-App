@@ -7,7 +7,6 @@ import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
-import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
@@ -24,10 +23,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
@@ -35,7 +32,6 @@ import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
@@ -52,6 +48,7 @@ public class CoursesFragment extends Fragment {
 
     private ArrayList<Course> mViewPagerCourses = null;
 
+    private InkPageIndicator mInkPageIndicator;
     private ViewPager mViewPager;
     private TimerTask mTimerTask;
     private Timer mTimer;
@@ -73,8 +70,6 @@ public class CoursesFragment extends Fragment {
     private Button mBtnShowAllIT;
     
     private View mRootView;
-    private InkPageIndicator mInkPageIndicator;
-    private ViewPagerAdapter mViewPagerAdapter;
 
     private SearchView mSearchView;
 
@@ -92,49 +87,43 @@ public class CoursesFragment extends Fragment {
 
         mViewPager = (ViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
+        if (savedInstanceState != null && mCoursesList == null) {
+            mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
+        }
+
         if (mCoursesList == null || mViewPagerCourses == null) {
+            mViewPagerCourses = new ArrayList<>();
+            mCoursesList = new ArrayList<>();
+            ((MainActivity)getActivity()).getCoursesData(true, new BackgroundTaskCallBack() {
+                @Override
+                public void onSuccess(String result, List<Object> data) {
+                    if (data != null && data.size() > 0) {
+                        for(Object item : data) {
+                            Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
 
-            if (savedInstanceState != null) {
-                mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
-            }
-
-            if (mCoursesList == null || mViewPagerCourses == null) {
-                mViewPagerCourses = new ArrayList<>();
-                mCoursesList = new ArrayList<>();
-                ((MainActivity)getActivity()).getCoursesData(true, new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        if (data != null && data.size() > 0) {
-                            for(Object item : data) {
-                                Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
-
-                                if (mCoursesList != null) {
-                                    mCoursesList.add((Course) item);
-                                }
-
-                                if (((Course) item).getImageUrl() != null) {
-                                    if (mViewPagerCourses.size() < 5) {
-                                        mViewPagerCourses.add(((Course) item));
-                                    }
-                                }
+                            if (mCoursesList != null) {
+                                mCoursesList.add((Course) item);
                             }
 
-                            filterData();
-                            showImagesViewPager();
-                            showData();
+                            if (((Course) item).getImageUrl() != null) {
+                                if (mViewPagerCourses.size() < 5) {
+                                    mViewPagerCourses.add(((Course) item));
+                                }
+                            }
                         }
+
+                        filterData();
+                        showImagesViewPager();
+                        showData();
                     }
+                }
 
-                    @Override
-                    public void onError(String error) {
+                @Override
+                public void onError(String error) {
 
-                    }
-                });
+                }
+            });
 
-            } else {
-                showImagesViewPager();
-                showData();
-            }
         } else {
             showImagesViewPager();
             showData();
@@ -216,12 +205,12 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
+        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
         mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
-        mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setCurrentItem(MainActivity.lastCoursesViewPagerIndex);
+        mInkPageIndicator.setViewPager(mViewPager);
         startViewPagerTimer();
         stopViewPagerTimerOnTouch();
     }

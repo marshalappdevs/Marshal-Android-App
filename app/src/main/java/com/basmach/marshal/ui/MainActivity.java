@@ -186,6 +186,8 @@ public class MainActivity extends AppCompatActivity
 
                     mIsRefreshAnimationRunning = false;
 
+                    mCoursesData = null;
+
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();

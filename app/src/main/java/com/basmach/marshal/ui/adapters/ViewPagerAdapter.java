@@ -21,7 +21,7 @@ public class ViewPagerAdapter extends PagerAdapter {
     private ArrayList<Course> COURSES = new ArrayList<>();
 
     public ViewPagerAdapter(Context context, ArrayList<Course> COURSES) {
-        this.COURSES = new ArrayList<>(COURSES);
+        this.COURSES = COURSES;
         this.context=context;
     }
 

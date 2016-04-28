@@ -525,7 +525,11 @@ public abstract class DBObject {
                 database.close();
                 throw e;
             }
-        } else return allObjects;
+        } else {
+            cursor.close();
+            database.close();
+            return allObjects;
+        }
     }
 
     public static List<Object> getAllByColumn(String columnName,
