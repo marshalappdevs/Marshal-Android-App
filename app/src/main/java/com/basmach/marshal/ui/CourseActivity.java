@@ -1,16 +1,21 @@
 package com.basmach.marshal.ui;
 
 import android.animation.Animator;
+import android.animation.ValueAnimator;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.content.res.Resources;
 import android.graphics.Bitmap;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
@@ -23,10 +28,12 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,6 +41,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
+import com.basmach.marshal.ui.utils.ColorUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -65,6 +73,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private int contentColor = -1;
     private int scrimColor = -1;
+    private static final float SCRIM_ADJUSTMENT = 0.075f;
 
     private FloatingActionButton mFabCycles;
 
@@ -216,7 +225,7 @@ public class CourseActivity extends AppCompatActivity {
             Picasso.with(this).load(mCourse.getImageUrl()).into(mHeader, new Callback() {
                 @Override
                 public void onSuccess() {
-                    Bitmap bitmap = ((BitmapDrawable) mHeader.getDrawable()).getBitmap();
+                    final Bitmap bitmap = ((BitmapDrawable) mHeader.getDrawable()).getBitmap();
                     Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
                         public void onGenerated(Palette palette) {
                             contentColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
@@ -227,6 +236,86 @@ public class CourseActivity extends AppCompatActivity {
 //                            collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                         }
                     });
+
+                    final int twentyFourDip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
+                            24, CourseActivity.this.getResources().getDisplayMetrics());
+                    Palette.from(bitmap)
+                            .maximumColorCount(3)
+                            .clearFilters() /* by default palette ignore certain hues
+                        (e.g. pure black/white) but we don't want this. */
+                            .setRegion(0, 0, bitmap.getWidth() - 1, twentyFourDip) /* - 1 to work around
+                        https://code.google.com/p/android/issues/detail?id=191013 */
+                            .generate(new Palette.PaletteAsyncListener() {
+                                @Override
+                                public void onGenerated(Palette palette) {
+                                    boolean isDark;
+                                    @ColorUtils.Lightness int lightness = ColorUtils.isDark(palette);
+                                    if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
+                                        isDark = ColorUtils.isDark(bitmap, bitmap.getWidth() / 2, 0);
+                                    } else {
+                                        isDark = lightness == ColorUtils.IS_DARK;
+                                    }
+
+                                    if (!isDark) { // make toolbar icons and title dark on light images
+                                        final PorterDuffColorFilter colorFilter
+                                                = new PorterDuffColorFilter(ContextCompat.getColor(
+                                                CourseActivity.this, R.color.dark_icon), PorterDuff.Mode.MULTIPLY);
+
+                                        // Change the color of the navigation icon
+                                        Drawable navigationIcon = mToolbar.getNavigationIcon();
+                                        if (navigationIcon != null) navigationIcon.setColorFilter(colorFilter);
+                                        mToolbar.setNavigationIcon(navigationIcon);
+
+                                        // Change the color of the overflow icon
+                                        Drawable overflowIcon = mToolbar.getOverflowIcon();
+                                        if (overflowIcon != null) overflowIcon.setColorFilter(colorFilter);
+                                        mToolbar.setOverflowIcon(overflowIcon);
+
+                                        // Change the color of the title
+                                        collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(
+                                                getApplicationContext(), android.R.color.primary_text_light));
+                                    }
+
+                                    // Color the status bar. Set a complementary dark color on L,
+                                    // light or dark color on M (with matching status bar icons)
+                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                        int statusBarColor = 0;
+                                        statusBarColor = getWindow().getStatusBarColor();
+                                        final Palette.Swatch topColor =
+                                                ColorUtils.getMostPopulousSwatch(palette);
+                                        if (topColor != null &&
+                                                (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                                            statusBarColor = ColorUtils.scrimify(topColor.getRgb(),
+                                                    isDark, SCRIM_ADJUSTMENT);
+                                            // set a light status bar on M+
+                                            if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                                setLightStatusBar(mHeader);
+                                            }
+                                        }
+
+                                        if (statusBarColor != getWindow().getStatusBarColor()) {
+//                                           mHeader.setScrimColor(statusBarColor);
+                                            ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
+                                                    getWindow().getStatusBarColor(), statusBarColor);
+                                            statusBarColorAnim.addUpdateListener(new ValueAnimator
+                                                    .AnimatorUpdateListener() {
+                                                @Override
+                                                public void onAnimationUpdate(ValueAnimator animation) {
+                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                                                        getWindow().setStatusBarColor(
+                                                                (int) animation.getAnimatedValue());
+                                                    }
+                                                }
+                                            });
+//                                            statusBarColorAnim.setDuration(1000L);
+//                                            Interpolator fastOutSlowIn = AnimationUtils.loadInterpolator(getApplicationContext(),
+//                                                    android.R.interpolator.fast_out_slow_in);
+//                                            statusBarColorAnim.setInterpolator(fastOutSlowIn);
+//                                            statusBarColorAnim.start();
+                                        }
+                                    }
+                                }
+                            });
                 }
 
                 @Override
@@ -235,6 +324,22 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
             initializeTextViews();
+        }
+    }
+
+    private void setLightStatusBar(@NonNull View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
+        }
+    }
+
+    private void clearLightStatusBar(@NonNull View view) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            int flags = view.getSystemUiVisibility();
+            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
+            view.setSystemUiVisibility(flags);
         }
     }
 
