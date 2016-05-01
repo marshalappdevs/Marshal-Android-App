@@ -84,7 +84,7 @@ public class CourseActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         updateLocale();
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_enter));
             getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_return));
         }
@@ -111,7 +111,7 @@ public class CourseActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     mFabCycles.animate().cancel();
                     mFabCycles.animate()
                             .scaleX(0f)
@@ -144,7 +144,7 @@ public class CourseActivity extends AppCompatActivity {
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
 
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             if (mFabCycles != null) mFabCycles.hide();
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
@@ -278,7 +278,7 @@ public class CourseActivity extends AppCompatActivity {
 
                                     // Color the status bar. Set a complementary dark color on L,
                                     // light or dark color on M (with matching status bar icons)
-                                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                                         int statusBarColor = 0;
                                         statusBarColor = getWindow().getStatusBarColor();
                                         final Palette.Swatch topColor =
@@ -446,7 +446,7 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mFabCycles.animate().cancel();
             mFabCycles.animate()
                     .scaleX(0f)
