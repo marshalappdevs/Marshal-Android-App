@@ -43,7 +43,7 @@
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme.Base">
+            android:theme="@style/AppTheme.Base.Translucent">
 
             <!-- <meta-data -->
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
@@ -57,9 +57,6 @@
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
-
-        <activity android:name=".ui.UpdateDataActivity"
-            android:theme="@style/Theme.AppCompat.DayNight.Dialog" />
     </application>
 
 </manifest>

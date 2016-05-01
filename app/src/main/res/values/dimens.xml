@@ -18,4 +18,5 @@
     <dimen name="cycle_item_margin">4dp</dimen>
     <dimen name="link_preview_thumb_height">80.0sp</dimen>
     <dimen name="link_preview_thumb_width">80.0dip</dimen>
+    <dimen name="drag_dismiss_distance">112dp</dimen>
 </resources>

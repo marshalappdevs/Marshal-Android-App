@@ -10,6 +10,10 @@
 
     <style name="AppTheme" parent="AppTheme.Base" />
 
+    <style name="AppTheme.Base.Translucent" parent="AppTheme.Base">
+        <item name="android:windowIsTranslucent">true</item>
+    </style>
+
     <style name="AppTheme.Base.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
         <item name="colorPrimaryDark">@android:color/darker_gray</item>

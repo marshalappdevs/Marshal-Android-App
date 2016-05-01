@@ -407,5 +407,73 @@
                 android:layout_alignStart="@+id/course_content_textView_commentsTitle"
                 android:layout_marginTop="4dp" />
         </RelativeLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@android:color/darker_gray"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
+
+        <!--Rating-->
+        <RelativeLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:id="@+id/course_content_relativeLayout_rating"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin"
+            android:layoutDirection="ltr">
+
+            <RatingBar
+                android:id="@+id/course_content_ratingBar_courseRating"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:numStars="5"
+                android:stepSize="0.5"
+                android:clickable="false"
+                android:rating="4.5"
+                android:layout_toEndOf="@+id/course_content_textView_ratingStarsNumber"
+                android:layout_above="@+id/course_content_textView_ratingsVotesNumber"
+                style="?android:attr/ratingBarStyleSmall"/>
+
+            <TextView
+                android:id="@+id/course_content_textView_ratingStarsNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="56sp"
+                android:text="4.5"
+                android:layout_alignParentStart="true"
+                android:textColor="?android:textColorPrimary"
+                android:textStyle="normal"
+                android:layout_marginEnd="8dp"/>
+
+            <TextView
+                android:id="@+id/course_content_textView_ratingsVotesNumber"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2,836"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColor="?android:textColorSecondary"
+                android:layout_alignStart="@+id/course_content_ratingBar_courseRating"
+                android:layout_alignBaseline="@+id/course_content_textView_ratingStarsNumber" />
+
+            <ImageView
+                android:id="@+id/course_content_imageView_rating_personIcon"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                app:srcCompat="@drawable/ic_person_gray_24dp"
+                android:layout_alignBottom="@+id/course_content_textView_ratingsVotesNumber"
+                android:layout_alignTop="@+id/course_content_textView_ratingsVotesNumber"
+                android:layout_toEndOf="@+id/course_content_textView_ratingsVotesNumber"
+                android:contentDescription="@null"/>
+        </RelativeLayout>
+
+        <RatingBar
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1"
+            android:layoutDirection="ltr"/>
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
