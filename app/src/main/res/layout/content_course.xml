@@ -420,7 +420,7 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:background="#1F000000"
+            android:background="@color/divider_color"
             android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
 
         <!--Rating-->
