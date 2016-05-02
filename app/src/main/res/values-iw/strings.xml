@@ -59,6 +59,7 @@
     <string name="refresh_update_failed">אירעה שגיאה במהלך ניסיון עדכון הנתונים. אנא נסה שוב מאוחר יותר.</string>
     <string name="cycle_alert_title">שים לב</string>
     <string name="cycle_alert_message">פעולה זו <u><b>לא</b></u> תרשום אותך לקורס, אלא רק תשמור את התאריך ביומן האישי שלך. הרישום לקורס מתבצע דרך קצין הקורסים ביחידתך.</string>
+    <string name="review_snippets_footer">קרא את כל הביקורות</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
