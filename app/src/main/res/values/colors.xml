@@ -10,5 +10,6 @@
     <color name="dark_icon">#99000000</color> <!-- 60% black-->
     <color name="star_color">#FF616161</color>
     <color name="star_bg_color">#70616161</color>
+    <color name="user_color">#80000000</color>
     <color name="control_normal">#99000000</color>
 </resources>

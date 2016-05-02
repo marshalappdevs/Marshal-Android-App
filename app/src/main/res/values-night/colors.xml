@@ -4,5 +4,6 @@
     <color name="colorPrimaryLight">#496694</color>
     <color name="colorPrimaryDark">#1E3D80</color>
     <color name="url_color">#AAFFFFFF</color>
+    <color name="user_color">#80FFFFFF</color>
     <color name="control_normal">#99FFFFFF</color>
 </resources>
