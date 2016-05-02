@@ -359,10 +359,6 @@ public class MainActivity extends AppCompatActivity
                     .scaleX(1f)
                     .setStartDelay(300)
                     .setDuration(900);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                title.animate().setInterpolator(AnimationUtils.loadInterpolator(this,
-                        android.R.interpolator.fast_out_slow_in));
-            }
         }
         View amv = mToolbar.getChildAt(1);
         if (amv != null & amv instanceof ActionMenuView) {
