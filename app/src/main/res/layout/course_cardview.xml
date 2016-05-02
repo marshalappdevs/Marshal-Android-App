@@ -83,11 +83,12 @@
                         android:layout_marginBottom="7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tint="?attr/colorControlNormal"
+                        android:tint="@color/control_normal"
                         android:paddingEnd="-4dp"
                         app:srcCompat="@drawable/ic_course_rating_star"
                         android:layout_toStartOf="@+id/course_cardview_rating"
-                        android:id="@+id/course_cardview_ratingIcon" />
+                        android:id="@+id/course_cardview_ratingIcon"
+                        android:contentDescription="@null" />
                 </RelativeLayout>
             </LinearLayout>
 
