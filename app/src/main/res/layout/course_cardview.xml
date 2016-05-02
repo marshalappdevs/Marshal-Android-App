@@ -83,7 +83,7 @@
                         android:layout_marginBottom="7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:tint="@color/control_normal"
+                        android:tint="@color/star_color"
                         android:paddingEnd="-4dp"
                         app:srcCompat="@drawable/ic_course_rating_star"
                         android:layout_toStartOf="@+id/course_cardview_rating"
