@@ -276,42 +276,21 @@ public class CourseActivity extends AppCompatActivity {
                                                 getApplicationContext(), android.R.color.primary_text_light));
                                     }
 
-                                    // Color the status bar. Set a complementary dark color on L,
+                                    // color the status bar. Set a semi transparent dark color on L,
                                     // light or dark color on M (with matching status bar icons)
-                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                        int statusBarColor = 0;
-                                        statusBarColor = getWindow().getStatusBarColor();
-                                        final Palette.Swatch topColor =
-                                                ColorUtils.getMostPopulousSwatch(palette);
-                                        if (topColor != null &&
-                                                (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                                            statusBarColor = ColorUtils.scrimify(topColor.getRgb(),
-                                                    isDark, SCRIM_ADJUSTMENT);
-                                            // set a light status bar on M+
-                                            if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                setLightStatusBar(mHeader);
-                                            }
-                                        }
-
-                                        if (statusBarColor != getWindow().getStatusBarColor()) {
-//                                           mHeader.setScrimColor(statusBarColor);
-                                            ValueAnimator statusBarColorAnim = ValueAnimator.ofArgb(
-                                                    getWindow().getStatusBarColor(), statusBarColor);
-                                            statusBarColorAnim.addUpdateListener(new ValueAnimator
-                                                    .AnimatorUpdateListener() {
-                                                @Override
-                                                public void onAnimationUpdate(ValueAnimator animation) {
-                                                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                                                        getWindow().setStatusBarColor(
-                                                                (int) animation.getAnimatedValue());
-                                                    }
-                                                }
-                                            });
-//                                            statusBarColorAnim.setDuration(1000L);
-//                                            Interpolator fastOutSlowIn = AnimationUtils.loadInterpolator(getApplicationContext(),
-//                                                    android.R.interpolator.fast_out_slow_in);
-//                                            statusBarColorAnim.setInterpolator(fastOutSlowIn);
-//                                            statusBarColorAnim.start();
+                                    if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && !isDark) {
+                                        getWindow().setStatusBarColor(ContextCompat.getColor(
+                                                getApplicationContext(), R.color.black_trans80));
+                                    }
+                                    final Palette.Swatch topColor =
+                                            ColorUtils.getMostPopulousSwatch(palette);
+                                    if (topColor != null &&
+                                            (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
+                                        ColorUtils.scrimify(topColor.getRgb(),
+                                                isDark, SCRIM_ADJUSTMENT);
+                                        // set a light status bar on M+
+                                        if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                                            setLightStatusBar(mHeader);
                                         }
                                     }
                                 }
@@ -427,20 +406,6 @@ public class CourseActivity extends AppCompatActivity {
         }
         if(!isAnyDataExist) {
             findViewById(R.id.course_content_textView_noDetailsMessage).setVisibility(View.VISIBLE);
-        }
-    }
-
-    private void paintTitlesTextColor(int contentColor) {
-        if (contentColor != -1) {
-            ((TextView) (findViewById(R.id.course_content_textView_codeTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_descriptionTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_syllabusTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_prerequisitesTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_targetPopulationTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_daysDurationTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_hoursDurationTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_dayTimeTitle))).setTextColor(contentColor);
-            ((TextView) (findViewById(R.id.course_content_textView_comments))).setTextColor(contentColor);
         }
     }
 
