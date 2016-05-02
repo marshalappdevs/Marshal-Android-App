@@ -263,13 +263,17 @@ public class CourseActivity extends AppCompatActivity {
 
                                         // Change the color of the navigation icon
                                         Drawable navigationIcon = mToolbar.getNavigationIcon();
-                                        if (navigationIcon != null) navigationIcon.setColorFilter(colorFilter);
-                                        mToolbar.setNavigationIcon(navigationIcon);
+                                        if (navigationIcon != null) {
+                                            navigationIcon.setColorFilter(colorFilter);
+                                            mToolbar.setNavigationIcon(navigationIcon);
+                                        }
 
                                         // Change the color of the overflow icon
                                         Drawable overflowIcon = mToolbar.getOverflowIcon();
-                                        if (overflowIcon != null) overflowIcon.setColorFilter(colorFilter);
-                                        mToolbar.setOverflowIcon(overflowIcon);
+                                        if (overflowIcon != null) {
+                                            overflowIcon.setColorFilter(colorFilter);
+                                            mToolbar.setOverflowIcon(overflowIcon);
+                                        }
 
                                         // Change the color of the title
                                         collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(
