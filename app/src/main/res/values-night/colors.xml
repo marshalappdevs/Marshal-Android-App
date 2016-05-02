@@ -6,4 +6,5 @@
     <color name="url_color">#AAFFFFFF</color>
     <color name="star_color">#FFEFEFEF</color>
     <color name="user_color">#80FFFFFF</color>
+    <color name="icons_tint">#99FFFFFF</color>
 </resources>

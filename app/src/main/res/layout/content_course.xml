@@ -44,6 +44,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_code"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -86,6 +87,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_description"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -128,6 +130,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_syllabus"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -171,6 +174,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_prerequisites"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -213,6 +217,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_target_population"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -255,6 +260,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_daytime"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -297,6 +303,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_days_duration"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -339,6 +346,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_hours_duration"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
@@ -381,6 +389,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_marginEnd="8dp"
                 app:srcCompat="@drawable/ic_course_comments"
+                android:tint="@color/icons_tint"
                 android:contentDescription="@null" />
 
             <TextView
