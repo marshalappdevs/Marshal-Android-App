@@ -8,4 +8,6 @@
     <color name="url_color">#AA000000</color>
     <color name="nav_color">#4285F4</color>
     <color name="dark_icon">#99000000</color> <!-- 60% black-->
+    <color name="star_color">#FF616161</color>
+    <color name="star_bg_color">#70616161</color>
 </resources>

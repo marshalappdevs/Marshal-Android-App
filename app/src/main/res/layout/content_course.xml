@@ -431,39 +431,43 @@
                 android:stepSize="0.5"
                 android:clickable="false"
                 android:rating="4.5"
-                android:layout_toEndOf="@+id/course_content_textView_ratingStarsNumber"
-                android:layout_above="@+id/course_content_textView_ratingsVotesNumber"
-                style="?android:attr/ratingBarStyleSmall"/>
+                android:layout_toEndOf="@+id/course_content_textView_average_value"
+                android:layout_above="@+id/course_content_textView_num_reviews"
+                style="?android:attr/ratingBarStyleSmall"
+                android:theme="@style/Course.RatingBar" />
 
             <TextView
-                android:id="@+id/course_content_textView_ratingStarsNumber"
+                android:id="@+id/course_content_textView_average_value"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:textSize="56sp"
                 android:text="4.5"
                 android:layout_alignParentStart="true"
                 android:textColor="?android:textColorPrimary"
-                android:textStyle="normal"
-                android:layout_marginEnd="8dp"/>
+                android:focusable="true"
+                android:includeFontPadding="false"
+                android:layout_marginEnd="8dp"
+                android:fontFamily="sans-serif-light" />
 
             <TextView
-                android:id="@+id/course_content_textView_ratingsVotesNumber"
+                android:id="@+id/course_content_textView_num_reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2,836"
                 android:textAppearance="@android:style/TextAppearance.Small"
                 android:textColor="?android:textColorSecondary"
+                android:includeFontPadding="false"
                 android:layout_alignStart="@+id/course_content_ratingBar_courseRating"
-                android:layout_alignBaseline="@+id/course_content_textView_ratingStarsNumber" />
+                android:layout_alignBaseline="@+id/course_content_textView_average_value" />
 
             <ImageView
                 android:id="@+id/course_content_imageView_rating_personIcon"
                 android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                app:srcCompat="@drawable/ic_person_gray_24dp"
-                android:layout_alignBottom="@+id/course_content_textView_ratingsVotesNumber"
-                android:layout_alignTop="@+id/course_content_textView_ratingsVotesNumber"
-                android:layout_toEndOf="@+id/course_content_textView_ratingsVotesNumber"
+                app:srcCompat="@drawable/ic_user_rating"
+                android:layout_alignBottom="@+id/course_content_textView_num_reviews"
+                android:layout_alignTop="@+id/course_content_textView_num_reviews"
+                android:layout_toEndOf="@+id/course_content_textView_num_reviews"
                 android:contentDescription="@null"/>
         </RelativeLayout>
 
@@ -474,6 +478,6 @@
             android:layout_height="wrap_content"
             android:numStars="5"
             android:stepSize="1"
-            android:layoutDirection="ltr"/>
+            android:layoutDirection="ltr" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
