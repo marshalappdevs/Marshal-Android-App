@@ -354,14 +354,14 @@ public class MainActivity extends AppCompatActivity
             title.setAlpha(0f);
             title.setScaleX(0.8f);
 
+            title.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .setStartDelay(300)
+                    .setDuration(900);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                title.animate()
-                        .alpha(1f)
-                        .scaleX(1f)
-                        .setStartDelay(300)
-                        .setDuration(900)
-                        .setInterpolator(AnimationUtils.loadInterpolator(this,
-                                android.R.interpolator.fast_out_slow_in));
+                title.animate().setInterpolator(AnimationUtils.loadInterpolator(this,
+                        android.R.interpolator.fast_out_slow_in));
             }
         }
         View amv = mToolbar.getChildAt(1);
