@@ -32,6 +32,7 @@ import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
+import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.SearchView;
 import android.util.DisplayMetrics;
 import android.view.View;
@@ -43,6 +44,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -150,6 +152,7 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
+        animateToolbar();
 
         initializeGoogleSignIn();
 
@@ -337,6 +340,52 @@ public class MainActivity extends AppCompatActivity
             conf.setLocale(locale);
             Locale.setDefault(locale);
             res.updateConfiguration(conf, dm);
+        }
+    }
+
+    private void animateToolbar() {
+        // this is gross but toolbar doesn't expose it's children to animate them :(
+        View t = mToolbar.getChildAt(0);
+        if (t != null && t instanceof TextView) {
+            TextView title = (TextView) t;
+
+            // fade in and space out the title.  Animating the letterSpacing performs horribly so
+            // fake it by setting the desired letterSpacing then animating the scaleX ¯\_(ツ)_/¯
+            title.setAlpha(0f);
+            title.setScaleX(0.8f);
+
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                title.animate()
+                        .alpha(1f)
+                        .scaleX(1f)
+                        .setStartDelay(300)
+                        .setDuration(900)
+                        .setInterpolator(AnimationUtils.loadInterpolator(this,
+                                android.R.interpolator.fast_out_slow_in));
+            }
+        }
+        View amv = mToolbar.getChildAt(1);
+        if (amv != null & amv instanceof ActionMenuView) {
+            ActionMenuView actions = (ActionMenuView) amv;
+            popAnim(actions.getChildAt(0), 500, 200); // filter
+            popAnim(actions.getChildAt(1), 700, 200); // overflow
+        }
+    }
+
+    private void popAnim(View v, int startDelay, int duration) {
+        if (v != null) {
+            v.setAlpha(0f);
+            v.setScaleX(0f);
+            v.setScaleY(0f);
+
+            v.animate()
+                    .alpha(1f)
+                    .scaleX(1f)
+                    .scaleY(1f)
+                    .setStartDelay(startDelay)
+                    .setDuration(duration)
+                    .setInterpolator(AnimationUtils.loadInterpolator(this,
+                            android.R.interpolator.overshoot));
         }
     }
 
