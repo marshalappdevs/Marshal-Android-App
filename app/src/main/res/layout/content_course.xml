@@ -423,6 +423,20 @@
             android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin"
             android:layoutDirection="ltr">
 
+            <TextView
+                android:text="4.5"
+                android:textSize="56.0sp"
+                android:textColor="?android:textColorPrimary"
+                android:layout_gravity="start"
+                android:id="@+id/course_content_textView_average_value"
+                android:paddingStart="8.0dip"
+                android:paddingEnd="8.0dip"
+                android:focusable="true"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:includeFontPadding="false"
+                android:fontFamily="sans-serif-light" />
+
             <RatingBar
                 android:id="@+id/course_content_ratingBar_courseRating"
                 android:layout_width="wrap_content"
@@ -437,24 +451,11 @@
                 android:theme="@style/Course.RatingBar" />
 
             <TextView
-                android:id="@+id/course_content_textView_average_value"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="56sp"
-                android:text="4.5"
-                android:layout_alignParentStart="true"
-                android:textColor="?android:textColorPrimary"
-                android:focusable="true"
-                android:includeFontPadding="false"
-                android:layout_marginEnd="8dp"
-                android:fontFamily="sans-serif-light" />
-
-            <TextView
                 android:id="@+id/course_content_textView_num_reviews"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:text="2,836"
-                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textSize="12sp"
                 android:textColor="?android:textColorSecondary"
                 android:includeFontPadding="false"
                 android:layout_alignStart="@+id/course_content_ratingBar_courseRating"
@@ -463,7 +464,7 @@
             <ImageView
                 android:id="@+id/course_content_imageView_user_rating"
                 android:layout_width="wrap_content"
-                android:layout_height="match_parent"
+                android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_user_rating"
                 android:layout_alignBottom="@+id/course_content_textView_num_reviews"
                 android:layout_alignTop="@+id/course_content_textView_num_reviews"
