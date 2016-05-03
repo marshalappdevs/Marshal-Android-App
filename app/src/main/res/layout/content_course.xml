@@ -424,7 +424,7 @@
             android:layoutDirection="ltr">
 
             <TextView
-                android:text="4.5"
+                android:text="0.0"
                 android:textSize="56.0sp"
                 android:textColor="?android:textColorPrimary"
                 android:layout_gravity="start"
@@ -447,6 +447,7 @@
         </RelativeLayout>
 
         <RatingBar
+            android:id="@+id/course_content_ratingBar_user"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
@@ -454,6 +455,13 @@
             android:numStars="5"
             android:stepSize="1"
             android:layoutDirection="ltr" />
+
+        <TextView
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:id="@+id/course_content_textView_rating_userComment"
+            android:gravity="center"/>
 
         <Button
             android:layout_gravity="center_horizontal"

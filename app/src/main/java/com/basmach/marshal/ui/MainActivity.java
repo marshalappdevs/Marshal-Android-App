@@ -52,6 +52,7 @@ import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
@@ -84,6 +85,7 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -117,8 +119,12 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog mUpdateProgressDialog;
 
     private List<Object> mCoursesData;
+    private List<Object> mRatingsData;
 
     public static int lastCoursesViewPagerIndex = 0;
+    public static ArrayList<Course> allCourses;
+    public static ArrayList<Rating> allRatings;
+    public static String userEmailAddress;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -171,8 +177,8 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        MockDataProvider mockDataProvider = new MockDataProvider(this);
-        mockDataProvider.insertAllMaterialItems();
+//        MockDataProvider mockDataProvider = new MockDataProvider(this);
+//        mockDataProvider.insertAllMaterialItems();
 //        mockDataProvider.insertAllCycles();
 //        mockDataProvider.insertAllCourses();
 
@@ -190,6 +196,9 @@ public class MainActivity extends AppCompatActivity
                     mIsRefreshAnimationRunning = false;
 
                     mCoursesData = null;
+
+                    allCourses = null;
+                    allRatings = null;
 
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
@@ -249,7 +258,9 @@ public class MainActivity extends AppCompatActivity
             String query = intent.getStringExtra(SearchManager.QUERY);
             if(!isFinishing()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList)).commitAllowingStateLoss();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, allRatings))
+                        .commitAllowingStateLoss();
             }
         }
     }
@@ -585,6 +596,7 @@ public class MainActivity extends AppCompatActivity
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
+                MainActivity.userEmailAddress = acct.getEmail();
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)
@@ -714,6 +726,7 @@ public class MainActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 revokeAccess();
+                                MainActivity.userEmailAddress = null;
                                 recreate();
                             }
                         })
@@ -898,7 +911,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void getCoursesData(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+    public void getCoursesDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
         if(mCoursesData != null) {
             callBack.onSuccess("", mCoursesData);
         } else {
@@ -919,6 +932,29 @@ public class MainActivity extends AppCompatActivity
                     callBack.onError(error);
                 }
             });
+        }
+    }
+
+    public void getRatingsDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+        if (mRatingsData != null) {
+            callBack.onSuccess("", mRatingsData);
+        } else {
+            Rating.getAllInBackground(DBConstants.COL_COURSE_CODE, Rating.class, MainActivity.this,
+                    showProgressBar, new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            if (data != null && data.size() > 0) {
+                                mRatingsData = data;
+                            }
+
+                            callBack.onSuccess(result, mRatingsData);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
         }
     }
 }

@@ -38,6 +38,7 @@ public abstract class DBObject {
     public static final String TYPE_STRING = "string";
     public static final String TYPE_BOOLEAN = "boolean";
     public static final String TYPE_DATE = "date";
+    public static final String TYPE_DOUBLE = "double";
     public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
     private static final String SUCCESS_FLAG = "Done";
 
@@ -176,6 +177,9 @@ public abstract class DBObject {
                     else if (value instanceof Long){
                         values.put(column.name(),(Long)value);
                     }
+                    else if (value instanceof Double){
+                        values.put(column.name(),(Double) value);
+                    }
                     else if (value instanceof String){
                         values.put(column.name(),(String)value);
                     }
@@ -303,6 +307,8 @@ public abstract class DBObject {
                                     setter.invoke(this, cursor.getInt(cursor.getColumnIndex(column)));
                                 } else if (columnSetter.type().equals(TYPE_LONG)) {
                                     setter.invoke(this, cursor.getLong(cursor.getColumnIndex(column)));
+                                } else if (columnSetter.type().equals(TYPE_DOUBLE)) {
+                                    setter.invoke(this, (cursor.getDouble(cursor.getColumnIndex(column))));
                                 } else if (columnSetter.type().equals(TYPE_BOOLEAN)) {
                                     setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(column))) != 0);
                                 } else if (columnSetter.type().equals(TYPE_STRING)) {
@@ -316,6 +322,8 @@ public abstract class DBObject {
                             } catch (Exception e) {
                                 throw e;
                             }
+
+                            break;
                         }
                     }
                     else if (setter.isAnnotationPresent(EntitySetter.class)) {
@@ -338,6 +346,8 @@ public abstract class DBObject {
                             } catch (Exception e) {
                                 throw e;
                             }
+
+                            break;
                         }
                     }
                     else if (setter.isAnnotationPresent(EntityArraySetter.class)) {
@@ -371,47 +381,12 @@ public abstract class DBObject {
                                     setter.setAccessible(true);
                                     setter.invoke(this, objectArray);
                                 }
-//                                if (idsArray != null) {
-//                                    int startIndex = 0;
-//                                    boolean isOverTen = false;
-//
-//                                    while ((!isOverTen && (startIndex <= (idsArray.length() - 1))) ||
-//                                            (isOverTen && (startIndex <= (idsArray.length() - 3)))) {
-//
-//                                        Object entityInstance = entityClass
-//                                                .getConstructor(Context.class)
-//                                                .newInstance(context);
-//
-//                                        long entityId;
-//
-//                                        if (startIndex < 10) {
-//                                            entityId = Long.valueOf(idsArray.substring(startIndex, startIndex + 1));
-//                                        } else {
-//                                            entityId = Long.valueOf(idsArray.substring(startIndex, startIndex + 2));
-//                                        }
-//
-//                                        entityClass.cast(entityInstance).getById(entityId, context);
-//
-//                                        objectArray.add(entityInstance);
-//
-//                                        if (startIndex < 10) {
-//                                            startIndex += 2;
-//                                        } else {
-//                                            startIndex += 3;
-//                                        }
-//
-//                                        if(!isOverTen && startIndex >= 10) {
-//                                            isOverTen = true;
-//                                        }
-//                                    }
-//
-//                                    setter.setAccessible(true);
-//                                    setter.invoke(this, objectArray);
-//                                }
 
                             } catch (Exception e) {
                                 throw e;
                             }
+
+                            break;
                         }
                     }
                 }
@@ -862,4 +837,57 @@ public abstract class DBObject {
         }.execute();
     }
 
+    public static void getByColumnInBackground(final boolean showProgressBar,
+                                               final String columnName,
+                                               final Object value,
+                                               final String orderByColumnName,
+                                               final Context context,
+                                               final Class<? extends DBObject> targetClass,
+                                               final BackgroundTaskCallBack callBack) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            ProgressDialog progressDialog;
+            List<Object> data;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                if (showProgressBar) {
+                    progressDialog = new ProgressDialog(context);
+                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
+                }
+            }
+
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    data = getAllByColumn(columnName, value, orderByColumnName, context, targetClass);
+                    return SUCCESS_FLAG;
+                } catch (Exception e) {
+                    database.close();
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String strResult) {
+                super.onPostExecute(strResult);
+
+                if (showProgressBar) {
+                    progressDialog.dismiss();
+                }
+
+                if (strResult.equals(SUCCESS_FLAG)) {
+                    callBack.onSuccess(strResult, data);
+                } else {
+                    callBack.onError(strResult);
+                }
+            }
+        }.execute();
+    }
 }

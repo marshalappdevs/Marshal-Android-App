@@ -24,6 +24,8 @@ public class LocalDBHelper extends SQLiteOpenHelper {
             Log.i(DATABASE_NAME, "t_cycle created");
             db.execSQL(DBConstants.CREATE_T_COURSE);
             Log.i(DATABASE_NAME, "t_course created");
+            db.execSQL(DBConstants.CREATE_T_RATING);
+            Log.i(DATABASE_NAME, "t_rating created");
 
             Log.i(DATABASE_NAME, "database created");
         }
@@ -40,6 +42,8 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         db.execSQL(DBConstants.DROP_T_MATERIAL_ITEM);
         db.execSQL(DBConstants.DROP_T_COURSE);
         db.execSQL(DBConstants.DROP_T_CYCLE);
+        db.execSQL(DBConstants.DROP_T_RATING);
+
         onCreate(db);
     }
 }

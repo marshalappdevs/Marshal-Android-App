@@ -6,6 +6,7 @@ public class DBConstants {
     public static final String T_MATERIAL_ITEM = "t_material_item";
     public static final String T_COURSE = "t_course";
     public static final String T_CYCLE = "t_cycle";
+    public static final String T_RATING = "t_rating";
 
     // Columns
     public static final String COL_ID = "id";
@@ -33,14 +34,21 @@ public class DBConstants {
     public static final String COL_START_DATE = "start_date";
     public static final String COL_END_DATE = "end_date";
     public static final String COL_TAGS = "tags";
+    public static final String COL_USER_MAIL_ADDRESS = "user_mail_address";
+    public static final String COL_RATING = "rating";
+    public static final String COL_COMMENT = "comment";
+    public static final String COL_COURSE_CODE = "course_code";
+    public static final String COL_IS_GET_LINK_DATA_EXECUTED = "is_get_link_data_executed";
 
     // 'Create Table' commands
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
-            COL_URL + " TEXT PRIMARY KEY, " +
-            COL_TITLE + " TEXT UNIQUE, " +
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_URL + " TEXT UNIQUE, " +
+            COL_TITLE + " TEXT, " +
             COL_DESCRIPTION + " TEXT," +
             COL_CANNONICIAL_URL + " TEXT," +
             COL_TAGS + " TEXT," +
+            COL_IS_GET_LINK_DATA_EXECUTED + " INTEGER," +
             COL_IMAGE_URL + " TEXT);";
 
     public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
@@ -50,6 +58,13 @@ public class DBConstants {
             COL_DESCRIPTION + " TEXT," +
             COL_START_DATE + " TEXT," +
             COL_END_DATE + " TEXT);";
+
+    public static final String CREATE_T_RATING = "CREATE TABLE "+ T_RATING + " (" +
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_USER_MAIL_ADDRESS + " TEXT, " +
+            COL_COURSE_CODE + " TEXT, " +
+            COL_RATING + " REAL," +
+            COL_COMMENT + " TEXT);";
 
     public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
@@ -76,4 +91,5 @@ public class DBConstants {
     public static final String DROP_T_MATERIAL_ITEM = "DROP TABLE IF EXISTS " + T_MATERIAL_ITEM + ";";
     public static final String DROP_T_COURSE = "DROP TABLE IF EXISTS " + T_COURSE + ";";
     public static final String DROP_T_CYCLE = "DROP TABLE IF EXISTS " + T_CYCLE + ";";
+    public static final String DROP_T_RATING = "DROP TABLE IF EXISTS " + T_RATING + ";";
 }

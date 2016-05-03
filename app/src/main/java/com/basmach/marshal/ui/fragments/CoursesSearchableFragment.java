@@ -22,6 +22,7 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 
@@ -31,6 +32,7 @@ public class CoursesSearchableFragment extends Fragment {
 
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
+    public static final String EXTRA_ALL_RATINGS = "all_ratings";
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
@@ -38,15 +40,18 @@ public class CoursesSearchableFragment extends Fragment {
     private CoursesSearchRecyclerAdapter mAdapter;
     private ArrayList<Course> mCoursesList;
     private ArrayList<Course> mFilteredCourseList;
+    private ArrayList<Rating> mRatingsList;
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
     private MenuItem mRefreshMenuItem;
 
-    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
+    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
+                                                        ArrayList<Rating> ratings) {
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_SEARCH_QUERY,query);
         bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
+        bundle.putParcelableArrayList(EXTRA_ALL_RATINGS,ratings);
         CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
         coursesSearchableFragment.setArguments(bundle);
         return coursesSearchableFragment;
@@ -67,9 +72,11 @@ public class CoursesSearchableFragment extends Fragment {
         mNoResults = (TextView) rootView.findViewById(R.id.no_results);
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
+        mRatingsList = getArguments().getParcelableArrayList(EXTRA_ALL_RATINGS);
 
         mFilteredCourseList = new ArrayList<>(mCoursesList);
-        mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
+        mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList,
+                mRatingsList);
         mRecycler.setAdapter(mAdapter);
 
         getActivity().setTitle(R.string.search_title);

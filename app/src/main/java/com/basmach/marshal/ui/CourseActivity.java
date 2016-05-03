@@ -14,6 +14,7 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -35,13 +36,16 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmach.marshal.ui.utils.ColorUtils;
+import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -53,12 +57,14 @@ import java.util.Locale;
 public class CourseActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "course_extra";
+    public static final String EXTRA_RATINGS = "ratings_extra";
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
     private SharedPreferences mSharedPreferences;
 
     private Course mCourse;
+    private ArrayList<Rating> mRatings;
 
     private TextView mTextViewCourseCode;
     private TextView mTextViewGeneralDescription;
@@ -70,6 +76,11 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewHoursDuration;
     private TextView mTextViewComments;
     private ImageView mHeader;
+    private TextView mTextViewRatingAverage;
+    private TextView mTextViewRatingsAmount;
+    private TextView mTextViewRatingUserComment;
+    private RatingBar mRatingBarAvergae;
+    private RatingBar mRatingBarUser;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -307,6 +318,45 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
             initializeTextViews();
+        }
+
+        mRatings = getIntent().getParcelableArrayListExtra(EXTRA_RATINGS);
+
+        mRatingBarAvergae = (RatingBar) findViewById(R.id.summary_rating_bar);
+        mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
+        mTextViewRatingUserComment = (TextView) findViewById(R.id.course_content_textView_rating_userComment);
+        mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
+        mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
+
+        if (mRatings != null && mRatings.size() > 0) {
+            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
+
+            float ratingsSum = 0;
+
+            for (Rating rating : mRatings) {
+                if (MainActivity.userEmailAddress != null &&
+                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
+
+                    if (rating.getComment() != null) {
+                        mTextViewRatingUserComment.setVisibility(View.VISIBLE);
+                        mTextViewRatingUserComment.setText(rating.getComment());
+                    }
+
+                    mRatingBarUser.setRating((float) rating.getRating());
+                    mRatingBarUser.setEnabled(false);
+                } else {
+                    mTextViewRatingUserComment.setVisibility(View.GONE);
+                    mRatingBarUser.setRating(0);
+                    mRatingBarUser.setEnabled(true);
+                }
+
+                ratingsSum += rating.getRating();
+            }
+
+            float average = (ratingsSum / mRatings.size());
+
+            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
+            mRatingBarAvergae.setRating(average);
         }
     }
 

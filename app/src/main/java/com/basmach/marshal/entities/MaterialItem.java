@@ -7,8 +7,11 @@ import com.basmach.marshal.localdb.DBObject;
 import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
+import com.basmach.marshal.localdb.annotations.PrimaryKey;
+import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
+import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
 import com.leocardz.link.preview.library.SourceContent;
@@ -17,28 +20,43 @@ import com.leocardz.link.preview.library.TextCrawler;
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
 public class MaterialItem extends DBObject{
 
+    @PrimaryKey(columnName = DBConstants.COL_ID)
+    private long id;
+
+    @Expose
     @SerializedName("url")
     @Column(name = DBConstants.COL_URL)
     private String url;
 
+    @Expose
     @SerializedName("hashTags")
     @Column(name = DBConstants.COL_TAGS)
     private String tags;
 
+    @Expose
+    @SerializedName("title")
     @Column(name = DBConstants.COL_TITLE)
     private String title;
 
+    @Expose
+    @SerializedName("description")
     @Column(name = DBConstants.COL_DESCRIPTION)
     private String description;
 
+    @Expose
+    @SerializedName("mainUrl")
     @Column(name = DBConstants.COL_CANNONICIAL_URL)
     private String cannonicalUrl;
 
+    @Expose
+    @SerializedName("imageUrl")
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
 
     private SourceContent sourceContent;
-    private boolean isGetLinkDataExecute;
+
+    @Column(name = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED)
+    private boolean isGetLinkDataExecuted = true;
 
     // Constructors
     public MaterialItem(Context context) {
@@ -46,14 +64,25 @@ public class MaterialItem extends DBObject{
     }
 
     // Getters and Setters
-
-
-    public boolean isGetLinkDataExecute() {
-        return isGetLinkDataExecute;
+    @ColumnGetter(columnName = DBConstants.COL_ID)
+    public long getId() {
+        return id;
     }
 
-    public void setGetLinkDataExecute(boolean getLinkDataExecute) {
-        isGetLinkDataExecute = getLinkDataExecute;
+    @PrimaryKeySetter
+    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
+    public void setId(long id) {
+        this.id = id;
+    }
+
+    @ColumnGetter(columnName = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED)
+    public boolean getIsGetLinkDataExecute() {
+        return this.isGetLinkDataExecuted;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED, type = TYPE_BOOLEAN)
+    public void setGetLinkDataExecuted(boolean isGetLinkDataExecuted) {
+        this.isGetLinkDataExecuted = isGetLinkDataExecuted;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_TAGS)
@@ -127,27 +156,13 @@ public class MaterialItem extends DBObject{
 
     ///////////////////////////////////////////
 
-    public void getLinkData(TextCrawler textCrawler, MaterialsRecyclerAdapter adapter) {
+    public void getLinkData(TextCrawler textCrawler, LinkPreviewCallback callback) {
 
-        isGetLinkDataExecute = true;
-        textCrawler.makePreview(new LinkPreviewCallback() {
-            @Override
-            public void onPre() {
+        textCrawler.makePreview(callback, getUrl(), 1);
+    }
 
-            }
+    public void getLinkData(int position, TextCrawler textCrawler, LinkPreviewCallback callback) {
 
-            @Override
-            public void onPos(SourceContent sourceContent, boolean b) {
-                if (sourceContent != null) {
-                    setSourceContent(sourceContent);
-                    setTitle(sourceContent.getTitle());
-                    setDescription(sourceContent.getDescription());
-                    setCannonicalUrl(sourceContent.getCannonicalUrl());
-                    if (sourceContent.getImages().size() > 0) {
-                        setImageUrl(sourceContent.getImages().get(0));
-                    }
-                }
-            }
-        }, getUrl());
+        textCrawler.makePreview(callback, getUrl(), 1);
     }
 }

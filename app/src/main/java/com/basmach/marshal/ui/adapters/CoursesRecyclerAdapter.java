@@ -23,6 +23,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
@@ -37,10 +38,13 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     private Context mContext;
     private ArrayList<Course> mCourses;
+    private ArrayList<Rating> mRatings;
     private int mRecyclerLayoutType;
 
-    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses, int layoutType) {
+    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses,
+                                  ArrayList<Rating> ratings, int layoutType) {
         this.mCourses = courses;
+        this.mRatings = ratings;
         this.mContext = context;
         this.mRecyclerLayoutType = layoutType;
     }
@@ -68,6 +72,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
+                if (mRatings != null && mRatings.size() > 0) {
+                    intent.putExtra(CourseActivity.EXTRA_RATINGS,
+                            getCourseRatings(mCourses.get(position).getCourseCode()));
+                }
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity)mContext).getWindow().getDecorView();
@@ -125,6 +133,17 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     @Override
     public int getItemCount() {
         return mCourses.size();
+    }
+
+    private ArrayList<Rating> getCourseRatings(String courseCode) {
+        ArrayList<Rating> courseRatings = new ArrayList<>();
+
+        for (Rating rating : mRatings) {
+            if (rating.getCourseCode().equals(courseCode))
+                courseRatings.add(rating);
+        }
+
+        return courseRatings;
     }
 
     public class CourseVH extends RecyclerView.ViewHolder{

@@ -8,8 +8,15 @@ import android.util.Log;
 
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.utils.LinksDataProvider;
 import com.basmach.marshal.utils.MarshalServiceProvider;
+import com.leocardz.link.preview.library.LinkPreviewCallback;
+import com.leocardz.link.preview.library.SourceContent;
+import com.leocardz.link.preview.library.TextCrawler;
 
 import java.io.IOException;
 import java.util.List;
@@ -142,9 +149,42 @@ public class UpdateIntentService extends IntentService {
                     Cycle.class);
             List<Course> currentCourses = (List) Course.getAll(DBConstants.COL_ID, UpdateIntentService.this,
                     Course.class);
-            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCoureses().execute().body();
+            List<MaterialItem> currentMaterials = (List) MaterialItem.getAll(DBConstants.COL_URL, UpdateIntentService.this,
+                    MaterialItem.class);
+            List<Rating> currentRatings = (List) Rating.getAll(DBConstants.COL_COURSE_CODE, UpdateIntentService.this,
+                    Rating.class);
 
-            itemPercentWeight = 100 / (currentCourses.size() + newCourses.size() + currentCycles.size());
+            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
+            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
+            List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
+
+            itemPercentWeight = 100 / (currentCourses.size() + currentCycles.size() +
+                    currentMaterials.size() + currentRatings.size() +
+                    newCourses.size() + newMaterials.size() + newRatings.size());
+
+            for (MaterialItem materialItem : currentMaterials) {
+                try {
+                    materialItem.delete();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "materialItem delete failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
+
+            for (Rating rating : currentRatings) {
+                try {
+                    rating.delete();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "rating delete failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
 
             for (Course course : currentCourses) {
                 try {
@@ -202,6 +242,39 @@ public class UpdateIntentService extends IntentService {
             }
 
             Log.i(LOG_TAG, "new courses created successfully");
+
+            for (final MaterialItem materialItem : newMaterials) {
+
+                try {
+                    materialItem.Ctor(UpdateIntentService.this);
+                    materialItem.create();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "rating creation failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
+
+
+            Log.i(LOG_TAG, "new materials created successfully");
+
+            for (final Rating rating : newRatings) {
+
+                try {
+                    rating.Ctor(UpdateIntentService.this);
+                    rating.create();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "rating creation failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
+
+            Log.i(LOG_TAG, "new ratings created successfully");
 
             proccess_result = true;
         } catch (Exception e) {

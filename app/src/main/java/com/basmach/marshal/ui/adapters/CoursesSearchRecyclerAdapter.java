@@ -18,6 +18,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
@@ -28,10 +29,12 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
     private Context mContext;
     private ArrayList<Course> mCourses;
+    private ArrayList<Rating> mRatings;
 
-    public CoursesSearchRecyclerAdapter(Context context, ArrayList<Course> courses) {
+    public CoursesSearchRecyclerAdapter(Context context, ArrayList<Course> courses, ArrayList<Rating> ratings) {
         this.mCourses = courses;
         this.mContext = context;
+        this.mRatings = ratings;
     }
 
     @Override
@@ -54,6 +57,10 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
+                if (mRatings != null && mRatings.size() > 0) {
+                    intent.putExtra(CourseActivity.EXTRA_RATINGS,
+                            getCourseRatings(mCourses.get(position).getCourseCode()));
+                }
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity)mContext).getWindow().getDecorView();
@@ -96,9 +103,13 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                 // Check if MOOC
-                if(mCourses.get(position).getIsMooc()){
-                    // if (holder.courseImage.getVisibility() == View.VISIBLE)
-                    holder.moocFlag.setVisibility(View.VISIBLE);
+                try {
+                    if(mCourses.get(position).getIsMooc()){
+                        // if (holder.courseImage.getVisibility() == View.VISIBLE)
+                        holder.moocFlag.setVisibility(View.VISIBLE);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
                 }
             }
 
@@ -165,6 +176,17 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         final Course item = mCourses.remove(fromPosition);
         mCourses.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
+    }
+
+    private ArrayList<Rating> getCourseRatings(String courseCode) {
+        ArrayList<Rating> courseRatings = new ArrayList<>();
+
+        for (Rating rating : mRatings) {
+            if (rating.getCourseCode().equals(courseCode))
+                courseRatings.add(rating);
+        }
+
+        return courseRatings;
     }
 
     public class CourseVH extends RecyclerView.ViewHolder{

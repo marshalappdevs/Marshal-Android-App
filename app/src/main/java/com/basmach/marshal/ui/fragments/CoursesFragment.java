@@ -1,9 +1,11 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.database.Cursor;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
@@ -25,6 +27,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
@@ -41,6 +45,7 @@ public class CoursesFragment extends Fragment {
     private static final String EXTRA_COURSES_LIST = "extra_courses_list";
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
 
+    public static ArrayList<Rating> mRatingsList = null;
     public static ArrayList<Course> mCoursesList = null;
     public static ArrayList<Course> mSoftwareCourses = null;
     public static ArrayList<Course> mCyberCourses = null;
@@ -94,35 +99,95 @@ public class CoursesFragment extends Fragment {
         if (mCoursesList == null || mViewPagerCourses == null) {
             mViewPagerCourses = new ArrayList<>();
             mCoursesList = new ArrayList<>();
-            ((MainActivity)getActivity()).getCoursesData(true, new BackgroundTaskCallBack() {
+            mRatingsList = new ArrayList<>();
+//            ((MainActivity)getActivity()).getCoursesDataAsync(true, new BackgroundTaskCallBack() {
+//                @Override
+//                public void onSuccess(String result, List<Object> data) {
+//                    if (data != null && data.size() > 0) {
+//                        for(Object item : data) {
+//                            Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
+//
+//                            if (mCoursesList != null) {
+//                                mCoursesList.add((Course) item);
+//                            }
+//
+//                            if (((Course) item).getImageUrl() != null) {
+//                                if (mViewPagerCourses.size() < 5) {
+//                                    mViewPagerCourses.add(((Course) item));
+//                                }
+//                            }
+//                        }
+//
+//                        filterData();
+//                        showImagesViewPager();
+//                        showData();
+//                    }
+//                }
+//
+//                @Override
+//                public void onError(String error) {
+//
+//                }
+//            });
+
+            new AsyncTask<Void, Void, Boolean>() {
+
+                ProgressDialog progressDialog;
+
                 @Override
-                public void onSuccess(String result, List<Object> data) {
-                    if (data != null && data.size() > 0) {
-                        for(Object item : data) {
-                            Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
+                    progressDialog.show();
+                }
 
-                            if (mCoursesList != null) {
-                                mCoursesList.add((Course) item);
-                            }
-
-                            if (((Course) item).getImageUrl() != null) {
-                                if (mViewPagerCourses.size() < 5) {
-                                    mViewPagerCourses.add(((Course) item));
-                                }
-                            }
+                @Override
+                protected Boolean doInBackground(Void... voids) {
+                    try {
+                        if (MainActivity.allRatings == null) {
+                            mRatingsList = (ArrayList) Rating.getAll(DBConstants.COL_COURSE_CODE, getActivity(), Rating.class);
+                            MainActivity.allRatings = mRatingsList;
+                        } else {
+                            mRatingsList = MainActivity.allRatings;
                         }
 
-                        filterData();
-                        showImagesViewPager();
-                        showData();
+                        if (MainActivity.allCourses == null) {
+                            mCoursesList = (ArrayList) Course.getAll(DBConstants.COL_ID, getActivity(), Course.class);
+                            MainActivity.allCourses = mCoursesList;
+                        } else {
+                            mCoursesList = MainActivity.allCourses;
+                        }
+
+                        if (mCoursesList.size() > 0) {
+                            for(Course course : mCoursesList) {
+                                mViewPagerCourses.add(course);
+
+                                if(mViewPagerCourses.size() == 5)
+                                    break;
+                            }
+                            return true;
+                        } else {
+                            return false;
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
                     }
                 }
 
                 @Override
-                public void onError(String error) {
+                protected void onPostExecute(Boolean result) {
+                    super.onPostExecute(result);
+                    if (result) {
+                        filterData();
+                        showImagesViewPager();
+                        showData();
+                    }
 
+                    progressDialog.dismiss();
                 }
-            });
+            }.execute();
 
         } else {
             showImagesViewPager();
@@ -149,46 +214,46 @@ public class CoursesFragment extends Fragment {
                     case "35683":
                         mITCourses.add(course);
                         break;
-                    case "26084":
+                    case "285":
                         mITCourses.add(course);
                         break;
-                    case "36984":
+                    case "2041":
                         mITCourses.add(course);
                         break;
                     case "36985":
                         mITCourses.add(course);
                         break;
-                    case "37322":
+                    case "8922":
                         mITCourses.add(course);
                         break;
-                    case "37308":
+                    case "4669":
                         mSoftwareCourses.add(course);
                         break;
-                    case "37395":
+                    case "2633":
                         mSoftwareCourses.add(course);
                         break;
-                    case "37388":
+                    case "9777":
                         mSoftwareCourses.add(course);
                         break;
-                    case "10162":
+                    case "6813":
                         mSoftwareCourses.add(course);
                         break;
-                    case "31781":
+                    case "579":
                         mSoftwareCourses.add(course);
                         break;
-                    case "25555":
+                    case "440":
                         mCyberCourses.add(course);
                         break;
-                    case "37182":
+                    case "2753":
                         mCyberCourses.add(course);
                         break;
-                    case "37222":
+                    case "2803":
                         mCyberCourses.add(course);
                         break;
-                    case "37421":
+                    case "373":
                         mCyberCourses.add(course);
                         break;
-                    case "37249":
+                    case "2888":
                         mCyberCourses.add(course);
                         break;
                     default:
@@ -229,13 +294,15 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mSoftwareCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
                 startActivity(intent);
             }
         });
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
         mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
-        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses, mRatingsList,
+                CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
         mRootView.findViewById(R.id.fragment_courses_software_relativeLayout).setVisibility(View.VISIBLE);
@@ -249,13 +316,15 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCyberCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
                 startActivity(intent);
             }
         });
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
         mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
-        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses, mRatingsList,
+                CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
         mRootView.findViewById(R.id.fragment_courses_cyber_relativeLayout).setVisibility(View.VISIBLE);
@@ -269,13 +338,15 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mITCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
                 startActivity(intent);
             }
         });
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
         mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses, mRatingsList,
+                CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
         mRootView.findViewById(R.id.fragment_courses_it_relativeLayout).setVisibility(View.VISIBLE);
@@ -341,7 +412,8 @@ public class CoursesFragment extends Fragment {
                 Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
                 String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        CoursesSearchableFragment.newInstance(query, mCoursesList, mRatingsList)).commit();
                 return true;
             }
 
@@ -358,7 +430,8 @@ public class CoursesFragment extends Fragment {
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame, CoursesSearchableFragment.newInstance(query,mCoursesList)).commit();
+                fragmentManager.beginTransaction().replace(R.id.content_frame,
+                        CoursesSearchableFragment.newInstance(query, mCoursesList, mRatingsList)).commit();
                 return true;
             }
 

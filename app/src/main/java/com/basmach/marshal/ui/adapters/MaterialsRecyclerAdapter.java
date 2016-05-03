@@ -97,9 +97,33 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             }
         });
 
-        holder.titleTextView.setText(mMaterials.get(position).getTitle());
-        holder.descriptionTextView.setText(mMaterials.get(position).getDescription());
-        holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
+        if (mMaterials.get(position).getTitle() != null) {
+            holder.titleTextView.setText(mMaterials.get(position).getTitle());
+        }
+        if (mMaterials.get(position).getDescription() != null) {
+            holder.descriptionTextView.setText(mMaterials.get(position).getDescription());
+        } else {
+            holder.descriptionTextView.setText(mMaterials.get(position).getUrl());
+        }
+        if (mMaterials.get(position).getCannonicalUrl() != null) {
+            holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
+        }
+        if (mMaterials.get(position).getImageUrl() != null) {
+            Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
+                    // TODO fix fc on pre-lollipop devices
+                    .error(R.drawable.ic_loading_error)
+                    .placeholder(R.drawable.link_image_placeholder)
+                    .into(holder.imageView, new Callback() {
+                        @Override
+                        public void onSuccess() {
+                            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        }
+
+                        @Override
+                        public void onError() {
+                        }
+                    });
+        }
 
         // Set HashTags
         if (mMaterials.get(position).getTags() != null) {
@@ -130,21 +154,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         }
 
         holder.progressBar.setVisibility(View.GONE);
-
-        Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
-                // TODO fix fc on pre-lollipop devices
-                .error(R.drawable.ic_loading_error)
-                .placeholder(R.drawable.link_image_placeholder)
-                .into(holder.imageView, new Callback() {
-                    @Override
-                    public void onSuccess() {
-                        holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                    }
-
-                    @Override
-                    public void onError() {
-                    }
-                });
     }
 
     @Override

@@ -16,6 +16,7 @@ import android.view.View;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -25,6 +26,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSES_LIST = "courses_list";
     public static final String EXTRA_COURSE_TYPE = "course_type";
+    public static final String EXTRA_RATINGS_LIST = "extra_ratings";
 
     RecyclerView mRecyclerView;
     GridLayoutManager mGridLayoutManager;
@@ -32,6 +34,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
     String mCoursesType;
     ArrayList<Course> mCourses;
+    ArrayList<Rating> mRatings;
 
     private SharedPreferences mSharedPreferences;
 
@@ -45,6 +48,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
         mCoursesType = getIntent().getStringExtra(EXTRA_COURSE_TYPE);
         mCourses = getIntent().getParcelableArrayListExtra(EXTRA_COURSES_LIST);
+        mRatings = getIntent().getParcelableArrayListExtra(EXTRA_RATINGS_LIST);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.showAllCourses_activity_toolbar);
 
@@ -68,7 +72,8 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
                 mRecyclerView.setLayoutManager(mGridLayoutManager);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.setHasFixedSize(true);
-                mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses, CoursesRecyclerAdapter.LAYOUT_TYPE_GRID);
+                mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses, mRatings,
+                        CoursesRecyclerAdapter.LAYOUT_TYPE_GRID);
                 mRecyclerView.setAdapter(mAdapter);
             }
         }

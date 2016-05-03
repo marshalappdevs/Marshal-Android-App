@@ -30,7 +30,7 @@ public class Course extends DBObject implements Parcelable{
     private long id;
 
     @Expose
-    @SerializedName("ID")
+    @SerializedName("CourseCode")
     @Column(name = DBConstants.COL_COURSE_ID)
     private String courseID;
 
