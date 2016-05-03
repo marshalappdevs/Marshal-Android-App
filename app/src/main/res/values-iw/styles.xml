@@ -1,0 +1,7 @@
+<resources>
+
+    <style name="TextAppearance.Button" parent="TextAppearance.AppCompat.Button">
+        <item name="android:textStyle">bold</item>
+    </style>
+
+</resources>

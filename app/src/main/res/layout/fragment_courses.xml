@@ -44,7 +44,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Button"
                 android:background="?attr/selectableItemBackground"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
@@ -80,7 +80,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Button"
                 android:background="?attr/selectableItemBackground"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
@@ -116,7 +116,7 @@
                 android:layout_height="wrap_content"
                 android:text="@string/see_all"
                 android:textColor="@color/colorAccent"
-                android:textStyle="bold"
+                android:textAppearance="@style/TextAppearance.Button"
                 android:background="?attr/selectableItemBackground"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
