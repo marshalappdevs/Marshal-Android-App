@@ -85,7 +85,7 @@
                         android:layout_height="wrap_content"
                         android:layout_alignParentEnd="true"
                         android:tint="@color/star_color"
-                        android:paddingStart="-6dp"
+                        android:paddingStart="-4dp"
                         app:srcCompat="@drawable/ic_course_rating_star"
                         android:id="@+id/course_cardview_ratingIcon"
                         android:contentDescription="@null" />
