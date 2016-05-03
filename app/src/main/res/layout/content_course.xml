@@ -466,7 +466,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 app:srcCompat="@drawable/ic_user_rating"
-                android:tint="@color/user_color"
                 android:layout_alignBottom="@+id/course_content_textView_num_reviews"
                 android:layout_alignTop="@+id/course_content_textView_num_reviews"
                 android:layout_toEndOf="@+id/course_content_textView_num_reviews"
