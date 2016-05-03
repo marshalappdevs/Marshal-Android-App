@@ -29,6 +29,7 @@
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="colorControlHighlight">#1F000000</item>
+        <!-- 12% black -->
         <!--@color/ripple_material_light-->
     </style>
 
