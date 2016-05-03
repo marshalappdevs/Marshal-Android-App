@@ -49,7 +49,8 @@
                 <RelativeLayout
                     android:layout_height="0dp"
                     android:layout_width="match_parent"
-                    android:layout_weight="0.5">
+                    android:layout_weight="0.5"
+                    android:layoutDirection="ltr" >
 
                     <TextView
                         android:id="@+id/course_cardview_startDateTime"
@@ -63,32 +64,32 @@
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
                         android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@+id/course_cardview_ratingIcon"/>
+                        android:layout_toStartOf="@+id/course_cardview_rating"/>
 
                     <TextView
                         android:id="@+id/course_cardview_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
+                        android:layout_toStartOf="@+id/course_cardview_ratingIcon"
                         android:textColor="?android:textColorPrimary"
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textSize="12sp"
                         android:text="4.2"
-                        android:gravity="start|center_vertical"
-                        android:paddingEnd="8dp"
-                        android:layout_alignParentEnd="true" />
+                        android:gravity="start|center_vertical" />
 
                     <ImageView
                         android:layout_marginTop="7dp"
                         android:layout_marginBottom="7dp"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
+                        android:layout_alignParentEnd="true"
                         android:tint="@color/star_color"
-                        android:paddingEnd="-4dp"
+                        android:paddingStart="-6dp"
                         app:srcCompat="@drawable/ic_course_rating_star"
-                        android:layout_toStartOf="@+id/course_cardview_rating"
                         android:id="@+id/course_cardview_ratingIcon"
                         android:contentDescription="@null" />
+
                 </RelativeLayout>
             </LinearLayout>
 
