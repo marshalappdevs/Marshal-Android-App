@@ -461,7 +461,6 @@
             android:layout_height="wrap_content"
             android:text="@string/review_snippets_footer"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
