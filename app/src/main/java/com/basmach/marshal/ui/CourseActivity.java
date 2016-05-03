@@ -35,6 +35,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.basmach.marshal.R;
@@ -70,6 +71,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewHoursDuration;
     private TextView mTextViewComments;
     private ImageView mHeader;
+    private RatingBar mRatingBar;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -308,6 +310,14 @@ public class CourseActivity extends AppCompatActivity {
             });
             initializeTextViews();
         }
+
+        mRatingBar = (RatingBar) findViewById(R.id.course_rating);
+        mRatingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+                }
+            });
     }
 
     private void setLightStatusBar(@NonNull View view) {

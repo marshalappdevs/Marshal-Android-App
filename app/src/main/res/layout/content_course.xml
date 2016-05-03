@@ -447,6 +447,7 @@
         </RelativeLayout>
 
         <RatingBar
+            android:id="@+id/course_rating"
             android:layout_gravity="center_horizontal"
             android:layout_margin="8dp"
             android:layout_width="wrap_content"
