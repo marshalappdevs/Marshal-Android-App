@@ -152,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-        animateToolbar();
+//        animateToolbar();
 
         initializeGoogleSignIn();
 
@@ -344,13 +344,11 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void animateToolbar() {
-        // this is gross but toolbar doesn't expose it's children to animate them :(
+
         View t = mToolbar.getChildAt(0);
         if (t != null && t instanceof TextView) {
             TextView title = (TextView) t;
 
-            // fade in and space out the title.  Animating the letterSpacing performs horribly so
-            // fake it by setting the desired letterSpacing then animating the scaleX ¯\_(ツ)_/¯
             title.setAlpha(0f);
             title.setScaleX(0.8f);
 
