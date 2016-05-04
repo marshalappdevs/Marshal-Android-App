@@ -358,6 +358,12 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
             mRatingBarAvergae.setRating(average);
         }
+        mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+            }
+        });
     }
 
     private void setLightStatusBar(@NonNull View view) {
