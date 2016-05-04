@@ -372,7 +372,7 @@ public class CourseActivity extends AppCompatActivity {
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
 //                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
-                    RatingCommentDialog();
+                    showReviewCommentDialog();
                 } else {
                     if (ratingBar.getRating() != 0) {
                         Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
@@ -383,25 +383,16 @@ public class CourseActivity extends AppCompatActivity {
         });
     }
 
-    private void RatingCommentDialog() {
-
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View promptView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+    private void showReviewCommentDialog() {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+        alertDialog.setView(dialogView);
 
-        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-            @Override
-            public void onCancel(DialogInterface dialog) {
-                mRatingBarUser.setRating(0);
-            }
-        });
+        final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
 
-        alertDialog.setView(promptView);
-
-        final EditText input = (EditText) promptView.findViewById(R.id.review_comment);
-
-        TextView textView = (TextView) promptView.findViewById(R.id.item_title);
+        TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
 
         if (mRatingBarUser.getRating() == 1) {
             textView.setText(getString(R.string.review_dialog_poor));
@@ -418,6 +409,13 @@ public class CourseActivity extends AppCompatActivity {
         if (mRatingBarUser.getRating() == 5) {
             textView.setText(getString(R.string.review_dialog_excellent));
         }
+
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mRatingBarUser.setRating(0);
+            }
+        });
 
         alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
