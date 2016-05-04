@@ -349,13 +349,13 @@ public class CourseActivity extends AppCompatActivity {
                     }
                     // TODO set mTextViewReviewDate
                     mRatingBarUser.setRating((float) rating.getRating());
-                    mRatingBarUser.setEnabled(false);
+                    mRatingBarUser.setIsIndicator(true);
                 } else {
                     mTextViewReviewDate.setVisibility(View.GONE);
                     mTextViewReviewText.setVisibility(View.GONE);
                     mTextViewYourReview.setVisibility(View.GONE);
                     mRatingBarUser.setRating(0);
-                    mRatingBarUser.setEnabled(true);
+                    mRatingBarUser.setIsIndicator(false);
                 }
 
                 ratingsSum += rating.getRating();
@@ -366,10 +366,18 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
             mRatingBarAvergae.setRating(average);
         }
+
         mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+                if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
+                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+                } else {
+                    if (ratingBar.getRating() != 0) {
+                        Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
+                    }
+                    ratingBar.setRating(0);
+                }
             }
         });
     }
