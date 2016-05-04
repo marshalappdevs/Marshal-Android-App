@@ -385,7 +385,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private void showReviewCommentDialog() {
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
         alertDialog.setView(dialogView);

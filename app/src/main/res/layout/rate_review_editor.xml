@@ -6,7 +6,7 @@
 
     <TextView
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/colorPrimary"
+        android:textColor="@color/nav_color"
         android:gravity="center_horizontal"
         android:id="@+id/item_title"
         android:paddingLeft="16.0dip"
@@ -19,6 +19,7 @@
         android:maxLines="2" />
 
     <EditText
+        android:theme="@style/Review.EditText"
         android:gravity="top"
         android:id="@+id/review_comment"
         android:layout_width="match_parent"
