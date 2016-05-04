@@ -62,6 +62,13 @@
     <string name="review_snippets_footer">קרא את כל הביקורות</string>
     <string name="your_review_text">אתה</string>
     <string name="please_log_in">אנא התחבר על מנת לדרג קורס זה</string>
+    <string name="review_dialog_poor">שנאתי</string>
+    <string name="review_dialog_below_average">לא אהבתי</string>
+    <string name="review_dialog_average">זה בסדר</string>
+    <string name="review_dialog_above_average">אהבתי</string>
+    <string name="review_dialog_excellent">אהבתי מאוד</string>
+    <string name="review_dialog_body_hint">תיאור</string>
+    <string name="structured_review_question_submit">שלח</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>

@@ -68,6 +68,13 @@
     <string name="review_snippets_footer">Read all reviews</string>
     <string name="your_review_text">you</string>
     <string name="please_log_in">Please login in order to rate this course</string>
+    <string name="review_dialog_poor">Hated it</string>
+    <string name="review_dialog_below_average">Disliked it</string>
+    <string name="review_dialog_average">"It's OK"</string>
+    <string name="review_dialog_above_average">Liked it</string>
+    <string name="review_dialog_excellent">Loved it</string>
+    <string name="review_dialog_body_hint">Description</string>
+    <string name="structured_review_question_submit">Submit</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>

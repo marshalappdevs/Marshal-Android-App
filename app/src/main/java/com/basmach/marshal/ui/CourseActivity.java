@@ -1,7 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.animation.Animator;
-import android.animation.ValueAnimator;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
@@ -14,13 +14,13 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Parcelable;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
@@ -30,11 +30,12 @@ import android.transition.TransitionInflater;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ImageButton;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -45,7 +46,6 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmach.marshal.ui.utils.ColorUtils;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -371,7 +371,8 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
-                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+//                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+                    RatingCommentDialog();
                 } else {
                     if (ratingBar.getRating() != 0) {
                         Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
@@ -381,6 +382,55 @@ public class CourseActivity extends AppCompatActivity {
             }
         });
     }
+
+    private void RatingCommentDialog() {
+
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View promptView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
+
+        alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
+            @Override
+            public void onCancel(DialogInterface dialog) {
+                mRatingBarUser.setRating(0);
+            }
+        });
+
+        alertDialog.setView(promptView);
+
+        final EditText input = (EditText) promptView.findViewById(R.id.review_comment);
+
+        TextView textView = (TextView) promptView.findViewById(R.id.item_title);
+
+        if (mRatingBarUser.getRating() == 1) {
+            textView.setText(getString(R.string.review_dialog_poor));
+        }
+        if (mRatingBarUser.getRating() == 2) {
+            textView.setText(getString(R.string.review_dialog_below_average));
+        }
+        if (mRatingBarUser.getRating() == 3) {
+            textView.setText(getString(R.string.review_dialog_average));
+        }
+        if (mRatingBarUser.getRating() == 4) {
+            textView.setText(getString(R.string.review_dialog_above_average));
+        }
+        if (mRatingBarUser.getRating() == 5) {
+            textView.setText(getString(R.string.review_dialog_excellent));
+        }
+
+        alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                String ratingComment = input.getText().toString();
+                // Do something with value!
+                Toast.makeText(CourseActivity.this, ratingComment, Toast.LENGTH_SHORT).show();
+            }
+
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+}
 
     private void setLightStatusBar(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
