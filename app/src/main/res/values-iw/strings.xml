@@ -60,6 +60,7 @@
     <string name="cycle_alert_title">שים לב</string>
     <string name="cycle_alert_message">פעולה זו <u><b>לא</b></u> תרשום אותך לקורס, אלא רק תשמור את התאריך ביומן האישי שלך. הרישום לקורס מתבצע דרך קצין הקורסים ביחידתך.</string>
     <string name="review_snippets_footer">קרא את כל הביקורות</string>
+    <string name="your_review_text">אתה</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>

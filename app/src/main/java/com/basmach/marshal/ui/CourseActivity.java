@@ -78,7 +78,9 @@ public class CourseActivity extends AppCompatActivity {
     private ImageView mHeader;
     private TextView mTextViewRatingAverage;
     private TextView mTextViewRatingsAmount;
-    private TextView mTextViewRatingUserComment;
+    private TextView mTextViewReviewDate;
+    private TextView mTextViewReviewText;
+    private TextView mTextViewYourReview;
     private RatingBar mRatingBarAvergae;
     private RatingBar mRatingBarUser;
 
@@ -324,7 +326,9 @@ public class CourseActivity extends AppCompatActivity {
 
         mRatingBarAvergae = (RatingBar) findViewById(R.id.summary_rating_bar);
         mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
-        mTextViewRatingUserComment = (TextView) findViewById(R.id.course_content_textView_rating_userComment);
+        mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
+        mTextViewReviewText = (TextView) findViewById(R.id.review_text);
+        mTextViewYourReview = (TextView) findViewById(R.id.your_review_label);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
@@ -338,14 +342,18 @@ public class CourseActivity extends AppCompatActivity {
                         rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
 
                     if (rating.getComment() != null) {
-                        mTextViewRatingUserComment.setVisibility(View.VISIBLE);
-                        mTextViewRatingUserComment.setText(rating.getComment());
+                        mTextViewReviewDate.setVisibility(View.VISIBLE);
+                        mTextViewReviewText.setVisibility(View.VISIBLE);
+                        mTextViewYourReview.setVisibility(View.VISIBLE);
+                        mTextViewReviewText.setText(rating.getComment());
                     }
-
+                    // TODO set mTextViewReviewDate
                     mRatingBarUser.setRating((float) rating.getRating());
                     mRatingBarUser.setEnabled(false);
                 } else {
-                    mTextViewRatingUserComment.setVisibility(View.GONE);
+                    mTextViewReviewDate.setVisibility(View.GONE);
+                    mTextViewReviewText.setVisibility(View.GONE);
+                    mTextViewYourReview.setVisibility(View.GONE);
                     mRatingBarUser.setRating(0);
                     mRatingBarUser.setEnabled(true);
                 }
