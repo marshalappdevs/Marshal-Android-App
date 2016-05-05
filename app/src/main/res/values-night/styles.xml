@@ -10,4 +10,6 @@
 
     <style name="AppTheme.CardView" parent="CardView.Dark" />
 
+    <style name="Review.EditText" parent="Theme.AppCompat" />
+
 </resources>

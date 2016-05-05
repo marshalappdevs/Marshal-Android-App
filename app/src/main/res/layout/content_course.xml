@@ -415,6 +415,85 @@
             android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
 
         <!--Rating-->
+
+        <TextView
+            android:text="@string/rate_this_course"
+            android:textSize="12.0sp"
+            android:textColor="?android:textColorSecondary"
+            android:ellipsize="end"
+            android:id="@+id/review_hint"
+            android:focusable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:paddingTop="8dp"
+            android:singleLine="true" />
+
+        <RatingBar
+            android:id="@+id/course_content_ratingBar_user"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="8dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:numStars="5"
+            android:stepSize="1"
+            android:layoutDirection="ltr" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:id="@+id/question_card"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:minHeight="0.0dip"
+            android:background="?android:colorBackground">
+
+            <TextView
+                android:text="@string/your_review_text"
+                android:textSize="10.0sp"
+                android:textStyle="bold"
+                android:textColor="@android:color/white"
+                android:textAllCaps="true"
+                android:layout_gravity="center"
+                android:id="@+id/your_review_label"
+                android:visibility="gone"
+                android:background="@drawable/your_review_background"
+                android:paddingLeft="4.0dip"
+                android:paddingRight="4.0dip"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:singleLine="true" />
+
+            <TextView
+                android:textSize="12.0sp"
+                android:textColor="?android:textColorSecondary"
+                android:id="@+id/review_date"
+                android:visibility="gone"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:singleLine="true"
+                android:lineSpacingExtra="0.0sp" />
+
+            <TextView
+                android:textSize="14.0sp"
+                android:gravity="center_horizontal"
+                android:layout_gravity="center"
+                android:id="@+id/review_text"
+                android:paddingTop="16.0dip"
+                android:focusable="true"
+                android:visibility="gone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                style="@style/ReviewQuestionCardText" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
+
         <RelativeLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -446,30 +525,12 @@
 
         </RelativeLayout>
 
-        <RatingBar
-            android:id="@+id/course_content_ratingBar_user"
-            android:layout_gravity="center_horizontal"
-            android:layout_margin="8dp"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:numStars="5"
-            android:stepSize="1"
-            android:layoutDirection="ltr" />
-
-        <TextView
-            android:visibility="gone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:id="@+id/course_content_textView_rating_userComment"
-            android:gravity="center"/>
-
         <Button
             android:layout_gravity="center_horizontal"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/review_snippets_footer"
             android:textColor="@color/colorAccent"
-            android:textStyle="bold"
             android:background="?attr/selectableItemBackground" />
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
