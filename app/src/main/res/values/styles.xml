@@ -79,22 +79,4 @@
         <item name="android:lines">2</item>
     </style>
 
-    <style name="DetailsSecondaryActionButtonIcon">
-        <item name="android:gravity">center</item>
-        <item name="android:layout_width">wrap_content</item>
-        <item name="android:layout_height">32.0dip</item>
-        <item name="android:layout_margin">2.0dip</item>
-    </style>
-
-    <style name="DetailsSecondaryActionButton">
-        <item name="android:gravity">center</item>
-        <item name="android:orientation">vertical</item>
-        <item name="android:background">?attr/selectableItemBackground</item>
-        <item name="android:padding">12.0dip</item>
-        <item name="android:focusable">true</item>
-        <item name="android:layout_width">0.0dip</item>
-        <item name="android:layout_height">wrap_content</item>
-        <item name="android:layout_weight">1.0</item>
-    </style>
-
 </resources>

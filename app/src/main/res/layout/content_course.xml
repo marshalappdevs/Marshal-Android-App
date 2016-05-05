@@ -549,10 +549,21 @@
             <LinearLayout
                 android:id="@+id/share_button"
                 android:clickable="true"
-                style="@style/DetailsSecondaryActionButton">
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:padding="12.0dip" >
 
                 <FrameLayout
-                    style="@style/DetailsSecondaryActionButtonIcon">
+                    android:layout_width="wrap_content"
+                    android:layout_height="32.0dip"
+                    android:layout_margin="2.0dip"
+                    android:gravity="center" >
+
                     <TextView
                         android:textSize="12.0sp"
                         android:textColor="?android:textColorPrimary"
@@ -575,10 +586,21 @@
             <LinearLayout
                 android:id="@+id/materials_button"
                 android:clickable="true"
-                style="@style/DetailsSecondaryActionButton">
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:background="?attr/selectableItemBackground"
+                android:layout_width="0.0dip"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:padding="12.0dip" >
 
                 <FrameLayout
-                    style="@style/DetailsSecondaryActionButtonIcon">
+                    android:layout_width="wrap_content"
+                    android:layout_height="32.0dip"
+                    android:layout_margin="2.0dip"
+                    android:gravity="center" >
+
                     <TextView
                         android:textSize="12.0sp"
                         android:textColor="?android:textColorPrimary"
