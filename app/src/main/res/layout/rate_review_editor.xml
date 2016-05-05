@@ -2,7 +2,8 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical" >
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical">
 
     <TextView
         android:textAppearance="?android:textAppearanceSmall"
@@ -18,18 +19,25 @@
         android:layout_height="wrap_content"
         android:maxLines="2" />
 
-    <EditText
-        android:theme="@style/Review.EditText"
-        android:gravity="top"
-        android:id="@+id/review_comment"
+    <android.support.design.widget.TextInputLayout
+        android:id="@+id/inputLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginEnd="16dp"
-        android:hint="@string/review_dialog_body_hint"
-        android:minLines="3"
-        android:maxLength="512"
-        android:freezesText="true"
-        android:inputType="textAutoCorrect|textCapSentences|textMultiLine" />
+        app:hintEnabled="false"
+        app:errorEnabled="true">
+
+        <EditText
+            android:gravity="top"
+            android:id="@+id/review_comment"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="@string/review_dialog_body_hint"
+            android:minLines="3"
+            android:maxLength="512"
+            android:freezesText="true"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine" />
+    </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

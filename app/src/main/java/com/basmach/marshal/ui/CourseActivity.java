@@ -18,6 +18,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
@@ -409,6 +410,9 @@ public class CourseActivity extends AppCompatActivity {
         alertDialog.setView(dialogView);
 
         final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
+
+        TextInputLayout inputLayout = (TextInputLayout) dialogView.findViewById(R.id.inputLayout);
+        inputLayout.setError(getString(R.string.review_dialog_error)); // show error
 
         TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
 

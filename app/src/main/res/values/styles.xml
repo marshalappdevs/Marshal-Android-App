@@ -61,8 +61,6 @@
         <item name="colorControlActivated">@color/star_color</item>
     </style>
 
-    <style name="Review.EditText" parent="Theme.AppCompat.Light" />
-
     <style name="TextAppearance.Button" parent="TextAppearance.AppCompat.Button">
         <item name="android:textStyle">normal</item>
     </style>
