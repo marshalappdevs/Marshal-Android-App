@@ -444,6 +444,7 @@ public class CourseActivity extends AppCompatActivity {
         inputLayout.setError(getString(R.string.review_dialog_error)); // show error
 
         TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
+        textView.setTextColor(contentColor);
 
         if (mRatingBarUser.getRating() == 1) {
             textView.setText(getString(R.string.review_dialog_poor));
