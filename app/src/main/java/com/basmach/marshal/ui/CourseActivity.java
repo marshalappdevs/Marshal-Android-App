@@ -78,6 +78,7 @@ public class CourseActivity extends AppCompatActivity {
     private ImageView mHeader;
     private TextView mTextViewRatingAverage;
     private TextView mTextViewRatingsAmount;
+    private TextView mTextViewReviewHint;
     private TextView mTextViewReviewDate;
     private TextView mTextViewReviewText;
     private TextView mTextViewYourReview;
@@ -326,6 +327,7 @@ public class CourseActivity extends AppCompatActivity {
 
         mRatingBarAvergae = (RatingBar) findViewById(R.id.summary_rating_bar);
         mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
+        mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
         mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
         mTextViewReviewText = (TextView) findViewById(R.id.review_text);
         mTextViewYourReview = (TextView) findViewById(R.id.your_review_label);
@@ -342,6 +344,7 @@ public class CourseActivity extends AppCompatActivity {
                         rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
 
                     if (rating.getComment() != null) {
+                        mTextViewReviewHint.setVisibility(View.GONE);
                         mTextViewReviewDate.setVisibility(View.VISIBLE);
                         mTextViewReviewText.setVisibility(View.VISIBLE);
                         mTextViewYourReview.setVisibility(View.VISIBLE);
@@ -351,6 +354,7 @@ public class CourseActivity extends AppCompatActivity {
                     mRatingBarUser.setRating((float) rating.getRating());
                     mRatingBarUser.setIsIndicator(true);
                 } else {
+                    mTextViewReviewHint.setVisibility(View.VISIBLE);
                     mTextViewReviewDate.setVisibility(View.GONE);
                     mTextViewReviewText.setVisibility(View.GONE);
                     mTextViewYourReview.setVisibility(View.GONE);

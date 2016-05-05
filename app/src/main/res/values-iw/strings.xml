@@ -69,6 +69,7 @@
     <string name="review_dialog_excellent">אהבתי מאוד</string>
     <string name="review_dialog_body_hint">תיאור</string>
     <string name="structured_review_question_submit">שלח</string>
+    <string name="rate_this_course">דרג את הקורס הזה</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>

@@ -75,6 +75,7 @@
     <string name="review_dialog_excellent">Loved it</string>
     <string name="review_dialog_body_hint">Description</string>
     <string name="structured_review_question_submit">Submit</string>
+    <string name="rate_this_course">Rate this course</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
