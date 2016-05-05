@@ -474,17 +474,22 @@
                 android:singleLine="true"
                 android:lineSpacingExtra="0.0sp" />
 
+            <View
+                android:id="@+id/review_body_spacer"
+                android:layout_width="match_parent"
+                android:layout_height="12.0dip" />
+
             <TextView
-                android:textSize="14.0sp"
-                android:gravity="center_horizontal"
-                android:layout_gravity="center"
                 android:id="@+id/review_text"
-                android:paddingTop="16.0dip"
+                android:textSize="14.0sp"
+                android:textColor="?android:textColorPrimary"
+                android:gravity="start"
+                android:lineSpacingExtra="6.0sp"
+                android:paddingEnd="16.0dip"
                 android:focusable="true"
                 android:visibility="gone"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                style="@style/ReviewQuestionCardText" />
+                android:layout_height="wrap_content" />
 
         </LinearLayout>
 
