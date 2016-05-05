@@ -90,7 +90,7 @@ public class DBConstants {
             COL_IS_MOOC + " INTEGER, " +
             COL_RATING_AVERAGE + " REAL, " +
             COL_RATINGS_AMOUNT + " INTEGER, " +
-            COL_USER_RATING_ID + " TEXT, " +
+            COL_USER_RATING_ID + " INTEGER, " +
             COL_IMAGE_URL + " TEXT);";
 
     // Database Drop command

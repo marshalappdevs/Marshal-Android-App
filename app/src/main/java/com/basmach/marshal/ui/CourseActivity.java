@@ -340,12 +340,14 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewRatingsAmount.setText(String.valueOf(mCourse.getRatingsAmount()));
             mRatingBarAvergae.setRating((float) mCourse.getRatingAverage());
 
-            if (mCourse.getUserRating() != null) {
-                if (mCourse.getUserRating().getComment() != null) {
-                    mTextViewYourReview.setText(mCourse.getUserRating().getComment());
-                }
+            if (mCourse.getUserRating() != null && MainActivity.userEmailAddress != null) {
+                if (mCourse.getUserRating().getUserMailAddress().equals(MainActivity.userEmailAddress)) {
+                    if (mCourse.getUserRating().getComment() != null) {
+                        mTextViewYourReview.setText(mCourse.getUserRating().getComment());
+                    }
 
-                mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
+                    mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
+                }
             }
         }
 
