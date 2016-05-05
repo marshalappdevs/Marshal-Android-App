@@ -53,7 +53,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.DateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Locale;
 
 public class CourseActivity extends AppCompatActivity {
@@ -471,9 +473,17 @@ public class CourseActivity extends AppCompatActivity {
 
         alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int whichButton) {
-                String ratingComment = input.getText().toString();
-                // Do something with value!
-                Toast.makeText(CourseActivity.this, ratingComment, Toast.LENGTH_SHORT).show();
+
+                // Simulate showing user review
+                mTextViewReviewHint.setVisibility(View.GONE);
+                mTextViewReviewDate.setVisibility(View.VISIBLE);
+                mTextViewReviewText.setVisibility(View.VISIBLE);
+                mTextViewYourReview.setVisibility(View.VISIBLE);
+
+                mRatingBarUser.setRating(mRatingBarUser.getRating());
+                mTextViewReviewDate.setText(DateFormat.getDateInstance().format(new Date()));
+                mTextViewReviewText.setText(input.getText().toString());
+                mRatingBarUser.setIsIndicator(true);
             }
 
         });
