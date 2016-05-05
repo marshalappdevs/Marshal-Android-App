@@ -334,42 +334,56 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
-        if (mRatings != null && mRatings.size() > 0) {
-            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
+        if (mCourse != null) {
+            mTextViewRatingAverage.setText(String.valueOf(mCourse.getRatingAverage()).substring(0,3));
+            mTextViewRatingsAmount.setText(String.valueOf(mCourse.getRatingsAmount()));
+            mRatingBarAvergae.setRating((float) mCourse.getRatingAverage());
 
-            float ratingsSum = 0;
-
-            for (Rating rating : mRatings) {
-                if (MainActivity.userEmailAddress != null &&
-                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
-
-                    if (rating.getComment() != null) {
-                        mTextViewReviewHint.setVisibility(View.GONE);
-                        mTextViewReviewDate.setVisibility(View.VISIBLE);
-                        mTextViewReviewText.setVisibility(View.VISIBLE);
-                        mTextViewYourReview.setVisibility(View.VISIBLE);
-                        mTextViewReviewText.setText(rating.getComment());
-                    }
-                    // TODO set mTextViewReviewDate
-                    mRatingBarUser.setRating((float) rating.getRating());
-                    mRatingBarUser.setIsIndicator(true);
-                } else {
-                    mTextViewReviewHint.setVisibility(View.VISIBLE);
-                    mTextViewReviewDate.setVisibility(View.GONE);
-                    mTextViewReviewText.setVisibility(View.GONE);
-                    mTextViewYourReview.setVisibility(View.GONE);
-                    mRatingBarUser.setRating(0);
-                    mRatingBarUser.setIsIndicator(false);
+            if (mCourse.getUserRating() != null) {
+                if (mCourse.getUserRating().getComment() != null) {
+                    mTextViewYourReview.setText(mCourse.getUserRating().getComment());
                 }
 
-                ratingsSum += rating.getRating();
+                mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
             }
-
-            float average = (ratingsSum / mRatings.size());
-
-            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
-            mRatingBarAvergae.setRating(average);
         }
+
+//        if (mRatings != null && mRatings.size() > 0) {
+//            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
+//
+//            float ratingsSum = 0;
+//
+//            for (Rating rating : mRatings) {
+//                if (MainActivity.userEmailAddress != null &&
+//                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
+//
+//                    if (rating.getComment() != null) {
+//                        mTextViewReviewHint.setVisibility(View.GONE);
+//                        mTextViewReviewDate.setVisibility(View.VISIBLE);
+//                        mTextViewReviewText.setVisibility(View.VISIBLE);
+//                        mTextViewYourReview.setVisibility(View.VISIBLE);
+//                        mTextViewReviewText.setText(rating.getComment());
+//                    }
+//                    // TODO set mTextViewReviewDate
+//                    mRatingBarUser.setRating((float) rating.getRating());
+//                    mRatingBarUser.setIsIndicator(true);
+//                } else {
+//                    mTextViewReviewHint.setVisibility(View.VISIBLE);
+//                    mTextViewReviewDate.setVisibility(View.GONE);
+//                    mTextViewReviewText.setVisibility(View.GONE);
+//                    mTextViewYourReview.setVisibility(View.GONE);
+//                    mRatingBarUser.setRating(0);
+//                    mRatingBarUser.setIsIndicator(false);
+//                }
+//
+//                ratingsSum += rating.getRating();
+//            }
+//
+//            float average = (ratingsSum / mRatings.size());
+//
+//            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
+//            mRatingBarAvergae.setRating(average);
+//        }
 
         mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
