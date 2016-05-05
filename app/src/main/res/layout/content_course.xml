@@ -564,15 +564,14 @@
                     android:layout_margin="2.0dip"
                     android:gravity="center" >
 
-                    <TextView
-                        android:textSize="12.0sp"
-                        android:textColor="?android:textColorPrimary"
-                        android:layout_gravity="center"
-                        android:id="@+id/share_button_icon"
-                        android:background="@drawable/ic_share"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold" />
+                        android:layout_gravity="center"
+                        android:id="@+id/share_button_icon"
+                        app:srcCompat="@drawable/ic_share"
+                        android:contentDescription="@null" />
+
                 </FrameLayout>
 
                 <TextView
@@ -601,15 +600,14 @@
                     android:layout_margin="2.0dip"
                     android:gravity="center" >
 
-                    <TextView
-                        android:textSize="12.0sp"
-                        android:textColor="?android:textColorPrimary"
-                        android:layout_gravity="center"
-                        android:id="@+id/materials_button_icon"
-                        android:background="@drawable/ic_materials"
+                    <ImageView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:textStyle="bold" />
+                        android:layout_gravity="center"
+                        android:id="@+id/materials_button_icon"
+                        app:srcCompat="@drawable/ic_materials"
+                        android:contentDescription="@null" />
+
                 </FrameLayout>
 
                 <TextView
