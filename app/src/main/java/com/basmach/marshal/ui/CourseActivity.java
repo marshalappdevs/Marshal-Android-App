@@ -38,6 +38,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -85,6 +86,8 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewYourReview;
     private RatingBar mRatingBarAvergae;
     private RatingBar mRatingBarUser;
+    private LinearLayout mMaterialsButton;
+    private LinearLayout mShareButton;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -211,6 +214,8 @@ public class CourseActivity extends AppCompatActivity {
                     }
                 }
             });
+
+            onSecondaryActionsClick();
 
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
@@ -428,7 +433,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private void showReviewCommentDialog() {
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this);
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
         View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
         alertDialog.setView(dialogView);
@@ -612,30 +617,31 @@ public class CourseActivity extends AppCompatActivity {
         updateLocale();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.activity_course_menu, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        if (item.getItemId() == R.id.course_menu_item_related_materials) {
-            Toast.makeText(CourseActivity.this, "Related Materials", Toast.LENGTH_LONG).show();
-        } else if (item.getItemId() == R.id.course_menu_item_share) {
-            String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
-            String courseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
-            Uri courseImage = getLocalBitmapUri(mHeader);
-            Intent shareIntent = new Intent(Intent.ACTION_SEND);
-            shareIntent.setType("text/plain");
-            shareIntent.putExtra(Intent.EXTRA_TEXT, courseName);
-            if (courseImage != null) {
-                shareIntent.setType("image/*");
-                shareIntent.putExtra(Intent.EXTRA_STREAM, courseImage);
+    public void onSecondaryActionsClick() {
+        mMaterialsButton = (LinearLayout) findViewById(R.id.materials_button);
+        mMaterialsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(CourseActivity.this, R.string.course_related_content, Toast.LENGTH_LONG).show();
             }
-            startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
-        }
-        return super.onOptionsItemSelected(item);
+        });
+        mShareButton = (LinearLayout) findViewById(R.id.share_button);
+        mShareButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
+                String courseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
+                Uri courseImage = getLocalBitmapUri(mHeader);
+                Intent shareIntent = new Intent(Intent.ACTION_SEND);
+                shareIntent.setType("text/plain");
+                shareIntent.putExtra(Intent.EXTRA_TEXT, courseName);
+                if (courseImage != null) {
+                    shareIntent.setType("image/*");
+                    shareIntent.putExtra(Intent.EXTRA_STREAM, courseImage);
+                }
+                startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
+            }
+        });
     }
 
     public Uri getLocalBitmapUri(ImageView imageView) {

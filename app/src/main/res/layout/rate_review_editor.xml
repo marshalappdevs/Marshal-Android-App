@@ -29,6 +29,7 @@
         app:errorEnabled="true">
 
         <EditText
+            android:theme="@style/Review.EditText"
             android:gravity="top"
             android:id="@+id/review_comment"
             android:layout_width="match_parent"

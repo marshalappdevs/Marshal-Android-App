@@ -532,5 +532,72 @@
             android:text="@string/review_snippets_footer"
             android:textColor="@color/colorAccent"
             android:background="?attr/selectableItemBackground" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/divider_color"
+            android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
+
+        <!--Action Buttons-->
+
+        <LinearLayout
+            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:orientation="horizontal" >
+
+            <LinearLayout
+                android:id="@+id/share_button"
+                android:clickable="true"
+                style="@style/DetailsSecondaryActionButton">
+
+                <FrameLayout
+                    style="@style/DetailsSecondaryActionButtonIcon">
+                    <TextView
+                        android:textSize="12.0sp"
+                        android:textColor="?android:textColorPrimary"
+                        android:layout_gravity="center"
+                        android:id="@+id/share_button_icon"
+                        android:background="@drawable/ic_share"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:text="@string/course_share"
+                    android:textSize="14.0sp"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/materials_button"
+                android:clickable="true"
+                style="@style/DetailsSecondaryActionButton">
+
+                <FrameLayout
+                    style="@style/DetailsSecondaryActionButtonIcon">
+                    <TextView
+                        android:textSize="12.0sp"
+                        android:textColor="?android:textColorPrimary"
+                        android:layout_gravity="center"
+                        android:id="@+id/materials_button_icon"
+                        android:background="@drawable/ic_materials"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textStyle="bold" />
+                </FrameLayout>
+
+                <TextView
+                    android:text="@string/course_related_content"
+                    android:textSize="14.0sp"
+                    android:textColor="?android:textColorPrimary"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content" />
+            </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 </android.support.v4.widget.NestedScrollView>
