@@ -340,14 +340,36 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewRatingsAmount.setText(String.valueOf(mCourse.getRatingsAmount()));
             mRatingBarAvergae.setRating((float) mCourse.getRatingAverage());
 
-            if (mCourse.getUserRating() != null && MainActivity.userEmailAddress != null) {
+            if (mCourse.getUserRating() != null &&
+                    (MainActivity.userEmailAddress != null &&
+                            mCourse.getUserRating().getUserMailAddress() != null)) {
                 if (mCourse.getUserRating().getUserMailAddress().equals(MainActivity.userEmailAddress)) {
                     if (mCourse.getUserRating().getComment() != null) {
-                        mTextViewYourReview.setText(mCourse.getUserRating().getComment());
+                        mTextViewReviewHint.setVisibility(View.GONE);
+                        mTextViewReviewDate.setVisibility(View.VISIBLE);
+                        mTextViewReviewText.setVisibility(View.VISIBLE);
+                        mTextViewYourReview.setVisibility(View.VISIBLE);
+                        mTextViewReviewText.setText(mCourse.getUserRating().getComment());
                     }
 
+                    // TODO set mTextViewReviewDate
                     mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
+                    mRatingBarUser.setIsIndicator(true);
+                } else {
+                    mTextViewReviewHint.setVisibility(View.VISIBLE);
+                    mTextViewReviewDate.setVisibility(View.GONE);
+                    mTextViewReviewText.setVisibility(View.GONE);
+                    mTextViewYourReview.setVisibility(View.GONE);
+                    mRatingBarUser.setRating(0);
+                    mRatingBarUser.setIsIndicator(false);
                 }
+            } else {
+                mTextViewReviewHint.setVisibility(View.VISIBLE);
+                mTextViewReviewDate.setVisibility(View.GONE);
+                mTextViewReviewText.setVisibility(View.GONE);
+                mTextViewYourReview.setVisibility(View.GONE);
+                mRatingBarUser.setRating(0);
+                mRatingBarUser.setIsIndicator(false);
             }
         }
 
