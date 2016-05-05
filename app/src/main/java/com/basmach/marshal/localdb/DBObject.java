@@ -338,7 +338,7 @@ public abstract class DBObject {
 
                                 entityClass.cast(entityInstance)
                                         .getById(cursor.getLong(cursor
-                                                        .getColumnIndex(entitySetter.fkColumnName())),
+                                                        .getColumnIndex(column)),
                                                 context);
 
                                 setter.setAccessible(true);
