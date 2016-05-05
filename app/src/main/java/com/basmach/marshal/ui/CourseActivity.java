@@ -329,41 +329,69 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
         if (mRatings != null && mRatings.size() > 0) {
-            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
+            mTextViewRatingsAmount.setText(String.valueOf(mCourse.getRatingsAmount()));
 
-            float ratingsSum = 0;
+            if (mCourse.getUserRating() != null) {
 
-            for (Rating rating : mRatings) {
-                if (MainActivity.userEmailAddress != null &&
-                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
-
-                    if (rating.getComment() != null) {
-                        mTextViewRatingUserComment.setVisibility(View.VISIBLE);
-                        mTextViewRatingUserComment.setText(rating.getComment());
-                    }
-
-                    mRatingBarUser.setRating((float) rating.getRating());
-                    mRatingBarUser.setEnabled(false);
-                } else {
-                    mTextViewRatingUserComment.setVisibility(View.GONE);
-                    mRatingBarUser.setRating(0);
-                    mRatingBarUser.setEnabled(true);
+                if (mCourse.getUserRating().getComment() != null) {
+                    mTextViewRatingUserComment.setVisibility(View.VISIBLE);
+                    mTextViewRatingUserComment.setText(mCourse.getUserRating().getComment());
                 }
 
-                ratingsSum += rating.getRating();
+                mTextViewRatingAverage.setText(String.valueOf(mCourse.getRatingAverage()).substring(0,3));
+                mRatingBarAvergae.setRating((float) mCourse.getRatingAverage());
+
+                mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
+                mRatingBarUser.setEnabled(false);
+            } else {
+                mTextViewRatingUserComment.setVisibility(View.GONE);
+                mRatingBarUser.setRating(0);
+                mRatingBarUser.setEnabled(true);
             }
-
-            float average = (ratingsSum / mRatings.size());
-
-            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
-            mRatingBarAvergae.setRating(average);
         }
+
         mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
             }
         });
+//        if (mRatings != null && mRatings.size() > 0) {
+//            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
+//
+//            float ratingsSum = 0;
+//
+//            for (Rating rating : mRatings) {
+//                if (MainActivity.userEmailAddress != null &&
+//                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
+//
+//                    if (rating.getComment() != null) {
+//                        mTextViewRatingUserComment.setVisibility(View.VISIBLE);
+//                        mTextViewRatingUserComment.setText(rating.getComment());
+//                    }
+//
+//                    mRatingBarUser.setRating((float) rating.getRating());
+//                    mRatingBarUser.setEnabled(false);
+//                } else {
+//                    mTextViewRatingUserComment.setVisibility(View.GONE);
+//                    mRatingBarUser.setRating(0);
+//                    mRatingBarUser.setEnabled(true);
+//                }
+//
+//                ratingsSum += rating.getRating();
+//            }
+//
+//            float average = (ratingsSum / mRatings.size());
+//
+//            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
+//            mRatingBarAvergae.setRating(average);
+//        }
+//        mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+//            @Override
+//            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+//                Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
+//            }
+//        });
     }
 
     private void setLightStatusBar(@NonNull View view) {

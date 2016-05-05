@@ -4,14 +4,14 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
-
-import com.basmach.marshal.R;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
 import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.EntityArraySetter;
+import com.basmach.marshal.localdb.annotations.EntitySetter;
+import com.basmach.marshal.localdb.annotations.ForeignKeyEntity;
 import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
@@ -112,6 +112,16 @@ public class Course extends DBObject implements Parcelable{
     @SerializedName("IsMooc")
     @Column(name = DBConstants.COL_IS_MOOC)
     private Boolean isMooc;
+
+    // Rating Details
+    @Column(name = DBConstants.COL_RATING_AVERAGE)
+    private double ratingAverage;
+
+    @Column(name = DBConstants.COL_RATINGS_AMOUNT)
+    private long ratingsAmount;
+
+    @ForeignKeyEntity(fkColumnName = DBConstants.COL_USER_RATING_ID)
+    private Rating userRating;
 
     public Course (Context context) {
         super(context);
@@ -308,6 +318,36 @@ public class Course extends DBObject implements Parcelable{
         this.isMooc = isMooc;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_RATING_AVERAGE)
+    public double getRatingAverage() {
+        return ratingAverage;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_RATING_AVERAGE, type = TYPE_DOUBLE)
+    public void setRatingAverage(double ratingAverage) {
+        this.ratingAverage = ratingAverage;
+    }
+
+    @ColumnGetter(columnName = DBConstants.COL_RATINGS_AMOUNT)
+    public long getRatingsAmount() {
+        return ratingsAmount;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_RATINGS_AMOUNT, type = TYPE_LONG)
+    public void setRatingsAmount(long ratingsAmount) {
+        this.ratingsAmount = ratingsAmount;
+    }
+
+    @ColumnGetter(columnName = DBConstants.COL_USER_RATING_ID)
+    public Rating getUserRating() {
+        return userRating;
+    }
+
+    @EntitySetter(entityClass = Rating.class, fkColumnName = DBConstants.COL_USER_RATING_ID)
+    public void setUserRating(Rating userRating) {
+        this.userRating = userRating;
+    }
+
     /////////////////////////// methods ////////////////////////////
 
     public void addCycle(Cycle cycle) {
@@ -351,6 +391,9 @@ public class Course extends DBObject implements Parcelable{
         dest.writeTypedList(cycles);
         dest.writeString(imageUrl);
         dest.writeInt((isMooc) ? 1 : 0);
+        dest.writeDouble(ratingAverage);
+        dest.writeLong(ratingsAmount);
+        dest.writeParcelable(userRating, i);
     }
 
     /**
@@ -378,6 +421,9 @@ public class Course extends DBObject implements Parcelable{
         in.readTypedList(cycles, Cycle.CREATOR);
         this.imageUrl = in.readString();
         this.isMooc = (in.readInt() != 0);
+        this.ratingAverage = (in.readDouble());
+        this.ratingsAmount = (in.readLong());
+        this.userRating = (in.readParcelable(Rating.class.getClassLoader()));
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {

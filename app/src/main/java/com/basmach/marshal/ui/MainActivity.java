@@ -196,7 +196,6 @@ public class MainActivity extends AppCompatActivity
                     mIsRefreshAnimationRunning = false;
 
                     mCoursesData = null;
-
                     allCourses = null;
                     allRatings = null;
 

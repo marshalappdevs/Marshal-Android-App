@@ -39,6 +39,9 @@ public class DBConstants {
     public static final String COL_COMMENT = "comment";
     public static final String COL_COURSE_CODE = "course_code";
     public static final String COL_IS_GET_LINK_DATA_EXECUTED = "is_get_link_data_executed";
+    public static final String COL_RATING_AVERAGE = "rating_average";
+    public static final String COL_RATINGS_AMOUNT = "ratings_amount";
+    public static final String COL_USER_RATING_ID = "user_rating_id";
 
     // 'Create Table' commands
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
@@ -85,6 +88,9 @@ public class DBConstants {
             COL_PRICE + " REAL, " +
             COL_CYCLES + " TEXT, " +
             COL_IS_MOOC + " INTEGER, " +
+            COL_RATING_AVERAGE + " REAL, " +
+            COL_RATINGS_AMOUNT + " INTEGER, " +
+            COL_USER_RATING_ID + " TEXT, " +
             COL_IMAGE_URL + " TEXT);";
 
     // Database Drop command

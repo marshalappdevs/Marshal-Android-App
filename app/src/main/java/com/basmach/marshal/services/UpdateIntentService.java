@@ -12,6 +12,7 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.utils.LinksDataProvider;
 import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -19,6 +20,7 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -275,6 +277,31 @@ public class UpdateIntentService extends IntentService {
             }
 
             Log.i(LOG_TAG, "new ratings created successfully");
+
+            for(Course course : newCourses) {
+                double ratingsSum = 0;
+                int amount = 0;
+
+                for (Rating rating : newRatings) {
+                    if(rating.getCourseCode().equals(course.getCourseCode())) {
+                        amount++;
+                        ratingsSum += rating.getRating();
+
+                        if (MainActivity.userEmailAddress != null &&
+                                rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
+                            course.setUserRating(rating);
+                        }
+                    }
+                }
+
+                double average = ratingsSum / amount;
+
+                course.setRatingsAmount(amount);
+                course.setRatingAverage(average);
+                course.save();
+            }
+
+            Log.i(LOG_TAG, "new ratings save in courses to courses successfully");
 
             proccess_result = true;
         } catch (Exception e) {
