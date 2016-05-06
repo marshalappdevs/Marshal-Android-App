@@ -666,10 +666,12 @@ public class CourseActivity extends AppCompatActivity {
         Uri bmpUri = null;
         try {
             File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + mCourse.getCourseCode() + ".jpg") ;
-            FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
+            if (!tempFile.exists()) {
+                FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
+                bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+                fileOutputStream.flush();
+                fileOutputStream.close();
+            }
             bmpUri = Uri.fromFile(tempFile);
         } catch (IOException e) {
             e.printStackTrace();
