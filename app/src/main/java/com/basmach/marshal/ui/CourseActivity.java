@@ -32,8 +32,6 @@ import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.EditText;
@@ -667,9 +665,10 @@ public class CourseActivity extends AppCompatActivity {
         // Store image to cache directory
         Uri bmpUri = null;
         try {
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "share_header.png") ;
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + "share_header.jpg") ;
             FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-            bmp.compress(Bitmap.CompressFormat.PNG, 90, fileOutputStream);
+            bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
+            fileOutputStream.flush();
             fileOutputStream.close();
             bmpUri = Uri.fromFile(tempFile);
         } catch (IOException e) {

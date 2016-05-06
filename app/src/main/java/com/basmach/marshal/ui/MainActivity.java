@@ -878,7 +878,7 @@ public class MainActivity extends AppCompatActivity
             emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + "/" + "log.txt") ;
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + "log.txt") ;
             try {
                 FileWriter writer = new FileWriter(tempFile);
                 writer.write(debugInfo());
