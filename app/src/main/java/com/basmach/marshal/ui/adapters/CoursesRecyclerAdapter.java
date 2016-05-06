@@ -105,8 +105,15 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         // Set course starting Date
         if (mCourses.get(position).getCycles().size() > 0) {
             holder.courseStartDateTime
+<<<<<<< HEAD
                     .setText(DateHelper.dateToString((getFirstCycle(mCourses.get(position).getCycles())).getStartDate()));
+=======
+                    .setText(DateHelper.dateToString(mCourses.get(position).getCycles().get(0).getStartDate()));
+>>>>>>> f26346488155adb02557e1cd585d640d84c8f2f2
         }
+
+        // Set course rating
+        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
 
         // Set course image
         if (mCourses.get(position).getImageUrl() != null) {
@@ -169,6 +176,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         ImageView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
+        TextView courseRating;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -181,6 +189,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
+            courseRating = (TextView) itemView.findViewById(R.id.course_cardview_rating);
 
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();

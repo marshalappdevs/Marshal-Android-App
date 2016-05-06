@@ -96,6 +96,9 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             holder.courseStartDateTime.setVisibility(View.GONE);
         }
 
+        // Set course rating
+        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
+
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
             @Override public void onSuccess() {
@@ -196,6 +199,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         ImageView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
+        TextView courseRating;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -205,6 +209,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             moocFlag = (ImageView) itemView.findViewById(R.id.course_searchable_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
+            courseRating = (TextView) itemView.findViewById(R.id.course_searchable_rating);
         }
     }
 }
