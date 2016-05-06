@@ -1,4 +1,4 @@
-package com.basmach.marshal.ui.utils;
+package com.basmach.marshal.ui.transitions;
 
 import android.annotation.TargetApi;
 import android.content.Context;

@@ -27,7 +27,7 @@
         </targets>
     </changeBounds>
 
-    <transition class="com.basmach.marshal.ui.utils.CourseSharedEnter">
+    <transition class="com.basmach.marshal.ui.transitions.CourseSharedEnter">
         <targets>
             <target android:targetId="@id/header" />
         </targets>
