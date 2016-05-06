@@ -2,6 +2,8 @@
 <resources>
     <string name="app_name">מרש\"ל</string>
 
+    <string name="navigation_drawer_open">הצג את חלונית הניווט</string>
+    <string name="navigation_drawer_close">הסתר את חלונית הניווט</string>
     <string name="navigation_drawer_courses">קורסים והשתלמויות</string>
     <string name="navigation_drawer_materials">חומרי עזר ולימוד</string>
     <string name="navigation_drawer_meetups">מיטאפים</string>
@@ -61,7 +63,7 @@
     <string name="cycle_alert_message">פעולה זו <u><b>לא</b></u> תרשום אותך לקורס, אלא רק תשמור את התאריך ביומן האישי שלך. הרישום לקורס מתבצע דרך קצין הקורסים ביחידתך.</string>
     <string name="review_snippets_footer">קרא את כל הביקורות</string>
     <string name="your_review_text">אתה</string>
-    <string name="please_log_in">אנא התחבר על מנת לדרג קורס זה</string>
+    <string name="please_log_in">אנא התחבר אל חשבון ה-Google שלך. לחץ על תמונת הפרופיל בחלונית הניווט.</string>
     <string name="review_dialog_poor">שנאתי</string>
     <string name="review_dialog_below_average">לא אהבתי</string>
     <string name="review_dialog_average">זה בסדר</string>
