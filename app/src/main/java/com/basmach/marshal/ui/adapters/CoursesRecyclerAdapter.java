@@ -105,8 +105,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         // Set course starting Date
         if (mCourses.get(position).getCycles().size() > 0) {
             holder.courseStartDateTime
-                    .setText(DateHelper.dateToString(((Cycle)
-                            (mCourses.get(position).getCycles().get(0))).getStartDate()));
+                    .setText(DateHelper.dateToString(mCourses.get(position).getCycles().get(0).getStartDate()));
         }
 
         // Set course image
