@@ -21,6 +21,7 @@ import com.leocardz.link.preview.library.TextCrawler;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -221,8 +222,10 @@ public class UpdateIntentService extends IntentService {
                 if (course.getCycles() != null) {
                     for (Cycle cycle : course.getCycles()) {
                         try {
-                            cycle.Ctor(UpdateIntentService.this);
-                            cycle.create();
+                            if (cycle.getStartDate().compareTo(new Date()) > 0) {
+                                cycle.Ctor(UpdateIntentService.this);
+                                cycle.create();
+                            }
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "cycle creation failed");
                             e.printStackTrace();
