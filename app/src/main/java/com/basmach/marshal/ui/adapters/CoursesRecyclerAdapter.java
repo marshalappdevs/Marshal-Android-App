@@ -105,11 +105,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         // Set course starting Date
         if (mCourses.get(position).getCycles().size() > 0) {
             holder.courseStartDateTime
-<<<<<<< HEAD
-                    .setText(DateHelper.dateToString((getFirstCycle(mCourses.get(position).getCycles())).getStartDate()));
-=======
-                    .setText(DateHelper.dateToString(mCourses.get(position).getCycles().get(0).getStartDate()));
->>>>>>> f26346488155adb02557e1cd585d640d84c8f2f2
+                    .setText(DateHelper.dateToString(getFirstCycle(mCourses.get(position).getCycles()).getStartDate()));
         }
 
         // Set course rating
