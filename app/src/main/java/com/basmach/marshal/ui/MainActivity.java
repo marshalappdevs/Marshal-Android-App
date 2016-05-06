@@ -86,6 +86,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
@@ -878,7 +879,13 @@ public class MainActivity extends AppCompatActivity
             emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + "log.txt") ;
+            Calendar now = Calendar.getInstance();
+            String filename = String.format(Locale.getDefault(),
+                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
+                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
+                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
+                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt") ;
             try {
                 FileWriter writer = new FileWriter(tempFile);
                 writer.write(debugInfo());

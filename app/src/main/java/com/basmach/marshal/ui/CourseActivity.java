@@ -665,7 +665,7 @@ public class CourseActivity extends AppCompatActivity {
         // Store image to cache directory
         Uri bmpUri = null;
         try {
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + "share_header.jpg") ;
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + mCourse.getCourseCode() + ".jpg") ;
             FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
             bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
             fileOutputStream.flush();
