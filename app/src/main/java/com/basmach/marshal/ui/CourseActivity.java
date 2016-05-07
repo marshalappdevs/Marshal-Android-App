@@ -3,9 +3,7 @@ package com.basmach.marshal.ui;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -14,7 +12,6 @@ import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -23,12 +20,10 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
@@ -46,6 +41,8 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmach.marshal.ui.utils.ColorUtils;
+import com.basmach.marshal.ui.utils.LocaleUtils;
+import com.basmach.marshal.ui.utils.ThemeUtils;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -54,7 +51,6 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Locale;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -63,7 +59,6 @@ public class CourseActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private SharedPreferences mSharedPreferences;
 
     private Course mCourse;
     private ArrayList<Rating> mRatings;
@@ -97,10 +92,9 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        updateTheme();
+        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        updateLocale();
+        LocaleUtils.updateLocale(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_shared_enter));
@@ -623,7 +617,7 @@ public class CourseActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateLocale();
+        LocaleUtils.updateLocale(this);
     }
 
     public void onSecondaryActionsClick() {
@@ -680,34 +674,5 @@ public class CourseActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         return bmpUri;
-    }
-
-    private void updateTheme() {
-        String theme = mSharedPreferences.getString("THEME", "light");
-        if (theme.equals("light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        if (theme.equals("dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        if (theme.equals("auto")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        }
-        getDelegate().applyDayNight();
-        setTheme(R.style.AppTheme);
-    }
-
-    private void updateLocale() {
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        String lang = mSharedPreferences.getString("LANG", "iw");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            Locale locale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.setLocale(locale);
-            Locale.setDefault(locale);
-            res.updateConfiguration(conf, dm);
-        }
     }
 }

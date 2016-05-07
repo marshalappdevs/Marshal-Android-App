@@ -1,26 +1,22 @@
 package com.basmach.marshal.ui;
 
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
-import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.view.View;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
+import com.basmach.marshal.ui.utils.LocaleUtils;
+import com.basmach.marshal.ui.utils.ThemeUtils;
 
 import java.util.ArrayList;
-import java.util.Locale;
 
 public class ShowAllCoursesActivity extends AppCompatActivity {
 
@@ -36,14 +32,11 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
     ArrayList<Course> mCourses;
     ArrayList<Rating> mRatings;
 
-    private SharedPreferences mSharedPreferences;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        updateTheme();
+        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        updateLocale();
+        LocaleUtils.updateLocale(this);
         setContentView(R.layout.activity_show_all_courses);
 
         mCoursesType = getIntent().getStringExtra(EXTRA_COURSE_TYPE);
@@ -82,35 +75,6 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateLocale();
-    }
-
-    private void updateTheme() {
-        String theme = mSharedPreferences.getString("THEME", "light");
-        if (theme.equals("light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        if (theme.equals("dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        if (theme.equals("auto")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        }
-        getDelegate().applyDayNight();
-        setTheme(R.style.AppTheme);
-    }
-
-    private void updateLocale() {
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        String lang = mSharedPreferences.getString("LANG", "iw");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            Locale locale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.setLocale(locale);
-            Locale.setDefault(locale);
-            res.updateConfiguration(conf, dm);
-        }
+        LocaleUtils.updateLocale(this);
     }
 }

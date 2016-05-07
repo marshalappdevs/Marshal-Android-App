@@ -16,7 +16,6 @@ import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
@@ -25,21 +24,21 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
+import com.basmach.marshal.ui.utils.ThemeUtils;
 
 import java.util.Locale;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
-    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        updateTheme();
+        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        updateLocale();
+        LocaleUtils.updateLocale(this);
         setContentView(R.layout.activity_container);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -60,36 +59,7 @@ public class SettingsActivity extends AppCompatActivity {
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
-        updateLocale();
-    }
-
-    private void updateTheme() {
-        String theme = mSharedPreferences.getString("THEME", "light");
-        if (theme.equals("light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        if (theme.equals("dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        if (theme.equals("auto")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
-        }
-        getDelegate().applyDayNight();
-        setTheme(R.style.AppTheme);
-    }
-
-    private void updateLocale() {
-        Configuration config = getBaseContext().getResources().getConfiguration();
-        String lang = mSharedPreferences.getString("LANG", "iw");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
-            Locale locale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.setLocale(locale);
-            Locale.setDefault(locale);
-            res.updateConfiguration(conf, dm);
-        }
+        LocaleUtils.updateLocale(this);
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
