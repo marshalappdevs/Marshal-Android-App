@@ -1,9 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.content.res.Configuration;
-import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -18,7 +16,6 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
-import android.util.DisplayMetrics;
 import android.view.View;
 import android.widget.Toast;
 
@@ -28,7 +25,6 @@ import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 
-import java.util.Locale;
 import java.util.Objects;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -146,13 +142,13 @@ public class SettingsActivity extends AppCompatActivity {
                     case "iw":
                         if (!Objects.equals(prefLanguage.getValue(), "iw")) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
-                            setLocale("iw");
+                            restartApp();
                         }
                         break;
                     case "en":
                         if (!Objects.equals(prefLanguage.getValue(), "en")) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
-                            setLocale("en");
+                            restartApp();
                         }
                         break;
                 }
@@ -209,17 +205,6 @@ public class SettingsActivity extends AppCompatActivity {
                 return true;
             }
         };
-
-        public void setLocale(String lang) {
-            Locale locale = new Locale(lang);
-            Resources res = getResources();
-            DisplayMetrics dm = res.getDisplayMetrics();
-            Configuration conf = res.getConfiguration();
-            conf.setLocale(locale);
-            Locale.setDefault(locale);
-            res.updateConfiguration(conf, dm);
-            restartApp();
-        }
 
         private void restartApp() {
             getActivity().finishAffinity();
