@@ -666,6 +666,9 @@ public class CourseActivity extends AppCompatActivity {
         Uri bmpUri = null;
         try {
             File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + mCourse.getCourseCode() + ".jpg") ;
+            // check if image already exists, if it does, don't create it again.
+            // to save space it's possible to remove that check and give the image a static name
+            // then every image will overwrite last one.
             if (!tempFile.exists()) {
                 FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
                 bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
