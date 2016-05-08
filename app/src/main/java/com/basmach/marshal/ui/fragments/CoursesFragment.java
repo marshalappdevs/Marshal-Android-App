@@ -2,8 +2,10 @@ package com.basmach.marshal.ui.fragments;
 
 import android.app.ProgressDialog;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -52,6 +54,8 @@ public class CoursesFragment extends Fragment {
     public static ArrayList<Course> mITCourses = null;
 
     private ArrayList<Course> mViewPagerCourses = null;
+
+    private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     private InkPageIndicator mInkPageIndicator;
     private ViewPager mViewPager;
@@ -194,6 +198,17 @@ public class CoursesFragment extends Fragment {
             showData();
         }
 
+        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                mRecyclerAdapterCyber.notifyDataSetChanged();
+                mRecyclerAdapterIT.notifyDataSetChanged();
+                mRecyclerAdapterSoftware.notifyDataSetChanged();
+            }
+        };
+
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
+
         return mRootView;
     }
 
@@ -263,6 +278,12 @@ public class CoursesFragment extends Fragment {
         }
     }
 
+    @Override
+    public void onDestroy() {
+        super.onDestroyView();
+        Log.i("course fragment", "onDestroyView");
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
 
     @Override
     public void onStop() {

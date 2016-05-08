@@ -281,18 +281,18 @@ public class UpdateIntentService extends IntentService {
 
             Log.i(LOG_TAG, "new ratings created successfully");
 
-            for (Course course : newCourses) {
-                try {
-                    course.setRatingAverage(Rating.getAverageByColumn(UpdateIntentService.this, Rating.class,
-                            DBConstants.COL_RATING,
-                            DBConstants.COL_COURSE_CODE, course.getCourseCode()));
-                    course.save();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            Log.i(LOG_TAG, "new ratings averages save in courses successfully");
+//            for (Course course : newCourses) {
+//                try {
+//                    course.setRatingAverage(Rating.getAverageByColumn(UpdateIntentService.this, Rating.class,
+//                            DBConstants.COL_RATING,
+//                            DBConstants.COL_COURSE_CODE, course.getCourseCode()));
+//                    course.save();
+//                } catch (Exception e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//
+//            Log.i(LOG_TAG, "new ratings averages save in courses successfully");
 
             proccess_result = true;
         } catch (Exception e) {

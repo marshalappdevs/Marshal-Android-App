@@ -10,11 +10,13 @@ import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -41,10 +43,13 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmach.marshal.ui.utils.ColorUtils;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
+import com.basmach.marshal.utils.DateHelper;
+import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import java.io.File;
@@ -55,6 +60,9 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import retrofit2.Call;
+import retrofit2.Response;
+
 public class CourseActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "course_extra";
@@ -64,7 +72,6 @@ public class CourseActivity extends AppCompatActivity {
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
     private Course mCourse;
-    private ArrayList<Rating> mRatings;
 
     private TextView mTextViewCourseCode;
     private TextView mTextViewGeneralDescription;
@@ -326,8 +333,6 @@ public class CourseActivity extends AppCompatActivity {
             initializeTextViews();
         }
 
-        mRatings = getIntent().getParcelableArrayListExtra(EXTRA_RATINGS);
-
         mRatingBarAvergae = (RatingBar) findViewById(R.id.summary_rating_bar);
         mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
         mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
@@ -339,85 +344,9 @@ public class CourseActivity extends AppCompatActivity {
 
         if (mCourse != null) {
 
-            Rating.getAverageByColumnInBackground(Rating.class, CourseActivity.this, false,
-                    DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
-                    new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            if (data != null && data.size() > 0) {
-                                try {
-                                    mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0,3));
-                                    mRatingBarAvergae.setRating((Float) data.get(0));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(String error) {
-
-                        }
-                    });
-
-            Rating.countByColumnInBackground(Rating.class, CourseActivity.this,
-                    false, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(), new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            if (data != null && data.size() > 0) {
-                                try {
-                                    mTextViewRatingsAmount.setText(String.valueOf(data.get(0)));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                }
-                            }
-                        }
-
-                        @Override
-                        public void onError(String error) {
-
-                        }
-                    });
-
-            Rating.queryInBackground(Rating.class, CourseActivity.this, false,
-                    new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
-                    new String[]{mCourse.getCourseCode(), MainActivity.userEmailAddress},
-                    new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-
-                            if (data != null && data.size() > 0) {
-
-                                mTextViewReviewHint.setVisibility(View.GONE);
-                                mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                mTextViewReviewText.setVisibility(View.VISIBLE);
-                                mTextViewYourReview.setVisibility(View.VISIBLE);
-                                mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
-
-                                // TODO set mTextViewReviewDate
-                                mRatingBarUser.setOnRatingBarChangeListener(null);
-                                mRatingBarUser.setRating((float) ((Rating)(data.get(0))).getRating());
-                                mRatingBarUser.setIsIndicator(true);
-                            } else {
-                                mTextViewReviewHint.setVisibility(View.VISIBLE);
-                                mTextViewReviewDate.setVisibility(View.GONE);
-                                mTextViewReviewText.setVisibility(View.GONE);
-                                mTextViewYourReview.setVisibility(View.GONE);
-                                mRatingBarUser.setRating(0);
-                                mRatingBarUser.setIsIndicator(false);
-                            }
-                        }
-
-                        @Override
-                        public void onError(String error) {
-                            mTextViewReviewHint.setVisibility(View.VISIBLE);
-                            mTextViewReviewDate.setVisibility(View.GONE);
-                            mTextViewReviewText.setVisibility(View.GONE);
-                            mTextViewYourReview.setVisibility(View.GONE);
-                            mRatingBarUser.setRating(0);
-                            mRatingBarUser.setIsIndicator(false);
-                        }
-                    });
+            showRatingAverage();
+            showRatingsCount();
+            showUserRating();
         }
 
         mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
@@ -433,13 +362,106 @@ public class CourseActivity extends AppCompatActivity {
                 }
             }
         });
+
+
+    }
+
+    private void showUserRating() {
+        Rating.queryInBackground(Rating.class, CourseActivity.this, false,
+                new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
+                new String[]{mCourse.getCourseCode(), MainActivity.userEmailAddress},
+                new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+
+                        if (data != null && data.size() > 0) {
+
+                            mTextViewReviewHint.setVisibility(View.GONE);
+                            mTextViewReviewDate.setVisibility(View.VISIBLE);
+                            mTextViewReviewText.setVisibility(View.VISIBLE);
+                            mTextViewYourReview.setVisibility(View.VISIBLE);
+                            mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
+
+                            // TODO set mTextViewReviewDate
+                            try {
+                                mTextViewReviewDate.setText(DateHelper.dateToString(((Rating)(data.get(0))).getLastModified()));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                            mRatingBarUser.setOnRatingBarChangeListener(null);
+                            mRatingBarUser.setRating((float) ((Rating)(data.get(0))).getRating());
+                            mRatingBarUser.setIsIndicator(true);
+                        } else {
+                            mTextViewReviewHint.setVisibility(View.VISIBLE);
+                            mTextViewReviewDate.setVisibility(View.GONE);
+                            mTextViewReviewText.setVisibility(View.GONE);
+                            mTextViewYourReview.setVisibility(View.GONE);
+                            mRatingBarUser.setRating(0);
+                            mRatingBarUser.setIsIndicator(false);
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        mTextViewReviewHint.setVisibility(View.VISIBLE);
+                        mTextViewReviewDate.setVisibility(View.GONE);
+                        mTextViewReviewText.setVisibility(View.GONE);
+                        mTextViewYourReview.setVisibility(View.GONE);
+                        mRatingBarUser.setRating(0);
+                        mRatingBarUser.setIsIndicator(false);
+                    }
+                });
+    }
+
+    private void showRatingsCount() {
+        Rating.countByColumnInBackground(Rating.class, CourseActivity.this,
+                false, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(), new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null && data.size() > 0) {
+                            try {
+                                mTextViewRatingsAmount.setText(String.valueOf(data.get(0)));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
+    }
+
+    private void showRatingAverage() {
+        Rating.getAverageByColumnInBackground(Rating.class, CourseActivity.this, false,
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
+                new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null && data.size() > 0) {
+                            try {
+                                mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0,3));
+                                mRatingBarAvergae.setRating((Float) data.get(0));
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
     }
 
     private void showReviewCommentDialog() {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+        final View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
         alertDialog.setView(dialogView);
 
         final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
@@ -474,23 +496,78 @@ public class CourseActivity extends AppCompatActivity {
         });
 
         alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+            public void onClick(final DialogInterface dialog, int whichButton) {
 
-                // Simulate showing user review
-                mTextViewReviewHint.setVisibility(View.GONE);
-                mTextViewReviewDate.setVisibility(View.VISIBLE);
-                mTextViewReviewText.setVisibility(View.VISIBLE);
-                mTextViewYourReview.setVisibility(View.VISIBLE);
+                if (mRatingBarUser.getRating() > 0) {
+                    final Rating newRating = new Rating(CourseActivity.this);
+                    newRating.setComment(input.getText().toString());
+                    newRating.setRating(mRatingBarUser.getRating());
+                    newRating.setUserMailAddress(MainActivity.userEmailAddress);
+                    newRating.setCourseCode(mCourse.getCourseCode());
+                    newRating.setLastModified(new Date());
+                    MarshalServiceProvider.getInstance().postRating(newRating).enqueue(new retrofit2.Callback<Rating>() {
+                        @Override
+                        public void onResponse(Call<Rating> call, Response<Rating> response) {
+                            if (response.isSuccessful()) {
+                                new AsyncTask<Void, Void, Boolean>() {
+                                    @Override
+                                    protected Boolean doInBackground(Void... voids) {
+                                        try {
+                                            newRating.create();
+                                            return true;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            return false;
+                                        }
+                                    }
 
-                mRatingBarUser.setRating(mRatingBarUser.getRating());
-                mTextViewReviewDate.setText(DateFormat.getDateInstance().format(new Date()));
-                mTextViewReviewText.setText(input.getText().toString());
-                mRatingBarUser.setIsIndicator(true);
+                                    @Override
+                                    protected void onPostExecute(Boolean result) {
+                                        super.onPostExecute(result);
+                                        if(result) {
+                                            showRatingAverage();
+                                            showRatingsCount();
+                                            showUserRating();
+
+                                            // Send broadcast for update the rating on the CardView
+                                            Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                            sendBroadcast(intent);
+                                        }
+                                    }
+                                }.execute();
+
+                                // Simulate showing user review
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                mTextViewReviewText.setVisibility(View.VISIBLE);
+                                mTextViewYourReview.setVisibility(View.VISIBLE);
+
+                                mRatingBarUser.setRating(mRatingBarUser.getRating());
+                                try {
+                                    mTextViewReviewDate.setText(DateHelper.dateToString(newRating.getLastModified()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                mTextViewReviewText.setText(input.getText().toString());
+                                mRatingBarUser.setIsIndicator(true);
+                                dialog.dismiss();
+                                Toast.makeText(CourseActivity.this, "Thanks for your rating", Toast.LENGTH_LONG).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Rating> call, Throwable t) {
+
+                        }
+                    });
+                } else {
+                    Snackbar.make(dialogView, "Please rate before submit",Snackbar.LENGTH_LONG).show();
+                }
             }
 
         });
 
-        alertDialog.create();
+        AlertDialog dialog = alertDialog.create();
         alertDialog.show();
 }
 

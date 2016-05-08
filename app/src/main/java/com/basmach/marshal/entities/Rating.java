@@ -16,6 +16,8 @@ import com.basmach.marshal.utils.DateHelper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Date;
+
 /**
  * Created by Ido on 5/3/2016.
  */
@@ -48,6 +50,11 @@ public class Rating extends DBObject implements Parcelable{
     @Expose
     @SerializedName(value = "comment")
     String comment;
+
+    @Column(name = DBConstants.COL_LAST_MODIFIED)
+    @Expose
+    @SerializedName(value = "lastModified")
+    Date lastModified;
 
     @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
@@ -100,6 +107,16 @@ public class Rating extends DBObject implements Parcelable{
         this.comment = comment;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_LAST_MODIFIED)
+    public Date getLastModified() {
+        return lastModified;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_LAST_MODIFIED, type = TYPE_DATE)
+    public void setLastModified(Date lastModified) {
+        this.lastModified = lastModified;
+    }
+
     ////////////////////// Parcelable methods ////////////////////////
     @Override
     public int describeContents() {
@@ -116,6 +133,7 @@ public class Rating extends DBObject implements Parcelable{
         parcel.writeString(courseCode);
         parcel.writeDouble(rating);
         parcel.writeString(comment);
+        parcel.writeLong(lastModified.getTime());
     }
 
     /**
@@ -129,6 +147,7 @@ public class Rating extends DBObject implements Parcelable{
         this.courseCode = in.readString();
         this.rating = in.readDouble();
         this.comment = in.readString();
+        this.lastModified.setTime(in.readLong());
     }
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {

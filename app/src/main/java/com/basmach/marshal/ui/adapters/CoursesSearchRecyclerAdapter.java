@@ -19,6 +19,8 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
@@ -57,10 +59,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                if (mRatings != null && mRatings.size() > 0) {
-                    intent.putExtra(CourseActivity.EXTRA_RATINGS,
-                            getCourseRatings(mCourses.get(position).getCourseCode()));
-                }
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity)mContext).getWindow().getDecorView();
@@ -97,7 +95,24 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         }
 
         // Set course rating
-        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
+//        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
+        Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
+                new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        try {
+                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
 
         // Set course image
         mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {

@@ -1,10 +1,13 @@
 package com.basmach.marshal.ui.adapters;
 
 import android.app.Activity;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -19,16 +22,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -36,6 +38,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     public static final int LAYOUT_TYPE_LIST = 1;
     public static final int LAYOUT_TYPE_GRID = 2;
+    public static final String ACTION_ITEM_DATA_CHANGED = "com.basmach.marshal.ACTION_courses_adapter_item_data_changed";
 
     private Context mContext;
     private ArrayList<Course> mCourses;
@@ -58,7 +61,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     }
 
     @Override
-    public void onBindViewHolder(final CourseVH holder, final int position) {
+    public void onBindViewHolder(final CourseVH holder, int position) {
 
         Log.i("COURSES_RECYCLER", "onBindViewHolder");
 
@@ -72,11 +75,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
-                intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(position));
-                if (mRatings != null && mRatings.size() > 0) {
-                    intent.putExtra(CourseActivity.EXTRA_RATINGS,
-                            getCourseRatings(mCourses.get(position).getCourseCode()));
-                }
+                intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity)mContext).getWindow().getDecorView();
@@ -95,7 +94,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
-                Toast.makeText(mContext, mCourses.get(position).getName(), Toast.LENGTH_LONG).show();
+                Toast.makeText(mContext, mCourses.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_LONG).show();
                 return true;
             }
         });
@@ -110,8 +109,24 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course rating
-        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
+//        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
+        Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
+                new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        try {
+                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
 
+                    @Override
+                    public void onError(String error) {
+
+                    }
+                });
         // Set course image
         if (mCourses.get(position).getImageUrl() != null) {
             holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_INSIDE);
@@ -120,7 +135,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
 
                     // Check if MOOC
-                    if(mCourses.get(position).getIsMooc()){
+                    if(mCourses.get(holder.getAdapterPosition()).getIsMooc()){
                         // if (holder.courseImage.getVisibility() == View.VISIBLE)
                         holder.moocFlag.setVisibility(View.VISIBLE);
                     }
@@ -165,7 +180,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         return courseRatings;
     }
 
-    public class CourseVH extends RecyclerView.ViewHolder{
+    public class CourseVH extends RecyclerView.ViewHolder {
 
         FrameLayout frameLayout;
         CardView cardView;
