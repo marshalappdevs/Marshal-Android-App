@@ -96,7 +96,6 @@ public class CourseActivity extends AppCompatActivity {
     private int contentColor = -1;
     private int scrimColor = -1;
     private static final float SCRIM_ADJUSTMENT = 0.075f;
-    private boolean isEditMode = false;
 
     private FloatingActionButton mFabCycles;
 
@@ -353,7 +352,7 @@ public class CourseActivity extends AppCompatActivity {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
-                    showReviewCommentDialog();
+                    showReviewCommentDialog(false);
                 } else {
                     if (ratingBar.getRating() != 0) {
                         Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
@@ -365,8 +364,7 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewReviewText.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                showReviewCommentDialog();
-                isEditMode = true;
+                showReviewCommentDialog(true);
             }
         });
     }
@@ -462,7 +460,7 @@ public class CourseActivity extends AppCompatActivity {
                 });
     }
 
-    private void showReviewCommentDialog() {
+    private void showReviewCommentDialog(Boolean isEditMode) {
 
         final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
         LayoutInflater layoutInflater = LayoutInflater.from(this);
