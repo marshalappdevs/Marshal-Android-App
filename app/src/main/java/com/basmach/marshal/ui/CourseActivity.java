@@ -611,7 +611,14 @@ public class CourseActivity extends AppCompatActivity {
             alertDialog.setNegativeButton(getString(R.string.delete_review), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(CourseActivity.this, "comment deleted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CourseActivity.this, "Review Removed", Toast.LENGTH_LONG).show();
+                    // Simulate removing user review
+                    mTextViewReviewHint.setVisibility(View.VISIBLE);
+                    mTextViewReviewDate.setVisibility(View.GONE);
+                    mTextViewReviewText.setVisibility(View.GONE);
+                    mTextViewYourReview.setVisibility(View.GONE);
+                    mRatingBarUser.setRating(0);
+                    mRatingBarUser.setIsIndicator(false);
                 }
             });
         }
