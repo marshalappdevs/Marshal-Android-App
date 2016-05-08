@@ -76,6 +76,8 @@
     <string name="review_dialog_body_hint">Description</string>
     <string name="review_dialog_error">Notice: Your email address will not be published, but will be saved in our database.</string>
     <string name="structured_review_question_submit">Submit</string>
+    <string name="delete_review">Delete</string>
+    <string name="save_review">Save</string>
     <string name="rate_this_course">Rate this course</string>
 
     <!-- Strings related to Settings -->

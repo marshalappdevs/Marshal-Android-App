@@ -480,6 +480,7 @@
                 android:layout_height="12.0dip" />
 
             <TextView
+                android:clickable="true"
                 android:id="@+id/review_text"
                 android:textSize="14.0sp"
                 android:textColor="?android:textColorPrimary"

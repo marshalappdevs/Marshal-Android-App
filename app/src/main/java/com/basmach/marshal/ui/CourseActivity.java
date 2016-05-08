@@ -362,8 +362,12 @@ public class CourseActivity extends AppCompatActivity {
                 }
             }
         });
-
-
+        mTextViewReviewText.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showEditReviewCommentDialog();
+            }
+        });
     }
 
     private void showUserRating() {
@@ -570,6 +574,84 @@ public class CourseActivity extends AppCompatActivity {
         AlertDialog dialog = alertDialog.create();
         alertDialog.show();
 }
+
+    private void showEditReviewCommentDialog() {
+
+        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
+        View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+        alertDialog.setView(dialogView);
+
+        final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
+        ratingBar.setVisibility(View.VISIBLE);
+        ratingBar.setRating(mRatingBarUser.getRating());
+
+        final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
+        input.setText(mTextViewReviewText.getText().toString());
+
+        final TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
+        textView.setTextColor(contentColor);
+
+        if (mRatingBarUser.getRating() == 1) {
+            textView.setText(getString(R.string.review_dialog_poor));
+        }
+        if (mRatingBarUser.getRating() == 2) {
+            textView.setText(getString(R.string.review_dialog_below_average));
+        }
+        if (mRatingBarUser.getRating() == 3) {
+            textView.setText(getString(R.string.review_dialog_average));
+        }
+        if (mRatingBarUser.getRating() == 4) {
+            textView.setText(getString(R.string.review_dialog_above_average));
+        }
+        if (mRatingBarUser.getRating() == 5) {
+            textView.setText(getString(R.string.review_dialog_excellent));
+        }
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                if (ratingBar.getRating() == 0) {
+                    ratingBar.setRating(1);
+                }
+                if (ratingBar.getRating() == 1) {
+                    textView.setText(getString(R.string.review_dialog_poor));
+                }
+                if (ratingBar.getRating() == 2) {
+                    textView.setText(getString(R.string.review_dialog_below_average));
+                }
+                if (ratingBar.getRating() == 3) {
+                    textView.setText(getString(R.string.review_dialog_average));
+                }
+                if (ratingBar.getRating() == 4) {
+                    textView.setText(getString(R.string.review_dialog_above_average));
+                }
+                if (ratingBar.getRating() == 5) {
+                    textView.setText(getString(R.string.review_dialog_excellent));
+                }
+            }
+        });
+
+        alertDialog.setPositiveButton(getString(R.string.save_review), new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+
+                // Simulate showing user edited review
+                mTextViewReviewText.setText(input.getText().toString());
+                mRatingBarUser.setOnRatingBarChangeListener(null);
+                mRatingBarUser.setRating(ratingBar.getRating());
+            }
+        });
+
+        alertDialog.setNegativeButton(getString(R.string.delete_review), new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(CourseActivity.this, "comment deleted", Toast.LENGTH_LONG).show();
+            }
+        });
+
+        alertDialog.create();
+        alertDialog.show();
+    }
 
     private void setLightStatusBar(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {

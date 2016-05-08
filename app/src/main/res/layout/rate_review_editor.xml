@@ -5,6 +5,17 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical">
 
+    <RatingBar
+        android:id="@+id/course_content_ratingBar_user"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"
+        android:numStars="5"
+        android:stepSize="1"
+        android:layoutDirection="ltr" />
+
     <TextView
         android:textAppearance="?android:textAppearanceSmall"
         android:textColor="@color/nav_color"

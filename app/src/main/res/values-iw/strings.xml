@@ -72,6 +72,8 @@
     <string name="review_dialog_body_hint">תיאור</string>
     <string name="review_dialog_error">שים לב: כתובת הדוא\"ל שלך לא תפורסם, אך תישמר במאגר הנתונים שלנו.</string>
     <string name="structured_review_question_submit">שלח</string>
+    <string name="delete_review">מחק</string>
+    <string name="save_review">שמור</string>
     <string name="rate_this_course">דרג את הקורס הזה</string>
 
     <!-- Strings related to Settings -->
