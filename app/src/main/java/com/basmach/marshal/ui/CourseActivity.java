@@ -617,6 +617,7 @@ public class CourseActivity extends AppCompatActivity {
                     mTextViewReviewDate.setVisibility(View.GONE);
                     mTextViewReviewText.setVisibility(View.GONE);
                     mTextViewYourReview.setVisibility(View.GONE);
+                    mTextViewReviewEdited.setVisibility(View.GONE);
                     mRatingBarUser.setRating(0);
                     mRatingBarUser.setIsIndicator(false);
                 }
