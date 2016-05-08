@@ -24,6 +24,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;

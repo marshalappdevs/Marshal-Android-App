@@ -459,15 +459,42 @@ public abstract class DBObject {
         close();
     }
 
-    public static int count(Context context, Class<? extends DBObject> targetClass) {
+    public static int count(Context context, Class<? extends DBObject> targetClass) throws Exception{
         database = getDatabase(context);
 
-        Cursor cursor = database.query(getTableName(targetClass),
-                null, null, null, null, null, null);
-        int count = cursor.getCount();
+        String query = "SELECT COUNT(*) FROM " + getTableName(targetClass);
+        Cursor cursor = database.rawQuery(query,null);
+        int count = cursor.getInt(0);
         cursor.close();
         database.close();
         return count;
+    }
+
+    public static int countByColumn(Context context, Class<? extends DBObject> targetClass,
+                            String filterColumn, String filterValue) throws Exception{
+        database = getDatabase(context);
+
+        String query = "SELECT COUNT(*) FROM " + getTableName(targetClass) +
+                " WHERE " + filterColumn + "=" + filterValue;
+        Cursor cursor = database.rawQuery(query,null);
+        cursor.moveToFirst();
+        int count = cursor.getInt(0);
+        cursor.close();
+        database.close();
+        return count;
+    }
+
+    public static float getAverageByColumn(Context context, Class<? extends DBObject> targetClass,
+                                 String avgColumn, String filterColumn, String filterValue) throws Exception {
+        database = getDatabase(context);
+        String query = "SELECT AVG(" + avgColumn + ") FROM " + getTableName(targetClass) +
+                " WHERE " + filterColumn + "=" + filterValue;
+        Cursor cursor = database.rawQuery(query, null);
+        cursor.moveToFirst();
+        float average = cursor.getFloat(0);
+        cursor.close();
+        database.close();
+        return average;
     }
 
     public static List<Object> getAll(String orderByColumnName,
@@ -514,6 +541,7 @@ public abstract class DBObject {
                                               Class<? extends DBObject> targetClass) throws Exception {
         List<Object> allObjects = new ArrayList<>();
 
+        database = getDatabase(context);
         Cursor cursor = database.query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName + " ASC");
 
@@ -541,7 +569,49 @@ public abstract class DBObject {
 
     }
 
+    public static List<Object> query(Context context,
+                        Class<? extends DBObject> targetClass,
+                             String[] whereColumns,
+                             String[] whereArgs) throws Exception {
 
+        List<Object> allObjects = new ArrayList<>();
+        database = getDatabase(context);
+        String whereColumnsWithQuestionMark = null;
+
+        if (whereColumns != null) {
+            whereColumnsWithQuestionMark = "";
+            for (int position = 0; position < whereColumns.length; position++) {
+                if (position < whereColumns.length - 1) {
+                    whereColumnsWithQuestionMark += (whereColumns[position] + "=? AND ");
+                } else {
+                    whereColumnsWithQuestionMark += (whereColumns[position] + "=?");
+                }
+            }
+        }
+
+        Cursor cursor = database.query(getTableName(targetClass), null,
+                whereColumnsWithQuestionMark, whereArgs, null, null, null);
+
+        cursor.moveToFirst();
+
+        try{
+            while (!cursor.isAfterLast()) {
+                Object currObject = targetClass.getConstructor(Context.class).newInstance(context);
+                (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                allObjects.add(currObject);
+                cursor.moveToNext();
+            }
+
+            cursor.close();
+            database.close();
+            return allObjects;
+        }
+        catch (Exception e) {
+            cursor.close();
+            database.close();
+            throw e;
+        }
+    }
 
     public void createInBackground(final Context context,
                                    final boolean showProgressBar,
@@ -889,5 +959,168 @@ public abstract class DBObject {
                 }
             }
         }.execute();
+    }
+
+    public static void queryInBackground(final Class<? extends DBObject> targetClass,
+                                         final Context context,
+                                         final boolean showProgressBar,
+                                         final String[] whereColumns,
+                                         final String[] whereArgs,
+                                         final BackgroundTaskCallBack callBack) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            ProgressDialog progressDialog;
+            List<Object> data;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                if (showProgressBar) {
+                    progressDialog = getProgressDialog(context);
+                    progressDialog.show();
+                }
+            }
+
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    data = query(context, targetClass, whereColumns, whereArgs);
+                    return SUCCESS_FLAG;
+                } catch (Exception e) {
+                    database.close();
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String strResult) {
+                super.onPostExecute(strResult);
+
+                if (showProgressBar) {
+                    progressDialog.dismiss();
+                }
+
+                if (strResult.equals(SUCCESS_FLAG)) {
+                    callBack.onSuccess(strResult, data);
+                } else {
+                    callBack.onError(strResult);
+                }
+            }
+        }.execute();
+    }
+
+    public static void countByColumnInBackground(final Class<? extends DBObject> targetClass,
+                                         final Context context,
+                                         final boolean showProgressBar,
+                                         final String filterColumn,
+                                         final String filterValue,
+                                         final BackgroundTaskCallBack callBack) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            ProgressDialog progressDialog;
+            List<Object> data;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                if (showProgressBar) {
+                    progressDialog = getProgressDialog(context);
+                    progressDialog.show();
+                }
+            }
+
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    data = new ArrayList<>();
+                    data.add(countByColumn(context, targetClass, filterColumn, filterValue));
+                    return SUCCESS_FLAG;
+                } catch (Exception e) {
+                    database.close();
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String strResult) {
+                super.onPostExecute(strResult);
+
+                if (showProgressBar) {
+                    progressDialog.dismiss();
+                }
+
+                if (strResult.equals(SUCCESS_FLAG)) {
+                    callBack.onSuccess(strResult, data);
+                } else {
+                    callBack.onError(strResult);
+                }
+            }
+        }.execute();
+    }
+
+    public static void getAverageByColumnInBackground(final Class<? extends DBObject> targetClass,
+                                                 final Context context,
+                                                 final boolean showProgressBar,
+                                                 final String avgColumn,
+                                                 final String filterColumn,
+                                                 final String filterValue,
+                                                 final BackgroundTaskCallBack callBack) {
+
+        new AsyncTask<Void, Void, String>() {
+
+            ProgressDialog progressDialog;
+            List<Object> data;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                if (showProgressBar) {
+                    progressDialog = getProgressDialog(context);
+                    progressDialog.show();
+                }
+            }
+
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    data = new ArrayList<>();
+                    data.add(getAverageByColumn(context, targetClass,avgColumn, filterColumn, filterValue));
+                    return SUCCESS_FLAG;
+                } catch (Exception e) {
+                    database.close();
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String strResult) {
+                super.onPostExecute(strResult);
+
+                if (showProgressBar) {
+                    progressDialog.dismiss();
+                }
+
+                if (strResult.equals(SUCCESS_FLAG)) {
+                    callBack.onSuccess(strResult, data);
+                } else {
+                    callBack.onError(strResult);
+                }
+            }
+        }.execute();
+    }
+
+    private static ProgressDialog getProgressDialog(Context context) {
+        ProgressDialog progressDialog = new ProgressDialog(context);
+        progressDialog.setMessage(context.getResources().getString(R.string.loading));
+        progressDialog.setCanceledOnTouchOutside(false);
+        return progressDialog;
     }
 }

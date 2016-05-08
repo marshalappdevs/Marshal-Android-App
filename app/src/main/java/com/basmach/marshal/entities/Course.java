@@ -116,12 +116,12 @@ public class Course extends DBObject implements Parcelable{
     // Rating Details
     @Column(name = DBConstants.COL_RATING_AVERAGE)
     private double ratingAverage;
-
-    @Column(name = DBConstants.COL_RATINGS_AMOUNT)
-    private long ratingsAmount;
-
-    @ForeignKeyEntity(fkColumnName = DBConstants.COL_USER_RATING_ID)
-    private Rating userRating;
+//
+//    @Column(name = DBConstants.COL_RATINGS_AMOUNT)
+//    private long ratingsAmount;
+//
+//    @ForeignKeyEntity(fkColumnName = DBConstants.COL_USER_RATING_ID)
+//    private Rating userRating;
 
     public Course (Context context) {
         super(context);
@@ -327,26 +327,26 @@ public class Course extends DBObject implements Parcelable{
     public void setRatingAverage(double ratingAverage) {
         this.ratingAverage = ratingAverage;
     }
-
-    @ColumnGetter(columnName = DBConstants.COL_RATINGS_AMOUNT)
-    public long getRatingsAmount() {
-        return ratingsAmount;
-    }
-
-    @ColumnSetter(columnName = DBConstants.COL_RATINGS_AMOUNT, type = TYPE_LONG)
-    public void setRatingsAmount(long ratingsAmount) {
-        this.ratingsAmount = ratingsAmount;
-    }
-
-    @ColumnGetter(columnName = DBConstants.COL_USER_RATING_ID)
-    public Rating getUserRating() {
-        return userRating;
-    }
-
-    @EntitySetter(entityClass = Rating.class, fkColumnName = DBConstants.COL_USER_RATING_ID)
-    public void setUserRating(Rating userRating) {
-        this.userRating = userRating;
-    }
+//
+//    @ColumnGetter(columnName = DBConstants.COL_RATINGS_AMOUNT)
+//    public long getRatingsAmount() {
+//        return ratingsAmount;
+//    }
+//
+//    @ColumnSetter(columnName = DBConstants.COL_RATINGS_AMOUNT, type = TYPE_LONG)
+//    public void setRatingsAmount(long ratingsAmount) {
+//        this.ratingsAmount = ratingsAmount;
+//    }
+//
+//    @ColumnGetter(columnName = DBConstants.COL_USER_RATING_ID)
+//    public Rating getUserRating() {
+//        return userRating;
+//    }
+//
+//    @EntitySetter(entityClass = Rating.class, fkColumnName = DBConstants.COL_USER_RATING_ID)
+//    public void setUserRating(Rating userRating) {
+//        this.userRating = userRating;
+//    }
 
     /////////////////////////// methods ////////////////////////////
 
@@ -392,8 +392,8 @@ public class Course extends DBObject implements Parcelable{
         dest.writeString(imageUrl);
         dest.writeInt((isMooc) ? 1 : 0);
         dest.writeDouble(ratingAverage);
-        dest.writeLong(ratingsAmount);
-        dest.writeParcelable(userRating, i);
+//        dest.writeLong(ratingsAmount);
+//        dest.writeParcelable(userRating, i);
     }
 
     /**
@@ -422,8 +422,8 @@ public class Course extends DBObject implements Parcelable{
         this.imageUrl = in.readString();
         this.isMooc = (in.readInt() != 0);
         this.ratingAverage = (in.readDouble());
-        this.ratingsAmount = (in.readLong());
-        this.userRating = (in.readParcelable(Rating.class.getClassLoader()));
+//        this.ratingsAmount = (in.readLong());
+//        this.userRating = (in.readParcelable(Rating.class.getClassLoader()));
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {

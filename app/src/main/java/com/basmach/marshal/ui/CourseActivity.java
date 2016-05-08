@@ -39,6 +39,8 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmach.marshal.ui.utils.ColorUtils;
 import com.basmach.marshal.ui.utils.LocaleUtils;
@@ -51,6 +53,7 @@ import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -335,85 +338,92 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
         if (mCourse != null) {
-            mTextViewRatingAverage.setText(String.valueOf(mCourse.getRatingAverage()).substring(0,3));
-            mTextViewRatingsAmount.setText(String.valueOf(mCourse.getRatingsAmount()));
-            mRatingBarAvergae.setRating((float) mCourse.getRatingAverage());
 
-            if (mCourse.getUserRating() != null &&
-                    (MainActivity.userEmailAddress != null &&
-                            mCourse.getUserRating().getUserMailAddress() != null)) {
-                if (mCourse.getUserRating().getUserMailAddress().equals(MainActivity.userEmailAddress)) {
-                    if (mCourse.getUserRating().getComment() != null) {
-                        mTextViewReviewHint.setVisibility(View.GONE);
-                        mTextViewReviewDate.setVisibility(View.VISIBLE);
-                        mTextViewReviewText.setVisibility(View.VISIBLE);
-                        mTextViewYourReview.setVisibility(View.VISIBLE);
-                        mTextViewReviewText.setText(mCourse.getUserRating().getComment());
-                    }
+            Rating.getAverageByColumnInBackground(Rating.class, CourseActivity.this, false,
+                    DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
+                    new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            if (data != null && data.size() > 0) {
+                                try {
+                                    mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0,3));
+                                    mRatingBarAvergae.setRating((Float) data.get(0));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
 
-                    // TODO set mTextViewReviewDate
-                    mRatingBarUser.setRating((float) mCourse.getUserRating().getRating());
-                    mRatingBarUser.setIsIndicator(true);
-                } else {
-                    mTextViewReviewHint.setVisibility(View.VISIBLE);
-                    mTextViewReviewDate.setVisibility(View.GONE);
-                    mTextViewReviewText.setVisibility(View.GONE);
-                    mTextViewYourReview.setVisibility(View.GONE);
-                    mRatingBarUser.setRating(0);
-                    mRatingBarUser.setIsIndicator(false);
-                }
-            } else {
-                mTextViewReviewHint.setVisibility(View.VISIBLE);
-                mTextViewReviewDate.setVisibility(View.GONE);
-                mTextViewReviewText.setVisibility(View.GONE);
-                mTextViewYourReview.setVisibility(View.GONE);
-                mRatingBarUser.setRating(0);
-                mRatingBarUser.setIsIndicator(false);
-            }
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+
+            Rating.countByColumnInBackground(Rating.class, CourseActivity.this,
+                    false, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(), new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            if (data != null && data.size() > 0) {
+                                try {
+                                    mTextViewRatingsAmount.setText(String.valueOf(data.get(0)));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+
+                        }
+                    });
+
+            Rating.queryInBackground(Rating.class, CourseActivity.this, false,
+                    new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
+                    new String[]{mCourse.getCourseCode(), MainActivity.userEmailAddress},
+                    new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+
+                            if (data != null && data.size() > 0) {
+
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                mTextViewReviewText.setVisibility(View.VISIBLE);
+                                mTextViewYourReview.setVisibility(View.VISIBLE);
+                                mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
+
+                                // TODO set mTextViewReviewDate
+                                mRatingBarUser.setOnRatingBarChangeListener(null);
+                                mRatingBarUser.setRating((float) ((Rating)(data.get(0))).getRating());
+                                mRatingBarUser.setIsIndicator(true);
+                            } else {
+                                mTextViewReviewHint.setVisibility(View.VISIBLE);
+                                mTextViewReviewDate.setVisibility(View.GONE);
+                                mTextViewReviewText.setVisibility(View.GONE);
+                                mTextViewYourReview.setVisibility(View.GONE);
+                                mRatingBarUser.setRating(0);
+                                mRatingBarUser.setIsIndicator(false);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            mTextViewReviewHint.setVisibility(View.VISIBLE);
+                            mTextViewReviewDate.setVisibility(View.GONE);
+                            mTextViewReviewText.setVisibility(View.GONE);
+                            mTextViewYourReview.setVisibility(View.GONE);
+                            mRatingBarUser.setRating(0);
+                            mRatingBarUser.setIsIndicator(false);
+                        }
+                    });
         }
-
-//        if (mRatings != null && mRatings.size() > 0) {
-//            mTextViewRatingsAmount.setText(String.valueOf(mRatings.size()));
-//
-//            float ratingsSum = 0;
-//
-//            for (Rating rating : mRatings) {
-//                if (MainActivity.userEmailAddress != null &&
-//                        rating.getUserMailAddress().equals(MainActivity.userEmailAddress)) {
-//
-//                    if (rating.getComment() != null) {
-//                        mTextViewReviewHint.setVisibility(View.GONE);
-//                        mTextViewReviewDate.setVisibility(View.VISIBLE);
-//                        mTextViewReviewText.setVisibility(View.VISIBLE);
-//                        mTextViewYourReview.setVisibility(View.VISIBLE);
-//                        mTextViewReviewText.setText(rating.getComment());
-//                    }
-//                    // TODO set mTextViewReviewDate
-//                    mRatingBarUser.setRating((float) rating.getRating());
-//                    mRatingBarUser.setIsIndicator(true);
-//                } else {
-//                    mTextViewReviewHint.setVisibility(View.VISIBLE);
-//                    mTextViewReviewDate.setVisibility(View.GONE);
-//                    mTextViewReviewText.setVisibility(View.GONE);
-//                    mTextViewYourReview.setVisibility(View.GONE);
-//                    mRatingBarUser.setRating(0);
-//                    mRatingBarUser.setIsIndicator(false);
-//                }
-//
-//                ratingsSum += rating.getRating();
-//            }
-//
-//            float average = (ratingsSum / mRatings.size());
-//
-//            mTextViewRatingAverage.setText(String.valueOf(average).substring(0,3));
-//            mRatingBarAvergae.setRating(average);
-//        }
 
         mRatingBarUser.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                 if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
-//                    Toast.makeText(CourseActivity.this, String.valueOf(ratingBar.getRating()), Toast.LENGTH_SHORT).show();
                     showReviewCommentDialog();
                 } else {
                     if (ratingBar.getRating() != 0) {
