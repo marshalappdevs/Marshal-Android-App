@@ -79,6 +79,7 @@
     <string name="delete_review">Delete</string>
     <string name="save_review">Save</string>
     <string name="rate_this_course">Rate this course</string>
+    <string name="review_by">Review by <g id="user_name">%1$s</g></string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>

@@ -442,7 +442,7 @@
         <LinearLayout
             android:orientation="vertical"
             android:id="@+id/question_card"
-            android:layout_width="fill_parent"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="0.0dip"
             android:background="?android:colorBackground">
