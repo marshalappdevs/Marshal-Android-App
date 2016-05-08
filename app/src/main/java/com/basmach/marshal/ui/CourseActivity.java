@@ -88,6 +88,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewReviewDate;
     private TextView mTextViewReviewText;
     private TextView mTextViewYourReview;
+    private TextView mTextViewReviewEdited;
     private RatingBar mRatingBarAvergae;
     private RatingBar mRatingBarUser;
     private LinearLayout mMaterialsButton;
@@ -338,6 +339,7 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
         mTextViewReviewText = (TextView) findViewById(R.id.review_text);
         mTextViewYourReview = (TextView) findViewById(R.id.your_review_label);
+        mTextViewReviewEdited = (TextView) findViewById(R.id.review_edited);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
@@ -599,6 +601,7 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                     // Simulate showing user edited review
+                    mTextViewReviewEdited.setVisibility(View.VISIBLE);
                     mTextViewReviewText.setText(input.getText().toString());
                     mRatingBarUser.setOnRatingBarChangeListener(null);
                     mRatingBarUser.setRating(ratingBar.getRating());
