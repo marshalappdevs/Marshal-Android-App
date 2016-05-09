@@ -31,6 +31,7 @@ import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -93,6 +94,7 @@ public class CourseActivity extends AppCompatActivity {
     private RatingBar mRatingBarUser;
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
+    private Button mBtnReadAllReviews;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -224,6 +226,18 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
 
+            mBtnReadAllReviews = (Button) findViewById(R.id.course_content_button_readAllReviews);
+            mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
+                    i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
+                    i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
+                    i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAvergae.getRating());
+                    i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
+                    startActivity(i);
+                }
+            });
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
             mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);

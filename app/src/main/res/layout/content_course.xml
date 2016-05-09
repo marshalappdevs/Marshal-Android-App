@@ -555,7 +555,8 @@
             android:layout_height="wrap_content"
             android:text="@string/review_snippets_footer"
             android:textColor="@color/colorAccent"
-            android:background="?attr/selectableItemBackground" />
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/course_content_button_readAllReviews"/>
 
         <View
             android:layout_width="match_parent"
