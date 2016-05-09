@@ -88,6 +88,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewReviewDate;
     private TextView mTextViewReviewText;
     private TextView mTextViewYourReview;
+    private TextView mTextViewReviewEdited;
     private RatingBar mRatingBarAvergae;
     private RatingBar mRatingBarUser;
     private LinearLayout mMaterialsButton;
@@ -338,6 +339,7 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
         mTextViewReviewText = (TextView) findViewById(R.id.review_text);
         mTextViewYourReview = (TextView) findViewById(R.id.your_review_label);
+        mTextViewReviewEdited = (TextView) findViewById(R.id.review_edited);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
 
@@ -504,70 +506,65 @@ public class CourseActivity extends AppCompatActivity {
 
             alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
                 public void onClick(final DialogInterface dialog, int whichButton) {
-                    if (mRatingBarUser.getRating() > 0) {
-                        final Rating newRating = new Rating(CourseActivity.this);
-                        newRating.setComment(input.getText().toString());
-                        newRating.setRating(mRatingBarUser.getRating());
-                        newRating.setUserMailAddress(MainActivity.userEmailAddress);
-                        newRating.setCourseCode(mCourse.getCourseCode());
-                        newRating.setLastModified(new Date());
-                        MarshalServiceProvider.getInstance().postRating(newRating).enqueue(new retrofit2.Callback<Rating>() {
-                            @Override
-                            public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                if (response.isSuccessful()) {
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... voids) {
-                                            try {
-                                                newRating.create();
-                                                return true;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                return false;
-                                            }
+                    final Rating newRating = new Rating(CourseActivity.this);
+                    newRating.setComment(input.getText().toString());
+                    newRating.setRating(mRatingBarUser.getRating());
+                    newRating.setUserMailAddress(MainActivity.userEmailAddress);
+                    newRating.setCourseCode(mCourse.getCourseCode());
+                    newRating.setLastModified(new Date());
+                    MarshalServiceProvider.getInstance().postRating(newRating).enqueue(new retrofit2.Callback<Rating>() {
+                        @Override
+                        public void onResponse(Call<Rating> call, Response<Rating> response) {
+                            if (response.isSuccessful()) {
+                                new AsyncTask<Void, Void, Boolean>() {
+                                    @Override
+                                    protected Boolean doInBackground(Void... voids) {
+                                        try {
+                                            newRating.create();
+                                            return true;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            return false;
                                         }
-
-                                        @Override
-                                        protected void onPostExecute(Boolean result) {
-                                            super.onPostExecute(result);
-                                            if (result) {
-                                                showRatingAverage();
-                                                showRatingsCount();
-                                                showUserRating();
-
-                                                // Send broadcast for update the rating on the CardView
-                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-                                                sendBroadcast(intent);
-                                            }
-                                        }
-                                    }.execute();
-
-                                    // Simulate showing user review
-                                    mTextViewReviewHint.setVisibility(View.GONE);
-                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                    mTextViewReviewText.setVisibility(View.VISIBLE);
-                                    mTextViewYourReview.setVisibility(View.VISIBLE);
-
-                                    mRatingBarUser.setRating(mRatingBarUser.getRating());
-                                    try {
-                                        mTextViewReviewDate.setText(DateHelper.dateToString(newRating.getLastModified()));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
                                     }
-                                    mTextViewReviewText.setText(input.getText().toString());
-                                    mRatingBarUser.setIsIndicator(true);
-                                    dialog.dismiss();
-                                    Toast.makeText(CourseActivity.this, "Thanks for your rating", Toast.LENGTH_LONG).show();
-                                }
-                            }
-                            @Override
-                            public void onFailure(Call<Rating> call, Throwable t) {
 
+                                    @Override
+                                    protected void onPostExecute(Boolean result) {
+                                        super.onPostExecute(result);
+                                        if (result) {
+                                            showRatingAverage();
+                                            showRatingsCount();
+                                            showUserRating();
+
+                                            // Send broadcast for update the rating on the CardView
+                                            Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                            sendBroadcast(intent);
+                                        }
+                                    }
+                                }.execute();
+
+                                // Simulate showing user review
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                mTextViewReviewText.setVisibility(View.VISIBLE);
+                                mTextViewYourReview.setVisibility(View.VISIBLE);
+
+                                mRatingBarUser.setRating(mRatingBarUser.getRating());
+                                try {
+                                    mTextViewReviewDate.setText(DateHelper.dateToString(newRating.getLastModified()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                mTextViewReviewText.setText(input.getText().toString());
+                                mRatingBarUser.setIsIndicator(true);
+                                dialog.dismiss();
                             }
-                        });
-                    } else {
-                        Snackbar.make(dialogView, "Please rate before submit", Snackbar.LENGTH_LONG).show();
-                    }
+                        }
+                        @Override
+                        public void onFailure(Call<Rating> call, Throwable t) {
+
+                        }
+                    });
                 }
 
             });
@@ -604,6 +601,7 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(DialogInterface dialog, int whichButton) {
 
                     // Simulate showing user edited review
+                    mTextViewReviewEdited.setVisibility(View.VISIBLE);
                     mTextViewReviewText.setText(input.getText().toString());
                     mRatingBarUser.setOnRatingBarChangeListener(null);
                     mRatingBarUser.setRating(ratingBar.getRating());
@@ -613,7 +611,15 @@ public class CourseActivity extends AppCompatActivity {
             alertDialog.setNegativeButton(getString(R.string.delete_review), new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    Toast.makeText(CourseActivity.this, "comment deleted", Toast.LENGTH_LONG).show();
+                    Toast.makeText(CourseActivity.this, "Review Removed", Toast.LENGTH_LONG).show();
+                    // Simulate removing user review
+                    mTextViewReviewHint.setVisibility(View.VISIBLE);
+                    mTextViewReviewDate.setVisibility(View.GONE);
+                    mTextViewReviewText.setVisibility(View.GONE);
+                    mTextViewYourReview.setVisibility(View.GONE);
+                    mTextViewReviewEdited.setVisibility(View.GONE);
+                    mRatingBarUser.setRating(0);
+                    mRatingBarUser.setIsIndicator(false);
                 }
             });
         }
