@@ -51,6 +51,11 @@ public class Rating extends DBObject implements Parcelable{
     @SerializedName(value = "comment")
     String comment;
 
+    @Column(name = DBConstants.COL_CREATED_AT)
+    @Expose
+    @SerializedName(value = "createdAt")
+    Date createdAt;
+
     @Column(name = DBConstants.COL_LAST_MODIFIED)
     @Expose
     @SerializedName(value = "lastModified")
@@ -107,6 +112,16 @@ public class Rating extends DBObject implements Parcelable{
         this.comment = comment;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_CREATED_AT)
+    public Date getCreatedAt() {
+        return createdAt;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_CREATED_AT, type = TYPE_DATE)
+    public void setCreatedAt(Date createdAt) {
+        this.createdAt = createdAt;
+    }
+
     @ColumnGetter(columnName = DBConstants.COL_LAST_MODIFIED)
     public Date getLastModified() {
         return lastModified;
@@ -133,6 +148,7 @@ public class Rating extends DBObject implements Parcelable{
         parcel.writeString(courseCode);
         parcel.writeDouble(rating);
         parcel.writeString(comment);
+        parcel.writeLong(createdAt.getTime());
         parcel.writeLong(lastModified.getTime());
     }
 
@@ -147,6 +163,7 @@ public class Rating extends DBObject implements Parcelable{
         this.courseCode = in.readString();
         this.rating = in.readDouble();
         this.comment = in.readString();
+        this.createdAt.setTime(in.readLong());
         this.lastModified.setTime(in.readLong());
     }
 

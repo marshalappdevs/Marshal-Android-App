@@ -43,6 +43,7 @@ public class DBConstants {
     public static final String COL_RATINGS_AMOUNT = "ratings_amount";
     public static final String COL_USER_RATING_ID = "user_rating_id";
     public static final String COL_LAST_MODIFIED = "last_modified";
+    public static final String COL_CREATED_AT = "created_at";
 
     // 'Create Table' commands
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
@@ -68,6 +69,7 @@ public class DBConstants {
             COL_USER_MAIL_ADDRESS + " TEXT, " +
             COL_COURSE_CODE + " TEXT, " +
             COL_RATING + " REAL," +
+            COL_CREATED_AT + " TEXT," +
             COL_LAST_MODIFIED + " TEXT," +
             COL_COMMENT + " TEXT);";
 

@@ -28,8 +28,10 @@ public class MarshalServiceProvider {
     public static final String GET_ALL_COURSES = MARSHAL_BASE_URL + "courses";
     public static final String GET_ALL_MATERIALS = MARSHAL_BASE_URL + "materials";
     public static final String GET_ALL_RATINGS = MARSHAL_BASE_URL + "ratings";
-    public static final String IMAGES_URL = MARSHAL_BASE_URL + "/images/";
-    public static final String POST_RATING = MARSHAL_BASE_URL + "/ratings/";
+    public static final String IMAGES_URL = MARSHAL_BASE_URL + "images/";
+    public static final String POST_RATING = MARSHAL_BASE_URL + "ratings/";
+    public static final String PUT_RATING = MARSHAL_BASE_URL + "ratings/";
+    public static final String DELETE_RATING = MARSHAL_BASE_URL + "ratings/";
 
     private static IMarshalService service;
 

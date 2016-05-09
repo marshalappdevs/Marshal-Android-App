@@ -8,8 +8,10 @@ import com.basmach.marshal.utils.MarshalServiceProvider;
 import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface IMarshalService {
@@ -28,4 +30,11 @@ public interface IMarshalService {
 
     @POST(MarshalServiceProvider.POST_RATING)
     Call<Rating> postRating(@Body Rating ratingObject);
+
+    @PUT(MarshalServiceProvider.PUT_RATING)
+    Call<Rating> updateRating(@Body Rating ratingObject);
+
+    @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}/{userMailAddress}")
+    Call<Rating> deleteRating(@Path("courseCode") String courseCode,
+                              @Path("userMailAddress") String userMailAddress);
 }
