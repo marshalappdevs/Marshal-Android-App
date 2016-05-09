@@ -546,7 +546,6 @@
             android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin" />
 
         <!--Action Buttons-->
-
         <LinearLayout
             android:layout_height="wrap_content"
             android:layout_width="match_parent"

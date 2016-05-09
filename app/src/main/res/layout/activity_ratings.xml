@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.basmach.marshal.ui.RatingsActivity">
+
+    <RelativeLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center_horizontal"
+        android:id="@+id/activity_ratings_relativeLayout_rating"
+        android:layout_marginTop="@dimen/course_content_relativeLayouts_top_margin"
+        android:layoutDirection="ltr">
+
+        <TextView
+            android:text="0.0"
+            android:textSize="56.0sp"
+            android:textColor="?android:textColorPrimary"
+            android:layout_gravity="start"
+            android:id="@+id/activity_ratings_textView_average_value"
+            android:paddingStart="8.0dip"
+            android:paddingEnd="8.0dip"
+            android:focusable="true"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:includeFontPadding="false"
+            android:fontFamily="sans-serif-light" />
+
+        <include
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_toEndOf="@id/activity_ratings_textView_average_value"
+            android:layout_alignBaseline="@id/activity_ratings_textView_average_value"
+            layout="@layout/ratings_summary" />
+    </RelativeLayout>
+
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:id="@+id/activity_ratings_recyclerView"/>
+</LinearLayout>

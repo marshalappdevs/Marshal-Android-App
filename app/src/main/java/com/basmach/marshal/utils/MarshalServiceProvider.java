@@ -37,6 +37,7 @@ public class MarshalServiceProvider {
             Retrofit retrofit = new Retrofit.Builder()
                     .baseUrl(MARSHAL_BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                            .setDateFormat(DateHelper.DATE_FORMAT)
                             .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                             .excludeFieldsWithoutExposeAnnotation()
                             .create()))
