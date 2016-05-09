@@ -40,9 +40,9 @@ import java.util.List;
 public class RatingsRecyclerAdapter extends RecyclerView.Adapter<RatingsRecyclerAdapter.RatingVH> {
 
     private Context mContext;
-    private ArrayList<Rating> mRatings;
+    private List<Rating> mRatings;
 
-    public RatingsRecyclerAdapter(Context context, ArrayList<Rating> ratings) {
+    public RatingsRecyclerAdapter(Context context, List<Rating> ratings) {
         this.mRatings = ratings;
         this.mContext = context;
     }
