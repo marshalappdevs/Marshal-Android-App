@@ -16,7 +16,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -91,7 +90,7 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewReviewText;
     private TextView mTextViewYourReview;
     private TextView mTextViewReviewEdited;
-    private RatingBar mRatingBarAvergae;
+    private RatingBar mRatingBarAverage;
     private RatingBar mRatingBarUser;
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
@@ -235,7 +234,7 @@ public class CourseActivity extends AppCompatActivity {
                     Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
                     i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
                     i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
-                    i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAvergae.getRating());
+                    i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
                     i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
                     startActivity(i);
                 }
@@ -349,7 +348,7 @@ public class CourseActivity extends AppCompatActivity {
             initializeTextViews();
         }
 
-        mRatingBarAvergae = (RatingBar) findViewById(R.id.summary_rating_bar);
+        mRatingBarAverage = (RatingBar) findViewById(R.id.summary_rating_bar);
         mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
         mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
         mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
@@ -416,24 +415,12 @@ public class CourseActivity extends AppCompatActivity {
 
                             mUserRating = (Rating)data.get(0);
                         } else {
-//                            mTextViewReviewHint.setVisibility(View.VISIBLE);
-//                            mTextViewReviewDate.setVisibility(View.GONE);
-//                            mTextViewReviewText.setVisibility(View.GONE);
-//                            mTextViewYourReview.setVisibility(View.GONE);
-//                            mRatingBarUser.setRating(0);
-//                            mRatingBarUser.setIsIndicator(false);
                             initializeRatingViews();
                         }
                     }
 
                     @Override
                     public void onError(String error) {
-//                        mTextViewReviewHint.setVisibility(View.VISIBLE);
-//                        mTextViewReviewDate.setVisibility(View.GONE);
-//                        mTextViewReviewText.setVisibility(View.GONE);
-//                        mTextViewYourReview.setVisibility(View.GONE);
-//                        mRatingBarUser.setRating(0);
-//                        mRatingBarUser.setIsIndicator(false);
                         initializeRatingViews();
                     }
                 });
@@ -469,7 +456,7 @@ public class CourseActivity extends AppCompatActivity {
                         if (data != null && data.size() > 0) {
                             try {
                                 mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0,3));
-                                mRatingBarAvergae.setRating((Float) data.get(0));
+                                mRatingBarAverage.setRating((Float) data.get(0));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -646,12 +633,11 @@ public class CourseActivity extends AppCompatActivity {
                                         protected void onPostExecute(Boolean result) {
                                             super.onPostExecute(result);
                                             if (result) {
-                                                // Simulate showing user edited review
+                                                initializeRatingViews();
                                                 mTextViewReviewEdited.setVisibility(View.VISIBLE);
-                                                mTextViewReviewText.setText(input.getText().toString());
-                                                mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
-                                                mRatingBarUser.setOnRatingBarChangeListener(null);
-                                                mRatingBarUser.setRating(ratingBar.getRating());
+                                                showUserRating();
+                                                showRatingsCount();
+                                                showRatingAverage();
                                             }
                                         }
                                     }.execute();
@@ -700,6 +686,9 @@ public class CourseActivity extends AppCompatActivity {
                                             if (result) {
                                                 // Simulate removing user review
                                                 initializeRatingViews();
+                                                showUserRating();
+                                                showRatingsCount();
+                                                showRatingAverage();
                                                 Toast.makeText(CourseActivity.this, "Review removed", Toast.LENGTH_LONG).show();
                                             }
                                         }

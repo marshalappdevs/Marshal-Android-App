@@ -58,7 +58,10 @@
             android:name=".services.UpdateIntentService"
             android:exported="false" />
 
-        <activity android:name=".ui.RatingsActivity"></activity>
+        <activity android:name=".ui.RatingsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.Base.Translucent"
+            android:label="@string/all_reviews"/>
     </application>
 
 </manifest>
