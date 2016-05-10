@@ -74,7 +74,7 @@
     <string name="review_dialog_above_average">Liked it</string>
     <string name="review_dialog_excellent">Loved it</string>
     <string name="review_dialog_body_hint">Description</string>
-    <string name="review_dialog_error">Notice: Your email address will not be published, but will be saved in our database.</string>
+    <string name="public_reviews_message">Your identity will not be published, but will be saved in our database.</string>
     <string name="structured_review_question_submit">Submit</string>
     <string name="delete_review">Delete</string>
     <string name="save_review">Save</string>
@@ -84,6 +84,11 @@
     <string name="all_reviews">All reviews</string>
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
+    <string name="review_save_retry">"The review couldn't be saved, please try again."</string>
+    <string name="review_delete_retry">"The review couldn't be deleted, please try again."</string>
+    <string name="review_error">Unable to create a review.</string>
+    <string name="review_feedback_posted">Thanks for your feedback!</string>
+    <string name="review_feedback_posted_error">"Couldn't rate comment."</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>

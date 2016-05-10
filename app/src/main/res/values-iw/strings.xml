@@ -70,7 +70,7 @@
     <string name="review_dialog_above_average">אהבתי</string>
     <string name="review_dialog_excellent">אהבתי מאוד</string>
     <string name="review_dialog_body_hint">תיאור</string>
-    <string name="review_dialog_error">שים לב: כתובת הדוא\"ל שלך לא תפורסם, אך תישמר במאגר הנתונים שלנו.</string>
+    <string name="public_reviews_message">זהותך לא תפורסם בציבור, אך תישמר במאגר הנתונים שלנו.</string>
     <string name="structured_review_question_submit">שלח</string>
     <string name="delete_review">מחק</string>
     <string name="save_review">שמור</string>
@@ -80,6 +80,11 @@
     <string name="all_reviews">כל הביקורות</string>
     <string name="cancel">בטל</string>
     <string name="submit">שלח</string>
+    <string name="review_save_retry">לא ניתן לעדכן את הביקורת, נסה שוב.</string>
+    <string name="review_delete_retry">לא ניתן למחוק את הביקורת, נסה שוב.</string>
+    <string name="review_error">לא ניתן ליצור ביקורת.</string>
+    <string name="review_feedback_posted">תודה על המשוב ששלחת!</string>
+    <string name="review_feedback_posted_error">לא ניתן היה לדרג את התגובה.</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
