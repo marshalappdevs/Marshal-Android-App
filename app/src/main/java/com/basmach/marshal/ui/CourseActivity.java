@@ -61,6 +61,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Response;
 
@@ -97,6 +98,7 @@ public class CourseActivity extends AppCompatActivity {
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
     private Button mBtnReadAllReviews;
+    private CircleImageView mProfileImageView;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -479,7 +481,7 @@ public class CourseActivity extends AppCompatActivity {
         final View dialogView = layoutInflater.inflate(R.layout.rate_review_dialog, null);
         alertDialog.setView(dialogView);
 
-        final ImageView profileImageView = (ImageView) dialogView.findViewById(R.id.user_profile_image);
+        mProfileImageView = (CircleImageView) dialogView.findViewById(R.id.user_profile_image);
         TextView reviewBy = (TextView) dialogView.findViewById(R.id.review_by);
         String userName = String.format(getString(R.string.review_by), MainActivity.userName);
         reviewBy.setText(userName);
@@ -488,20 +490,7 @@ public class CourseActivity extends AppCompatActivity {
         Picasso.with(this)
                 .load(uri)
                 .placeholder(R.drawable.ic_profile_none)
-                .into(profileImageView, new com.squareup.picasso.Callback() {
-                    @Override
-                    public void onSuccess() {
-                        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
-                        RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                        rounded.setCornerRadius(bitmap.getWidth());
-                        profileImageView.setImageDrawable(rounded);
-                    }
-
-                    @Override
-                    public void onError() {
-
-                    }
-                });
+                .into(mProfileImageView);
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
 

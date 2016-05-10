@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
-    android:id="@+id/user_review_header"
+<RelativeLayout android:id="@+id/user_review_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <ImageView
         android:layout_width="match_parent"
@@ -13,14 +13,14 @@
         android:scaleType="centerCrop"
         android:contentDescription="@null" />
 
-    <ImageView
+    <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/user_profile_image"
         android:layout_width="64.0dip"
         android:layout_height="64.0dip"
-        android:scaleType="fitStart"
         android:layout_centerHorizontal="true"
         android:src="@drawable/ic_profile_none"
-        android:contentDescription="@null" />
+        app:civ_border_width="2dp"
+        app:civ_border_color="@android:color/white"/>
 
     <TextView
         android:text="@string/review_by"

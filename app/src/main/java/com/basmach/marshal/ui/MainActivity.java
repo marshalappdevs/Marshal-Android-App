@@ -88,6 +88,8 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import de.hdodenhof.circleimageview.CircleImageView;
+
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 //    private static final int REQUEST_CONTACTS = 0;
@@ -104,7 +106,8 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
-    private ImageView mProfileImageView, mCoverImageView;
+    private CircleImageView mProfileImageView;
+    private ImageView mCoverImageView;
     private boolean signedIn = false;
 
     // Fragments
@@ -151,7 +154,7 @@ public class MainActivity extends AppCompatActivity
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
-        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
+        mProfileImageView = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
         mProfileImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -574,20 +577,7 @@ public class MainActivity extends AppCompatActivity
                 Picasso.with(this)
                         .load(uri)
                         .placeholder(R.drawable.ic_profile_none)
-                        .into(mProfileImageView, new com.squareup.picasso.Callback() {
-                            @Override
-                            public void onSuccess() {
-                                Bitmap bitmap = ((BitmapDrawable) mProfileImageView.getDrawable()).getBitmap();
-                                RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
-                                rounded.setCornerRadius(bitmap.getWidth());
-                                mProfileImageView.setImageDrawable(rounded);
-                            }
-
-                            @Override
-                            public void onError() {
-
-                            }
-                        });
+                        .into(mProfileImageView);
 
                 Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                     @Override
