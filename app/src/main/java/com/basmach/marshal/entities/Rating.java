@@ -163,8 +163,8 @@ public class Rating extends DBObject implements Parcelable{
         this.courseCode = in.readString();
         this.rating = in.readDouble();
         this.comment = in.readString();
-        this.createdAt.setTime(in.readLong());
-        this.lastModified.setTime(in.readLong());
+        this.createdAt = new Date(in.readLong());
+        this.lastModified = new Date(in.readLong());
     }
 
     public static final Parcelable.Creator<Rating> CREATOR = new Parcelable.Creator<Rating>() {

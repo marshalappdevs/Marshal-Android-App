@@ -20,7 +20,8 @@
             style="?android:attr/ratingBarStyleSmall"
             android:theme="@style/Course.RatingBar"
             android:layout_alignParentStart="true"
-            android:layout_alignParentTop="true"/>
+            android:layout_alignParentTop="true"
+            android:layoutDirection="ltr"/>
 
         <TextView
             android:id="@+id/rating_list_item_textView_lastModifiedDate"
