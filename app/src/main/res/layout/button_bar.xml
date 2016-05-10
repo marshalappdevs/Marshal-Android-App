@@ -9,7 +9,7 @@
     android:paddingBottom="8.0dip"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:background="@android:color/background_light"
+    android:background="@drawable/button_bar_background"
     style="?attr/buttonBarStyle"
     xmlns:android="http://schemas.android.com/apk/res/android">
 
