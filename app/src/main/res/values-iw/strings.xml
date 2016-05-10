@@ -77,6 +77,9 @@
     <string name="rate_this_course">דרג את הקורס הזה</string>
     <string name="review_by">ביקורת על ידי %1$s</string>
     <string name="review_edited_after_developer_reply">(נערכה)</string>
+    <string name="all_reviews">כל הביקורות</string>
+    <string name="cancel">בטל</string>
+    <string name="submit">שלח</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
@@ -100,5 +103,4 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="all_reviews">כל הביקורות</string>
 </resources>

@@ -18,6 +18,8 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
+import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -472,14 +474,41 @@ public class CourseActivity extends AppCompatActivity {
 
     private void showReviewCommentDialog(Boolean isEditMode) {
 
-        final AlertDialog.Builder alertDialog = new AlertDialog.Builder(this, R.style.Cycle_DialogAlert);
+        final AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.Rating_DialogAlert).create();
         LayoutInflater layoutInflater = LayoutInflater.from(this);
-        final View dialogView = layoutInflater.inflate(R.layout.rate_review_editor, null);
+        final View dialogView = layoutInflater.inflate(R.layout.rate_review_dialog, null);
         alertDialog.setView(dialogView);
+
+        final ImageView profileImageView = (ImageView) dialogView.findViewById(R.id.user_profile_image);
+        TextView reviewBy = (TextView) dialogView.findViewById(R.id.review_by);
+        String userName = String.format(getString(R.string.review_by), MainActivity.userName);
+        reviewBy.setText(userName);
+
+        Uri uri = MainActivity.userProfileImage;
+        Picasso.with(this)
+                .load(uri)
+                .placeholder(R.drawable.ic_profile_none)
+                .into(profileImageView, new com.squareup.picasso.Callback() {
+                    @Override
+                    public void onSuccess() {
+                        Bitmap bitmap = ((BitmapDrawable) profileImageView.getDrawable()).getBitmap();
+                        RoundedBitmapDrawable rounded = RoundedBitmapDrawableFactory.create(getResources(), bitmap);
+                        rounded.setCornerRadius(bitmap.getWidth());
+                        profileImageView.setImageDrawable(rounded);
+                    }
+
+                    @Override
+                    public void onError() {
+
+                    }
+                });
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
 
         final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
+
+        final Button negativeButton = (Button) dialogView.findViewById(R.id.negative_button);
+        final Button positiveButton = (Button) dialogView.findViewById(R.id.positive_button);
 
         TextInputLayout inputLayout = (TextInputLayout) dialogView.findViewById(R.id.inputLayout);
 
@@ -503,6 +532,9 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         if (!isEditMode) {
+            negativeButton.setVisibility(View.GONE);
+            positiveButton.setText(getString(R.string.structured_review_question_submit));
+
             inputLayout.setError(getString(R.string.review_dialog_error)); // show error
 
             alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
@@ -512,8 +544,9 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
 
-            alertDialog.setPositiveButton(getString(R.string.structured_review_question_submit), new DialogInterface.OnClickListener() {
-                public void onClick(final DialogInterface dialog, int whichButton) {
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
                     mUserRating = new Rating(CourseActivity.this);
                     mUserRating.setComment(input.getText().toString());
                     mUserRating.setRating(mRatingBarUser.getRating());
@@ -566,7 +599,6 @@ public class CourseActivity extends AppCompatActivity {
                                 }
                                 mTextViewReviewText.setText(input.getText().toString());
                                 mRatingBarUser.setIsIndicator(true);
-                                dialog.dismiss();
                             }
                         }
                         @Override
@@ -574,10 +606,15 @@ public class CourseActivity extends AppCompatActivity {
 
                         }
                     });
+                    alertDialog.dismiss();
                 }
-
             });
         } else {
+            negativeButton.setVisibility(View.VISIBLE);
+            negativeButton.setText(getString(R.string.delete_review));
+            positiveButton.setVisibility(View.VISIBLE);
+            positiveButton.setText(getString(R.string.save_review));
+
             ratingBar.setVisibility(View.VISIBLE);
             ratingBar.setRating(mRatingBarUser.getRating());
             input.setText(mTextViewReviewText.getText().toString());
@@ -606,8 +643,9 @@ public class CourseActivity extends AppCompatActivity {
                 }
             });
 
-            alertDialog.setPositiveButton(getString(R.string.save_review), new DialogInterface.OnClickListener() {
-                public void onClick(DialogInterface dialog, int whichButton) {
+            positiveButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
 
                     if(mUserRating != null) {
                         mUserRating.setRating(ratingBar.getRating());
@@ -653,15 +691,13 @@ public class CourseActivity extends AppCompatActivity {
                             }
                         });
                     }
+                    alertDialog.dismiss();
                 }
             });
 
-            alertDialog.setNegativeButton(getString(R.string.delete_review), new DialogInterface.OnClickListener() {
+            negativeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onClick(DialogInterface dialog, int which) {
-
-
-
+                public void onClick(View v) {
                     if(mUserRating != null) {
                         MarshalServiceProvider.getInstance().deleteRating(mUserRating.getCourseCode(),
                                 mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
@@ -703,11 +739,10 @@ public class CourseActivity extends AppCompatActivity {
                             }
                         });
                     }
+                    alertDialog.dismiss();
                 }
             });
         }
-
-        AlertDialog dialog = alertDialog.create();
         alertDialog.show();
 }
 

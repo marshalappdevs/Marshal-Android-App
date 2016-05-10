@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<Course> allCourses;
     public static ArrayList<Rating> allRatings;
     public static String userEmailAddress;
+    public static String userName;
+    public static Uri userProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -566,6 +568,8 @@ public class MainActivity extends AppCompatActivity
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
                 MainActivity.userEmailAddress = acct.getEmail();
+                MainActivity.userName = acct.getDisplayName();
+                MainActivity.userProfileImage = acct.getPhotoUrl();
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)

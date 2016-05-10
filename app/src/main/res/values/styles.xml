@@ -56,6 +56,11 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
+    <style name="Rating.DialogAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
+        <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
+
     <style name="Review.EditText" parent="Theme.AppCompat.Light" >
         <item name="colorAccent">@color/colorAccent</item>
     </style>

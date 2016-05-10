@@ -81,6 +81,9 @@
     <string name="rate_this_course">Rate this course</string>
     <string name="review_by">Review by <g id="user_name">%1$s</g></string>
     <string name="review_edited_after_developer_reply">(edited)</string>
+    <string name="all_reviews">All reviews</string>
+    <string name="cancel">Cancel</string>
+    <string name="submit">Submit</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
@@ -126,5 +129,4 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
-    <string name="all_reviews">All reviews</string>
 </resources>
