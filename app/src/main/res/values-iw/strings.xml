@@ -70,7 +70,7 @@
     <string name="review_dialog_above_average">אהבתי</string>
     <string name="review_dialog_excellent">אהבתי מאוד</string>
     <string name="review_dialog_body_hint">תיאור</string>
-    <string name="public_reviews_message">זהותך לא תפורסם בציבור, אך תישמר במאגר הנתונים שלנו.</string>
+    <string name="public_reviews_message">שים לב: זהותך לא תפורסם בציבור, אך תישמר במאגר הנתונים שלנו.</string>
     <string name="structured_review_question_submit">שלח</string>
     <string name="delete_review">מחק</string>
     <string name="save_review">שמור</string>

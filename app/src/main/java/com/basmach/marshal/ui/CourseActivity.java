@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
 import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
@@ -96,7 +97,6 @@ public class CourseActivity extends AppCompatActivity {
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
     private Button mBtnReadAllReviews;
-    private TextView mIdentityDisclaimer;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -359,16 +359,11 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewReviewEdited = (TextView) findViewById(R.id.review_edited);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
-        mIdentityDisclaimer = (TextView) findViewById(R.id.identity_disclaimer);
 
         if (mCourse != null) {
             showRatingAverage();
             showRatingsCount();
             showUserRating();
-        }
-
-        if (mTextViewReviewHint.getVisibility() == View.VISIBLE) {
-            mIdentityDisclaimer.setVisibility(View.VISIBLE);
         }
 
         mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
@@ -515,6 +510,8 @@ public class CourseActivity extends AppCompatActivity {
         final Button negativeButton = (Button) dialogView.findViewById(R.id.negative_button);
         final Button positiveButton = (Button) dialogView.findViewById(R.id.positive_button);
 
+        TextInputLayout inputLayout = (TextInputLayout) dialogView.findViewById(R.id.inputLayout);
+
         final TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
         textView.setTextColor(contentColor);
 
@@ -535,6 +532,7 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         if (!isEditMode) {
+            inputLayout.setError(getString(R.string.public_reviews_message)); // show error
             negativeButton.setVisibility(View.GONE);
             positiveButton.setText(getString(R.string.structured_review_question_submit));
 
@@ -548,7 +546,6 @@ public class CourseActivity extends AppCompatActivity {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mIdentityDisclaimer.setVisibility(View.GONE);
                     mUserRating = new Rating(CourseActivity.this);
                     mUserRating.setComment(input.getText().toString());
                     mUserRating.setRating(mRatingBarUser.getRating());
@@ -699,7 +696,6 @@ public class CourseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(mUserRating != null) {
-                        mIdentityDisclaimer.setVisibility(View.VISIBLE);
                         MarshalServiceProvider.getInstance().deleteRating(mUserRating.getCourseCode(),
                                 mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
