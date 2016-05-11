@@ -18,8 +18,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawable;
-import android.support.v4.graphics.drawable.RoundedBitmapDrawableFactory;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +35,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.basmach.marshal.R;
@@ -91,14 +90,18 @@ public class CourseActivity extends AppCompatActivity {
     private TextView mTextViewReviewHint;
     private TextView mTextViewReviewDate;
     private TextView mTextViewReviewText;
-    private TextView mTextViewYourReview;
     private TextView mTextViewReviewEdited;
+    private TextView mReviewAuthor;
+    private RatingBar mReviewRating;
     private RatingBar mRatingBarAverage;
     private RatingBar mRatingBarUser;
+    private RelativeLayout mReviewItemContainer;
+    private LinearLayout mActionContainer;
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
     private Button mBtnReadAllReviews;
     private CircleImageView mProfileImageView;
+    private CircleImageView mReviewProfileImageView;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -252,6 +255,7 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
             mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
             mTextViewComments = (TextView) findViewById(R.id.course_content_textView_comments);
+            mReviewProfileImageView = (CircleImageView) findViewById(R.id.user_profile_image);
 
             // Set the course photo
             mHeader = (ImageView) findViewById(R.id.header);
@@ -352,15 +356,18 @@ public class CourseActivity extends AppCompatActivity {
             initializeTextViews();
         }
 
+        mReviewItemContainer = (RelativeLayout) findViewById(R.id.review_item_container);
+        mActionContainer = (LinearLayout) findViewById(R.id.action_container);
+        mReviewRating = (RatingBar) findViewById(R.id.review_rating);
         mRatingBarAverage = (RatingBar) findViewById(R.id.summary_rating_bar);
         mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
         mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
         mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
         mTextViewReviewText = (TextView) findViewById(R.id.review_text);
-        mTextViewYourReview = (TextView) findViewById(R.id.your_review_label);
         mTextViewReviewEdited = (TextView) findViewById(R.id.review_edited);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
+        mReviewAuthor = (TextView) findViewById(R.id.review_author);
 
         if (mCourse != null) {
             showRatingAverage();
@@ -383,7 +390,7 @@ public class CourseActivity extends AppCompatActivity {
         };
 
         mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-        mTextViewReviewText.setOnClickListener(new View.OnClickListener() {
+        mActionContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 showReviewCommentDialog(true);
@@ -401,22 +408,23 @@ public class CourseActivity extends AppCompatActivity {
 
                         if (data != null && data.size() > 0) {
 
+                            mRatingBarUser.setVisibility(View.GONE);
+                            mReviewItemContainer.setVisibility(View.VISIBLE);
+                            mReviewAuthor.setText(MainActivity.userName);
+                            Uri uri = MainActivity.userProfileImage;
+                            Picasso.with(CourseActivity.this)
+                                    .load(uri)
+                                    .placeholder(R.drawable.ic_profile_none)
+                                    .into(mReviewProfileImageView);
                             mTextViewReviewHint.setVisibility(View.GONE);
-                            mTextViewReviewDate.setVisibility(View.VISIBLE);
-                            mTextViewReviewText.setVisibility(View.VISIBLE);
-                            mTextViewYourReview.setVisibility(View.VISIBLE);
                             mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
-
-                            // TODO set mTextViewReviewDate
                             try {
+                                mTextViewReviewDate.setVisibility(View.VISIBLE);
                                 mTextViewReviewDate.setText(DateHelper.dateToString(((Rating)(data.get(0))).getLastModified()));
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
-                            mRatingBarUser.setOnRatingBarChangeListener(null);
-                            mRatingBarUser.setRating((float) ((Rating)(data.get(0))).getRating());
-                            mRatingBarUser.setIsIndicator(true);
-
+                            mReviewRating.setRating((float) ((Rating)(data.get(0))).getRating());
                             mUserRating = (Rating)data.get(0);
                         } else {
                             initializeRatingViews();
@@ -574,24 +582,34 @@ public class CourseActivity extends AppCompatActivity {
                                 }.execute();
 
                                 // Simulate showing user review
-                                mTextViewReviewHint.setVisibility(View.GONE);
-                                mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                mTextViewReviewText.setVisibility(View.VISIBLE);
-                                mTextViewYourReview.setVisibility(View.VISIBLE);
 
-                                mRatingBarUser.setRating(mRatingBarUser.getRating());
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mReviewItemContainer.setVisibility(View.VISIBLE);
+                                mReviewAuthor.setText(MainActivity.userName);
+                                Uri uri = MainActivity.userProfileImage;
+                                Picasso.with(CourseActivity.this)
+                                        .load(uri)
+                                        .placeholder(R.drawable.ic_profile_none)
+                                        .into(mReviewProfileImageView);
+                                mTextViewReviewEdited.setVisibility(View.GONE);
+                                mRatingBarUser.setVisibility(View.GONE);
+
+                                mReviewRating.setRating(mRatingBarUser.getRating());
                                 try {
+                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
                                     mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
                                 mTextViewReviewText.setText(input.getText().toString());
-                                mRatingBarUser.setIsIndicator(true);
                                 Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
                             }
                         }
                         @Override
                         public void onFailure(Call<Rating> call, Throwable t) {
+                            mRatingBarUser.setOnRatingBarChangeListener(null);
+                            mRatingBarUser.setRating(0);
+                            mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
                             Toast.makeText(CourseActivity.this, R.string.review_feedback_posted_error, Toast.LENGTH_LONG).show();
                         }
                     });
@@ -605,8 +623,24 @@ public class CourseActivity extends AppCompatActivity {
             positiveButton.setText(getString(R.string.save_review));
 
             ratingBar.setVisibility(View.VISIBLE);
-            ratingBar.setRating(mRatingBarUser.getRating());
+            ratingBar.setRating(mReviewRating.getRating());
             input.setText(mTextViewReviewText.getText().toString());
+
+            if (mReviewRating.getRating() == 1) {
+                textView.setText(getString(R.string.review_dialog_poor));
+            }
+            if (mReviewRating.getRating() == 2) {
+                textView.setText(getString(R.string.review_dialog_below_average));
+            }
+            if (mReviewRating.getRating() == 3) {
+                textView.setText(getString(R.string.review_dialog_average));
+            }
+            if (mReviewRating.getRating() == 4) {
+                textView.setText(getString(R.string.review_dialog_above_average));
+            }
+            if (mReviewRating.getRating() == 5) {
+                textView.setText(getString(R.string.review_dialog_excellent));
+            }
 
             ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
                 @Override
@@ -662,6 +696,7 @@ public class CourseActivity extends AppCompatActivity {
                                             if (result) {
                                                 initializeRatingViews();
                                                 mTextViewReviewEdited.setVisibility(View.VISIBLE);
+                                                mTextViewReviewText.setVisibility(View.VISIBLE);
                                                 showUserRating();
                                                 showRatingsCount();
                                                 showRatingAverage();
@@ -740,10 +775,8 @@ public class CourseActivity extends AppCompatActivity {
 
     private void initializeRatingViews() {
         mTextViewReviewHint.setVisibility(View.VISIBLE);
-        mTextViewReviewDate.setVisibility(View.GONE);
-        mTextViewReviewText.setVisibility(View.GONE);
-        mTextViewYourReview.setVisibility(View.GONE);
-        mTextViewReviewEdited.setVisibility(View.GONE);
+        mReviewItemContainer.setVisibility(View.GONE);
+        mRatingBarUser.setVisibility(View.VISIBLE);
         mRatingBarUser.setRating(0);
         mRatingBarUser.setIsIndicator(false);
         mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);

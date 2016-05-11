@@ -15,6 +15,7 @@
         android:visibility="gone"
         android:numStars="5"
         android:stepSize="1"
+        android:theme="@style/DialogAlert.RatingBar"
         android:layoutDirection="ltr" />
 
     <TextView

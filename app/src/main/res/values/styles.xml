@@ -61,6 +61,10 @@
         <item name="android:windowBackground">@android:color/transparent</item>
     </style>
 
+    <style name="DialogAlert.RatingBar" parent="Theme.AppCompat.Light">
+        <item name="colorControlActivated">@color/colorAccent</item>
+    </style>
+
     <style name="Review.EditText" parent="Theme.AppCompat.Light" >
         <item name="colorAccent">@color/colorAccent</item>
     </style>
@@ -72,6 +76,13 @@
 
     <style name="TextAppearance.Button" parent="TextAppearance.AppCompat.Button">
         <item name="android:textStyle">normal</item>
+    </style>
+
+    <style name="PlayDetailDescription">
+        <item name="android:textSize">14.0sp</item>
+        <item name="android:textColor">?android:textColorPrimary</item>
+        <item name="android:gravity">start</item>
+        <item name="android:lineSpacingExtra">6.0sp</item>
     </style>
 
 </resources>
