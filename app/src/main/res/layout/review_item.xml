@@ -86,6 +86,7 @@
                 android:text="@string/your_review_text"
                 android:textSize="10.0sp"
                 android:textStyle="bold"
+                android:textAllCaps="true"
                 android:textColor="@android:color/white"
                 android:gravity="center"
                 android:id="@+id/your_review_label"
