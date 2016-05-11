@@ -584,6 +584,7 @@ public class CourseActivity extends AppCompatActivity {
                                 // Simulate showing user review
 
                                 mTextViewReviewHint.setVisibility(View.GONE);
+                                mRatingBarUser.setVisibility(View.GONE);
                                 mReviewItemContainer.setVisibility(View.VISIBLE);
                                 mReviewAuthor.setText(MainActivity.userName);
                                 Uri uri = MainActivity.userProfileImage;
@@ -592,7 +593,6 @@ public class CourseActivity extends AppCompatActivity {
                                         .placeholder(R.drawable.ic_profile_none)
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewEdited.setVisibility(View.GONE);
-                                mRatingBarUser.setVisibility(View.GONE);
 
                                 mReviewRating.setRating(mRatingBarUser.getRating());
                                 try {
@@ -694,7 +694,6 @@ public class CourseActivity extends AppCompatActivity {
                                         protected void onPostExecute(Boolean result) {
                                             super.onPostExecute(result);
                                             if (result) {
-                                                initializeRatingViews();
                                                 mTextViewReviewEdited.setVisibility(View.VISIBLE);
                                                 mTextViewReviewText.setVisibility(View.VISIBLE);
                                                 showUserRating();
