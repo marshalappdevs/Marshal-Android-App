@@ -1,6 +1,7 @@
 package com.basmach.marshal.ui;
 
 import android.animation.Animator;
+import android.content.res.Configuration;
 import android.os.Build;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
@@ -99,6 +100,12 @@ public class RatingsActivity extends AppCompatActivity {
                         }
                     });
         }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.updateLocale(this);
     }
 
     private void initializeRecycler() {
