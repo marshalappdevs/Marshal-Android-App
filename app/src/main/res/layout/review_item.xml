@@ -42,7 +42,7 @@
             android:layout_alignParentEnd="true">
 
             <ImageView
-                android:src="@drawable/ic_edit_course"
+                app:srcCompat="@drawable/ic_edit_course"
                 android:id="@+id/action_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
