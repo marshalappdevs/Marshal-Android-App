@@ -81,7 +81,7 @@
     <string name="rate_this_course">Rate this course</string>
     <string name="review_by">Review by <g id="user_name">%1$s</g></string>
     <string name="review_edited_after_developer_reply">(edited)</string>
-    <string name="all_reviews">All reviews</string>
+    <string name="all_reviews">ALL REVIEWS</string>
     <string name="cancel">Cancel</string>
     <string name="submit">Submit</string>
     <string name="review_save_retry">"The review couldn't be saved, please try again."</string>
