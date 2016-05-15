@@ -5,7 +5,7 @@ android {
         marshal_debug_key {
             keyAlias 'marshal'
             keyPassword '9or6136J11676P'
-            storeFile file('$HOME/AndroidStudioProjects/Marshal-Android-App/marshal_debug_key.jks')
+            storeFile file('marshal_debug_key.jks')
             storePassword '9or6136J11676P'
         }
     }

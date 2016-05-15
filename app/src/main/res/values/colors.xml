@@ -12,6 +12,6 @@
     <color name="star_bg_color">#70616161</color>
     <color name="user_color">#80000000</color>
     <color name="divider_color">#1F000000</color>
-    <color name="primary_text_color">#DE000000</color> <!-- 87% black -->
-    <color name="secondary_text_color">#8A000000</color> <!-- 54% black -->
+    <color name="primary_android_color">#DE000000</color> <!-- 87% black -->
+    <color name="secondary_android_color">#8A000000</color> <!-- 54% black -->
 </resources>

@@ -7,6 +7,6 @@
     <color name="star_color">#FFEFEFEF</color>
     <color name="user_color">#80FFFFFF</color>
     <color name="divider_color">#1FFFFFFF</color>
-    <color name="primary_text_color">#FFFFFFFF</color> <!-- 100% white -->
-    <color name="secondary_text_color">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="primary_android_color">#FFFFFFFF</color> <!-- 100% white -->
+    <color name="secondary_android_color">#B3FFFFFF</color> <!-- 70% white -->
 </resources>
