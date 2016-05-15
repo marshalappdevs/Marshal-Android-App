@@ -10,13 +10,6 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="course_content_icon_padding">8dp</dimen>
-    <dimen name="course_content_text_padding">8dp</dimen>
-    <dimen name="course_content_padding">16dp</dimen>
-    <dimen name="course_content_relativeLayouts_top_margin">16dp</dimen>
-    <dimen name="course_image_elevation">4dp</dimen>
-    <dimen name="cycle_item_margin">4dp</dimen>
     <dimen name="link_preview_thumb_height">80.0sp</dimen>
     <dimen name="link_preview_thumb_width">80.0dip</dimen>
-    <dimen name="drag_dismiss_distance">112dp</dimen>
 </resources>

@@ -5,12 +5,12 @@ android {
         marshal_debug_key {
             keyAlias 'marshal'
             keyPassword '9or6136J11676P'
-            storeFile file('C:/marshal_debug_key.jks')
+            storeFile file('$HOME/AndroidStudioProjects/Marshal-Android-App/marshal_debug_key.jks')
             storePassword '9or6136J11676P'
         }
     }
-    compileSdkVersion 'Google Inc.:Google APIs:23'
-    buildToolsVersion "23.0.2"
+    compileSdkVersion 23
+    buildToolsVersion "23.0.3"
     defaultConfig {
         applicationId "com.basmach.marshal"
         minSdkVersion 19
