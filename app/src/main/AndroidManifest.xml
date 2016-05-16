@@ -7,17 +7,51 @@
     <!-- <uses-permission android:name="android.permission.WRITE_CALENDAR" /> -->
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+
+    <permission
+        android:name="com.basmach.marshal.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+
+    <uses-permission android:name="com.basmach.marshal.permission.C2D_MESSAGE" />
 
     <application
+        android:name=".ApplicationMarshal"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+
         <provider
             android:name=".ui.utils.SuggestionProvider"
             android:authorities="com.basmach.marshal.SuggestionProvider" />
 
+        <receiver
+            android:name="com.google.android.gms.gcm.GcmReceiver"
+            android:exported="true"
+            android:permission="com.google.android.c2dm.permission.SEND">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+         <service
+         android:name="com.basmach.marshal.services.GcmIntentService"
+         android:exported="false" >
+         <intent-filter>
+         <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+         </intent-filter>
+         </service>
+         <service
+         android:name="com.basmach.marshal.services.GcmIDListenerService"
+         android:exported="false">
+         <intent-filter>
+         <action android:name="com.google.android.gms.iid.InstanceID" />
+         </intent-filter>
+         </service>
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -54,14 +88,18 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
 
+        <activity
+            android:name=".ui.RatingsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/all_reviews"
+            android:theme="@style/AppTheme.Base.Translucent" />
+
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
-
-        <activity android:name=".ui.RatingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Base.Translucent"
-            android:label="@string/all_reviews"/>
+        <service
+            android:name=".services.GcmRegistrationService"
+            android:exported="false"></service>
     </application>
 
 </manifest>

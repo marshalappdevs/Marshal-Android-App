@@ -32,6 +32,9 @@ public class MarshalServiceProvider {
     public static final String POST_RATING = MARSHAL_BASE_URL + "ratings/";
     public static final String PUT_RATING = MARSHAL_BASE_URL + "ratings/";
     public static final String DELETE_RATING = MARSHAL_BASE_URL + "ratings/";
+    public static final String POST_GCM_REGISTER_NEW_DEVICE = "gcm/register/";
+    public static final String PUT_GCM_REGISTER_EXIST_DEVICE = "gcm/register/";
+    public static final String DELETE_GCM_UNREGISTER_DEVICE = "gcm/unregister/";
 
     private static IMarshalService service;
 

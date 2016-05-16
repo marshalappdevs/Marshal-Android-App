@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.Manifest;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -8,6 +9,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
@@ -18,9 +20,11 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -50,6 +54,7 @@ import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
+import com.basmach.marshal.services.GcmRegistrationService;
 import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
 import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
@@ -59,11 +64,13 @@ import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
+import com.basmach.marshal.utils.PermissionUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -90,6 +97,7 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 //    private static final int REQUEST_CONTACTS = 0;
 //    private static final int REQUEST_CALENDAR = 1;
+    private static final int REQUEST_READ_PHONE_STATE = 2;
 //    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
@@ -131,6 +139,9 @@ public class MainActivity extends AppCompatActivity
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
         LocaleUtils.updateLocale(this);
+
+//        checkPlayServicesAvailability();
+        checkGcmRegistrationState();
 
         // enable on final release
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -232,6 +243,31 @@ public class MainActivity extends AppCompatActivity
         });
 
         checkIfFirstRun();
+    }
+
+    private void checkGcmRegistrationState(){
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) ==
+                PackageManager.PERMISSION_GRANTED) {
+            if(!GcmRegistrationService.isDeviceRegistered(this)) {
+                Intent intent = new Intent(this, GcmRegistrationService.class);
+                intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
+                startService(intent);
+            }
+        } else {
+            requestReadPhoneStatePermission();
+        }
+    }
+
+    private void checkPlayServicesAvailability() {
+        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
+        if (resultCode != ConnectionResult.SUCCESS) {
+            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+                //Play Services is not installed/enabled
+                GooglePlayServicesUtil.showErrorNotification(resultCode, this);
+            } else {
+                //This device does not support Play Services
+            }
+        }
     }
 
     private void initializeUpdateProgressBar() {
@@ -366,6 +402,33 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    private void requestReadPhoneStatePermission() {
+        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
+            // Provide an additional rationale to the user if the permission was not granted
+            // and the user would benefit from additional context for the use of the permission.
+            // For example, if the request has been denied previously.
+            new AlertDialog.Builder(this)
+                    .setMessage(R.string.permission_read_phone_state)
+                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+                        }
+                    })
+                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .show();
+        } else {
+            // Contact permission has not been granted yet. Request it directly.
+            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
+        }
+    }
+//
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
 //            // Provide an additional rationale to the user if the permission was not granted
@@ -392,7 +455,6 @@ public class MainActivity extends AppCompatActivity
 //            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
 //        }
 //    }
-
 //    private void requestCalendarPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
 //                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
@@ -421,8 +483,21 @@ public class MainActivity extends AppCompatActivity
 //        }
 //    }
 
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        if (requestCode == REQUEST_READ_PHONE_STATE) {
+            if (PermissionUtil.verifyPermissions(grantResults)) {
+                // User granted permissions dialog
+                checkGcmRegistrationState();
+            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
+                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
+                // User denied permissions dialog
+            } else {
+                // User denied permissions dialog and checked never ask again
+            }
+        } else {
+            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        }
 //        if (requestCode == REQUEST_CONTACTS) {
 //            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
 //            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -494,7 +569,7 @@ public class MainActivity extends AppCompatActivity
 //        } else {
 //            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //        }
-//    }
+    }
 
     private void initializeGoogleSignIn() {
         // Configure sign-in to request the user's ID, email address, and basic

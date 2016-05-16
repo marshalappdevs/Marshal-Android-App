@@ -1,15 +1,12 @@
 {
   "project_info": {
-    "project_id": "marshal-1198",
     "project_number": "608057070384",
-    "name": "marshal"
+    "project_id": "marshal-1198"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:608057070384:android:9f9b62e3159e9196",
-        "client_id": "android:com.basmach.marshal",
-        "client_type": 1,
         "android_client_info": {
           "package_name": "com.basmach.marshal"
         }
@@ -22,23 +19,24 @@
             "package_name": "com.basmach.marshal",
             "certificate_hash": "8057AA49D89036E82C264C1DB6233BAEE6F5C64C"
           }
+        },
+        {
+          "client_id": "608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com",
+          "client_type": 3
         }
       ],
-      "api_key": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAihYjVcZvsjAWpG8j3ZBupnxbhuiru-nU"
+        }
+      ],
       "services": {
         "analytics_service": {
           "status": 1
         },
-        "cloud_messaging_service": {
-          "status": 1,
-          "apns_config": []
-        },
         "appinvite_service": {
           "status": 1,
           "other_platform_oauth_client": []
-        },
-        "google_signin_service": {
-          "status": 2
         },
         "ads_service": {
           "status": 1
@@ -46,6 +44,5 @@
       }
     }
   ],
-  "client_info": [],
-  "ARTIFACT_VERSION": "1"
+  "configuration_version": "1"
 }

@@ -1,6 +1,7 @@
 package com.basmach.marshal.interfaces;
 
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.GcmRegistration;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.utils.MarshalServiceProvider;
@@ -37,4 +38,14 @@ public interface IMarshalService {
     @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}/{userMailAddress}")
     Call<Rating> deleteRating(@Path("courseCode") String courseCode,
                               @Path("userMailAddress") String userMailAddress);
+
+    //******** GCM ********//
+    @POST (MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
+    Call<GcmRegistration> gcmRegisterNewDevice(@Body GcmRegistration gcmRegistration);
+
+    @PUT (MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
+    Call<GcmRegistration> gcmRegisterExistDevice(@Body GcmRegistration gcmRegistration);
+
+    @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
+    Call<Rating> deleteGcmRegistration(@Path("hardwareId") String hardwareId);
 }
