@@ -18,6 +18,7 @@
     <string name="permission_contacts_access">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
     <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן.</string>
     <string name="permission_calendar_access">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
+    <string name="permission_read_phone_state">כדי לקבל התראות בדחיפה, התר למרש\"ל התקשרות וניהול של שיחות טלפון.</string>
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
@@ -109,5 +110,4 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="permission_read_phone_state">To receive push notifications from Marshal App, we need a permission to read your phone state</string>
 </resources>
