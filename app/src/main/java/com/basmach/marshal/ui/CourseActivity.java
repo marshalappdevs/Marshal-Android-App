@@ -556,6 +556,7 @@ public class CourseActivity extends AppCompatActivity {
                         mUserRating.setComment(input.getText().toString());
                         mUserRating.setRating(mRatingBarUser.getRating());
                         mUserRating.setUserMailAddress(emailHash);
+                        mUserRating.setPlainMailAddress(MainActivity.sUserEmailAddress);
                         mUserRating.setCourseCode(mCourse.getCourseCode());
                         mUserRating.setCreatedAt(new Date());
                         mUserRating.setLastModified(new Date());
