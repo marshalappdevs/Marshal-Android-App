@@ -79,6 +79,9 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -540,6 +543,33 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public static String SHA1(String text) {
+        try {
+            MessageDigest messageDigest = MessageDigest.getInstance( "SHA-1" );
+            messageDigest.update(text.getBytes("UTF-8"), 0, text.length());
+            byte[] sha1hash = messageDigest.digest();
+            return toHex(sha1hash);
+        } catch (NoSuchAlgorithmException | UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public static String toHex(byte[] buf) {
+        if (buf == null) return "";
+        StringBuffer result = new StringBuffer(buf.length * 2);
+        for (byte aBuf : buf) {
+            appendHex(result, aBuf);
+        }
+        return result.toString();
+    }
+
+    final protected static String HEX = "0123456789ABCDEF";
+    private static void appendHex(StringBuffer sb, byte b) {
+        sb.append(HEX.charAt((b >> 4) & 0x0f))
+                .append(HEX.charAt(b & 0x0f));
+    }
+
     private void handleSignInResult(GoogleSignInResult result) {
         if (result.isSuccess()) {
             // Signed in successfully, show authenticated UI.
@@ -549,6 +579,9 @@ public class MainActivity extends AppCompatActivity
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
+                // Test SHA1
+                Toast.makeText(this, SHA1(acct.getEmail()), Toast.LENGTH_LONG).show();
+                // Test SHA1
                 MainActivity.sUserEmailAddress = acct.getEmail();
                 MainActivity.sUserName = acct.getDisplayName();
                 MainActivity.sUserProfileImage = acct.getPhotoUrl();
