@@ -50,6 +50,7 @@ import com.basmach.marshal.ui.utils.ColorUtils;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 import com.basmach.marshal.utils.DateHelper;
+import com.basmach.marshal.utils.HashUtil;
 import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
@@ -399,43 +400,47 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     private void showUserRating() {
-        Rating.queryInBackground(Rating.class, CourseActivity.this, false,
-                new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
-                new String[]{mCourse.getCourseCode(), MainActivity.sUserEmailAddress},
-                new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
+        if (MainActivity.sUserEmailAddress != null) {
+            Rating.queryInBackground(Rating.class, CourseActivity.this, false,
+                    new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
+                    new String[]{mCourse.getCourseCode(), HashUtil.SHA1(MainActivity.sUserEmailAddress)},
+                    new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
 
-                        if (data != null && data.size() > 0) {
+                            if (data != null && data.size() > 0) {
 
-                            mRatingBarUser.setVisibility(View.GONE);
-                            mReviewItemContainer.setVisibility(View.VISIBLE);
-                            mReviewAuthor.setText(MainActivity.sUserName);
-                            Uri uri = MainActivity.sUserProfileImage;
-                            Picasso.with(CourseActivity.this)
-                                    .load(uri)
-                                    .placeholder(R.drawable.ic_profile_none)
-                                    .into(mReviewProfileImageView);
-                            mTextViewReviewHint.setVisibility(View.GONE);
-                            mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
-                            try {
-                                mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                mTextViewReviewDate.setText(DateHelper.dateToString(((Rating)(data.get(0))).getLastModified()));
-                            } catch (Exception e) {
-                                e.printStackTrace();
+                                mRatingBarUser.setVisibility(View.GONE);
+                                mReviewItemContainer.setVisibility(View.VISIBLE);
+                                mReviewAuthor.setText(MainActivity.sUserName);
+                                Uri uri = MainActivity.sUserProfileImage;
+                                Picasso.with(CourseActivity.this)
+                                        .load(uri)
+                                        .placeholder(R.drawable.ic_profile_none)
+                                        .into(mReviewProfileImageView);
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
+                                try {
+                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                    mTextViewReviewDate.setText(DateHelper.dateToString(((Rating)(data.get(0))).getLastModified()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                }
+                                mReviewRating.setRating((float) ((Rating)(data.get(0))).getRating());
+                                mUserRating = (Rating)data.get(0);
+                            } else {
+                                initializeRatingViews();
                             }
-                            mReviewRating.setRating((float) ((Rating)(data.get(0))).getRating());
-                            mUserRating = (Rating)data.get(0);
-                        } else {
+                        }
+
+                        @Override
+                        public void onError(String error) {
                             initializeRatingViews();
                         }
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        initializeRatingViews();
-                    }
-                });
+                    });
+        } else {
+            initializeRatingViews();
+        }
     }
 
     private void showRatingsCount() {
@@ -543,77 +548,84 @@ public class CourseActivity extends AppCompatActivity {
             positiveButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    mUserRating = new Rating(CourseActivity.this);
-                    mUserRating.setComment(input.getText().toString());
-                    mUserRating.setRating(mRatingBarUser.getRating());
-                    mUserRating.setUserMailAddress(MainActivity.sUserEmailAddress);
-                    mUserRating.setCourseCode(mCourse.getCourseCode());
-                    mUserRating.setCreatedAt(new Date());
-                    mUserRating.setLastModified(new Date());
-                    MarshalServiceProvider.getInstance().postRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
-                        @Override
-                        public void onResponse(Call<Rating> call, Response<Rating> response) {
-                            if (response.isSuccessful()) {
-                                new AsyncTask<Void, Void, Boolean>() {
-                                    @Override
-                                    protected Boolean doInBackground(Void... voids) {
-                                        try {
-                                            mUserRating.create();
-                                            return true;
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            return false;
+
+                    String emailHash = null;
+                    try {
+                        emailHash = HashUtil.SHA1(MainActivity.sUserEmailAddress);
+                        mUserRating = new Rating(CourseActivity.this);
+                        mUserRating.setComment(input.getText().toString());
+                        mUserRating.setRating(mRatingBarUser.getRating());
+                        mUserRating.setUserMailAddress(emailHash);
+                        mUserRating.setCourseCode(mCourse.getCourseCode());
+                        mUserRating.setCreatedAt(new Date());
+                        mUserRating.setLastModified(new Date());
+                        MarshalServiceProvider.getInstance().postRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
+                            @Override
+                            public void onResponse(Call<Rating> call, Response<Rating> response) {
+                                if (response.isSuccessful()) {
+                                    new AsyncTask<Void, Void, Boolean>() {
+                                        @Override
+                                        protected Boolean doInBackground(Void... voids) {
+                                            try {
+                                                mUserRating.create();
+                                                return true;
+                                            } catch (Exception e) {
+                                                e.printStackTrace();
+                                                return false;
+                                            }
                                         }
-                                    }
 
-                                    @Override
-                                    protected void onPostExecute(Boolean result) {
-                                        super.onPostExecute(result);
-                                        if (result) {
-                                            showRatingAverage();
-                                            showRatingsCount();
-                                            showUserRating();
+                                        @Override
+                                        protected void onPostExecute(Boolean result) {
+                                            super.onPostExecute(result);
+                                            if (result) {
+                                                showRatingAverage();
+                                                showRatingsCount();
+                                                showUserRating();
 
-                                            // Send broadcast for update the rating on the CardView
-                                            Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-                                            sendBroadcast(intent);
+                                                // Send broadcast for update the rating on the CardView
+                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                                sendBroadcast(intent);
+                                            }
                                         }
+                                    }.execute();
+
+                                    // Simulate showing user review
+
+                                    mTextViewReviewHint.setVisibility(View.GONE);
+                                    mRatingBarUser.setVisibility(View.GONE);
+                                    mReviewItemContainer.setVisibility(View.VISIBLE);
+                                    mReviewAuthor.setText(MainActivity.sUserName);
+                                    Uri uri = MainActivity.sUserProfileImage;
+                                    Picasso.with(CourseActivity.this)
+                                            .load(uri)
+                                            .placeholder(R.drawable.ic_profile_none)
+                                            .into(mReviewProfileImageView);
+                                    mTextViewReviewEdited.setVisibility(View.GONE);
+
+                                    mReviewRating.setRating(mRatingBarUser.getRating());
+                                    try {
+                                        mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                        mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
                                     }
-                                }.execute();
-
-                                // Simulate showing user review
-
-                                mTextViewReviewHint.setVisibility(View.GONE);
-                                mRatingBarUser.setVisibility(View.GONE);
-                                mReviewItemContainer.setVisibility(View.VISIBLE);
-                                mReviewAuthor.setText(MainActivity.sUserName);
-                                Uri uri = MainActivity.sUserProfileImage;
-                                Picasso.with(CourseActivity.this)
-                                        .load(uri)
-                                        .placeholder(R.drawable.ic_profile_none)
-                                        .into(mReviewProfileImageView);
-                                mTextViewReviewEdited.setVisibility(View.GONE);
-
-                                mReviewRating.setRating(mRatingBarUser.getRating());
-                                try {
-                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                    mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
-                                } catch (Exception e) {
-                                    e.printStackTrace();
+                                    mTextViewReviewText.setText(input.getText().toString());
+                                    Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
                                 }
-                                mTextViewReviewText.setText(input.getText().toString());
-                                Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
                             }
-                        }
-                        @Override
-                        public void onFailure(Call<Rating> call, Throwable t) {
-                            mRatingBarUser.setOnRatingBarChangeListener(null);
-                            mRatingBarUser.setRating(0);
-                            mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-                            Toast.makeText(CourseActivity.this, R.string.review_feedback_posted_error, Toast.LENGTH_LONG).show();
-                        }
-                    });
-                    alertDialog.dismiss();
+                            @Override
+                            public void onFailure(Call<Rating> call, Throwable t) {
+                                mRatingBarUser.setOnRatingBarChangeListener(null);
+                                mRatingBarUser.setRating(0);
+                                mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
+                                Toast.makeText(CourseActivity.this, R.string.review_feedback_posted_error, Toast.LENGTH_LONG).show();
+                            }
+                        });
+                        alertDialog.dismiss();
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                 }
             });
         } else {
@@ -720,7 +732,7 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if(mUserRating != null) {
                         MarshalServiceProvider.getInstance().deleteRating(mUserRating.getCourseCode(),
-                                mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
+                                HashUtil.SHA1(mUserRating.getUserMailAddress())).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
                             public void onResponse(Call<Rating> call, Response<Rating> response) {
                                 if (response.isSuccessful()) {
