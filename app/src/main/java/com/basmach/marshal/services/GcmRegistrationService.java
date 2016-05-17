@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.telephony.TelephonyManager;
 import android.util.Log;
 
@@ -43,8 +44,9 @@ public class GcmRegistrationService extends IntentService {
         GcmRegistration gcmRegistration= new GcmRegistration();
         InstanceID instanceID = InstanceID.getInstance(this);
         try {
-            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-            String hardwareId = telephonyManager.getDeviceId();
+//            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
+//            String hardwareId = telephonyManager.getDeviceId();
+            String hardwareId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
             if(hardwareId != null) {
                 String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);

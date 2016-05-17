@@ -246,16 +246,21 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void checkGcmRegistrationState(){
-        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) ==
-                PackageManager.PERMISSION_GRANTED) {
-            if(!GcmRegistrationService.isDeviceRegistered(this)) {
-                Intent intent = new Intent(this, GcmRegistrationService.class);
-                intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
-                startService(intent);
-            }
-        } else {
-            requestReadPhoneStatePermission();
+        if(!GcmRegistrationService.isDeviceRegistered(this)) {
+            Intent intent = new Intent(this, GcmRegistrationService.class);
+            intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
+            startService(intent);
         }
+//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) ==
+//                PackageManager.PERMISSION_GRANTED) {
+//            if(!GcmRegistrationService.isDeviceRegistered(this)) {
+//                Intent intent = new Intent(this, GcmRegistrationService.class);
+//                intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
+//                startService(intent);
+//            }
+//        } else {
+//            requestReadPhoneStatePermission();
+//        }
     }
 
     private void checkPlayServicesAvailability() {
