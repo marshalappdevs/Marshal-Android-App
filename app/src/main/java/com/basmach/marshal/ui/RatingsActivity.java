@@ -1,9 +1,6 @@
 package com.basmach.marshal.ui;
 
-import android.animation.Animator;
 import android.content.res.Configuration;
-import android.os.Build;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -23,7 +20,6 @@ import com.basmach.marshal.ui.adapters.RatingsRecyclerAdapter;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RatingsActivity extends AppCompatActivity {
@@ -33,6 +29,7 @@ public class RatingsActivity extends AppCompatActivity {
     public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
 
+    Toolbar mToolbar;
     Course mCourse;
     List<Rating> mRatings;
     RecyclerView mRecycler;
@@ -54,18 +51,19 @@ public class RatingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ratings);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
 
-        if (getSupportActionBar() != null) {
-            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-            toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    finish();
-                }
-            });
-        }
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(mCourse.getName());
+        setSupportActionBar(mToolbar);
+        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
 
         mTextViewRatingAverage = (TextView) findViewById(R.id.activity_ratings_textView_average_value);
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
@@ -82,8 +80,6 @@ public class RatingsActivity extends AppCompatActivity {
         mTextViewRatingAverage.setText(mRatingAverage);
         mTextViewRatingsAmount.setText(mRatingsAmount);
         mRatingBar.setRating(mRatingBarStars);
-
-        mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
 
         if (mCourse != null) {
             Rating.getByColumnInBackground(true, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
