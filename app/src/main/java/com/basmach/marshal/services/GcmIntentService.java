@@ -51,10 +51,9 @@ public class GcmIntentService extends GcmListenerService {
                 NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.ic_marshal_hat)
-                        .setContentTitle("Marshal")
+                        .setContentTitle(getString(R.string.app_name))
                         .setContentText(message)
                         .setLights(Color.RED, 1000, 1000)
-    //                    .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION))
                         .setSound(ringtoneUri)
                         .setContentIntent(pendingIntent)
                         .setAutoCancel(true)
