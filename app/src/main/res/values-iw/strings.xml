@@ -18,7 +18,6 @@
     <string name="permission_contacts_access">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
     <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן.</string>
     <string name="permission_calendar_access">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
-    <string name="permission_read_phone_state">כדי לקבל התראות בדחיפה, התר למרש\"ל התקשרות וניהול של שיחות טלפון.</string>
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>

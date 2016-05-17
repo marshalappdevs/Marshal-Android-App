@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.Manifest;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -9,7 +8,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Animatable;
@@ -20,17 +18,14 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
-import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.ActionMenuView;
 import android.support.v7.widget.SearchView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -41,7 +36,6 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +58,6 @@ import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
-import com.basmach.marshal.utils.PermissionUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -97,7 +90,6 @@ public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
 //    private static final int REQUEST_CONTACTS = 0;
 //    private static final int REQUEST_CALENDAR = 1;
-    private static final int REQUEST_READ_PHONE_STATE = 2;
 //    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
@@ -127,12 +119,12 @@ public class MainActivity extends AppCompatActivity
     private List<Object> mCoursesData;
     private List<Object> mRatingsData;
 
-    public static int lastCoursesViewPagerIndex = 0;
-    public static ArrayList<Course> allCourses;
-    public static ArrayList<Rating> allRatings;
-    public static String userEmailAddress;
-    public static String userName;
-    public static Uri userProfileImage;
+    public static int sLastCoursesViewPagerIndex = 0;
+    public static ArrayList<Course> sAllCourses;
+    public static ArrayList<Rating> sAllRatings;
+    public static String sUserEmailAddress;
+    public static String sUserName;
+    public static Uri sUserProfileImage;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -209,8 +201,8 @@ public class MainActivity extends AppCompatActivity
                     mIsRefreshAnimationRunning = false;
 
                     mCoursesData = null;
-                    allCourses = null;
-                    allRatings = null;
+                    sAllCourses = null;
+                    sAllRatings = null;
 
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
@@ -251,16 +243,6 @@ public class MainActivity extends AppCompatActivity
             intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
             startService(intent);
         }
-//        if (ContextCompat.checkSelfPermission(this, Manifest.permission.READ_PHONE_STATE) ==
-//                PackageManager.PERMISSION_GRANTED) {
-//            if(!GcmRegistrationService.isDeviceRegistered(this)) {
-//                Intent intent = new Intent(this, GcmRegistrationService.class);
-//                intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
-//                startService(intent);
-//            }
-//        } else {
-//            requestReadPhoneStatePermission();
-//        }
     }
 
     private void checkPlayServicesAvailability() {
@@ -293,7 +275,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    //// TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
+    // TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
     @Override
     protected void onNewIntent(Intent intent) {
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
@@ -301,7 +283,7 @@ public class MainActivity extends AppCompatActivity
             if(!isFinishing()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, allRatings))
+                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, sAllRatings))
                         .commitAllowingStateLoss();
             }
         }
@@ -367,72 +349,6 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private void animateToolbar() {
-
-        View t = mToolbar.getChildAt(0);
-        if (t != null && t instanceof TextView) {
-            TextView title = (TextView) t;
-
-            title.setAlpha(0f);
-            title.setScaleX(0.8f);
-
-            title.animate()
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .setStartDelay(300)
-                    .setDuration(900);
-        }
-        View amv = mToolbar.getChildAt(1);
-        if (amv != null & amv instanceof ActionMenuView) {
-            ActionMenuView actions = (ActionMenuView) amv;
-            popAnim(actions.getChildAt(0), 500, 200); // filter
-            popAnim(actions.getChildAt(1), 700, 200); // overflow
-        }
-    }
-
-    private void popAnim(View v, int startDelay, int duration) {
-        if (v != null) {
-            v.setAlpha(0f);
-            v.setScaleX(0f);
-            v.setScaleY(0f);
-
-            v.animate()
-                    .alpha(1f)
-                    .scaleX(1f)
-                    .scaleY(1f)
-                    .setStartDelay(startDelay)
-                    .setDuration(duration)
-                    .setInterpolator(AnimationUtils.loadInterpolator(this,
-                            android.R.interpolator.overshoot));
-        }
-    }
-
-    private void requestReadPhoneStatePermission() {
-        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_PHONE_STATE)) {
-            // Provide an additional rationale to the user if the permission was not granted
-            // and the user would benefit from additional context for the use of the permission.
-            // For example, if the request has been denied previously.
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.permission_read_phone_state)
-                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
-                        }
-                    })
-                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
-        } else {
-            // Contact permission has not been granted yet. Request it directly.
-            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.READ_PHONE_STATE}, REQUEST_READ_PHONE_STATE);
-        }
-    }
 //
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
@@ -488,21 +404,8 @@ public class MainActivity extends AppCompatActivity
 //        }
 //    }
 
-    @Override
-    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-        if (requestCode == REQUEST_READ_PHONE_STATE) {
-            if (PermissionUtil.verifyPermissions(grantResults)) {
-                // User granted permissions dialog
-                checkGcmRegistrationState();
-            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
-                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-                // User denied permissions dialog
-            } else {
-                // User denied permissions dialog and checked never ask again
-            }
-        } else {
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-        }
+//    @Override
+//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
 //        if (requestCode == REQUEST_CONTACTS) {
 //            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
 //            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
@@ -574,7 +477,7 @@ public class MainActivity extends AppCompatActivity
 //        } else {
 //            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
 //        }
-    }
+//    }
 
     private void initializeGoogleSignIn() {
         // Configure sign-in to request the user's ID, email address, and basic
@@ -646,9 +549,9 @@ public class MainActivity extends AppCompatActivity
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
-                MainActivity.userEmailAddress = acct.getEmail();
-                MainActivity.userName = acct.getDisplayName();
-                MainActivity.userProfileImage = acct.getPhotoUrl();
+                MainActivity.sUserEmailAddress = acct.getEmail();
+                MainActivity.sUserName = acct.getDisplayName();
+                MainActivity.sUserProfileImage = acct.getPhotoUrl();
                 Uri uri = acct.getPhotoUrl();
                 Picasso.with(this)
                         .load(uri)
@@ -765,7 +668,7 @@ public class MainActivity extends AppCompatActivity
                             public void onClick(DialogInterface dialog, int which) {
                                 dialog.dismiss();
                                 revokeAccess();
-                                MainActivity.userEmailAddress = null;
+                                MainActivity.sUserEmailAddress = null;
                                 recreate();
                             }
                         })

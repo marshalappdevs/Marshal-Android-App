@@ -31,7 +31,6 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
@@ -39,7 +38,6 @@ import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -149,18 +147,18 @@ public class CoursesFragment extends Fragment {
                 @Override
                 protected Boolean doInBackground(Void... voids) {
                     try {
-                        if (MainActivity.allRatings == null) {
+                        if (MainActivity.sAllRatings == null) {
                             mRatingsList = (ArrayList) Rating.getAll(DBConstants.COL_COURSE_CODE, getActivity(), Rating.class);
-                            MainActivity.allRatings = mRatingsList;
+                            MainActivity.sAllRatings = mRatingsList;
                         } else {
-                            mRatingsList = MainActivity.allRatings;
+                            mRatingsList = MainActivity.sAllRatings;
                         }
 
-                        if (MainActivity.allCourses == null) {
+                        if (MainActivity.sAllCourses == null) {
                             mCoursesList = (ArrayList) Course.getAll(DBConstants.COL_ID, getActivity(), Course.class);
-                            MainActivity.allCourses = mCoursesList;
+                            MainActivity.sAllCourses = mCoursesList;
                         } else {
-                            mCoursesList = MainActivity.allCourses;
+                            mCoursesList = MainActivity.sAllCourses;
                         }
 
                         if (mCoursesList.size() > 0) {
@@ -295,7 +293,7 @@ public class CoursesFragment extends Fragment {
         mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
-        mViewPager.setCurrentItem(MainActivity.lastCoursesViewPagerIndex);
+        mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator.setViewPager(mViewPager);
         startViewPagerTimer();
         stopViewPagerTimerOnTouch();
@@ -466,7 +464,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onPause() {
         super.onDestroyView();
-        MainActivity.lastCoursesViewPagerIndex = mViewPager.getCurrentItem();
+        MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
     }
 
     @Override

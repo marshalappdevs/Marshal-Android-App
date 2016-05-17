@@ -378,7 +378,7 @@ public class CourseActivity extends AppCompatActivity {
         mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
             @Override
             public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (MainActivity.userEmailAddress != null && ratingBar.getRating() != 0) {
+                if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
                     showReviewCommentDialog(false);
                 } else {
                     if (ratingBar.getRating() != 0) {
@@ -401,7 +401,7 @@ public class CourseActivity extends AppCompatActivity {
     private void showUserRating() {
         Rating.queryInBackground(Rating.class, CourseActivity.this, false,
                 new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
-                new String[]{mCourse.getCourseCode(), MainActivity.userEmailAddress},
+                new String[]{mCourse.getCourseCode(), MainActivity.sUserEmailAddress},
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -410,8 +410,8 @@ public class CourseActivity extends AppCompatActivity {
 
                             mRatingBarUser.setVisibility(View.GONE);
                             mReviewItemContainer.setVisibility(View.VISIBLE);
-                            mReviewAuthor.setText(MainActivity.userName);
-                            Uri uri = MainActivity.userProfileImage;
+                            mReviewAuthor.setText(MainActivity.sUserName);
+                            Uri uri = MainActivity.sUserProfileImage;
                             Picasso.with(CourseActivity.this)
                                     .load(uri)
                                     .placeholder(R.drawable.ic_profile_none)
@@ -491,10 +491,10 @@ public class CourseActivity extends AppCompatActivity {
 
         mProfileImageView = (CircleImageView) dialogView.findViewById(R.id.user_profile_image);
         TextView reviewBy = (TextView) dialogView.findViewById(R.id.review_by);
-        String userName = String.format(getString(R.string.review_by), MainActivity.userName);
+        String userName = String.format(getString(R.string.review_by), MainActivity.sUserName);
         reviewBy.setText(userName);
 
-        Uri uri = MainActivity.userProfileImage;
+        Uri uri = MainActivity.sUserProfileImage;
         Picasso.with(this)
                 .load(uri)
                 .placeholder(R.drawable.ic_profile_none)
@@ -546,7 +546,7 @@ public class CourseActivity extends AppCompatActivity {
                     mUserRating = new Rating(CourseActivity.this);
                     mUserRating.setComment(input.getText().toString());
                     mUserRating.setRating(mRatingBarUser.getRating());
-                    mUserRating.setUserMailAddress(MainActivity.userEmailAddress);
+                    mUserRating.setUserMailAddress(MainActivity.sUserEmailAddress);
                     mUserRating.setCourseCode(mCourse.getCourseCode());
                     mUserRating.setCreatedAt(new Date());
                     mUserRating.setLastModified(new Date());
@@ -586,8 +586,8 @@ public class CourseActivity extends AppCompatActivity {
                                 mTextViewReviewHint.setVisibility(View.GONE);
                                 mRatingBarUser.setVisibility(View.GONE);
                                 mReviewItemContainer.setVisibility(View.VISIBLE);
-                                mReviewAuthor.setText(MainActivity.userName);
-                                Uri uri = MainActivity.userProfileImage;
+                                mReviewAuthor.setText(MainActivity.sUserName);
+                                Uri uri = MainActivity.sUserProfileImage;
                                 Picasso.with(CourseActivity.this)
                                         .load(uri)
                                         .placeholder(R.drawable.ic_profile_none)
