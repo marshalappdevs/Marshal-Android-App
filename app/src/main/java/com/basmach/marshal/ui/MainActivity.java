@@ -553,9 +553,6 @@ public class MainActivity extends AppCompatActivity
             if (acct != null) {
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
-                // Test SHA1
-                Toast.makeText(this, HashUtil.SHA1(acct.getEmail()), Toast.LENGTH_LONG).show();
-                // Test SHA1
                 MainActivity.sUserEmailAddress = acct.getEmail();
                 MainActivity.sUserName = acct.getDisplayName();
                 MainActivity.sUserProfileImage = acct.getPhotoUrl();
