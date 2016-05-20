@@ -86,6 +86,7 @@
     <string name="review_feedback_posted">תודה על המשוב ששלחת!</string>
     <string name="review_feedback_posted_error">לא ניתן היה לדרג את התגובה.</string>
     <string name="edit_review">ערוך</string>
+    <string name="new_updates">עדכונים חדשים</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>

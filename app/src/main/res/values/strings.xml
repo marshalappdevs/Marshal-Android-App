@@ -90,6 +90,7 @@
     <string name="review_feedback_posted">Thanks for your feedback!</string>
     <string name="review_feedback_posted_error">"Couldn't rate comment."</string>
     <string name="edit_review">Edit</string>
+    <string name="new_updates">New Updates</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
