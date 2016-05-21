@@ -62,7 +62,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int position) {
-        return Long.parseLong(mItems.get(position).image);
+        return mItems.get(position).name;
     }
 
     @Override
@@ -103,6 +103,15 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
                 } else {
                     mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(item.url)));
                 }
+            }
+        });
+        view.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View v) {
+                Intent intent = new Intent(Intent.ACTION_DIAL);
+                intent.setData(Uri.parse("tel:*3808"));
+                mContext.startActivity(intent);
+                return false;
             }
         });
         return view;
