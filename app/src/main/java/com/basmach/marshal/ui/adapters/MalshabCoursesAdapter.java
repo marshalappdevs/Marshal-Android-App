@@ -67,28 +67,27 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
 
     @Override
     public View getView(final int position, View view, ViewGroup viewGroup) {
-        View v = view;
         ImageView picture;
-        TextView name;
+        TextView text;
 
-        if (v == null) {
-            v = mInflater.inflate(R.layout.malshab_course_gridview, viewGroup, false);
-            v.setTag(R.id.picture, v.findViewById(R.id.picture));
-            v.setTag(R.id.text, v.findViewById(R.id.text));
+        if (view == null) {
+            view = mInflater.inflate(R.layout.malshab_course_gridview, viewGroup, false);
+            view.setTag(R.id.picture, view.findViewById(R.id.picture));
+            view.setTag(R.id.text, view.findViewById(R.id.text));
         }
 
-        picture = (ImageView) v.getTag(R.id.picture);
-        name = (TextView) v.getTag(R.id.text);
+        picture = (ImageView) view.getTag(R.id.picture);
+        text = (TextView) view.getTag(R.id.text);
 
         final Item item = getItem(position);
 
-        name.setText(item.name);
+        text.setText(item.name);
 
         Picasso.with(mContext)
                 .load(item.image)
                 .into(picture);
 
-        v.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 //                Toast.makeText(mContext, item.name, Toast.LENGTH_SHORT).show();
@@ -106,8 +105,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
                 }
             }
         });
-
-        return v;
+        return view;
     }
 
     private static class Item {
