@@ -326,6 +326,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
         mRootView.findViewById(R.id.fragment_courses_software_see_all).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_software_recyclerView).setVisibility(View.VISIBLE);
     }
 
     private void initializeCyberComponents() {
@@ -348,6 +349,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
         mRootView.findViewById(R.id.fragment_courses_cyber_see_all).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView).setVisibility(View.VISIBLE);
     }
 
     private void initializeITComponents() {
@@ -370,6 +372,7 @@ public class CoursesFragment extends Fragment {
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
         mRootView.findViewById(R.id.fragment_courses_it_see_all).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_it_recyclerView).setVisibility(View.VISIBLE);
     }
 
     private void startViewPagerTimer() {

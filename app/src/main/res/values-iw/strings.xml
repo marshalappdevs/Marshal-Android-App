@@ -88,6 +88,13 @@
     <string name="edit_review">ערוך</string>
     <string name="new_updates">עדכונים חדשים</string>
 
+    <!--Roles-->
+    <string name="programmer">תוכניתן</string>
+    <string name="infrastructure_manager">מנהל תשתיות מחשב</string>
+    <string name="software_qa">בודק תוכנה</string>
+    <string name="cyber_defender">מגן בסייבר</string>
+    <string name="educational_tools_developer">כותבת לומדה</string>
+
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
     <string name="pref_language_title">שפה</string>
