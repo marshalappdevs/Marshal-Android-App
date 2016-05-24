@@ -27,6 +27,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
+import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -37,8 +38,11 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.basmach.marshal.ApplicationMarshal;
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
@@ -130,8 +134,11 @@ public class MainActivity extends AppCompatActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
+    public static LinearLayout btnNewUpdates;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        Log.i("MainActivity - ", "onCreate");
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
         LocaleUtils.updateLocale(this);
@@ -154,6 +161,9 @@ public class MainActivity extends AppCompatActivity
 
         initializeUpdateProgressBar();
 
+        MainActivity.btnNewUpdates = null;
+        initializeNewUpdatesButton();
+
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
@@ -167,18 +177,8 @@ public class MainActivity extends AppCompatActivity
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
-//        animateToolbar();
 
         initializeGoogleSignIn();
-
-//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-//        fab.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View view) {
-//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-//                        .setAction("Action", null).show();
-//            }
-//        });
 
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
@@ -186,43 +186,56 @@ public class MainActivity extends AppCompatActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-//        MockDataProvider mockDataProvider = new MockDataProvider(this);
-//        mockDataProvider.insertAllMaterialItems();
-//        mockDataProvider.insertAllCycles();
-//        mockDataProvider.insertAllCourses();
+        if(mSharedPreferences != null) {
+            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                mUpdateProgressDialog.show();
+            }
+        }
 
         updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
             @Override
-            public void onFinish() {
-                if (mRefreshMenuItem != null) {
-
-                    Drawable drawable = mRefreshMenuItem.getIcon();
-
-                    if (drawable instanceof Animatable) {
-                        ((Animatable) drawable).stop();
-                    }
-
-                    mIsRefreshAnimationRunning = false;
-
-                    mCoursesData = null;
-                    sAllCourses = null;
-                    sAllRatings = null;
-
-                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                    if (currentFragment instanceof CoursesFragment) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                    } else if (currentFragment instanceof MaterialsFragment) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
-                    }
-
-                    mUpdateProgressDialog.dismiss();
-                    initializeUpdateProgressBar();
+            public void onFinish(boolean result) {
+                if (result) {
 
                     if(mSharedPreferences != null) {
-                        if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, false)) {
+                        if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                            Log.i("MAIN ACTIVITY", "FIRST RUN");
                             mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+
+                            MainActivity.sAllCourses = null;
+                            MainActivity.sAllRatings = null;
+                            onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+                            mNavigationView.setCheckedItem(R.id.nav_courses);
+
+                            mUpdateProgressDialog.dismiss();
+                            initializeUpdateProgressBar();
+                        } else {
+                            showNewUpdatesButton();
                         }
+                    } else {
+                        showNewUpdatesButton();
                     }
+
+//                    Drawable drawable = mRefreshMenuItem.getIcon();
+
+//                    if (drawable instanceof Animatable) {
+//                        ((Animatable) drawable).stop();
+//                    }
+
+//                    mIsRefreshAnimationRunning = false;
+
+//                    mCoursesData = null;
+//                    sAllCourses = null;
+//                    sAllRatings = null;
+
+//                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+//                    if (currentFragment instanceof CoursesFragment) {
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+//                    } else if (currentFragment instanceof MaterialsFragment) {
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
+//                    }
+                } else {
+                    mUpdateProgressDialog.dismiss();
                 }
             }
 
@@ -238,7 +251,41 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        checkIfFirstRun();
+//        checkIfFirstRun();
+    }
+
+    private void showNewUpdatesButton() {
+        if (MainActivity.btnNewUpdates != null) {
+            MainActivity.btnNewUpdates.setVisibility(View.VISIBLE);
+        } else {
+            initializeNewUpdatesButton();
+            MainActivity.btnNewUpdates.setVisibility(View.VISIBLE);
+        }
+    }
+
+    private void initializeNewUpdatesButton() {
+        if (MainActivity.btnNewUpdates == null) {
+            MainActivity.btnNewUpdates = (LinearLayout) findViewById(R.id.new_updates_button);
+            MainActivity.btnNewUpdates.setVisibility(View.GONE);
+            MainActivity.btnNewUpdates.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    MainActivity.sAllCourses = null;
+                    MainActivity.sAllRatings = null;
+                    MainActivity.btnNewUpdates.setVisibility(View.GONE);
+
+                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                    if (currentFragment instanceof CoursesFragment) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+                    } else if (currentFragment instanceof MaterialsFragment) {
+                        mMaterialsFragment = new MaterialsFragment();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+                    }
+                }
+            });
+        } else {
+            MainActivity.btnNewUpdates.setVisibility(View.GONE);
+        }
     }
 
     private void checkGcmRegistrationState(){

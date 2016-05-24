@@ -1,15 +1,20 @@
 package com.basmach.marshal.services;
 
+import android.app.Application;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
+import com.basmach.marshal.ApplicationMarshal;
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.ui.MainActivity;
@@ -66,11 +71,9 @@ public class UpdateIntentService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
-    public static void startCheckForUpdate(Context context, String param1, String param2) {
+    public static void startCheckForUpdate(Context context) {
         Intent intent = new Intent(context, UpdateIntentService.class);
         intent.setAction(ACTION_CHECK_FOR_UPDATE);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
     }
 
@@ -81,11 +84,9 @@ public class UpdateIntentService extends IntentService {
      * @see IntentService
      */
     // TODO: Customize helper method
-    public static void startUpdateData(Context context, String param1, String param2) {
+    public static void startUpdateData(Context context) {
         Intent intent = new Intent(context, UpdateIntentService.class);
         intent.setAction(ACTION_UPDATE_DATA);
-        intent.putExtra(EXTRA_PARAM1, param1);
-        intent.putExtra(EXTRA_PARAM2, param2);
         context.startService(intent);
     }
 
@@ -94,13 +95,9 @@ public class UpdateIntentService extends IntentService {
         if (intent != null) {
             final String action = intent.getAction();
             if (ACTION_CHECK_FOR_UPDATE.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionCheckForUpdate(param1, param2);
+                handleActionCheckForUpdate();
             } else if (ACTION_UPDATE_DATA.equals(action)) {
-                final String param1 = intent.getStringExtra(EXTRA_PARAM1);
-                final String param2 = intent.getStringExtra(EXTRA_PARAM2);
-                handleActionUpdateData(param1, param2);
+                handleActionUpdateData();
             }
         }
     }
@@ -109,38 +106,57 @@ public class UpdateIntentService extends IntentService {
      * Handle action Foo in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionCheckForUpdate(String param1, String param2) {
-        // TODO: Handle action Foo
-//        Handler handler = new Handler();
-//        handler.postDelayed(new Runnable() {
-//            @Override
-//            public void run() {
-//                Intent broadcastIntent = new Intent();
-//                broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
-//                broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-//                broadcastIntent.putExtra(RESULT_CHECK_FOR_UPDATE, false);
-//                sendBroadcast(broadcastIntent);
-//            }
-//        }, 1000);
+    private void handleActionCheckForUpdate() {
 
-        try {
-            Thread.sleep(2000);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        MarshalServiceProvider.getInstance().getSettings().enqueue(new Callback<Settings>() {
+            @Override
+            public void onResponse(Call<Settings> call, Response<Settings> response){
+                try {
+                    Settings settings = response.body();
 
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
-        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        broadcastIntent.putExtra(RESULT_CHECK_FOR_UPDATE, true);
-        sendBroadcast(broadcastIntent);
+                    long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                            .getLong(Constants.SETTING_LAST_UPDATE_TIMESTAMP, 0);
+
+                    if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
+                        Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
+                        sendCheckForUpdateResult(true);
+                    } else {
+                        Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
+                        sendCheckForUpdateResult(false);
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    sendCheckForUpdateResult(false);
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Settings> call, Throwable t) {
+                Log.e("CHECK FOR UPDATES", "fail");
+                t.printStackTrace();
+                sendCheckForUpdateResult(false);
+            }
+        });
+//        try {
+//            Thread.sleep(2000);
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
     }
 
     /**
      * Handle action Baz in the provided background thread with the provided
      * parameters.
      */
-    private void handleActionUpdateData(String param1, String param2) {
+    private void sendCheckForUpdateResult(boolean result) {
+        Intent broadcastIntent = new Intent();
+        broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
+        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+        broadcastIntent.putExtra(RESULT_CHECK_FOR_UPDATE, result);
+        sendBroadcast(broadcastIntent);
+    }
+
+    private void handleActionUpdateData() {
         // TODO: Handle action Baz
         boolean proccess_result = false;
 
@@ -281,22 +297,13 @@ public class UpdateIntentService extends IntentService {
 
             Log.i(LOG_TAG, "new ratings created successfully");
 
-//            for (Course course : newCourses) {
-//                try {
-//                    course.setRatingAverage(Rating.getAverageByColumn(UpdateIntentService.this, Rating.class,
-//                            DBConstants.COL_RATING,
-//                            DBConstants.COL_COURSE_CODE, course.getCourseCode()));
-//                    course.save();
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//
-//            Log.i(LOG_TAG, "new ratings averages save in courses successfully");
-
             proccess_result = true;
         } catch (Exception e) {
             e.printStackTrace();
+        }
+
+        if(proccess_result) {
+            ApplicationMarshal.setLastUpdatedNow(this);
         }
 
         Intent broadcastIntent = new Intent();

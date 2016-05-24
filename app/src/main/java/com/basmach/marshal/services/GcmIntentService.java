@@ -31,7 +31,8 @@ public class GcmIntentService extends GcmListenerService {
                 message.equals("set-registration-state=false")){
             GcmRegistrationService.setDeviceRegistrationState(this, false);
         } else if(message != null && message.equals("data-update-true")) {
-
+            Log.i("GCM","data-update-true");
+            UpdateIntentService.startUpdateData(this);
         } else {
             if (sharedPreferences.getBoolean("notifications_new_message", true)) {
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,

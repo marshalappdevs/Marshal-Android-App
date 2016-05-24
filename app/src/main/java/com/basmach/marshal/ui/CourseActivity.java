@@ -712,6 +712,10 @@ public class CourseActivity extends AppCompatActivity {
                                                 showUserRating();
                                                 showRatingsCount();
                                                 showRatingAverage();
+
+                                                // Send broadcast for update the rating on the CardView
+                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                                sendBroadcast(intent);
                                             }
                                         }
                                     }.execute();
@@ -758,6 +762,10 @@ public class CourseActivity extends AppCompatActivity {
                                                 showUserRating();
                                                 showRatingsCount();
                                                 showRatingAverage();
+
+                                                // Send broadcast for update the rating on the CardView
+                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                                sendBroadcast(intent);
                                             }
                                         }
                                     }.execute();
