@@ -16,7 +16,7 @@
 
     <style name="AppTheme.Base.Launcher">
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="colorPrimaryDark">@color/black_trans80</item>
+        <item name="colorPrimaryDark">@android:color/darker_gray</item>
     </style>
 
     <style name="TextAppearance.Toolbar.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
