@@ -10,8 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Animatable;
-import android.graphics.drawable.Drawable;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -42,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.basmach.marshal.ApplicationMarshal;
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
@@ -62,7 +59,6 @@ import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
-import com.basmach.marshal.utils.HashUtil;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -84,9 +80,6 @@ import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.io.UnsupportedEncodingException;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
@@ -121,7 +114,6 @@ public class MainActivity extends AppCompatActivity
 
     private UpdateBroadcastReceiver updateReceiver;
 
-    private boolean mIsRefreshAnimationRunning = false;
     private ProgressDialog mUpdateProgressDialog;
 
     private List<Object> mCoursesData;
@@ -134,11 +126,10 @@ public class MainActivity extends AppCompatActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
-    public static LinearLayout btnNewUpdates;
+    public static LinearLayout sNewUpdatesButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("MainActivity - ", "onCreate");
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
         LocaleUtils.updateLocale(this);
@@ -161,7 +152,7 @@ public class MainActivity extends AppCompatActivity
 
         initializeUpdateProgressBar();
 
-        MainActivity.btnNewUpdates = null;
+        MainActivity.sNewUpdatesButton = null;
         initializeNewUpdatesButton();
 
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
@@ -196,7 +187,6 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFinish(boolean result) {
                 if (result) {
-
                     if(mSharedPreferences != null) {
                         if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                             Log.i("MAIN ACTIVITY", "FIRST RUN");
@@ -215,25 +205,6 @@ public class MainActivity extends AppCompatActivity
                     } else {
                         showNewUpdatesButton();
                     }
-
-//                    Drawable drawable = mRefreshMenuItem.getIcon();
-
-//                    if (drawable instanceof Animatable) {
-//                        ((Animatable) drawable).stop();
-//                    }
-
-//                    mIsRefreshAnimationRunning = false;
-
-//                    mCoursesData = null;
-//                    sAllCourses = null;
-//                    sAllRatings = null;
-
-//                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-//                    if (currentFragment instanceof CoursesFragment) {
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-//                    } else if (currentFragment instanceof MaterialsFragment) {
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new MaterialsFragment()).commit();
-//                    }
                 } else {
                     mUpdateProgressDialog.dismiss();
                 }
@@ -255,25 +226,24 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void showNewUpdatesButton() {
-        if (MainActivity.btnNewUpdates != null) {
-            MainActivity.btnNewUpdates.setVisibility(View.VISIBLE);
+        if (MainActivity.sNewUpdatesButton != null) {
+            MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
         } else {
             initializeNewUpdatesButton();
-            MainActivity.btnNewUpdates.setVisibility(View.VISIBLE);
+            MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
         }
     }
 
     private void initializeNewUpdatesButton() {
-        if (MainActivity.btnNewUpdates == null) {
-            MainActivity.btnNewUpdates = (LinearLayout) findViewById(R.id.new_updates_button);
-            MainActivity.btnNewUpdates.setVisibility(View.GONE);
-            MainActivity.btnNewUpdates.setOnClickListener(new View.OnClickListener() {
+        if (MainActivity.sNewUpdatesButton == null) {
+            MainActivity.sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
+            MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
+            MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MainActivity.sAllCourses = null;
                     MainActivity.sAllRatings = null;
-                    MainActivity.btnNewUpdates.setVisibility(View.GONE);
-
+                    MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
@@ -284,7 +254,7 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         } else {
-            MainActivity.btnNewUpdates.setVisibility(View.GONE);
+            MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
         }
     }
 
@@ -786,13 +756,7 @@ public class MainActivity extends AppCompatActivity
         mRefreshMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                if (!mIsRefreshAnimationRunning) {
-                    Drawable drawable = menuItem.getIcon();
-                    if (drawable instanceof Animatable) {
-                        ((Animatable) drawable).start();
-                    }
-                    updateData();
-                }
+                updateData();
                 return true;
             }
         });
@@ -817,7 +781,6 @@ public class MainActivity extends AppCompatActivity
 
     private void updateData() {
         mUpdateProgressDialog.show();
-        mIsRefreshAnimationRunning = true;
         Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
         updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
         startService(updateServiceIntent);
