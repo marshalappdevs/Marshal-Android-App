@@ -1,18 +1,14 @@
 package com.basmach.marshal.ui.adapters;
 
 import android.app.Activity;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityOptionsCompat;
-import android.support.v4.content.LocalBroadcastManager;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
-import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,15 +51,12 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     @Override
     public CourseVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        Log.i("COURSES_RECYCLER", "onCreateViewHolder");
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.course_cardview, null);
         return new CourseVH(view);
     }
 
     @Override
     public void onBindViewHolder(final CourseVH holder, int position) {
-
-        Log.i("COURSES_RECYCLER", "onBindViewHolder");
 
         // Set card onClickListener
         final long[] mLastClickTime = {0};
@@ -109,7 +102,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         }
 
         // Set course rating
-//        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
                 DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
                 new BackgroundTaskCallBack() {
@@ -157,7 +149,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     firstCycle = cycle;
                 }
             } catch (Exception e) {
-                e.printStackTrace();
+//                e.printStackTrace();
             }
         }
 
@@ -192,8 +184,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         public CourseVH(View itemView) {
             super(itemView);
-
-            Log.i("COURSES_RECYCLER", "CourseVH Ctor");
 
             frameLayout = (FrameLayout) itemView.findViewById(R.id.course_cardview_mainFrame);
             cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;

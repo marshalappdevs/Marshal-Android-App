@@ -4,6 +4,7 @@ import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.GcmRegistration;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.utils.MarshalServiceProvider;
 
 import java.util.List;
@@ -48,4 +49,8 @@ public interface IMarshalService {
 
     @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
     Call<Rating> deleteGcmRegistration(@Path("hardwareId") String hardwareId);
+
+    // ******** Settings ********//
+    @GET (MarshalServiceProvider.GET_SETTINGS)
+    Call<Settings> getSettings();
 }

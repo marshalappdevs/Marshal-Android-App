@@ -25,23 +25,23 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver {
             boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_CHECK_FOR_UPDATE, false);
             if (result) {
                 mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_new_update), 0);
-                UpdateIntentService.startUpdateData(mContext, null, null);
+                UpdateIntentService.startUpdateData(mContext);
             } else {
                 mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_no_update), 100);
-                mUpdateServiceListener.onFinish();
+                mUpdateServiceListener.onFinish(false);
             }
         }
         else if (intent.getAction().equals(UpdateIntentService.ACTION_UPDATE_DATA)) {
             boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_UPDATE_DATA, false);
             if (result) {
-                Toast.makeText(context,
-                        context.getString(R.string.refresh_updated_successfully),
-                        Toast.LENGTH_LONG).show();
+//                Toast.makeText(context,
+//                        context.getString(R.string.refresh_updated_successfully),
+//                        Toast.LENGTH_LONG).show();
+                mUpdateServiceListener.onFinish(true);
             } else {
                 mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_update_failed), 0);
+                mUpdateServiceListener.onFinish(false);
             }
-
-            mUpdateServiceListener.onFinish();
         }
         else if (intent.getAction().equals(UpdateIntentService.ACTION_UPDATE_DATA_PROGRESS_CHANGED)) {
             int progress = intent.getIntExtra(UpdateIntentService.EXTRA_PROGRESS_PERCENT, 0);

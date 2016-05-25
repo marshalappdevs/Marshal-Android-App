@@ -35,6 +35,7 @@ public class MarshalServiceProvider {
     public static final String POST_GCM_REGISTER_NEW_DEVICE = "gcm/register/";
     public static final String PUT_GCM_REGISTER_EXIST_DEVICE = "gcm/register/";
     public static final String DELETE_GCM_UNREGISTER_DEVICE = "gcm/unregister/";
+    public static final String GET_SETTINGS = "settings/";
 
     private static IMarshalService service;
 

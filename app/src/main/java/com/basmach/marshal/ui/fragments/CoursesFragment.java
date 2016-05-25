@@ -97,7 +97,7 @@ public class CoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
-
+        Log.i("CoursesFragment", "onCreateView");
         mCoursesList = null;
         mCyberCourses = null;
         mSoftwareCourses = null;
