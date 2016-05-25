@@ -32,8 +32,10 @@
     <string name="search_result">מציג תוצאות חיפוש עבור: %1$s</string>
     <string name="see_all">ראה הכל</string>
     <string name="course_type_software">תוכנה</string>
-    <string name="course_type_it">הפעלה</string>
+    <string name="course_type_it">תשתיות</string>
     <string name="course_type_cyber">סייבר</string>
+    <string name="course_type_tools">עזרי מחשוב</string>
+    <string name="course_type_system">הנדסת מערכת</string>
     <string name="course_general_description">תיאור כללי</string>
     <string name="course_syllabus">סילבוס</string>
     <string name="course_code">סימול</string>

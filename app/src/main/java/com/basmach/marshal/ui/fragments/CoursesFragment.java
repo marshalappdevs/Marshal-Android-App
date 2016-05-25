@@ -51,6 +51,8 @@ public class CoursesFragment extends Fragment {
     public static ArrayList<Course> mSoftwareCourses = null;
     public static ArrayList<Course> mCyberCourses = null;
     public static ArrayList<Course> mITCourses = null;
+    public static ArrayList<Course> mToolsCourses = null;
+    public static ArrayList<Course> mSystemCourses = null;
 
     private ArrayList<Course> mViewPagerCourses = null;
 
@@ -76,7 +78,17 @@ public class CoursesFragment extends Fragment {
     private LinearLayoutManager mLinearLayoutManagerIT;
     private CoursesRecyclerAdapter mRecyclerAdapterIT;
     private LinearLayout mBtnShowAllIT;
-    
+
+    private RecyclerView mRecyclerTools;
+    private LinearLayoutManager mLinearLayoutManagerTools;
+    private CoursesRecyclerAdapter mRecyclerAdapterTools;
+    private LinearLayout mBtnShowAllTools;
+
+    private RecyclerView mRecyclerSystem;
+    private LinearLayoutManager mLinearLayoutManagerSystem;
+    private CoursesRecyclerAdapter mRecyclerAdapterSystem;
+    private LinearLayout mBtnShowAllSystem;
+
     private View mRootView;
 
     private SearchView mSearchView;
@@ -90,6 +102,8 @@ public class CoursesFragment extends Fragment {
         mCyberCourses = null;
         mSoftwareCourses = null;
         mITCourses = null;
+        mToolsCourses = null;
+        mSystemCourses = null;
 
         setHasOptionsMenu(true);
 
@@ -203,6 +217,8 @@ public class CoursesFragment extends Fragment {
                 mRecyclerAdapterCyber.notifyDataSetChanged();
                 mRecyclerAdapterIT.notifyDataSetChanged();
                 mRecyclerAdapterSoftware.notifyDataSetChanged();
+                mRecyclerAdapterTools.notifyDataSetChanged();
+                mRecyclerAdapterSystem.notifyDataSetChanged();
             }
         };
 
@@ -214,32 +230,18 @@ public class CoursesFragment extends Fragment {
     private void filterData() {
         if (mCyberCourses == null ||
                 mITCourses == null ||
-                mSoftwareCourses == null) {
+                mSoftwareCourses == null ||
+                mToolsCourses == null ||
+                mSystemCourses == null) {
 
             mCyberCourses = new ArrayList<>();
             mITCourses = new ArrayList<>();
             mSoftwareCourses = new ArrayList<>();
+            mToolsCourses = new ArrayList<>();
+            mSystemCourses = new ArrayList<>();
 
             for(Course course : mCoursesList) {
                 switch (course.getCourseCode()) {
-                    case "34":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "35683":
-                        mITCourses.add(course);
-                        break;
-                    case "285":
-                        mITCourses.add(course);
-                        break;
-                    case "2041":
-                        mITCourses.add(course);
-                        break;
-                    case "36985":
-                        mITCourses.add(course);
-                        break;
-                    case "8922":
-                        mITCourses.add(course);
-                        break;
                     case "4669":
                         mSoftwareCourses.add(course);
                         break;
@@ -261,14 +263,32 @@ public class CoursesFragment extends Fragment {
                     case "2753":
                         mCyberCourses.add(course);
                         break;
-                    case "2803":
-                        mCyberCourses.add(course);
-                        break;
                     case "373":
                         mCyberCourses.add(course);
                         break;
-                    case "2888":
+                    case "2803":
                         mCyberCourses.add(course);
+                        break;
+                    case "2041":
+                        mITCourses.add(course);
+                        break;
+                    case "8922":
+                        mITCourses.add(course);
+                        break;
+                    case "4697":
+                        mITCourses.add(course);
+                        break;
+                    case "3588":
+                        mToolsCourses.add(course);
+                        break;
+                    case "3992":
+                        mToolsCourses.add(course);
+                        break;
+                    case "285":
+                        mToolsCourses.add(course);
+                        break;
+                    case "4280":
+                        mSystemCourses.add(course);
                         break;
                     default:
                         break;
@@ -304,6 +324,8 @@ public class CoursesFragment extends Fragment {
         initializeSoftwareComponents();
         initializeCyberComponents();
         initializeITComponents();
+        initializeToolsComponents();
+        initializeSystemComponents();
     }
 
     private void initializeSoftwareComponents() {
@@ -373,6 +395,52 @@ public class CoursesFragment extends Fragment {
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
         mRootView.findViewById(R.id.fragment_courses_it_see_all).setVisibility(View.VISIBLE);
         mRootView.findViewById(R.id.fragment_courses_it_recyclerView).setVisibility(View.VISIBLE);
+    }
+
+    private void initializeToolsComponents() {
+        mBtnShowAllTools = (LinearLayout) mRootView.findViewById(R.id.fragment_courses_tools_see_all);
+        mBtnShowAllTools.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mToolsCourses);
+                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
+                startActivity(intent);
+            }
+        });
+        mRecyclerTools = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_tools_recyclerView);
+        mLinearLayoutManagerTools = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerTools.setLayoutManager(mLinearLayoutManagerTools);
+        mRecyclerAdapterTools = new CoursesRecyclerAdapter(getActivity(),mToolsCourses, mRatingsList,
+                CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerTools.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerTools.setAdapter(mRecyclerAdapterTools);
+        mRootView.findViewById(R.id.fragment_courses_tools_see_all).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_tools_recyclerView).setVisibility(View.VISIBLE);
+    }
+
+    private void initializeSystemComponents() {
+        mBtnShowAllSystem = (LinearLayout) mRootView.findViewById(R.id.fragment_courses_system_see_all);
+        mBtnShowAllSystem.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mSystemCourses);
+                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
+                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
+                startActivity(intent);
+            }
+        });
+        mRecyclerSystem = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_system_recyclerView);
+        mLinearLayoutManagerSystem = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mRecyclerSystem.setLayoutManager(mLinearLayoutManagerSystem);
+        mRecyclerAdapterSystem = new CoursesRecyclerAdapter(getActivity(),mSystemCourses, mRatingsList,
+                CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
+        mRecyclerSystem.setItemAnimator(new DefaultItemAnimator());
+        mRecyclerSystem.setAdapter(mRecyclerAdapterSystem);
+        mRootView.findViewById(R.id.fragment_courses_system_see_all).setVisibility(View.VISIBLE);
+        mRootView.findViewById(R.id.fragment_courses_system_recyclerView).setVisibility(View.VISIBLE);
     }
 
     private void startViewPagerTimer() {
