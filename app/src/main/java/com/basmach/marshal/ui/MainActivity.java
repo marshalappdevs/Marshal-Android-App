@@ -35,6 +35,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -228,23 +230,23 @@ public class MainActivity extends AppCompatActivity
 
     private void showNewUpdatesButton() {
         if (MainActivity.sNewUpdatesButton != null) {
-            MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
+            animateNewUpdatesButton(true);
         } else {
             initializeNewUpdatesButton();
-            MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
+            animateNewUpdatesButton(true);
         }
     }
 
     private void initializeNewUpdatesButton() {
         if (MainActivity.sNewUpdatesButton == null) {
             MainActivity.sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
-            MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
+            animateNewUpdatesButton(false);
             MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     MainActivity.sAllCourses = null;
                     MainActivity.sAllRatings = null;
-                    MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
+                    animateNewUpdatesButton(false);
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
@@ -255,8 +257,34 @@ public class MainActivity extends AppCompatActivity
                 }
             });
         } else {
-            MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
+            animateNewUpdatesButton(false);
         }
+    }
+
+    private void animateNewUpdatesButton (final Boolean in) {
+        Animation animation;
+        if (in) {
+            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_in);
+        } else {
+            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_out);
+        }
+        MainActivity.sNewUpdatesButton.startAnimation(animation);
+        animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {}
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                if (in) {
+                    MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
+                } else {
+                    MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {}
+        });
     }
 
     private void checkGcmRegistrationState(){
