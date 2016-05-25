@@ -153,16 +153,23 @@ public class CourseActivity extends AppCompatActivity {
                             .setDuration(200)
                             .setInterpolator(new FastOutLinearInInterpolator())
                             .setListener(new Animator.AnimatorListener() {
-                                @Override public void onAnimationStart(Animator animation) {}
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                }
 
-                                @Override public void onAnimationEnd(Animator animation) {
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
                                     mToolbar.setVisibility(View.GONE);
                                     supportFinishAfterTransition();
                                 }
 
-                                @Override public void onAnimationCancel(Animator animation) {}
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+                                }
 
-                                @Override public void onAnimationRepeat(Animator animation) {}
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+                                }
                             });
                 } else {
                     finish();
@@ -182,7 +189,8 @@ public class CourseActivity extends AppCompatActivity {
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
-                public void onTransitionStart(Transition transition) {}
+                public void onTransitionStart(Transition transition) {
+                }
 
                 @Override
                 public void onTransitionEnd(Transition transition) {
@@ -191,13 +199,16 @@ public class CourseActivity extends AppCompatActivity {
                 }
 
                 @Override
-                public void onTransitionCancel(Transition transition) {}
+                public void onTransitionCancel(Transition transition) {
+                }
 
                 @Override
-                public void onTransitionPause(Transition transition) {}
+                public void onTransitionPause(Transition transition) {
+                }
 
                 @Override
-                public void onTransitionResume(Transition transition) {}
+                public void onTransitionResume(Transition transition) {
+                }
             });
         }
 
@@ -212,8 +223,8 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(View view) {
                     ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
 
-                    for(int index = 0; index < cycles.size(); index++) {
-                        if(cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
+                    for (int index = 0; index < cycles.size(); index++) {
+                        if (cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
                             cycles.remove(cycles.get(index));
                         }
                     }
@@ -221,7 +232,7 @@ public class CourseActivity extends AppCompatActivity {
                     if (cycles.size() > 0) {
                         CyclesBottomSheetDialogFragment bottomSheet =
                                 CyclesBottomSheetDialogFragment.newInstance(mCourse);
-                        bottomSheet.show(getSupportFragmentManager(),"CyclesBottomSheet");
+                        bottomSheet.show(getSupportFragmentManager(), "CyclesBottomSheet");
                     } else {
                         Toast.makeText(CourseActivity.this,
                                 getResources().getString(R.string.course_no_cycles_error),
@@ -264,7 +275,7 @@ public class CourseActivity extends AppCompatActivity {
             mHeader.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    if(mCourse.getName() != null && !(mCourse.getName().equals(""))) {
+                    if (mCourse.getName() != null && !(mCourse.getName().equals(""))) {
                         Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
                     }
                 }
@@ -428,6 +439,9 @@ public class CourseActivity extends AppCompatActivity {
                                 }
                                 mReviewRating.setRating((float) ((Rating)(data.get(0))).getRating());
                                 mUserRating = (Rating)data.get(0);
+                                if (mUserRating.getCreatedAt().before(mUserRating.getLastModified())) {
+                                    mTextViewReviewEdited.setVisibility(View.VISIBLE);
+                                }
                             } else {
                                 initializeRatingViews();
                             }
