@@ -721,7 +721,6 @@ public class CourseActivity extends AppCompatActivity {
                                         protected void onPostExecute(Boolean result) {
                                             super.onPostExecute(result);
                                             if (result) {
-                                                mTextViewReviewEdited.setVisibility(View.VISIBLE);
                                                 mTextViewReviewText.setVisibility(View.VISIBLE);
                                                 showUserRating();
                                                 showRatingsCount();
