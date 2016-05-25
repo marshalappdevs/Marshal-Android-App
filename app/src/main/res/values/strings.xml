@@ -91,6 +91,7 @@
     <string name="review_error">Unable to create a review.</string>
     <string name="review_feedback_posted">Thanks for your feedback!</string>
     <string name="review_feedback_posted_error">"Couldn't rate comment."</string>
+    <string name="no_reviews_error">This course has not been rated yet.</string>
     <string name="edit_review">Edit</string>
     <string name="new_updates">New Updates</string>
 

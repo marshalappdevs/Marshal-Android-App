@@ -250,12 +250,16 @@ public class CourseActivity extends AppCompatActivity {
             mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
-                    i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
-                    i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
-                    i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
-                    i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
-                    startActivity(i);
+                    if (mRatingBarAverage.getRating() == 0) {
+                        Toast.makeText(CourseActivity.this, R.string.no_reviews_error, Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
+                        i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
+                        i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
+                        i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
+                        i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
+                        startActivity(i);
+                    }
                 }
             });
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
