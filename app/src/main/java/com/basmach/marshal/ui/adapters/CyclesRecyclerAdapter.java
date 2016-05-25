@@ -15,6 +15,7 @@ import android.provider.CalendarContract.Events;
 import android.widget.Toast;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.utils.DateHelper;
 
@@ -23,12 +24,14 @@ import java.util.GregorianCalendar;
 
 public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAdapter.CycleVH>{
 
+    private Course mCourse;
     private Context mContext;
     private ArrayList<Cycle> mCycles;
 
-    public CyclesRecyclerAdapter(Context context, ArrayList<Cycle> cycles) {
+    public CyclesRecyclerAdapter(Context context, ArrayList<Cycle> cycles, Course course) {
         this.mContext = context;
         this.mCycles = cycles;
+        this.mCourse = course;
     }
     @Override
     public CycleVH onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -87,8 +90,8 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
 
                                 Intent calendarIntent = new Intent(Intent.ACTION_INSERT);
                                 calendarIntent.setType("vnd.android.cursor.item/event");
-                                calendarIntent.putExtra(Events.TITLE, mCycles.get(getAdapterPosition()).getName());
-                                calendarIntent.putExtra(Events.DESCRIPTION, mCycles.get(getAdapterPosition()).getDescription());
+                                calendarIntent.putExtra(Events.TITLE, mCourse.getName());
+                                calendarIntent.putExtra(Events.DESCRIPTION, mCourse.getDescription());
                                 calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_ALL_DAY, true);
                                 calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_BEGIN_TIME, startDate.getTimeInMillis());
                                 calendarIntent.putExtra(CalendarContract.EXTRA_EVENT_END_TIME, endDate.getTimeInMillis());

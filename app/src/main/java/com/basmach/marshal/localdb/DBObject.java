@@ -362,7 +362,7 @@ public abstract class DBObject {
                                         .getString(cursor
                                                 .getColumnIndex(entityArraySetter.fkColumnName()));
 
-                                if (idsArray != null) {
+                                if (idsArray != null && !idsArray.equals("")) {
 
                                     String[] ids = idsArray.split(",");
 
@@ -383,6 +383,7 @@ public abstract class DBObject {
                                 }
 
                             } catch (Exception e) {
+                                e.printStackTrace();
                                 throw e;
                             }
 

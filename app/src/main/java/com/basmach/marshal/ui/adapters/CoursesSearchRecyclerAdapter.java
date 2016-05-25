@@ -86,12 +86,10 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         holder.courseName.setText(mCourses.get(position).getName());
 
         // Set course starting Date
+
         if (mCourses.get(position).getCycles().size() > 0) {
             holder.courseStartDateTime
-                    .setText(DateHelper.dateToString(((Cycle)
-                            (mCourses.get(position).getCycles().get(0))).getStartDate()));
-        } else {
-            holder.courseStartDateTime.setVisibility(View.GONE);
+                    .setText(DateHelper.dateToString(getFirstCycle(mCourses.get(position).getCycles()).getStartDate()));
         }
 
         // Set course rating
@@ -102,7 +100,13 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         try {
-                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                            if ((Float) data.get(0) > 0) {
+                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                            } else {
+                                holder.courseRating.setVisibility(View.INVISIBLE);
+                                holder.starIcon.setVisibility(View.INVISIBLE);
+                            }
+
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -135,6 +139,22 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
             }
         });
+    }
+
+    private Cycle getFirstCycle(ArrayList<Cycle> cycles) {
+        Cycle firstCycle = cycles.get(0);
+
+        for (Cycle cycle : cycles) {
+            try {
+                if (firstCycle.getStartDate().compareTo(cycle.getStartDate()) > 0) {
+                    firstCycle = cycle;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+
+        return firstCycle;
     }
 
     @Override
@@ -215,6 +235,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         TextView courseName;
         TextView courseStartDateTime;
         TextView courseRating;
+        ImageView starIcon;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -225,6 +246,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
             courseRating = (TextView) itemView.findViewById(R.id.course_searchable_rating);
+            starIcon = (ImageView) itemView.findViewById(R.id.course_searchable_ratingIcon);
         }
     }
 }

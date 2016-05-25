@@ -54,7 +54,7 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
             mLinearLayoutManager = new LinearLayoutManager(getActivity());
             mRecyclerView.setLayoutManager(mLinearLayoutManager);
             mRecyclerView.setItemAnimator(new DefaultItemAnimator());
-            mAdapter = new CyclesRecyclerAdapter(getActivity(), mCycles);
+            mAdapter = new CyclesRecyclerAdapter(getActivity(), mCycles, course);
             mRecyclerView.setAdapter(mAdapter);
 
         } catch (Exception e) {

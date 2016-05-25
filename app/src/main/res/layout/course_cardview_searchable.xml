@@ -93,7 +93,7 @@
                         android:layout_height="wrap_content"
                         android:layout_width="wrap_content"
                         android:orientation="horizontal"
-                        android:layoutDirection="ltr" >
+                        android:layoutDirection="ltr">
 
                         <TextView
                             android:id="@+id/course_searchable_rating"
@@ -115,7 +115,7 @@
                             android:tint="@color/star_color"
                             app:srcCompat="@drawable/ic_course_rating_star"
                             android:id="@+id/course_searchable_ratingIcon"
-                            android:contentDescription="@null" />
+                            android:contentDescription="@null"/>
                     </LinearLayout>
 
                 </LinearLayout>

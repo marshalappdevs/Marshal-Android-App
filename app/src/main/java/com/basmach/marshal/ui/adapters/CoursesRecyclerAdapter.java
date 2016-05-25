@@ -108,7 +108,13 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         try {
-                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+//                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                            if ((Float) data.get(0) > 0) {
+                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                            } else {
+                                holder.courseRating.setVisibility(View.INVISIBLE);
+                                holder.starIcon.setVisibility(View.INVISIBLE);
+                            }
                         } catch (Exception e) {
                             e.printStackTrace();
                         }
@@ -149,7 +155,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     firstCycle = cycle;
                 }
             } catch (Exception e) {
-//                e.printStackTrace();
+                e.printStackTrace();
             }
         }
 
@@ -181,6 +187,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         TextView courseName;
         TextView courseStartDateTime;
         TextView courseRating;
+        ImageView starIcon;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -192,6 +199,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
             courseRating = (TextView) itemView.findViewById(R.id.course_cardview_rating);
+            starIcon = (ImageView) itemView.findViewById(R.id.course_cardview_ratingIcon);
 
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();

@@ -737,7 +737,7 @@ public class CourseActivity extends AppCompatActivity {
                 public void onClick(View v) {
                     if(mUserRating != null) {
                         MarshalServiceProvider.getInstance().deleteRating(mUserRating.getCourseCode(),
-                                HashUtil.SHA1(mUserRating.getUserMailAddress())).enqueue(new retrofit2.Callback<Rating>() {
+                                mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
                             public void onResponse(Call<Rating> call, Response<Rating> response) {
                                 if (response.isSuccessful()) {

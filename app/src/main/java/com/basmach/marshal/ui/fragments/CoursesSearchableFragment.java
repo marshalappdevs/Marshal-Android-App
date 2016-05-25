@@ -22,9 +22,11 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
+import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
 
@@ -178,13 +180,14 @@ public class CoursesSearchableFragment extends Fragment {
             for(Course item:mCoursesList) {
                 if (item.getName().toLowerCase().contains(mFilterText) ||
                         item.getDescription().toLowerCase().contains(mFilterText) ||
-                        item.getSyllabus().toLowerCase().contains(mFilterText)) {
+                        item.getSyllabus().toLowerCase().contains(mFilterText) || isHasCycle(item, mFilterText)) {
                     mFilteredCourseList.add(item);
                 }
             }
         }
         if (mFilteredCourseList.isEmpty()) {
             String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
+
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
@@ -193,5 +196,30 @@ public class CoursesSearchableFragment extends Fragment {
         }
         mAdapter.animateTo(mFilteredCourseList);
         mRecycler.scrollToPosition(0);
+    }
+
+    private boolean isHasCycle(Course course, String filterText) {
+
+        filterText = filterText.replace(".","/");
+
+        int slashIndex = 0;
+
+        slashIndex = filterText.substring(slashIndex, filterText.length()).indexOf("/");
+        if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
+            filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
+        }
+
+        if (course.getCycles() == null || course.getCycles().size() == 0) {
+            return false;
+        } else {
+            for (Cycle cycle : course.getCycles()) {
+                if(DateHelper.dateToString(cycle.getStartDate()).contains(filterText) ||
+                        DateHelper.dateToString(cycle.getEndDate()).contains(filterText)) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
     }
 }

@@ -18,6 +18,7 @@ import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.ui.MainActivity;
+import com.basmach.marshal.utils.DateHelper;
 import com.basmach.marshal.utils.LinksDataProvider;
 import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -234,13 +235,21 @@ public class UpdateIntentService extends IntentService {
             Log.i(LOG_TAG, "old cycles deleted successfully");
 
             for (Course course : newCourses) {
-
                 if (course.getCycles() != null) {
-                    for (Cycle cycle : course.getCycles()) {
+
+                    int listLength = course.getCycles().size();
+
+                    for (int position = 0; position < listLength; position++) {
                         try {
-                            if (cycle.getStartDate().compareTo(new Date()) > 0) {
-                                cycle.Ctor(UpdateIntentService.this);
-                                cycle.create();
+                            Cycle currentCycle = course.getCycles().get(position);
+
+                            if (currentCycle.getStartDate().compareTo(new Date()) > 0) {
+                                currentCycle.Ctor(UpdateIntentService.this);
+                                currentCycle.create();
+                            } else {
+                                course.getCycles().remove(currentCycle);
+                                listLength = course.getCycles().size();
+                                position--;
                             }
                         } catch (Exception e) {
                             Log.e(LOG_TAG, "cycle creation failed");
