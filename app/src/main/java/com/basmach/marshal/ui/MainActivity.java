@@ -764,20 +764,20 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        MenuItemCompat.setOnActionExpandListener(searchItem,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        mRefreshMenuItem.setVisible(true);
-                        return true; // Return true to collapse action view
-                    }
-
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        mRefreshMenuItem.setVisible(false);
-                        return true; // Return true to expand action view
-                    }
-                });
+//        MenuItemCompat.setOnActionExpandListener(searchItem,
+//                new MenuItemCompat.OnActionExpandListener() {
+//                    @Override
+//                    public boolean onMenuItemActionCollapse(MenuItem item) {
+//                        mRefreshMenuItem.setVisible(true);
+//                        return true; // Return true to collapse action view
+//                    }
+//
+//                    @Override
+//                    public boolean onMenuItemActionExpand(MenuItem item) {
+//                        mRefreshMenuItem.setVisible(false);
+//                        return true; // Return true to expand action view
+//                    }
+//                });
 
         return true;
     }
