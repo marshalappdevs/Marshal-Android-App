@@ -64,7 +64,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GooglePlayServicesUtil;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity
 //    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
+    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     private GoogleApiClient mGoogleApiClient;
 //    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
@@ -267,11 +268,13 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void checkPlayServicesAvailability() {
-        int resultCode = GooglePlayServicesUtil.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (GooglePlayServicesUtil.isUserRecoverableError(resultCode)) {
+        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
+        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this);
+        if(resultCode != ConnectionResult.SUCCESS) {
+            if (googleApiAvailability.isUserResolvableError(resultCode)) {
                 //Play Services is not installed/enabled
-                GooglePlayServicesUtil.showErrorNotification(resultCode, this);
+                googleApiAvailability.getErrorDialog(this, resultCode,
+                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
             } else {
                 //This device does not support Play Services
             }
