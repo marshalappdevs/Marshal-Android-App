@@ -17,7 +17,8 @@
         <item
             android:id="@+id/nav_discussions"
             android:icon="@drawable/ic_drawer_discussions"
-            android:title="@string/navigation_drawer_discussions" />
+            android:title="@string/navigation_drawer_discussions"
+            android:visible="false" />
         <item
             android:id="@+id/nav_malshab"
             android:icon="@drawable/ic_drawer_person"
@@ -32,7 +33,7 @@
         <item
             android:id="@+id/nav_contact_us"
             android:icon="@drawable/ic_drawer_email"
-            android:title="@string/navigation_drawer_contact_us" />
+            android:title="@string/mail_subject" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_drawer_info"
