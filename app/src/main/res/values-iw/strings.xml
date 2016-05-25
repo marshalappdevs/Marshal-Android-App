@@ -25,7 +25,7 @@
     <string name="sign_in_progress">נכנס…</string>
     <string name="sign_out_progress">יוצא…</string>
     <string name="sign_out_confirm">האם ברצונך לצאת מחשבון זה?</string>
-    <string name="confirm_exit">לחץ חזור שוב כדי לצאת.</string>
+    <string name="confirm_exit">הקש על מקש החזרה שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
     <string name="mail_subject">משוב/דיווח תקלה</string>
