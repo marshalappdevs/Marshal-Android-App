@@ -36,15 +36,21 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
         mItems.add(new Item(R.string.programmer,
                 "http://www.tikshuv.idf.il/Sip_Storage/FILES/2/1532.jpg",
                 "http://www.tikshuv.idf.il/1048-7486-HE/tikshuv.aspx"));
+        mItems.add(new Item(R.string.programing_course,
+                "http://i.imgur.com/NlOBP30.png",
+                "http://basmach.github.io/tichnut/"));
+        mItems.add(new Item(R.string.cyber_defender,
+                "http://www.tikshuv.idf.il/Sip_Storage/FILES/3/1523.jpg",
+                "http://www.tikshuv.idf.il/1048-7536-HE/tikshuv.aspx"));
+        mItems.add(new Item(R.string.cyber_defender_course,
+                "http://i.imgur.com/NlOBP30.png",
+                "http://basmach.github.io/cyber/"));
         mItems.add(new Item(R.string.infrastructure_manager,
                 "http://www.tikshuv.idf.il/Sip_Storage/FILES/9/1539.jpg",
                 "http://www.tikshuv.idf.il/1048-7490-HE/tikshuv.aspx"));
         mItems.add(new Item(R.string.software_qa,
                 "http://www.tikshuv.idf.il/Sip_Storage/FILES/3/1533.jpg",
                 "http://www.tikshuv.idf.il/1048-7504-HE/tikshuv.aspx"));
-        mItems.add(new Item(R.string.cyber_defender,
-                "http://www.tikshuv.idf.il/Sip_Storage/FILES/3/1523.jpg",
-                "http://www.tikshuv.idf.il/1048-7536-HE/tikshuv.aspx"));
         mItems.add(new Item(R.string.educational_tools_developer,
                 "http://www.tikshuv.idf.il/Sip_Storage/FILES/4/1554.jpg",
                 "http://www.tikshuv.idf.il/1048-7537-HE/tikshuv.aspx"));
@@ -105,15 +111,15 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
                 }
             }
         });
-        view.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View v) {
-                Intent intent = new Intent(Intent.ACTION_DIAL);
-                intent.setData(Uri.parse("tel:*3808"));
-                mContext.startActivity(intent);
-                return false;
-            }
-        });
+//        view.setOnLongClickListener(new View.OnLongClickListener() {
+//            @Override
+//            public boolean onLongClick(View v) {
+//                Intent intent = new Intent(Intent.ACTION_DIAL);
+//                intent.setData(Uri.parse("tel:*3808"));
+//                mContext.startActivity(intent);
+//                return false;
+//            }
+//        });
         return view;
     }
 

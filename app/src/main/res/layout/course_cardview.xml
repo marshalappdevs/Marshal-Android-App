@@ -75,7 +75,6 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        android:text="4.2"
                         android:gravity="start|center_vertical" />
 
                     <ImageView

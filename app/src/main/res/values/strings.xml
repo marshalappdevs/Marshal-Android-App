@@ -102,6 +102,10 @@
     <string name="cyber_defender">Cyber Defender</string>
     <string name="educational_tools_developer">Educational Tools Developer</string>
 
+    <!--Courses-->
+    <string name="programing_course">Programing Course</string>
+    <string name="cyber_defender_course">Cyber Defender Course</string>
+
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>

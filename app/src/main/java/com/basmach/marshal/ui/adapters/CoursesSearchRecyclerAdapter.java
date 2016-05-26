@@ -102,6 +102,8 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                         try {
                             if ((Float) data.get(0) > 0) {
                                 holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                                holder.courseRating.setVisibility(View.VISIBLE);
+                                holder.starIcon.setVisibility(View.VISIBLE);
                             } else {
                                 holder.courseRating.setVisibility(View.INVISIBLE);
                                 holder.starIcon.setVisibility(View.INVISIBLE);
