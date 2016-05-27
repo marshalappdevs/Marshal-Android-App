@@ -51,7 +51,7 @@
     <string name="share_with">Share with</string>
     <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from Google Play: \n\n%2$s</string>
     <string name="course_choose_cycle">Choose cycle</string>
-    <string name="course_no_cycles_error">This course has no cycles</string>
+    <string name="course_no_cycles_error">This course has no cycles.</string>
     <string name="course_no_details_error">Sorry, currently there are no details to show on this course.</string>
     <string name="course_cycle_item_onclick_error">Something went wrong. Try again later.</string>
     <string name="course_cycle_date_separator">-</string>
