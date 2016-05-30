@@ -90,6 +90,8 @@
     <string name="no_reviews_error">קורס זה עדיין לא דורג.</string>
     <string name="edit_review">ערוך</string>
     <string name="new_updates">עדכונים חדשים</string>
+    <string name="network_error">בדוק את החיבור ונסה שוב.</string>
+    <string name="network_retry">נסה שוב</string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>

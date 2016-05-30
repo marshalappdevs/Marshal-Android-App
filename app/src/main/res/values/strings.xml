@@ -94,6 +94,8 @@
     <string name="no_reviews_error">This course has not been rated yet.</string>
     <string name="edit_review">Edit</string>
     <string name="new_updates">New Updates</string>
+    <string name="network_error">Check your connection and try again.</string>
+    <string name="network_retry">Retry</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>
