@@ -205,8 +205,10 @@ public class CoursesSearchableFragment extends Fragment {
         int slashIndex = 0;
 
         slashIndex = filterText.substring(slashIndex, filterText.length()).indexOf("/");
-        if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
-            filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
+        if (slashIndex > -1) {
+            if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
+                filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
+            }
         }
 
         if (course.getCycles() == null || course.getCycles().size() == 0) {

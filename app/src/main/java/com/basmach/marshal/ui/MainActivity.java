@@ -56,6 +56,7 @@ import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
 import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
 import com.basmach.marshal.ui.fragments.DiscussionsFragment;
+import com.basmach.marshal.ui.fragments.ErrorFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
@@ -853,7 +854,7 @@ public class MainActivity extends AppCompatActivity
 //                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 //                requestCalendarPermission();
 //            }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new ErrorFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
