@@ -854,7 +854,7 @@ public class MainActivity extends AppCompatActivity
 //                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 //                requestCalendarPermission();
 //            }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new ErrorFragment()).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
