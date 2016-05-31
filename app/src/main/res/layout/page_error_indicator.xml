@@ -1,12 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
     android:orientation="vertical"
     android:gravity="center"
     android:id="@+id/page_error_indicator"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    tools:context="com.basmach.marshal.ui.fragments.MeetupsFragment">
+    android:layout_height="match_parent">
 
     <ImageView
         android:layout_width="wrap_content"
