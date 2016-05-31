@@ -101,8 +101,8 @@
     <string name="educational_tools_developer">כותבת לומדה</string>
 
     <!--Courses-->
-    <string name="programing_course">קורס תכנות</string>
-    <string name="cyber_defender_course">קורס מגן בסייבר</string>
+    <string name="programing_course">עזרים לקורס תכנות</string>
+    <string name="cyber_defender_course">עזרים לקורס מגן בסייבר</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>

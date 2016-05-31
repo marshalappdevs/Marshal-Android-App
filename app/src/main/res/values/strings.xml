@@ -105,8 +105,8 @@
     <string name="educational_tools_developer">Educational Tools Developer</string>
 
     <!--Courses-->
-    <string name="programing_course">Programing Course</string>
-    <string name="cyber_defender_course">Cyber Defender Course</string>
+    <string name="programing_course">Programing Course Aids</string>
+    <string name="cyber_defender_course">Cyber Defender Course Aids</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
