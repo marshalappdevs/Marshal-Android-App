@@ -64,6 +64,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Response;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class CourseActivity extends AppCompatActivity {
 
@@ -185,7 +186,6 @@ public class CourseActivity extends AppCompatActivity {
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (mFabCycles != null) mFabCycles.hide();
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
             sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
                 @Override
@@ -195,7 +195,14 @@ public class CourseActivity extends AppCompatActivity {
                 @Override
                 public void onTransitionEnd(Transition transition) {
 //                    mToolbar.setVisibility(View.VISIBLE);
-                    mFabCycles.show();
+                    new MaterialShowcaseView.Builder(CourseActivity.this)
+                            .setTarget(mFabCycles)
+                            .setShapePadding(48)
+                            .setDismissText(R.string.got_it)
+                            .setTitleText(R.string.cycle_explanation)
+                            .setDismissOnTouch(true)
+                            .singleUse("") // provide a unique ID used to ensure it is only shown once
+                            .show();
                 }
 
                 @Override

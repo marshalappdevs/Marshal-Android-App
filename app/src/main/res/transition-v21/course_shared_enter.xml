@@ -27,11 +27,10 @@
         </targets>
     </changeBounds>
 
-    <transition class="com.basmach.marshal.ui.transitions.CourseSharedEnter">
+    <arcMotion>
         <targets>
             <target android:targetId="@id/header" />
         </targets>
-        <arcMotion />
-    </transition>
+    </arcMotion>
 
 </transitionSet>
