@@ -93,7 +93,7 @@
     <string name="update_error">משהו השתבש בעת ניסיון לעדכן את הנתונים. נסה שוב מאוחר יותר.</string> 
     <string name="update_retry">נסה שוב</string>
     <string name="got_it">הבנתי</string>
-    <string name="cycle_explanation">ראה תאריכים נוספים של הקורס</string>
+    <string name="cycle_explanation">לחץ כאן בכדי לראות תאריכים נוספים של הקורס</string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>

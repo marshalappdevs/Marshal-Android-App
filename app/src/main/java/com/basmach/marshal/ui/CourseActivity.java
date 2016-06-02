@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
@@ -201,6 +202,7 @@ public class CourseActivity extends AppCompatActivity {
                             .setDismissText(R.string.got_it)
                             .setTitleText(R.string.cycle_explanation)
                             .setDismissOnTouch(true)
+                            .setMaskColour(Color.argb(200, 0, 0, 0))
                             .singleUse("") // provide a unique ID used to ensure it is only shown once
                             .show();
                 }
