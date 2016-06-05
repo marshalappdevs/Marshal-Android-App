@@ -353,6 +353,8 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         registerInternetCheckReceiver();
         registerUpdateReceiver();
+        // // TODO: 05/06/2016 find a better fix 
+        checkIfFirstRun();
     }
 
     @Override

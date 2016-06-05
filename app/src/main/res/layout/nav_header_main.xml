@@ -11,7 +11,7 @@
         android:src="@drawable/bg_default_profile_art"
         android:scaleType="centerCrop"
         android:background="@android:color/darker_gray"
-        android:foreground="#66000000"
+        android:tint="#66000000"
         android:contentDescription="@null" />
 
     <LinearLayout
