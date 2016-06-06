@@ -202,7 +202,7 @@ public class CourseActivity extends AppCompatActivity {
                             .setDismissText(R.string.got_it)
                             .setTitleText(R.string.cycle_explanation)
                             .setDismissOnTouch(true)
-                            .setMaskColour(Color.argb(200, 0, 0, 0))
+                            .setMaskColour(Color.argb(150, 0, 0, 0))
                             .singleUse("") // provide a unique ID used to ensure it is only shown once
                             .show();
                 }

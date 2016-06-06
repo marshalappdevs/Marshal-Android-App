@@ -34,7 +34,7 @@
             android:layout_height="64dp"
             android:layout_marginBottom="20dp"
             android:src="@drawable/ic_profile_none"
-            android:foreground="@drawable/avatar_pressed"
+            android:foreground="@drawable/circle_border"
             android:contentDescription="@string/navigation_drawer_profile_image_content_description" />
 
         <TextView
