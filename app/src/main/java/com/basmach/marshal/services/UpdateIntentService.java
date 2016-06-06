@@ -315,6 +315,12 @@ public class UpdateIntentService extends IntentService {
             ApplicationMarshal.setLastUpdatedNow(this);
         }
 
+        try {
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_UPDATE_DATA);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);

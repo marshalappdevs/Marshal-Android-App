@@ -6,4 +6,5 @@ public class Constants {
 
     public static final String SETTING_IS_THERE_UPDATES_TO_SHOW = "is_there_new_updates_to_show";
     public static final String SETTING_LAST_UPDATE_TIMESTAMP = "last_update_timestamp";
+    public static final String PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE = "is_update_service_success_once";
 }

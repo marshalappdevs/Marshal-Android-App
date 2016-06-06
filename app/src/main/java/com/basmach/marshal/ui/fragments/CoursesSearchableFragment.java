@@ -29,6 +29,8 @@ import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class CoursesSearchableFragment extends Fragment {
 
@@ -200,28 +202,94 @@ public class CoursesSearchableFragment extends Fragment {
 
     private boolean isHasCycle(Course course, String filterText) {
 
-        filterText = filterText.replace(".","/");
-
-        int slashIndex = 0;
-
-        slashIndex = filterText.substring(slashIndex, filterText.length()).indexOf("/");
-        if (slashIndex > -1) {
-            if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
-                filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
-            }
-        }
+//        filterText = filterText.replace(".","/");
+//
+//        int slashIndex = 0;
+//
+//        slashIndex = filterText.substring(slashIndex, filterText.length()).indexOf("/");
+//        if (slashIndex > -1) {
+//            if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
+//                filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
+//            }
+//        }
+//
+//        if (course.getCycles() == null || course.getCycles().size() == 0) {
+//            return false;
+//        } else {
+//            for (Cycle cycle : course.getCycles()) {
+//                if(DateHelper.dateToString(cycle.getStartDate()).contains(filterText) ||
+//                        DateHelper.dateToString(cycle.getEndDate()).contains(filterText)) {
+//                    return true;
+//                }
+//            }
+//        }
 
         if (course.getCycles() == null || course.getCycles().size() == 0) {
             return false;
         } else {
             for (Cycle cycle : course.getCycles()) {
-                if(DateHelper.dateToString(cycle.getStartDate()).contains(filterText) ||
-                        DateHelper.dateToString(cycle.getEndDate()).contains(filterText)) {
+                if(isTextIncludeInCycle(cycle, filterText)) {
                     return true;
                 }
             }
         }
 
+        return false;
+    }
+
+    private boolean isTextIncludeInCycle(Cycle cycle, String text) {
+
+        int day, month;
+        text = text.replace(".","/");
+        String[] textParts = text.split("/");
+
+        if(textParts.length == 1) {
+            try {
+//                if(DateHelper.dateToString(cycle.getStartDate()).contains(text) ||
+//                        DateHelper.dateToString(cycle.getEndDate()).contains(text)) {
+//                    return true;
+//                }
+                Calendar startCalendar, endCalendar;
+                int searchNumber, startDay, endDay, startMonth, endMonth;
+                searchNumber = Integer.valueOf(text);
+
+                startCalendar = Calendar.getInstance();
+                startCalendar.setTime(cycle.getStartDate());
+                startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
+                startMonth= startCalendar.get(Calendar.MONTH);
+
+                endCalendar = Calendar.getInstance();
+                endCalendar.setTime(cycle.getEndDate());
+                endDay = startCalendar.get(Calendar.DAY_OF_MONTH);
+                endMonth= startCalendar.get(Calendar.MONTH);
+
+                if((searchNumber >= startDay || searchNumber <= endDay) ||
+                        searchNumber == endMonth || searchNumber == startMonth) {
+                    return true;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } else {
+            try {
+                day = Integer.valueOf(textParts[0]);
+                month = Integer.valueOf(textParts[1]) - 1;
+                Calendar calendar = Calendar.getInstance();
+                calendar.set(Calendar.getInstance().get(Calendar.YEAR), month, day);
+                long searchTimeStamp = calendar.getTime().getTime();
+                long startTimeStamp = cycle.getStartDate().getTime();
+                startTimeStamp -= (startTimeStamp % 86400000);
+                long endTimeStamp = cycle.getEndDate().getTime();
+                endTimeStamp -= (endTimeStamp % 86400000);
+
+                if (searchTimeStamp >= startTimeStamp && searchTimeStamp <= endTimeStamp) {
+                    return true;
+                }
+            } catch (NumberFormatException e) {
+                e.printStackTrace();
+            }
+
+        }
         return false;
     }
 }

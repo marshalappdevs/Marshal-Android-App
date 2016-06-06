@@ -211,11 +211,15 @@ public class MainActivity extends AppCompatActivity
                     }
                 } else {
                     mUpdateProgressDialog.dismiss();
+                    if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ErrorFragment()).commit();
+                    }
                 }
             }
 
             @Override
             public void onProgressUpdate(String message, int progressPercent) {
+                Log.i("PROGRESS_UPDATE: ", "message:\n" + message + "\nprogress:\n" + String.valueOf(progressPercent));
                 if (progressPercent > 0) {
                     mUpdateProgressDialog.setIndeterminate(false);
                 }
@@ -353,8 +357,13 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         registerInternetCheckReceiver();
         registerUpdateReceiver();
-        // // TODO: 05/06/2016 find a better fix 
-        checkIfFirstRun();
+        // // TODO: 05/06/2016 find a better fix
+        if(mSharedPreferences != null && mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+            if(mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
+                mUpdateProgressDialog.dismiss();
+                getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            }
+        }
     }
 
     @Override
@@ -813,7 +822,7 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    private void updateData() {
+    public void updateData() {
         mUpdateProgressDialog.show();
         Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
         updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
@@ -907,50 +916,50 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public void getCoursesDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
-        if(mCoursesData != null) {
-            callBack.onSuccess("", mCoursesData);
-        } else {
-            Course.getAllInBackground(DBConstants.COL_NAME, Course.class, MainActivity.this,
-                    showProgressBar,
-                    new BackgroundTaskCallBack() {
-                @Override
-                public void onSuccess(String result, List<Object> data) {
-                    if (data != null && data.size() > 0) {
-                        mCoursesData = data;
-                    }
-
-                    callBack.onSuccess(result, mCoursesData);
-                }
-
-                @Override
-                public void onError(String error) {
-                    callBack.onError(error);
-                }
-            });
-        }
-    }
-
-    public void getRatingsDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
-        if (mRatingsData != null) {
-            callBack.onSuccess("", mRatingsData);
-        } else {
-            Rating.getAllInBackground(DBConstants.COL_COURSE_CODE, Rating.class, MainActivity.this,
-                    showProgressBar, new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            if (data != null && data.size() > 0) {
-                                mRatingsData = data;
-                            }
-
-                            callBack.onSuccess(result, mRatingsData);
-                        }
-
-                        @Override
-                        public void onError(String error) {
-
-                        }
-                    });
-        }
-    }
+//    public void getCoursesDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+//        if(mCoursesData != null) {
+//            callBack.onSuccess("", mCoursesData);
+//        } else {
+//            Course.getAllInBackground(DBConstants.COL_NAME, Course.class, MainActivity.this,
+//                    showProgressBar,
+//                    new BackgroundTaskCallBack() {
+//                @Override
+//                public void onSuccess(String result, List<Object> data) {
+//                    if (data != null && data.size() > 0) {
+//                        mCoursesData = data;
+//                    }
+//
+//                    callBack.onSuccess(result, mCoursesData);
+//                }
+//
+//                @Override
+//                public void onError(String error) {
+//                    callBack.onError(error);
+//                }
+//            });
+//        }
+//    }
+//
+//    public void getRatingsDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+//        if (mRatingsData != null) {
+//            callBack.onSuccess("", mRatingsData);
+//        } else {
+//            Rating.getAllInBackground(DBConstants.COL_COURSE_CODE, Rating.class, MainActivity.this,
+//                    showProgressBar, new BackgroundTaskCallBack() {
+//                        @Override
+//                        public void onSuccess(String result, List<Object> data) {
+//                            if (data != null && data.size() > 0) {
+//                                mRatingsData = data;
+//                            }
+//
+//                            callBack.onSuccess(result, mRatingsData);
+//                        }
+//
+//                        @Override
+//                        public void onError(String error) {
+//
+//                        }
+//                    });
+//        }
+//    }
 }
