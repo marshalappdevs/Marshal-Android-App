@@ -16,7 +16,7 @@ public class ErrorFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_error, container, false);
 
-        Button btnTryAgain = (Button) rootView.findViewById(R.id.error_fragment_button_tryAgain);
+        Button btnTryAgain = (Button) rootView.findViewById(R.id.retry_button);
         btnTryAgain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

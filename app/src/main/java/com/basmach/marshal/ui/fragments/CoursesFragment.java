@@ -257,6 +257,21 @@ public class CoursesFragment extends Fragment {
                     case "579":
                         mSoftwareCourses.add(course);
                         break;
+                    case "565":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "682":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "1789":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "1951":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "382":
+                        mSoftwareCourses.add(course);
+                        break;
                     case "440":
                         mCyberCourses.add(course);
                         break;
@@ -269,6 +284,12 @@ public class CoursesFragment extends Fragment {
                     case "2803":
                         mCyberCourses.add(course);
                         break;
+                    case "6020":
+                        mCyberCourses.add(course);
+                        break;
+                    case "2789":
+                        mCyberCourses.add(course);
+                        break;
                     case "2041":
                         mITCourses.add(course);
                         break;
@@ -278,6 +299,15 @@ public class CoursesFragment extends Fragment {
                     case "4697":
                         mITCourses.add(course);
                         break;
+                    case "1281":
+                        mITCourses.add(course);
+                        break;
+                    case "7718":
+                        mITCourses.add(course);
+                        break;
+                    case "36985":
+                        mITCourses.add(course);
+                        break;
                     case "3588":
                         mToolsCourses.add(course);
                         break;
@@ -285,6 +315,12 @@ public class CoursesFragment extends Fragment {
                         mToolsCourses.add(course);
                         break;
                     case "285":
+                        mToolsCourses.add(course);
+                        break;
+                    case "7925":
+                        mToolsCourses.add(course);
+                        break;
+                    case "1821":
                         mToolsCourses.add(course);
                         break;
                     case "4280":
