@@ -290,6 +290,9 @@ public class CoursesFragment extends Fragment {
                     case "2789":
                         mCyberCourses.add(course);
                         break;
+                    case "134":
+                        mCyberCourses.add(course);
+                        break;
                     case "2041":
                         mITCourses.add(course);
                         break;

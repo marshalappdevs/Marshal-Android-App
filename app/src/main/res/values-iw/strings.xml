@@ -45,7 +45,7 @@
     <string name="course_hours_duration">מספר שעות</string>
     <string name="course_day_time">זמן ביום</string>
     <string name="course_comments">הערות</string>
-    <string name="course_related_content">מאמרים</string>
+    <string name="course_related_content">חומרים</string>
     <string name="course_share">שתף</string>
     <string name="share_with">שתף עם</string>
     <string name="share_course_text">קורס מעניין ממרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מ-Google Play: \n\n%2$s</string>

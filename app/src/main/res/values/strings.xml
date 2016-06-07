@@ -46,7 +46,7 @@
     <string name="course_hours_duration">Hours Duration</string>
     <string name="course_day_time">Day Time</string>
     <string name="course_comments">Comments</string>
-    <string name="course_related_content">Articles</string>
+    <string name="course_related_content">Materials</string>
     <string name="course_share">Share</string>
     <string name="share_with">Share with</string>
     <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from Google Play: \n\n%2$s</string>
