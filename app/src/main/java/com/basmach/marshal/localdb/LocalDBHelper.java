@@ -11,8 +11,30 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     public static final String DATABASE_NAME = "marshal_local_db";
     private static final int DATABASE_VERSION = 1;
 
+    public static LocalDBHelper helperInstance;
+    public static SQLiteDatabase databaseInstance;
+
     public LocalDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+    }
+
+    public static LocalDBHelper getHelperInstance(Context context) {
+        if (helperInstance == null)
+            helperInstance = new LocalDBHelper(context);
+
+        return helperInstance;
+    }
+
+    public static SQLiteDatabase getDatabaseWritableInstance(Context context) {
+        if (databaseInstance == null)
+            databaseInstance = getHelperInstance(context).getWritableDatabase();
+
+        return databaseInstance;
+    }
+
+    public static void closeIfExist(){
+        if (helperInstance != null)
+            helperInstance.close();
     }
 
     @Override

@@ -49,6 +49,7 @@ import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.LocalDBHelper;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.GcmRegistrationService;
@@ -98,6 +99,11 @@ public class MainActivity extends AppCompatActivity
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
+    public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
+    public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
+    public static final int RC_COURSE_ACTIVITY = 8000;
+
     private GoogleApiClient mGoogleApiClient;
 //    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
@@ -117,6 +123,7 @@ public class MainActivity extends AppCompatActivity
     private MenuItem mRefreshMenuItem;
 
     private UpdateBroadcastReceiver updateReceiver;
+    private BroadcastReceiver courseMaterialsReceiver;
 
     private ProgressDialog mUpdateProgressDialog;
 
@@ -186,6 +193,20 @@ public class MainActivity extends AppCompatActivity
                 mUpdateProgressDialog.show();
             }
         }
+
+        courseMaterialsReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+
+//                String courseCode = intent.getStringExtra(EXTRA_COURSE_CODE);
+//
+//                if (mMaterialsFragment != null) {
+//                    mMaterialsFragment.search(courseCode);
+//                } else {
+//                    mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
+//                }
+            }
+        };
 
         updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
             @Override
@@ -357,6 +378,8 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         registerInternetCheckReceiver();
         registerUpdateReceiver();
+        registerCourseMaterialsReceiver();
+
         // // TODO: 05/06/2016 find a better fix
         if(mSharedPreferences != null && mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
             if(mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
@@ -371,6 +394,7 @@ public class MainActivity extends AppCompatActivity
         super.onPause();
         unregisterReceiver(broadcastReceiver);
         unregisterReceiver(updateReceiver);
+//        unregisterReceiver(courseMaterialsReceiver);
     }
 
     private void registerInternetCheckReceiver() {
@@ -386,6 +410,12 @@ public class MainActivity extends AppCompatActivity
         filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA);
         filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA_PROGRESS_CHANGED);
         registerReceiver(updateReceiver, filter);
+    }
+
+    private void registerCourseMaterialsReceiver() {
+        IntentFilter filter = new IntentFilter();
+        filter.addAction(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
+        registerReceiver(courseMaterialsReceiver, filter);
     }
 
     private boolean isConnected() {
@@ -601,6 +631,25 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        } else if (requestCode == RC_COURSE_ACTIVITY) {
+            if (resultCode == RESULT_SHOW_COURSE_MATERIALS) {
+
+                String courseCode = data.getStringExtra(EXTRA_COURSE_CODE);
+
+                if (courseCode != null && !(courseCode.equals(""))) {
+
+                    mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
+
+//                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+//                    if (!(currentFragment instanceof MaterialsFragment)) {
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+//
+//                    }
+
+                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
+                    mNavigationView.setCheckedItem(R.id.nav_materials);
+                }
+            }
         }
     }
 
@@ -916,7 +965,14 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-//    public void getCoursesDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(courseMaterialsReceiver);
+        LocalDBHelper.closeIfExist();
+    }
+
+    //    public void getCoursesDataAsync(Boolean showProgressBar, final BackgroundTaskCallBack callBack) {
 //        if(mCoursesData != null) {
 //            callBack.onSuccess("", mCoursesData);
 //        } else {

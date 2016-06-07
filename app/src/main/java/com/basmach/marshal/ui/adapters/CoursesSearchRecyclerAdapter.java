@@ -22,8 +22,11 @@ import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.CourseActivity;
+import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.utils.DateHelper;
 import com.squareup.picasso.Callback;
+import com.squareup.picasso.Picasso;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -69,7 +72,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 }
                 pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), mContext.getString(R.string.transition_header_image)));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
-                mContext.startActivity(intent, options.toBundle());
+                ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY, options.toBundle());
             }
         });
 
@@ -120,27 +123,18 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     }
                 });
 
+        // Check if MOOC
+        if(mCourses.get(holder.getAdapterPosition()).getIsMooc()){
+            // if (holder.courseImage.getVisibility() == View.VISIBLE)
+            holder.moocFlag.setVisibility(View.VISIBLE);
+        } else {
+            holder.moocFlag.setVisibility(View.GONE);
+        }
+
         // Set course image
-        mCourses.get(position).getPhotoViaPicasso(mContext, holder.courseImage,  new Callback() {
-            @Override public void onSuccess() {
-                holder.courseImage.setVisibility(View.VISIBLE);
-                holder.courseImage.setScaleType(ImageView.ScaleType.CENTER_CROP);
-
-                // Check if MOOC
-                try {
-                    if(mCourses.get(position).getIsMooc()){
-                        // if (holder.courseImage.getVisibility() == View.VISIBLE)
-                        holder.moocFlag.setVisibility(View.VISIBLE);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-
-            @Override public void onError() {
-
-            }
-        });
+        if (mCourses.get(position).getImageUrl() != null) {
+            Picasso.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
+        }
     }
 
     private Cycle getFirstCycle(ArrayList<Cycle> cycles) {

@@ -961,7 +961,11 @@ public class CourseActivity extends AppCompatActivity {
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast.makeText(CourseActivity.this, R.string.course_related_content, Toast.LENGTH_LONG).show();
+                Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
+                intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+//                sendBroadcast(intent);
+                setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
+                finish();
             }
         });
         mShareButton = (LinearLayout) findViewById(R.id.share_button);

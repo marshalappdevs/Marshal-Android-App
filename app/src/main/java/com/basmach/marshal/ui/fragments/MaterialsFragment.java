@@ -26,6 +26,7 @@ import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.basmach.marshal.utils.LinksDataProvider;
 import com.leocardz.link.preview.library.LinkPreviewCallback;
@@ -47,7 +48,6 @@ public class MaterialsFragment extends Fragment {
     private String mFilterText;
     private TextView mNoResults;
     private MenuItem mSearchMenuItem;
-    private MenuItem mRefreshMenuItem;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -64,6 +64,7 @@ public class MaterialsFragment extends Fragment {
                             mMaterialsList = new ArrayList<>();
                             for(Object item:data) {
                                 mMaterialsList.add((MaterialItem)item);
+
                             }
 
                             showData();
@@ -100,6 +101,13 @@ public class MaterialsFragment extends Fragment {
 
         mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterilsList, onHashTagClickListener);
         mRecycler.setAdapter(mAdapter);
+
+        if(getArguments() != null) {
+            String courseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
+            if (courseCode != null && !(courseCode.equals(""))) {
+                search(courseCode);
+            }
+        }
     }
 
     @Override
@@ -121,7 +129,6 @@ public class MaterialsFragment extends Fragment {
 //        inflater.inflate(R.menu.main, menu);
 
         // Setup search button
-        mRefreshMenuItem = menu.findItem(R.id.menu_main_refresh);
         mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
@@ -143,14 +150,12 @@ public class MaterialsFragment extends Fragment {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        mRefreshMenuItem.setVisible(true);
                         filter(null);
                         return true; // Return true to collapse action view
                     }
 
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
-                        mRefreshMenuItem.setVisible(false);
                         return true; // Return true to expand action view
                     }
                 });
@@ -190,5 +195,20 @@ public class MaterialsFragment extends Fragment {
         mAdapter.setIsDataFiltered(true);
         mAdapter.animateTo(mFilteredMaterilsList);
         mRecycler.scrollToPosition(0);
+    }
+
+    public void search(String query) {
+        if (mSearchView != null && mSearchMenuItem != null) {
+            MenuItemCompat.expandActionView(mSearchMenuItem);
+            mSearchView.setQuery(query, true);
+        }
+    }
+
+    public static MaterialsFragment newInstanceWithQuery(String courseCode) {
+        MaterialsFragment materialsFragment = new MaterialsFragment();
+        Bundle bundle = new Bundle();
+        bundle.putString(MainActivity.EXTRA_COURSE_CODE, courseCode);
+        materialsFragment.setArguments(bundle);
+        return materialsFragment;
     }
 }
