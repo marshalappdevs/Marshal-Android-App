@@ -3,7 +3,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/course_cardview_mainFrame">
+    android:id="@+id/course_cardview_mainFrame"
+    android:animateLayoutChanges="true">
 
     <android.support.v7.widget.CardView
         android:id="@+id/course_cardview_widget"
@@ -75,9 +76,11 @@
                         android:maxLines="1"
                         android:singleLine="true"
                         android:textSize="12sp"
-                        android:gravity="start|center_vertical" />
+                        android:gravity="start|center_vertical"
+                        android:visibility="invisible" />
 
                     <ImageView
+                        android:id="@+id/course_cardview_ratingIcon"
                         android:layout_marginTop="7dp"
                         android:layout_marginBottom="7dp"
                         android:layout_width="wrap_content"
@@ -86,8 +89,8 @@
                         android:tint="@color/star_color"
                         android:paddingStart="-4dp"
                         app:srcCompat="@drawable/ic_course_rating_star"
-                        android:id="@+id/course_cardview_ratingIcon"
-                        android:contentDescription="@null" />
+                        android:visibility="invisible"
+                        android:contentDescription="@null"/>
 
                 </RelativeLayout>
             </LinearLayout>
