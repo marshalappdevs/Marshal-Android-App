@@ -305,7 +305,7 @@ public class CoursesFragment extends Fragment {
                     case "7718":
                         mITCourses.add(course);
                         break;
-                    case "36985":
+                    case "2043":
                         mITCourses.add(course);
                         break;
                     case "3588":
