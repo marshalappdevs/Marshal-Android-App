@@ -272,6 +272,12 @@ public class CoursesFragment extends Fragment {
                     case "382":
                         mSoftwareCourses.add(course);
                         break;
+                    case "2621":
+                        mSoftwareCourses.add(course);
+                        break;
+                    case "2622":
+                        mSoftwareCourses.add(course);
+                        break;
                     case "440":
                         mCyberCourses.add(course);
                         break;
@@ -293,6 +299,12 @@ public class CoursesFragment extends Fragment {
                     case "134":
                         mCyberCourses.add(course);
                         break;
+                    case "3022":
+                        mCyberCourses.add(course);
+                        break;
+                    case "408":
+                        mCyberCourses.add(course);
+                        break;
                     case "2041":
                         mITCourses.add(course);
                         break;
@@ -309,6 +321,18 @@ public class CoursesFragment extends Fragment {
                         mITCourses.add(course);
                         break;
                     case "2043":
+                        mITCourses.add(course);
+                        break;
+                    case "2038":
+                        mITCourses.add(course);
+                        break;
+                    case "4875":
+                        mITCourses.add(course);
+                        break;
+                    case "203":
+                        mITCourses.add(course);
+                        break;
+                    case "2845":
                         mITCourses.add(course);
                         break;
                     case "3588":
