@@ -25,6 +25,12 @@ import java.util.ArrayList;
 @TableName(name = DBConstants.T_COURSE)
 public class Course extends DBObject implements Parcelable{
 
+    public static final String CATEGORY_SOFTWARE = "software";
+    public static final String CATEGORY_CYBER = "cyber";
+    public static final String CATEGORY_IT = "it";
+    public static final String CATEGORY_TOOLS = "tools";
+    public static final String CATEGORY_SYSTEM = "system";
+
     // TODO RETROFIT SerializedName
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
@@ -105,6 +111,8 @@ public class Course extends DBObject implements Parcelable{
     @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
+    @Expose
+    @SerializedName("PictureUrl")
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
 
@@ -112,6 +120,11 @@ public class Course extends DBObject implements Parcelable{
     @SerializedName("IsMooc")
     @Column(name = DBConstants.COL_IS_MOOC)
     private Boolean isMooc;
+
+    @Expose
+    @SerializedName("Category")
+    @Column(name = DBConstants.COL_CATEGORY)
+    private String category;
 
 //    // Rating Details
 //    @Column(name = DBConstants.COL_RATING_AVERAGE)
@@ -318,7 +331,17 @@ public class Course extends DBObject implements Parcelable{
         this.isMooc = isMooc;
     }
 
-//    @ColumnGetter(columnName = DBConstants.COL_RATING_AVERAGE)
+    @ColumnGetter(columnName = DBConstants.COL_CATEGORY)
+    public String getCategory() {
+        return category;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_CATEGORY, type = TYPE_STRING)
+    public void setCategory(String category) {
+        this.category = category;
+    }
+
+    //    @ColumnGetter(columnName = DBConstants.COL_RATING_AVERAGE)
 //    public double getRatingAverage() {
 //        return ratingAverage;
 //    }
@@ -390,6 +413,7 @@ public class Course extends DBObject implements Parcelable{
         dest.writeLong(price);
         dest.writeTypedList(cycles);
         dest.writeString(imageUrl);
+        dest.writeString(category);
         dest.writeInt((isMooc) ? 1 : 0);
 //        dest.writeDouble(ratingAverage);
 //        dest.writeLong(ratingsAmount);
@@ -420,6 +444,7 @@ public class Course extends DBObject implements Parcelable{
         this.price = in.readLong();
         in.readTypedList(cycles, Cycle.CREATOR);
         this.imageUrl = in.readString();
+        this.category = in.readString();
         this.isMooc = (in.readInt() != 0);
 //        this.ratingAverage = (in.readDouble());
 //        this.ratingsAmount = (in.readLong());

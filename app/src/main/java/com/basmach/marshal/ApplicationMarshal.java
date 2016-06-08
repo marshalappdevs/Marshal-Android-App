@@ -24,6 +24,4 @@ public class ApplicationMarshal extends Application {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putBoolean(Constants.SETTING_IS_THERE_UPDATES_TO_SHOW, state).apply();
     }
-
-
 }

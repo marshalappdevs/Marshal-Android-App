@@ -44,6 +44,7 @@ public class DBConstants {
     public static final String COL_USER_RATING_ID = "user_rating_id";
     public static final String COL_LAST_MODIFIED = "last_modified";
     public static final String COL_CREATED_AT = "created_at";
+    public static final String COL_CATEGORY = "category";
 
     // 'Create Table' commands
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
@@ -95,6 +96,7 @@ public class DBConstants {
 //            COL_RATING_AVERAGE + " REAL, " +
 //            COL_RATINGS_AMOUNT + " INTEGER, " +
 //            COL_USER_RATING_ID + " INTEGER, " +
+            COL_CATEGORY + " TEXT, " +
             COL_IMAGE_URL + " TEXT);";
 
     // Database Drop command

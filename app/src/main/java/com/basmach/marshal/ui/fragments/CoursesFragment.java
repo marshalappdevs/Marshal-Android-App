@@ -241,121 +241,142 @@ public class CoursesFragment extends Fragment {
             mSystemCourses = new ArrayList<>();
 
             for(Course course : mCoursesList) {
-                switch (course.getCourseCode()) {
-                    case "4669":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "2633":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "9777":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "6813":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "579":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "565":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "682":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "1789":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "1951":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "382":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "2621":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "2622":
-                        mSoftwareCourses.add(course);
-                        break;
-                    case "440":
-                        mCyberCourses.add(course);
-                        break;
-                    case "2753":
-                        mCyberCourses.add(course);
-                        break;
-                    case "373":
-                        mCyberCourses.add(course);
-                        break;
-                    case "2803":
-                        mCyberCourses.add(course);
-                        break;
-                    case "6020":
-                        mCyberCourses.add(course);
-                        break;
-                    case "2789":
-                        mCyberCourses.add(course);
-                        break;
-                    case "134":
-                        mCyberCourses.add(course);
-                        break;
-                    case "3022":
-                        mCyberCourses.add(course);
-                        break;
-                    case "408":
-                        mCyberCourses.add(course);
-                        break;
-                    case "2041":
-                        mITCourses.add(course);
-                        break;
-                    case "8922":
-                        mITCourses.add(course);
-                        break;
-                    case "4697":
-                        mITCourses.add(course);
-                        break;
-                    case "1281":
-                        mITCourses.add(course);
-                        break;
-                    case "7718":
-                        mITCourses.add(course);
-                        break;
-                    case "2043":
-                        mITCourses.add(course);
-                        break;
-                    case "2038":
-                        mITCourses.add(course);
-                        break;
-                    case "4875":
-                        mITCourses.add(course);
-                        break;
-                    case "203":
-                        mITCourses.add(course);
-                        break;
-                    case "2845":
-                        mITCourses.add(course);
-                        break;
-                    case "3588":
-                        mToolsCourses.add(course);
-                        break;
-                    case "3992":
-                        mToolsCourses.add(course);
-                        break;
-                    case "285":
-                        mToolsCourses.add(course);
-                        break;
-                    case "7925":
-                        mToolsCourses.add(course);
-                        break;
-                    case "1821":
-                        mToolsCourses.add(course);
-                        break;
-                    case "4280":
-                        mSystemCourses.add(course);
-                        break;
-                    default:
-                        break;
+                if (course.getCategory() != null) {
+                    switch (course.getCategory()) {
+                        case Course.CATEGORY_SOFTWARE:
+                            mSoftwareCourses.add(course);
+                            break;
+                        case Course.CATEGORY_CYBER:
+                            mCyberCourses.add(course);
+                            break;
+                        case Course.CATEGORY_IT:
+                            mITCourses.add(course);
+                            break;
+                        case Course.CATEGORY_TOOLS:
+                            mToolsCourses.add(course);
+                            break;
+                        case Course.CATEGORY_SYSTEM:
+                            mSystemCourses.add(course);
+                            break;
+                        default:
+                            break;
+                    }
                 }
+//                switch (course.getCourseCode()) {
+//                    case "4669":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "2633":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "9777":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "6813":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "579":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "565":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "682":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "1789":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "1951":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "382":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "2621":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "2622":
+//                        mSoftwareCourses.add(course);
+//                        break;
+//                    case "440":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "2753":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "373":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "2803":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "6020":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "2789":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "134":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "3022":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "408":
+//                        mCyberCourses.add(course);
+//                        break;
+//                    case "2041":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "8922":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "4697":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "1281":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "7718":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "2043":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "2038":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "4875":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "203":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "2845":
+//                        mITCourses.add(course);
+//                        break;
+//                    case "3588":
+//                        mToolsCourses.add(course);
+//                        break;
+//                    case "3992":
+//                        mToolsCourses.add(course);
+//                        break;
+//                    case "285":
+//                        mToolsCourses.add(course);
+//                        break;
+//                    case "7925":
+//                        mToolsCourses.add(course);
+//                        break;
+//                    case "1821":
+//                        mToolsCourses.add(course);
+//                        break;
+//                    case "4280":
+//                        mSystemCourses.add(course);
+//                        break;
+//                    default:
+//                        break;
+//                }
             }
         }
     }
