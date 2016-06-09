@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui.adapters;
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.CourseActivity;
+import com.basmach.marshal.ui.MainActivity;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -62,7 +64,7 @@ public class ViewPagerAdapter extends PagerAdapter {
 
             Intent intent = new Intent(context, CourseActivity.class);
             intent.putExtra(CourseActivity.EXTRA_COURSE, COURSES.get(position));
-            context.startActivity(intent);
+            ((Activity) context).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
         }
     };
 
