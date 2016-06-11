@@ -17,8 +17,11 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
+import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
+import com.google.android.gms.auth.api.Auth;
+import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 import java.util.ArrayList;
 
@@ -26,7 +29,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSES_LIST = "courses_list";
     public static final String EXTRA_COURSE_TYPE = "course_type";
-    public static final String EXTRA_RATINGS_LIST = "extra_ratings";
+
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     RecyclerView mRecyclerView;
@@ -36,7 +39,6 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
     String mCoursesType;
     ArrayList<Course> mCourses;
-    ArrayList<Rating> mRatings;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +49,6 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
 
         mCoursesType = getIntent().getStringExtra(EXTRA_COURSE_TYPE);
         mCourses = getIntent().getParcelableArrayListExtra(EXTRA_COURSES_LIST);
-        mRatings = getIntent().getParcelableArrayListExtra(EXTRA_RATINGS_LIST);
 
         mToolbar = (Toolbar) findViewById(R.id.showAllCourses_activity_toolbar);
 
@@ -71,7 +72,7 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
                 mRecyclerView.setLayoutManager(mGridLayoutManager);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.setHasFixedSize(true);
-                mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses, mRatings,
+                mAdapter = new CoursesRecyclerAdapter(ShowAllCoursesActivity.this, mCourses,
                         CoursesRecyclerAdapter.LAYOUT_TYPE_GRID);
                 mRecyclerView.setAdapter(mAdapter);
             }
@@ -96,5 +97,25 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == MainActivity.RC_COURSE_ACTIVITY) {
+            if (resultCode == MainActivity.RESULT_SHOW_COURSE_MATERIALS) {
+
+                String courseCode = data.getStringExtra(MainActivity.EXTRA_COURSE_CODE);
+
+                if (courseCode != null && !(courseCode.equals(""))) {
+
+                    Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
+                    intent.putExtra(MainActivity.EXTRA_COURSE_CODE, courseCode);
+                    setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
+                    finish();
+                }
+            }
+        }
     }
 }

@@ -420,14 +420,13 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mSoftwareCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
         mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
-        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses, mRatingsList,
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
@@ -443,14 +442,13 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCyberCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
         mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
-        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses, mRatingsList,
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
@@ -466,14 +464,13 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mITCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
         mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses, mRatingsList,
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
@@ -489,14 +486,13 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mToolsCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
         mRecyclerTools = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_tools_recyclerView);
         mLinearLayoutManagerTools = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerTools.setLayoutManager(mLinearLayoutManagerTools);
-        mRecyclerAdapterTools = new CoursesRecyclerAdapter(getActivity(),mToolsCourses, mRatingsList,
+        mRecyclerAdapterTools = new CoursesRecyclerAdapter(getActivity(),mToolsCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerTools.setItemAnimator(new DefaultItemAnimator());
         mRecyclerTools.setAdapter(mRecyclerAdapterTools);
@@ -512,14 +508,13 @@ public class CoursesFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                 intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mSystemCourses);
                 intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_RATINGS_LIST, mRatingsList);
-                startActivity(intent);
+                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
         mRecyclerSystem = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_system_recyclerView);
         mLinearLayoutManagerSystem = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
         mRecyclerSystem.setLayoutManager(mLinearLayoutManagerSystem);
-        mRecyclerAdapterSystem = new CoursesRecyclerAdapter(getActivity(),mSystemCourses, mRatingsList,
+        mRecyclerAdapterSystem = new CoursesRecyclerAdapter(getActivity(),mSystemCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSystem.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSystem.setAdapter(mRecyclerAdapterSystem);

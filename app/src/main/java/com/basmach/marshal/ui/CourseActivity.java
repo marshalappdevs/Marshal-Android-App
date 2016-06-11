@@ -70,7 +70,6 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 public class CourseActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "course_extra";
-    public static final String EXTRA_RATINGS = "ratings_extra";
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -963,7 +962,6 @@ public class CourseActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
                 intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-//                sendBroadcast(intent);
                 setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
                 finish();
             }

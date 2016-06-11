@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
+    public static final int RC_SHOW_ALL_ACTIVITY = 7999;
 
     private GoogleApiClient mGoogleApiClient;
 //    private ProgressDialog mProgressDialog;
@@ -631,24 +632,16 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        } else if (requestCode == RC_COURSE_ACTIVITY) {
-            if (resultCode == RESULT_SHOW_COURSE_MATERIALS) {
+        } else if (resultCode == RESULT_SHOW_COURSE_MATERIALS) {
 
-                String courseCode = data.getStringExtra(EXTRA_COURSE_CODE);
+            String courseCode = data.getStringExtra(EXTRA_COURSE_CODE);
 
-                if (courseCode != null && !(courseCode.equals(""))) {
+            if (courseCode != null && !(courseCode.equals(""))) {
 
-                    mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
+                mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
 
-//                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-//                    if (!(currentFragment instanceof MaterialsFragment)) {
-//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
-//
-//                    }
-
-                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
-                    mNavigationView.setCheckedItem(R.id.nav_materials);
-                }
+                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
+                mNavigationView.setCheckedItem(R.id.nav_materials);
             }
         }
     }

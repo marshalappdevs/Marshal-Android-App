@@ -41,13 +41,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     private Context mContext;
     private ArrayList<Course> mCourses;
-    private ArrayList<Rating> mRatings;
     private int mRecyclerLayoutType;
 
-    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses,
-                                  ArrayList<Rating> ratings, int layoutType) {
+    public CoursesRecyclerAdapter(Context context, ArrayList<Course> courses, int layoutType) {
         this.mCourses = courses;
-        this.mRatings = ratings;
         this.mContext = context;
         this.mRecyclerLayoutType = layoutType;
     }
@@ -111,7 +108,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         try {
-//                            holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
                             if ((Float) data.get(0) > 0) {
                                 holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
                                 holder.courseRating.setVisibility(View.VISIBLE);
@@ -133,7 +129,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         // Check if MOOC
         if (mCourses.get(holder.getAdapterPosition()).getIsMooc()){
-            // if (holder.courseImage.getVisibility() == View.VISIBLE)
             holder.moocFlag.setVisibility(View.VISIBLE);
         } else {
             holder.moocFlag.setVisibility(View.GONE);
@@ -164,17 +159,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     @Override
     public int getItemCount() {
         return mCourses.size();
-    }
-
-    private ArrayList<Rating> getCourseRatings(String courseCode) {
-        ArrayList<Rating> courseRatings = new ArrayList<>();
-
-        for (Rating rating : mRatings) {
-            if (rating.getCourseCode().equals(courseCode))
-                courseRatings.add(rating);
-        }
-
-        return courseRatings;
     }
 
     public class CourseVH extends RecyclerView.ViewHolder {
