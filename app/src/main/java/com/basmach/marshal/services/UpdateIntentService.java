@@ -12,6 +12,7 @@ import com.basmach.marshal.ApplicationMarshal;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.MalshabItem;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
@@ -173,14 +174,29 @@ public class UpdateIntentService extends IntentService {
                     MaterialItem.class);
             List<Rating> currentRatings = (List) Rating.getAll(DBConstants.COL_COURSE_CODE, UpdateIntentService.this,
                     Rating.class);
+            List<MalshabItem> currentMalshabItems = (List) MalshabItem.getAll(DBConstants.COL_TITLE, UpdateIntentService.this,
+                    MalshabItem.class);
 
             List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
             List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
             List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
+            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
 
             itemPercentWeight = 100 / (currentCourses.size() + currentCycles.size() +
                     currentMaterials.size() + currentRatings.size() +
-                    newCourses.size() + newMaterials.size() + newRatings.size());
+                    newCourses.size() + newMaterials.size() + newRatings.size() + newMalshabItems.size());
+
+            for (MalshabItem malshabItem : currentMalshabItems) {
+                try {
+                    malshabItem.delete();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "malshabItem delete failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
 
             for (MaterialItem materialItem : currentMaterials) {
                 try {
@@ -287,7 +303,6 @@ public class UpdateIntentService extends IntentService {
                 publishProgress(progressPercents);
             }
 
-
             Log.i(LOG_TAG, "new materials created successfully");
 
             for (final Rating rating : newRatings) {
@@ -305,6 +320,22 @@ public class UpdateIntentService extends IntentService {
             }
 
             Log.i(LOG_TAG, "new ratings created successfully");
+
+            for (MalshabItem malshabItem : newMalshabItems) {
+
+                try {
+                    malshabItem.Ctor(UpdateIntentService.this);
+                    malshabItem.create();
+                } catch (Exception e) {
+                    Log.e(LOG_TAG, "malshabItem creation failed");
+                    e.printStackTrace();
+                }
+
+                progressPercents += itemPercentWeight;
+                publishProgress(progressPercents);
+            }
+
+            Log.i(LOG_TAG, "new malshabItem created successfully");
 
             proccess_result = true;
         } catch (Exception e) {

@@ -54,7 +54,6 @@ public class CoursesFragment extends Fragment {
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
     private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
 
-    public static ArrayList<Rating> mRatingsList = null;
     public static ArrayList<Course> mCoursesList = null;
     public static ArrayList<Course> mSoftwareCourses = null;
     public static ArrayList<Course> mCyberCourses = null;
@@ -124,7 +123,6 @@ public class CoursesFragment extends Fragment {
         if (mCoursesList == null || mViewPagerCourses == null) {
             mViewPagerCourses = new ArrayList<>();
             mCoursesList = new ArrayList<>();
-            mRatingsList = new ArrayList<>();
 //            ((MainActivity)getActivity()).getCoursesDataAsync(true, new BackgroundTaskCallBack() {
 //                @Override
 //                public void onSuccess(String result, List<Object> data) {
@@ -170,13 +168,6 @@ public class CoursesFragment extends Fragment {
                 @Override
                 protected Boolean doInBackground(Void... voids) {
                     try {
-                        if (MainActivity.sAllRatings == null) {
-                            mRatingsList = (ArrayList) Rating.getAll(DBConstants.COL_COURSE_CODE, getActivity(), Rating.class);
-                            MainActivity.sAllRatings = mRatingsList;
-                        } else {
-                            mRatingsList = MainActivity.sAllRatings;
-                        }
-
                         if (MainActivity.sAllCourses == null) {
                             mCoursesList = (ArrayList) Course.getAll(DBConstants.COL_ID, getActivity(), Course.class);
                             MainActivity.sAllCourses = mCoursesList;
@@ -616,7 +607,7 @@ public class CoursesFragment extends Fragment {
                 String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList, mRatingsList)).commit();
+                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
                 return true;
             }
 
@@ -634,7 +625,7 @@ public class CoursesFragment extends Fragment {
                 suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList, mRatingsList)).commit();
+                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
                 return true;
             }
 

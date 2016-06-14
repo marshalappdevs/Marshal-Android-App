@@ -121,6 +121,7 @@ public class MainActivity extends AppCompatActivity
     // Fragments
     private CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
+    private MalshabFragment mMalshabFragment;
     private MenuItem mRefreshMenuItem;
 
     private UpdateBroadcastReceiver updateReceiver;
@@ -128,12 +129,8 @@ public class MainActivity extends AppCompatActivity
 
     private ProgressDialog mUpdateProgressDialog;
 
-    private List<Object> mCoursesData;
-    private List<Object> mRatingsData;
-
     public static int sLastCoursesViewPagerIndex = 0;
     public static ArrayList<Course> sAllCourses;
-    public static ArrayList<Rating> sAllRatings;
     public static String sUserEmailAddress;
     public static String sUserName;
     public static Uri sUserProfileImage;
@@ -219,7 +216,6 @@ public class MainActivity extends AppCompatActivity
                             mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
 
                             MainActivity.sAllCourses = null;
-                            MainActivity.sAllRatings = null;
                             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                             mNavigationView.setCheckedItem(R.id.nav_courses);
 
@@ -272,15 +268,22 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     MainActivity.sAllCourses = null;
-                    MainActivity.sAllRatings = null;
                     animateNewUpdatesButton(false);
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                    } else if (currentFragment instanceof MaterialsFragment) {
-                        mMaterialsFragment = new MaterialsFragment();
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
                     }
+
+                    mMaterialsFragment = new MaterialsFragment();
+                    mMalshabFragment = new MalshabFragment();
+//                    else
+//                    } if (currentFragment instanceof MaterialsFragment) {
+//                        mMaterialsFragment = new MaterialsFragment();
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+//                    } else if (currentFragment instanceof MalshabFragment) {
+//                        mMalshabFragment = new MalshabFragment();
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+//                    }
                 }
             });
         } else {
@@ -362,7 +365,7 @@ public class MainActivity extends AppCompatActivity
             if(!isFinishing()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, sAllRatings))
+                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
                         .commitAllowingStateLoss();
             }
         }
@@ -913,7 +916,9 @@ public class MainActivity extends AppCompatActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MalshabFragment()).commit();
+            if (mMalshabFragment == null)
+                mMalshabFragment = new MalshabFragment();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
