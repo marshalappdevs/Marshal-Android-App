@@ -70,6 +70,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 public class CourseActivity extends AppCompatActivity {
 
     public static final String EXTRA_COURSE = "course_extra";
+    private static final String FAB_SHOWCASE_ID = "cycle_fab_tutorial";
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -204,7 +205,7 @@ public class CourseActivity extends AppCompatActivity {
                             .setTargetTouchable(true)
                             .setTitleText(R.string.cycle_fab_tutorial_description)
                             .setMaskColour(Color.argb(150, 0, 0, 0))
-                            .singleUse("") // provide a unique ID used to ensure it is only shown once
+                            .singleUse(FAB_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                             .show();
                 }
 

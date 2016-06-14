@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -18,6 +19,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -32,19 +34,25 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
+
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+
 public class CoursesFragment extends Fragment {
     private static final String EXTRA_COURSES_LIST = "extra_courses_list";
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
+    private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
 
     public static ArrayList<Rating> mRatingsList = null;
     public static ArrayList<Course> mCoursesList = null;
@@ -200,6 +208,7 @@ public class CoursesFragment extends Fragment {
                         filterData();
                         showImagesViewPager();
                         showData();
+                        initializeToturial();
                     }
 
                     progressDialog.dismiss();
@@ -209,6 +218,7 @@ public class CoursesFragment extends Fragment {
         } else {
             showImagesViewPager();
             showData();
+            initializeToturial();
         }
 
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
@@ -410,6 +420,29 @@ public class CoursesFragment extends Fragment {
         initializeITComponents();
         initializeToolsComponents();
         initializeSystemComponents();
+    }
+
+    private void initializeToturial() {
+        try {
+            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+            Field field = Toolbar.class.getDeclaredField("mNavButtonView");
+            field.setAccessible(true);
+            View navigationView = (View) field.get(toolbar);
+            if (navigationView != null) {
+                new MaterialShowcaseView.Builder(getActivity())
+                        .setTarget(navigationView)
+                        .setDismissText(R.string.got_it)
+                        .setDismissOnTouch(false)
+                        .setDismissOnTargetTouch(true)
+                        .setTargetTouchable(true)
+                        .setTitleText(R.string.navigation_drawer_tutorial_description)
+                        .setMaskColour(Color.argb(150, 0, 0, 0))
+                        .singleUse(DRAWER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                        .show();
+            }
+        } catch (NoSuchFieldException | IllegalAccessException e) {
+            e.printStackTrace();
+        }
     }
 
     private void initializeSoftwareComponents() {
