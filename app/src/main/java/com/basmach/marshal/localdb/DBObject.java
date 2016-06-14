@@ -546,6 +546,8 @@ public abstract class DBObject {
                                               Class<? extends DBObject> targetClass) throws Exception {
         List<Object> allObjects = new ArrayList<>();
 
+        if(value instanceof Boolean)
+            value = (boolean)value ? 1 : 0;
 //        database = getDatabase(context);
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName + " ASC");

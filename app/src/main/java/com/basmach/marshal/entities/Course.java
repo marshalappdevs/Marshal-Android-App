@@ -122,19 +122,14 @@ public class Course extends DBObject implements Parcelable{
     private Boolean isMooc;
 
     @Expose
+    @SerializedName("IsMeetup")
+    @Column(name = DBConstants.COL_IS_MEETUP)
+    private Boolean isMeetup;
+
+    @Expose
     @SerializedName("Category")
     @Column(name = DBConstants.COL_CATEGORY)
     private String category;
-
-//    // Rating Details
-//    @Column(name = DBConstants.COL_RATING_AVERAGE)
-//    private double ratingAverage;
-//
-//    @Column(name = DBConstants.COL_RATINGS_AMOUNT)
-//    private long ratingsAmount;
-//
-//    @ForeignKeyEntity(fkColumnName = DBConstants.COL_USER_RATING_ID)
-//    private Rating userRating;
 
     public Course (Context context) {
         super(context);
@@ -341,35 +336,15 @@ public class Course extends DBObject implements Parcelable{
         this.category = category;
     }
 
-    //    @ColumnGetter(columnName = DBConstants.COL_RATING_AVERAGE)
-//    public double getRatingAverage() {
-//        return ratingAverage;
-//    }
-//
-//    @ColumnSetter(columnName = DBConstants.COL_RATING_AVERAGE, type = TYPE_DOUBLE)
-//    public void setRatingAverage(double ratingAverage) {
-//        this.ratingAverage = ratingAverage;
-//    }
-//
-//    @ColumnGetter(columnName = DBConstants.COL_RATINGS_AMOUNT)
-//    public long getRatingsAmount() {
-//        return ratingsAmount;
-//    }
-//
-//    @ColumnSetter(columnName = DBConstants.COL_RATINGS_AMOUNT, type = TYPE_LONG)
-//    public void setRatingsAmount(long ratingsAmount) {
-//        this.ratingsAmount = ratingsAmount;
-//    }
-//
-//    @ColumnGetter(columnName = DBConstants.COL_USER_RATING_ID)
-//    public Rating getUserRating() {
-//        return userRating;
-//    }
-//
-//    @EntitySetter(entityClass = Rating.class, fkColumnName = DBConstants.COL_USER_RATING_ID)
-//    public void setUserRating(Rating userRating) {
-//        this.userRating = userRating;
-//    }
+    @ColumnGetter(columnName = DBConstants.COL_IS_MEETUP)
+    public Boolean getIsMeetup() {
+        return isMeetup;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_IS_MEETUP, type = TYPE_BOOLEAN)
+    public void setIsMeetup(Boolean isMeetup) {
+        this.isMeetup = isMeetup;
+    }
 
     /////////////////////////// methods ////////////////////////////
 
@@ -415,9 +390,7 @@ public class Course extends DBObject implements Parcelable{
         dest.writeString(imageUrl);
         dest.writeString(category);
         dest.writeInt((isMooc) ? 1 : 0);
-//        dest.writeDouble(ratingAverage);
-//        dest.writeLong(ratingsAmount);
-//        dest.writeParcelable(userRating, i);
+        dest.writeInt((isMeetup) ? 1 : 0);
     }
 
     /**
@@ -446,9 +419,7 @@ public class Course extends DBObject implements Parcelable{
         this.imageUrl = in.readString();
         this.category = in.readString();
         this.isMooc = (in.readInt() != 0);
-//        this.ratingAverage = (in.readDouble());
-//        this.ratingsAmount = (in.readLong());
-//        this.userRating = (in.readParcelable(Rating.class.getClassLoader()));
+        this.isMeetup = (in.readInt() != 0);
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {

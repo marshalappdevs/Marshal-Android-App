@@ -93,40 +93,47 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     .setText(DateHelper.dateToString(getFirstCycle(mCourses.get(position).getCycles()).getStartDate()));
         }
 
-        // Set course rating
-//        holder.courseRating.setText(String.valueOf(mCourses.get(position).getRatingAverage()).substring(0,3));
-        Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
-                new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        try {
-                            if ((Float) data.get(0) > 0) {
-                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
-                                holder.courseRating.setVisibility(View.VISIBLE);
-                                holder.starIcon.setVisibility(View.VISIBLE);
-                            } else {
-                                holder.courseRating.setVisibility(View.INVISIBLE);
-                                holder.starIcon.setVisibility(View.INVISIBLE);
+        if (!mCourses.get(position).getIsMeetup()) {
+            // Set course rating
+            holder.courseRating.setVisibility(View.INVISIBLE);
+            holder.starIcon.setVisibility(View.INVISIBLE);
+
+            Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
+                    DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
+                    new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            try {
+                                if ((Float) data.get(0) > 0) {
+                                    holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                                    holder.courseRating.setVisibility(View.VISIBLE);
+                                    holder.starIcon.setVisibility(View.VISIBLE);
+                                } else {
+                                    holder.courseRating.setVisibility(View.INVISIBLE);
+                                    holder.starIcon.setVisibility(View.INVISIBLE);
+                                }
+
+                            } catch (Exception e) {
+                                e.printStackTrace();
                             }
-
-                        } catch (Exception e) {
-                            e.printStackTrace();
                         }
-                    }
 
-                    @Override
-                    public void onError(String error) {
+                        @Override
+                        public void onError(String error) {
 
-                    }
-                });
+                        }
+                    });
 
-        // Check if MOOC
-        if(mCourses.get(holder.getAdapterPosition()).getIsMooc()){
-            // if (holder.courseImage.getVisibility() == View.VISIBLE)
-            holder.moocFlag.setVisibility(View.VISIBLE);
+            // Check if MOOC
+            if(mCourses.get(holder.getAdapterPosition()).getIsMooc()){
+                // if (holder.courseImage.getVisibility() == View.VISIBLE)
+                holder.moocFlag.setVisibility(View.VISIBLE);
+            } else {
+                holder.moocFlag.setVisibility(View.GONE);
+            }
         } else {
-            holder.moocFlag.setVisibility(View.GONE);
+            holder.starIcon.setVisibility(View.GONE);
+            holder.courseRating.setVisibility(View.GONE);
         }
 
         // Set course image

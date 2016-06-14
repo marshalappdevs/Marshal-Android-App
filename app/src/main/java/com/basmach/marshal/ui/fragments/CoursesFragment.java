@@ -169,7 +169,8 @@ public class CoursesFragment extends Fragment {
                 protected Boolean doInBackground(Void... voids) {
                     try {
                         if (MainActivity.sAllCourses == null) {
-                            mCoursesList = (ArrayList) Course.getAll(DBConstants.COL_ID, getActivity(), Course.class);
+                            mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
+                                    false, DBConstants.COL_ID, getActivity(), Course.class);
                             MainActivity.sAllCourses = mCoursesList;
                         } else {
                             mCoursesList = MainActivity.sAllCourses;
@@ -263,121 +264,6 @@ public class CoursesFragment extends Fragment {
                             break;
                     }
                 }
-//                switch (course.getCourseCode()) {
-//                    case "4669":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "2633":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "9777":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "6813":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "579":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "565":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "682":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "1789":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "1951":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "382":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "2621":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "2622":
-//                        mSoftwareCourses.add(course);
-//                        break;
-//                    case "440":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "2753":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "373":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "2803":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "6020":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "2789":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "134":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "3022":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "408":
-//                        mCyberCourses.add(course);
-//                        break;
-//                    case "2041":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "8922":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "4697":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "1281":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "7718":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "2043":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "2038":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "4875":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "203":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "2845":
-//                        mITCourses.add(course);
-//                        break;
-//                    case "3588":
-//                        mToolsCourses.add(course);
-//                        break;
-//                    case "3992":
-//                        mToolsCourses.add(course);
-//                        break;
-//                    case "285":
-//                        mToolsCourses.add(course);
-//                        break;
-//                    case "7925":
-//                        mToolsCourses.add(course);
-//                        break;
-//                    case "1821":
-//                        mToolsCourses.add(course);
-//                        break;
-//                    case "4280":
-//                        mSystemCourses.add(course);
-//                        break;
-//                    default:
-//                        break;
-//                }
             }
         }
     }
@@ -607,7 +493,7 @@ public class CoursesFragment extends Fragment {
                 String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
                 return true;
             }
 
@@ -625,7 +511,7 @@ public class CoursesFragment extends Fragment {
                 suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
                 return true;
             }
 
