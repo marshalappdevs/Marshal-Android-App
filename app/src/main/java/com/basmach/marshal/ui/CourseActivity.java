@@ -199,8 +199,10 @@ public class CourseActivity extends AppCompatActivity {
                             .setTarget(mFabCycles)
                             .setShapePadding(48)
                             .setDismissText(R.string.got_it)
-                            .setTitleText(R.string.cycle_explanation)
-                            .setDismissOnTouch(true)
+                            .setDismissOnTouch(false)
+                            .setDismissOnTargetTouch(true)
+                            .setTargetTouchable(true)
+                            .setTitleText(R.string.cycle_fab_tutorial_description)
                             .setMaskColour(Color.argb(150, 0, 0, 0))
                             .singleUse("") // provide a unique ID used to ensure it is only shown once
                             .show();
