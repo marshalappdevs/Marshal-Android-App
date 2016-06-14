@@ -97,7 +97,7 @@
     <string name="update_error">Something went wrong while trying to update data. Try again later.</string>
     <string name="update_retry">Retry</string>
     <string name="got_it">GOT IT</string>
-    <string name="cycle_explanation">Press here to see more dates of this course</string>
+    <string name="cycle_fab_tutorial_description">Press here to see more dates of this course</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>
