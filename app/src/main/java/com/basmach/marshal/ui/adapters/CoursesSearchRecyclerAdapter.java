@@ -34,12 +34,10 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
     private Context mContext;
     private ArrayList<Course> mCourses;
-    private ArrayList<Rating> mRatings;
 
-    public CoursesSearchRecyclerAdapter(Context context, ArrayList<Course> courses, ArrayList<Rating> ratings) {
+    public CoursesSearchRecyclerAdapter(Context context, ArrayList<Course> courses) {
         this.mCourses = courses;
         this.mContext = context;
-        this.mRatings = ratings;
     }
 
     @Override
@@ -210,17 +208,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         final Course item = mCourses.remove(fromPosition);
         mCourses.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
-    }
-
-    private ArrayList<Rating> getCourseRatings(String courseCode) {
-        ArrayList<Rating> courseRatings = new ArrayList<>();
-
-        for (Rating rating : mRatings) {
-            if (rating.getCourseCode().equals(courseCode))
-                courseRatings.add(rating);
-        }
-
-        return courseRatings;
     }
 
     public class CourseVH extends RecyclerView.ViewHolder{

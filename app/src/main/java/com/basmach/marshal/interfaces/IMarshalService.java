@@ -2,6 +2,7 @@ package com.basmach.marshal.interfaces;
 
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.GcmRegistration;
+import com.basmach.marshal.entities.MalshabItem;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
@@ -39,6 +40,9 @@ public interface IMarshalService {
     @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}/{userMailAddress}")
     Call<Rating> deleteRating(@Path("courseCode") String courseCode,
                               @Path("userMailAddress") String userMailAddress);
+
+    @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
+    Call<List<MalshabItem>> getAllMalshabItems();
 
     //******** GCM ********//
     @POST (MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)

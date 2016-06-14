@@ -23,22 +23,21 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MarshalServiceProvider {
 
-    // TODO
     private static final String MARSHAL_BASE_URL = "http://marshalweb.azurewebsites.net/api/";
-    public static final String GET_ALL_COURSES = MARSHAL_BASE_URL + "courses";
-    public static final String GET_ALL_MATERIALS = MARSHAL_BASE_URL + "materials";
-    public static final String GET_ALL_RATINGS = MARSHAL_BASE_URL + "ratings";
-    public static final String IMAGES_URL = MARSHAL_BASE_URL + "images/";
-    public static final String POST_RATING = MARSHAL_BASE_URL + "ratings/";
-    public static final String PUT_RATING = MARSHAL_BASE_URL + "ratings/";
-    public static final String DELETE_RATING = MARSHAL_BASE_URL + "ratings/";
-    public static final String POST_GCM_REGISTER_NEW_DEVICE = "gcm/register/";
-    public static final String PUT_GCM_REGISTER_EXIST_DEVICE = "gcm/register/";
-    public static final String DELETE_GCM_UNREGISTER_DEVICE = "gcm/unregister/";
-    public static final String GET_SETTINGS = "settings/";
+    public static final String GET_ALL_COURSES                      = MARSHAL_BASE_URL + "courses";
+    public static final String GET_ALL_MATERIALS                    = MARSHAL_BASE_URL + "materials";
+    public static final String GET_ALL_RATINGS                      = MARSHAL_BASE_URL + "ratings";
+    public static final String IMAGES_URL                           = MARSHAL_BASE_URL + "images/";
+    public static final String POST_RATING                          = MARSHAL_BASE_URL + "ratings/";
+    public static final String PUT_RATING                           = MARSHAL_BASE_URL + "ratings/";
+    public static final String DELETE_RATING                        = MARSHAL_BASE_URL + "ratings/";
+    public static final String POST_GCM_REGISTER_NEW_DEVICE         = MARSHAL_BASE_URL + "gcm/register/";
+    public static final String PUT_GCM_REGISTER_EXIST_DEVICE        = MARSHAL_BASE_URL + "gcm/register/";
+    public static final String DELETE_GCM_UNREGISTER_DEVICE         = MARSHAL_BASE_URL + "gcm/unregister/";
+    public static final String GET_SETTINGS                         = MARSHAL_BASE_URL + "settings/";
+    public static final String GET_ALL_MALSHAB_ITEMS                = MARSHAL_BASE_URL + "malshabitems/";
 
     private static IMarshalService service;
-
 
     public static IMarshalService getInstance() {
         if (service != null) {

@@ -7,6 +7,7 @@ public class DBConstants {
     public static final String T_COURSE = "t_course";
     public static final String T_CYCLE = "t_cycle";
     public static final String T_RATING = "t_rating";
+    public static final String T_MALSHAB_ITEM = "t_malshab_item";
 
     // Columns
     public static final String COL_ID = "id";
@@ -39,14 +40,17 @@ public class DBConstants {
     public static final String COL_COMMENT = "comment";
     public static final String COL_COURSE_CODE = "course_code";
     public static final String COL_IS_GET_LINK_DATA_EXECUTED = "is_get_link_data_executed";
-    public static final String COL_RATING_AVERAGE = "rating_average";
-    public static final String COL_RATINGS_AMOUNT = "ratings_amount";
-    public static final String COL_USER_RATING_ID = "user_rating_id";
     public static final String COL_LAST_MODIFIED = "last_modified";
     public static final String COL_CREATED_AT = "created_at";
     public static final String COL_CATEGORY = "category";
 
     // 'Create Table' commands
+    public static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE "+ T_MALSHAB_ITEM + " (" +
+            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_URL + " TEXT UNIQUE, " +
+            COL_TITLE + " TEXT, " +
+            COL_IMAGE_URL + " TEXT);";
+
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
             COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
             COL_URL + " TEXT UNIQUE, " +
@@ -104,4 +108,5 @@ public class DBConstants {
     public static final String DROP_T_COURSE = "DROP TABLE IF EXISTS " + T_COURSE + ";";
     public static final String DROP_T_CYCLE = "DROP TABLE IF EXISTS " + T_CYCLE + ";";
     public static final String DROP_T_RATING = "DROP TABLE IF EXISTS " + T_RATING + ";";
+    public static final String DROP_T_MALSHAB_ITEM = "DROP TABLE IF EXISTS " + T_MALSHAB_ITEM + ";";
 }
