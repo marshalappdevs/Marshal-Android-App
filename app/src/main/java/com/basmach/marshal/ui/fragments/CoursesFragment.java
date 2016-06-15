@@ -312,7 +312,10 @@ public class CoursesFragment extends Fragment {
         sequence.setConfig(config);
 
         try {
-            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+            Toolbar toolbar = null;
+            if (getActivity() != null) {
+                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+            }
             Field field = Toolbar.class.getDeclaredField("mNavButtonView");
             field.setAccessible(true);
             View navigationView = null;
@@ -351,6 +354,7 @@ public class CoursesFragment extends Fragment {
                                     .setTargetTouchable(false)
                                     .setTitleText(R.string.search_tutorial_description)
                                     .setMaskColour(Color.argb(150, 0, 0, 0))
+                                    .setShapePadding(24)
                                     .singleUse(SEARCH_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                                     .build()
                     );
