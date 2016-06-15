@@ -331,7 +331,7 @@ public class CoursesFragment extends Fragment {
                                 .setDismissOnTargetTouch(true)
                                 .setTargetTouchable(false)
                                 .setTitleText(R.string.navigation_drawer_tutorial_description)
-                                .setMaskColour(Color.argb(150, 0, 0, 0))
+//                                .setMaskColour(Color.argb(210, 0, 0, 0))
                                 .singleUse(DRAWER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                                 .build()
                 );
@@ -353,7 +353,7 @@ public class CoursesFragment extends Fragment {
                                     .setDismissOnTargetTouch(true)
                                     .setTargetTouchable(false)
                                     .setTitleText(R.string.search_tutorial_description)
-                                    .setMaskColour(Color.argb(150, 0, 0, 0))
+//                                    .setMaskColour(Color.argb(210, 0, 0, 0))
                                     .setShapePadding(24)
                                     .singleUse(SEARCH_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                                     .build()

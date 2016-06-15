@@ -206,7 +206,7 @@ public class MainActivity extends AppCompatActivity
                         .setDismissOnTargetTouch(true)
                         .setTargetTouchable(true)
                         .setTitleText(R.string.profile_image_tutorial_description)
-                        .setMaskColour(Color.argb(150, 0, 0, 0))
+//                        .setMaskColour(Color.argb(210, 0, 0, 0))
                         .singleUse(PROFILE_IMAGE_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                         .show();
             }
