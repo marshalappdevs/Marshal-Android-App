@@ -95,6 +95,7 @@
     <string name="got_it">הבנתי</string>
     <string name="cycle_fab_tutorial_description">לחץ כאן בכדי לראות תאריכים נוספים של הקורס</string>
     <string name="navigation_drawer_tutorial_description">ראה אפשרויות נוספות בתפריט זה</string>
+    <string name="profile_image_tutorial_description">התחבר אל חשבון ה-Google שלך על מנת לדרג קורסים ועוד</string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>

@@ -199,7 +199,7 @@ public class CoursesFragment extends Fragment {
                         filterData();
                         showImagesViewPager();
                         showData();
-                        initializeToturial();
+                        initializeTutorial();
                     }
 
                     progressDialog.dismiss();
@@ -209,7 +209,7 @@ public class CoursesFragment extends Fragment {
         } else {
             showImagesViewPager();
             showData();
-            initializeToturial();
+            initializeTutorial();
         }
 
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
@@ -413,12 +413,15 @@ public class CoursesFragment extends Fragment {
         initializeSystemComponents();
     }
 
-    private void initializeToturial() {
+    private void initializeTutorial() {
         try {
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             Field field = Toolbar.class.getDeclaredField("mNavButtonView");
             field.setAccessible(true);
-            View navigationView = (View) field.get(toolbar);
+            View navigationView = null;
+            if (toolbar != null) {
+                navigationView = (View) field.get(toolbar);
+            }
             if (navigationView != null) {
                 new MaterialShowcaseView.Builder(getActivity())
                         .setTarget(navigationView)

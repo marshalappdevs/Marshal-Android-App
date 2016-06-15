@@ -10,6 +10,7 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -90,6 +91,7 @@ import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -101,6 +103,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
+    private static final String PROFILE_IMAGE_SHOWCASE_ID = "profile_image_tutorial";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
@@ -180,11 +183,56 @@ public class MainActivity extends AppCompatActivity
 
         initializeGoogleSignIn();
 
+//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+//        mDrawerToggle = new ActionBarDrawerToggle(
+//                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+//        mDrawerLayout.addDrawerListener(mDrawerToggle);
+//        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+//            //drawer is open
+//            View view = findViewById(R.id.profile_cover_image);
+//            new MaterialShowcaseView.Builder(this)
+//                    .setTarget(view)
+//                    .setDismissText(R.string.got_it)
+//                    .setDismissOnTouch(false)
+//                    .setDismissOnTargetTouch(true)
+//                    .setTargetTouchable(true)
+//                    .setTitleText(R.string.navigation_drawer_tutorial_description)
+//                    .setMaskColour(Color.argb(150, 0, 0, 0))
+//                    .singleUse("test") // provide a unique ID used to ensure it is only shown once
+//                    .show();
+//        }
+//        mDrawerToggle.syncState();
+
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
-                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
+                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+
+            /** Called when a drawer has settled in a completely closed state. */
+            public void onDrawerClosed(View view) {
+                super.onDrawerClosed(view);
+            }
+
+            /** Called when a drawer has settled in a completely open state. */
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+                View view = findViewById(R.id.profile_image);
+                new MaterialShowcaseView.Builder(MainActivity.this)
+                        .setTarget(view)
+                        .setShapePadding(48)
+                        .setDismissText(R.string.got_it)
+                        .setDismissOnTouch(false)
+                        .setDismissOnTargetTouch(true)
+                        .setTargetTouchable(true)
+                        .setTitleText(R.string.profile_image_tutorial_description)
+                        .setMaskColour(Color.argb(150, 0, 0, 0))
+                        .singleUse(PROFILE_IMAGE_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                        .show();
+            }
+        };
+
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
 
         if(mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
