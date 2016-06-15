@@ -139,6 +139,7 @@ public class MainActivity extends AppCompatActivity
     public static Uri sUserProfileImage;
 
     public static LinearLayout sNewUpdatesButton;
+    private CoursesSearchableFragment mMeetupsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -413,7 +414,7 @@ public class MainActivity extends AppCompatActivity
             if(!isFinishing()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
+                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, false))
                         .commitAllowingStateLoss();
             }
         }
@@ -958,7 +959,10 @@ public class MainActivity extends AppCompatActivity
 //                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
 //                requestCalendarPermission();
 //            }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new MeetupsFragment()).commit();
+            if (mMeetupsFragment == null)
+                mMeetupsFragment = CoursesSearchableFragment.newInstance("", null, true);
+
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_discussions) {
             fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();

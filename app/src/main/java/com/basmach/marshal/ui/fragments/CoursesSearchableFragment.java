@@ -24,6 +24,8 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.Rating;
+import com.basmach.marshal.localdb.DBConstants;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
@@ -31,11 +33,15 @@ import com.basmach.marshal.utils.DateHelper;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.List;
+
+import retrofit2.http.POST;
 
 public class CoursesSearchableFragment extends Fragment {
 
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
+    private static final String EXTRA_IS_MEETUPS = "extra_is_meetups";
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
@@ -47,11 +53,14 @@ public class CoursesSearchableFragment extends Fragment {
     private String mSearchQuery;
     private TextView mNoResults;
     private MenuItem mRefreshMenuItem;
+    private boolean mIsMeetups;
 
-    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
+    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
+                                                        boolean isMeetups) {
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_SEARCH_QUERY,query);
         bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
+        bundle.putBoolean(EXTRA_IS_MEETUPS, isMeetups);
         CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
         coursesSearchableFragment.setArguments(bundle);
         return coursesSearchableFragment;
@@ -70,21 +79,47 @@ public class CoursesSearchableFragment extends Fragment {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         mNoResults = (TextView) rootView.findViewById(R.id.no_results);
+
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
 
-        mFilteredCourseList = new ArrayList<>(mCoursesList);
-        mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
-        mRecycler.setAdapter(mAdapter);
+        mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
+
+        if (!mIsMeetups) {
+            mFilteredCourseList = new ArrayList<>(mCoursesList);
+            mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
+            mRecycler.setAdapter(mAdapter);
+        } else {
+            Course.getByColumnInBackground(true, DBConstants.COL_IS_MEETUP, true, DBConstants.COL_ID,
+                    getActivity(), Course.class, new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            if (data != null && data.size() > 0) {
+                                mCoursesList = new ArrayList<>((List)data);
+                                showData();
+                            } else {
+                                mNoResults.setVisibility(View.VISIBLE);
+                            }
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            mNoResults.setVisibility(View.VISIBLE);
+                        }
+                    });
+        }
 
         getActivity().setTitle(R.string.search_title);
 
         return rootView;
     }
 
-//    private void showData() {
-//
-//    }
+    private void showData() {
+        mNoResults.setVisibility(View.GONE);
+        mFilteredCourseList = new ArrayList<>(mCoursesList);
+        mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
+        mRecycler.setAdapter(mAdapter);
+    }
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -151,7 +186,9 @@ public class CoursesSearchableFragment extends Fragment {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        getActivity().onBackPressed();
+                        if (!mIsMeetups) {
+                            getActivity().onBackPressed();
+                        }
                         return true; // Return true to collapse action view
                     }
 
