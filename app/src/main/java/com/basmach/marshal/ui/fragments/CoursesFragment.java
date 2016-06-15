@@ -47,12 +47,15 @@ import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class CoursesFragment extends Fragment {
     private static final String EXTRA_COURSES_LIST = "extra_courses_list";
     private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
     private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
+    private static final String SEARCH_SHOWCASE_ID = "search_tutorial";
 
     public static ArrayList<Course> mCoursesList = null;
     public static ArrayList<Course> mSoftwareCourses = null;
@@ -302,6 +305,12 @@ public class CoursesFragment extends Fragment {
     }
 
     private void initializeTutorial() {
+        ShowcaseConfig config = new ShowcaseConfig();
+        config.setDelay(500); // half second between each showcase view
+
+        final MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
+        sequence.setConfig(config);
+
         try {
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             Field field = Toolbar.class.getDeclaredField("mNavButtonView");
@@ -311,20 +320,45 @@ public class CoursesFragment extends Fragment {
                 navigationView = (View) field.get(toolbar);
             }
             if (navigationView != null) {
-                new MaterialShowcaseView.Builder(getActivity())
-                        .setTarget(navigationView)
-                        .setDismissText(R.string.got_it)
-                        .setDismissOnTouch(false)
-                        .setDismissOnTargetTouch(true)
-                        .setTargetTouchable(true)
-                        .setTitleText(R.string.navigation_drawer_tutorial_description)
-                        .setMaskColour(Color.argb(150, 0, 0, 0))
-                        .singleUse(DRAWER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                        .show();
+                sequence.addSequenceItem(
+                        new MaterialShowcaseView.Builder(getActivity())
+                                .setTarget(navigationView)
+                                .setDismissText(R.string.got_it)
+                                .setDismissOnTouch(false)
+                                .setDismissOnTargetTouch(true)
+                                .setTargetTouchable(false)
+                                .setTitleText(R.string.navigation_drawer_tutorial_description)
+                                .setMaskColour(Color.argb(150, 0, 0, 0))
+                                .singleUse(DRAWER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                                .build()
+                );
             }
         } catch (NoSuchFieldException | IllegalAccessException e) {
             e.printStackTrace();
         }
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                View view = getActivity().findViewById(R.id.menu_main_searchView);
+                if (view != null) {
+                    sequence.addSequenceItem(
+                            new MaterialShowcaseView.Builder(getActivity())
+                                    .setTarget(view)
+                                    .setDismissText(R.string.got_it)
+                                    .setDismissOnTouch(false)
+                                    .setDismissOnTargetTouch(true)
+                                    .setTargetTouchable(false)
+                                    .setTitleText(R.string.search_tutorial_description)
+                                    .setMaskColour(Color.argb(150, 0, 0, 0))
+                                    .singleUse(SEARCH_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                                    .build()
+                    );
+                }
+            }
+        });
+
+        sequence.start();
     }
 
     private void initializeSoftwareComponents() {
