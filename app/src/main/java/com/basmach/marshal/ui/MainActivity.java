@@ -87,7 +87,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -125,6 +124,7 @@ public class MainActivity extends AppCompatActivity
     private CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
+    private CoursesSearchableFragment mMeetupsFragment;
     private MenuItem mRefreshMenuItem;
 
     private UpdateBroadcastReceiver updateReceiver;
@@ -133,13 +133,14 @@ public class MainActivity extends AppCompatActivity
     private ProgressDialog mUpdateProgressDialog;
 
     public static int sLastCoursesViewPagerIndex = 0;
+
     public static ArrayList<Course> sAllCourses;
+
     public static String sUserEmailAddress;
     public static String sUserName;
     public static Uri sUserProfileImage;
 
     public static LinearLayout sNewUpdatesButton;
-    private CoursesSearchableFragment mMeetupsFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
