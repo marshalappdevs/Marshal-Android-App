@@ -14,20 +14,21 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     public static LocalDBHelper helperInstance;
     public static SQLiteDatabase databaseInstance;
 
-    public LocalDBHelper(Context context) {
+    private LocalDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
     }
 
     public static LocalDBHelper getHelperInstance(Context context) {
         if (helperInstance == null)
-            helperInstance = new LocalDBHelper(context);
+            helperInstance = new LocalDBHelper(context.getApplicationContext());
 
         return helperInstance;
     }
 
     public static SQLiteDatabase getDatabaseWritableInstance(Context context) {
-        if (databaseInstance == null)
+        if (databaseInstance == null || (!databaseInstance.isOpen())) {
             databaseInstance = getHelperInstance(context).getWritableDatabase();
+        }
 
         return databaseInstance;
     }

@@ -56,6 +56,13 @@ public class MaterialsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
+        mLayoutManager = new LinearLayoutManager(getActivity());
+        mRecycler.setLayoutManager(mLayoutManager);
+        mRecycler.setItemAnimator(new DefaultItemAnimator());
+        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
+
         if (mMaterialsList == null) {
             MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
                     false, new BackgroundTaskCallBack() {
@@ -66,23 +73,21 @@ public class MaterialsFragment extends Fragment {
                                 mMaterialsList.add((MaterialItem)item);
 
                             }
-
                             showData();
                         }
 
                         @Override
                         public void onError(String error) {
-                            Log.e("GET MATERIALS "," ERROR");
+                            if (error != null) {
+                                Log.e("GET MATERIALS "," ERROR:\n" + error);
+                            } else {
+                                Log.e("GET MATERIALS "," ERROR");
+                            }
                         }
                     });
+        } else {
+            showData();
         }
-
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecycler.setLayoutManager(mLayoutManager);
-        mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
 
         return rootView;
     }
