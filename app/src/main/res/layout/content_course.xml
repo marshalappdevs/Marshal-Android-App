@@ -432,9 +432,10 @@
             android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
         <!--Rating-->
-        <FrameLayout
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:id="@+id/course_content_ratingsFrame">
 
             <TextView
@@ -516,7 +517,7 @@
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin" />
-        </FrameLayout>
+        </LinearLayout>
 
 
         <!--Action Buttons-->

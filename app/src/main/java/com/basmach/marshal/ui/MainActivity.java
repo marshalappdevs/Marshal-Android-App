@@ -184,26 +184,6 @@ public class MainActivity extends AppCompatActivity
 
         initializeGoogleSignIn();
 
-//        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-//        mDrawerToggle = new ActionBarDrawerToggle(
-//                this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-//        mDrawerLayout.addDrawerListener(mDrawerToggle);
-//        if(mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
-//            //drawer is open
-//            View view = findViewById(R.id.profile_cover_image);
-//            new MaterialShowcaseView.Builder(this)
-//                    .setTarget(view)
-//                    .setDismissText(R.string.got_it)
-//                    .setDismissOnTouch(false)
-//                    .setDismissOnTargetTouch(true)
-//                    .setTargetTouchable(true)
-//                    .setTitleText(R.string.navigation_drawer_tutorial_description)
-//                    .setMaskColour(Color.argb(150, 0, 0, 0))
-//                    .singleUse("test") // provide a unique ID used to ensure it is only shown once
-//                    .show();
-//        }
-//        mDrawerToggle.syncState();
-
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         mDrawerToggle = new ActionBarDrawerToggle(
                 this, mDrawerLayout, mToolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {

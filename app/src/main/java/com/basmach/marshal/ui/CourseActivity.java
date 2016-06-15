@@ -113,7 +113,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private FloatingActionButton mFabCycles;
     private RatingBar.OnRatingBarChangeListener mRatingBarUserOnChangeListener;
-    private FrameLayout mRatingsFrame;
+    private LinearLayout mRatingsFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -382,7 +382,7 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
         mReviewAuthor = (TextView) findViewById(R.id.review_author);
         mBtnReadAllReviews = (Button) findViewById(R.id.course_content_button_readAllReviews);
-        mRatingsFrame = (FrameLayout) findViewById(R.id.course_content_ratingsFrame);
+        mRatingsFrame = (LinearLayout) findViewById(R.id.course_content_ratingsFrame);
 
         if (mCourse != null) {
             if (mCourse.getIsMeetup()) {
