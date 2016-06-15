@@ -162,6 +162,8 @@ public class CoursesFragment extends Fragment {
                     super.onPreExecute();
                     progressDialog = new ProgressDialog(getActivity());
                     progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
+                    progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
                     progressDialog.show();
                 }
 

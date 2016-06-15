@@ -99,9 +99,6 @@ public class DBConstants {
             COL_CYCLES + " TEXT, " +
             COL_IS_MOOC + " INTEGER, " +
             COL_IS_MEETUP + " INTEGER, " +
-//            COL_RATING_AVERAGE + " REAL, " +
-//            COL_RATINGS_AMOUNT + " INTEGER, " +
-//            COL_USER_RATING_ID + " INTEGER, " +
             COL_CATEGORY + " TEXT, " +
             COL_IMAGE_URL + " TEXT);";
 

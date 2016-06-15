@@ -119,12 +119,12 @@ public class Course extends DBObject implements Parcelable{
     @Expose
     @SerializedName("IsMooc")
     @Column(name = DBConstants.COL_IS_MOOC)
-    private Boolean isMooc;
+    private boolean isMooc;
 
     @Expose
     @SerializedName("IsMeetup")
     @Column(name = DBConstants.COL_IS_MEETUP)
-    private Boolean isMeetup;
+    private boolean isMeetup;
 
     @Expose
     @SerializedName("Category")

@@ -33,6 +33,7 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
@@ -112,6 +113,7 @@ public class CourseActivity extends AppCompatActivity {
 
     private FloatingActionButton mFabCycles;
     private RatingBar.OnRatingBarChangeListener mRatingBarUserOnChangeListener;
+    private FrameLayout mRatingsFrame;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -257,22 +259,6 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
 
-            mBtnReadAllReviews = (Button) findViewById(R.id.course_content_button_readAllReviews);
-            mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mRatingBarAverage.getRating() == 0) {
-                        Toast.makeText(CourseActivity.this, R.string.no_reviews_error, Toast.LENGTH_LONG).show();
-                    } else {
-                        Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
-                        i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
-                        i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
-                        i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
-                        i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
-                        startActivity(i);
-                    }
-                }
-            });
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
             mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
@@ -395,34 +381,63 @@ public class CourseActivity extends AppCompatActivity {
         mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
         mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
         mReviewAuthor = (TextView) findViewById(R.id.review_author);
+        mBtnReadAllReviews = (Button) findViewById(R.id.course_content_button_readAllReviews);
+        mRatingsFrame = (FrameLayout) findViewById(R.id.course_content_ratingsFrame);
 
         if (mCourse != null) {
-            showRatingAverage();
-            showRatingsCount();
-            showUserRating();
-        }
+            if (mCourse.getIsMeetup()) {
+                setRatingViewsVisibillity(View.GONE);
+            } else {
+                setRatingViewsVisibillity(View.VISIBLE);
+                showRatingAverage();
+                showRatingsCount();
+                showUserRating();
 
-        mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
-            @Override
-            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
-                    showReviewCommentDialog(false);
-                } else {
-                    if (ratingBar.getRating() != 0) {
-                        Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
+                mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        if (mRatingBarAverage.getRating() == 0) {
+                            Toast.makeText(CourseActivity.this, R.string.no_reviews_error, Toast.LENGTH_LONG).show();
+                        } else {
+                            Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
+                            i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
+                            i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
+                            i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
+                            i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
+                            startActivity(i);
+                        }
                     }
-                    ratingBar.setRating(0);
-                }
-            }
-        };
+                });
 
-        mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-        mActionContainer.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                showReviewCommentDialog(true);
+                mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
+                    @Override
+                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                        if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
+                            showReviewCommentDialog(false);
+                        } else {
+                            if (ratingBar.getRating() != 0) {
+                                Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
+                            }
+                            ratingBar.setRating(0);
+                        }
+                    }
+                };
+
+                mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
+                mActionContainer.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showReviewCommentDialog(true);
+                    }
+                });
             }
-        });
+        }
+    }
+
+    private void setRatingViewsVisibillity(int visibillity) {
+        if (mRatingsFrame != null) {
+            mRatingsFrame.setVisibility(visibillity);
+        }
     }
 
     private void showUserRating() {

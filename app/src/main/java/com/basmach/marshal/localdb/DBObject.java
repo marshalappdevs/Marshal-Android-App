@@ -878,9 +878,7 @@ public abstract class DBObject {
                 super.onPreExecute();
 
                 if (showProgressBar) {
-                    progressDialog = new ProgressDialog(context);
-                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
-                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog = getProgressDialog(context);
                     progressDialog.show();
                 }
             }
@@ -932,9 +930,7 @@ public abstract class DBObject {
                 super.onPreExecute();
 
                 if (showProgressBar) {
-                    progressDialog = new ProgressDialog(context);
-                    progressDialog.setMessage(context.getResources().getString(R.string.loading));
-                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog = getProgressDialog(context);
                     progressDialog.show();
                 }
             }
@@ -1127,6 +1123,7 @@ public abstract class DBObject {
     private static ProgressDialog getProgressDialog(Context context) {
         ProgressDialog progressDialog = new ProgressDialog(context);
         progressDialog.setMessage(context.getResources().getString(R.string.loading));
+        progressDialog.setCancelable(false);
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
