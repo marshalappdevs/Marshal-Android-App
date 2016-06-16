@@ -298,7 +298,11 @@ public class CoursesSearchableFragment extends Fragment {
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH));
                 if (tempEndDate != 0) {
-                    datePickerDialog.getDatePicker().setMinDate(tempEndDate - 604800000L);
+                    long safeStartDate = tempEndDate - 604800000L;
+                    if (safeStartDate < System.currentTimeMillis()) {
+                        safeStartDate = System.currentTimeMillis();
+                    }
+                    datePickerDialog.getDatePicker().setMinDate(safeStartDate);
                 } else {
                     datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 }
