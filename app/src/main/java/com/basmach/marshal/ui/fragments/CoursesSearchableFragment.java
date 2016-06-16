@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
 import android.database.Cursor;
@@ -18,7 +19,13 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.DatePicker;
+import android.widget.EditText;
+import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -30,10 +37,12 @@ import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.http.POST;
 
@@ -54,6 +63,13 @@ public class CoursesSearchableFragment extends Fragment {
     private TextView mNoResults;
     private MenuItem mRefreshMenuItem;
     private boolean mIsMeetups;
+    private ImageButton mExpandFilter;
+    private ImageButton mCollapseFilter;
+    private LinearLayout mFilterDates;
+    private EditText mStartDate;
+    private EditText mEndDate;
+    private Calendar mCalendar;
+    private Button mApplyFilter;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
                                                         boolean isMeetups) {
@@ -79,6 +95,15 @@ public class CoursesSearchableFragment extends Fragment {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         mNoResults = (TextView) rootView.findViewById(R.id.no_results);
+
+        mFilterDates = (LinearLayout) rootView.findViewById(R.id.filter_dates);
+        mExpandFilter = (ImageButton) rootView.findViewById(R.id.expand_dates_filter);
+        mCollapseFilter = (ImageButton) rootView.findViewById(R.id.collapse_dates_filter);
+        mStartDate = (EditText) rootView.findViewById(R.id.start_filter);
+        mEndDate = (EditText) rootView.findViewById(R.id.end_filter);
+        mApplyFilter = (Button) rootView.findViewById(R.id.apply_filter_dates);
+
+        advancedFilter();
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
@@ -220,6 +245,97 @@ public class CoursesSearchableFragment extends Fragment {
             MenuItemCompat.expandActionView(searchItem);
             mSearchView.setQuery(mSearchQuery,true);
         }
+    }
+
+    private void advancedFilter() {
+        mExpandFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterDates.setVisibility(View.VISIBLE);
+                mCollapseFilter.setVisibility(View.VISIBLE);
+                mExpandFilter.setVisibility(View.GONE);
+            }
+        });
+
+        mCollapseFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mFilterDates.setVisibility(View.GONE);
+                mCollapseFilter.setVisibility(View.GONE);
+                mExpandFilter.setVisibility(View.VISIBLE);
+            }
+        });
+
+        mCalendar = Calendar.getInstance();
+
+        final DatePickerDialog.OnDateSetListener startDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                mCalendar.set(Calendar.YEAR, year);
+                mCalendar.set(Calendar.MONTH, monthOfYear);
+                mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                // update text field
+                String myFormat = "dd/MM/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+                mStartDate.setText(sdf.format(mCalendar.getTime()));
+            }
+        };
+
+        mStartDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), startDate, mCalendar
+                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+                        mCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
+            }
+        });
+
+        final DatePickerDialog.OnDateSetListener endDate = new DatePickerDialog.OnDateSetListener() {
+            @Override
+            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
+                mCalendar.set(Calendar.YEAR, year);
+                mCalendar.set(Calendar.MONTH, monthOfYear);
+                mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                // update text field
+                String myFormat = "dd/MM/yy";
+                SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
+                mEndDate.setText(sdf.format(mCalendar.getTime()));
+            }
+        };
+
+        mEndDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDate, mCalendar
+                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
+                        mCalendar.get(Calendar.DAY_OF_MONTH));
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                datePickerDialog.show();
+            }
+        });
+
+        mApplyFilter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (mStartDate == null || mStartDate.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.start_date_error, Toast.LENGTH_SHORT).show();
+                }
+
+                if (mEndDate == null || mEndDate.getText().toString().isEmpty()) {
+                    Toast.makeText(getActivity(), R.string.end_date_error, Toast.LENGTH_SHORT).show();
+                }
+
+                if (mStartDate != null && !mStartDate.getText().toString().isEmpty()
+                        && mEndDate != null && !mEndDate.getText().toString().isEmpty()) {
+                    mFilterDates.setVisibility(View.GONE);
+                    mCollapseFilter.setVisibility(View.GONE);
+                    mExpandFilter.setVisibility(View.VISIBLE);
+                    Toast.makeText(getActivity(), mStartDate.getText().toString() + " " + mEndDate.getText().toString(), Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
     }
 
     private void filter(String filterText) {
