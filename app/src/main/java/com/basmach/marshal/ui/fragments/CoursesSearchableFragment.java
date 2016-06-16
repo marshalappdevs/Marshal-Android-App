@@ -73,7 +73,6 @@ public class CoursesSearchableFragment extends Fragment {
     private Button mApplyFilter;
     private View mAdvancedFilter;
     private long tempStartDate = 0;
-    private long tempEndDate = 0;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
                                                         boolean isMeetups) {
@@ -298,15 +297,7 @@ public class CoursesSearchableFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), startDate, mCalendar
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH));
-                if (tempEndDate != 0) {
-                    long safeStartDate = tempEndDate - 604800000L;
-                    if (safeStartDate < System.currentTimeMillis()) {
-                        safeStartDate = System.currentTimeMillis();
-                    }
-                    datePickerDialog.getDatePicker().setMinDate(safeStartDate);
-                } else {
-                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
-                }
+                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                 datePickerDialog.show();
             }
         });
@@ -321,7 +312,6 @@ public class CoursesSearchableFragment extends Fragment {
                 String myFormat = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
                 mEndDate.setText(sdf.format(mCalendar.getTime()));
-                tempEndDate = mCalendar.getTimeInMillis();
             }
         };
 
