@@ -16,7 +16,7 @@
 
             <include
                 android:id="@+id/courses_filter"
-                android:visibility="visible"
+                android:visibility="gone"
                 layout="@layout/search_dates_filter" />
 
             <android.support.v7.widget.RecyclerView

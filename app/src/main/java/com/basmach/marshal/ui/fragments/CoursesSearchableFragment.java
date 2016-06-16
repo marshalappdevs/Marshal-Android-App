@@ -12,6 +12,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -70,6 +71,7 @@ public class CoursesSearchableFragment extends Fragment {
     private EditText mEndDate;
     private Calendar mCalendar;
     private Button mApplyFilter;
+    private View mAdvancedFilter;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
                                                         boolean isMeetups) {
@@ -102,8 +104,7 @@ public class CoursesSearchableFragment extends Fragment {
         mStartDate = (EditText) rootView.findViewById(R.id.start_filter);
         mEndDate = (EditText) rootView.findViewById(R.id.end_filter);
         mApplyFilter = (Button) rootView.findViewById(R.id.apply_filter_dates);
-
-        advancedFilter();
+        mAdvancedFilter = rootView.findViewById(R.id.courses_filter);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
@@ -111,6 +112,9 @@ public class CoursesSearchableFragment extends Fragment {
         mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
 
         if (!mIsMeetups) {
+
+            initializeAdvancedFilter();
+
             if (mCoursesList != null)
                 mFilteredCourseList = new ArrayList<>(mCoursesList);
             else
@@ -157,8 +161,10 @@ public class CoursesSearchableFragment extends Fragment {
 
         if (mIsMeetups) {
             getActivity().setTitle(R.string.navigation_drawer_meetups);
+            mAdvancedFilter.setVisibility(View.GONE);
         } else {
             getActivity().setTitle(R.string.search_title);
+            mAdvancedFilter.setVisibility(View.VISIBLE);
         }
 
         return rootView;
@@ -247,7 +253,7 @@ public class CoursesSearchableFragment extends Fragment {
         }
     }
 
-    private void advancedFilter() {
+    private void initializeAdvancedFilter() {
         mExpandFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
