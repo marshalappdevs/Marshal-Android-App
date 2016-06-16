@@ -72,6 +72,8 @@ public class CoursesSearchableFragment extends Fragment {
     private Calendar mCalendar;
     private Button mApplyFilter;
     private View mAdvancedFilter;
+    private long tempStartDate = 0;
+    private long tempEndDate = 0;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
                                                         boolean isMeetups) {
@@ -284,6 +286,8 @@ public class CoursesSearchableFragment extends Fragment {
                 String myFormat = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
                 mStartDate.setText(sdf.format(mCalendar.getTime()));
+                mCalendar.getTime();
+                tempStartDate = mCalendar.getTimeInMillis();
             }
         };
 
@@ -293,7 +297,11 @@ public class CoursesSearchableFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), startDate, mCalendar
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                if (tempEndDate != 0) {
+                    datePickerDialog.getDatePicker().setMinDate(tempEndDate - 604800000L);
+                } else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                }
                 datePickerDialog.show();
             }
         });
@@ -308,6 +316,7 @@ public class CoursesSearchableFragment extends Fragment {
                 String myFormat = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
                 mEndDate.setText(sdf.format(mCalendar.getTime()));
+                tempEndDate = mCalendar.getTimeInMillis();
             }
         };
 
@@ -317,7 +326,11 @@ public class CoursesSearchableFragment extends Fragment {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDate, mCalendar
                         .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
                         mCalendar.get(Calendar.DAY_OF_MONTH));
-                datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                if (tempStartDate != 0) {
+                    datePickerDialog.getDatePicker().setMinDate(tempStartDate);
+                } else {
+                    datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
+                }
                 datePickerDialog.show();
             }
         });

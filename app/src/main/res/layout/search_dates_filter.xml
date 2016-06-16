@@ -50,22 +50,23 @@
         android:visibility="gone">
 
         <LinearLayout
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_width="wrap_content"
+            android:layout_weight="1.0"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:orientation="vertical">
 
             <EditText
                 android:id="@+id/start_filter"
-                android:layout_width="235dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/start_date"
                 android:focusable="false"/>
 
             <EditText
                 android:id="@+id/end_filter"
-                android:layout_width="235dp"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:hint="@string/end_date"
                 android:focusable="false" />
@@ -73,8 +74,9 @@
 
         <Button
             android:id="@+id/apply_filter_dates"
-            android:layout_width="match_parent"
+            android:layout_width="0dp"
             android:layout_height="wrap_content"
+            android:layout_weight="0.5"
             android:padding="16dp"
             android:layout_gravity="center"
             android:text="@string/action_filter"
