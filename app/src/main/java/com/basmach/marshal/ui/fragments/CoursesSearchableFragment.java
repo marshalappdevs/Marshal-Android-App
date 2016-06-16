@@ -94,6 +94,7 @@ public class CoursesSearchableFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
+        mRecycler.setNestedScrollingEnabled(false);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());

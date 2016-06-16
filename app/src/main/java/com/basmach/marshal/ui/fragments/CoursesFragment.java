@@ -316,11 +316,11 @@ public class CoursesFragment extends Fragment {
             if (getActivity() != null) {
                 toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             }
-            Field field = Toolbar.class.getDeclaredField("mNavButtonView");
-            field.setAccessible(true);
+            Field navButtonField = Toolbar.class.getDeclaredField("mNavButtonView");
+            navButtonField.setAccessible(true);
             View navigationView = null;
             if (toolbar != null) {
-                navigationView = (View) field.get(toolbar);
+                navigationView = (View) navButtonField.get(toolbar);
             }
             if (navigationView != null) {
                 sequence.addSequenceItem(
