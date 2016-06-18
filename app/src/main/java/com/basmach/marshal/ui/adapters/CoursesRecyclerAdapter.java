@@ -70,6 +70,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
                 List<Pair<View, String>> pairs = new ArrayList<>();
+                // get status bar and navigation bar views and add them as shared elements
+                // to prevent glitches
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity)mContext).getWindow().getDecorView();
                     View statusBar = decor.findViewById(android.R.id.statusBarBackground);
@@ -77,8 +79,11 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
                     if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                 }
+                // get the common element for the transition in this activity
                 pairs.add(Pair.create(view.findViewById(R.id.course_cardview_image), mContext.getString(R.string.transition_header_image)));
+                // create the transition animation
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
+                // start the new activity
                 ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY, options.toBundle());
             }
         });
