@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<transitionSet xmlns:android="http://schemas.android.com/apk/res/android">
+    <changeBounds />
+    <changeTransform />
+    <changeClipBounds />
+    <changeImageTransform />
+    <fade android:fadingMode="fade_in" />
+    <arcMotion />
+    <targets>
+        <target android:targetId="@id/header" />
+    </targets>
+</transitionSet>
+
