@@ -127,14 +127,14 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
-            int clickCount = 0;
+            int mTapCount;
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                clickCount = clickCount + 1;
-                if (clickCount == 7) {
+                if (mTapCount == 7) {
                     Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
-                    clickCount = 0;
+                    mTapCount = 0;
                 }
+                mTapCount++;
                 return false;
             }
         };

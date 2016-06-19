@@ -12,6 +12,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.RectF;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.util.Log;
@@ -316,16 +318,20 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         // draw any settled, revealing or joining dots
         for (int page = 0; page < pageCount; page++) {
             int nextXIndex = page == pageCount - 1 ? page : page + 1;
-            combinedUnselectedPath.op(getUnselectedPath(page,
+            Path unselectedPath = getUnselectedPath(page,
                     dotCenterX[page],
                     dotCenterX[nextXIndex],
                     page == pageCount - 1 ? INVALID_FRACTION : joiningFractions[page],
-                    dotRevealFractions[page]), Path.Op.UNION);
+                    dotRevealFractions[page]);
+            unselectedPath.addPath(combinedUnselectedPath);
+            combinedUnselectedPath.addPath(unselectedPath);
         }
         // draw any retreating joins
         if (retreatingJoinX1 != INVALID_FRACTION) {
-            combinedUnselectedPath.op(getRetreatingJoinPath(), Path.Op.UNION);
+            Path retreatingJoinPath = getRetreatingJoinPath();
+            combinedUnselectedPath.addPath(retreatingJoinPath);
         }
+
         canvas.drawPath(combinedUnselectedPath, unselectedPaint);
     }
 
@@ -360,7 +366,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
 
         if ((joiningFraction == 0f || joiningFraction == INVALID_FRACTION)
                 && dotRevealFraction == 0f
-                && !(page == currentPage && selectedDotInPosition == true)) {
+                && !(page == currentPage && selectedDotInPosition)) {
 
             // case #1 – At rest
             unselectedDotPath.addCircle(dotCenterX[page], dotCenterY, dotRadius, Path.Direction.CW);
@@ -403,7 +409,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
                     controlX2, controlY2,
                     endX2, endY2);
 
-            unselectedDotPath.op(unselectedDotLeftPath, Path.Op.UNION);
+            unselectedDotPath.addPath(unselectedDotLeftPath);
 
             // now do the next dot to the right
             unselectedDotRightPath.rewind();
@@ -436,7 +442,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
             unselectedDotRightPath.cubicTo(controlX1, controlY1,
                     controlX2, controlY2,
                     endX2, endY2);
-            unselectedDotPath.op(unselectedDotRightPath, Path.Op.UNION);
+            unselectedDotPath.addPath(unselectedDotRightPath);
         }
 
         if (joiningFraction > 0.5f && joiningFraction < 1f
@@ -608,8 +614,8 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         });
         // slightly delay the start to give the joins a chance to run
         // unless dot isn't in position yet – then don't delay!
-        moveSelected.setStartDelay(selectedDotInPosition ? animDuration / 4l : 0l);
-        moveSelected.setDuration(animDuration * 3l / 4l);
+        moveSelected.setStartDelay(selectedDotInPosition ? animDuration / 4L : 0L);
+        moveSelected.setDuration(animDuration * 3L / 4L);
         moveSelected.setInterpolator(interpolator);
         return moveSelected;
     }
@@ -618,7 +624,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         if (leftDot < joiningFractions.length) {
 
             if (leftDot == 1) {
-//                Log.d("PageIndicator", "dot 1 fraction:\t" + fraction);
+                Log.d("PageIndicator", "dot 1 fraction:\t" + fraction);
             }
 
             joiningFractions[leftDot] = fraction;
@@ -832,5 +838,53 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
         boolean shouldStart(float currentValue) {
             return currentValue < thresholdValue;
         }
+    }
+
+    @Override
+    public void onRestoreInstanceState(Parcelable state) {
+        SavedState savedState = (SavedState) state;
+        super.onRestoreInstanceState(savedState.getSuperState());
+        currentPage = savedState.currentPage;
+        requestLayout();
+    }
+
+    @Override
+    public Parcelable onSaveInstanceState() {
+        Parcelable superState = super.onSaveInstanceState();
+        SavedState savedState = new SavedState(superState);
+        savedState.currentPage = currentPage;
+        return savedState;
+    }
+
+    static class SavedState extends BaseSavedState {
+        int currentPage;
+
+        public SavedState(Parcelable superState) {
+            super(superState);
+        }
+
+        private SavedState(Parcel in) {
+            super(in);
+            currentPage = in.readInt();
+        }
+
+        @Override
+        public void writeToParcel(Parcel dest, int flags) {
+            super.writeToParcel(dest, flags);
+            dest.writeInt(currentPage);
+        }
+
+        @SuppressWarnings("UnusedDeclaration")
+        public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+            @Override
+            public SavedState createFromParcel(Parcel in) {
+                return new SavedState(in);
+            }
+
+            @Override
+            public SavedState[] newArray(int size) {
+                return new SavedState[size];
+            }
+        };
     }
 }
