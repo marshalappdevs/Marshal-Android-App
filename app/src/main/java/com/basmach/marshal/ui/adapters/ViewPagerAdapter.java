@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
+import android.preference.PreferenceManager;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
@@ -61,7 +62,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         @Override
         public void onClick(View v) {
             final int position = (Integer) v.getTag();
-
+            PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit().putBoolean("courseShared", false).apply();
             Intent intent = new Intent(context, CourseActivity.class);
             intent.putExtra(CourseActivity.EXTRA_COURSE, COURSES.get(position));
             ((Activity) context).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);

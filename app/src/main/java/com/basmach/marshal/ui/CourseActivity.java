@@ -3,6 +3,7 @@ package com.basmach.marshal.ui;
 import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
@@ -13,6 +14,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -112,6 +114,7 @@ public class CourseActivity extends AppCompatActivity {
     private FloatingActionButton mFabCycles;
     private RatingBar.OnRatingBarChangeListener mRatingBarUserOnChangeListener;
     private LinearLayout mRatingsFrame;
+    private SharedPreferences mSharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -146,33 +149,38 @@ public class CourseActivity extends AppCompatActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    mFabCycles.animate().cancel();
-                    mFabCycles.animate()
-                            .scaleX(0f)
-                            .scaleY(0f)
-                            .alpha(0f)
-                            .setDuration(200)
-                            .setInterpolator(new FastOutLinearInInterpolator())
-                            .setListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                }
+                Boolean courseShared = mSharedPreferences.getBoolean("courseShared", false);
+                if (courseShared) {
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                        mFabCycles.animate().cancel();
+                        mFabCycles.animate()
+                                .scaleX(0f)
+                                .scaleY(0f)
+                                .alpha(0f)
+                                .setDuration(200)
+                                .setInterpolator(new FastOutLinearInInterpolator())
+                                .setListener(new Animator.AnimatorListener() {
+                                    @Override
+                                    public void onAnimationStart(Animator animation) {
+                                    }
 
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    mToolbar.setVisibility(View.GONE);
-                                    supportFinishAfterTransition();
-                                }
+                                    @Override
+                                    public void onAnimationEnd(Animator animation) {
+                                        mToolbar.setVisibility(View.GONE);
+                                        supportFinishAfterTransition();
+                                    }
 
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-                                }
+                                    @Override
+                                    public void onAnimationCancel(Animator animation) {
+                                    }
 
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-                                }
-                            });
+                                    @Override
+                                    public void onAnimationRepeat(Animator animation) {
+                                    }
+                                });
+                    } else {
+                        finish();
+                    }
                 } else {
                     finish();
                 }
@@ -185,6 +193,9 @@ public class CourseActivity extends AppCompatActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+
+        //Initialize Shared Preferences
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
@@ -940,26 +951,38 @@ public class CourseActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mFabCycles.animate().cancel();
-            mFabCycles.animate()
-                    .scaleX(0f)
-                    .scaleY(0f)
-                    .alpha(0f)
-                    .setDuration(200)
-                    .setInterpolator(new FastOutLinearInInterpolator())
-                    .setListener(new Animator.AnimatorListener() {
-                        @Override public void onAnimationStart(Animator animation) {}
+        Boolean courseShared = mSharedPreferences.getBoolean("courseShared", false);
+        if (courseShared) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                mFabCycles.animate().cancel();
+                mFabCycles.animate()
+                        .scaleX(0f)
+                        .scaleY(0f)
+                        .alpha(0f)
+                        .setDuration(200)
+                        .setInterpolator(new FastOutLinearInInterpolator())
+                        .setListener(new Animator.AnimatorListener() {
+                            @Override
+                            public void onAnimationStart(Animator animation) {
+                            }
 
-                        @Override public void onAnimationEnd(Animator animation) {
-                            mToolbar.setVisibility(View.GONE);
-                            supportFinishAfterTransition();
-                        }
+                            @Override
+                            public void onAnimationEnd(Animator animation) {
+                                mToolbar.setVisibility(View.GONE);
+                                supportFinishAfterTransition();
+                            }
 
-                        @Override public void onAnimationCancel(Animator animation) {}
+                            @Override
+                            public void onAnimationCancel(Animator animation) {
+                            }
 
-                        @Override public void onAnimationRepeat(Animator animation) {}
-                    });
+                            @Override
+                            public void onAnimationRepeat(Animator animation) {
+                            }
+                        });
+            } else {
+                super.onBackPressed();
+            }
         } else {
             super.onBackPressed();
         }
