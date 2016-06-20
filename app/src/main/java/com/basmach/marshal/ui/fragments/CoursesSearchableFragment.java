@@ -414,7 +414,11 @@ public class CoursesSearchableFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            showResults(sStartDate + " - " + sEndDate, currentFilteredList);
+            if(currentFilteredList.isEmpty()) {
+                //TODO
+            } else {
+                showResults(sStartDate + " - " + sEndDate, currentFilteredList);
+            }
         }
     }
 
