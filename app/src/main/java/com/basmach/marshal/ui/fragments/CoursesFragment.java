@@ -275,7 +275,7 @@ public class CoursesFragment extends Fragment {
 
     @Override
     public void onDestroy() {
-        super.onDestroyView();
+        super.onDestroy();
         Log.i("course fragment", "onDestroyView");
         getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
     }
@@ -343,11 +343,14 @@ public class CoursesFragment extends Fragment {
         new Handler().post(new Runnable() {
             @Override
             public void run() {
-                View view = getActivity().findViewById(R.id.menu_main_searchView);
-                if (view != null) {
+                View searchView = null;
+                if (getActivity() != null) {
+                    searchView = getActivity().findViewById(R.id.menu_main_searchView);
+                }
+                if (searchView != null) {
                     sequence.addSequenceItem(
                             new MaterialShowcaseView.Builder(getActivity())
-                                    .setTarget(view)
+                                    .setTarget(searchView)
                                     .setDismissText(R.string.got_it)
                                     .setDismissOnTouch(false)
                                     .setDismissOnTargetTouch(true)
@@ -553,6 +556,7 @@ public class CoursesFragment extends Fragment {
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                if (query.equals("*")) query = "";
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
                         CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
                 return true;
@@ -567,7 +571,7 @@ public class CoursesFragment extends Fragment {
 
     @Override
     public void onPause() {
-        super.onDestroyView();
+        super.onPause();
         MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
     }
 
