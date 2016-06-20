@@ -109,6 +109,7 @@ public class CoursesSearchableFragment extends Fragment {
         mStartDate = (EditText) rootView.findViewById(R.id.start_filter);
         mEndDate = (EditText) rootView.findViewById(R.id.end_filter);
         mApplyFilter = (Button) rootView.findViewById(R.id.apply_filter_dates);
+        mClearFilter = (Button) rootView.findViewById(R.id.clear_filter_dates);
         mAdvancedFilter = rootView.findViewById(R.id.courses_filter);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
@@ -367,18 +368,17 @@ public class CoursesSearchableFragment extends Fragment {
         mClearFilter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
                 String query;
-
                 if (mSearchView.getQuery() != null) {
                     query = mSearchView.getQuery().toString();
                 } else {
                     query = "";
                 }
-
                 if (mFilteredCourseList != null) {
                     showResults(query, mFilteredCourseList);
                 }
+                mStartDate.getText().clear();
+                mEndDate.getText().clear();
             }
         });
     }
