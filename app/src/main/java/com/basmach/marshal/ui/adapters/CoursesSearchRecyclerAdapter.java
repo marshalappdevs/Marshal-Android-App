@@ -167,9 +167,17 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         applyAndAnimateRemovals(coursesList);
         applyAndAnimateAdditions(coursesList);
         applyAndAnimateMovedItems(coursesList);
+
         for(int i = 0; i < mCourses.size(); i++) {
             notifyItemChanged(i);
         }
+//        for (int position = mCourses.size() - 1; position >= 0; position--) {
+//            final Course item = mCourses.get(position);
+//            if (!coursesList.contains(item)) {
+//                mCourses.remove(position);
+//                notifyItemRemoved(position);
+//            }
+//        }
     }
 
     private void applyAndAnimateRemovals(ArrayList<Course> newItems) {
@@ -207,12 +215,19 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
     }
 
     public void addItem(int position, Course item) {
+        if (position - mCourses.size() > 0)
+            position = mCourses.size();
+
         mCourses.add(position, item);
         notifyItemInserted(position);
     }
 
     public void moveItem(int fromPosition, int toPosition) {
         final Course item = mCourses.remove(fromPosition);
+
+        if (toPosition - mCourses.size() > 0)
+            toPosition = mCourses.size();
+
         mCourses.add(toPosition, item);
         notifyItemMoved(fromPosition, toPosition);
     }

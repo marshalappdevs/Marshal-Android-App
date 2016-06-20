@@ -346,10 +346,49 @@ public class CoursesSearchableFragment extends Fragment {
                     mFilterDates.setVisibility(View.GONE);
                     mCollapseFilter.setVisibility(View.GONE);
                     mExpandFilter.setVisibility(View.VISIBLE);
-                    Toast.makeText(getActivity(), mStartDate.getText().toString() + " " + mEndDate.getText().toString(), Toast.LENGTH_SHORT).show();
+
+                    String sStartDate = mStartDate.getText().toString();
+                    String sEndDate = mEndDate.getText().toString();
+
+                    Toast.makeText(getActivity(), sStartDate + " - " + sEndDate, Toast.LENGTH_SHORT).show();
+                    mSearchView.setQuery(sStartDate + " - " + sEndDate, false);
+                    filterByDatesRange(sStartDate, sEndDate);
                 }
             }
         });
+    }
+
+    private void filterByDatesRange(String sStartDate, String sEndDate) {
+
+        mFilteredCourseList = new ArrayList<>();
+
+        try {
+            long rangeStartTime = DateHelper.stringToDate(sStartDate).getTime();
+            long rangeEndTime = DateHelper.stringToDate(sEndDate).getTime();
+
+            for (Course course:mCoursesList) {
+                if (course.getCycles() != null) {
+                    for (Cycle cycle : course.getCycles()) {
+                        try {
+                            long cycleStartTime = cycle.getStartDate().getTime();
+                            long cycleEndTime = cycle.getEndDate().getTime();
+
+                            if (cycleStartTime >= rangeStartTime && cycleEndTime <= rangeEndTime) {
+                                mFilteredCourseList.add(course);
+                                break;
+                            }
+
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                        }
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            showResults(sStartDate + " - " + sEndDate);
+        }
     }
 
     private void filter(String filterText) {
@@ -368,8 +407,12 @@ public class CoursesSearchableFragment extends Fragment {
                 }
             }
         }
+        showResults(filterText);
+    }
+
+    private void showResults(String query) {
         if (mFilteredCourseList.isEmpty()) {
-            String searchResult = String.format(getString(R.string.no_results_for_query), filterText);
+            String searchResult = String.format(getString(R.string.no_results_for_query), query);
 
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
