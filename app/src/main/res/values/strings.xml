@@ -108,6 +108,7 @@
     <string name="action_clear">Clear</string>
     <string name="start_date_error">Start date cannot be empty.</string>
     <string name="end_date_error">End date cannot be empty.</string>
+    <string name="no_results_for_filter">No results for this date range.</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>

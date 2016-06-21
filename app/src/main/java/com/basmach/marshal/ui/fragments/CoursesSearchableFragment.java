@@ -12,7 +12,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.text.Layout;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -31,7 +30,6 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
-import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
@@ -41,11 +39,8 @@ import com.basmach.marshal.utils.DateHelper;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.List;
 import java.util.Locale;
-
-import retrofit2.http.POST;
 
 public class CoursesSearchableFragment extends Fragment {
 
@@ -74,7 +69,7 @@ public class CoursesSearchableFragment extends Fragment {
     private Calendar mCalendar;
     private Button mApplyFilter;
     private Button mClearFilter;
-    private View mAdvancedFilter;
+    private View mDatesFilter;
     private long tempStartDate = 0;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
@@ -110,7 +105,7 @@ public class CoursesSearchableFragment extends Fragment {
         mEndDate = (EditText) rootView.findViewById(R.id.end_filter);
         mApplyFilter = (Button) rootView.findViewById(R.id.apply_filter_dates);
         mClearFilter = (Button) rootView.findViewById(R.id.clear_filter_dates);
-        mAdvancedFilter = rootView.findViewById(R.id.courses_filter);
+        mDatesFilter = rootView.findViewById(R.id.courses_filter);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
@@ -167,10 +162,10 @@ public class CoursesSearchableFragment extends Fragment {
 
         if (mIsMeetups) {
             getActivity().setTitle(R.string.navigation_drawer_meetups);
-            mAdvancedFilter.setVisibility(View.GONE);
+            mDatesFilter.setVisibility(View.GONE);
         } else {
             getActivity().setTitle(R.string.search_title);
-            mAdvancedFilter.setVisibility(View.VISIBLE);
+            mDatesFilter.setVisibility(View.VISIBLE);
         }
 
         return rootView;
@@ -358,7 +353,6 @@ public class CoursesSearchableFragment extends Fragment {
                     String sStartDate = mStartDate.getText().toString();
                     String sEndDate = mEndDate.getText().toString();
 
-                    Toast.makeText(getActivity(), sStartDate + " - " + sEndDate, Toast.LENGTH_SHORT).show();
 //                    mSearchView.setQuery(sStartDate + " - " + sEndDate, false);
                     filterByDatesRange(sStartDate, sEndDate);
                 }
@@ -415,7 +409,10 @@ public class CoursesSearchableFragment extends Fragment {
             e.printStackTrace();
         } finally {
             if(currentFilteredList.isEmpty()) {
-                //TODO
+                Toast.makeText(getActivity(), R.string.no_results_for_filter, Toast.LENGTH_LONG).show();
+                mFilterDates.setVisibility(View.VISIBLE);
+                mCollapseFilter.setVisibility(View.VISIBLE);
+                mExpandFilter.setVisibility(View.GONE);
             } else {
                 showResults(sStartDate + " - " + sEndDate, currentFilteredList);
             }
