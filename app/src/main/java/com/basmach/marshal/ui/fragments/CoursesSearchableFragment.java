@@ -188,11 +188,14 @@ public class CoursesSearchableFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup filter button
+        if (!mIsMeetups)
+            menu.findItem(R.id.menu_main_filter).setVisible(true);
+
         MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                showChangeLangDialog();
+                showFilterByDateDialog();
                 return false;
             }
         });
@@ -265,13 +268,7 @@ public class CoursesSearchableFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onPrepareOptionsMenu(Menu menu) {
-        if (!mIsMeetups)
-            menu.findItem(R.id.menu_main_filter).setVisible(true);
-    }
-
-    public void showChangeLangDialog() {
+    public void showFilterByDateDialog() {
         AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         final View dialogView = layoutInflater.inflate(R.layout.filter_dialog, null);
