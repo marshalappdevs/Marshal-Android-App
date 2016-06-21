@@ -356,7 +356,7 @@ public class CoursesSearchableFragment extends Fragment {
                 }
 
                 if (!startDateSpinner.getText().toString().isEmpty()
-                        && !endDateSpinner.getText().toString().isEmpty()) {
+                        || !endDateSpinner.getText().toString().isEmpty()) {
                     String sStartDate = startDateSpinner.getText().toString();
                     String sEndDate = endDateSpinner.getText().toString();
                     filterByDatesRange(sStartDate, sEndDate);
