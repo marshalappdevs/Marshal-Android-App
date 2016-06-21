@@ -95,16 +95,17 @@
     <string name="got_it">הבנתי</string>
     <string name="cycle_fab_tutorial_description">לחץ כאן בכדי לראות תאריכים נוספים של הקורס</string>
     <string name="navigation_drawer_tutorial_description">ראה אפשרויות נוספות בתפריט זה</string>
-    <string name="search_tutorial_description">חפש קורס או מיטאפ ע\"י כל תוכן או תאריך</string>
+    <string name="search_tutorial_description">חפש קורס או מיטאפ ע\"י כל תוכן</string>
+    <string name="filter_tutorial_description">סנן את תוצאות החיפוש לפי תווך תאריכים</string>
     <string name="profile_image_tutorial_description">התחבר אל חשבון ה-Google שלך על מנת לדרג קורסים ועוד</string>
     <string name="date_filter">סנן עפ\"י תאריך</string>
-    <string name="start_date">תאריך התחלה</string>
-    <string name="end_date">תאריך סוף</string>
+    <string name="start_date">מ</string>
+    <string name="end_date">עד</string>
     <string name="action_filter">סנן</string>
     <string name="action_clear">נקה</string>
     <string name="start_date_error">תאריך התחלה לא יכול להיות ריק.</string>
     <string name="end_date_error">תאריך סוף לא יכול להיות ריק.</string>
-    <string name="no_results_for_filter">אין תוצאות עבור תווך התאריכים הזה.</string>
+    <string name="no_results_for_filter">לא נמצאו תוצאות עבור תווך התאריכים הזה.</string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>

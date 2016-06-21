@@ -125,7 +125,6 @@ public class MainActivity extends AppCompatActivity
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
     private CoursesSearchableFragment mMeetupsFragment;
-    private MenuItem mRefreshMenuItem;
 
     private UpdateBroadcastReceiver updateReceiver;
     private BroadcastReceiver courseMaterialsReceiver;
@@ -870,29 +869,14 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        mRefreshMenuItem = menu.findItem(R.id.menu_main_refresh);
-        mRefreshMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+        MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
+        filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                updateData();
+//                updateData();
                 return true;
             }
         });
-
-//        MenuItemCompat.setOnActionExpandListener(searchItem,
-//                new MenuItemCompat.OnActionExpandListener() {
-//                    @Override
-//                    public boolean onMenuItemActionCollapse(MenuItem item) {
-//                        mRefreshMenuItem.setVisible(true);
-//                        return true; // Return true to collapse action view
-//                    }
-//
-//                    @Override
-//                    public boolean onMenuItemActionExpand(MenuItem item) {
-//                        mRefreshMenuItem.setVisible(false);
-//                        return true; // Return true to expand action view
-//                    }
-//                });
 
         return true;
     }

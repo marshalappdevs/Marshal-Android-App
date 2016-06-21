@@ -3,11 +3,14 @@ package com.basmach.marshal.ui.fragments;
 import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.database.Cursor;
 import android.os.Bundle;
+import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -19,11 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -42,11 +41,14 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
+
 public class CoursesSearchableFragment extends Fragment {
 
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
     private static final String EXTRA_IS_MEETUPS = "extra_is_meetups";
+    private static final String FILTER_SHOWCASE_ID = "filter_tutorial";
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
@@ -59,17 +61,10 @@ public class CoursesSearchableFragment extends Fragment {
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
-    private MenuItem mRefreshMenuItem;
     private boolean mIsMeetups;
-    private ImageButton mExpandFilter;
-    private ImageButton mCollapseFilter;
-    private LinearLayout mFilterDates;
-    private EditText mStartDate;
-    private EditText mEndDate;
     private Calendar mCalendar;
-    private Button mApplyFilter;
-    private Button mClearFilter;
-    private View mDatesFilter;
+    private String mTempStartDate;
+    private String mTempEndDate;
     private long tempStartDate = 0;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
@@ -91,21 +86,11 @@ public class CoursesSearchableFragment extends Fragment {
         setHasOptionsMenu(true);
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
-        mRecycler.setNestedScrollingEnabled(false);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         mNoResults = (TextView) rootView.findViewById(R.id.no_results);
-
-        mFilterDates = (LinearLayout) rootView.findViewById(R.id.filter_dates);
-        mExpandFilter = (ImageButton) rootView.findViewById(R.id.expand_dates_filter);
-        mCollapseFilter = (ImageButton) rootView.findViewById(R.id.collapse_dates_filter);
-        mStartDate = (EditText) rootView.findViewById(R.id.start_filter);
-        mEndDate = (EditText) rootView.findViewById(R.id.end_filter);
-        mApplyFilter = (Button) rootView.findViewById(R.id.apply_filter_dates);
-        mClearFilter = (Button) rootView.findViewById(R.id.clear_filter_dates);
-        mDatesFilter = rootView.findViewById(R.id.courses_filter);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
@@ -113,8 +98,6 @@ public class CoursesSearchableFragment extends Fragment {
         mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
 
         if (!mIsMeetups) {
-
-            initializeAdvancedFilter();
 
             if (mCoursesList != null)
                 mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -162,11 +145,32 @@ public class CoursesSearchableFragment extends Fragment {
 
         if (mIsMeetups) {
             getActivity().setTitle(R.string.navigation_drawer_meetups);
-            mDatesFilter.setVisibility(View.GONE);
         } else {
             getActivity().setTitle(R.string.search_title);
-            mDatesFilter.setVisibility(View.VISIBLE);
         }
+
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                View filterView = null;
+                if (getActivity() != null) {
+                    filterView = getActivity().findViewById(R.id.menu_main_filter);
+                }
+                if (filterView != null && filterView.getVisibility() == View.VISIBLE) {
+                    new MaterialShowcaseView.Builder(getActivity())
+                            .setTarget(filterView)
+                            .setShapePadding(24)
+                            .setDismissText(R.string.got_it)
+                            .setDismissOnTouch(false)
+                            .setDismissOnTargetTouch(true)
+                            .setTargetTouchable(true)
+                            .setTitleText(R.string.filter_tutorial_description)
+//                            .setMaskColour(Color.argb(210, 0, 0, 0))
+                            .singleUse(FILTER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                            .show();
+                }
+            }
+        });
 
         return rootView;
     }
@@ -181,14 +185,18 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        return super.onOptionsItemSelected(item);
-    }
-
-    @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
-        mRefreshMenuItem = menu.findItem(R.id.menu_main_refresh);
+        // Setup filter button
+        MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
+        filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                showChangeLangDialog();
+                return false;
+            }
+        });
+
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         mSearchView = (SearchView) searchItem.getActionView();
@@ -248,7 +256,6 @@ public class CoursesSearchableFragment extends Fragment {
 
                     @Override
                     public boolean onMenuItemActionExpand(MenuItem item) {
-                        mRefreshMenuItem.setVisible(false);
                         return true; // Return true to expand action view
                     }
                 });
@@ -258,24 +265,27 @@ public class CoursesSearchableFragment extends Fragment {
         }
     }
 
-    private void initializeAdvancedFilter() {
-        mExpandFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFilterDates.setVisibility(View.VISIBLE);
-                mCollapseFilter.setVisibility(View.VISIBLE);
-                mExpandFilter.setVisibility(View.GONE);
-            }
-        });
+    @Override
+    public void onPrepareOptionsMenu(Menu menu) {
+        if (!mIsMeetups)
+            menu.findItem(R.id.menu_main_filter).setVisible(true);
+    }
 
-        mCollapseFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mFilterDates.setVisibility(View.GONE);
-                mCollapseFilter.setVisibility(View.GONE);
-                mExpandFilter.setVisibility(View.VISIBLE);
-            }
-        });
+    public void showChangeLangDialog() {
+        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        final View dialogView = layoutInflater.inflate(R.layout.filter_dialog, null);
+        dialogBuilder.setView(dialogView);
+        dialogBuilder.setTitle(getString(R.string.date_filter));
+
+        final TextView startDateSpinner = (TextView) dialogView.findViewById(R.id.start_date_spinner);
+        final TextView endDateSpinner = (TextView) dialogView.findViewById(R.id.end_date_spinner);
+
+        if (mTempStartDate != null && !mTempStartDate.isEmpty())
+            startDateSpinner.setText(mTempStartDate);
+
+        if (mTempEndDate != null && !mTempEndDate.isEmpty())
+            endDateSpinner.setText(mTempEndDate);
 
         mCalendar = Calendar.getInstance();
 
@@ -288,13 +298,14 @@ public class CoursesSearchableFragment extends Fragment {
                 // update text field
                 String myFormat = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-                mStartDate.setText(sdf.format(mCalendar.getTime()));
+                startDateSpinner.setText(sdf.format(mCalendar.getTime()));
+                mTempStartDate = (sdf.format(mCalendar.getTime()));
                 mCalendar.getTime();
                 tempStartDate = mCalendar.getTimeInMillis();
             }
         };
 
-        mStartDate.setOnClickListener(new View.OnClickListener() {
+        startDateSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), startDate, mCalendar
@@ -314,11 +325,12 @@ public class CoursesSearchableFragment extends Fragment {
                 // update text field
                 String myFormat = "dd/MM/yy";
                 SimpleDateFormat sdf = new SimpleDateFormat(myFormat, Locale.getDefault());
-                mEndDate.setText(sdf.format(mCalendar.getTime()));
+                endDateSpinner.setText(sdf.format(mCalendar.getTime()));
+                mTempEndDate = (sdf.format(mCalendar.getTime()));
             }
         };
 
-        mEndDate.setOnClickListener(new View.OnClickListener() {
+        endDateSpinner.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDate, mCalendar
@@ -333,35 +345,27 @@ public class CoursesSearchableFragment extends Fragment {
             }
         });
 
-        mApplyFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (mStartDate == null || mStartDate.getText().toString().isEmpty()) {
+        dialogBuilder.setPositiveButton(R.string.action_filter, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
+                if (startDateSpinner.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), R.string.start_date_error, Toast.LENGTH_SHORT).show();
                 }
 
-                if (mEndDate == null || mEndDate.getText().toString().isEmpty()) {
+                if (endDateSpinner.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), R.string.end_date_error, Toast.LENGTH_SHORT).show();
                 }
 
-                if (mStartDate != null && !mStartDate.getText().toString().isEmpty()
-                        && mEndDate != null && !mEndDate.getText().toString().isEmpty()) {
-                    mFilterDates.setVisibility(View.GONE);
-                    mCollapseFilter.setVisibility(View.GONE);
-                    mExpandFilter.setVisibility(View.VISIBLE);
-
-                    String sStartDate = mStartDate.getText().toString();
-                    String sEndDate = mEndDate.getText().toString();
-
-//                    mSearchView.setQuery(sStartDate + " - " + sEndDate, false);
+                if (!startDateSpinner.getText().toString().isEmpty()
+                        && !endDateSpinner.getText().toString().isEmpty()) {
+                    String sStartDate = startDateSpinner.getText().toString();
+                    String sEndDate = endDateSpinner.getText().toString();
                     filterByDatesRange(sStartDate, sEndDate);
                 }
             }
         });
 
-        mClearFilter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
+        dialogBuilder.setNegativeButton(R.string.action_clear, new DialogInterface.OnClickListener() {
+            public void onClick(DialogInterface dialog, int whichButton) {
                 String query;
                 if (mSearchView.getQuery() != null) {
                     query = mSearchView.getQuery().toString();
@@ -369,12 +373,15 @@ public class CoursesSearchableFragment extends Fragment {
                     query = "";
                 }
                 if (mFilteredCourseList != null) {
-                    showResults(query, mFilteredCourseList);
+                    showResults(query, mFilteredCourseList, true);
                 }
-                mStartDate.getText().clear();
-                mEndDate.getText().clear();
+                mTempStartDate = null;
+                mTempEndDate = null;
             }
         });
+
+        AlertDialog b = dialogBuilder.create();
+        b.show();
     }
 
     private void filterByDatesRange(String sStartDate, String sEndDate) {
@@ -408,14 +415,7 @@ public class CoursesSearchableFragment extends Fragment {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            if(currentFilteredList.isEmpty()) {
-                Toast.makeText(getActivity(), R.string.no_results_for_filter, Toast.LENGTH_LONG).show();
-                mFilterDates.setVisibility(View.VISIBLE);
-                mCollapseFilter.setVisibility(View.VISIBLE);
-                mExpandFilter.setVisibility(View.GONE);
-            } else {
-                showResults(sStartDate + sEndDate, currentFilteredList);
-            }
+            showResults(sStartDate + sEndDate, currentFilteredList, true);
         }
     }
 
@@ -435,16 +435,21 @@ public class CoursesSearchableFragment extends Fragment {
                 }
             }
         }
-        showResults(filterText, mFilteredCourseList);
+        showResults(filterText, mFilteredCourseList, false);
     }
 
-    private void showResults(String query, ArrayList<Course> listToShow) {
+    private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
         if (listToShow.isEmpty()) {
-            String searchResult = String.format(getString(R.string.no_results_for_query), query);
-
+            String searchResult;
+            if (filter) {
+                searchResult = getString(R.string.no_results_for_filter);
+            } else {
+                searchResult = String.format(getString(R.string.no_results_for_query), query);
+            }
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
+            //TODO hide filter menu item
         } else {
             mNoResults.setVisibility(View.GONE);
         }

@@ -99,16 +99,17 @@
     <string name="got_it">GOT IT</string>
     <string name="cycle_fab_tutorial_description">Press here to see more dates of this course</string>
     <string name="navigation_drawer_tutorial_description">Check out more options in this menu</string>
-    <string name="search_tutorial_description">Search Course or Meetup by any content or date</string>
+    <string name="search_tutorial_description">Search Course or Meetup by any content</string>
+    <string name="filter_tutorial_description">Filter search results by date range</string>
     <string name="profile_image_tutorial_description">Log in to your Google account in order to rate courses and more</string>
     <string name="date_filter">Filter by date</string>
-    <string name="start_date">Start Date</string>
-    <string name="end_date">End Date</string>
+    <string name="start_date">From</string>
+    <string name="end_date">To</string>
     <string name="action_filter">Filter</string>
     <string name="action_clear">Clear</string>
     <string name="start_date_error">Start date cannot be empty.</string>
     <string name="end_date_error">End date cannot be empty.</string>
-    <string name="no_results_for_filter">No results for this date range.</string>
+    <string name="no_results_for_filter">No results found for this date range.</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>

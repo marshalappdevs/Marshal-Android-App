@@ -21,6 +21,5 @@ public class DiscussionsFragment extends Fragment {
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.menu_main_searchView).setVisible(false);
-        menu.findItem(R.id.menu_main_refresh).setVisible(false);
     }
 }

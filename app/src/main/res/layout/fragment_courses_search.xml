@@ -5,29 +5,12 @@
     android:layout_height="match_parent"
     android:id="@+id/fragment_courses_search_mainFrame">
 
-    <android.support.v4.widget.NestedScrollView
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent">
-
-        <LinearLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent"
-            android:orientation="vertical">
-
-            <include
-                android:id="@+id/courses_filter"
-                android:visibility="gone"
-                layout="@layout/search_dates_filter" />
-
-            <android.support.v7.widget.RecyclerView
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:paddingTop="4dp"
-                android:clipToPadding="false"
-                android:id="@+id/fragment_courses_search_recyclerView" />
-        </LinearLayout>
-    </android.support.v4.widget.NestedScrollView>
-
+    <android.support.v7.widget.RecyclerView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="4dp"
+        android:clipToPadding="false"
+        android:id="@+id/fragment_courses_search_recyclerView" />
 
     <TextView
         android:id="@+id/no_results"
