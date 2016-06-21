@@ -414,7 +414,7 @@ public class CoursesSearchableFragment extends Fragment {
                 mCollapseFilter.setVisibility(View.VISIBLE);
                 mExpandFilter.setVisibility(View.GONE);
             } else {
-                showResults(sStartDate + " - " + sEndDate, currentFilteredList);
+                showResults(sStartDate + sEndDate, currentFilteredList);
             }
         }
     }
