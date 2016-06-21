@@ -22,6 +22,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -269,14 +270,16 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     public void showFilterByDateDialog() {
-        AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(getActivity());
+        final AlertDialog alertDialog = new AlertDialog.Builder(getActivity()).create();
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         final View dialogView = layoutInflater.inflate(R.layout.filter_dialog, null);
-        dialogBuilder.setView(dialogView);
-        dialogBuilder.setTitle(getString(R.string.date_filter));
+        alertDialog.setView(dialogView);
+        alertDialog.setTitle(getString(R.string.date_filter));
 
         final TextView startDateSpinner = (TextView) dialogView.findViewById(R.id.start_date_spinner);
         final TextView endDateSpinner = (TextView) dialogView.findViewById(R.id.end_date_spinner);
+        final Button negativeButton = (Button) dialogView.findViewById(R.id.negative_button);
+        final Button positiveButton = (Button) dialogView.findViewById(R.id.positive_button);
 
         if (mTempStartDate != null && !mTempStartDate.isEmpty())
             startDateSpinner.setText(mTempStartDate);
@@ -342,8 +345,9 @@ public class CoursesSearchableFragment extends Fragment {
             }
         });
 
-        dialogBuilder.setPositiveButton(R.string.action_filter, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        positiveButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 if (startDateSpinner.getText().toString().isEmpty()) {
                     Toast.makeText(getActivity(), R.string.start_date_error, Toast.LENGTH_SHORT).show();
                 }
@@ -357,12 +361,14 @@ public class CoursesSearchableFragment extends Fragment {
                     String sStartDate = startDateSpinner.getText().toString();
                     String sEndDate = endDateSpinner.getText().toString();
                     filterByDatesRange(sStartDate, sEndDate);
+                    alertDialog.dismiss();
                 }
             }
         });
 
-        dialogBuilder.setNegativeButton(R.string.action_clear, new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int whichButton) {
+        negativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
                 String query;
                 if (mSearchView.getQuery() != null) {
                     query = mSearchView.getQuery().toString();
@@ -374,11 +380,10 @@ public class CoursesSearchableFragment extends Fragment {
                 }
                 mTempStartDate = null;
                 mTempEndDate = null;
+                alertDialog.dismiss();
             }
         });
-
-        AlertDialog b = dialogBuilder.create();
-        b.show();
+        alertDialog.show();
     }
 
     private void filterByDatesRange(String sStartDate, String sEndDate) {

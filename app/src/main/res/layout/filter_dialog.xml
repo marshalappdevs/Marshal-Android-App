@@ -40,4 +40,30 @@
 
         </LinearLayout>
 
+    <LinearLayout
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:id="@+id/button_bar"
+        android:paddingLeft="12.0dip"
+        android:paddingTop="8.0dip"
+        android:paddingRight="12.0dip"
+        android:paddingBottom="8.0dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        style="?attr/buttonBarStyle">
+
+        <Button
+            android:id="@+id/negative_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_clear"
+            style="?attr/buttonBarNegativeButtonStyle" />
+
+        <Button
+            android:id="@+id/positive_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_filter"
+            style="?attr/buttonBarPositiveButtonStyle" />
+    </LinearLayout>
 </LinearLayout>
