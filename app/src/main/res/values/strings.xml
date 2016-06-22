@@ -26,6 +26,8 @@
     <string name="sign_in_progress">Signing in…</string>
     <string name="sign_out_progress">Signing out…</string>
     <string name="sign_out_confirm">Do you want to sign out of this account?</string>
+    <string name="sign_in_now_title">Sign In Now</string>
+    <string name="sign_in_now_description">You will be able to rate courses, comment and more</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>
@@ -76,7 +78,7 @@
     <string name="review_dialog_above_average">Liked it</string>
     <string name="review_dialog_excellent">Loved it</string>
     <string name="review_dialog_body_hint">Description</string>
-    <string name="public_reviews_message">Notice: Your identity will not be published, but will be saved in our database.</string>
+    <string name="public_reviews_message">Notice: Your email address will not be published, but will be saved in our database.</string>
     <string name="structured_review_question_submit">Submit</string>
     <string name="delete_review">Delete</string>
     <string name="save_review">Save</string>

@@ -10,7 +10,6 @@ import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.graphics.BitmapFactory;
-import android.graphics.Color;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -38,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -47,11 +47,8 @@ import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
-import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.LocalDBHelper;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.recievers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.GcmRegistrationService;
 import com.basmach.marshal.services.UpdateIntentService;
@@ -61,7 +58,6 @@ import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.ErrorFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
-import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 import com.google.android.gms.auth.api.Auth;
@@ -90,7 +86,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -117,6 +112,7 @@ public class MainActivity extends AppCompatActivity
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private CircleImageView mProfileImageView;
+    private FrameLayout mNavHeaderFrame;
     private ImageView mCoverImageView;
     private boolean signedIn = false;
 
@@ -172,10 +168,11 @@ public class MainActivity extends AppCompatActivity
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
         mProfileImageView = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mProfileImageView.setOnClickListener(new View.OnClickListener() {
+        mNavHeaderFrame = (FrameLayout) mNavigationView.getHeaderView(0).findViewById(R.id.navview_main_header_view);
+        mNavHeaderFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                profileImageClicked();
+                navHeaderClicked();
             }
         });
 
@@ -196,18 +193,18 @@ public class MainActivity extends AppCompatActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                View view = findViewById(R.id.profile_image);
-                new MaterialShowcaseView.Builder(MainActivity.this)
-                        .setTarget(view)
-                        .setShapePadding(48)
-                        .setDismissText(R.string.got_it)
-                        .setDismissOnTouch(false)
-                        .setDismissOnTargetTouch(true)
-                        .setTargetTouchable(true)
-                        .setTitleText(R.string.profile_image_tutorial_description)
-//                        .setMaskColour(Color.argb(210, 0, 0, 0))
-                        .singleUse(PROFILE_IMAGE_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                        .show();
+//                View view = findViewById(R.id.profile_image);
+//                new MaterialShowcaseView.Builder(MainActivity.this)
+//                        .setTarget(view)
+//                        .setShapePadding(48)
+//                        .setDismissText(R.string.got_it)
+//                        .setDismissOnTouch(false)
+//                        .setDismissOnTargetTouch(true)
+//                        .setTargetTouchable(true)
+//                        .setTitleText(R.string.profile_image_tutorial_description)
+////                        .setMaskColour(Color.argb(210, 0, 0, 0))
+//                        .singleUse(PROFILE_IMAGE_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+//                        .show();
             }
         };
 
@@ -796,7 +793,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public void profileImageClicked() {
+    public void navHeaderClicked() {
         if (signedIn) {
             mDrawerLayout.closeDrawer(GravityCompat.START);
             new AlertDialog.Builder(this)
