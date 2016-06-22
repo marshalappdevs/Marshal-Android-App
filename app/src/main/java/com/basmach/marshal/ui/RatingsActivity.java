@@ -72,6 +72,7 @@ public class RatingsActivity extends AppCompatActivity {
         mRecycler = (RecyclerView) findViewById(R.id.activity_ratings_recyclerView);
         mRecycler.setLayoutManager(new LinearLayoutManager(RatingsActivity.this));
         mRecycler.setItemAnimator(new DefaultItemAnimator());
+        mRecycler.setNestedScrollingEnabled(false);
 
         mRatingAverage = getIntent().getStringExtra(EXTRA_RATING_AVERAGE);
         mRatingsAmount = getIntent().getStringExtra(EXTRA_RATING_AMOUNT);
