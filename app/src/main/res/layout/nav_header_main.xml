@@ -54,7 +54,7 @@
             android:maxLines="1"
             android:singleLine="true"
             android:ellipsize="end"
-            android:text="@string/sign_in_now_description"
+            android:text="@string/sign_in_now_desc"
             android:textColor="@android:color/white"
             android:alpha="0.72" />
 
