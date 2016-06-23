@@ -67,6 +67,7 @@ public class CoursesSearchableFragment extends Fragment {
     private String mTempStartDate;
     private String mTempEndDate;
     private long tempStartDate = 0;
+    private boolean isEmptyResult = false;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
                                                         boolean isMeetups) {
@@ -196,7 +197,11 @@ public class CoursesSearchableFragment extends Fragment {
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                showFilterByDateDialog();
+                if (!isEmptyResult)
+                    showFilterByDateDialog();
+                else {
+                    Toast.makeText(getActivity(), R.string.filter_not_available, Toast.LENGTH_SHORT).show();
+                }
                 return false;
             }
         });
@@ -451,9 +456,10 @@ public class CoursesSearchableFragment extends Fragment {
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
-            //TODO hide filter menu item
+            isEmptyResult = true;
         } else {
             mNoResults.setVisibility(View.GONE);
+            isEmptyResult = false;
         }
         mAdapter.animateTo(listToShow);
         mRecycler.scrollToPosition(0);

@@ -112,6 +112,7 @@
     <string name="start_date_error">Start date cannot be empty.</string>
     <string name="end_date_error">End date cannot be empty.</string>
     <string name="no_results_for_filter">No results found for selected date range.</string>
+    <string name="filter_not_available">Filter is not available.</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>
