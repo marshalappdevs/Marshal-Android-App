@@ -195,6 +195,7 @@ public class SettingsActivity extends AppCompatActivity {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.clearHistory();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_done, Toast.LENGTH_SHORT).show();
                 return false;
             }
         };
@@ -203,6 +204,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 MaterialShowcaseView.resetAll(getActivity());
+                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_done, Toast.LENGTH_SHORT).show();
                 return false;
             }
         };
