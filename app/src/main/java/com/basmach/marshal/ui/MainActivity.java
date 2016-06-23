@@ -60,6 +60,7 @@ import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
+import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -77,7 +78,6 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
-import com.squareup.picasso.Picasso;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
@@ -688,9 +688,10 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.sUserName = acct.getDisplayName();
                 MainActivity.sUserProfileImage = acct.getPhotoUrl();
                 Uri uri = acct.getPhotoUrl();
-                Picasso.with(this)
+                Glide.with(this)
                         .load(uri)
                         .placeholder(R.drawable.ic_profile_none)
+                        .dontAnimate()
                         .into(mProfileImageView);
 
                 Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
@@ -702,7 +703,7 @@ public class MainActivity extends AppCompatActivity
                                 Person person = personBuffer.get(0);
                                 personBuffer.release();
                                 if (person.getCover() != null) {
-                                    Picasso.with(MainActivity.this)
+                                    Glide.with(MainActivity.this)
                                             .load(person.getCover().getCoverPhoto().getUrl())
                                             .placeholder(R.drawable.bg_default_profile_art)
                                             .into(mCoverImageView);

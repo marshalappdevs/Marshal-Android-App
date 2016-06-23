@@ -28,8 +28,7 @@ import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.utils.DateHelper;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -143,7 +142,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         // Set course image
         if (mCourses.get(position).getImageUrl() != null) {
-            Picasso.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
+            Glide.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
         }
     }
 

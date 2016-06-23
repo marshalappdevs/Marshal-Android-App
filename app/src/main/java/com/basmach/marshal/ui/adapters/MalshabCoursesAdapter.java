@@ -18,9 +18,8 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MalshabItem;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public final class MalshabCoursesAdapter extends BaseAdapter {
@@ -72,10 +71,9 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().equals("")) {
-            Picasso.with(mContext)
+            Glide.with(mContext)
                     .load(item.getImageUrl())
-                    .fit()
-                    .centerCrop()
+                    .fitCenter()
                     .into(picture);
         }
 

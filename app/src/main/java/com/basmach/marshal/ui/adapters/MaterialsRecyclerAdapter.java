@@ -27,8 +27,11 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.ui.utils.HashTag;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
+
 import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -109,20 +112,10 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
         }
         if (mMaterials.get(position).getImageUrl() != null) {
-            Picasso.with(mContext).load(mMaterials.get(position).getImageUrl())
-                    // TODO fix fc on pre-lollipop devices
+            Glide.with(mContext).load(mMaterials.get(position).getImageUrl())
                     .error(R.drawable.ic_loading_error)
                     .placeholder(R.drawable.link_image_placeholder)
-                    .into(holder.imageView, new Callback() {
-                        @Override
-                        public void onSuccess() {
-                            holder.imageView.setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        }
-
-                        @Override
-                        public void onError() {
-                        }
-                    });
+                    .into(holder.imageView);
         }
 
         // Set HashTags

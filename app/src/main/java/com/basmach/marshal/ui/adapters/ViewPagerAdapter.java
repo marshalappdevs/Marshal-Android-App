@@ -9,13 +9,12 @@ import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;
-import com.squareup.picasso.Picasso;
+import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
@@ -47,10 +46,10 @@ public class ViewPagerAdapter extends PagerAdapter {
     public Object instantiateItem(ViewGroup container, int position) {
         ImageView imageView = new ImageView(context);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Picasso.with(context)
+        Glide.with(context)
                 .load(COURSES.get(position).getImageUrl())
                 .placeholder(R.drawable.highlights_bottom_overlay)
-                .fit()
+//                .fitCenter()
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);

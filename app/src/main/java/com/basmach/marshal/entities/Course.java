@@ -10,16 +10,13 @@ import com.basmach.marshal.localdb.annotations.Column;
 import com.basmach.marshal.localdb.annotations.ColumnGetter;
 import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.EntityArraySetter;
-import com.basmach.marshal.localdb.annotations.EntitySetter;
-import com.basmach.marshal.localdb.annotations.ForeignKeyEntity;
 import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
+import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.squareup.picasso.Callback;
-import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 
 @TableName(name = DBConstants.T_COURSE)
@@ -352,10 +349,10 @@ public class Course extends DBObject implements Parcelable{
         cycles.add(cycle);
     }
 
-    public void getPhotoViaPicasso(Context context, final ImageView imageView, Callback callback) {
-        Picasso.with(context)
+    public void getPhotoViaGlide(Context context, final ImageView imageView) {
+        Glide.with(context)
                 .load(this.getImageUrl())
-                .into(imageView, callback);
+                .into(imageView);
     }
 
     ///////////////////// Parcelable methods //////////////////////
