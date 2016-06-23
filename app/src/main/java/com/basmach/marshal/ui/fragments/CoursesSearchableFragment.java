@@ -452,11 +452,11 @@ public class CoursesSearchableFragment extends Fragment {
                 searchResult = getString(R.string.no_results_for_filter);
             } else {
                 searchResult = String.format(getString(R.string.no_results_for_query), query);
+                isEmptyResult = true;
             }
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
-            isEmptyResult = true;
         } else {
             mNoResults.setVisibility(View.GONE);
             isEmptyResult = false;
