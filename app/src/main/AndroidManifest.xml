@@ -114,6 +114,15 @@
         <service
             android:name=".services.GcmRegistrationService"
             android:exported="false" />
+        <provider
+            android:name="android.support.v4.content.FileProvider"
+            android:authorities="@string/share_authority"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/glide_disk_cache_path" />
+        </provider>
     </application>
 
 </manifest>

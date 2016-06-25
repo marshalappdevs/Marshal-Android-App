@@ -1011,47 +1011,8 @@ public class CourseActivity extends AppCompatActivity {
         mShareButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
-                String courseName = String.format(getString(R.string.share_course_text), mCourse.getName(), url);
-                Uri courseImage = getLocalBitmapUri(mHeader);
-                Intent shareIntent = new Intent(Intent.ACTION_SEND);
-                shareIntent.setType("text/plain");
-                shareIntent.putExtra(Intent.EXTRA_TEXT, courseName);
-                if (courseImage != null) {
-                    shareIntent.setType("image/*");
-                    shareIntent.putExtra(Intent.EXTRA_STREAM, courseImage);
-                }
-                startActivity(Intent.createChooser(shareIntent, getResources().getText(R.string.share_with)));
+                new ShareCourseImageTask(CourseActivity.this, mCourse).execute();
             }
         });
-    }
-
-    public Uri getLocalBitmapUri(ImageView imageView) {
-        // Extract Bitmap from ImageView drawable
-        Drawable drawable = imageView.getDrawable();
-        Bitmap bmp = null;
-        if (drawable instanceof BitmapDrawable){
-            bmp = ((BitmapDrawable) imageView.getDrawable()).getBitmap();
-        } else {
-            return null;
-        }
-        // Store image to cache directory
-        Uri bmpUri = null;
-        try {
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + "tmp_course_image" + ".jpg") ;
-            // check if image already exists, if it does, don't create it again.
-            // to save space it's possible to remove that check and give the image a static name
-            // then every image will overwrite last one.
-//            if (!tempFile.exists()) {
-            FileOutputStream fileOutputStream = new FileOutputStream(tempFile);
-            bmp.compress(Bitmap.CompressFormat.JPEG, 90, fileOutputStream);
-            fileOutputStream.flush();
-            fileOutputStream.close();
-//            }
-            bmpUri = Uri.fromFile(tempFile);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return bmpUri;
     }
 }
