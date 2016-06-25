@@ -17,11 +17,9 @@ import com.basmach.marshal.ui.adapters.MalshabCoursesAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import retrofit2.http.POST;
-
 public class MalshabFragment extends Fragment {
 
-    List<MalshabItem> mMlashabItems;
+    List<MalshabItem> mMalshabItems;
     MalshabCoursesAdapter mAdapter;
 
     GridView mGridView;
@@ -34,15 +32,15 @@ public class MalshabFragment extends Fragment {
 
         mGridView = (GridView)rootView.findViewById(R.id.gridview);
 
-        if (mMlashabItems == null) {
+        if (mMalshabItems == null) {
             MalshabItem.getAllInBackground(DBConstants.COL_TITLE, MalshabItem.class, getActivity(),
                     true, new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {
                             if (data != null) {
-                                mMlashabItems = (List)data;
+                                mMalshabItems = (List)data;
                             } else {
-                                mMlashabItems = new ArrayList<>();
+                                mMalshabItems = new ArrayList<>();
                             }
 
                             showData();
@@ -62,7 +60,7 @@ public class MalshabFragment extends Fragment {
 
     private void showData() {
         if (mAdapter == null)
-            mAdapter = new MalshabCoursesAdapter(getActivity(), mMlashabItems);
+            mAdapter = new MalshabCoursesAdapter(getActivity(), mMalshabItems);
 
         mGridView.setAdapter(mAdapter);
     }
