@@ -172,7 +172,7 @@ public class Cycle extends DBObject implements Parcelable {
     };
 
     public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
-        if (startDate != null && endDate != null && startDate.after(new Date())) {
+        if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
 

@@ -31,4 +31,9 @@
         android:layout_centerHorizontal="true"
         layout="@layout/new_updates_button" />
 
+    <include
+        android:id="@+id/placeholder_error"
+        android:visibility="gone"
+        layout="@layout/page_error_indicator" />
+
 </RelativeLayout>

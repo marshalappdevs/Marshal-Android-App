@@ -447,6 +447,9 @@ public class UpdateIntentService extends IntentService {
                                 throw new Exception("Failed to insert cycle");
                             cycle.setId(insertCycleId);
                             cycleId++;
+                        } else {
+                            course.getCycles().remove(cycleIndex);
+                            cycleIndex--;
                         }
                     }
                 }

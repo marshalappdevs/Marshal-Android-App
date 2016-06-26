@@ -37,6 +37,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -55,7 +56,6 @@ import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
 import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
 import com.basmach.marshal.ui.fragments.DiscussionsFragment;
-import com.basmach.marshal.ui.fragments.ErrorFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
@@ -114,6 +114,7 @@ public class MainActivity extends AppCompatActivity
     private CircleImageView mProfileImageView;
     private FrameLayout mNavHeaderFrame;
     private ImageView mCoverImageView;
+    private Button mButtonRetry;
     private boolean signedIn = false;
 
     // Fragments
@@ -136,6 +137,7 @@ public class MainActivity extends AppCompatActivity
     public static Uri sUserProfileImage;
 
     public static LinearLayout sNewUpdatesButton;
+    public static LinearLayout sErrorScreen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -218,6 +220,14 @@ public class MainActivity extends AppCompatActivity
             }
         }
 
+        mButtonRetry = (Button) findViewById(R.id.retry_button);
+        mButtonRetry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                updateData();
+            }
+        });
+
         courseMaterialsReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -242,6 +252,8 @@ public class MainActivity extends AppCompatActivity
                             mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
 
                             MainActivity.sAllCourses = null;
+                            mMaterialsFragment = null;
+                            mMalshabFragment = null;
                             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                             mNavigationView.setCheckedItem(R.id.nav_courses);
 
@@ -253,10 +265,13 @@ public class MainActivity extends AppCompatActivity
                     } else {
                         showNewUpdatesButton();
                     }
+                    if (sErrorScreen.getVisibility() == View.VISIBLE)
+                        sErrorScreen.setVisibility(View.GONE);
                 } else {
                     mUpdateProgressDialog.dismiss();
                     if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new ErrorFragment()).commit();
+                        sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
+                        sErrorScreen.setVisibility(View.VISIBLE);
                     }
                 }
             }
