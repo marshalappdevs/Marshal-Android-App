@@ -1,6 +1,7 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
@@ -77,5 +78,22 @@ public class MalshabItem extends DBObject{
     @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
+    }
+
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
+        if (getUrl() != null && !getUrl().equals("") && getTitle() != null && !getTitle().equals("")) {
+            statement.clearBindings();
+            statement.bindLong(1, objectId);
+            statement.bindString(2, getUrl());
+            statement.bindString(3, getTitle());
+
+            if (imageUrl == null)
+                imageUrl = "";
+            statement.bindString(4, getImageUrl());
+
+            return statement;
+        } else {
+            return null;
+        }
     }
 }

@@ -1,6 +1,7 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -169,4 +170,24 @@ public class Cycle extends DBObject implements Parcelable {
             return new Cycle[size];
         }
     };
+
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
+        if (startDate != null && endDate != null && startDate.after(new Date())) {
+            statement.clearBindings();
+            statement.bindLong(1, objectId);
+
+            if (name == null)
+                name = "";
+            statement.bindString(2, getName());
+            statement.bindLong(3, getMaximumPeople());
+
+            if (description == null)
+                description = "";
+            statement.bindString(4, getDescription());
+            statement.bindString(5, DateHelper.dateToString(getStartDate()));
+            statement.bindString(6, DateHelper.dateToString(getEndDate()));
+
+            return statement;
+        } else return null;
+    }
 }

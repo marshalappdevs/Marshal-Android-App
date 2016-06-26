@@ -47,23 +47,22 @@ public class DBConstants {
 
     // 'Create Table' commands
     public static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE "+ T_MALSHAB_ITEM + " (" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_IMAGE_URL + " TEXT);";
 
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_DESCRIPTION + " TEXT," +
             COL_CANNONICIAL_URL + " TEXT," +
             COL_TAGS + " TEXT," +
-            COL_IS_GET_LINK_DATA_EXECUTED + " INTEGER," +
             COL_IMAGE_URL + " TEXT);";
 
     public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_ID + " INTEGER PRIMARY KEY, " +
             COL_NAME + " TEXT, " +
             COL_MAX_PEOPLE + " INTEGER," +
             COL_DESCRIPTION + " TEXT," +
@@ -71,7 +70,7 @@ public class DBConstants {
             COL_END_DATE + " TEXT);";
 
     public static final String CREATE_T_RATING = "CREATE TABLE "+ T_RATING + " (" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_ID + " INTEGER PRIMARY KEY, " +
             COL_USER_MAIL_ADDRESS + " TEXT, " +
             COL_COURSE_CODE + " TEXT, " +
             COL_RATING + " REAL," +
@@ -80,7 +79,7 @@ public class DBConstants {
             COL_COMMENT + " TEXT);";
 
     public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +
-            COL_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
+            COL_ID + " INTEGER PRIMARY KEY, " +
             COL_COURSE_ID + " TEXT UNIQUE, " +
             COL_NAME + " TEXT UNIQUE, " +
             COL_MIN_PEOPLE + " INTEGER, " +

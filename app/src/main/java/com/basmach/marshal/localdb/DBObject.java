@@ -21,6 +21,8 @@ import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.utils.DateHelper;
+
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
@@ -284,8 +286,9 @@ public abstract class DBObject {
 
     public Date stringToDate(String string) throws Exception{
         if (string != null) {
-            DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-            return format.parse(string);
+//            DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
+//            return format.parse(string);
+            return DateHelper.stringToDate(string);
         } else {
             return null;
         }
@@ -293,8 +296,9 @@ public abstract class DBObject {
 
     public String dateToString(@NotNull Date date) {
         if (date != null) {
-            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-            return dateFormat.format(date);
+//            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
+//            return dateFormat.format(date);
+            return DateHelper.dateToString(date);
         } else return "";
     }
 

@@ -1,8 +1,10 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
+import android.util.Log;
 import android.widget.ImageView;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
@@ -14,6 +16,7 @@ import com.basmach.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
+import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -431,4 +434,68 @@ public class Course extends DBObject implements Parcelable{
             return new Course[size];
         }
     };
+
+    public SQLiteStatement getStatement(SQLiteStatement statement, int objectId) throws Exception {
+        statement.clearBindings();
+        if (getCourseCode() != null && getName() != null && getCategory() != null) {
+            statement.bindLong(1, objectId);
+            statement.bindString(2, getCourseCode());
+            statement.bindString(3, getName());
+            statement.bindLong(4, getMinimumPeople());
+            statement.bindLong(5, getMaximumPeople());
+            if (description == null)
+                description = "";
+            statement.bindString(6, getDescription());
+            if (prerequisites == null)
+                prerequisites = "";
+            statement.bindString(7, getPrerequisites());
+            if (targetPopulation == null)
+                targetPopulation = "";
+            statement.bindString(8, getTargetPopulation());
+            if (professionalDomain == null)
+                professionalDomain = "";
+            statement.bindString(9, getProfessionalDomain());
+            if (syllabus == null)
+                syllabus = "";
+            statement.bindString(10, getSyllabus());
+            if (dayTime == null)
+                dayTime = "";
+            statement.bindString(11, getDayTime());
+            statement.bindLong(12, getDurationInHours());
+            statement.bindLong(13, getDurationInDays());
+            if (comments == null)
+                comments = "";
+            statement.bindString(14, getComments());
+            statement.bindLong(15, getPassingGrade());
+            statement.bindDouble(16, getPrice());
+            statement.bindString(17, getCyclesIdsString());
+            statement.bindLong(18, (getIsMooc() ? 1 : 0));
+            statement.bindLong(19, (getIsMeetup() ? 1 : 0));
+            if (category == null)
+                category = "";
+            statement.bindString(20, getCategory());
+            if (imageUrl == null)
+                imageUrl = "";
+            statement.bindString(21, MarshalServiceProvider.IMAGES_URL + courseID);
+
+            return statement;
+        } else {
+            return null;
+        }
+    }
+
+    private String getCyclesIdsString() throws Exception {
+        String ids = "";
+
+        if (getCycles() != null && getCycles().size() > 0) {
+            for (Cycle cycle : getCycles()) {
+                if (ids.equals(""))
+                    ids = String.valueOf(cycle.getId());
+                else
+                    ids += ("," + String.valueOf(cycle.getId()));
+            }
+        }
+
+        return ids;
+    }
 }

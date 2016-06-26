@@ -102,7 +102,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         holder.courseName.setText(mCourses.get(position).getName());
 
         // Set course starting Date
-        if (mCourses.get(position).getCycles().size() > 0) {
+        if (mCourses.get(position).getCycles() != null &&
+                mCourses.get(position).getCycles().size() > 0) {
             holder.courseStartDateTime
                     .setText(DateHelper.dateToString(getFirstCycle(mCourses.get(position).getCycles()).getStartDate()));
         }
@@ -151,8 +152,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         for (Cycle cycle : cycles) {
             try {
-                if (firstCycle.getStartDate().compareTo(cycle.getStartDate()) > 0) {
-                    firstCycle = cycle;
+                if (firstCycle.getStartDate() != null && cycle.getStartDate() != null) {
+                    if (firstCycle.getStartDate().compareTo(cycle.getStartDate()) > 0) {
+                        firstCycle = cycle;
+                    }
                 }
             } catch (Exception e) {
                 e.printStackTrace();

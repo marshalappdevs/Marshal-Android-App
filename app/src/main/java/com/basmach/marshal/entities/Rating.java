@@ -1,6 +1,7 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -187,4 +188,24 @@ public class Rating extends DBObject implements Parcelable{
             return new Rating[size];
         }
     };
+
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception{
+        if(getCourseCode() != null && !getCourseCode().equals("") &&
+                getUserMailAddress() != null && !getUserMailAddress().equals("")
+                && getCreatedAt() != null && getLastModified() != null) {
+            statement.clearBindings();
+            statement.bindLong(1, objectId);
+            statement.bindString(2, getUserMailAddress());
+            statement.bindString(3, getCourseCode());
+            statement.bindDouble(4, getRating());
+            statement.bindString(5, DateHelper.dateToString(getCreatedAt()));
+            statement.bindString(6, DateHelper.dateToString(getLastModified()));
+            if (comment == null)
+                comment = "";
+            statement.bindString(7, getComment());
+            return statement;
+        } else {
+            return null;
+        }
+    }
 }

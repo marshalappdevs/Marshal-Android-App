@@ -1,11 +1,10 @@
 package com.basmach.marshal.services;
 
-import android.app.Application;
 import android.app.IntentService;
 import android.content.Intent;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
-import android.os.Handler;
+import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -17,23 +16,12 @@ import com.basmach.marshal.entities.MalshabItem;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
-import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.LocalDBHelper;
-import com.basmach.marshal.ui.MainActivity;
-import com.basmach.marshal.utils.DateHelper;
-import com.basmach.marshal.utils.LinksDataProvider;
 import com.basmach.marshal.utils.MarshalServiceProvider;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 
-import java.io.IOException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -162,219 +150,338 @@ public class UpdateIntentService extends IntentService {
 
     private void handleActionUpdateData() {
         // TODO: Handle action Baz
-//        updateData();
-        boolean proccess_result = false;
+        updateData();
+//        boolean proccess_result = false;
+//
+//        int itemPercentWeight = 0;
+//        int progressPercents = 0;
+//
+//        try {
+//            List<Cycle> currentCycles = (List) Cycle.getAll(DBConstants.COL_ID, UpdateIntentService.this,
+//                    Cycle.class);
+//            List<Course> currentCourses = (List) Course.getAll(DBConstants.COL_ID, UpdateIntentService.this,
+//                    Course.class);
+//            List<MaterialItem> currentMaterials = (List) MaterialItem.getAll(DBConstants.COL_URL, UpdateIntentService.this,
+//                    MaterialItem.class);
+//            List<Rating> currentRatings = (List) Rating.getAll(DBConstants.COL_COURSE_CODE, UpdateIntentService.this,
+//                    Rating.class);
+//            List<MalshabItem> currentMalshabItems = (List) MalshabItem.getAll(DBConstants.COL_TITLE, UpdateIntentService.this,
+//                    MalshabItem.class);
+//
+//            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
+//            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
+//            List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
+//            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
+//
+//            itemPercentWeight = 100 / (currentCourses.size() + currentCycles.size() +
+//                    currentMaterials.size() + currentRatings.size() +
+//                    newCourses.size() + newMaterials.size() + newRatings.size() + newMalshabItems.size());
+//
+//            for (MalshabItem malshabItem : currentMalshabItems) {
+//                try {
+//                    malshabItem.delete();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "malshabItem delete failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            for (MaterialItem materialItem : currentMaterials) {
+//                try {
+//                    materialItem.delete();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "materialItem delete failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            for (Rating rating : currentRatings) {
+//                try {
+//                    rating.delete();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "rating delete failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            for (Course course : currentCourses) {
+//                try {
+//                    course.delete();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "course delete failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "old courses deleted successfully");
+//
+//            for (Cycle cycle : currentCycles) {
+//                try {
+//                    cycle.delete();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "cycle delete failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "old cycles deleted successfully");
+//
+//            for (Course course : newCourses) {
+//                if (course.getCycles() != null) {
+//
+//                    int listLength = course.getCycles().size();
+//
+//                    for (int position = 0; position < listLength; position++) {
+//                        try {
+//                            Cycle currentCycle = course.getCycles().get(position);
+//
+//                            if (currentCycle.getStartDate().compareTo(new Date()) > 0) {
+//                                currentCycle.Ctor(UpdateIntentService.this);
+//                                currentCycle.create();
+//                            } else {
+//                                course.getCycles().remove(currentCycle);
+//                                listLength = course.getCycles().size();
+//                                position--;
+//                            }
+//                        } catch (Exception e) {
+//                            Log.e(LOG_TAG, "cycle creation failed");
+//                            e.printStackTrace();
+//                        }
+//                    }
+//                }
+//
+//                try {
+//                    course.Ctor(UpdateIntentService.this);
+//                    course.setImageUrl(MarshalServiceProvider.IMAGES_URL + course.getCourseCode());
+//                    course.create();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "course creation failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "new courses created successfully");
+//
+//            for (final MaterialItem materialItem : newMaterials) {
+//
+//                try {
+//                    materialItem.Ctor(UpdateIntentService.this);
+//                    materialItem.create();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "rating creation failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "new materials created successfully");
+//
+//            for (final Rating rating : newRatings) {
+//
+//                try {
+//                    rating.Ctor(UpdateIntentService.this);
+//                    rating.create();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "rating creation failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "new ratings created successfully");
+//
+//            for (MalshabItem malshabItem : newMalshabItems) {
+//
+//                try {
+//                    malshabItem.Ctor(UpdateIntentService.this);
+//                    malshabItem.create();
+//                } catch (Exception e) {
+//                    Log.e(LOG_TAG, "malshabItem creation failed");
+//                    e.printStackTrace();
+//                }
+//
+//                progressPercents += itemPercentWeight;
+//                publishProgress(progressPercents);
+//            }
+//
+//            Log.i(LOG_TAG, "new malshabItem created successfully");
+//
+//            proccess_result = true;
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        if(proccess_result) {
+//            ApplicationMarshal.setLastUpdatedNow(this);
+//        }
+//
+//        try {
+//            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//
+//        Intent broadcastIntent = new Intent();
+//        broadcastIntent.setAction(ACTION_UPDATE_DATA);
+//        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+//        broadcastIntent.putExtra(RESULT_UPDATE_DATA, proccess_result);
+//        sendBroadcast(broadcastIntent);
+    }
 
-        int itemPercentWeight = 0;
-        int progressPercents = 0;
+    private void updateData() {
+
+        boolean result = false;
+        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
 
         try {
-            List<Cycle> currentCycles = (List) Cycle.getAll(DBConstants.COL_ID, UpdateIntentService.this,
-                    Cycle.class);
-            List<Course> currentCourses = (List) Course.getAll(DBConstants.COL_ID, UpdateIntentService.this,
-                    Course.class);
-            List<MaterialItem> currentMaterials = (List) MaterialItem.getAll(DBConstants.COL_URL, UpdateIntentService.this,
-                    MaterialItem.class);
-            List<Rating> currentRatings = (List) Rating.getAll(DBConstants.COL_COURSE_CODE, UpdateIntentService.this,
-                    Rating.class);
-            List<MalshabItem> currentMalshabItems = (List) MalshabItem.getAll(DBConstants.COL_TITLE, UpdateIntentService.this,
-                    MalshabItem.class);
-
             List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
             List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
             List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
             List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
 
-            itemPercentWeight = 100 / (currentCourses.size() + currentCycles.size() +
-                    currentMaterials.size() + currentRatings.size() +
-                    newCourses.size() + newMaterials.size() + newRatings.size() + newMalshabItems.size());
+            database.beginTransaction();
 
-            for (MalshabItem malshabItem : currentMalshabItems) {
-                try {
-                    malshabItem.delete();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "malshabItem delete failed");
-                    e.printStackTrace();
+            // Clear database
+            database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
+            database.execSQL("DELETE FROM " + DBConstants.T_RATING);
+            database.execSQL("DELETE FROM " + DBConstants.T_COURSE);
+            database.execSQL("DELETE FROM " + DBConstants.T_MATERIAL_ITEM);
+            database.execSQL("DELETE FROM " + DBConstants.T_MALSHAB_ITEM);
+
+            String sql;
+            SQLiteStatement statement;
+
+            //////////////////////// Insert Materials /////////////////////////////////
+
+            sql = "INSERT INTO " + DBConstants.T_MATERIAL_ITEM + " VALUES " +
+                    "(?,?,?,?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newMaterials.size(); index++) {
+                MaterialItem currItem = newMaterials.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert material item ---> " + currItem.getUrl());
                 }
-
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
             }
 
-            for (MaterialItem materialItem : currentMaterials) {
-                try {
-                    materialItem.delete();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "materialItem delete failed");
-                    e.printStackTrace();
-                }
+            //////////////////////// Insert MalshabItems /////////////////////////////////
 
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
+            sql = "INSERT INTO " + DBConstants.T_MALSHAB_ITEM + " VALUES " +
+                    "(?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newMalshabItems.size(); index++) {
+                MalshabItem currItem = newMalshabItems.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert malshab item ---> " + currItem.getUrl());
+                }
             }
 
-            for (Rating rating : currentRatings) {
-                try {
-                    rating.delete();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "rating delete failed");
-                    e.printStackTrace();
-                }
+            //////////////////////// Insert Ratings /////////////////////////////////
 
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
+            sql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
+                    "(?,?,?,?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newRatings.size(); index++) {
+                Rating currItem = newRatings.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+//                    if (insertId == -1)
+//                        throw new Exception("Failed to insert rating");
+                }
             }
 
-            for (Course course : currentCourses) {
-                try {
-                    course.delete();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "course delete failed");
-                    e.printStackTrace();
-                }
+            //////////////////////// Insert Courses  /////////////////////////////////
 
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
-            }
+            sql = "INSERT INTO " + DBConstants.T_COURSE + " VALUES " +
+                    "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
 
-            Log.i(LOG_TAG, "old courses deleted successfully");
+            statement = database.compileStatement(sql);
 
-            for (Cycle cycle : currentCycles) {
-                try {
-                    cycle.delete();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "cycle delete failed");
-                    e.printStackTrace();
-                }
+            int cycleId = 1;
 
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
-            }
+            for (int index = 0; index < newCourses.size(); index++) {
+                Course course = newCourses.get(index);
 
-            Log.i(LOG_TAG, "old cycles deleted successfully");
+                if(course.getCycles() != null && course.getCycles().size() > 0) {
+                    //////////////////////// Insert Course Cycles  /////////////////////////////////
+                    String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                            "(?,?,?,?,?,?);";
 
-            for (Course course : newCourses) {
-                if (course.getCycles() != null) {
+                    SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
 
-                    int listLength = course.getCycles().size();
+                    for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
+                        Cycle cycle = course.getCycles().get(cycleIndex);
 
-                    for (int position = 0; position < listLength; position++) {
-                        try {
-                            Cycle currentCycle = course.getCycles().get(position);
-
-                            if (currentCycle.getStartDate().compareTo(new Date()) > 0) {
-                                currentCycle.Ctor(UpdateIntentService.this);
-                                currentCycle.create();
-                            } else {
-                                course.getCycles().remove(currentCycle);
-                                listLength = course.getCycles().size();
-                                position--;
-                            }
-                        } catch (Exception e) {
-                            Log.e(LOG_TAG, "cycle creation failed");
-                            e.printStackTrace();
+                        SQLiteStatement currCycleStatement = cycle.getStatement(cycleStatement, cycleId);
+                        if (currCycleStatement != null) {
+                            long insertCycleId = currCycleStatement.executeInsert();
+                            if (insertCycleId == -1)
+                                throw new Exception("Failed to insert cycle");
+                            cycle.setId(insertCycleId);
+                            cycleId++;
                         }
                     }
                 }
 
-                try {
-                    course.Ctor(UpdateIntentService.this);
-                    course.setImageUrl(MarshalServiceProvider.IMAGES_URL + course.getCourseCode());
-                    course.create();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "course creation failed");
-                    e.printStackTrace();
+                SQLiteStatement currStatement = course.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert course " + course.getCourseCode());
                 }
-
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
             }
 
-            Log.i(LOG_TAG, "new courses created successfully");
-
-            for (final MaterialItem materialItem : newMaterials) {
-
-                try {
-                    materialItem.Ctor(UpdateIntentService.this);
-                    materialItem.create();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "rating creation failed");
-                    e.printStackTrace();
-                }
-
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
-            }
-
-            Log.i(LOG_TAG, "new materials created successfully");
-
-            for (final Rating rating : newRatings) {
-
-                try {
-                    rating.Ctor(UpdateIntentService.this);
-                    rating.create();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "rating creation failed");
-                    e.printStackTrace();
-                }
-
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
-            }
-
-            Log.i(LOG_TAG, "new ratings created successfully");
-
-            for (MalshabItem malshabItem : newMalshabItems) {
-
-                try {
-                    malshabItem.Ctor(UpdateIntentService.this);
-                    malshabItem.create();
-                } catch (Exception e) {
-                    Log.e(LOG_TAG, "malshabItem creation failed");
-                    e.printStackTrace();
-                }
-
-                progressPercents += itemPercentWeight;
-                publishProgress(progressPercents);
-            }
-
-            Log.i(LOG_TAG, "new malshabItem created successfully");
-
-            proccess_result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        if(proccess_result) {
             ApplicationMarshal.setLastUpdatedNow(this);
-        }
 
-        try {
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
 
-        Intent broadcastIntent = new Intent();
-        broadcastIntent.setAction(ACTION_UPDATE_DATA);
-        broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        broadcastIntent.putExtra(RESULT_UPDATE_DATA, proccess_result);
-        sendBroadcast(broadcastIntent);
-    }
-
-    private void updateData() {
-        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
-        try {
-            database.beginTransaction();
             database.setTransactionSuccessful();
 
-            // Clear database
-
+            result = true;
         } catch (Exception e) {
             e.printStackTrace();
+
+            result = false;
+
         } finally {
-            database.endTransaction();
-            database.releaseReference();
+            if (database.inTransaction()) {
+                database.endTransaction();
+            }
+//            database.releaseReference();
+
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(ACTION_UPDATE_DATA);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntent.putExtra(RESULT_UPDATE_DATA, result);
+            sendBroadcast(broadcastIntent);
         }
     }
 
@@ -385,4 +492,5 @@ public class UpdateIntentService extends IntentService {
         broadcastIntent.putExtra(EXTRA_PROGRESS_PERCENT, progress);
         sendBroadcast(broadcastIntent);
     }
+
 }

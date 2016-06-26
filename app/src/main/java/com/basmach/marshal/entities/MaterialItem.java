@@ -1,6 +1,7 @@
 package com.basmach.marshal.entities;
 
 import android.content.Context;
+import android.database.sqlite.SQLiteStatement;
 
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
@@ -53,11 +54,6 @@ public class MaterialItem extends DBObject{
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
 
-    private SourceContent sourceContent;
-
-    @Column(name = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED)
-    private boolean isGetLinkDataExecuted = true;
-
     // Constructors
     public MaterialItem(Context context) {
         super(context);
@@ -73,16 +69,6 @@ public class MaterialItem extends DBObject{
     @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
-    }
-
-    @ColumnGetter(columnName = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED)
-    public boolean getIsGetLinkDataExecute() {
-        return this.isGetLinkDataExecuted;
-    }
-
-    @ColumnSetter(columnName = DBConstants.COL_IS_GET_LINK_DATA_EXECUTED, type = TYPE_BOOLEAN)
-    public void setGetLinkDataExecuted(boolean isGetLinkDataExecuted) {
-        this.isGetLinkDataExecuted = isGetLinkDataExecuted;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_TAGS)
@@ -103,14 +89,6 @@ public class MaterialItem extends DBObject{
     @ColumnSetter(columnName = DBConstants.COL_URL, type = TYPE_STRING)
     public void setUrl(String url) {
         this.url = url;
-    }
-
-    public SourceContent getSourceContent() {
-        return sourceContent;
-    }
-
-    public void setSourceContent(SourceContent sourceContent) {
-        this.sourceContent = sourceContent;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_TITLE)
@@ -154,15 +132,33 @@ public class MaterialItem extends DBObject{
     }
 
 
-    ///////////////////////////////////////////
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception{
+        if ((getUrl() != null && !getUrl().equals("")) &&
+                (getTitle() != null && !getTitle().equals(""))) {
+            statement.clearBindings();
+            statement.bindLong(1, objectId);
+            statement.bindString(2, getUrl());
+            statement.bindString(3, getTitle());
 
-    public void getLinkData(TextCrawler textCrawler, LinkPreviewCallback callback) {
+            if (description == null)
+                description = "";
+            statement.bindString(4, description);
 
-        textCrawler.makePreview(callback, getUrl(), 1);
-    }
+            if (cannonicalUrl == null)
+                cannonicalUrl = "";
+            statement.bindString(5, cannonicalUrl);
 
-    public void getLinkData(int position, TextCrawler textCrawler, LinkPreviewCallback callback) {
+            if (tags == null)
+                tags = "";
+            statement.bindString(6, tags);
 
-        textCrawler.makePreview(callback, getUrl(), 1);
+            if (imageUrl == null)
+                imageUrl = "";
+            statement.bindString(7, imageUrl);
+
+            return statement;
+        } else {
+            return null;
+        }
     }
 }

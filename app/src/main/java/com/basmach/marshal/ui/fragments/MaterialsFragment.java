@@ -1,9 +1,7 @@
 package com.basmach.marshal.ui.fragments;
 
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.os.AsyncTaskCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -22,16 +20,11 @@ import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
-import com.basmach.marshal.interfaces.MaterialLinkPreviewCallback;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
-import com.basmach.marshal.utils.LinksDataProvider;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 
 import java.util.ArrayList;
 import java.util.List;

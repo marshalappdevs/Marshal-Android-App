@@ -24,8 +24,13 @@ public class DateHelper {
 
     public static String dateToString(Date date) {
         if (date != null) {
-            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
-            return dateFormat.format(date);
+            try {
+                DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
+                return dateFormat.format(date);
+            } catch (Exception e) {
+                e.printStackTrace();
+                return "";
+            }
         } else return "";
     }
 
