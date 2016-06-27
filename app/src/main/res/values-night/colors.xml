@@ -9,4 +9,5 @@
     <color name="divider_color">#1FFFFFFF</color>
     <color name="primary_android_color">#FFFFFFFF</color> <!-- 100% white -->
     <color name="secondary_android_color">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="placeholder_background">#ff324248</color>
 </resources>

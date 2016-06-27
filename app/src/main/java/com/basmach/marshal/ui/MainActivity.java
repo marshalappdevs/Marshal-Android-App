@@ -265,8 +265,10 @@ public class MainActivity extends AppCompatActivity
                     } else {
                         showNewUpdatesButton();
                     }
-                    if (sErrorScreen.getVisibility() == View.VISIBLE)
-                        sErrorScreen.setVisibility(View.GONE);
+                    if (sErrorScreen != null) {
+                        if (sErrorScreen.getVisibility() == View.VISIBLE)
+                            sErrorScreen.setVisibility(View.GONE);
+                    }
                 } else {
                     mUpdateProgressDialog.dismiss();
                     if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {

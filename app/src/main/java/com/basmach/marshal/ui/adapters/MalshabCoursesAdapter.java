@@ -71,9 +71,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
         }
 
         if (item.getImageUrl() != null && !item.getImageUrl().equals("")) {
-            Glide.with(mContext)
-                    .load(item.getImageUrl())
-                    .into(picture);
+            Glide.with(mContext).load(item.getImageUrl()).into(picture);
         }
 
         view.setOnClickListener(new View.OnClickListener() {
