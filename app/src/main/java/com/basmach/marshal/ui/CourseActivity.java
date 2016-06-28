@@ -298,10 +298,10 @@ public class CourseActivity extends AppCompatActivity {
                     .asBitmap()
                     .into(new BitmapImageViewTarget(mHeader) {
                         @Override
-                        public void onResourceReady(Bitmap  drawable, GlideAnimation anim) {
-                            super.onResourceReady(drawable, anim);
-                            final Bitmap bitmap = ((BitmapDrawable) mHeader.getDrawable()).getBitmap();
-                            Palette.from(bitmap).generate(new Palette.PaletteAsyncListener() {
+                        public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {
+                            super.onResourceReady(bitmap, glideAnimation);
+                            final Bitmap bitmapDrawable = ((BitmapDrawable) mHeader.getDrawable()).getBitmap();
+                            Palette.from(bitmapDrawable).generate(new Palette.PaletteAsyncListener() {
                                 public void onGenerated(Palette palette) {
                                     contentColor = palette.getMutedColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary));
                                     scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
@@ -326,7 +326,7 @@ public class CourseActivity extends AppCompatActivity {
                                             boolean isDark;
                                             @ColorUtils.Lightness int lightness = ColorUtils.isDark(palette);
                                             if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
-                                                isDark = ColorUtils.isDark(bitmap, bitmap.getWidth() / 2, 0);
+                                                isDark = ColorUtils.isDark(bitmapDrawable, bitmapDrawable.getWidth() / 2, 0);
                                             } else {
                                                 isDark = lightness == ColorUtils.IS_DARK;
                                             }
