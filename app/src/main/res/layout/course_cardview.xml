@@ -43,6 +43,7 @@
                     android:ellipsize="marquee"
                     android:maxLines="3"
                     android:singleLine="false"
+                    android:lineSpacingExtra="0.0sp"
                     android:textColor="?android:textColorPrimary"
                     android:paddingStart="8dp"
                     android:paddingEnd="8dp" />
@@ -67,30 +68,34 @@
                         android:layout_alignParentStart="true"
                         android:layout_toStartOf="@+id/course_cardview_rating"/>
 
-                    <TextView
+                    <LinearLayout
                         android:id="@+id/course_cardview_rating"
-                        android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:layout_toStartOf="@+id/course_cardview_ratingIcon"
-                        android:textColor="?android:textColorPrimary"
-                        android:maxLines="1"
-                        android:singleLine="true"
-                        android:textSize="12sp"
-                        android:gravity="start|center_vertical"
-                        android:visibility="invisible" />
-
-                    <ImageView
-                        android:id="@+id/course_cardview_ratingIcon"
-                        android:layout_marginTop="7dp"
-                        android:layout_marginBottom="7dp"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
+                        android:orientation="horizontal"
                         android:layout_alignParentEnd="true"
-                        android:tint="@color/star_color"
-                        android:paddingStart="-4dp"
-                        app:srcCompat="@drawable/ic_course_rating_star"
-                        android:visibility="invisible"
-                        android:contentDescription="@null"/>
+                        android:visibility="invisible">
+
+                        <TextView
+                            android:id="@+id/course_cardview_ratingText"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:textColor="?android:textColorPrimary"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="12sp"
+                            android:gravity="start|center_vertical" />
+
+                        <ImageView
+                            android:id="@+id/course_cardview_ratingIcon"
+                            android:layout_width="11dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginStart="1dp"
+                            android:layout_marginEnd="4dp"
+                            android:tint="@color/star_color"
+                            app:srcCompat="@drawable/ic_course_rating_star"
+                            android:contentDescription="@null" />
+                    </LinearLayout>
 
                 </RelativeLayout>
             </LinearLayout>

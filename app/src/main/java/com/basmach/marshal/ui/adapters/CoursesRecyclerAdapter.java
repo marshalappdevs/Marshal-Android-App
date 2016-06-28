@@ -17,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 import com.basmach.marshal.R;
@@ -116,12 +117,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     public void onSuccess(String result, List<Object> data) {
                         try {
                             if ((Float) data.get(0) > 0) {
-                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                                holder.courseRatingText.setText(String.valueOf(data.get(0)).substring(0,3));
                                 holder.courseRating.setVisibility(View.VISIBLE);
-                                holder.starIcon.setVisibility(View.VISIBLE);
                             } else {
                                 holder.courseRating.setVisibility(View.INVISIBLE);
-                                holder.starIcon.setVisibility(View.INVISIBLE);
                             }
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -178,8 +177,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         ImageView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
-        TextView courseRating;
-        ImageView starIcon;
+        LinearLayout courseRating;
+        TextView courseRatingText;
 
         public CourseVH(View itemView) {
             super(itemView);
@@ -190,8 +189,8 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
-            courseRating = (TextView) itemView.findViewById(R.id.course_cardview_rating);
-            starIcon = (ImageView) itemView.findViewById(R.id.course_cardview_ratingIcon);
+            courseRating = (LinearLayout) itemView.findViewById(R.id.course_cardview_rating);
+            courseRatingText = (TextView) itemView.findViewById(R.id.course_cardview_ratingText);
 
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();
