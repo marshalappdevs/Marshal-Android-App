@@ -7,14 +7,12 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
-import android.graphics.Color;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -25,27 +23,23 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
-import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
+import com.basmach.marshal.ui.utils.AutoScrollViewPager;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -69,10 +63,7 @@ public class CoursesFragment extends Fragment {
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     private InkPageIndicator mInkPageIndicator;
-    private ViewPager mViewPager;
-    private TimerTask mTimerTask;
-    private Timer mTimer;
-    private Handler mTimerTaskHandler = new Handler();
+    private AutoScrollViewPager mViewPager;
 
     private RecyclerView mRecyclerSoftware;
     private LinearLayoutManager mLinearLayoutManagerSoftware;
@@ -107,7 +98,6 @@ public class CoursesFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
-        Log.i("CoursesFragment", "onCreateView");
         mCoursesList = null;
         mCyberCourses = null;
         mSoftwareCourses = null;
@@ -117,7 +107,7 @@ public class CoursesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mViewPager = (ViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+        mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
         if (savedInstanceState != null && mCoursesList == null) {
             mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
@@ -276,13 +266,22 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onDestroy() {
         super.onDestroy();
-        Log.i("course fragment", "onDestroyView");
         getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
     }
 
     @Override
-    public void onStop() {
-        super.onStop();
+    public void onPause() {
+        super.onPause();
+        MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
+        // stop auto scroll when onPause
+        mViewPager.stopAutoScroll();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // start auto scroll when onResume
+        mViewPager.startAutoScroll();
     }
 
     private void showImagesViewPager() {
@@ -292,8 +291,8 @@ public class CoursesFragment extends Fragment {
         mInkPageIndicator.setVisibility(View.VISIBLE);
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator.setViewPager(mViewPager);
-        startViewPagerTimer();
-        stopViewPagerTimerOnTouch();
+        mViewPager.setInterval(5000);
+        mViewPager.startAutoScroll();
     }
 
     private void showData() {
@@ -478,49 +477,6 @@ public class CoursesFragment extends Fragment {
         mRootView.findViewById(R.id.fragment_courses_system_recyclerView).setVisibility(View.VISIBLE);
     }
 
-    private void startViewPagerTimer() {
-        mTimer = new Timer();
-        mTimerTask = new TimerTask() {
-            @Override
-            public void run() {
-                mTimerTaskHandler.post(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mViewPager.getCurrentItem() < mViewPager.getAdapter().getCount() - 1) {
-                            mViewPager.setCurrentItem(mViewPager.getCurrentItem() + 1);
-                        } else {
-                            mViewPager.setCurrentItem(0);
-                        }
-                    }
-                });
-            }
-        };
-        mTimer.schedule(mTimerTask, 8000, 8000);
-    }
-
-    private void stopViewPagerTimerOnTouch() {
-        mViewPager.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-                if (mTimer != null) {
-                    mTimer.cancel();
-                    mTimer = null;
-                }
-                new Handler().postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
-                        if (mTimer != null) {
-                            mTimer.cancel();
-                            mTimer = null;
-                        }
-                        startViewPagerTimer();
-                    }
-                }, 2000);
-                return false;
-            }
-        });
-    }
-
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
@@ -567,12 +523,6 @@ public class CoursesFragment extends Fragment {
                 return true;
             }
         });
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
     }
 
     @Override

@@ -252,6 +252,7 @@ public class MainActivity extends AppCompatActivity
                             mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
 
                             MainActivity.sAllCourses = null;
+                            mCourseFragment = null;
                             mMaterialsFragment = null;
                             mMalshabFragment = null;
                             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -317,10 +318,14 @@ public class MainActivity extends AppCompatActivity
                         getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
                     }
 
+                    mCourseFragment = new CoursesFragment();
                     mMaterialsFragment = new MaterialsFragment();
                     mMalshabFragment = new MalshabFragment();
 //                    else
-//                    } if (currentFragment instanceof MaterialsFragment) {
+//                    } if (currentFragment instanceof CoursesFragment) {
+//                        mCourseFragment = new CoursesFragment();
+//                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
+//                    } else if (currentFragment instanceof MaterialsFragment) {
 //                        mMaterialsFragment = new MaterialsFragment();
 //                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
 //                    } else if (currentFragment instanceof MalshabFragment) {
@@ -925,7 +930,10 @@ public class MainActivity extends AppCompatActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_courses) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
+            if(mCourseFragment == null) {
+                mCourseFragment = new CoursesFragment();
+            }
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
 //            fragmentManager.beginTransaction().setCustomAnimations(R.anim.fade_in, R.anim.fade_out).replace(R.id.content_frame, new CoursesFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
@@ -998,6 +1006,7 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        sLastCoursesViewPagerIndex = 0;
         unregisterReceiver(courseMaterialsReceiver);
         LocalDBHelper.closeIfExist();
     }
