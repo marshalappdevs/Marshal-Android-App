@@ -433,9 +433,10 @@ public class MainActivity extends AppCompatActivity
         registerCourseMaterialsReceiver();
 
         // // TODO: 05/06/2016 find a better fix
-        if(mSharedPreferences != null && mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+        if(mSharedPreferences != null && !mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
             if(mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
                 mUpdateProgressDialog.dismiss();
+                updateData();
                 getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
             }
         }
