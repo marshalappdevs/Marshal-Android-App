@@ -113,7 +113,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         }
         if (mMaterials.get(position).getImageUrl() != null) {
             Glide.with(mContext).load(mMaterials.get(position).getImageUrl())
-                    .error(R.drawable.ic_loading_error)
+                    .error(R.drawable.link_image_error)
                     .placeholder(R.drawable.link_image_placeholder)
                     .into(holder.imageView);
         }
