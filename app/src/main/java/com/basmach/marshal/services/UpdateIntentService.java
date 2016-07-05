@@ -111,10 +111,11 @@ public class UpdateIntentService extends IntentService {
 
                     if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
                         Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-                        sendCheckForUpdateResult(true);
+//                        sendCheckForUpdateResult(true);
+                        UpdateIntentService.startUpdateData(UpdateIntentService.this);
                     } else {
                         Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-                        sendCheckForUpdateResult(false);
+//                        sendCheckForUpdateResult(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -149,9 +150,146 @@ public class UpdateIntentService extends IntentService {
     }
 
     private void handleActionUpdateData() {
-        // TODO: Handle action Baz
         updateData();
-//        boolean proccess_result = false;
+    }
+
+    private void updateData() {
+
+        boolean result = false;
+        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
+
+        try {
+            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
+            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
+            List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
+            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
+
+            database.beginTransaction();
+
+            // Clear database
+            database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
+            database.execSQL("DELETE FROM " + DBConstants.T_RATING);
+            database.execSQL("DELETE FROM " + DBConstants.T_COURSE);
+            database.execSQL("DELETE FROM " + DBConstants.T_MATERIAL_ITEM);
+            database.execSQL("DELETE FROM " + DBConstants.T_MALSHAB_ITEM);
+
+            String sql;
+            SQLiteStatement statement;
+
+            //////////////////////// Insert Materials /////////////////////////////////
+
+            sql = "INSERT INTO " + DBConstants.T_MATERIAL_ITEM + " VALUES " +
+                    "(?,?,?,?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newMaterials.size(); index++) {
+                MaterialItem currItem = newMaterials.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert material item ---> " + currItem.getUrl());
+                }
+            }
+
+            //////////////////////// Insert MalshabItems /////////////////////////////////
+
+            sql = "INSERT INTO " + DBConstants.T_MALSHAB_ITEM + " VALUES " +
+                    "(?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newMalshabItems.size(); index++) {
+                MalshabItem currItem = newMalshabItems.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert malshab item ---> " + currItem.getUrl());
+                }
+            }
+
+            //////////////////////// Insert Ratings /////////////////////////////////
+
+            sql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
+                    "(?,?,?,?,?,?,?);";
+            statement = database.compileStatement(sql);
+            for (int index = 0; index < newRatings.size(); index++) {
+                Rating currItem = newRatings.get(index);
+                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+//                    if (insertId == -1)
+//                        throw new Exception("Failed to insert rating");
+                }
+            }
+
+            //////////////////////// Insert Courses  /////////////////////////////////
+
+            sql = "INSERT INTO " + DBConstants.T_COURSE + " VALUES " +
+                    "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
+
+            statement = database.compileStatement(sql);
+
+            int cycleId = 1;
+
+            for (int index = 0; index < newCourses.size(); index++) {
+                Course course = newCourses.get(index);
+
+                if(course.getCycles() != null && course.getCycles().size() > 0) {
+                    //////////////////////// Insert Course Cycles  /////////////////////////////////
+                    String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                            "(?,?,?,?,?,?);";
+
+                    SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
+
+                    for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
+                        Cycle cycle = course.getCycles().get(cycleIndex);
+
+                        SQLiteStatement currCycleStatement = cycle.getStatement(cycleStatement, cycleId);
+                        if (currCycleStatement != null) {
+                            long insertCycleId = currCycleStatement.executeInsert();
+                            if (insertCycleId == -1)
+                                throw new Exception("Failed to insert cycle");
+                            cycle.setId(insertCycleId);
+                            cycleId++;
+                        } else {
+                            course.getCycles().remove(cycleIndex);
+                            cycleIndex--;
+                        }
+                    }
+                }
+
+                SQLiteStatement currStatement = course.getStatement(statement, index + 1);
+                if (currStatement != null) {
+                    long insertId = currStatement.executeInsert();
+                    if (insertId == -1)
+                        throw new Exception("Failed to insert course " + course.getCourseCode());
+                }
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
+            ApplicationMarshal.setLastUpdatedNow(this);
+            database.setTransactionSuccessful();
+
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        } finally {
+            if (database.inTransaction()) {
+                database.endTransaction();
+            }
+
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(ACTION_UPDATE_DATA);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntent.putExtra(RESULT_UPDATE_DATA, result);
+            sendBroadcast(broadcastIntent);
+
+            Log.i("UPDATE_SERVICE","result=" + String.valueOf(result));
+        }
+    }
+
+    private void updateDataNoTransaction() {
+        //        boolean proccess_result = false;
 //
 //        int itemPercentWeight = 0;
 //        int progressPercents = 0;
@@ -349,145 +487,6 @@ public class UpdateIntentService extends IntentService {
 //        broadcastIntent.putExtra(RESULT_UPDATE_DATA, proccess_result);
 //        sendBroadcast(broadcastIntent);
     }
-
-    private void updateData() {
-
-        boolean result = false;
-        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
-
-        try {
-            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
-            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
-            List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
-            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
-
-            database.beginTransaction();
-
-            // Clear database
-            database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
-            database.execSQL("DELETE FROM " + DBConstants.T_RATING);
-            database.execSQL("DELETE FROM " + DBConstants.T_COURSE);
-            database.execSQL("DELETE FROM " + DBConstants.T_MATERIAL_ITEM);
-            database.execSQL("DELETE FROM " + DBConstants.T_MALSHAB_ITEM);
-
-            String sql;
-            SQLiteStatement statement;
-
-            //////////////////////// Insert Materials /////////////////////////////////
-
-            sql = "INSERT INTO " + DBConstants.T_MATERIAL_ITEM + " VALUES " +
-                    "(?,?,?,?,?,?,?);";
-            statement = database.compileStatement(sql);
-            for (int index = 0; index < newMaterials.size(); index++) {
-                MaterialItem currItem = newMaterials.get(index);
-                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
-                if (currStatement != null) {
-                    long insertId = currStatement.executeInsert();
-                    if (insertId == -1)
-                        throw new Exception("Failed to insert material item ---> " + currItem.getUrl());
-                }
-            }
-
-            //////////////////////// Insert MalshabItems /////////////////////////////////
-
-            sql = "INSERT INTO " + DBConstants.T_MALSHAB_ITEM + " VALUES " +
-                    "(?,?,?,?);";
-            statement = database.compileStatement(sql);
-            for (int index = 0; index < newMalshabItems.size(); index++) {
-                MalshabItem currItem = newMalshabItems.get(index);
-                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
-                if (currStatement != null) {
-                    long insertId = currStatement.executeInsert();
-                    if (insertId == -1)
-                        throw new Exception("Failed to insert malshab item ---> " + currItem.getUrl());
-                }
-            }
-
-            //////////////////////// Insert Ratings /////////////////////////////////
-
-            sql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
-                    "(?,?,?,?,?,?,?);";
-            statement = database.compileStatement(sql);
-            for (int index = 0; index < newRatings.size(); index++) {
-                Rating currItem = newRatings.get(index);
-                SQLiteStatement currStatement = currItem.getStatement(statement, index + 1);
-                if (currStatement != null) {
-                    long insertId = currStatement.executeInsert();
-//                    if (insertId == -1)
-//                        throw new Exception("Failed to insert rating");
-                }
-            }
-
-            //////////////////////// Insert Courses  /////////////////////////////////
-
-            sql = "INSERT INTO " + DBConstants.T_COURSE + " VALUES " +
-                    "(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?);";
-
-            statement = database.compileStatement(sql);
-
-            int cycleId = 1;
-
-            for (int index = 0; index < newCourses.size(); index++) {
-                Course course = newCourses.get(index);
-
-                if(course.getCycles() != null && course.getCycles().size() > 0) {
-                    //////////////////////// Insert Course Cycles  /////////////////////////////////
-                    String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
-                            "(?,?,?,?,?,?);";
-
-                    SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
-
-                    for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
-                        Cycle cycle = course.getCycles().get(cycleIndex);
-
-                        SQLiteStatement currCycleStatement = cycle.getStatement(cycleStatement, cycleId);
-                        if (currCycleStatement != null) {
-                            long insertCycleId = currCycleStatement.executeInsert();
-                            if (insertCycleId == -1)
-                                throw new Exception("Failed to insert cycle");
-                            cycle.setId(insertCycleId);
-                            cycleId++;
-                        } else {
-                            course.getCycles().remove(cycleIndex);
-                            cycleIndex--;
-                        }
-                    }
-                }
-
-                SQLiteStatement currStatement = course.getStatement(statement, index + 1);
-                if (currStatement != null) {
-                    long insertId = currStatement.executeInsert();
-                    if (insertId == -1)
-                        throw new Exception("Failed to insert course " + course.getCourseCode());
-                }
-            }
-
-            ApplicationMarshal.setLastUpdatedNow(this);
-
-            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
-
-            database.setTransactionSuccessful();
-
-            result = true;
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            result = false;
-
-        } finally {
-            if (database.inTransaction()) {
-                database.endTransaction();
-            }
-//            database.releaseReference();
-
-            Intent broadcastIntent = new Intent();
-            broadcastIntent.setAction(ACTION_UPDATE_DATA);
-            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-            broadcastIntent.putExtra(RESULT_UPDATE_DATA, result);
-            sendBroadcast(broadcastIntent);
-        }
-    }
-
     public void publishProgress(int progress) {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_UPDATE_DATA_PROGRESS_CHANGED);
