@@ -520,6 +520,7 @@ public class MainActivity extends AppCompatActivity
 
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
+                mMaterialsFragment = new MaterialsFragment();
             }
         }
     }
