@@ -50,6 +50,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.LocalDBHelper;
+import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.GcmRegistrationService;
 import com.basmach.marshal.services.UpdateIntentService;
@@ -83,6 +84,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -130,6 +132,7 @@ public class MainActivity extends AppCompatActivity
     public static int sLastCoursesViewPagerIndex = 0;
 
     public static ArrayList<Course> sAllCourses;
+    public static ArrayList<Course> sViewPagerCourses;
 
     public static String sUserEmailAddress;
     public static String sUserName;
@@ -273,6 +276,8 @@ public class MainActivity extends AppCompatActivity
                 @Override
                 public void onClick(View view) {
                     MainActivity.sAllCourses = null;
+                    MainActivity.sViewPagerCourses = null;
+
                     animateNewUpdatesButton(false);
                     Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                     if (currentFragment instanceof CoursesFragment) {
@@ -369,6 +374,7 @@ public class MainActivity extends AppCompatActivity
     private void showFirstRun() {
         mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
         MainActivity.sAllCourses = null;
+        MainActivity.sViewPagerCourses = null;
         mCourseFragment = null;
         mMaterialsFragment = null;
         mMalshabFragment = null;

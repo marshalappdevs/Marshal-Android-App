@@ -171,13 +171,21 @@ public class CoursesFragment extends Fragment {
                             mCoursesList = MainActivity.sAllCourses;
                         }
 
-                        if (mCoursesList.size() > 0) {
-                            for(Course course : mCoursesList) {
-                                mViewPagerCourses.add(course);
+                        if (MainActivity.sViewPagerCourses == null) {
+                            mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                    Course.SQL_SELECT_FIVE_COMING_COURSES, Course.class);
+                            MainActivity.sViewPagerCourses = mViewPagerCourses;
+                        } else {
+                            mViewPagerCourses = MainActivity.sViewPagerCourses;
+                        }
 
-                                if(mViewPagerCourses.size() == 5)
-                                    break;
-                            }
+                        if (mCoursesList.size() > 0) {
+//                            for(Course course : mCoursesList) {
+//                                mViewPagerCourses.add(course);
+//
+//                                if(mViewPagerCourses.size() == 5)
+//                                    break;
+//                            }
                             return true;
                         } else {
                             return false;

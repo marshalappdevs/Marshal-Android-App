@@ -236,14 +236,15 @@ public class UpdateIntentService extends IntentService {
                 if(course.getCycles() != null && course.getCycles().size() > 0) {
                     //////////////////////// Insert Course Cycles  /////////////////////////////////
                     String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
-                            "(?,?,?,?,?,?);";
+                            "(?,?,?,?,?,?,?);";
 
                     SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
 
                     for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
                         Cycle cycle = course.getCycles().get(cycleIndex);
 
-                        SQLiteStatement currCycleStatement = cycle.getStatement(cycleStatement, cycleId);
+                        SQLiteStatement currCycleStatement =
+                                cycle.getStatement(cycleStatement, course.getCourseCode(), cycleId);
                         if (currCycleStatement != null) {
                             long insertCycleId = currCycleStatement.executeInsert();
                             if (insertCycleId == -1)

@@ -41,9 +41,6 @@ public class HashTag extends ClickableSpan {
         int start = s.getSpanStart(this);
         int end = s.getSpanEnd(this);
         String theWord = s.subSequence(start + 1, end).toString();
-        // you can start another activity here
-        Toast.makeText(context, String.format("Tag : %s", theWord), Toast.LENGTH_SHORT ).show();
         onClickListener.onClick(theWord);
     }
-
 }

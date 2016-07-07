@@ -26,6 +26,11 @@ public class Cycle extends DBObject implements Parcelable {
     private long id;
 
     @Expose
+    @SerializedName("CourseID")
+    @Column(name = DBConstants.COL_COURSE_ID)
+    private String courseId;
+
+    @Expose
     @SerializedName("Name")
     @Column(name = DBConstants.COL_NAME)
     private String name;
@@ -63,6 +68,16 @@ public class Cycle extends DBObject implements Parcelable {
     @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
+    }
+
+    @ColumnGetter(columnName = DBConstants.COL_COURSE_ID)
+    public String getCourseId() {
+        return courseId;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_COURSE_ID, type = TYPE_STRING)
+    public void setCourseId(String courseId) {
+        this.courseId = courseId;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_NAME)
@@ -171,21 +186,22 @@ public class Cycle extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
+    public SQLiteStatement getStatement(SQLiteStatement statement,String courseId, long objectId) throws Exception {
         if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
+            statement.bindString(2, courseId);
 
             if (name == null)
                 name = "";
-            statement.bindString(2, getName());
-            statement.bindLong(3, getMaximumPeople());
+            statement.bindString(3, getName());
+            statement.bindLong(4, getMaximumPeople());
 
             if (description == null)
                 description = "";
-            statement.bindString(4, getDescription());
-            statement.bindString(5, DateHelper.dateToString(getStartDate()));
-            statement.bindString(6, DateHelper.dateToString(getEndDate()));
+            statement.bindString(5, getDescription());
+            statement.bindLong(6, startDate.getTime());
+            statement.bindLong(7, endDate.getTime());
 
             return statement;
         } else return null;

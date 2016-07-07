@@ -31,6 +31,11 @@ public class Course extends DBObject implements Parcelable{
     public static final String CATEGORY_TOOLS = "tools";
     public static final String CATEGORY_SYSTEM = "system";
 
+    public static final String SQL_SELECT_FIVE_COMING_COURSES = "select * from " + DBConstants.T_COURSE
+            + " where " + DBConstants.COL_COURSE_ID + " IN " +
+            "(select distinct " + DBConstants.COL_COURSE_ID + " from "+ DBConstants.T_CYCLE +
+            " order by " + DBConstants.COL_START_DATE + " ASC limit 5);\n";
+
     // TODO RETROFIT SerializedName
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;

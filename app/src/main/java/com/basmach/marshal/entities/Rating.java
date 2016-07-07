@@ -198,8 +198,8 @@ public class Rating extends DBObject implements Parcelable{
             statement.bindString(2, getUserMailAddress());
             statement.bindString(3, getCourseCode());
             statement.bindDouble(4, getRating());
-            statement.bindString(5, DateHelper.dateToString(getCreatedAt()));
-            statement.bindString(6, DateHelper.dateToString(getLastModified()));
+            statement.bindLong(5, createdAt.getTime());
+            statement.bindLong(6, lastModified.getTime());
             if (comment == null)
                 comment = "";
             statement.bindString(7, getComment());

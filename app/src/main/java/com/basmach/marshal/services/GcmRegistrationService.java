@@ -44,8 +44,6 @@ public class GcmRegistrationService extends IntentService {
         GcmRegistration gcmRegistration= new GcmRegistration();
         InstanceID instanceID = InstanceID.getInstance(this);
         try {
-//            TelephonyManager telephonyManager = (TelephonyManager)getSystemService(Context.TELEPHONY_SERVICE);
-//            String hardwareId = telephonyManager.getDeviceId();
             String hardwareId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
 
             if(hardwareId != null) {

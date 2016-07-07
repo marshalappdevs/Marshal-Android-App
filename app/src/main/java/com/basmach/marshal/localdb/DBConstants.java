@@ -63,19 +63,20 @@ public class DBConstants {
 
     public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_COURSE_ID + " TEXT, " +
             COL_NAME + " TEXT, " +
             COL_MAX_PEOPLE + " INTEGER," +
             COL_DESCRIPTION + " TEXT," +
-            COL_START_DATE + " TEXT," +
-            COL_END_DATE + " TEXT);";
+            COL_START_DATE + " INTEGER," +
+            COL_END_DATE + " INTEGER);";
 
     public static final String CREATE_T_RATING = "CREATE TABLE "+ T_RATING + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_USER_MAIL_ADDRESS + " TEXT, " +
             COL_COURSE_CODE + " TEXT, " +
             COL_RATING + " REAL," +
-            COL_CREATED_AT + " TEXT," +
-            COL_LAST_MODIFIED + " TEXT," +
+            COL_CREATED_AT + " INTEGER," +
+            COL_LAST_MODIFIED + " INTEGER," +
             COL_COMMENT + " TEXT);";
 
     public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +

@@ -193,7 +193,7 @@ public abstract class DBObject {
                         values.put(column.name(),(Boolean)value);
                     }
                     else if (value instanceof Date) {
-                        values.put(column.name(),(dateToString((Date)value)));
+                        values.put(column.name(),(((Date)value)).getTime());
                     }
                 }
                 catch (Exception e){
@@ -323,8 +323,7 @@ public abstract class DBObject {
                                     setter.invoke(this, cursor.getString(cursor.getColumnIndex(column)));
                                 } else if (columnSetter.type().equals(TYPE_DATE)) {
                                     setter.invoke(this,
-                                            stringToDate(cursor.
-                                                    getString(cursor.getColumnIndex(column))));
+                                            new Date(cursor.getLong(cursor.getColumnIndex(column))));
 
                                 }
                             } catch (Exception e) {
@@ -1098,6 +1097,7 @@ public abstract class DBObject {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
+
                     data = new ArrayList<>();
                     data.add(getAverageByColumn(context, targetClass,avgColumn, filterColumn, filterValue));
                     return SUCCESS_FLAG;
@@ -1122,6 +1122,80 @@ public abstract class DBObject {
                 }
             }
         }.execute();
+    }
+
+    public static void rawQueryInBackground(final String query, final Context context, final Class<? extends DBObject> targetClass,
+                                     final boolean showProgressBar, final BackgroundTaskCallBack callBack) {
+        new AsyncTask<Void, Void, String>() {
+
+            ProgressDialog progressDialog;
+            List<Object> data;
+
+            @Override
+            protected void onPreExecute() {
+                super.onPreExecute();
+
+                if (showProgressBar) {
+                    progressDialog = getProgressDialog(context);
+                    progressDialog.show();
+                }
+            }
+
+            @Override
+            protected String doInBackground(Void... voids) {
+                try {
+                    data = rawQuery(context, query, targetClass);
+                    return SUCCESS_FLAG;
+                } catch (Exception e) {
+                    return e.getMessage();
+                }
+            }
+
+            @Override
+            protected void onPostExecute(String strResult) {
+                super.onPostExecute(strResult);
+
+                if (showProgressBar) {
+                    progressDialog.dismiss();
+                }
+
+                if (strResult.equals(SUCCESS_FLAG)) {
+                    callBack.onSuccess(strResult, data);
+                } else {
+                    callBack.onError(strResult);
+                }
+
+            }
+        }.execute();
+    }
+
+    public static List<Object> rawQuery(Context context, String query, Class<? extends DBObject> targetClass) throws Exception {
+        List<Object> allObjects = new ArrayList<>();
+
+        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+
+        cursor.moveToFirst();
+        if (cursor.getCount() > 0) {
+            try{
+                while (!cursor.isAfterLast()) {
+                    Object currObject = targetClass.getConstructor(Context.class)
+                            .newInstance(context);
+                    (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                    allObjects.add(currObject);
+                    cursor.moveToNext();
+                }
+
+                cursor.close();
+                return allObjects;
+            }
+            catch (Exception e){
+                cursor.close();
+                throw e;
+            }
+        } else {
+            cursor.close();
+            return allObjects;
+        }
     }
 
     private static ProgressDialog getProgressDialog(Context context) {
