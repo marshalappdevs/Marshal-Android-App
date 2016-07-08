@@ -44,8 +44,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_horizontal"
                     android:id="@+id/activity_ratings_relativeLayout_rating"
-                    android:layout_marginTop="@dimen/activity_vertical_margin"
-                    android:layoutDirection="ltr">
+                    android:layout_marginTop="@dimen/activity_vertical_margin">
 
                     <TextView
                         android:text="0.0"
