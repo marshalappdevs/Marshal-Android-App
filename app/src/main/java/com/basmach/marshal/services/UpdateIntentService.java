@@ -51,6 +51,7 @@ public class UpdateIntentService extends IntentService {
 
     private static final String LOG_TAG = "UPDATE_SERVICE";
 
+    public static boolean isRunning = false;
 
     public UpdateIntentService() {
         super("UpdateIntentService");
@@ -64,6 +65,8 @@ public class UpdateIntentService extends IntentService {
      */
     // TODO: Customize helper method
     public static void startCheckForUpdate(Context context) {
+        Log.i("LIFE_CYCLE", "UpdateService - startCheckForUpdate");
+        isRunning = true;
         Intent intent = new Intent(context, UpdateIntentService.class);
         intent.setAction(ACTION_CHECK_FOR_UPDATE);
         context.startService(intent);
@@ -111,11 +114,11 @@ public class UpdateIntentService extends IntentService {
 
                     if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
                         Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-//                        sendCheckForUpdateResult(true);
+                        sendCheckForUpdateResult(true);
                         UpdateIntentService.startUpdateData(UpdateIntentService.this);
                     } else {
                         Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-//                        sendCheckForUpdateResult(false);
+                        sendCheckForUpdateResult(false);
                     }
                 } catch (Exception e) {
                     e.printStackTrace();
@@ -142,6 +145,7 @@ public class UpdateIntentService extends IntentService {
      * parameters.
      */
     private void sendCheckForUpdateResult(boolean result) {
+        isRunning = result;
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_CHECK_FOR_UPDATE);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
@@ -155,6 +159,7 @@ public class UpdateIntentService extends IntentService {
 
     private void updateData() {
 
+        isRunning = true;
         boolean result = false;
         SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
 
@@ -284,6 +289,8 @@ public class UpdateIntentService extends IntentService {
             broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
             broadcastIntent.putExtra(RESULT_UPDATE_DATA, result);
             sendBroadcast(broadcastIntent);
+
+            isRunning = false;
 
             Log.i("UPDATE_SERVICE","result=" + String.valueOf(result));
         }

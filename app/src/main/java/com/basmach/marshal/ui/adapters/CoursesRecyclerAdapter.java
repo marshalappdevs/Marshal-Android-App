@@ -103,10 +103,10 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         holder.courseName.setText(mCourses.get(position).getName());
 
         // Set course starting Date
-        if (mCourses.get(position).getCycles() != null &&
-                mCourses.get(position).getCycles().size() > 0) {
+        Cycle firstCycle = mCourses.get(position).getFirstCycle();
+        if (firstCycle != null && firstCycle.getStartDate() != null) {
             holder.courseStartDateTime
-                    .setText(DateHelper.dateToString(getFirstCycle(mCourses.get(position).getCycles()).getStartDate()));
+                    .setText(DateHelper.dateToString(firstCycle.getStartDate()));
         }
 
         // Set course rating
@@ -144,24 +144,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         if (mCourses.get(position).getImageUrl() != null) {
             Glide.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
         }
-    }
-
-    private Cycle getFirstCycle(ArrayList<Cycle> cycles) {
-        Cycle firstCycle = cycles.get(0);
-
-        for (Cycle cycle : cycles) {
-            try {
-                if (firstCycle.getStartDate() != null && cycle.getStartDate() != null) {
-                    if (firstCycle.getStartDate().compareTo(cycle.getStartDate()) > 0) {
-                        firstCycle = cycle;
-                    }
-                }
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        }
-
-        return firstCycle;
     }
 
     @Override

@@ -4,6 +4,8 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
+import android.util.Log;
+
 import com.basmach.marshal.services.UpdateIntentService;
 import java.util.Date;
 
@@ -12,6 +14,7 @@ public class ApplicationMarshal extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        Log.i("LIFE_CYCLE", "Application - onCreate");
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
     }
 

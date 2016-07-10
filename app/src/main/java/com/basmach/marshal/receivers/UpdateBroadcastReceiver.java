@@ -20,17 +20,18 @@ public class UpdateBroadcastReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-//        if (intent.getAction().equals(UpdateIntentService.ACTION_CHECK_FOR_UPDATE)) {
-//            boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_CHECK_FOR_UPDATE, false);
-//            if (result) {
-////                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_new_update), 0);
+        if (intent.getAction().equals(UpdateIntentService.ACTION_CHECK_FOR_UPDATE)) {
+            boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_CHECK_FOR_UPDATE, false);
+            if (!result) {
+//                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_new_update), 0);
 //                UpdateIntentService.startUpdateData(mContext);
-//            }
+                mUpdateServiceListener.onFinish(false);
+            }
 //            else {
-////                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_no_update), 100);
+//                mUpdateServiceListener.onProgressUpdate(context.getString(R.string.refresh_no_update), 100);
 //                mUpdateServiceListener.onFinish(false);
 //            }
-//        }
+        }
         if (intent.getAction().equals(UpdateIntentService.ACTION_UPDATE_DATA)) {
             boolean result = intent.getBooleanExtra(UpdateIntentService.RESULT_UPDATE_DATA, false);
             mUpdateServiceListener.onFinish(result);

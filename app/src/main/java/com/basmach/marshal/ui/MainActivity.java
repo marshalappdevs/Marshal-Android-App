@@ -1,5 +1,6 @@
 package com.basmach.marshal.ui;
 
+import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -227,7 +228,12 @@ public class MainActivity extends AppCompatActivity
         mButtonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                updateData();
+                if (isConnected()) {
+                    updateData();
+                } else {
+                    Toast.makeText(MainActivity.this, getString(R.string.offline_snackbar_network_unavailable),
+                            Toast.LENGTH_LONG).show();
+                }
             }
         });
 
@@ -235,6 +241,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFinish(boolean result) {
 
+                Log.i("LIFE_CYCLE", "updateReceiver -- onFinish: " + String.valueOf(result));
                 if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
                     mUpdateProgressDialog.dismiss();
                 }
@@ -391,15 +398,30 @@ public class MainActivity extends AppCompatActivity
         registerInternetCheckReceiver();
         registerUpdateReceiver();
 
-        if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-        if (mUpdateProgressDialog == null) initializeUpdateProgressBar();
+        if (mSharedPreferences == null)
+            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
-            if (mUpdateProgressDialog.isShowing()) mUpdateProgressDialog.dismiss();
-            if (mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
-                showFirstRun();
+        boolean isFirstRun = mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true);
+        boolean isUpdateServiceSuccessOnce = mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false);
+
+        if (isFirstRun) {
+            if (isUpdateIntentServiceRunning() && isConnected()) {
+                if (mUpdateProgressDialog == null)
+                    initializeUpdateProgressBar();
+                if (!mUpdateProgressDialog.isShowing())
+                    mUpdateProgressDialog.show();
+                setErrorScreenVisibility(View.GONE);
             } else {
-                setErrorScreenVisibility(View.VISIBLE);
+                if (!isUpdateServiceSuccessOnce) {
+                    if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
+                        mUpdateProgressDialog.dismiss();
+                    setErrorScreenVisibility(View.VISIBLE);
+                } else {
+                    if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
+                        mUpdateProgressDialog.dismiss();
+                    setErrorScreenVisibility(View.GONE);
+                    showFirstRun();
+                }
             }
         }
     }
@@ -410,6 +432,32 @@ public class MainActivity extends AppCompatActivity
         Log.i("LIFE_CYCLE","onPause");
         unregisterReceiver(broadcastReceiver);
         unregisterReceiver(updateReceiver);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        sLastCoursesViewPagerIndex = 0;
+        LocalDBHelper.closeIfExist();
+    }
+
+    private boolean isUpdateIntentServiceRunning() {
+//        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
+//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
+//            if ("com.basmach.marshal.UpdateIntentService".equals(service.service.getClassName())) {
+//                Log.i("IS_SERVICE_RUNNING", " --- true");
+//                return true;
+//            }
+//        }
+//        Log.i("IS_SERVICE_RUNNING", " --- false");
+//        return false;
+
+        return UpdateIntentService.isRunning;
     }
 
     private void registerInternetCheckReceiver() {
@@ -448,6 +496,23 @@ public class MainActivity extends AppCompatActivity
                 snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
                 snackbar.setDuration(10000);
                 snackbar.show();
+
+                if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
+                    mUpdateProgressDialog.dismiss();
+
+                    if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                    if(mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                        if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+                            setErrorScreenVisibility(View.VISIBLE);
+                        }
+                    }
+                }
+            } else {
+                if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                if (mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+                    setErrorScreenVisibility(View.GONE);
+                    showFirstRun();
+                }
             }
         }
     };
@@ -476,12 +541,6 @@ public class MainActivity extends AppCompatActivity
         SignInButton signInButton = (SignInButton) findViewById(R.id.sign_in_button);
         signInButton.setSize(SignInButton.SIZE_STANDARD);
         signInButton.setScopes(gso.getScopeArray());
-    }
-
-    @Override
-    protected void onStop() {
-        super.onStop();
-
     }
 
     @Override
@@ -721,10 +780,12 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void updateData() {
-        mUpdateProgressDialog.show();
-        Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
-        updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
-        startService(updateServiceIntent);
+        if (isConnected()) {
+            mUpdateProgressDialog.show();
+            Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
+            updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
+            startService(updateServiceIntent);
+        }
     }
 
     @Override
@@ -819,13 +880,6 @@ public class MainActivity extends AppCompatActivity
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
-    }
-
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        sLastCoursesViewPagerIndex = 0;
-        LocalDBHelper.closeIfExist();
     }
 
 //    private void requestContactsPermission() {

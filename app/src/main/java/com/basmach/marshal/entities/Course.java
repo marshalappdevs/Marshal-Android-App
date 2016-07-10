@@ -512,4 +512,26 @@ public class Course extends DBObject implements Parcelable{
 
         return query;
     }
+
+    public Cycle getFirstCycle() {
+        if (cycles != null && cycles.size() > 0) {
+            Cycle firstCycle = cycles.get(0);
+
+            for (Cycle cycle : cycles) {
+                try {
+                    if (firstCycle.getStartDate() != null && cycle.getStartDate() != null) {
+                        if (firstCycle.getStartDate().compareTo(cycle.getStartDate()) > 0) {
+                            firstCycle = cycle;
+                        }
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            return firstCycle;
+        } else {
+            return null;
+        }
+    }
 }
