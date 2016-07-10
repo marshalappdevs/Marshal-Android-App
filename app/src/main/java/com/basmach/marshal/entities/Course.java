@@ -21,6 +21,7 @@ import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
+import java.util.Date;
 
 @TableName(name = DBConstants.T_COURSE)
 public class Course extends DBObject implements Parcelable{
@@ -30,11 +31,6 @@ public class Course extends DBObject implements Parcelable{
     public static final String CATEGORY_IT = "it";
     public static final String CATEGORY_TOOLS = "tools";
     public static final String CATEGORY_SYSTEM = "system";
-
-    public static final String SQL_SELECT_FIVE_COMING_COURSES = "select * from " + DBConstants.T_COURSE
-            + " where " + DBConstants.COL_COURSE_ID + " IN " +
-            "(select distinct " + DBConstants.COL_COURSE_ID + " from "+ DBConstants.T_CYCLE +
-            " order by " + DBConstants.COL_START_DATE + " ASC limit 5);\n";
 
     // TODO RETROFIT SerializedName
     @PrimaryKey(columnName = DBConstants.COL_ID)
@@ -502,5 +498,18 @@ public class Course extends DBObject implements Parcelable{
         }
 
         return ids;
+    }
+
+    public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
+        String query = "select * from " + DBConstants.T_COURSE
+                + " where " + DBConstants.COL_COURSE_ID + " IN " +
+                "(select distinct " + DBConstants.COL_COURSE_ID + " from "+ DBConstants.T_CYCLE;
+
+        if (filterByNowTimestamp)
+            query += " where " + DBConstants.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());
+
+        query += " order by " + DBConstants.COL_START_DATE + " ASC limit " + String.valueOf(count) + ");\n";
+
+        return query;
     }
 }

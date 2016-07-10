@@ -52,13 +52,13 @@ public class CoursesFragment extends Fragment {
     private static final String SEARCH_SHOWCASE_ID = "search_tutorial";
 
     public static ArrayList<Course> mCoursesList = null;
+    private ArrayList<Course> mViewPagerCourses = null;
+
     public static ArrayList<Course> mSoftwareCourses = null;
     public static ArrayList<Course> mCyberCourses = null;
     public static ArrayList<Course> mITCourses = null;
     public static ArrayList<Course> mToolsCourses = null;
     public static ArrayList<Course> mSystemCourses = null;
-
-    private ArrayList<Course> mViewPagerCourses = null;
 
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
@@ -116,35 +116,6 @@ public class CoursesFragment extends Fragment {
         if (mCoursesList == null || mViewPagerCourses == null) {
             mViewPagerCourses = new ArrayList<>();
             mCoursesList = new ArrayList<>();
-//            ((MainActivity)getActivity()).getCoursesDataAsync(true, new BackgroundTaskCallBack() {
-//                @Override
-//                public void onSuccess(String result, List<Object> data) {
-//                    if (data != null && data.size() > 0) {
-//                        for(Object item : data) {
-//                            Log.i("GET COURSES "," ITEM: " + ((Course)item).getName());
-//
-//                            if (mCoursesList != null) {
-//                                mCoursesList.add((Course) item);
-//                            }
-//
-//                            if (((Course) item).getImageUrl() != null) {
-//                                if (mViewPagerCourses.size() < 5) {
-//                                    mViewPagerCourses.add(((Course) item));
-//                                }
-//                            }
-//                        }
-//
-//                        filterData();
-//                        showImagesViewPager();
-//                        showData();
-//                    }
-//                }
-//
-//                @Override
-//                public void onError(String error) {
-//
-//                }
-//            });
 
             new AsyncTask<Void, Void, Boolean>() {
 
@@ -173,19 +144,18 @@ public class CoursesFragment extends Fragment {
 
                         if (MainActivity.sViewPagerCourses == null) {
                             mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
-                                    Course.SQL_SELECT_FIVE_COMING_COURSES, Course.class);
+                                    Course.getCloestCoursesSqlQuery(5, true), Course.class);
+
+                            if (mViewPagerCourses == null || mViewPagerCourses.size() == 0)
+                                mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                        Course.getCloestCoursesSqlQuery(5, false), Course.class);
+
                             MainActivity.sViewPagerCourses = mViewPagerCourses;
                         } else {
                             mViewPagerCourses = MainActivity.sViewPagerCourses;
                         }
 
                         if (mCoursesList.size() > 0) {
-//                            for(Course course : mCoursesList) {
-//                                mViewPagerCourses.add(course);
-//
-//                                if(mViewPagerCourses.size() == 5)
-//                                    break;
-//                            }
                             return true;
                         } else {
                             return false;
