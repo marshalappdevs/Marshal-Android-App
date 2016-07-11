@@ -497,22 +497,18 @@ public class MainActivity extends AppCompatActivity
                 snackbar.setDuration(10000);
                 snackbar.show();
 
-                if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
+                if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
                     mUpdateProgressDialog.dismiss();
 
-                    if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                    if(mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
-                        if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
-                            setErrorScreenVisibility(View.VISIBLE);
-                        }
+                if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                if(mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                    if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
+                        setErrorScreenVisibility(View.VISIBLE);
+                    } else {
+                        showFirstRun();
                     }
                 }
-            } else {
-                if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                if (mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
-                    setErrorScreenVisibility(View.GONE);
-                    showFirstRun();
-                }
+
             }
         }
     };
