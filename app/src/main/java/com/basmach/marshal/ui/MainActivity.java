@@ -1,6 +1,5 @@
 package com.basmach.marshal.ui;
 
-import android.app.ActivityManager;
 import android.app.ProgressDialog;
 import android.app.SearchManager;
 import android.content.BroadcastReceiver;
@@ -51,7 +50,6 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.LocalDBHelper;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.GcmRegistrationService;
 import com.basmach.marshal.services.UpdateIntentService;
@@ -85,7 +83,6 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -100,7 +97,6 @@ public class MainActivity extends AppCompatActivity
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
-    private static final String PROFILE_IMAGE_SHOWCASE_ID = "profile_image_tutorial";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
@@ -145,23 +141,27 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LIFE_CYCLE","onCreate");
+        // Change theme based on preference choice
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
+        // Change language based on preference choice
         LocaleUtils.updateLocale(this);
 
 //        checkPlayServicesAvailability();
         checkGcmRegistrationState();
 
-        // enable on final release
+        // enable on final release to disable screenshots and more
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
         // translucent navigation bar
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
+        // Initialize shared preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
+        // Set course fragment as main fragment
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
 
@@ -170,6 +170,7 @@ public class MainActivity extends AppCompatActivity
         MainActivity.sNewUpdatesButton = null;
         initializeNewUpdatesButton();
 
+        // Initialize navigation view header items
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
@@ -178,6 +179,7 @@ public class MainActivity extends AppCompatActivity
         mNavHeaderFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                // Login to Google account on navigation view header press
                 navHeaderClicked();
             }
         });
@@ -199,18 +201,6 @@ public class MainActivity extends AppCompatActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-//                View view = findViewById(R.id.profile_image);
-//                new MaterialShowcaseView.Builder(MainActivity.this)
-//                        .setTarget(view)
-//                        .setShapePadding(48)
-//                        .setDismissText(R.string.got_it)
-//                        .setDismissOnTouch(false)
-//                        .setDismissOnTargetTouch(true)
-//                        .setTargetTouchable(true)
-//                        .setTitleText(R.string.profile_image_tutorial_description)
-////                        .setMaskColour(Color.argb(210, 0, 0, 0))
-//                        .singleUse(PROFILE_IMAGE_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-//                        .show();
             }
         };
 
@@ -220,14 +210,17 @@ public class MainActivity extends AppCompatActivity
 
         if(mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
             }
         }
 
+        // Initialize error screen re-try button
         mButtonRetry = (Button) findViewById(R.id.retry_button);
         mButtonRetry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                // Update data if there is internet connection, else throw error toast
                 if (isConnected()) {
                     updateData();
                 } else {
@@ -237,6 +230,7 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
+        // Broadcast receiver to update app data from server
         updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
             @Override
             public void onFinish(boolean result) {
@@ -248,12 +242,15 @@ public class MainActivity extends AppCompatActivity
 
                 if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                     if (result) {
+                        // First app startup and update data succeed, restart app fragments
                         showFirstRun();
                     } else {
+                        // Update data from server failed, show error screen
                         setErrorScreenVisibility(View.VISIBLE);
                     }
                 } else {
                     if (result) {
+                        // Update data succeed, but it's not first app startup, show new updates popup
                         showNewUpdatesButton();
                     }
                 }
@@ -262,6 +259,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void setErrorScreenVisibility(int visibility) {
+        // Initialize error screen and set viability based on integer
         if (sErrorScreen == null) sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
         if (visibility != sErrorScreen.getVisibility()) sErrorScreen.setVisibility(visibility);
     }
@@ -276,32 +274,30 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeNewUpdatesButton() {
-        if (MainActivity.sNewUpdatesButton == null) {
-            MainActivity.sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
-            animateNewUpdatesButton(false);
-            MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    MainActivity.sAllCourses = null;
-                    MainActivity.sViewPagerCourses = null;
+        MainActivity.sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
+        MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                MainActivity.sAllCourses = null;
+                MainActivity.sViewPagerCourses = null;
 
-                    animateNewUpdatesButton(false);
-                    Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                    if (currentFragment instanceof CoursesFragment) {
-                        getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                    }
-
-                    mCourseFragment = new CoursesFragment();
-                    mMaterialsFragment = new MaterialsFragment();
-                    mMalshabFragment = new MalshabFragment();
+                // Show out animation and dismiss button
+                animateNewUpdatesButton(false);
+                // Restart app fragments to show new data
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                if (currentFragment instanceof CoursesFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
                 }
-            });
-        } else {
-            animateNewUpdatesButton(false);
-        }
+
+                mCourseFragment = new CoursesFragment();
+                mMaterialsFragment = new MaterialsFragment();
+                mMalshabFragment = new MalshabFragment();
+            }
+        });
     }
 
     private void animateNewUpdatesButton (final Boolean in) {
+        // true on boolean will show in animation, false will show out animation
         Animation animation;
         if (in) {
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_in);
@@ -361,6 +357,7 @@ public class MainActivity extends AppCompatActivity
     // TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
     @Override
     protected void onNewIntent(Intent intent) {
+        // Get voice search query and pass it to CoursesSearchableFragment
         if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             if(!isFinishing()) {
@@ -375,11 +372,14 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);
+        // Change location again when configuration changed (screen rotation)
         LocaleUtils.updateLocale(this);
     }
 
     private void showFirstRun() {
+        // Change shared preference value to false so next startup will not be called as first
         mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+        // Restart app fragments, set course fragment as default and dismiss error screen
         MainActivity.sAllCourses = null;
         MainActivity.sViewPagerCourses = null;
         mCourseFragment = null;
@@ -395,9 +395,11 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Log.i("LIFE_CYCLE","onResume");
+        // Register update data from server broadcast and check internet connection broadcast
         registerInternetCheckReceiver();
         registerUpdateReceiver();
 
+        // Initialize shared preference if it's null
         if (mSharedPreferences == null)
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -406,17 +408,21 @@ public class MainActivity extends AppCompatActivity
 
         if (isFirstRun) {
             if (isUpdateIntentServiceRunning() && isConnected()) {
+                // If there is internet connection and update service is running show progress bar and dismiss error screen
                 if (mUpdateProgressDialog == null)
                     initializeUpdateProgressBar();
                 if (!mUpdateProgressDialog.isShowing())
                     mUpdateProgressDialog.show();
                 setErrorScreenVisibility(View.GONE);
             } else {
+                // There is no internet connection or update service is not running
                 if (!isUpdateServiceSuccessOnce) {
+                    // Update service failed, dismiss update progress dialog if it's visible and show error screen
                     if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
                         mUpdateProgressDialog.dismiss();
                     setErrorScreenVisibility(View.VISIBLE);
                 } else {
+                    // Update service succeed, dismiss update progress dialog if it's visible and restart fragments
                     if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
                         mUpdateProgressDialog.dismiss();
                     setErrorScreenVisibility(View.GONE);
@@ -430,6 +436,7 @@ public class MainActivity extends AppCompatActivity
     protected void onPause() {
         super.onPause();
         Log.i("LIFE_CYCLE","onPause");
+        // Unregister update data from server broadcast and check internet connection broadcast
         unregisterReceiver(broadcastReceiver);
         unregisterReceiver(updateReceiver);
     }
@@ -442,7 +449,9 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        // Set viewpager page to 0 when app is closed
         sLastCoursesViewPagerIndex = 0;
+        // Close db if exist when app is closed
         LocalDBHelper.closeIfExist();
     }
 
@@ -476,6 +485,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private boolean isConnected() {
+        // Check if there is internet connection and save the result as boolean
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
@@ -485,6 +495,7 @@ public class MainActivity extends AppCompatActivity
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (!isConnected()) {
+                // There is no internet connection, show error snackbar
                 final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                             @Override
@@ -497,6 +508,7 @@ public class MainActivity extends AppCompatActivity
                 snackbar.setDuration(10000);
                 snackbar.show();
 
+                // As there is no internet connection, dismiss update dialog if showed and show error screen
                 if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
                     mUpdateProgressDialog.dismiss();
 
@@ -572,10 +584,14 @@ public class MainActivity extends AppCompatActivity
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
         } else if (resultCode == RESULT_SHOW_COURSE_MATERIALS) {
+            // Result returned from course activity to show course materials
 
+            // Get course code from course activity
             String courseCode = data.getStringExtra(EXTRA_COURSE_CODE);
 
             if (courseCode != null && !(courseCode.equals(""))) {
+                // If course code is not empty, pass data to materials fragment and set it as query
+                // Materials should have course code as HashTag in order to show course relevant materials
 
                 mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
 
@@ -592,19 +608,27 @@ public class MainActivity extends AppCompatActivity
             GoogleSignInAccount acct = result.getSignInAccount();
             signedIn = true;
 
+            // If Google SignIn account doesn't return null, get account data
             if (acct != null) {
+                // Set account name and email address
                 mNameTextView.setText(acct.getDisplayName());
                 mEmailTextView.setText(acct.getEmail());
+                // Save account data in static strings and uri to make account data accessible from other activities
                 MainActivity.sUserEmailAddress = acct.getEmail();
                 MainActivity.sUserName = acct.getDisplayName();
                 MainActivity.sUserProfileImage = acct.getPhotoUrl();
+                // Set account profile picture if exists
                 Uri uri = acct.getPhotoUrl();
                 Glide.with(this)
                         .load(uri)
                         .placeholder(R.drawable.ic_profile_none)
+                        // CircleImageView known to have issues with TransitionDrawable, use dontAnimate() as workaround
+                        // .circleCrop() will be available in v4 of Glide, when it's available
+                        // CircleImageView can be removed and replaced with this
                         .dontAnimate()
                         .into(mProfileImageView);
 
+                // Use Google plus API to get user cover photo if exists
                 Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
                     @Override
                     public void onResult(@NonNull People.LoadPeopleResult peopleData) {
@@ -636,6 +660,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 //    private void signOut() {
+//        // SignOut from Google account *without* revoking app permission to SignIn
 //        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
 //                new ResultCallback<Status>() {
 //                    @Override
@@ -648,6 +673,7 @@ public class MainActivity extends AppCompatActivity
 //    }
 
     private void revokeAccess() {
+        // SignOut from Google account and revoke app permission to SignIn
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -670,11 +696,16 @@ public class MainActivity extends AppCompatActivity
 
     @Override
     public void onBackPressed() {
+        // On back key press
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
+            // If navigation view is opened, close it
             mDrawerLayout.closeDrawer(GravityCompat.START);
         } else {
+            // Navigation view is closed, check if current fragment is course fragment, and change to it if it's not
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
             if (currentFragment instanceof CoursesFragment) {
+                // Current fragment is courses fragment, safe check before exiting the app,
+                // back key should be pressed twice in a range of 3 seconds
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPress > 3000) {
                     Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
@@ -683,6 +714,7 @@ public class MainActivity extends AppCompatActivity
                     super.onBackPressed();
                 }
             } else {
+                // Current fragment is not courses fragment, change back to it before exit
                 mNavigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                 mNavigationView.setCheckedItem(R.id.nav_courses);
@@ -692,6 +724,7 @@ public class MainActivity extends AppCompatActivity
 
     public void navHeaderClicked() {
         if (signedIn) {
+            // Google account is connected, show logout alert dialog
             mDrawerLayout.closeDrawer(GravityCompat.START);
             new AlertDialog.Builder(this)
                     .setMessage(R.string.sign_out_confirm)
@@ -712,12 +745,14 @@ public class MainActivity extends AppCompatActivity
                         })
                     .show();
         } else {
+            // Google account is disconnected, initialize Google SignIn
             mDrawerLayout.closeDrawer(GravityCompat.START);
             signIn();
         }
     }
 
     public String debugInfo() {
+        // Get debug info from the device for error report email and save it as string
         long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
         String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
         String debugInfo="--Support Info--";
@@ -777,6 +812,7 @@ public class MainActivity extends AppCompatActivity
 
     public void updateData() {
         if (isConnected()) {
+            // Update data if device is connected to network
             mUpdateProgressDialog.show();
             Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);
             updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
@@ -838,11 +874,13 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
         } else if (id == R.id.nav_contact_us) {
+            // Open mail intent, set email address, title and add attachment
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
             emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
             emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
             emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
             Calendar now = Calendar.getInstance();
+            // Create debug info text file and set file name to current date and time
             String filename = String.format(Locale.getDefault(),
                     "marshal_%02d%02d%04d_%02d%02d%02d.log",
                     now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
@@ -862,6 +900,7 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_about) {
             String url = "https://goo.gl/s6thV1";
             Boolean cct = mSharedPreferences.getBoolean("CCT", true);
+            // Check if chrome custom tab preference is enabled
             if (cct) {
                 new CustomTabsIntent.Builder()
                         .setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
