@@ -6,7 +6,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import com.lapism.searchview.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -48,6 +48,8 @@ public class MaterialsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
 
         setHasOptionsMenu(true);
+
+        mSearchView = ((MainActivity)getActivity()).getSearchView();
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
@@ -92,7 +94,8 @@ public class MaterialsFragment extends Fragment {
             public void onClick(String hashTag) {
                 if (mSearchView != null && mSearchMenuItem != null) {
                     MenuItemCompat.expandActionView(mSearchMenuItem);
-                    mSearchView.setQuery(hashTag, true);
+//                    mSearchView.setQuery(hashTag, true);
+                    mSearchView.setQuery(hashTag);
                 }
             }
         };
@@ -128,13 +131,14 @@ public class MaterialsFragment extends Fragment {
 
         // Setup search button
         mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) mSearchMenuItem.getActionView();
-        mSearchView.setIconifiedByDefault(true);
+//        mSearchView = (SearchView) mSearchMenuItem.getActionView();
+//        mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filter(query);
                 mSearchView.clearFocus();
+                ((MainActivity)getActivity()).addSearchHistory(query);
                 return true;
             }
 
@@ -198,7 +202,8 @@ public class MaterialsFragment extends Fragment {
     public void search(String query) {
         if (mSearchView != null && mSearchMenuItem != null) {
             MenuItemCompat.expandActionView(mSearchMenuItem);
-            mSearchView.setQuery(query, true);
+//            mSearchView.setQuery(query, true);
+            mSearchView.setQuery(query);
         }
     }
 

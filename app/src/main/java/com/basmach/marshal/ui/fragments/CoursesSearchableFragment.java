@@ -14,7 +14,9 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+
+import com.basmach.marshal.ui.MainActivity;
+import com.lapism.searchview.SearchView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -86,6 +88,8 @@ public class CoursesSearchableFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_courses_search, container, false);
 
         setHasOptionsMenu(true);
+
+        mSearchView = ((MainActivity)getActivity()).getSearchView();
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
@@ -208,39 +212,40 @@ public class CoursesSearchableFragment extends Fragment {
 
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-        {
-            @Override
-            public boolean onSuggestionClick(int position) {
-                String suggestion = getSuggestion(position);
-                mSearchView.setQuery(suggestion, true);
-                mSearchView.clearFocus();
-                return true;
-            }
-
-            private String getSuggestion(int position) {
-                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-            }
-
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-        });
+//        mSearchView = (SearchView) searchItem.getActionView();
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        mSearchView.setIconifiedByDefault(true);
+//        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
+//        {
+//            @Override
+//            public boolean onSuggestionClick(int position) {
+//                String suggestion = getSuggestion(position);
+//                mSearchView.setQuery(suggestion, true);
+//                mSearchView.clearFocus();
+//                return true;
+//            }
+//
+//            private String getSuggestion(int position) {
+//                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+//                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+//            }
+//
+//            @Override
+//            public boolean onSuggestionSelect(int position) {
+//                return false;
+//            }
+//        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mFilterText = query;
                 filter(query);
                 mSearchView.clearFocus();
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-                suggestions.saveRecentQuery(query, null);
+//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+//                suggestions.saveRecentQuery(query, null);
+                ((MainActivity)getActivity()).addSearchHistory(query);
                 return true;
             }
 
@@ -253,24 +258,40 @@ public class CoursesSearchableFragment extends Fragment {
                 return true;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
-                new MenuItemCompat.OnActionExpandListener() {
-                    @Override
-                    public boolean onMenuItemActionCollapse(MenuItem item) {
-                        if (!mIsMeetups) {
-                            getActivity().onBackPressed();
-                        }
-                        return true; // Return true to collapse action view
-                    }
 
-                    @Override
-                    public boolean onMenuItemActionExpand(MenuItem item) {
-                        return true; // Return true to expand action view
-                    }
-                });
+        mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
+            @Override
+            public void onClose() {
+                if (!mIsMeetups) {
+                    getActivity().onBackPressed();
+                    mSearchView.setOnOpenCloseListener(null);
+                }
+            }
+
+            @Override
+            public void onOpen() {}
+        });
+
+//        MenuItemCompat.setOnActionExpandListener(searchItem,
+//                new MenuItemCompat.OnActionExpandListener() {
+//                    @Override
+//                    public boolean onMenuItemActionCollapse(MenuItem item) {
+//                        if (!mIsMeetups) {
+//                            getActivity().onBackPressed();
+//                        }
+//                        return true; // Return true to collapse action view
+//                    }
+//
+//                    @Override
+//                    public boolean onMenuItemActionExpand(MenuItem item) {
+//                        return true; // Return true to expand action view
+//                    }
+//                });
         if (!mIsMeetups) {
-            MenuItemCompat.expandActionView(searchItem);
-            mSearchView.setQuery(mSearchQuery,true);
+//            mSearchView.open(true);
+//            MenuItemCompat.expandActionView(searchItem);
+//            mSearchView.setQuery(mSearchQuery,true);
+            mSearchView.setQuery(mSearchQuery);
         }
     }
 

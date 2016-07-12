@@ -16,15 +16,22 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
+
+import com.lapism.searchview.SearchAdapter;
+import com.lapism.searchview.SearchHistoryTable;
+import com.lapism.searchview.SearchItem;
+import com.lapism.searchview.SearchView;
+
+import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -83,6 +90,7 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -138,6 +146,8 @@ public class MainActivity extends AppCompatActivity
     public static LinearLayout sNewUpdatesButton;
     public static LinearLayout sErrorScreen;
 
+    public SearchHistoryTable mHistoryDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LIFE_CYCLE","onCreate");
@@ -165,6 +175,7 @@ public class MainActivity extends AppCompatActivity
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
 
+        initializeSearchView();
         initializeUpdateProgressBar();
 
         MainActivity.sNewUpdatesButton = null;
@@ -256,6 +267,50 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private void initializeSearchView() {
+        mHistoryDatabase = new SearchHistoryTable(this);
+
+        mSearchView = (SearchView) findViewById(R.id.searchView);
+        if (mSearchView != null) {
+            mSearchView.setVersion(SearchView.VERSION_MENU_ITEM);
+            mSearchView.setVersionMargins(SearchView.VERSION_MARGINS_MENU_ITEM);
+            mSearchView.setHint(getResources().getString(R.string.search_title));
+            mSearchView.setTextSize(16);
+            mSearchView.setHint(getResources().getString(R.string.search_title));
+            mSearchView.setDivider(false);
+            mSearchView.setVoice(true);
+            mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
+            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
+
+            int currentNightMode = getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    mSearchView.setTheme(SearchView.THEME_LIGHT, true);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    mSearchView.setTheme(SearchView.THEME_DARK, true);
+                    break;
+                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    mSearchView.setTheme(SearchView.THEME_LIGHT, true);
+                    break;
+            }
+        }
+        SearchAdapter searchAdapter = getSearchAdapter();
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                String query = textView.getText().toString();
+                mSearchView.setQuery(query);
+//                getData(query, position);
+                // mSearchView.close(false);
+            }
+        });
+
+        mSearchView.setAdapter(searchAdapter);
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -596,6 +651,14 @@ public class MainActivity extends AppCompatActivity
                 mNavigationView.setCheckedItem(R.id.nav_materials);
                 mMaterialsFragment = new MaterialsFragment();
             }
+        } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (results != null && results.size() > 0) {
+                String searchWrd = results.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
+                    mSearchView.setQuery(searchWrd);
+                }
+            }
         }
     }
 
@@ -776,7 +839,6 @@ public class MainActivity extends AppCompatActivity
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -826,6 +888,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_main_searchView) {
+            mSearchView.open(true);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -914,6 +977,30 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
+    public SearchView getSearchView() {
+        if (mSearchView == null) initializeSearchView();
+        return mSearchView;
+    }
+
+    public SearchHistoryTable getHistoryDatabase() {
+        if (mHistoryDatabase == null) initializeSearchView();
+        return mHistoryDatabase;
+    }
+
+    public void addSearchHistory(String query) {
+        if (mHistoryDatabase == null) initializeSearchView();
+        mHistoryDatabase.addItem(new SearchItem(query));
+    }
+
+    public SearchAdapter getSearchAdapter() {
+        List<SearchItem> suggestionsList = new ArrayList<>();
+        suggestionsList.add(new SearchItem("Android"));
+        suggestionsList.add(new SearchItem("Python"));
+        suggestionsList.add(new SearchItem("Web"));
+
+        SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+        return searchAdapter;
+    }
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
 //            // Provide an additional rationale to the user if the permission was not granted

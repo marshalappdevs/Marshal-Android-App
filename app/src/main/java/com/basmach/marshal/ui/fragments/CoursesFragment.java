@@ -16,7 +16,10 @@ import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+
+import com.lapism.searchview.SearchAdapter;
+import com.lapism.searchview.SearchItem;
+import com.lapism.searchview.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -26,6 +29,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -106,6 +110,8 @@ public class CoursesFragment extends Fragment {
         mSystemCourses = null;
 
         setHasOptionsMenu(true);
+
+        mSearchView = ((MainActivity)getActivity()).getSearchView();
 
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
@@ -460,35 +466,36 @@ public class CoursesFragment extends Fragment {
 
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-        {
-            @Override
-            public boolean onSuggestionClick(int position) {
-                mSearchView.clearFocus();
-                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
-                return true;
-            }
-
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-        });
+//        mSearchView = (SearchView) searchItem.getActionView();
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        mSearchView.setIconifiedByDefault(true);
+//        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
+//        {
+//            @Override
+//            public boolean onSuggestionClick(int position) {
+//                mSearchView.clearFocus();
+//                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+//                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.content_frame,
+//                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onSuggestionSelect(int position) {
+//                return false;
+//            }
+//        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 mSearchView.clearFocus();
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-                suggestions.saveRecentQuery(query, null);
+//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+//                suggestions.saveRecentQuery(query, null);
+                ((MainActivity)getActivity()).addSearchHistory(query);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //                if (query.equals("*")) query = "";
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
