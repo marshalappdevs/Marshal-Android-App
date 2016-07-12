@@ -266,10 +266,10 @@ public class MainActivity extends AppCompatActivity
 
     private void showNewUpdatesButton() {
         if (MainActivity.sNewUpdatesButton != null) {
-            animateNewUpdatesButton(true);
+            animateNewUpdatesButton(View.VISIBLE);
         } else {
             initializeNewUpdatesButton();
-            animateNewUpdatesButton(true);
+            animateNewUpdatesButton(View.VISIBLE);
         }
     }
 
@@ -282,7 +282,7 @@ public class MainActivity extends AppCompatActivity
                 MainActivity.sViewPagerCourses = null;
 
                 // Show out animation and dismiss button
-                animateNewUpdatesButton(false);
+                animateNewUpdatesButton(View.INVISIBLE);
                 // Restart app fragments to show new data
                 Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
                 if (currentFragment instanceof CoursesFragment) {
@@ -296,12 +296,13 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void animateNewUpdatesButton (final Boolean in) {
-        // true on boolean will show in animation, false will show out animation
+    private void animateNewUpdatesButton (final int visibility) {
         Animation animation;
-        if (in) {
+        if (visibility == View.VISIBLE) {
+            // show in animation on visible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_in);
         } else {
+            // show out animation on invisible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_out);
         }
         MainActivity.sNewUpdatesButton.startAnimation(animation);
@@ -311,11 +312,7 @@ public class MainActivity extends AppCompatActivity
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                if (in) {
-                    MainActivity.sNewUpdatesButton.setVisibility(View.VISIBLE);
-                } else {
-                    MainActivity.sNewUpdatesButton.setVisibility(View.GONE);
-                }
+                MainActivity.sNewUpdatesButton.setVisibility(visibility);
             }
 
             @Override
