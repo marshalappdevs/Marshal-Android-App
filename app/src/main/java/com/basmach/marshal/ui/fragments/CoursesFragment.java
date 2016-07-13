@@ -6,22 +6,17 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
-import com.lapism.searchview.SearchAdapter;
-import com.lapism.searchview.SearchItem;
 import com.lapism.searchview.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -29,7 +24,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
-import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -39,7 +33,6 @@ import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.AutoScrollViewPager;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
-import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
 
 import java.lang.reflect.Field;
@@ -111,7 +104,7 @@ public class CoursesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mSearchView = ((MainActivity)getActivity()).getSearchView();
+        mSearchView = ((MainActivity)getActivity()).getSearchView(true, true);
 
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 

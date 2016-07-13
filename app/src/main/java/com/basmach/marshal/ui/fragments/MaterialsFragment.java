@@ -49,7 +49,7 @@ public class MaterialsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mSearchView = ((MainActivity)getActivity()).getSearchView();
+        mSearchView = ((MainActivity)getActivity()).getSearchView(false, false);
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);

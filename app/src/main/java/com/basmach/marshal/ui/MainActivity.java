@@ -282,7 +282,6 @@ public class MainActivity extends AppCompatActivity
             mSearchView.setDivider(false);
             mSearchView.setVoice(true);
             mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
-            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
 
             int currentNightMode = getResources().getConfiguration().uiMode
                     & Configuration.UI_MODE_NIGHT_MASK;
@@ -298,19 +297,6 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
-        SearchAdapter searchAdapter = getSearchAdapter();
-        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
-                String query = textView.getText().toString();
-                mSearchView.setQuery(query);
-//                getData(query, position);
-                // mSearchView.close(false);
-            }
-        });
-
-        mSearchView.setAdapter(searchAdapter);
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -650,6 +636,7 @@ public class MainActivity extends AppCompatActivity
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
                 mMaterialsFragment = new MaterialsFragment();
+                if(!mSearchView.isSearchOpen()) mSearchView.open(true);
             }
         } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -766,6 +753,7 @@ public class MainActivity extends AppCompatActivity
             if (currentFragment instanceof CoursesFragment) {
                 // Current fragment is courses fragment, safe check before exiting the app,
                 // back key should be pressed twice in a range of 3 seconds
+                if (mSearchView != null && mSearchView.isSearchOpen()) mSearchView.close(true);
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPress > 3000) {
                     Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
@@ -775,6 +763,7 @@ public class MainActivity extends AppCompatActivity
                 }
             } else {
                 // Current fragment is not courses fragment, change back to it before exit
+//                if (mSearchView != null) mSearchView.close(true);
                 mNavigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                 mNavigationView.setCheckedItem(R.id.nav_courses);
@@ -888,6 +877,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_main_searchView) {
+            if (mSearchView == null) initializeSearchView();
             mSearchView.open(true);
             return true;
         }
@@ -977,8 +967,22 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public SearchView getSearchView() {
+    public SearchView getSearchView(boolean showSuggestions, boolean showShadow) {
         if (mSearchView == null) initializeSearchView();
+
+        if (showSuggestions) {
+            SearchAdapter searchAdapter = getSearchAdapter();
+            mSearchView.setAdapter(searchAdapter);
+        } else {
+            mSearchView.setAdapter(null);
+        }
+
+        if (showShadow) {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
+        } else {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, android.R.color.transparent));
+        }
+
         return mSearchView;
     }
 
@@ -999,6 +1003,17 @@ public class MainActivity extends AppCompatActivity
         suggestionsList.add(new SearchItem("Web"));
 
         SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                String query = textView.getText().toString();
+                mSearchView.setQuery(query);
+//                getData(query, position);
+                // mSearchView.close(false);
+            }
+        });
+
         return searchAdapter;
     }
 //    private void requestContactsPermission() {

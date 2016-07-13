@@ -3,13 +3,9 @@ package com.basmach.marshal.ui.fragments;
 import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
-import android.content.DialogInterface;
-import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -35,7 +31,6 @@ import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
-import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.text.SimpleDateFormat;
@@ -89,7 +84,7 @@ public class CoursesSearchableFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mSearchView = ((MainActivity)getActivity()).getSearchView();
+        mSearchView = ((MainActivity)getActivity()).getSearchView(true, true);
 
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
