@@ -241,6 +241,7 @@ public class CoursesSearchableFragment extends Fragment {
 //                return false;
 //            }
 //        });
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
@@ -261,6 +262,21 @@ public class CoursesSearchableFragment extends Fragment {
                     filter(newText);
                 }
                 return true;
+            }
+        });
+
+        mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
+            @Override
+            public void onClose() {
+                if (!mIsMeetups) {
+                    getActivity().onBackPressed();
+                    mSearchView.setOnOpenCloseListener(null);
+                }
+            }
+
+            @Override
+            public void onOpen() {
+
             }
         });
 
