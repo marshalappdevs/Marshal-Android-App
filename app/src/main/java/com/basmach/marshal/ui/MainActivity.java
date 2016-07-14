@@ -212,6 +212,9 @@ public class MainActivity extends AppCompatActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                if (mSearchView != null && mSearchView.isSearchOpen()) {
+                    mSearchView.close(true);
+                }
             }
         };
 
@@ -278,7 +281,6 @@ public class MainActivity extends AppCompatActivity
             mSearchView.setVersionMargins(SearchView.VERSION_MARGINS_MENU_ITEM);
             mSearchView.setHint(getResources().getString(R.string.search_title));
             mSearchView.setTextSize(16);
-            mSearchView.setHint(getResources().getString(R.string.search_title));
             mSearchView.setDivider(false);
             mSearchView.setVoice(true);
             mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
@@ -287,12 +289,15 @@ public class MainActivity extends AppCompatActivity
                     & Configuration.UI_MODE_NIGHT_MASK;
             switch (currentNightMode) {
                 case Configuration.UI_MODE_NIGHT_NO:
+                    // Night mode is not active, we're in day time
                     mSearchView.setTheme(SearchView.THEME_LIGHT, true);
                     break;
                 case Configuration.UI_MODE_NIGHT_YES:
+                    // Night mode is active, we're at night!
                     mSearchView.setTheme(SearchView.THEME_DARK, true);
                     break;
                 case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    // We don't know what mode we're in, assume notnight
                     mSearchView.setTheme(SearchView.THEME_LIGHT, true);
                     break;
             }
@@ -747,6 +752,8 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             // If navigation view is opened, close it
             mDrawerLayout.closeDrawer(GravityCompat.START);
+//        } else if (mSearchView != null && mSearchView.isSearchOpen()) {
+//            mSearchView.close(true);
         } else {
             // Navigation view is closed, check if current fragment is course fragment, and change to it if it's not
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
@@ -877,7 +884,6 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_main_searchView) {
-            if (mSearchView == null) initializeSearchView();
             mSearchView.open(true);
             return true;
         }
@@ -968,8 +974,6 @@ public class MainActivity extends AppCompatActivity
     }
 
     public SearchView getSearchView(boolean showSuggestions, boolean showShadow) {
-        if (mSearchView == null) initializeSearchView();
-
         if (showSuggestions) {
             SearchAdapter searchAdapter = getSearchAdapter();
             mSearchView.setAdapter(searchAdapter);
@@ -1013,7 +1017,6 @@ public class MainActivity extends AppCompatActivity
                 // mSearchView.close(false);
             }
         });
-
         return searchAdapter;
     }
 //    private void requestContactsPermission() {

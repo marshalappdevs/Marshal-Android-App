@@ -84,8 +84,6 @@ public class CoursesSearchableFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mSearchView = ((MainActivity)getActivity()).getSearchView(true, true);
-
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
@@ -97,6 +95,12 @@ public class CoursesSearchableFragment extends Fragment {
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
 
         mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
+
+        if (mIsMeetups) {
+            mSearchView = ((MainActivity) getActivity()).getSearchView(false, false);
+        } else {
+            mSearchView = ((MainActivity) getActivity()).getSearchView(true, true);
+        }
 
         if (!mIsMeetups) {
 
@@ -177,6 +181,12 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
+    public void onDetach() {
+        super.onDetach();
+        mSearchView.close(false);
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
@@ -252,19 +262,6 @@ public class CoursesSearchableFragment extends Fragment {
                 }
                 return true;
             }
-        });
-
-        mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-            @Override
-            public void onClose() {
-                if (!mIsMeetups) {
-                    getActivity().onBackPressed();
-                    mSearchView.setOnOpenCloseListener(null);
-                }
-            }
-
-            @Override
-            public void onOpen() {}
         });
 
 //        MenuItemCompat.setOnActionExpandListener(searchItem,
