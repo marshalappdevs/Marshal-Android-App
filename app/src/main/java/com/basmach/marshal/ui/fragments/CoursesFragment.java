@@ -483,7 +483,14 @@ public class CoursesFragment extends Fragment {
 //        });
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
+            public boolean onQueryTextChange(String newText) {
+                // Text has changed, apply filtering?
+                return true;
+            }
+
+            @Override
             public boolean onQueryTextSubmit(String query) {
+                // Perform the final search
                 mSearchView.clearFocus();
 //                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
 //                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
@@ -493,11 +500,6 @@ public class CoursesFragment extends Fragment {
 //                if (query.equals("*")) query = "";
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
                         CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
                 return true;
             }
         });

@@ -24,6 +24,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.utils.ThemeUtils;
+import com.lapism.searchview.SearchHistoryTable;
 
 import java.util.Objects;
 
@@ -192,9 +193,12 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceClickListener clearHistoryClickListener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-                suggestions.clearHistory();
+//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+//                suggestions.clearHistory();
+                SearchHistoryTable searchHistoryTable;
+                searchHistoryTable = new SearchHistoryTable(getActivity());
+                searchHistoryTable.clearDatabase();
                 Toast.makeText(getActivity().getApplicationContext(), R.string.pref_done, Toast.LENGTH_SHORT).show();
                 return false;
             }

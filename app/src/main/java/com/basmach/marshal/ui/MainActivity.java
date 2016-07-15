@@ -304,6 +304,47 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
+    public SearchView getSearchView(boolean showSuggestions, boolean showShadow) {
+        if (showSuggestions) {
+            SearchAdapter searchAdapter = getSearchAdapter();
+            mSearchView.setAdapter(searchAdapter);
+        } else {
+            mSearchView.setAdapter(null);
+        }
+
+        if (showShadow) {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
+        } else {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, android.R.color.transparent));
+        }
+
+        return mSearchView;
+    }
+
+    public void addSearchHistory(String query) {
+        mHistoryDatabase.addItem(new SearchItem(query));
+    }
+
+    public SearchAdapter getSearchAdapter() {
+        List<SearchItem> suggestionsList = new ArrayList<>();
+        suggestionsList.add(new SearchItem("Android"));
+        suggestionsList.add(new SearchItem("Python"));
+        suggestionsList.add(new SearchItem("Web"));
+
+        SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                String query = textView.getText().toString();
+                mSearchView.setQuery(query);
+                addSearchHistory(query);
+                // mSearchView.close(false);
+            }
+        });
+        return searchAdapter;
+    }
+
     private void setErrorScreenVisibility(int visibility) {
         // Initialize error screen and set viability based on integer
         if (sErrorScreen == null) sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
@@ -834,25 +875,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+        // Workaround to get suggestions on first searchview open
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                // Text has changed, apply filtering?
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Perform the final search
-                mSearchView.clearFocus();
-                String searchResult = String.format(getString(R.string.search_result), query);
-                Toast.makeText(getApplicationContext(), searchResult, Toast.LENGTH_LONG).show();
-                return true;
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                if (mSearchView != null) mSearchView.setQuery("");
+                return false;
             }
         });
-
         MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -973,52 +1004,6 @@ public class MainActivity extends AppCompatActivity
         return true;
     }
 
-    public SearchView getSearchView(boolean showSuggestions, boolean showShadow) {
-        if (showSuggestions) {
-            SearchAdapter searchAdapter = getSearchAdapter();
-            mSearchView.setAdapter(searchAdapter);
-        } else {
-            mSearchView.setAdapter(null);
-        }
-
-        if (showShadow) {
-            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
-        } else {
-            mSearchView.setShadowColor(ContextCompat.getColor(this, android.R.color.transparent));
-        }
-
-        return mSearchView;
-    }
-
-    public SearchHistoryTable getHistoryDatabase() {
-        if (mHistoryDatabase == null) initializeSearchView();
-        return mHistoryDatabase;
-    }
-
-    public void addSearchHistory(String query) {
-        if (mHistoryDatabase == null) initializeSearchView();
-        mHistoryDatabase.addItem(new SearchItem(query));
-    }
-
-    public SearchAdapter getSearchAdapter() {
-        List<SearchItem> suggestionsList = new ArrayList<>();
-        suggestionsList.add(new SearchItem("Android"));
-        suggestionsList.add(new SearchItem("Python"));
-        suggestionsList.add(new SearchItem("Web"));
-
-        SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
-        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
-            @Override
-            public void onItemClick(View view, int position) {
-                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
-                String query = textView.getText().toString();
-                mSearchView.setQuery(query);
-//                getData(query, position);
-                // mSearchView.close(false);
-            }
-        });
-        return searchAdapter;
-    }
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
 //            // Provide an additional rationale to the user if the permission was not granted
