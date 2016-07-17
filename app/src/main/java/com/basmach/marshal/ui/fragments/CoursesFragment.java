@@ -139,6 +139,7 @@ public class CoursesFragment extends Fragment {
                 }
 
                 @Override
+                @SuppressWarnings("unchecked")
                 protected Boolean doInBackground(Void... voids) {
                     try {
                         if (MainActivity.sAllCourses == null) {
@@ -272,8 +273,8 @@ public class CoursesFragment extends Fragment {
     private void showImagesViewPager() {
         mViewPagerTitle = (LinearLayout) mRootView.findViewById(R.id.highlight_overlay_title);
         mViewPagerTitle.setVisibility(View.VISIBLE);
-        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.viewpager_title);
-        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.viewpager_subtitle);
+        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.li_title);
+        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.li_subtitle);
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses,
                 mViewPagerTitleTextView, mViewPagerSubtitleTextView);
         mViewPager.setVisibility(View.VISIBLE);
@@ -287,11 +288,11 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
-
                 Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
-                String sSubtitle = DateHelper.dateToString(firstCycle.getStartDate()) + " - " +
-                        DateHelper.dateToString(firstCycle.getEndDate());
-                mViewPagerSubtitleTextView.setText(sSubtitle);
+                String cycleDates = String.format(getString(R.string.course_cycle_format),
+                        DateHelper.dateToString(firstCycle.getStartDate()),
+                        DateHelper.dateToString(firstCycle.getEndDate()));
+                mViewPagerSubtitleTextView.setText(cycleDates);
             }
 
             @Override

@@ -68,7 +68,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);
         container.addView(imageView, 0);
-        Log.i("VIEW_PAGER", "instantiateItem");
         return imageView;
     }
 
