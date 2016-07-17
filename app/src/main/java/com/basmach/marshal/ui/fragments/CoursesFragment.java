@@ -11,10 +11,13 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 
+import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.utils.DateHelper;
 import com.lapism.searchview.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -24,6 +27,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -61,6 +65,8 @@ public class CoursesFragment extends Fragment {
 
     private InkPageIndicator mInkPageIndicator;
     private AutoScrollViewPager mViewPager;
+    private View mViewPagerOverlay;
+    private LinearLayout mViewPagerTitle;
 
     private RecyclerView mRecyclerSoftware;
     private LinearLayoutManager mLinearLayoutManagerSoftware;
@@ -90,6 +96,8 @@ public class CoursesFragment extends Fragment {
     private View mRootView;
 
     private SearchView mSearchView;
+    private TextView mViewPagerTitleTextView;
+    private TextView mViewPagerSubtitleTextView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -262,10 +270,40 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
+        mViewPagerTitle = (LinearLayout) mRootView.findViewById(R.id.highlight_overlay_title);
+        mViewPagerTitle.setVisibility(View.VISIBLE);
+        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.viewpager_title);
+        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.viewpager_subtitle);
+        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses,
+                mViewPagerTitleTextView, mViewPagerSubtitleTextView);
+        mViewPager.setVisibility(View.VISIBLE);
         mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
+        mViewPagerOverlay = mRootView.findViewById(R.id.gradient_overlay);
+        mViewPagerOverlay.setVisibility(View.VISIBLE);
+        mViewPager.setOffscreenPageLimit(5);
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+                mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
+
+                Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
+                String sSubtitle = DateHelper.dateToString(firstCycle.getStartDate()) + " - " +
+                        DateHelper.dateToString(firstCycle.getEndDate());
+                mViewPagerSubtitleTextView.setText(sSubtitle);
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);

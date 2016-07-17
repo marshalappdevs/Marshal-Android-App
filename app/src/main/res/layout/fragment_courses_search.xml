@@ -24,5 +24,6 @@
         android:layout_height="wrap_content"
         android:src="@drawable/ic_action_filter"
         app:useCompatPadding="true"
-        android:layout_gravity="bottom|end"/>
+        android:layout_gravity="bottom|end"
+        android:id="@+id/course_searchable_sort_fab"/>
 </FrameLayout>

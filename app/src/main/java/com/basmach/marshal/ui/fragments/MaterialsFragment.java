@@ -66,7 +66,6 @@ public class MaterialsFragment extends Fragment {
                             mMaterialsList = new ArrayList<>();
                             for(Object item:data) {
                                 mMaterialsList.add((MaterialItem)item);
-
                             }
                             showData();
                         }
@@ -139,6 +138,7 @@ public class MaterialsFragment extends Fragment {
                 filter(query);
                 mSearchView.clearFocus();
                 ((MainActivity)getActivity()).addSearchHistory(query);
+//                if(!mSearchView.isSearchOpen()) mSearchView.open(true);
                 return true;
             }
 
@@ -201,7 +201,7 @@ public class MaterialsFragment extends Fragment {
 
     public void search(String query) {
         if (mSearchView != null && mSearchMenuItem != null) {
-            MenuItemCompat.expandActionView(mSearchMenuItem);
+//            MenuItemCompat.expandActionView(mSearchMenuItem);
 //            mSearchView.setQuery(query, true);
             mSearchView.setQuery(query);
         }

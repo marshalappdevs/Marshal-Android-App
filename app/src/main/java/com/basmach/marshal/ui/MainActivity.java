@@ -682,7 +682,6 @@ public class MainActivity extends AppCompatActivity
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
                 mMaterialsFragment = new MaterialsFragment();
-                if(!mSearchView.isSearchOpen()) mSearchView.open(true);
             }
         } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
@@ -877,13 +876,13 @@ public class MainActivity extends AppCompatActivity
         getMenuInflater().inflate(R.menu.main, menu);
         // Workaround to get suggestions on first searchview open
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (mSearchView != null) mSearchView.setQuery("");
-                return false;
-            }
-        });
+//        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                if (mSearchView != null) mSearchView.setQuery("");
+//                return false;
+//            }
+//        });
         MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override

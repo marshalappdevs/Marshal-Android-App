@@ -5,6 +5,7 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -52,6 +53,7 @@ public class CoursesSearchableFragment extends Fragment {
     private RecyclerView mRecycler;
     private LinearLayoutManager mLayoutManager;
     private CoursesSearchRecyclerAdapter mAdapter;
+    private FloatingActionButton mFabSorting;
 
     private ArrayList<Course> mCoursesList;
     private ArrayList<Course> mFilteredCourseList;
@@ -89,6 +91,8 @@ public class CoursesSearchableFragment extends Fragment {
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
+        mFabSorting = (FloatingActionButton) rootView.findViewById(R.id.course_searchable_sort_fab);
+
         mNoResults = (TextView) rootView.findViewById(R.id.no_results);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
@@ -96,10 +100,23 @@ public class CoursesSearchableFragment extends Fragment {
 
         mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
 
+        mFabSorting.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (!isEmptyResult)
+                    showFilterByDateDialog();
+                else {
+                    Toast.makeText(getActivity(), R.string.filter_not_available, Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+
         if (mIsMeetups) {
             mSearchView = ((MainActivity) getActivity()).getSearchView(false, false);
+            mFabSorting.setVisibility(View.GONE);
         } else {
             mSearchView = ((MainActivity) getActivity()).getSearchView(true, true);
+            mFabSorting.setVisibility(View.VISIBLE);
         }
 
         if (!mIsMeetups) {
