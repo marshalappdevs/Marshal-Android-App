@@ -21,7 +21,63 @@
                 android:id="@+id/main_catalog_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_alignParentTop="true" />
+                android:background="@color/placeholder_background"
+                android:layout_alignParentTop="true"
+                android:visibility="gone" />
+
+            <View
+                android:id="@+id/gradient_overlay"
+                android:background="@drawable/highlights_bottom_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="100.0dip"
+                android:layout_alignParentBottom="true"
+                android:visibility="gone" />
+
+            <LinearLayout
+                android:gravity="bottom|center"
+                android:layout_gravity="center"
+                android:orientation="vertical"
+                android:id="@+id/highlight_overlay_title"
+                android:paddingBottom="16.0dip"
+                android:focusable="false"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentBottom="true"
+                android:layout_above="@+id/main_catalog_indicator"
+                android:visibility="gone" >
+
+                <TextView
+                    android:text="Title"
+                    android:gravity="center"
+                    android:id="@+id/li_title"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="18.0sp"
+                    android:textColor="@android:color/white"
+                    android:ellipsize="marquee"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:shadowColor="#61000000"
+                    android:shadowDy="1.0"
+                    android:shadowRadius="5.0"
+                    style="@style/MarshalMediumPlainText" />
+
+                <TextView
+                    android:text="Subtitle"
+                    android:gravity="center"
+                    android:id="@+id/li_subtitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:textSize="16.0sp"
+                    android:textColor="@android:color/white"
+                    android:ellipsize="marquee"
+                    android:paddingBottom="16.0dip"
+                    android:maxLines="1"
+                    android:singleLine="true"
+                    android:shadowColor="#61000000"
+                    android:shadowDy="1.0"
+                    android:shadowRadius="3.0" />
+            </LinearLayout>
 
             <com.basmach.marshal.ui.utils.InkPageIndicator
                 android:id="@+id/main_catalog_indicator"

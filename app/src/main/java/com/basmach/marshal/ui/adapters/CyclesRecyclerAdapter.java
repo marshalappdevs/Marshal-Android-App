@@ -42,8 +42,10 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
     @Override
     public void onBindViewHolder(CycleVH holder, final int position) {
         try {
-            holder.mStartDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getStartDate()));
-            holder.mEndDateTextView.setText(DateHelper.dateToString(mCycles.get(position).getEndDate()));
+            String cycleDates = String.format(mContext.getString(R.string.course_cycle_format),
+                    DateHelper.dateToString(mCycles.get(position).getStartDate()),
+                    DateHelper.dateToString(mCycles.get(position).getEndDate()));
+            holder.mDateTextView.setText(cycleDates);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -57,16 +59,14 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
 
     public class CycleVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
-        TextView mStartDateTextView;
-        TextView mEndDateTextView;
+        TextView mDateTextView;
         LinearLayout mMainLayout;
 
         public CycleVH(View itemView) {
             super(itemView);
 
             mMainLayout = (LinearLayout) itemView.findViewById(R.id.cycles_list_item_linearLayout_mainLayout);
-            mStartDateTextView = (TextView) itemView.findViewById(R.id.cycles_list_item_textView_startDate);
-            mEndDateTextView = (TextView) itemView.findViewById(R.id.cycles_list_item_textView_endDate);
+            mDateTextView = (TextView) itemView.findViewById(R.id.cycles_list_item_textView);
 
             itemView.setOnClickListener(this);
         }

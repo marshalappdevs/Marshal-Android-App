@@ -48,7 +48,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(COURSES.get(position).getImageUrl())
-                .placeholder(R.drawable.highlights_bottom_overlay)
+//                .placeholder(R.drawable.highlights_bottom_overlay)
 //                .fitCenter()
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);

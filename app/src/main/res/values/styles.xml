@@ -14,9 +14,9 @@
         <item name="android:windowIsTranslucent">true</item>
     </style>
 
-    <style name="AppTheme.Base.Launcher">
+    <style name="AppTheme.Base.Launcher" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:windowBackground">@drawable/launch_screen</item>
-        <item name="colorPrimaryDark">@color/black_trans80</item>
+        <item name="colorPrimaryDark">@color/grey500</item>
     </style>
 
     <style name="TextAppearance.Toolbar.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
@@ -78,11 +78,12 @@
         <item name="android:textStyle">normal</item>
     </style>
 
-    <style name="PlayDetailDescription">
+    <style name="MarshalDetailDescription">
         <item name="android:textSize">14.0sp</item>
         <item name="android:textColor">?android:textColorPrimary</item>
         <item name="android:gravity">start</item>
         <item name="android:lineSpacingExtra">6.0sp</item>
     </style>
 
+    <style name="MarshalMediumPlainText" parent="@android:style/TextAppearance.Medium" />
 </resources>
