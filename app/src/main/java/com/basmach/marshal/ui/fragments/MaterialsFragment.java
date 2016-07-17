@@ -105,6 +105,8 @@ public class MaterialsFragment extends Fragment {
         if(getArguments() != null) {
             String courseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
             if (courseCode != null && !(courseCode.equals(""))) {
+                if (mSearchView != null && !mSearchView.isSearchOpen())
+                    mSearchView.open(false);
                 search(courseCode);
             }
         }
@@ -135,10 +137,6 @@ public class MaterialsFragment extends Fragment {
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filter(query);
-                mSearchView.clearFocus();
-                ((MainActivity)getActivity()).addSearchHistory(query);
-//                if(!mSearchView.isSearchOpen()) mSearchView.open(true);
                 return true;
             }
 
