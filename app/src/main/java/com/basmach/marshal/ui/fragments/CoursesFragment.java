@@ -542,6 +542,13 @@ public class CoursesFragment extends Fragment {
                 return true;
             }
         });
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                mSearchView.setQuery("");
+                return false;
+            }
+        });
     }
 
     @Override

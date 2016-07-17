@@ -683,6 +683,7 @@ public class MainActivity extends AppCompatActivity
                 mNavigationView.setCheckedItem(R.id.nav_materials);
                 mMaterialsFragment = new MaterialsFragment();
             }
+            // Get voice search query
         } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
             List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
             if (results != null && results.size() > 0) {
@@ -800,7 +801,6 @@ public class MainActivity extends AppCompatActivity
             if (currentFragment instanceof CoursesFragment) {
                 // Current fragment is courses fragment, safe check before exiting the app,
                 // back key should be pressed twice in a range of 3 seconds
-                if (mSearchView != null && mSearchView.isSearchOpen()) mSearchView.close(true);
                 long currentTime = System.currentTimeMillis();
                 if (currentTime - lastPress > 3000) {
                     Toast.makeText(this, R.string.confirm_exit, Toast.LENGTH_SHORT).show();
