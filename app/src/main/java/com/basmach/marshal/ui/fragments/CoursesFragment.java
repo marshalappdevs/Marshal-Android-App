@@ -542,13 +542,13 @@ public class CoursesFragment extends Fragment {
                 return true;
             }
         });
-//        // Collapse search view and keyboard together
-//        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                searchItem.collapseActionView();
-//            }
-//        });
+//        // Collapse search view and close keyboard together
+        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                searchItem.collapseActionView();
+            }
+        });
     }
 
     @Override
