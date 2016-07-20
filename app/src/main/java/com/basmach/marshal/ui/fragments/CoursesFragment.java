@@ -6,19 +6,19 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
-import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ScrollingView;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+
+import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.utils.DateHelper;
+import com.lapism.searchview.SearchView;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -26,24 +26,18 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.animation.AlphaAnimation;
-import android.view.animation.Animation;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.ShowAllCoursesActivity;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmach.marshal.ui.utils.AutoScrollViewPager;
 import com.basmach.marshal.ui.utils.InkPageIndicator;
-import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.adapters.ViewPagerAdapter;
-import com.basmach.marshal.utils.DateHelper;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -72,9 +66,7 @@ public class CoursesFragment extends Fragment {
     private InkPageIndicator mInkPageIndicator;
     private AutoScrollViewPager mViewPager;
     private View mViewPagerOverlay;
-    private LinearLayout mViewPagerTitlesLayout;
-    private TextView mViewPagerTitleTextView;
-    private TextView mViewPagerSubtitleTextView;
+    private LinearLayout mViewPagerTitle;
 
     private RecyclerView mRecyclerSoftware;
     private LinearLayoutManager mLinearLayoutManagerSoftware;
@@ -104,8 +96,10 @@ public class CoursesFragment extends Fragment {
     private View mRootView;
 
     private SearchView mSearchView;
+    private TextView mViewPagerTitleTextView;
+    private TextView mViewPagerSubtitleTextView;
 
-     @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
@@ -117,6 +111,8 @@ public class CoursesFragment extends Fragment {
         mSystemCourses = null;
 
         setHasOptionsMenu(true);
+
+        mSearchView = ((MainActivity)getActivity()).getSearchView(true, true);
 
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
@@ -167,7 +163,11 @@ public class CoursesFragment extends Fragment {
                             mViewPagerCourses = MainActivity.sViewPagerCourses;
                         }
 
-                        return mCoursesList.size() > 0;
+                        if (mCoursesList.size() > 0) {
+                            return true;
+                        } else {
+                            return false;
+                        }
                     } catch (Exception e) {
                         e.printStackTrace();
                         return false;
@@ -271,23 +271,23 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
+        mViewPagerTitle = (LinearLayout) mRootView.findViewById(R.id.highlight_overlay_title);
+        mViewPagerTitle.setVisibility(View.VISIBLE);
+        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.li_title);
+        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.li_subtitle);
+        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses,
+                mViewPagerTitleTextView, mViewPagerSubtitleTextView);
         mViewPager.setVisibility(View.VISIBLE);
         mViewPager.setAdapter(mViewPagerAdapter);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
         mInkPageIndicator.setVisibility(View.VISIBLE);
         mViewPagerOverlay = mRootView.findViewById(R.id.gradient_overlay);
         mViewPagerOverlay.setVisibility(View.VISIBLE);
-        mViewPagerTitlesLayout = (LinearLayout) mRootView.findViewById(R.id.highlight_overlay_title);
-        mViewPagerTitlesLayout.setVisibility(View.VISIBLE);
-        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.li_title);
-        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.li_subtitle);
+        mViewPager.setOffscreenPageLimit(5);
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mViewPagerTitleTextView.setVisibility(View.VISIBLE);
                 mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
-                mViewPagerSubtitleTextView.setVisibility(View.VISIBLE);
                 Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
                 String cycleDates = String.format(getString(R.string.course_cycle_format),
                         DateHelper.dateToString(firstCycle.getStartDate()),
@@ -498,56 +498,57 @@ public class CoursesFragment extends Fragment {
 
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-        {
+//        mSearchView = (SearchView) searchItem.getActionView();
+//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+//        mSearchView.setIconifiedByDefault(true);
+//        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
+//        {
+//            @Override
+//            public boolean onSuggestionClick(int position) {
+//                mSearchView.clearFocus();
+//                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+//                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+//                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.content_frame,
+//                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
+//                return true;
+//            }
+//
+//            @Override
+//            public boolean onSuggestionSelect(int position) {
+//                return false;
+//            }
+//        });
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
-            public boolean onSuggestionClick(int position) {
-                mSearchView.clearFocus();
-                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+            public boolean onQueryTextChange(String newText) {
+                // Text has changed, apply filtering?
                 return true;
             }
 
             @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-        });
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
             public boolean onQueryTextSubmit(String query) {
+                // Perform the final search
                 mSearchView.clearFocus();
-                // remove trailing and leading space
-                query = query.trim();
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-                suggestions.saveRecentQuery(query, null);
+//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+//                suggestions.saveRecentQuery(query, null);
+                ((MainActivity)getActivity()).addSearchHistory(query);
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //                if (query.equals("*")) query = "";
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
                         CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
                 return true;
             }
-
+        });
+        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
+            public boolean onMenuItemClick(MenuItem menuItem) {
+                mSearchView.setQuery("");
+                return false;
             }
         });
-//        // Collapse search view and keyboard together
-//        mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
-//            @Override
-//            public void onFocusChange(View view, boolean b) {
-//                searchItem.collapseActionView();
-//            }
-//        });
     }
 
     @Override

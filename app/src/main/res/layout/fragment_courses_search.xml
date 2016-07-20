@@ -2,7 +2,7 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="locale"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/fragment_courses_search_mainFrame">
 
     <android.support.v7.widget.RecyclerView
@@ -18,4 +18,12 @@
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:layout_gravity="center" />
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_filter"
+        app:useCompatPadding="true"
+        android:layout_gravity="bottom|end"
+        android:id="@+id/course_searchable_sort_fab"/>
 </FrameLayout>

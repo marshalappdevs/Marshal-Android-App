@@ -1,12 +1,13 @@
 package com.basmach.marshal.ui.fragments;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.SearchView;
+import com.lapism.searchview.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -41,13 +42,17 @@ public class MaterialsFragment extends Fragment {
     private String mFilterText;
     private TextView mNoResults;
     private MenuItem mSearchMenuItem;
+    public Context mContext;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
 
+        Log.i("Materials","onCreateView");
         setHasOptionsMenu(true);
+
+        mSearchView = ((MainActivity)getActivity()).getSearchView(false, false);
 
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
@@ -57,7 +62,7 @@ public class MaterialsFragment extends Fragment {
         mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
         if (mMaterialsList == null) {
-            if (MainActivity.sMaterialItems == null || (getArguments() != null)) {
+            if (MainActivity.sMaterialItems == null) {
                 MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
                         false, new BackgroundTaskCallBack() {
                             @Override
@@ -102,8 +107,11 @@ public class MaterialsFragment extends Fragment {
             @Override
             public void onClick(String hashTag) {
                 if (mSearchView != null && mSearchMenuItem != null) {
-                    MenuItemCompat.expandActionView(mSearchMenuItem);
-                    mSearchView.setQuery(hashTag, true);
+//                    MenuItemCompat.expandActionView(mSearchMenuItem);
+//                    mSearchView.setQuery(hashTag, true);
+//                    if (!mSearchView.isSearchOpen())
+//                        mSearchView.open(true);
+                    mSearchView.setQuery(hashTag);
                 }
             }
         };
@@ -114,6 +122,8 @@ public class MaterialsFragment extends Fragment {
         if(getArguments() != null) {
             String courseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
             if (courseCode != null && !(courseCode.equals(""))) {
+                if (mSearchView != null && !mSearchView.isSearchOpen())
+                    mSearchView.open(false);
                 search(courseCode);
             }
         }
@@ -139,13 +149,11 @@ public class MaterialsFragment extends Fragment {
 
         // Setup search button
         mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) mSearchMenuItem.getActionView();
-        mSearchView.setIconifiedByDefault(true);
+//        mSearchView = (SearchView) mSearchMenuItem.getActionView();
+//        mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                filter(query);
-                mSearchView.clearFocus();
                 return true;
             }
 
@@ -181,15 +189,15 @@ public class MaterialsFragment extends Fragment {
             mFilterText = filterText.toLowerCase();
             mFilteredMaterialsList = new ArrayList<>();
 
-            for(MaterialItem item:mMaterialsList) {
-                if (item.getTitle() != null && item.getTitle().contains(filterText)) {
-                    mFilteredMaterialsList.add(item);
-                } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {
-                    mFilteredMaterialsList.add(item);
-                } else if (item.getTags() != null && item.getTags().contains(filterText)) {
-                    mFilteredMaterialsList.add(item);
+                for(MaterialItem item:mMaterialsList) {
+                    if (item.getTitle() != null && item.getTitle().contains(filterText)) {
+                       mFilteredMaterialsList.add(item);
+                    } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {
+                        mFilteredMaterialsList.add(item);
+                    } else if (item.getTags() != null && item.getTags().contains(filterText)) {
+                        mFilteredMaterialsList.add(item);
+                    }
                 }
-            }
         }
 
         if (mFilteredMaterialsList.isEmpty()) {
@@ -208,9 +216,26 @@ public class MaterialsFragment extends Fragment {
 
     public void search(String query) {
         if (mSearchView != null && mSearchMenuItem != null) {
-            MenuItemCompat.expandActionView(mSearchMenuItem);
-            mSearchView.setQuery(query, true);
+//            MenuItemCompat.expandActionView(mSearchMenuItem);
+//            mSearchView.setQuery(query, true);
+            mSearchView.setQuery(query);
         }
+    }
+
+    @Override
+    public void onAttach(Context context) {
+        super.onAttach(context);
+        mContext = context;
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+    }
+
+    @Override
+    public void onDetach() {
+        super.onDetach();
     }
 
     public static MaterialsFragment newInstanceWithQuery(String courseCode) {

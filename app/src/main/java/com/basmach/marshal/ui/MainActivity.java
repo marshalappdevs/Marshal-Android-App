@@ -16,15 +16,26 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
+
+import com.basmach.marshal.entities.MalshabItem;
+import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.ui.fragments.MeetupsFragment;
+import com.lapism.searchview.SearchAdapter;
+import com.lapism.searchview.SearchHistoryTable;
+import com.lapism.searchview.SearchItem;
+import com.lapism.searchview.SearchView;
+
+import android.support.v7.app.AppCompatDelegate;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -48,8 +59,6 @@ import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.MalshabItem;
-import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.UpdateServiceListener;
 import com.basmach.marshal.localdb.LocalDBHelper;
 import com.basmach.marshal.receivers.UpdateBroadcastReceiver;
@@ -60,7 +69,6 @@ import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
 import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
-import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
@@ -86,13 +94,14 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
-    //    private static final int REQUEST_CONTACTS = 0;
+//    private static final int REQUEST_CONTACTS = 0;
 //    private static final int REQUEST_CALENDAR = 1;
 //    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
 //            Manifest.permission.WRITE_CALENDAR};
@@ -105,7 +114,7 @@ public class MainActivity extends AppCompatActivity
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
 
     private GoogleApiClient mGoogleApiClient;
-    //    private ProgressDialog mProgressDialog;
+//    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
     private DrawerLayout mDrawerLayout;
     private ActionBarDrawerToggle mDrawerToggle;
@@ -118,7 +127,6 @@ public class MainActivity extends AppCompatActivity
     private ImageView mCoverImageView;
     private Button mButtonRetry;
     private boolean signedIn = false;
-    private MenuItem mSearchItem;
 
     // Fragments
     private CoursesFragment mCourseFragment;
@@ -144,6 +152,8 @@ public class MainActivity extends AppCompatActivity
 
     public static LinearLayout sNewUpdatesButton;
     public static LinearLayout sErrorScreen;
+
+    public SearchHistoryTable mHistoryDatabase;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -172,6 +182,7 @@ public class MainActivity extends AppCompatActivity
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
 
+        initializeSearchView();
         initializeUpdateProgressBar();
 
         MainActivity.sNewUpdatesButton = null;
@@ -208,13 +219,15 @@ public class MainActivity extends AppCompatActivity
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if (mSearchItem != null)
-                    mSearchItem.collapseActionView();
+                if (mSearchView != null && mSearchView.isSearchOpen()) {
+                    mSearchView.close(true);
+                }
             }
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
+
 
         if(mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
@@ -264,6 +277,79 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+    }
+
+    private void initializeSearchView() {
+        mHistoryDatabase = new SearchHistoryTable(this);
+
+        mSearchView = (SearchView) findViewById(R.id.searchView);
+        if (mSearchView != null) {
+            mSearchView.setVersion(SearchView.VERSION_MENU_ITEM);
+            mSearchView.setVersionMargins(SearchView.VERSION_MARGINS_MENU_ITEM);
+            mSearchView.setHint(getResources().getString(R.string.search_title));
+            mSearchView.setTextSize(16);
+            mSearchView.setDivider(false);
+            mSearchView.setVoice(true);
+            mSearchView.setAnimationDuration(SearchView.ANIMATION_DURATION);
+
+            int currentNightMode = getResources().getConfiguration().uiMode
+                    & Configuration.UI_MODE_NIGHT_MASK;
+            switch (currentNightMode) {
+                case Configuration.UI_MODE_NIGHT_NO:
+                    // Night mode is not active, we're in day time
+                    mSearchView.setTheme(SearchView.THEME_LIGHT, true);
+                    break;
+                case Configuration.UI_MODE_NIGHT_YES:
+                    // Night mode is active, we're at night!
+                    mSearchView.setTheme(SearchView.THEME_DARK, true);
+                    break;
+                case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                    // We don't know what mode we're in, assume notnight
+                    mSearchView.setTheme(SearchView.THEME_LIGHT, true);
+                    break;
+            }
+        }
+    }
+
+    public SearchView getSearchView(boolean showSuggestions, boolean showShadow) {
+        if (showSuggestions) {
+            SearchAdapter searchAdapter = getSearchAdapter();
+            mSearchView.setAdapter(searchAdapter);
+        } else {
+            mSearchView.setAdapter(null);
+        }
+
+        if (showShadow) {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, R.color.search_shadow_layout));
+        } else {
+            mSearchView.setShadowColor(ContextCompat.getColor(this, android.R.color.transparent));
+        }
+
+        return mSearchView;
+    }
+
+    public void addSearchHistory(String query) {
+        mHistoryDatabase.addItem(new SearchItem(query));
+    }
+
+    public SearchAdapter getSearchAdapter() {
+        List<SearchItem> suggestionsList = new ArrayList<>();
+        suggestionsList.add(new SearchItem("Android"));
+        suggestionsList.add(new SearchItem("Python"));
+        suggestionsList.add(new SearchItem("Web"));
+
+        SearchAdapter searchAdapter = new SearchAdapter(this, suggestionsList);
+        searchAdapter.setOnItemClickListener(new SearchAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View view, int position) {
+                TextView textView = (TextView) view.findViewById(R.id.textView_item_text);
+                String query = textView.getText().toString();
+                mSearchView.setQuery(query);
+                addSearchHistory(query);
+                // mSearchView.close(false);
+            }
+        });
+        return searchAdapter;
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -509,12 +595,12 @@ public class MainActivity extends AppCompatActivity
                 // There is no internet connection, show error snackbar
                 final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_INDEFINITE);
                 snackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (isConnected()) snackbar.dismiss();
-                        else onReceive(context, intent);
-                    }
-                });
+                            @Override
+                            public void onClick(View v) {
+                                if (isConnected()) snackbar.dismiss();
+                                else onReceive(context, intent);
+                            }
+                        });
                 snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
                 snackbar.setDuration(10000);
                 snackbar.show();
@@ -565,26 +651,26 @@ public class MainActivity extends AppCompatActivity
     @Override
     public void onStart() {
         super.onStart();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
+            OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+            if (opr.isDone()) {
+                // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+                // and the GoogleSignInResult will be available instantly.
+                GoogleSignInResult result = opr.get();
+                handleSignInResult(result);
+            } else {
+                // If the user has not previously signed in on this device or the sign-in has expired,
+                // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+                // single sign-on will occur in this branch.
 //                showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+                opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                    @Override
+                    public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
 //                        hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
+                        handleSignInResult(googleSignInResult);
+                    }
+                });
+            }
         }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -608,7 +694,16 @@ public class MainActivity extends AppCompatActivity
 
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
-                mMaterialsFragment = new MaterialsFragment();
+//                mMaterialsFragment = new MaterialsFragment();
+            }
+            // Get voice search query
+        } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
+            List<String> results = data.getStringArrayListExtra(RecognizerIntent.EXTRA_RESULTS);
+            if (results != null && results.size() > 0) {
+                String searchWrd = results.get(0);
+                if (!TextUtils.isEmpty(searchWrd)) {
+                    mSearchView.setQuery(searchWrd);
+                }
             }
         }
     }
@@ -711,6 +806,8 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerLayout.isDrawerOpen(GravityCompat.START)) {
             // If navigation view is opened, close it
             mDrawerLayout.closeDrawer(GravityCompat.START);
+//        } else if (mSearchView != null && mSearchView.isSearchOpen()) {
+//            mSearchView.close(true);
         } else {
             // Navigation view is closed, check if current fragment is course fragment, and change to it if it's not
             Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
@@ -726,6 +823,7 @@ public class MainActivity extends AppCompatActivity
                 }
             } else {
                 // Current fragment is not courses fragment, change back to it before exit
+//                if (mSearchView != null) mSearchView.close(true);
                 mNavigationView.setNavigationItemSelectedListener(this);
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                 mNavigationView.setCheckedItem(R.id.nav_courses);
@@ -740,20 +838,20 @@ public class MainActivity extends AppCompatActivity
             new AlertDialog.Builder(this)
                     .setMessage(R.string.sign_out_confirm)
                     .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            revokeAccess();
-                            MainActivity.sUserEmailAddress = null;
-                            recreate();
-                        }
-                    })
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                                revokeAccess();
+                                MainActivity.sUserEmailAddress = null;
+                                recreate();
+                            }
+                        })
                     .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
                     .show();
         } else {
             // Google account is disconnected, initialize Google SignIn
@@ -789,26 +887,15 @@ public class MainActivity extends AppCompatActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        mSearchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
-
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Text has changed, apply filtering?
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Perform the final search
-                mSearchView.clearFocus();
-                String searchResult = String.format(getString(R.string.search_result), query);
-                Toast.makeText(getApplicationContext(), searchResult, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
+        // Workaround to get suggestions on first searchview open
+        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+//        searchItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(MenuItem menuItem) {
+//                if (mSearchView != null) mSearchView.setQuery("");
+//                return false;
+//            }
+//        });
         MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
@@ -840,6 +927,7 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.menu_main_searchView) {
+            mSearchView.open(true);
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -927,7 +1015,6 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
 //            // Provide an additional rationale to the user if the permission was not granted

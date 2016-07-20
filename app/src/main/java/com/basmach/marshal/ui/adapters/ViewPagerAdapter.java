@@ -5,26 +5,42 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Parcelable;
 import android.preference.PreferenceManager;
+import android.support.v4.view.LayoutInflaterCompat;
 import android.support.v4.view.PagerAdapter;
+import android.support.v4.view.ViewPager;
+import android.util.Log;
+import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
+import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;
+import com.basmach.marshal.utils.DateHelper;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
 
 public class ViewPagerAdapter extends PagerAdapter {
+
+    private TextView subtitleTv;
+    private TextView titleTv;
     Context context;
     private ArrayList<Course> COURSES = new ArrayList<>();
 
-    public ViewPagerAdapter(Context context, ArrayList<Course> COURSES) {
+    public ViewPagerAdapter(Context context, ArrayList<Course> COURSES, TextView titleTV, TextView subtitleTV) {
         this.COURSES = COURSES;
         this.context=context;
+        this.titleTv = titleTV;
+        this.subtitleTv = subtitleTV;
     }
 
     @Override
@@ -48,8 +64,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(COURSES.get(position).getImageUrl())
-//                .placeholder(R.drawable.highlights_bottom_overlay)
-//                .fitCenter()
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);
@@ -72,4 +86,6 @@ public class ViewPagerAdapter extends PagerAdapter {
     public void destroyItem(ViewGroup container, int position, Object object) {
         container.removeView((ImageView) object);
     }
+
+
 }
