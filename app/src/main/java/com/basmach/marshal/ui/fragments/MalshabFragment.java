@@ -12,6 +12,7 @@ import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MalshabItem;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.MalshabCoursesAdapter;
 
 import java.util.ArrayList;
@@ -19,7 +20,7 @@ import java.util.List;
 
 public class MalshabFragment extends Fragment {
 
-    List<MalshabItem> mMalshabItems;
+    ArrayList<MalshabItem> mMalshabItems;
     MalshabCoursesAdapter mAdapter;
 
     GridView mGridView;
@@ -33,24 +34,34 @@ public class MalshabFragment extends Fragment {
         mGridView = (GridView)rootView.findViewById(R.id.gridview);
 
         if (mMalshabItems == null) {
-            MalshabItem.getAllInBackground(DBConstants.COL_TITLE, MalshabItem.class, getActivity(),
-                    true, new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            if (data != null) {
-                                mMalshabItems = (List)data;
-                            } else {
-                                mMalshabItems = new ArrayList<>();
+            if (MainActivity.sMalshabItems == null) {
+                MalshabItem.getAllInBackground(DBConstants.COL_TITLE, MalshabItem.class, getActivity(),
+                        true, new BackgroundTaskCallBack() {
+                            @Override
+                            public void onSuccess(String result, List<Object> data) {
+                                if (data != null) {
+                                    try {
+                                        mMalshabItems = (ArrayList)data;
+                                        MainActivity.sMalshabItems = mMalshabItems;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        mMalshabItems = new ArrayList<>();
+                                    }
+                                } else {
+                                    mMalshabItems = new ArrayList<>();
+                                }
+
+                                showData();
                             }
 
-                            showData();
-                        }
+                            @Override
+                            public void onError(String error) {
 
-                        @Override
-                        public void onError(String error) {
-
-                        }
-                    });
+                            }
+                        });
+            } else {
+                mMalshabItems = new ArrayList<>(MainActivity.sMalshabItems);
+            }
         } else {
             showData();
         }

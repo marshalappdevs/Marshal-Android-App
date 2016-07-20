@@ -3,16 +3,18 @@ package com.basmach.marshal.ui.fragments;
 import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import com.basmach.marshal.ui.MainActivity;
-import com.lapism.searchview.SearchView;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -28,15 +30,13 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
-import com.basmach.marshal.localdb.DBConstants;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
+import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 import java.util.Locale;
 
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
@@ -45,11 +45,11 @@ public class CoursesSearchableFragment extends Fragment {
 
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
-    private static final String EXTRA_IS_MEETUPS = "extra_is_meetups";
     private static final String FILTER_SHOWCASE_ID = "filter_tutorial";
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
+    private DrawerLayout mDrawerLayout;
     private LinearLayoutManager mLayoutManager;
     private CoursesSearchRecyclerAdapter mAdapter;
 
@@ -59,19 +59,16 @@ public class CoursesSearchableFragment extends Fragment {
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
-    private boolean mIsMeetups;
     private Calendar mCalendar;
     private String mTempStartDate;
     private String mTempEndDate;
     private long tempStartDate = 0;
     private boolean isEmptyResult = false;
 
-    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses,
-                                                        boolean isMeetups) {
+    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
         bundle.putString(EXTRA_SEARCH_QUERY,query);
         bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
-        bundle.putBoolean(EXTRA_IS_MEETUPS, isMeetups);
         CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
         coursesSearchableFragment.setArguments(bundle);
         return coursesSearchableFragment;
@@ -84,75 +81,30 @@ public class CoursesSearchableFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
+        mNoResults = (TextView) rootView.findViewById(R.id.fragment_courses_search_no_results);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
-        mIsMeetups = getArguments().getBoolean(EXTRA_IS_MEETUPS);
+        if (mCoursesList != null)
+            mFilteredCourseList = new ArrayList<>(mCoursesList);
+        else
+            mFilteredCourseList = new ArrayList<>();
 
-        if (mIsMeetups) {
-            mSearchView = ((MainActivity) getActivity()).getSearchView(false, false);
-        } else {
-            mSearchView = ((MainActivity) getActivity()).getSearchView(true, true);
-        }
+        if (mAdapter == null)
+            mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
 
-        if (!mIsMeetups) {
+        if (mRecycler.getAdapter() == null)
+            mRecycler.setAdapter(mAdapter);
 
-            if (mCoursesList != null)
-                mFilteredCourseList = new ArrayList<>(mCoursesList);
-            else
-                mFilteredCourseList = new ArrayList<>();
-
-            if (mAdapter == null)
-                mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
-
-            if (mRecycler.getAdapter() == null)
-                mRecycler.setAdapter(mAdapter);
-        } else {
-            if (mAdapter == null) {
-                if (mFilteredCourseList == null) {
-                    mFilteredCourseList = new ArrayList<>();
-                    mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
-                }
-            }
-
-            if (mRecycler.getAdapter() == null)
-                mRecycler.setAdapter(mAdapter);
-
-            if (mCoursesList == null) {
-                Course.getByColumnInBackground(true, DBConstants.COL_IS_MEETUP, true, DBConstants.COL_ID,
-                        getActivity(), Course.class, new BackgroundTaskCallBack() {
-                            @Override
-                            public void onSuccess(String result, List<Object> data) {
-                                if (data != null && data.size() > 0) {
-                                    mCoursesList = new ArrayList<>((List)data);
-                                } else {
-                                    mCoursesList = new ArrayList<>();
-                                }
-
-                                filter("");
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                mCoursesList = new ArrayList<>();
-                                filter("");
-                            }
-                        });
-            }
-        }
-
-        if (mIsMeetups) {
-            getActivity().setTitle(R.string.navigation_drawer_meetups);
-        } else {
-            getActivity().setTitle(R.string.search_title);
-        }
+        getActivity().setTitle(R.string.search_title);
 
         new Handler().post(new Runnable() {
             @Override
@@ -183,7 +135,8 @@ public class CoursesSearchableFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mSearchView.close(false);
+        // Release navigation view lock
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     @Override
@@ -199,8 +152,7 @@ public class CoursesSearchableFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup filter button
-        if (!mIsMeetups)
-            menu.findItem(R.id.menu_main_filter).setVisible(true);
+        menu.findItem(R.id.menu_main_filter).setVisible(true);
 
         MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -217,30 +169,29 @@ public class CoursesSearchableFragment extends Fragment {
 
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-//        mSearchView = (SearchView) searchItem.getActionView();
-//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        mSearchView.setIconifiedByDefault(true);
-//        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-//        {
-//            @Override
-//            public boolean onSuggestionClick(int position) {
-//                String suggestion = getSuggestion(position);
-//                mSearchView.setQuery(suggestion, true);
-//                mSearchView.clearFocus();
-//                return true;
-//            }
-//
-//            private String getSuggestion(int position) {
-//                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-//                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-//            }
-//
-//            @Override
-//            public boolean onSuggestionSelect(int position) {
-//                return false;
-//            }
-//        });
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                String suggestion = getSuggestion(position);
+                mSearchView.setQuery(suggestion, true);
+                mSearchView.clearFocus();
+                return true;
+            }
+
+            private String getSuggestion(int position) {
+                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                    return false;
+                }
+        });
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -248,59 +199,32 @@ public class CoursesSearchableFragment extends Fragment {
                 mFilterText = query;
                 filter(query);
                 mSearchView.clearFocus();
-//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-//                suggestions.saveRecentQuery(query, null);
-                ((MainActivity)getActivity()).addSearchHistory(query);
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query, null);
                 return true;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                if (mIsMeetups) {
-                    mFilterText = newText;
-                    filter(newText);
-                }
                 return true;
             }
         });
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        getActivity().onBackPressed();
+                        return true; // Return true to collapse action view
+                    }
 
-        mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-            @Override
-            public void onClose() {
-                if (!mIsMeetups) {
-                    getActivity().onBackPressed();
-                    mSearchView.setOnOpenCloseListener(null);
-                }
-            }
-
-            @Override
-            public void onOpen() {
-
-            }
-        });
-
-//        MenuItemCompat.setOnActionExpandListener(searchItem,
-//                new MenuItemCompat.OnActionExpandListener() {
-//                    @Override
-//                    public boolean onMenuItemActionCollapse(MenuItem item) {
-//                        if (!mIsMeetups) {
-//                            getActivity().onBackPressed();
-//                        }
-//                        return true; // Return true to collapse action view
-//                    }
-//
-//                    @Override
-//                    public boolean onMenuItemActionExpand(MenuItem item) {
-//                        return true; // Return true to expand action view
-//                    }
-//                });
-        if (!mIsMeetups) {
-//            mSearchView.open(true);
-//            MenuItemCompat.expandActionView(searchItem);
-//            mSearchView.setQuery(mSearchQuery,true);
-            mSearchView.setQuery(mSearchQuery);
-        }
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true; // Return true to expand action view
+                    }
+                });
+            MenuItemCompat.expandActionView(searchItem);
+            mSearchView.setQuery(mSearchQuery,true);
     }
 
     public void showFilterByDateDialog() {
@@ -368,8 +292,7 @@ public class CoursesSearchableFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDate, mCalendar
-                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
-                        mCalendar.get(Calendar.DAY_OF_MONTH));
+                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
                 if (tempStartDate != 0) {
                     datePickerDialog.getDatePicker().setMinDate(tempStartDate);
                 } else {
@@ -496,28 +419,6 @@ public class CoursesSearchableFragment extends Fragment {
 
     private boolean isHasCycle(Course course, String filterText) {
 
-//        filterText = filterText.replace(".","/");
-//
-//        int slashIndex = 0;
-//
-//        slashIndex = filterText.substring(slashIndex, filterText.length()).indexOf("/");
-//        if (slashIndex > -1) {
-//            if(!(filterText.substring(slashIndex + 1 ,slashIndex + 2).equals("0"))) {
-//                filterText = filterText.substring(0, slashIndex + 1) + "0" + filterText.substring(slashIndex + 1, filterText.length());
-//            }
-//        }
-//
-//        if (course.getCycles() == null || course.getCycles().size() == 0) {
-//            return false;
-//        } else {
-//            for (Cycle cycle : course.getCycles()) {
-//                if(DateHelper.dateToString(cycle.getStartDate()).contains(filterText) ||
-//                        DateHelper.dateToString(cycle.getEndDate()).contains(filterText)) {
-//                    return true;
-//                }
-//            }
-//        }
-
         if (course.getCycles() == null || course.getCycles().size() == 0) {
             return false;
         } else {
@@ -539,10 +440,6 @@ public class CoursesSearchableFragment extends Fragment {
 
         if(textParts.length == 1) {
             try {
-//                if(DateHelper.dateToString(cycle.getStartDate()).contains(text) ||
-//                        DateHelper.dateToString(cycle.getEndDate()).contains(text)) {
-//                    return true;
-//                }
                 Calendar startCalendar, endCalendar;
                 int searchNumber, startDay, endDay, startMonth, endMonth;
                 searchNumber = Integer.valueOf(text);

@@ -10,7 +10,7 @@ android {
         }
     }
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.basmach.marshal"
         minSdkVersion 19
@@ -54,7 +54,6 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
-    compile 'com.lapism:searchview:3.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

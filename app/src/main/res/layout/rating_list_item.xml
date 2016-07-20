@@ -21,8 +21,7 @@
             android:rating="0"
             style="?android:attr/ratingBarStyleSmall"
             android:theme="@style/Course.RatingBar"
-            android:layout_gravity="start|top"
-            android:layoutDirection="ltr"/>
+            android:layout_gravity="start|top" />
 
         <TextView
             android:id="@+id/rating_list_item_textView_lastModifiedDate"

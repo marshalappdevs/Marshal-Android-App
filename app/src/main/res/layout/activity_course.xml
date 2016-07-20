@@ -5,6 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layoutDirection="locale"
     android:fitsSystemWindows="true"
     tools:context="com.basmach.marshal.ui.CourseActivity"
     android:id="@+id/course_activity_coordinatorLayout">
@@ -22,7 +23,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMargin="16dp"
+            app:expandedTitleMarginEnd="76.0dip"
+            app:expandedTitleMarginBottom="16.0dip"
             app:expandedTitleTextAppearance="@style/TextAppearance.Expanded.Toolbar.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 

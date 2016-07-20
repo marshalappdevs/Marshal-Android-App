@@ -6,7 +6,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import com.lapism.searchview.SearchView;
+import android.support.v7.widget.SearchView;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -37,7 +37,7 @@ public class MaterialsFragment extends Fragment {
     private LinearLayoutManager mLayoutManager;
     private MaterialsRecyclerAdapter mAdapter;
     private ArrayList<MaterialItem> mMaterialsList;
-    private ArrayList<MaterialItem> mFilteredMaterilsList;
+    private ArrayList<MaterialItem> mFilteredMaterialsList;
     private String mFilterText;
     private TextView mNoResults;
     private MenuItem mSearchMenuItem;
@@ -49,37 +49,46 @@ public class MaterialsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mSearchView = ((MainActivity)getActivity()).getSearchView(false, false);
-
         mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mNoResults = (TextView) rootView.findViewById(R.id.no_results);
+        mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
         if (mMaterialsList == null) {
-            MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                    false, new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            mMaterialsList = new ArrayList<>();
-                            for(Object item:data) {
-                                mMaterialsList.add((MaterialItem)item);
-
+            if (MainActivity.sMaterialItems == null || (getArguments() != null)) {
+                MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+                        false, new BackgroundTaskCallBack() {
+                            @Override
+                            public void onSuccess(String result, List<Object> data) {
+                                if (data != null) {
+                                    try {
+                                        mMaterialsList = (ArrayList)data;
+                                        MainActivity.sMaterialItems = mMaterialsList;
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        mMaterialsList = new ArrayList<>();
+                                    }
+                                } else {
+                                    mMaterialsList = new ArrayList<>();
+                                }
+                                showData();
                             }
-                            showData();
-                        }
 
-                        @Override
-                        public void onError(String error) {
-                            if (error != null) {
-                                Log.e("GET MATERIALS "," ERROR:\n" + error);
-                            } else {
-                                Log.e("GET MATERIALS "," ERROR");
+                            @Override
+                            public void onError(String error) {
+                                if (error != null) {
+                                    Log.e("GET MATERIALS "," ERROR:\n" + error);
+                                } else {
+                                    Log.e("GET MATERIALS "," ERROR");
+                                }
                             }
-                        }
-                    });
+                        });
+            } else {
+                mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
+                showData();
+            }
         } else {
             showData();
         }
@@ -88,19 +97,18 @@ public class MaterialsFragment extends Fragment {
     }
 
     private void showData() {
-        mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
+        mFilteredMaterialsList = new ArrayList<>(mMaterialsList);
         OnHashTagClickListener onHashTagClickListener = new OnHashTagClickListener() {
             @Override
             public void onClick(String hashTag) {
                 if (mSearchView != null && mSearchMenuItem != null) {
                     MenuItemCompat.expandActionView(mSearchMenuItem);
-//                    mSearchView.setQuery(hashTag, true);
-                    mSearchView.setQuery(hashTag);
+                    mSearchView.setQuery(hashTag, true);
                 }
             }
         };
 
-        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterilsList, onHashTagClickListener);
+        mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterialsList, onHashTagClickListener);
         mRecycler.setAdapter(mAdapter);
 
         if(getArguments() != null) {
@@ -131,14 +139,13 @@ public class MaterialsFragment extends Fragment {
 
         // Setup search button
         mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
-//        mSearchView = (SearchView) mSearchMenuItem.getActionView();
-//        mSearchView.setIconifiedByDefault(true);
+        mSearchView = (SearchView) mSearchMenuItem.getActionView();
+        mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
                 filter(query);
                 mSearchView.clearFocus();
-                ((MainActivity)getActivity()).addSearchHistory(query);
                 return true;
             }
 
@@ -165,27 +172,27 @@ public class MaterialsFragment extends Fragment {
 
     private void filter(String filterText) {
         if (filterText == null) {
-            mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
+            mFilteredMaterialsList = new ArrayList<>(mMaterialsList);
             mAdapter.setIsDataFiltered(false);
         } else if (filterText.equals("")) {
-            mFilteredMaterilsList = new ArrayList<>(mMaterialsList);
+            mFilteredMaterialsList = new ArrayList<>(mMaterialsList);
             mAdapter.setIsDataFiltered(false);
         } else {
             mFilterText = filterText.toLowerCase();
-            mFilteredMaterilsList = new ArrayList<>();
+            mFilteredMaterialsList = new ArrayList<>();
 
-                for(MaterialItem item:mMaterialsList) {
-                    if (item.getTitle() != null && item.getTitle().contains(filterText)) {
-                       mFilteredMaterilsList.add(item);
-                    } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {
-                        mFilteredMaterilsList.add(item);
-                    } else if (item.getTags() != null && item.getTags().contains(filterText)) {
-                        mFilteredMaterilsList.add(item);
-                    }
+            for(MaterialItem item:mMaterialsList) {
+                if (item.getTitle() != null && item.getTitle().contains(filterText)) {
+                    mFilteredMaterialsList.add(item);
+                } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {
+                    mFilteredMaterialsList.add(item);
+                } else if (item.getTags() != null && item.getTags().contains(filterText)) {
+                    mFilteredMaterialsList.add(item);
                 }
+            }
         }
 
-        if (mFilteredMaterilsList.isEmpty()) {
+        if (mFilteredMaterialsList.isEmpty()) {
             String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
@@ -195,15 +202,14 @@ public class MaterialsFragment extends Fragment {
         }
 
         mAdapter.setIsDataFiltered(true);
-        mAdapter.animateTo(mFilteredMaterilsList);
+        mAdapter.animateTo(mFilteredMaterialsList);
         mRecycler.scrollToPosition(0);
     }
 
     public void search(String query) {
         if (mSearchView != null && mSearchMenuItem != null) {
             MenuItemCompat.expandActionView(mSearchMenuItem);
-//            mSearchView.setQuery(query, true);
-            mSearchView.setQuery(query);
+            mSearchView.setQuery(query, true);
         }
     }
 
