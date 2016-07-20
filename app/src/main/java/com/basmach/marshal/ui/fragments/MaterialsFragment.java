@@ -57,7 +57,7 @@ public class MaterialsFragment extends Fragment {
         mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
         if (mMaterialsList == null) {
-            if (MainActivity.sMaterialItems == null || (getArguments() != null)) {
+            if (MainActivity.sMaterialItems == null) {
                 MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
                         false, new BackgroundTaskCallBack() {
                             @Override
@@ -168,6 +168,10 @@ public class MaterialsFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
+
+        if (mMaterialsList != null) {
+            showData();
+        }
     }
 
     private void filter(String filterText) {
