@@ -3,17 +3,18 @@ package com.basmach.marshal.ui.fragments;
 import android.app.DatePickerDialog;
 import android.app.SearchManager;
 import android.content.Context;
+import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.FloatingActionButton;
+import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-
-import com.basmach.marshal.ui.MainActivity;
-import com.lapism.searchview.SearchView;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -29,9 +30,8 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
-import com.basmach.marshal.localdb.DBConstants;
-import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
+import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.utils.DateHelper;
 
 import java.text.SimpleDateFormat;
@@ -49,9 +49,9 @@ public class CoursesSearchableFragment extends Fragment {
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
+    private DrawerLayout mDrawerLayout;
     private LinearLayoutManager mLayoutManager;
     private CoursesSearchRecyclerAdapter mAdapter;
-    private FloatingActionButton mFabSorting;
 
     private ArrayList<Course> mCoursesList;
     private ArrayList<Course> mFilteredCourseList;
@@ -81,31 +81,17 @@ public class CoursesSearchableFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        mFabSorting = (FloatingActionButton) rootView.findViewById(R.id.course_searchable_sort_fab);
-
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_courses_search_no_results);
 
         mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
-
-        mFabSorting.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (!isEmptyResult)
-                    showFilterByDateDialog();
-                else {
-                    Toast.makeText(getActivity(), R.string.filter_not_available, Toast.LENGTH_SHORT).show();
-                }
-            }
-        });
-
-        mSearchView = ((MainActivity) getActivity()).getSearchView(true, true);
-        mFabSorting.setVisibility(View.VISIBLE);
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -149,7 +135,8 @@ public class CoursesSearchableFragment extends Fragment {
     @Override
     public void onDetach() {
         super.onDetach();
-        mSearchView.close(false);
+        // Release navigation view lock
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     @Override
@@ -182,30 +169,29 @@ public class CoursesSearchableFragment extends Fragment {
 
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-//        mSearchView = (SearchView) searchItem.getActionView();
-//        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-//        mSearchView.setIconifiedByDefault(true);
-//        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-//        {
-//            @Override
-//            public boolean onSuggestionClick(int position) {
-//                String suggestion = getSuggestion(position);
-//                mSearchView.setQuery(suggestion, true);
-//                mSearchView.clearFocus();
-//                return true;
-//            }
-//
-//            private String getSuggestion(int position) {
-//                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-//                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-//            }
-//
-//            @Override
-//            public boolean onSuggestionSelect(int position) {
-//                return false;
-//            }
-//        });
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
+        mSearchView.setIconifiedByDefault(true);
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                String suggestion = getSuggestion(position);
+                mSearchView.setQuery(suggestion, true);
+                mSearchView.clearFocus();
+                return true;
+            }
+
+            private String getSuggestion(int position) {
+                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
+                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                    return false;
+                }
+        });
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
@@ -213,10 +199,9 @@ public class CoursesSearchableFragment extends Fragment {
                 mFilterText = query;
                 filter(query);
                 mSearchView.clearFocus();
-//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-//                suggestions.saveRecentQuery(query, null);
-                ((MainActivity)getActivity()).addSearchHistory(query);
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
+                suggestions.saveRecentQuery(query, null);
                 return true;
             }
 
@@ -225,38 +210,21 @@ public class CoursesSearchableFragment extends Fragment {
                 return true;
             }
         });
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        getActivity().onBackPressed();
+                        return true; // Return true to collapse action view
+                    }
 
-//        mSearchView.setOnOpenCloseListener(new SearchView.OnOpenCloseListener() {
-//            @Override
-//            public void onClose() {
-//                mSearchView.setOnOpenCloseListener(null);
-//            }
-//
-//            @Override
-//            public void onOpen() {
-//
-//            }
-//        });
-
-//        MenuItemCompat.setOnActionExpandListener(searchItem,
-//                new MenuItemCompat.OnActionExpandListener() {
-//                    @Override
-//                    public boolean onMenuItemActionCollapse(MenuItem item) {
-//                        if (!mIsMeetups) {
-//                            getActivity().onBackPressed();
-//                        }
-//                        return true; // Return true to collapse action view
-//                    }
-//
-//                    @Override
-//                    public boolean onMenuItemActionExpand(MenuItem item) {
-//                        return true; // Return true to expand action view
-//                    }
-//                });
-//            mSearchView.open(true);
-//            MenuItemCompat.expandActionView(searchItem);
-//            mSearchView.setQuery(mSearchQuery,true);
-        mSearchView.setQuery(mSearchQuery);
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true; // Return true to expand action view
+                    }
+                });
+            MenuItemCompat.expandActionView(searchItem);
+            mSearchView.setQuery(mSearchQuery,true);
     }
 
     public void showFilterByDateDialog() {
@@ -324,8 +292,7 @@ public class CoursesSearchableFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDate, mCalendar
-                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH),
-                        mCalendar.get(Calendar.DAY_OF_MONTH));
+                        .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
                 if (tempStartDate != 0) {
                     datePickerDialog.getDatePicker().setMinDate(tempStartDate);
                 } else {

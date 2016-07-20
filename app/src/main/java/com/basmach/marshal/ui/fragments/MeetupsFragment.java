@@ -1,13 +1,12 @@
 package com.basmach.marshal.ui.fragments;
 
-import android.app.SearchManager;
-import android.content.Context;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.SearchView;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
@@ -25,7 +23,6 @@ import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
-import com.lapism.searchview.SearchView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -58,8 +55,6 @@ public class MeetupsFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-
-        mSearchView = ((MainActivity) getActivity()).getSearchView(false, false);
 
         if (mAdapter == null) {
             if (mFilteredMeetupsList == null) {
@@ -107,12 +102,6 @@ public class MeetupsFragment extends Fragment {
     }
 
     @Override
-    public void onDetach() {
-        super.onDetach();
-        mSearchView.close(false);
-    }
-
-    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         setHasOptionsMenu(true);
@@ -123,16 +112,17 @@ public class MeetupsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+
+        // Setup search button
+        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchView.setIconifiedByDefault(true);
+
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                mFilterText = query;
                 filter(query);
                 mSearchView.clearFocus();
-//                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-//                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-//                suggestions.saveRecentQuery(query, null);
-                ((MainActivity)getActivity()).addSearchHistory(query);
                 return true;
             }
 
@@ -143,6 +133,19 @@ public class MeetupsFragment extends Fragment {
                 return true;
             }
         });
+        MenuItemCompat.setOnActionExpandListener(searchItem,
+                new MenuItemCompat.OnActionExpandListener() {
+                    @Override
+                    public boolean onMenuItemActionCollapse(MenuItem item) {
+                        filter(null);
+                        return true; // Return true to collapse action view
+                    }
+
+                    @Override
+                    public boolean onMenuItemActionExpand(MenuItem item) {
+                        return true; // Return true to expand action view
+                    }
+                });
     }
 
     private void filter(String filterText) {
