@@ -281,14 +281,14 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course photo
             mHeader = (ImageView) findViewById(R.id.header);
 
-            mHeader.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (mCourse.getName() != null && !(mCourse.getName().equals(""))) {
-                        Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+//            mHeader.setOnClickListener(new View.OnClickListener() {
+//                @Override
+//                public void onClick(View view) {
+//                    if (mCourse.getName() != null && !(mCourse.getName().equals(""))) {
+//                        Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
+//                    }
+//                }
+//            });
 
             Glide.with(this)
                     .load(mCourse.getImageUrl())
