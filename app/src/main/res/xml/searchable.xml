@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <searchable xmlns:android="http://schemas.android.com/apk/res/android"
     android:label="@string/search_title"
-    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer"
     android:searchSuggestAuthority="com.basmach.marshal.SuggestionProvider"
     android:searchSuggestSelection=" ?"
     android:imeOptions="actionSearch"

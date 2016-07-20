@@ -167,6 +167,8 @@ public class CoursesFragment extends Fragment {
                             mViewPagerCourses = MainActivity.sViewPagerCourses;
                         }
 
+                        filterData();
+
                         return mCoursesList.size() > 0;
                     } catch (Exception e) {
                         e.printStackTrace();
@@ -178,7 +180,6 @@ public class CoursesFragment extends Fragment {
                 protected void onPostExecute(Boolean result) {
                     super.onPostExecute(result);
                     if (result) {
-                        filterData();
                         showImagesViewPager();
                         showData();
                         initializeTutorial();

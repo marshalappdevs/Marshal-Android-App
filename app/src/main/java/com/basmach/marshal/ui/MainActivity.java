@@ -358,20 +358,20 @@ public class MainActivity extends AppCompatActivity
         mUpdateProgressDialog.setProgress(0);
     }
 
-    // TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
-    @Override
-    protected void onNewIntent(Intent intent) {
-        // Get voice search query and pass it to CoursesSearchableFragment
-        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-            String query = intent.getStringExtra(SearchManager.QUERY);
-            if(!isFinishing()) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
-                        .commitAllowingStateLoss();
-            }
-        }
-    }
+//    // TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        // Get voice search query and pass it to CoursesSearchableFragment
+//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
+//            String query = intent.getStringExtra(SearchManager.QUERY);
+//            if(!isFinishing()) {
+//                FragmentManager fragmentManager = getSupportFragmentManager();
+//                fragmentManager.beginTransaction().replace(R.id.content_frame,
+//                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
+//                        .commitAllowingStateLoss();
+//            }
+//        }
+//    }
 
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
