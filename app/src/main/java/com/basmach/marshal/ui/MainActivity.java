@@ -20,11 +20,15 @@ import android.speech.RecognizerIntent;
 import android.support.annotation.NonNull;
 import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 
+import com.basmach.marshal.entities.MalshabItem;
+import com.basmach.marshal.entities.MaterialItem;
+import com.basmach.marshal.ui.fragments.MeetupsFragment;
 import com.lapism.searchview.SearchAdapter;
 import com.lapism.searchview.SearchHistoryTable;
 import com.lapism.searchview.SearchItem;
@@ -128,7 +132,7 @@ public class MainActivity extends AppCompatActivity
     private CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
-    private CoursesSearchableFragment mMeetupsFragment;
+    private MeetupsFragment mMeetupsFragment;
 
     private UpdateBroadcastReceiver updateReceiver;
 
@@ -138,6 +142,9 @@ public class MainActivity extends AppCompatActivity
 
     public static ArrayList<Course> sAllCourses;
     public static ArrayList<Course> sViewPagerCourses;
+    public static ArrayList<Course> sMeetups;
+    public static ArrayList<MaterialItem> sMaterialItems;
+    public static ArrayList<MalshabItem> sMalshabItems;
 
     public static String sUserEmailAddress;
     public static String sUserName;
@@ -365,8 +372,7 @@ public class MainActivity extends AppCompatActivity
         MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                MainActivity.sAllCourses = null;
-                MainActivity.sViewPagerCourses = null;
+                releaseAllDataLists();
 
                 // Show out animation and dismiss button
                 animateNewUpdatesButton(View.INVISIBLE);
@@ -447,7 +453,7 @@ public class MainActivity extends AppCompatActivity
             if(!isFinishing()) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList, false))
+                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
                         .commitAllowingStateLoss();
             }
         }
@@ -464,8 +470,7 @@ public class MainActivity extends AppCompatActivity
         // Change shared preference value to false so next startup will not be called as first
         mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
         // Restart app fragments, set course fragment as default and dismiss error screen
-        MainActivity.sAllCourses = null;
-        MainActivity.sViewPagerCourses = null;
+        releaseAllDataLists();
         mCourseFragment = null;
         mMaterialsFragment = null;
         mMalshabFragment = null;
@@ -473,6 +478,14 @@ public class MainActivity extends AppCompatActivity
         setErrorScreenVisibility(View.GONE);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
         mNavigationView.setCheckedItem(R.id.nav_courses);
+    }
+
+    private void releaseAllDataLists() {
+        sAllCourses = null;
+        sViewPagerCourses = null;
+        sMeetups = null;
+        sMaterialItems = null;
+        sMalshabItems = null;
     }
 
     @Override
@@ -681,7 +694,7 @@ public class MainActivity extends AppCompatActivity
 
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
-                mMaterialsFragment = new MaterialsFragment();
+//                mMaterialsFragment = new MaterialsFragment();
             }
             // Get voice search query
         } else if (requestCode == SearchView.SPEECH_REQUEST_CODE && resultCode == RESULT_OK) {
@@ -945,7 +958,7 @@ public class MainActivity extends AppCompatActivity
 //                requestCalendarPermission();
 //            }
             if (mMeetupsFragment == null)
-                mMeetupsFragment = CoursesSearchableFragment.newInstance("", null, true);
+                mMeetupsFragment = new MeetupsFragment();
 
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
             setTitle(item.getTitle());
@@ -1002,7 +1015,6 @@ public class MainActivity extends AppCompatActivity
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
 //    private void requestContactsPermission() {
 //        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
 //            // Provide an additional rationale to the user if the permission was not granted

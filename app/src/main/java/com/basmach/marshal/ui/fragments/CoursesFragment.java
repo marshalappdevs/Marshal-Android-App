@@ -538,7 +538,7 @@ public class CoursesFragment extends Fragment {
                 FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
 //                if (query.equals("*")) query = "";
                 fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList, false)).commit();
+                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
                 return true;
             }
         });

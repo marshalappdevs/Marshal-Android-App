@@ -11,7 +11,7 @@
         android:id="@+id/materials_recyclerView" />
 
     <TextView
-        android:id="@+id/no_results"
+        android:id="@+id/materials_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"

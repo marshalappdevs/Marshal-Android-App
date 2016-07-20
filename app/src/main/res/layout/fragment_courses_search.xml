@@ -13,7 +13,7 @@
         android:id="@+id/fragment_courses_search_recyclerView" />
 
     <TextView
-        android:id="@+id/no_results"
+        android:id="@+id/fragment_courses_search_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
