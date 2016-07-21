@@ -41,6 +41,7 @@ public class CourseMaterialsActivity extends AppCompatActivity {
         });
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(getIntent().getStringExtra(MainActivity.EXTRA_COURSE_CODE));
         mCourseCode = getIntent().getStringExtra(MainActivity.EXTRA_COURSE_CODE);
         int toolbarColor = getIntent().getIntExtra(CourseMaterialsActivity.EXTRA_TOOLBAR_COLOR, -1);
         if (toolbarColor != -1) mToolbar.setBackgroundColor(toolbarColor);
