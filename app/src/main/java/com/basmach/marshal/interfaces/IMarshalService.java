@@ -1,5 +1,6 @@
 package com.basmach.marshal.interfaces;
 
+import com.basmach.marshal.entities.AuthRequest;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.GcmRegistration;
 import com.basmach.marshal.entities.MalshabItem;
@@ -7,6 +8,7 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.utils.MarshalServiceProvider;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 import retrofit2.Call;
@@ -57,4 +59,11 @@ public interface IMarshalService {
     // ******** Settings ********//
     @GET (MarshalServiceProvider.GET_SETTINGS)
     Call<Settings> getSettings();
+
+    // ******** Auth ***********//
+    @POST (MarshalServiceProvider.AUTH)
+    Call<String> auth(@Body AuthRequest authRequest);
+
+    @GET (MarshalServiceProvider.DASHBOARD)
+    Call<JsonObject> testDashboard();
 }

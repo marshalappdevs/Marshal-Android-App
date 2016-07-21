@@ -6,12 +6,12 @@ import java.security.NoSuchAlgorithmException;
 
 public class HashUtil {
 
-    public static String SHA1(String toHash) {
+    public static String SHA(String toHash) {
         try {
-            MessageDigest messageDigest = MessageDigest.getInstance("SHA-1");
+            MessageDigest messageDigest = MessageDigest.getInstance("SHA-256");
             messageDigest.update(toHash.getBytes("UTF-8"), 0, toHash.length());
             byte[] bytes = messageDigest.digest();
-            return bytesToHex(bytes);
+            return bytesToHex(bytes).toLowerCase();
         } catch( NoSuchAlgorithmException | UnsupportedEncodingException e ) {
             e.printStackTrace();
         }

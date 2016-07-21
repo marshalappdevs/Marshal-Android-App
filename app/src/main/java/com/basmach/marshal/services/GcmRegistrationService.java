@@ -57,11 +57,11 @@ public class GcmRegistrationService extends IntentService {
                         final String action = intent.getAction();
                         if (ACTION_REGISTER_NEW.equals(action)) {
                             Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance().gcmRegisterNewDevice(gcmRegistration).execute();
+                                    MarshalServiceProvider.getInstance(null).gcmRegisterNewDevice(gcmRegistration).execute();
                             publishResponse(response);
                         } else if (ACTION_REGISTER_EXIST.equals(action)) {
                             Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance().gcmRegisterExistDevice(gcmRegistration).execute();
+                                    MarshalServiceProvider.getInstance(null).gcmRegisterExistDevice(gcmRegistration).execute();
                             publishResponse(response);
                         }
                     }

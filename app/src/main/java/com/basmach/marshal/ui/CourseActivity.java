@@ -9,6 +9,7 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -451,7 +452,7 @@ public class CourseActivity extends AppCompatActivity {
         if (MainActivity.sUserEmailAddress != null) {
             Rating.queryInBackground(Rating.class, CourseActivity.this, false,
                     new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
-                    new String[]{mCourse.getCourseCode(), HashUtil.SHA1(MainActivity.sUserEmailAddress)},
+                    new String[]{mCourse.getCourseCode(), HashUtil.SHA(MainActivity.sUserEmailAddress)},
                     new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {
@@ -603,7 +604,7 @@ public class CourseActivity extends AppCompatActivity {
 
                     String emailHash = null;
                     try {
-                        emailHash = HashUtil.SHA1(MainActivity.sUserEmailAddress);
+                        emailHash = HashUtil.SHA(MainActivity.sUserEmailAddress);
                         mUserRating = new Rating(CourseActivity.this);
                         mUserRating.setComment(input.getText().toString());
                         mUserRating.setRating(mRatingBarUser.getRating());
@@ -612,7 +613,7 @@ public class CourseActivity extends AppCompatActivity {
                         mUserRating.setCourseCode(mCourse.getCourseCode());
                         mUserRating.setCreatedAt(new Date());
                         mUserRating.setLastModified(new Date());
-                        MarshalServiceProvider.getInstance().postRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
+                        MarshalServiceProvider.getInstance(null).postRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
                             public void onResponse(Call<Rating> call, Response<Rating> response) {
                                 if (response.isSuccessful()) {
@@ -739,7 +740,7 @@ public class CourseActivity extends AppCompatActivity {
                         mUserRating.setRating(ratingBar.getRating());
                         mUserRating.setComment(input.getText().toString());
                         mUserRating.setLastModified(new Date());
-                        MarshalServiceProvider.getInstance().updateRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
+                        MarshalServiceProvider.getInstance(null).updateRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
                             public void onResponse(Call<Rating> call, Response<Rating> response) {
                                 if(response.isSuccessful()) {
@@ -787,7 +788,7 @@ public class CourseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if(mUserRating != null) {
-                        MarshalServiceProvider.getInstance().deleteRating(mUserRating.getCourseCode(),
+                        MarshalServiceProvider.getInstance(null).deleteRating(mUserRating.getCourseCode(),
                                 mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
                             @Override
                             public void onResponse(Call<Rating> call, Response<Rating> response) {
@@ -998,10 +999,13 @@ public class CourseActivity extends AppCompatActivity {
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
-                intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-                setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
-                finish();
+//                Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
+//                intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+//                setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
+//                finish();
+                Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
+                i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+                startActivity(i);
             }
         });
         mShareButton = (LinearLayout) findViewById(R.id.share_button);

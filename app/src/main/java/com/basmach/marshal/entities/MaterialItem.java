@@ -161,4 +161,13 @@ public class MaterialItem extends DBObject{
             return null;
         }
     }
+
+    public static String getSelectCourseMaterialsQuery(String courseCode) {
+        String query;
+
+        query = "SELECT * FROM " + DBConstants.T_MATERIAL_ITEM + " WHERE " + DBConstants.COL_TAGS +
+                " LIKE '%" + courseCode + "%';";
+
+        return query;
+    }
 }

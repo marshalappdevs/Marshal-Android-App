@@ -30,7 +30,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MaterialsFragment extends Fragment {
-
     private SearchView mSearchView;
     private ProgressBar mProgressBar;
     private RecyclerView mRecycler;
@@ -41,6 +40,8 @@ public class MaterialsFragment extends Fragment {
     private String mFilterText;
     private TextView mNoResults;
     private MenuItem mSearchMenuItem;
+    private boolean mIsRunForCourse;
+    private String mCourseCode;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -56,41 +57,82 @@ public class MaterialsFragment extends Fragment {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
         mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
-        if (mMaterialsList == null) {
-            if (MainActivity.sMaterialItems == null) {
-                MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                        false, new BackgroundTaskCallBack() {
-                            @Override
-                            public void onSuccess(String result, List<Object> data) {
-                                if (data != null) {
-                                    try {
-                                        mMaterialsList = (ArrayList)data;
-                                        MainActivity.sMaterialItems = mMaterialsList;
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
+        if (getArguments() != null) {
+            mIsRunForCourse = getArguments().getBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE);
+            mCourseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
+        }
+
+        if (!mIsRunForCourse) {
+            if (mMaterialsList == null) {
+                if (MainActivity.sMaterialItems == null) {
+                    mProgressBar.setVisibility(View.VISIBLE);
+                    MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+                            false, new BackgroundTaskCallBack() {
+                                @Override
+                                public void onSuccess(String result, List<Object> data) {
+                                    if (data != null) {
+                                        try {
+                                            mMaterialsList = (ArrayList)data;
+                                            MainActivity.sMaterialItems = mMaterialsList;
+                                        } catch (Exception e) {
+                                            e.printStackTrace();
+                                            mMaterialsList = new ArrayList<>();
+                                        }
+                                    } else {
                                         mMaterialsList = new ArrayList<>();
                                     }
-                                } else {
-                                    mMaterialsList = new ArrayList<>();
+                                    mProgressBar.setVisibility(View.GONE);
+                                    showData();
                                 }
-                                showData();
-                            }
 
-                            @Override
-                            public void onError(String error) {
-                                if (error != null) {
-                                    Log.e("GET MATERIALS "," ERROR:\n" + error);
-                                } else {
-                                    Log.e("GET MATERIALS "," ERROR");
+                                @Override
+                                public void onError(String error) {
+                                    if (error != null) {
+                                        Log.e("GET MATERIALS "," ERROR:\n" + error);
+                                    } else {
+                                        Log.e("GET MATERIALS "," ERROR");
+                                    }
+                                    mProgressBar.setVisibility(View.GONE);
                                 }
-                            }
-                        });
+                            });
+                } else {
+                    mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
+                    showData();
+                }
             } else {
-                mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
                 showData();
             }
-        } else {
-            showData();
+        } else if (mCourseCode != null){
+            mProgressBar.setVisibility(View.VISIBLE);
+            MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourseCode),
+                    getActivity(), MaterialItem.class, false, new BackgroundTaskCallBack() {
+                        @Override
+                        public void onSuccess(String result, List<Object> data) {
+                            if (data != null) {
+                                try {
+                                    mMaterialsList = (ArrayList)data;
+                                    MainActivity.sMaterialItems = mMaterialsList;
+                                } catch (Exception e) {
+                                    e.printStackTrace();
+                                    mMaterialsList = new ArrayList<>();
+                                }
+                            } else {
+                                mMaterialsList = new ArrayList<>();
+                            }
+                            showData();
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+
+                        @Override
+                        public void onError(String error) {
+                            if (error != null) {
+                                Log.e("GET MATERIALS "," ERROR:\n" + error);
+                            } else {
+                                Log.e("GET MATERIALS "," ERROR");
+                            }
+                            mProgressBar.setVisibility(View.GONE);
+                        }
+                    });
         }
 
         return rootView;
@@ -111,12 +153,11 @@ public class MaterialsFragment extends Fragment {
         mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterialsList, onHashTagClickListener);
         mRecycler.setAdapter(mAdapter);
 
-        if(getArguments() != null) {
-            String courseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
-            if (courseCode != null && !(courseCode.equals(""))) {
-                search(courseCode);
-            }
-        }
+//        if(mIsRunForCourse) {
+//            if (mCourseCode != null && !(mCourseCode.equals(""))) {
+//                search(mCourseCode);
+//            }
+//        }
     }
 
     @Override
@@ -136,9 +177,14 @@ public class MaterialsFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 //        inflater.inflate(R.menu.main, menu);
-
         // Setup search button
-        mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
+        if (mIsRunForCourse) {
+//            inflater.inflate(R.menu.course_materials, menu);
+            mSearchMenuItem = menu.findItem(R.id.course_materials_searchView);
+        } else {
+            mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
+        }
+
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -217,10 +263,11 @@ public class MaterialsFragment extends Fragment {
         }
     }
 
-    public static MaterialsFragment newInstanceWithQuery(String courseCode) {
+    public static MaterialsFragment newInstanceWithQuery(String courseCode, boolean isRunForCourse) {
         MaterialsFragment materialsFragment = new MaterialsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(MainActivity.EXTRA_COURSE_CODE, courseCode);
+        bundle.putBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE, isRunForCourse);
         materialsFragment.setArguments(bundle);
         return materialsFragment;
     }

@@ -11,7 +11,9 @@
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
     <uses-permission android:name="com.basmach.marshal.permission.C2D_MESSAGE" />
-    <permission android:name="com.basmach.marshal.permission.C2D_MESSAGE"
+
+    <permission
+        android:name="com.basmach.marshal.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <application
@@ -24,6 +26,7 @@
         <uses-library
             android:name="com.sec.android.app.multiwindow"
             android:required="false" />
+
         <meta-data
             android:name="com.sec.android.support.multiwindow"
             android:value="true" />
@@ -39,10 +42,12 @@
         <meta-data
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dip" />
+
         <provider
-            android:authorities="com.basmach.marshal.SuggestionProvider"
             android:name=".ui.utils.SuggestionProvider"
+            android:authorities="com.basmach.marshal.SuggestionProvider"
             android:exported="false" />
+
         <receiver
             android:name="com.google.android.gms.gcm.GcmReceiver"
             android:exported="true"
@@ -50,23 +55,26 @@
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
+
                 <category android:name="com.basmach.marshal" />
             </intent-filter>
         </receiver>
-         <service
-             android:name="com.basmach.marshal.services.GcmIntentService"
-             android:exported="false" >
-             <intent-filter>
-                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-             </intent-filter>
-         </service>
-         <service
-             android:name="com.basmach.marshal.services.GcmIDListenerService"
-             android:exported="false">
-             <intent-filter>
-                 <action android:name="com.google.android.gms.iid.InstanceID" />
-             </intent-filter>
-         </service>
+
+        <service
+            android:name=".services.GcmIntentService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+            </intent-filter>
+        </service>
+        <service
+            android:name=".services.GcmIDListenerService"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.google.android.gms.iid.InstanceID" />
+            </intent-filter>
+        </service>
+
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
@@ -76,7 +84,7 @@
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.SEARCH" />
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+                <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
             </intent-filter>
 
@@ -107,12 +115,14 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
             android:theme="@style/AppTheme.Base.Translucent" />
+
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
         <service
             android:name=".services.GcmRegistrationService"
             android:exported="false" />
+
         <provider
             android:name="android.support.v4.content.FileProvider"
             android:authorities="@string/share_authority"
@@ -122,6 +132,12 @@
                 android:name="android.support.FILE_PROVIDER_PATHS"
                 android:resource="@xml/glide_disk_cache_path" />
         </provider>
+
+        <activity
+            android:name=".ui.CourseMaterialsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.Base"
+            android:label=""/>
     </application>
 
 </manifest>

@@ -10,6 +10,7 @@ import android.util.Log;
 
 import com.basmach.marshal.ApplicationMarshal;
 import com.basmach.marshal.Constants;
+import com.basmach.marshal.entities.AuthRequest;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
 import com.basmach.marshal.entities.MalshabItem;
@@ -18,14 +19,18 @@ import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.LocalDBHelper;
+import com.basmach.marshal.utils.HashUtil;
 import com.basmach.marshal.utils.MarshalServiceProvider;
+import com.google.gson.JsonObject;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+import retrofit2.http.Body;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -103,7 +108,9 @@ public class UpdateIntentService extends IntentService {
      */
     private void handleActionCheckForUpdate() {
 
-        MarshalServiceProvider.getInstance().getSettings().enqueue(new Callback<Settings>() {
+//        authentication();
+
+        MarshalServiceProvider.getInstance(null).getSettings().enqueue(new Callback<Settings>() {
             @Override
             public void onResponse(Call<Settings> call, Response<Settings> response){
                 try {
@@ -140,6 +147,24 @@ public class UpdateIntentService extends IntentService {
 //        }
     }
 
+    private void authentication() {
+        AuthRequest authRequest = new AuthRequest();
+        try {
+            Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
+            String token;
+            if (authResponse.isSuccessful()) {
+                token = authResponse.body();
+                Log.i("AUTH", token);
+                Response<JsonObject> response = MarshalServiceProvider.getInstance(token).testDashboard().execute();
+                if(response.isSuccessful()){
+                    Log.i("AUTH", response.body().toString());
+                }
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Handle action Baz in the provided background thread with the provided
      * parameters.
@@ -164,10 +189,10 @@ public class UpdateIntentService extends IntentService {
         SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
 
         try {
-            List<Course> newCourses = MarshalServiceProvider.getInstance().getAllCourses().execute().body();
-            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance().getAllMaterials().execute().body();
-            List<Rating> newRatings = MarshalServiceProvider.getInstance().getAllRatings().execute().body();
-            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance().getAllMalshabItems().execute().body();
+            List<Course> newCourses = MarshalServiceProvider.getInstance(null).getAllCourses().execute().body();
+            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance(null).getAllMaterials().execute().body();
+            List<Rating> newRatings = MarshalServiceProvider.getInstance(null).getAllRatings().execute().body();
+            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance(null).getAllMalshabItems().execute().body();
 
             database.beginTransaction();
 

@@ -103,6 +103,7 @@ public class MainActivity extends AppCompatActivity
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
+    public static final String EXTRA_IS_RUN_FOR_COURSE = "EXTRA_IS_RUN_FOR_COURSE";
 
     private GoogleApiClient mGoogleApiClient;
     //    private ProgressDialog mProgressDialog;
@@ -604,7 +605,7 @@ public class MainActivity extends AppCompatActivity
                 // If course code is not empty, pass data to materials fragment and set it as query
                 // Materials should have course code as HashTag in order to show course relevant materials
 
-                mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode);
+                mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode, true);
 
                 onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
                 mNavigationView.setCheckedItem(R.id.nav_materials);
