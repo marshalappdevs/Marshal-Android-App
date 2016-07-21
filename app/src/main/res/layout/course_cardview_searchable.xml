@@ -98,6 +98,17 @@
                         android:layoutDirection="ltr">
 
                         <TextView
+                            android:id="@+id/course_searchable_category"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:textColor="?android:textColorSecondary"
+                            android:maxLines="1"
+                            android:singleLine="true"
+                            android:textSize="12sp"
+                            android:gravity="end|center_vertical"
+                            android:layout_marginEnd="8dp"/>
+
+                        <TextView
                             android:id="@+id/course_searchable_rating"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
@@ -119,6 +130,7 @@
                             app:srcCompat="@drawable/ic_course_rating_star"
                             android:visibility="invisible"
                             android:contentDescription="@null"/>
+
                     </LinearLayout>
 
                 </LinearLayout>

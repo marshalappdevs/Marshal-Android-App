@@ -19,6 +19,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -44,6 +45,7 @@ import android.widget.Toast;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
+import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
@@ -1007,6 +1009,39 @@ public class CourseActivity extends AppCompatActivity {
                 i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
                 i.putExtra(MainActivity.EXTRA_COURSE_NAME, mCourse.getName());
                 startActivity(i);
+                MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseCode()),
+                        CourseActivity.this, MaterialItem.class, true, new BackgroundTaskCallBack() {
+                            @Override
+                            public void onSuccess(String result, List<Object> data) {
+                                if (data != null && data.size() > 0) {
+                                    try {
+                                        ArrayList<MaterialItem> materialItems = (ArrayList)data;
+                                        Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
+                                        i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+                                        i.putParcelableArrayListExtra(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST, materialItems);
+                                        startActivity(i);
+                                    } catch (Exception e) {
+                                        e.printStackTrace();
+                                        //TODO: Tell the user about it
+                                        Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                    }
+                                } else {
+                                    //TODO: Tell the user about it
+                                    Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                }
+                            }
+
+                            @Override
+                            public void onError(String error) {
+                                if (error != null) {
+                                    Log.e("GET COURSE MATERIALS "," ERROR:\n" + error);
+                                } else {
+                                    Log.e("GET COURSE MATERIALS "," ERROR");
+                                }
+                                Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                //TODO: Tell the user about it
+                            }
+                        });
             }
         });
         mShareButton = (LinearLayout) findViewById(R.id.share_button);

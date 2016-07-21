@@ -2,6 +2,8 @@ package com.basmach.marshal.entities;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Parcel;
+import android.os.Parcelable;
 
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;
@@ -19,7 +21,7 @@ import com.leocardz.link.preview.library.SourceContent;
 import com.leocardz.link.preview.library.TextCrawler;
 
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
-public class MaterialItem extends DBObject{
+public class MaterialItem extends DBObject implements Parcelable{
 
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
@@ -170,4 +172,53 @@ public class MaterialItem extends DBObject{
 
         return query;
     }
+
+    ///////////////////// Parcelable methods //////////////////////
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    /**
+     * Storing the Course data to Parcel object
+     **/
+    @Override
+    public void writeToParcel(Parcel dest, int i) {
+        dest.writeLong(id);
+        dest.writeString(url);
+        dest.writeString(tags);
+        dest.writeString(title);
+        dest.writeString(description);
+        dest.writeString(cannonicalUrl);
+        dest.writeString(imageUrl);
+    }
+
+    /**
+     * Retrieving Student data from Parcel object
+     * This constructor is invoked by the method createFromParcel(Parcel source) of
+     * the object CREATOR
+     **/
+    private MaterialItem(Parcel in){
+        this.id = in.readLong();
+        this.url = in.readString();
+        this.tags = in.readString();
+        this.title = in.readString();
+        this.description = in.readString();
+        this.cannonicalUrl = in.readString();
+        this.imageUrl = in.readString();
+    }
+
+    public static final Parcelable.Creator<MaterialItem> CREATOR = new Parcelable.Creator<MaterialItem>() {
+
+        @Override
+        public MaterialItem createFromParcel(Parcel source) {
+            return new MaterialItem(source);
+        }
+
+        @Override
+        public MaterialItem[] newArray(int size) {
+            return new MaterialItem[size];
+        }
+    };
 }

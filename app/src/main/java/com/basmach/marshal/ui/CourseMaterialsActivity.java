@@ -10,13 +10,18 @@ import android.view.View;
 import android.view.ViewTreeObserver;
 
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
 
+import java.util.ArrayList;
+
 public class CourseMaterialsActivity extends AppCompatActivity {
 
     public static final String EXTRA_TOOLBAR_COLOR = "EXTRA_TOOLBAR_COLOR";
+    public static final String EXTRA_COURSE_MATERIALS_LIST = "EXTRA_COURSE_MATERIALS_LIST";
+
     private Toolbar mToolbar;
     private String mCourseCode;
     private String mCourseName;
@@ -49,9 +54,11 @@ public class CourseMaterialsActivity extends AppCompatActivity {
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        if (mCourseCode != null) {
+        ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(EXTRA_COURSE_MATERIALS_LIST);
+
+        if (mCourseCode != null && materials != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
-                    MaterialsFragment.newInstanceWithQuery(mCourseCode, true), null).commit();
+                    MaterialsFragment.newInstanceForCourse(mCourseCode, materials), null).commit();
         }
     }
 

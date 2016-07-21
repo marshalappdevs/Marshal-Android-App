@@ -23,6 +23,7 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmach.marshal.ui.CourseMaterialsActivity;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 
@@ -102,37 +103,20 @@ public class MaterialsFragment extends Fragment {
             } else {
                 showData();
             }
-        } else if (mCourseCode != null){
-            mProgressBar.setVisibility(View.VISIBLE);
-            MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourseCode),
-                    getActivity(), MaterialItem.class, false, new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            if (data != null) {
-                                try {
-                                    mMaterialsList = (ArrayList)data;
-                                    MainActivity.sMaterialItems = mMaterialsList;
-                                } catch (Exception e) {
-                                    e.printStackTrace();
-                                    mMaterialsList = new ArrayList<>();
-                                }
-                            } else {
-                                mMaterialsList = new ArrayList<>();
-                            }
-                            showData();
-                            mProgressBar.setVisibility(View.GONE);
-                        }
+        } else {
 
-                        @Override
-                        public void onError(String error) {
-                            if (error != null) {
-                                Log.e("GET MATERIALS "," ERROR:\n" + error);
-                            } else {
-                                Log.e("GET MATERIALS "," ERROR");
-                            }
-                            mProgressBar.setVisibility(View.GONE);
-                        }
-                    });
+            mProgressBar.setVisibility(View.VISIBLE);
+
+            if (getArguments() != null) {
+                mCourseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
+                mMaterialsList = getArguments().getParcelableArrayList(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST);
+
+                if (mCourseCode != null && mMaterialsList != null) {
+                    showData();
+                }
+
+                mProgressBar.setVisibility(View.GONE);
+            }
         }
 
         return rootView;
@@ -263,11 +247,20 @@ public class MaterialsFragment extends Fragment {
         }
     }
 
-    public static MaterialsFragment newInstanceWithQuery(String courseCode, boolean isRunForCourse) {
+//    public static MaterialsFragment newInstanceWithQuery(String courseCode) {
+//        MaterialsFragment materialsFragment = new MaterialsFragment();
+//        Bundle bundle = new Bundle();
+//        bundle.putString(MainActivity.EXTRA_COURSE_CODE, courseCode);
+//        materialsFragment.setArguments(bundle);
+//        return materialsFragment;
+//    }
+
+    public static MaterialsFragment newInstanceForCourse(String courseCode, ArrayList<MaterialItem> materials) {
         MaterialsFragment materialsFragment = new MaterialsFragment();
         Bundle bundle = new Bundle();
         bundle.putString(MainActivity.EXTRA_COURSE_CODE, courseCode);
-        bundle.putBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE, isRunForCourse);
+        bundle.putParcelableArrayList(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST, materials);
+        bundle.putBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE, true);
         materialsFragment.setArguments(bundle);
         return materialsFragment;
     }

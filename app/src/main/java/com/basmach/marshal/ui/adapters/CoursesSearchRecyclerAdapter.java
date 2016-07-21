@@ -139,6 +139,34 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         if (mCourses.get(position).getImageUrl() != null) {
             Glide.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
         }
+
+        String category = mCourses.get(position).getCategory();
+
+        if (category != null) {
+            holder.courseCategory.setVisibility(View.VISIBLE);
+
+            switch (category) {
+                case Course.CATEGORY_SOFTWARE:
+                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_software));
+                    break;
+                case Course.CATEGORY_CYBER:
+                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_cyber));
+                    break;
+                case Course.CATEGORY_IT:
+                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_it));
+                    break;
+                case Course.CATEGORY_SYSTEM:
+                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_system));
+                    break;
+                case Course.CATEGORY_TOOLS:
+                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_tools));
+                    break;
+                default:
+                    holder.courseCategory.setVisibility(View.GONE);
+            }
+        } else {
+            holder.courseCategory.setVisibility(View.GONE);
+        }
     }
 
     private Cycle getFirstCycle(ArrayList<Cycle> cycles) {
@@ -239,6 +267,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         TextView courseName;
         TextView courseStartDateTime;
         TextView courseRating;
+        TextView courseCategory;
         ImageView starIcon;
 
         public CourseVH(View itemView) {
@@ -251,6 +280,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
             courseRating = (TextView) itemView.findViewById(R.id.course_searchable_rating);
             starIcon = (ImageView) itemView.findViewById(R.id.course_searchable_ratingIcon);
+            courseCategory = (TextView) itemView.findViewById(R.id.course_searchable_category);
         }
     }
 }
