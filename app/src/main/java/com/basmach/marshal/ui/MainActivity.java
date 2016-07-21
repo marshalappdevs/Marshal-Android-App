@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
+    public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;

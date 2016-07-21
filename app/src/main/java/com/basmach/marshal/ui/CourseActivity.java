@@ -1005,6 +1005,7 @@ public class CourseActivity extends AppCompatActivity {
 //                finish();
                 Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
                 i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+                i.putExtra(MainActivity.EXTRA_COURSE_NAME, mCourse.getName());
                 startActivity(i);
             }
         });

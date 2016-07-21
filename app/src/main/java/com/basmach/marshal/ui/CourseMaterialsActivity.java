@@ -19,6 +19,7 @@ public class CourseMaterialsActivity extends AppCompatActivity {
     public static final String EXTRA_TOOLBAR_COLOR = "EXTRA_TOOLBAR_COLOR";
     private Toolbar mToolbar;
     private String mCourseCode;
+    private String mCourseName;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +41,10 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             }
         });
 
+        mCourseName = getIntent().getStringExtra(MainActivity.EXTRA_COURSE_NAME);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(getIntent().getStringExtra(MainActivity.EXTRA_COURSE_CODE));
+        mToolbar.setTitle(mCourseName);
         mCourseCode = getIntent().getStringExtra(MainActivity.EXTRA_COURSE_CODE);
-        int toolbarColor = getIntent().getIntExtra(CourseMaterialsActivity.EXTRA_TOOLBAR_COLOR, -1);
-        if (toolbarColor != -1) mToolbar.setBackgroundColor(toolbarColor);
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
