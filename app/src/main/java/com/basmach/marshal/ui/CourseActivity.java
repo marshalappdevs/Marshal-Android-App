@@ -1005,10 +1005,10 @@ public class CourseActivity extends AppCompatActivity {
 //                intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
 //                setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
 //                finish();
-                Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
-                i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-                i.putExtra(MainActivity.EXTRA_COURSE_NAME, mCourse.getName());
-                startActivity(i);
+//                Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
+//                i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+//                i.putExtra(MainActivity.EXTRA_COURSE_NAME, mCourse.getName());
+//                startActivity(i);
                 MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseCode()),
                         CourseActivity.this, MaterialItem.class, true, new BackgroundTaskCallBack() {
                             @Override
@@ -1023,7 +1023,7 @@ public class CourseActivity extends AppCompatActivity {
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         //TODO: Tell the user about it
-                                        Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(CourseActivity.this,"Error",Toast.LENGTH_LONG).show();
                                     }
                                 } else {
                                     //TODO: Tell the user about it
@@ -1038,7 +1038,7 @@ public class CourseActivity extends AppCompatActivity {
                                 } else {
                                     Log.e("GET COURSE MATERIALS "," ERROR");
                                 }
-                                Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                Toast.makeText(CourseActivity.this,"Error",Toast.LENGTH_LONG).show();
                                 //TODO: Tell the user about it
                             }
                         });
