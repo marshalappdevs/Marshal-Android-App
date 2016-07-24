@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.CourseActivity;
@@ -63,7 +64,7 @@ public class ViewPagerAdapter extends PagerAdapter {
             final int position = (Integer) v.getTag();
             PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit().putBoolean("courseShared", false).apply();
             Intent intent = new Intent(context, CourseActivity.class);
-            intent.putExtra(CourseActivity.EXTRA_COURSE, COURSES.get(position));
+            intent.putExtra(Constants.EXTRA_COURSE, COURSES.get(position));
             ((Activity) context).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
         }
     };

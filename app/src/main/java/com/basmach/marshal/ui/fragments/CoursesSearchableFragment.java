@@ -27,6 +27,7 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -43,8 +44,6 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class CoursesSearchableFragment extends Fragment {
 
-    public static final String EXTRA_SEARCH_QUERY = "search_query";
-    public static final String EXTRA_ALL_COURSES = "all_courses";
     private static final String FILTER_SHOWCASE_ID = "filter_tutorial";
 
     private SearchView mSearchView;
@@ -67,8 +66,8 @@ public class CoursesSearchableFragment extends Fragment {
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
-        bundle.putString(EXTRA_SEARCH_QUERY,query);
-        bundle.putParcelableArrayList(EXTRA_ALL_COURSES,courses);
+        bundle.putString(Constants.EXTRA_SEARCH_QUERY,query);
+        bundle.putParcelableArrayList(Constants.EXTRA_ALL_COURSES,courses);
         CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
         coursesSearchableFragment.setArguments(bundle);
         return coursesSearchableFragment;
@@ -89,8 +88,8 @@ public class CoursesSearchableFragment extends Fragment {
 
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_courses_search_no_results);
 
-        mSearchQuery = getArguments().getString(EXTRA_SEARCH_QUERY);
-        mCoursesList = getArguments().getParcelableArrayList(EXTRA_ALL_COURSES);
+        mSearchQuery = getArguments().getString(Constants.EXTRA_SEARCH_QUERY);
+        mCoursesList = getArguments().getParcelableArrayList(Constants.EXTRA_ALL_COURSES);
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         if (mCoursesList != null)

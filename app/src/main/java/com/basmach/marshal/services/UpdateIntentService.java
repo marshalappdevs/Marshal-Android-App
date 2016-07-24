@@ -40,19 +40,13 @@ import retrofit2.http.Body;
  * helper methods.
  */
 public class UpdateIntentService extends IntentService {
-    // TODO: Rename actions, choose action names that describe tasks that this
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
     public static final String ACTION_CHECK_FOR_UPDATE = "com.basmach.marshal.utils.action.CHECK_FOR_UPDATE";
     public static final String ACTION_UPDATE_DATA = "com.basmach.marshal.utils.action.UPDATE_DATA";
     public static final String ACTION_UPDATE_DATA_PROGRESS_CHANGED = "com.basmach.marshal.utils.action.UPDATE_DATA_PROGRESS_CHANGED";
 
-    // TODO: Rename parameters
-    private static final String EXTRA_PARAM1 = "com.basmach.marshal.utils.extra.PARAM1";
-    private static final String EXTRA_PARAM2 = "com.basmach.marshal.utils.extra.PARAM2";
-
     public static final String RESULT_CHECK_FOR_UPDATE = "result_check_for_update";
     public static final String RESULT_UPDATE_DATA = "result_update_data";
-    public static final String EXTRA_PROGRESS_PERCENT = "progress_percent";
 
     private static final String LOG_TAG = "UPDATE_SERVICE";
 
@@ -117,7 +111,7 @@ public class UpdateIntentService extends IntentService {
                     Settings settings = response.body();
 
                     long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                            .getLong(Constants.SETTING_LAST_UPDATE_TIMESTAMP, 0);
+                            .getLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0);
 
                     if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
                         Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
@@ -524,7 +518,7 @@ public class UpdateIntentService extends IntentService {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_UPDATE_DATA_PROGRESS_CHANGED);
         broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
-        broadcastIntent.putExtra(EXTRA_PROGRESS_PERCENT, progress);
+        broadcastIntent.putExtra(Constants.EXTRA_PROGRESS_PERCENT, progress);
         sendBroadcast(broadcastIntent);
     }
 

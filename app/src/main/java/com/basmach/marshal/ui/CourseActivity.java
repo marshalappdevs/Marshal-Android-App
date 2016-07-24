@@ -42,6 +42,8 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -72,7 +74,6 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class CourseActivity extends AppCompatActivity {
 
-    public static final String EXTRA_COURSE = "course_extra";
     private static final String FAB_SHOWCASE_ID = "cycle_fab_tutorial";
 
     private Toolbar mToolbar;
@@ -236,7 +237,7 @@ public class CourseActivity extends AppCompatActivity {
             });
         }
 
-        mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
+        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
 
         if (mCourse != null) {
             Log.i("Course Activity", "course passed");
@@ -395,52 +396,48 @@ public class CourseActivity extends AppCompatActivity {
         mRatingsFrame = (LinearLayout) findViewById(R.id.course_content_ratingsFrame);
 
         if (mCourse != null) {
-            if (mCourse.getIsMeetup()) {
-                setRatingViewsVisibillity(View.GONE);
-            } else {
-                setRatingViewsVisibillity(View.VISIBLE);
-                showRatingAverage();
-                showRatingsCount();
-                showUserRating();
+            setRatingViewsVisibillity(View.VISIBLE);
+            showRatingAverage();
+            showRatingsCount();
+            showUserRating();
 
-                mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View view) {
-                        if (mRatingBarAverage.getRating() == 0) {
-                            Toast.makeText(CourseActivity.this, R.string.no_reviews_error, Toast.LENGTH_LONG).show();
-                        } else {
-                            Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
-                            i.putExtra(RatingsActivity.EXTRA_COURSE, mCourse);
-                            i.putExtra(RatingsActivity.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
-                            i.putExtra(RatingsActivity.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
-                            i.putExtra(RatingsActivity.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
-                            startActivity(i);
+            mBtnReadAllReviews.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (mRatingBarAverage.getRating() == 0) {
+                        Toast.makeText(CourseActivity.this, R.string.no_reviews_error, Toast.LENGTH_LONG).show();
+                    } else {
+                        Intent i = new Intent(CourseActivity.this, RatingsActivity.class);
+                        i.putExtra(Constants.EXTRA_COURSE, mCourse);
+                        i.putExtra(Constants.EXTRA_RATING_AMOUNT, mTextViewRatingsAmount.getText().toString());
+                        i.putExtra(Constants.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
+                        i.putExtra(Constants.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
+                        startActivity(i);
+                    }
+                }
+            });
+
+            mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
+                @Override
+                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+                    if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
+                        showReviewCommentDialog(false);
+                    } else {
+                        if (ratingBar.getRating() != 0) {
+                            Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
                         }
+                        ratingBar.setRating(0);
                     }
-                });
+                }
+            };
 
-                mRatingBarUserOnChangeListener = new RatingBar.OnRatingBarChangeListener() {
-                    @Override
-                    public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-                        if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
-                            showReviewCommentDialog(false);
-                        } else {
-                            if (ratingBar.getRating() != 0) {
-                                Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
-                            }
-                            ratingBar.setRating(0);
-                        }
-                    }
-                };
-
-                mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-                mActionContainer.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        showReviewCommentDialog(true);
-                    }
-                });
-            }
+            mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
+            mActionContainer.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    showReviewCommentDialog(true);
+                }
+            });
         }
     }
 
@@ -1017,8 +1014,8 @@ public class CourseActivity extends AppCompatActivity {
                                     try {
                                         ArrayList<MaterialItem> materialItems = (ArrayList)data;
                                         Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
-                                        i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-                                        i.putParcelableArrayListExtra(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST, materialItems);
+                                        i.putExtra(Constants.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+                                        i.putParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST, materialItems);
                                         startActivity(i);
                                     } catch (Exception e) {
                                         e.printStackTrace();

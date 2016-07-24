@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
@@ -23,11 +24,6 @@ import com.basmach.marshal.ui.utils.ThemeUtils;
 import java.util.List;
 
 public class RatingsActivity extends AppCompatActivity {
-
-    public static final String EXTRA_COURSE = "extra_course";
-    public static final String EXTRA_RATING_AMOUNT = "extra_rating_amount";
-    public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
-    public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
 
     Toolbar mToolbar;
     Course mCourse;
@@ -51,7 +47,7 @@ public class RatingsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_ratings);
 
-        mCourse = getIntent().getParcelableExtra(EXTRA_COURSE);
+        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(mCourse.getName());
@@ -74,9 +70,9 @@ public class RatingsActivity extends AppCompatActivity {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
         mRecycler.setNestedScrollingEnabled(false);
 
-        mRatingAverage = getIntent().getStringExtra(EXTRA_RATING_AVERAGE);
-        mRatingsAmount = getIntent().getStringExtra(EXTRA_RATING_AMOUNT);
-        mRatingBarStars = getIntent().getFloatExtra(EXTRA_RATING_BAR_STARS, 0);
+        mRatingAverage = getIntent().getStringExtra(Constants.EXTRA_RATING_AVERAGE);
+        mRatingsAmount = getIntent().getStringExtra(Constants.EXTRA_RATING_AMOUNT);
+        mRatingBarStars = getIntent().getFloatExtra(Constants.EXTRA_RATING_BAR_STARS, 0);
 
         mTextViewRatingAverage.setText(mRatingAverage);
         mTextViewRatingsAmount.setText(mRatingsAmount);

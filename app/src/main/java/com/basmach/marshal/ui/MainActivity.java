@@ -56,8 +56,6 @@ import com.basmach.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmach.marshal.services.GcmRegistrationService;
 import com.basmach.marshal.services.UpdateIntentService;
 import com.basmach.marshal.ui.fragments.CoursesFragment;
-import com.basmach.marshal.ui.fragments.CoursesSearchableFragment;
-import com.basmach.marshal.ui.fragments.DiscussionsFragment;
 import com.basmach.marshal.ui.fragments.MalshabFragment;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.fragments.MeetupsFragment;
@@ -99,12 +97,9 @@ public class MainActivity extends AppCompatActivity
     private static final int RC_SIGN_IN = 9001;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
-    public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
-    public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
-    public static final String EXTRA_IS_RUN_FOR_COURSE = "EXTRA_IS_RUN_FOR_COURSE";
 
     private GoogleApiClient mGoogleApiClient;
     //    private ProgressDialog mProgressDialog;
@@ -875,9 +870,6 @@ public class MainActivity extends AppCompatActivity
                 mMeetupsFragment = new MeetupsFragment();
 
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
-            setTitle(item.getTitle());
-        } else if (id == R.id.nav_discussions) {
-            fragmentManager.beginTransaction().replace(R.id.content_frame, new DiscussionsFragment()).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
             if (mMalshabFragment == null)

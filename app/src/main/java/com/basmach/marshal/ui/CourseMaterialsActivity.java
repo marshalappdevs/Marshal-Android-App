@@ -9,6 +9,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
@@ -18,9 +19,6 @@ import com.basmach.marshal.ui.utils.ThemeUtils;
 import java.util.ArrayList;
 
 public class CourseMaterialsActivity extends AppCompatActivity {
-
-    public static final String EXTRA_TOOLBAR_COLOR = "EXTRA_TOOLBAR_COLOR";
-    public static final String EXTRA_COURSE_MATERIALS_LIST = "EXTRA_COURSE_MATERIALS_LIST";
 
     private Toolbar mToolbar;
     private String mCourseCode;
@@ -46,15 +44,15 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             }
         });
 
-        mCourseName = getIntent().getStringExtra(MainActivity.EXTRA_COURSE_NAME);
+        mCourseName = getIntent().getStringExtra(Constants.EXTRA_COURSE_NAME);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(mCourseName);
-        mCourseCode = getIntent().getStringExtra(MainActivity.EXTRA_COURSE_CODE);
+        mCourseCode = getIntent().getStringExtra(Constants.EXTRA_COURSE_CODE);
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(EXTRA_COURSE_MATERIALS_LIST);
+        ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
         if (mCourseCode != null && materials != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,

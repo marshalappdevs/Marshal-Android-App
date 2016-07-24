@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -49,8 +50,6 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
 public class CoursesFragment extends Fragment {
-    private static final String EXTRA_COURSES_LIST = "extra_courses_list";
-    private static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
     private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
     private static final String SEARCH_SHOWCASE_ID = "search_tutorial";
 
@@ -117,7 +116,7 @@ public class CoursesFragment extends Fragment {
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
         if (savedInstanceState != null && mCoursesList == null) {
-            mCoursesList = savedInstanceState.getParcelableArrayList(EXTRA_COURSES_LIST);
+            mCoursesList = savedInstanceState.getParcelableArrayList(Constants.EXTRA_COURSES_LIST);
         }
 
         if (mCoursesList == null || mViewPagerCourses == null) {
@@ -386,8 +385,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mSoftwareCourses);
-                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST,mSoftwareCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
                 startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
@@ -408,8 +407,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST,mCyberCourses);
-                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST,mCyberCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
                 startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
@@ -430,8 +429,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mITCourses);
-                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mITCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
                 startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
@@ -452,8 +451,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mToolsCourses);
-                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mToolsCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
                 startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
@@ -474,8 +473,8 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(ShowAllCoursesActivity.EXTRA_COURSES_LIST, mSystemCourses);
-                intent.putExtra(ShowAllCoursesActivity.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mSystemCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
                 startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
             }
         });
@@ -550,7 +549,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(EXTRA_COURSES_LIST,mCoursesList);
-        outState.putInt(EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
+        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST,mCoursesList);
+        outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }
 }

@@ -20,6 +20,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -70,7 +72,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit().putBoolean("courseShared", true).apply();
                 Intent intent = new Intent(mContext, CourseActivity.class);
-                intent.putExtra(CourseActivity.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
+                intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 // get status bar and navigation bar views and add them as shared elements
                 // to prevent glitches

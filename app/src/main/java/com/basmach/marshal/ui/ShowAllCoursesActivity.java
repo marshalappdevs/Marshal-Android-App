@@ -13,6 +13,7 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Rating;
@@ -26,9 +27,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import java.util.ArrayList;
 
 public class ShowAllCoursesActivity extends AppCompatActivity {
-
-    public static final String EXTRA_COURSES_LIST = "courses_list";
-    public static final String EXTRA_COURSE_TYPE = "course_type";
 
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
@@ -47,8 +45,8 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
         LocaleUtils.updateLocale(this);
         setContentView(R.layout.activity_show_all_courses);
 
-        mCoursesType = getIntent().getStringExtra(EXTRA_COURSE_TYPE);
-        mCourses = getIntent().getParcelableArrayListExtra(EXTRA_COURSES_LIST);
+        mCoursesType = getIntent().getStringExtra(Constants.EXTRA_COURSE_TYPE);
+        mCourses = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST);
 
         mToolbar = (Toolbar) findViewById(R.id.showAllCourses_activity_toolbar);
 
@@ -106,12 +104,12 @@ public class ShowAllCoursesActivity extends AppCompatActivity {
         if (requestCode == MainActivity.RC_COURSE_ACTIVITY) {
             if (resultCode == MainActivity.RESULT_SHOW_COURSE_MATERIALS) {
 
-                String courseCode = data.getStringExtra(MainActivity.EXTRA_COURSE_CODE);
+                String courseCode = data.getStringExtra(Constants.EXTRA_COURSE_CODE);
 
                 if (courseCode != null && !(courseCode.equals(""))) {
 
                     Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
-                    intent.putExtra(MainActivity.EXTRA_COURSE_CODE, courseCode);
+                    intent.putExtra(Constants.EXTRA_COURSE_CODE, courseCode);
                     setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
                     finish();
                 }

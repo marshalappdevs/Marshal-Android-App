@@ -18,6 +18,7 @@ import android.view.ViewGroup;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
@@ -59,8 +60,8 @@ public class MaterialsFragment extends Fragment {
         mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
         if (getArguments() != null) {
-            mIsRunForCourse = getArguments().getBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE);
-            mCourseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
+            mIsRunForCourse = getArguments().getBoolean(Constants.EXTRA_IS_RUN_FOR_COURSE);
+            mCourseCode = getArguments().getString(Constants.EXTRA_COURSE_CODE);
         }
 
         if (!mIsRunForCourse) {
@@ -108,8 +109,8 @@ public class MaterialsFragment extends Fragment {
             mProgressBar.setVisibility(View.VISIBLE);
 
             if (getArguments() != null) {
-                mCourseCode = getArguments().getString(MainActivity.EXTRA_COURSE_CODE);
-                mMaterialsList = getArguments().getParcelableArrayList(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST);
+                mCourseCode = getArguments().getString(Constants.EXTRA_COURSE_CODE);
+                mMaterialsList = getArguments().getParcelableArrayList(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
                 if (mCourseCode != null && mMaterialsList != null) {
                     showData();
@@ -258,9 +259,9 @@ public class MaterialsFragment extends Fragment {
     public static MaterialsFragment newInstanceForCourse(String courseCode, ArrayList<MaterialItem> materials) {
         MaterialsFragment materialsFragment = new MaterialsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(MainActivity.EXTRA_COURSE_CODE, courseCode);
-        bundle.putParcelableArrayList(CourseMaterialsActivity.EXTRA_COURSE_MATERIALS_LIST, materials);
-        bundle.putBoolean(MainActivity.EXTRA_IS_RUN_FOR_COURSE, true);
+        bundle.putString(Constants.EXTRA_COURSE_CODE, courseCode);
+        bundle.putParcelableArrayList(Constants.EXTRA_COURSE_MATERIALS_LIST, materials);
+        bundle.putBoolean(Constants.EXTRA_IS_RUN_FOR_COURSE, true);
         materialsFragment.setArguments(bundle);
         return materialsFragment;
     }

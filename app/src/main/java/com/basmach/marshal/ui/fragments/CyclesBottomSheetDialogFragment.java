@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
@@ -28,7 +29,7 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
         CyclesBottomSheetDialogFragment instance = new CyclesBottomSheetDialogFragment();
 
         Bundle bundle = new Bundle();
-        bundle.putParcelable(CourseActivity.EXTRA_COURSE, course);
+        bundle.putParcelable(Constants.EXTRA_COURSE, course);
         instance.setArguments(bundle);
 
         return instance;
@@ -44,7 +45,7 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
         View rootView = inflater.inflate(R.layout.activity_cycles, container, false);
 
         try {
-            Course course = getArguments().getParcelable(CourseActivity.EXTRA_COURSE);
+            Course course = getArguments().getParcelable(Constants.EXTRA_COURSE);
             mCycles = course.getCycles();
 
             orderCyclesByAscending();

@@ -4,7 +4,10 @@ import android.content.Context;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.preference.PreferenceManager;
 import android.util.Log;
+
+import com.basmach.marshal.Constants;
 
 public class LocalDBHelper extends SQLiteOpenHelper {
 
@@ -14,8 +17,11 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     public static LocalDBHelper helperInstance;
     public static SQLiteDatabase databaseInstance;
 
+    private Context context;
+
     private LocalDBHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
+        this.context = context;
     }
 
     public static LocalDBHelper getHelperInstance(Context context) {
@@ -53,9 +59,20 @@ public class LocalDBHelper extends SQLiteOpenHelper {
             Log.i(DATABASE_NAME, "t_malshab_item created");
 
             Log.i(DATABASE_NAME, "database created");
+
+            initializePreferences();
         }
         catch (SQLException e){
             Log.e(DATABASE_NAME, e.getMessage());
+        }
+    }
+
+    private void initializePreferences() {
+        try {
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Constants.PREF_IS_FIRST_RUN, true).apply();
+            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false).apply();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
