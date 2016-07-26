@@ -43,9 +43,8 @@ public abstract class DBObject {
     public static final String TYPE_DOUBLE = "double";
     public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
     private static final String SUCCESS_FLAG = "Done";
+    private static final String ERROR_FLAG = "Error";
 
-//    private static SQLiteDatabase database;
-//    private LocalDBHelper dbHelper;
     private Context mContext;
     private ArrayList<String> allColumnsList;
     private ArrayList<Method> allGetters;
@@ -57,27 +56,17 @@ public abstract class DBObject {
 
     public DBObject(Context context) {
         this.mContext = context;
-//        dbHelper = LocalDBHelper.getHelperInstance(context);
-        open();
         getAnnotations();
         getGettersAndSetters();
     }
 
     public void Ctor(Context context) {
         this.mContext = context;
-//        dbHelper = LocalDBHelper.getHelperInstance(context);
-//        open();
         getAnnotations();
         getGettersAndSetters();
     }
 
-    public void open() throws SQLException {
-//        database = dbHelper.getWritableDatabase();
-    }
-
     private static SQLiteDatabase getDatabase(Context context) {
-//        LocalDBHelper dbHelper = LocalDBHelper.getInstance(context);
-//        SQLiteDatabase database = LocalDBHelper.getInstance(context).getWritableDatabase();
         return LocalDBHelper.getHelperInstance(context).getWritableDatabase();
     }
 
@@ -91,7 +80,6 @@ public abstract class DBObject {
     }
 
     private void getAnnotations(){
-//        allColumns = new String[]{};
         allColumnsList = new ArrayList<>();
         allSetters = new ArrayList<>();
         allGetters = new ArrayList<>();
@@ -101,15 +89,12 @@ public abstract class DBObject {
         }
 
         Field[] fields = this.getClass().getDeclaredFields();
-//        int columnsCount = 0;
         Annotation[] currFieldAnnotations;
         for (Field field:fields){
             currFieldAnnotations = field.getAnnotations();
             for (Annotation annotation:currFieldAnnotations) {
                 if (annotation instanceof Column){
                     allColumnsList.add(((Column) annotation).name());
-//                    allColumns[columnsCount] = ((Column) annotation).name();
-//                    columnsCount ++;
                 }
                 else if (annotation instanceof PrimaryKey) {
                     allColumnsList.add(((PrimaryKey) annotation).columnName());
@@ -159,7 +144,7 @@ public abstract class DBObject {
                     return field.get(this);
                 }
                 catch (Exception e){
-
+                    e.printStackTrace();
                 }
             }
         }
@@ -228,7 +213,6 @@ public abstract class DBObject {
                     field.setAccessible(true);
                     ArrayList<? extends DBObject> objectsArrayList =
                             (ArrayList<? extends DBObject>)field.get(this);
-//                    Class<? extends DBObject> entityClass = foreignKey.entityClass();
                     if (objectsArrayList != null) {
                         String fkValue = "";
 
@@ -243,7 +227,6 @@ public abstract class DBObject {
                                 else fkValue = entityId.toString();
                             }
                         }
-
                         values.put(foreignKey.fkColumnName(),fkValue);
                     }
                 }
@@ -276,18 +259,12 @@ public abstract class DBObject {
     
     public void setAttribute(Object setterOwner, String columnName, boolean isNullable, Object value, int validationType)
             throws Exception {
-        try {
-            Validator.setAttribute(setterOwner, getSetterByColumnName(columnName), columnName,
-                    isNullable, value, validationType);
-        } catch (Exception e) {
-            throw e;
-        }
+        Validator.setAttribute(setterOwner, getSetterByColumnName(columnName), columnName,
+                isNullable, value, validationType);
     }
 
     public Date stringToDate(String string) throws Exception{
         if (string != null) {
-//            DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.ENGLISH);
-//            return format.parse(string);
             return DateHelper.stringToDate(string);
         } else {
             return null;
@@ -295,11 +272,7 @@ public abstract class DBObject {
     }
 
     public String dateToString(@NotNull Date date) {
-        if (date != null) {
-//            DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT);
-//            return dateFormat.format(date);
-            return DateHelper.dateToString(date);
-        } else return "";
+        return DateHelper.dateToString(date);
     }
 
     public Object cursorToObject(Cursor cursor, Context context) throws Exception{
@@ -404,46 +377,32 @@ public abstract class DBObject {
         return this.getClass();
     }
 
-    public void close() {
-//        if (database.isOpen()) {
-//            database.close();
-//        }
-//        dbHelper.close();
-    }
-
     public void create() throws Exception {
-        open();
         try {
             ContentValues values = getContentValues();
             long objectId = LocalDBHelper.getDatabaseWritableInstance(mContext).insertOrThrow(tableName, null, values);
             setId(objectId);
         } catch (Exception e) {
+            e.printStackTrace();
             if (e.getMessage() != null) {
                 throw e;
             }
-        } finally {
-//            database.close();
-            close();
         }
     }
 
     public void save() throws Exception {
         try {
             ContentValues values = getContentValues();
-            open();
             LocalDBHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.columnName() + " = " + getId(), null);
         } catch (Exception e) {
+            e.printStackTrace();
             if (e.getMessage() != null) {
                 throw e;
             }
-        } finally {
-//            database.close();
-            close();
         }
     }
 
     public void getById(long id, Context context) throws Exception {
-        open();
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(tableName,
                 null, primaryKey.columnName() + " = " + id, null,
                 null, null, null);
@@ -454,54 +413,41 @@ public abstract class DBObject {
             throw e;
         } finally {
             cursor.close();
-//            database.close();
-            close();
         }
 
     }
 
     public void delete() throws Exception{
-        open();
         LocalDBHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.columnName() + " = " + getId(), null);
-//        database.close();
-        close();
     }
 
-    public static int count(Context context, Class<? extends DBObject> targetClass) throws Exception{
-//        database = getDatabase(context);
-
+    public static int count(Context context, Class<? extends DBObject> targetClass) throws Exception {
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass);
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query,null);
         int count = cursor.getInt(0);
         cursor.close();
-//        database.close();
         return count;
     }
 
     public static int countByColumn(Context context, Class<? extends DBObject> targetClass,
-                            String filterColumn, String filterValue) throws Exception{
-//        database = getDatabase(context);
-
+                            String filterColumn, String filterValue) throws Exception {
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query,null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
-//        database.close();
         return count;
     }
 
     public static float getAverageByColumn(Context context, Class<? extends DBObject> targetClass,
                                  String avgColumn, String filterColumn, String filterValue) throws Exception {
-//        database = getDatabase(context);
         String query = "SELECT AVG(" + avgColumn + ") FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
         cursor.moveToFirst();
         float average = cursor.getFloat(0);
         cursor.close();
-//        database.close();
         return average;
     }
 
@@ -510,7 +456,6 @@ public abstract class DBObject {
                                       Class<? extends DBObject> targetClass) throws Exception{
 
         List<Object> allObjects = new ArrayList<>();
-//        database = getDatabase(context);
 
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, null, null, null, null, orderByColumnName + " ASC");
@@ -527,17 +472,14 @@ public abstract class DBObject {
                 }
 
                 cursor.close();
-//                database.close();
                 return allObjects;
             }
             catch (Exception e){
                 cursor.close();
-//                database.close();
                 throw e;
             }
         } else {
             cursor.close();
-//            database.close();
             return allObjects;
         }
     }
@@ -551,7 +493,6 @@ public abstract class DBObject {
 
         if(value instanceof Boolean)
             value = (boolean)value ? 1 : 0;
-//        database = getDatabase(context);
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName + " ASC");
 
@@ -566,17 +507,12 @@ public abstract class DBObject {
             }
 
             cursor.close();
-//            database.close();
             return allObjects;
         }
         catch (Exception e) {
             cursor.close();
-//            database.close();
             throw e;
         }
-
-        // Make sure to close the cursor
-
     }
 
     public static List<Object> query(Context context,
@@ -585,7 +521,6 @@ public abstract class DBObject {
                              String[] whereArgs) throws Exception {
 
         List<Object> allObjects = new ArrayList<>();
-//        database = getDatabase(context);
         String whereColumnsWithQuestionMark = null;
 
         if (whereColumns != null) {
@@ -613,12 +548,10 @@ public abstract class DBObject {
             }
 
             cursor.close();
-//            database.close();
             return allObjects;
         }
         catch (Exception e) {
             cursor.close();
-//            database.close();
             throw e;
         }
     }
@@ -649,8 +582,11 @@ public abstract class DBObject {
                     create();
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-//                    database.close();
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
 
             }
@@ -698,7 +634,11 @@ public abstract class DBObject {
                     save();
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -745,7 +685,11 @@ public abstract class DBObject {
                     delete();
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -793,7 +737,11 @@ public abstract class DBObject {
                     getById(objectId, context);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -844,7 +792,11 @@ public abstract class DBObject {
                     data.add(count);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -893,8 +845,11 @@ public abstract class DBObject {
                     data = getAll(orderByColumn, context, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-//                    database.close();
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -945,8 +900,11 @@ public abstract class DBObject {
                     data = getAllByColumn(columnName, value, orderByColumnName, context, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-//                    database.close();
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -996,8 +954,11 @@ public abstract class DBObject {
                     data = query(context, targetClass, whereColumns, whereArgs);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-//                    database.close();
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -1102,8 +1063,11 @@ public abstract class DBObject {
                     data.add(getAverageByColumn(context, targetClass,avgColumn, filterColumn, filterValue));
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-//                    database.close();
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 
@@ -1147,7 +1111,11 @@ public abstract class DBObject {
                     data = rawQuery(context, query, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
-                    return e.getMessage();
+                    if (e.getMessage() != null) {
+                        return e.getMessage();
+                    } else {
+                        return ERROR_FLAG;
+                    }
                 }
             }
 

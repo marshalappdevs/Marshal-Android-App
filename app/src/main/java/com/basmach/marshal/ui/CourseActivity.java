@@ -1014,7 +1014,7 @@ public class CourseActivity extends AppCompatActivity {
                                     try {
                                         ArrayList<MaterialItem> materialItems = (ArrayList)data;
                                         Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
-                                        i.putExtra(Constants.EXTRA_COURSE_CODE, mCourse.getCourseCode());
+                                        i.putExtra(Constants.EXTRA_COURSE, mCourse);
                                         i.putParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST, materialItems);
                                         startActivity(i);
                                     } catch (Exception e) {

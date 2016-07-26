@@ -11,6 +11,7 @@ import android.view.ViewTreeObserver;
 
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
+import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
@@ -21,8 +22,7 @@ import java.util.ArrayList;
 public class CourseMaterialsActivity extends AppCompatActivity {
 
     private Toolbar mToolbar;
-    private String mCourseCode;
-    private String mCourseName;
+    private Course mCourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,19 +44,20 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             }
         });
 
-        mCourseName = getIntent().getStringExtra(Constants.EXTRA_COURSE_NAME);
+        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(mCourseName);
-        mCourseCode = getIntent().getStringExtra(Constants.EXTRA_COURSE_CODE);
+        if (mCourse.getName() != null) {
+            mToolbar.setTitle(mCourse.getName());
+        }
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
-        if (mCourseCode != null && materials != null) {
+        if (mCourse.getCourseCode() != null && materials != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
-                    MaterialsFragment.newInstanceForCourse(mCourseCode, materials), null).commit();
+                    MaterialsFragment.newInstanceForCourse(mCourse.getCourseCode(), materials), null).commit();
         }
     }
 
