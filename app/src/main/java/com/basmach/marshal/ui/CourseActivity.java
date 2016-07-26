@@ -1042,12 +1042,10 @@ public class CourseActivity extends AppCompatActivity {
                                         startActivity(i);
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        //TODO: Tell the user about it
-                                        Toast.makeText(CourseActivity.this,"Error",Toast.LENGTH_LONG).show();
+                                        Toast.makeText(CourseActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
                                     }
                                 } else {
-                                    //TODO: Tell the user about it
-                                    Toast.makeText(CourseActivity.this,"No materials for this course",Toast.LENGTH_LONG).show();
+                                    Toast.makeText(CourseActivity.this, R.string.no_materials_for_course, Toast.LENGTH_LONG).show();
                                 }
                             }
 
@@ -1058,8 +1056,7 @@ public class CourseActivity extends AppCompatActivity {
                                 } else {
                                     Log.e("GET COURSE MATERIALS "," ERROR");
                                 }
-                                Toast.makeText(CourseActivity.this,"Error",Toast.LENGTH_LONG).show();
-                                //TODO: Tell the user about it
+                                Toast.makeText(CourseActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
                             }
                         });
             }

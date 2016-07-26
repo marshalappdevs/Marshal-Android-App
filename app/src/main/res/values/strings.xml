@@ -115,6 +115,8 @@
     <string name="end_date_error">End date cannot be empty.</string>
     <string name="no_results_for_filter">No results found for selected date range.</string>
     <string name="filter_not_available">Filter is not available.</string>
+    <string name="no_materials_for_course">This course has no materials.</string>
+    <string name="error_message">An error has occurred.</string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>

@@ -111,6 +111,8 @@
     <string name="end_date_error">תאריך סוף לא יכול להיות ריק.</string>
     <string name="no_results_for_filter">לא נמצאו תוצאות עבור טווח התאריכים הנבחר.</string>
     <string name="filter_not_available">סינון לא זמין.</string>
+    <string name="no_materials_for_course">אין חומרים עבור קורס זה.</string>
+    <string name="error_message">אירעה שגיאה.</string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>
