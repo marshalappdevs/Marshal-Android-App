@@ -49,6 +49,7 @@ import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
 import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
 
+
 public class CoursesFragment extends Fragment {
     private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
     private static final String SEARCH_SHOWCASE_ID = "search_tutorial";
@@ -177,7 +178,7 @@ public class CoursesFragment extends Fragment {
                     if (result) {
                         showImagesViewPager();
                         showData();
-                        initializeTutorial();
+//                        initializeTutorial();
                     }
 
                     progressDialog.dismiss();
@@ -187,7 +188,7 @@ public class CoursesFragment extends Fragment {
         } else {
             showImagesViewPager();
             showData();
-            initializeTutorial();
+//            initializeTutorial();
         }
 
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
