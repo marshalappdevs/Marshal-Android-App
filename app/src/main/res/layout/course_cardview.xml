@@ -40,9 +40,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:layout_marginTop="4.0dip"
-                    android:ellipsize="marquee"
+                    android:ellipsize="end"
                     android:maxLines="3"
-                    android:singleLine="false"
                     android:lineSpacingExtra="0.0sp"
                     android:textColor="?android:textColorPrimary"
                     android:paddingStart="8dp"
@@ -60,7 +59,6 @@
                         android:layout_height="match_parent"
                         android:textColor="?android:textColorSecondary"
                         android:maxLines="1"
-                        android:singleLine="true"
                         android:textSize="12sp"
                         android:gravity="start|center_vertical"
                         android:paddingStart="8dp"
@@ -82,7 +80,6 @@
                             android:layout_height="match_parent"
                             android:textColor="?android:textColorPrimary"
                             android:maxLines="1"
-                            android:singleLine="true"
                             android:textSize="12sp"
                             android:gravity="start|center_vertical" />
 
