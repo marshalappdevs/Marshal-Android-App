@@ -64,6 +64,7 @@ import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -80,6 +81,8 @@ public class CourseActivity extends AppCompatActivity {
     private Course mCourse;
     private Rating mUserRating;
 
+    private TextView mTextViewCourseName;
+    private TextView mTextViewCourseCategory;
     private TextView mTextViewCourseCode;
     private TextView mTextViewGeneralDescription;
     private TextView mTextViewSyllabus;
@@ -282,6 +285,8 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course title
             collapsingToolbarLayout.setTitle(mCourse.getName());
 
+            mTextViewCourseName = (TextView) findViewById(R.id.course_content_textView_courseName);
+            mTextViewCourseCategory = (TextView) findViewById(R.id.course_content_textView_courseCategory);
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
             mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
@@ -864,6 +869,32 @@ public class CourseActivity extends AppCompatActivity {
     private void initializeTextViews() {
 
         boolean isAnyDataExist = false;
+
+        // Set course's Name
+        if ((mCourse.getName() != null) &&
+                (!mCourse.getName().equals(""))) {
+            mTextViewCourseName.setText(mCourse.getName());
+            isAnyDataExist = true;
+        } else {
+            findViewById(R.id.course_content_relativeLayout_name).setVisibility(View.GONE);
+        }
+
+        // Set course's Category
+        if ((mCourse.getCategory() != null)) {
+            if (Objects.equals(mCourse.getCategory(), "software"))
+                mTextViewCourseCategory.setText(getString(R.string.course_type_software));
+            if (Objects.equals(mCourse.getCategory(), "cyber"))
+                mTextViewCourseCategory.setText(getString(R.string.course_type_cyber));
+            if (Objects.equals(mCourse.getCategory(), "it"))
+                mTextViewCourseCategory.setText(getString(R.string.course_type_it));
+            if (Objects.equals(mCourse.getCategory(), "tools"))
+                mTextViewCourseCategory.setText(getString(R.string.course_type_tools));
+            if (Objects.equals(mCourse.getCategory(), "system"))
+                mTextViewCourseCategory.setText(getString(R.string.course_type_system));
+            isAnyDataExist = true;
+        } else {
+            findViewById(R.id.course_content_relativeLayout_category).setVisibility(View.GONE);
+        }
 
         // Set course's Code
         if ((mCourse.getCourseCode() != null) &&
