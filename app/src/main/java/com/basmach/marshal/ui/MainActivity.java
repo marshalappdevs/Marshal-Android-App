@@ -303,10 +303,10 @@ public class MainActivity extends AppCompatActivity
         Animation animation;
         if (visibility == View.VISIBLE) {
             // show in animation on visible
-            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_in);
+            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_in);
         } else {
             // show out animation on invisible
-            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_button_out);
+            animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_out);
         }
         MainActivity.sNewUpdatesButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
