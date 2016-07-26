@@ -4,7 +4,6 @@ import android.content.Context;
 import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.util.Log;
 import android.widget.ImageView;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.DBObject;

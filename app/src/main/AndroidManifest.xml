@@ -17,7 +17,7 @@
         android:protectionLevel="signature" />
 
     <application
-        android:name=".ApplicationMarshal"
+        android:name="com.basmach.marshal.ApplicationMarshal"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -44,7 +44,7 @@
             android:value="598.0dip" />
 
         <provider
-            android:name=".ui.utils.SuggestionProvider"
+            android:name="com.basmach.marshal.ui.utils.SuggestionProvider"
             android:authorities="com.basmach.marshal.SuggestionProvider"
             android:exported="false" />
 
@@ -61,14 +61,14 @@
         </receiver>
 
         <service
-            android:name=".services.GcmIntentService"
+            android:name="com.basmach.marshal.services.GcmIntentService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".services.GcmIDListenerService"
+            android:name="com.basmach.marshal.services.GcmIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -76,7 +76,7 @@
         </service>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.basmach.marshal.ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Base.Launcher">
@@ -93,12 +93,12 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="com.basmach.marshal.ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name=".ui.CourseActivity"
+            android:name="com.basmach.marshal.ui.CourseActivity"
             android:label="@string/title_activity_course"
             android:theme="@style/AppTheme.Base.Translucent">
 
@@ -107,20 +107,20 @@
             <!-- android:value=".ui.MainActivity" /> -->
         </activity>
         <activity
-            android:name=".ui.ShowAllCoursesActivity"
+            android:name="com.basmach.marshal.ui.ShowAllCoursesActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name=".ui.RatingsActivity"
+            android:name="com.basmach.marshal.ui.RatingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
             android:theme="@style/AppTheme.Base.Translucent" />
 
         <service
-            android:name=".services.UpdateIntentService"
+            android:name="com.basmach.marshal.services.UpdateIntentService"
             android:exported="false" />
         <service
-            android:name=".services.GcmRegistrationService"
+            android:name="com.basmach.marshal.services.GcmRegistrationService"
             android:exported="false" />
 
         <provider
@@ -134,7 +134,7 @@
         </provider>
 
         <activity
-            android:name=".ui.CourseMaterialsActivity"
+            android:name="com.basmach.marshal.ui.CourseMaterialsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base"
             android:label=""/>

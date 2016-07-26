@@ -13,12 +13,8 @@ import com.basmach.marshal.localdb.annotations.ColumnSetter;
 import com.basmach.marshal.localdb.annotations.PrimaryKey;
 import com.basmach.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmach.marshal.localdb.annotations.TableName;
-import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-import com.leocardz.link.preview.library.LinkPreviewCallback;
-import com.leocardz.link.preview.library.SourceContent;
-import com.leocardz.link.preview.library.TextCrawler;
 
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
 public class MaterialItem extends DBObject implements Parcelable{

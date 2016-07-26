@@ -24,7 +24,6 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmach.marshal.ui.CourseMaterialsActivity;
 import com.basmach.marshal.ui.MainActivity;
 import com.basmach.marshal.ui.adapters.MaterialsRecyclerAdapter;
 

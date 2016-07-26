@@ -11,7 +11,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.basmach.marshal.Constants;
-import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.MainActivity;

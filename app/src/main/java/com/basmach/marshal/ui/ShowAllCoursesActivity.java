@@ -16,13 +16,9 @@ import android.view.View;
 import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
-import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.ui.adapters.CoursesRecyclerAdapter;
-import com.basmach.marshal.ui.fragments.MaterialsFragment;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.ThemeUtils;
-import com.google.android.gms.auth.api.Auth;
-import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 
 import java.util.ArrayList;
 

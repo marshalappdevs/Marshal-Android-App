@@ -28,9 +28,6 @@ import com.basmach.marshal.entities.MaterialItem;
 import com.basmach.marshal.interfaces.OnHashTagClickListener;
 import com.basmach.marshal.ui.utils.HashTag;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.resource.drawable.GlideDrawable;
-import com.bumptech.glide.request.RequestListener;
-import com.bumptech.glide.request.target.Target;
 
 import java.util.ArrayList;
 import java.util.regex.Matcher;

@@ -19,7 +19,6 @@ import com.basmach.marshal.entities.Rating;
 import com.basmach.marshal.entities.Settings;
 import com.basmach.marshal.localdb.DBConstants;
 import com.basmach.marshal.localdb.LocalDBHelper;
-import com.basmach.marshal.utils.HashUtil;
 import com.basmach.marshal.utils.MarshalServiceProvider;
 import com.google.gson.JsonObject;
 
@@ -30,7 +29,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.http.Body;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

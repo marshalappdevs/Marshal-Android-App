@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.provider.Settings;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
 import com.basmach.marshal.R;
@@ -17,7 +16,6 @@ import com.google.android.gms.iid.InstanceID;
 
 import java.io.IOException;
 import java.util.Date;
-import java.util.prefs.Preferences;
 
 import retrofit2.Response;
 

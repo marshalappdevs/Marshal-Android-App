@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -19,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
@@ -144,6 +142,8 @@ public class CourseActivity extends AppCompatActivity {
             }
         });
 
+        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
@@ -200,16 +200,69 @@ public class CourseActivity extends AppCompatActivity {
         //Initialize Shared Preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
-            sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
-                @Override
-                public void onTransitionStart(Transition transition) {
-                }
+        if (mCourse != null) {
 
-                @Override
-                public void onTransitionEnd(Transition transition) {
-//                    mToolbar.setVisibility(View.VISIBLE);
+            if (mCourse.getCycles() == null || mCourse.getCycles().size() == 0) {
+                mFabCycles.setVisibility(View.GONE);
+            } else {
+                // Initialize Cycles FAB onClick event
+                mFabCycles.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
+
+                        for (int index = 0; index < cycles.size(); index++) {
+                            if (cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
+                                cycles.remove(cycles.get(index));
+                            }
+                        }
+
+                        if (cycles.size() > 0) {
+                            CyclesBottomSheetDialogFragment bottomSheet =
+                                    CyclesBottomSheetDialogFragment.newInstance(mCourse);
+                            bottomSheet.show(getSupportFragmentManager(), "CyclesBottomSheet");
+                        } else {
+                            Toast.makeText(CourseActivity.this,
+                                    getResources().getString(R.string.course_no_cycles_error),
+                                    Toast.LENGTH_LONG).show();
+                        }
+                    }
+                });
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                    Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
+                    sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
+                        @Override
+                        public void onTransitionStart(Transition transition) {
+                        }
+
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            new MaterialShowcaseView.Builder(CourseActivity.this)
+                                    .setTarget(mFabCycles)
+                                    .setShapePadding(48)
+                                    .setDismissText(R.string.got_it)
+                                    .setDismissOnTouch(false)
+                                    .setDismissOnTargetTouch(true)
+                                    .setTargetTouchable(true)
+                                    .setTitleText(R.string.cycle_fab_tutorial_description)
+//                            .setMaskColour(Color.argb(210, 0, 0, 0))
+                                    .singleUse(FAB_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
+                                    .show();
+                        }
+
+                        @Override
+                        public void onTransitionCancel(Transition transition) {
+                        }
+
+                        @Override
+                        public void onTransitionPause(Transition transition) {
+                        }
+
+                        @Override
+                        public void onTransitionResume(Transition transition) {
+                        }
+                    });
+                } else {
                     new MaterialShowcaseView.Builder(CourseActivity.this)
                             .setTarget(mFabCycles)
                             .setShapePadding(48)
@@ -222,49 +275,7 @@ public class CourseActivity extends AppCompatActivity {
                             .singleUse(FAB_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
                             .show();
                 }
-
-                @Override
-                public void onTransitionCancel(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionPause(Transition transition) {
-                }
-
-                @Override
-                public void onTransitionResume(Transition transition) {
-                }
-            });
-        }
-
-        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
-
-        if (mCourse != null) {
-            Log.i("Course Activity", "course passed");
-
-            // Initialize Cycles FAB onClick event
-            mFabCycles.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
-
-                    for (int index = 0; index < cycles.size(); index++) {
-                        if (cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
-                            cycles.remove(cycles.get(index));
-                        }
-                    }
-
-                    if (cycles.size() > 0) {
-                        CyclesBottomSheetDialogFragment bottomSheet =
-                                CyclesBottomSheetDialogFragment.newInstance(mCourse);
-                        bottomSheet.show(getSupportFragmentManager(), "CyclesBottomSheet");
-                    } else {
-                        Toast.makeText(CourseActivity.this,
-                                getResources().getString(R.string.course_no_cycles_error),
-                                Toast.LENGTH_LONG).show();
-                    }
-                }
-            });
+            }
 
             onSecondaryActionsClick();
 
@@ -285,15 +296,6 @@ public class CourseActivity extends AppCompatActivity {
             // Set the course photo
             mHeader = (ImageView) findViewById(R.id.header);
 
-//            mHeader.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View view) {
-//                    if (mCourse.getName() != null && !(mCourse.getName().equals(""))) {
-//                        Toast.makeText(CourseActivity.this, mCourse.getName(), Toast.LENGTH_LONG).show();
-//                    }
-//                }
-//            });
-
             Glide.with(this)
                     .load(mCourse.getImageUrl())
                     .asBitmap()
@@ -308,8 +310,6 @@ public class CourseActivity extends AppCompatActivity {
                                     scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
                                     collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
                                     collapsingToolbarLayout.setContentScrimColor(contentColor);
-//                            paintTitlesTextColor(contentColor);
-//                            collapsingToolbarLayout.setStatusBarScrimColor(palette.getDarkMutedColor(ContextCompat.getColor(getApplicationContext(),R.color.colorPrimaryDark)));
                                 }
                             });
 
@@ -396,7 +396,7 @@ public class CourseActivity extends AppCompatActivity {
         mRatingsFrame = (LinearLayout) findViewById(R.id.course_content_ratingsFrame);
 
         if (mCourse != null) {
-            setRatingViewsVisibillity(View.VISIBLE);
+            setRatingViewsVisibility(View.VISIBLE);
             showRatingAverage();
             showRatingsCount();
             showUserRating();
@@ -441,9 +441,9 @@ public class CourseActivity extends AppCompatActivity {
         }
     }
 
-    private void setRatingViewsVisibillity(int visibillity) {
+    private void setRatingViewsVisibility(int visibility) {
         if (mRatingsFrame != null) {
-            mRatingsFrame.setVisibility(visibillity);
+            mRatingsFrame.setVisibility(visibility);
         }
     }
 
@@ -998,14 +998,6 @@ public class CourseActivity extends AppCompatActivity {
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                Intent intent = new Intent(MainActivity.ACTION_SHOW_COURSE_MATERIALS);
-//                intent.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-//                setResult(MainActivity.RESULT_SHOW_COURSE_MATERIALS, intent);
-//                finish();
-//                Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
-//                i.putExtra(MainActivity.EXTRA_COURSE_CODE, mCourse.getCourseCode());
-//                i.putExtra(MainActivity.EXTRA_COURSE_NAME, mCourse.getName());
-//                startActivity(i);
                 MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseCode()),
                         CourseActivity.this, MaterialItem.class, true, new BackgroundTaskCallBack() {
                             @Override

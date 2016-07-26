@@ -14,7 +14,6 @@ import com.basmach.marshal.Constants;
 import com.basmach.marshal.R;
 import com.basmach.marshal.entities.Course;
 import com.basmach.marshal.entities.Cycle;
-import com.basmach.marshal.ui.CourseActivity;
 import com.basmach.marshal.ui.adapters.CyclesRecyclerAdapter;
 
 import java.util.ArrayList;
