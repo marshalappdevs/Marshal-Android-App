@@ -119,8 +119,8 @@ public class SettingsActivity extends AppCompatActivity {
             Preference prefClearHistory = findPreference("clear-history");
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
 
-            Preference prefResetTutorials = findPreference("reset-tutorial");
-            prefResetTutorials.setOnPreferenceClickListener(resetTutorialsClickListener);
+//            Preference prefResetTutorials = findPreference("reset-tutorial");
+//            prefResetTutorials.setOnPreferenceClickListener(resetTutorialsClickListener);
 
             CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("chrome_custom_tabs");
             prefCCT.setOnPreferenceChangeListener(cctChangeListener);
