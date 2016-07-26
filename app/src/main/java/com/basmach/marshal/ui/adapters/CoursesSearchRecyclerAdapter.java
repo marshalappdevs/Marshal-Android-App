@@ -75,15 +75,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
             }
         });
 
-        // Set card onLongClickListener
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Toast.makeText(mContext, mCourses.get(position).getName(), Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
 
@@ -95,8 +86,8 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         }
 
         // Set course rating
-        holder.courseRating.setVisibility(View.INVISIBLE);
-        holder.starIcon.setVisibility(View.INVISIBLE);
+        holder.courseRating.setVisibility(View.GONE);
+        holder.starIcon.setVisibility(View.GONE);
 
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
                 DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
@@ -105,12 +96,12 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     public void onSuccess(String result, List<Object> data) {
                         try {
                             if ((Float) data.get(0) > 0) {
-                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
-                                holder.courseRating.setVisibility(View.VISIBLE);
                                 holder.starIcon.setVisibility(View.VISIBLE);
+                                holder.courseRating.setVisibility(View.VISIBLE);
+                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
                             } else {
-                                holder.courseRating.setVisibility(View.INVISIBLE);
-                                holder.starIcon.setVisibility(View.INVISIBLE);
+                                holder.courseRating.setVisibility(View.GONE);
+                                holder.starIcon.setVisibility(View.GONE);
                             }
 
                         } catch (Exception e) {
@@ -195,13 +186,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         for(int i = 0; i < mCourses.size(); i++) {
             notifyItemChanged(i);
         }
-//        for (int position = mCourses.size() - 1; position >= 0; position--) {
-//            final Course item = mCourses.get(position);
-//            if (!coursesList.contains(item)) {
-//                mCourses.remove(position);
-//                notifyItemRemoved(position);
-//            }
-//        }
     }
 
     private void applyAndAnimateRemovals(ArrayList<Course> newItems) {

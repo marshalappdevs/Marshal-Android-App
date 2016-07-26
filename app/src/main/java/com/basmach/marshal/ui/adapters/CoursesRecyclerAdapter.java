@@ -92,15 +92,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             }
         });
 
-        // Set card onLongClickListener
-        holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Toast.makeText(mContext, mCourses.get(holder.getAdapterPosition()).getName(), Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
-
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
 
