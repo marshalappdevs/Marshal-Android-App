@@ -138,7 +138,7 @@ public class MainActivity extends AppCompatActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
-    public static LinearLayout sNewUpdatesButton;
+    public static FrameLayout sNewUpdatesButton;
     public static LinearLayout sErrorScreen;
 
     @Override
@@ -278,7 +278,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initializeNewUpdatesButton() {
-        MainActivity.sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
+        MainActivity.sNewUpdatesButton = (FrameLayout) findViewById(R.id.new_updates_button);
         MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -29,7 +29,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="4.0dip"
         android:layout_centerHorizontal="true"
-        layout="@layout/new_updates_button" />
+        layout="@layout/new_updates_banner" />
 
     <include
         android:id="@+id/placeholder_error"
