@@ -74,7 +74,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:singleLine="true"
                         android:lineSpacingMultiplier="1.08" />
 
                     <TextView
@@ -88,7 +87,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:maxLines="1"
-                        android:singleLine="true"
                         android:includeFontPadding="false" />
 
                     <LinearLayout
@@ -103,7 +101,6 @@
                             android:layout_height="match_parent"
                             android:textColor="?android:textColorSecondary"
                             android:maxLines="1"
-                            android:singleLine="true"
                             android:textSize="12sp"
                             android:gravity="end|center_vertical"
                             android:layout_marginEnd="8dp"/>
@@ -114,7 +111,6 @@
                             android:layout_height="match_parent"
                             android:textColor="?android:textColorPrimary"
                             android:maxLines="1"
-                            android:singleLine="true"
                             android:textSize="12sp"
                             android:gravity="start|center_vertical"
                             android:visibility="invisible" />
