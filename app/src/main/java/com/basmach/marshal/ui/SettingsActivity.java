@@ -131,8 +131,7 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 if (mTapCount == 7) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Thanks Shani!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
-                    getActivity().startActivity(new Intent(getActivity(), EasterEgg.class));
+                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
                 }
                 mTapCount++;

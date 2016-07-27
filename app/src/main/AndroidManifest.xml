@@ -138,10 +138,6 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label=""
             android:theme="@style/AppTheme.Base" />
-        <activity android:name=".ui.EasterEgg"
-            android:label=""
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Base.Translucent" />
     </application>
 
 </manifest>
