@@ -21,20 +21,25 @@
 
     <style name="TextAppearance.Toolbar.Title" parent="@style/TextAppearance.Widget.AppCompat.Toolbar.Title">
         <item name="android:textSize">20sp</item>
-        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="TextAppearance.NavView.Header.Name" parent="@style/TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">bold</item>
     </style>
 
-    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="AppTheme.AppBarOverlay.Main" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlHighlight">#1F000000</item>
         <!-- 12% black -->
         <!--@color/ripple_material_light-->
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:textColorHint">@color/hint_text_color_dark</item>
         <item name="android:editTextColor">@android:color/white</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
+        <item name="colorControlHighlight">#1F000000</item>
+        <!-- 12% black -->
+        <!--@color/ripple_material_light-->
     </style>
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
