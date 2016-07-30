@@ -115,7 +115,7 @@
     <string name="error_message">אירעה שגיאה.</string>
 
     <!--About-->
-    <string name="about_contributors_heading">תורמים</string>
+    <string name="about_contributors_heading">מפתחים ותורמים</string>
     <string name="contributors_list">אור אגו, עדו עמרם, טום לנגר, איתמר דורי, אילן מליסוב, אופיר וקנין, אלה פורטנוב, שני גיטלמן, שני שגיב</string>
     <string name="about_libraries_heading">ספריות בשימוש</string>
     <string name="about_app_license_heading">רישיון</string>
