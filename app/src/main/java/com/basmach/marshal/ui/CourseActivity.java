@@ -296,6 +296,7 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
             mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
             mTextViewComments = (TextView) findViewById(R.id.course_content_textView_comments);
+            mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
             mReviewProfileImageView = (CircleImageView) findViewById(R.id.user_profile_image);
 
             // Set the course photo
@@ -869,6 +870,12 @@ public class CourseActivity extends AppCompatActivity {
     private void initializeTextViews() {
 
         boolean isAnyDataExist = false;
+
+        if (mCourse.getIsMeetup()) {
+            mTextViewReviewHint.setText(getString(R.string.rate_this_meetup));
+        } else {
+            mTextViewReviewHint.setText(getString(R.string.rate_this_course));
+        }
 
         // Set course's Name
         if ((mCourse.getName() != null) &&

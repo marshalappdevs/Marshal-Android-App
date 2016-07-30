@@ -81,6 +81,7 @@
     <string name="delete_review">מחק</string>
     <string name="save_review">שמור</string>
     <string name="rate_this_course">דרג את הקורס הזה</string>
+    <string name="rate_this_meetup">דרג את המיטאפ הזה</string>
     <string name="review_by">ביקורת על ידי %1$s</string>
     <string name="review_edited_after_developer_reply">(נערכה)</string>
     <string name="all_reviews">כל הביקורות</string>
