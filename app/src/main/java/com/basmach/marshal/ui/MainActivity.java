@@ -877,6 +877,7 @@ public class MainActivity extends AppCompatActivity
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
+            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
         } else if (id == R.id.nav_contact_us) {
             // Open mail intent, set email address, title and add attachment
             Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
@@ -903,6 +904,7 @@ public class MainActivity extends AppCompatActivity
             startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
+            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

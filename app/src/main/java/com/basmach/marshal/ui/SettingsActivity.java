@@ -21,6 +21,7 @@ import android.widget.Toast;
 
 import com.basmach.marshal.BuildConfig;
 import com.basmach.marshal.R;
+import com.basmach.marshal.localdb.LocalDBHelper;
 import com.basmach.marshal.ui.utils.LocaleUtils;
 import com.basmach.marshal.ui.utils.SuggestionProvider;
 import com.basmach.marshal.ui.utils.ThemeUtils;
@@ -48,10 +49,17 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
             }
         });
 
         getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
     }
 
     @Override

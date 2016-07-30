@@ -100,7 +100,7 @@
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme.Base.Translucent">
+            android:theme="@style/AppTheme">
 
             <!-- <meta-data -->
             <!-- android:name="android.support.PARENT_ACTIVITY" -->
@@ -110,11 +110,12 @@
             android:name=".ui.ShowAllCoursesActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
+
         <activity
             android:name=".ui.RatingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
-            android:theme="@style/AppTheme.Base.Translucent" />
+            android:theme="@style/AppTheme.Base" />
 
         <service
             android:name=".services.UpdateIntentService"

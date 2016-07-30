@@ -37,7 +37,6 @@ public class MeetupsFragment extends Fragment {
     private ArrayList<Course> mFilteredMeetupsList;
     private ArrayList<Course> mMeetupsList;
     private String mFilterText;
-    private boolean isEmptyResult = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -174,14 +173,12 @@ public class MeetupsFragment extends Fragment {
                 searchResult = getString(R.string.no_results_for_filter);
             } else {
                 searchResult = String.format(getString(R.string.no_results_for_query), query);
-                isEmptyResult = true;
             }
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
         } else {
             mNoResults.setVisibility(View.GONE);
-            isEmptyResult = false;
         }
         mAdapter.animateTo(listToShow);
         mRecycler.scrollToPosition(0);

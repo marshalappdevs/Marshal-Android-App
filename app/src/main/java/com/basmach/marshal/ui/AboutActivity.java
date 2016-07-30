@@ -2,6 +2,7 @@ package com.basmach.marshal.ui;
 
 import android.content.ActivityNotFoundException;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -37,6 +38,7 @@ public class AboutActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
+                overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
             }
         });
 
@@ -77,4 +79,15 @@ public class AboutActivity extends AppCompatActivity {
         aboutBasmach.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        LocaleUtils.updateLocale(this);
+    }
 }
