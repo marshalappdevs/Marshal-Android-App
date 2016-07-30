@@ -28,9 +28,6 @@
     </style>
 
     <style name="AppTheme.AppBarOverlay.Main" parent="ThemeOverlay.AppCompat.ActionBar">
-        <item name="colorControlHighlight">#1F000000</item>
-        <!-- 12% black -->
-        <!--@color/ripple_material_light-->
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:textColorHint">@color/hint_text_color_dark</item>
         <item name="android:editTextColor">@android:color/white</item>
