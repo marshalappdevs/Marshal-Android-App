@@ -113,6 +113,7 @@
             android:layout_marginBottom="8.0dip"
             android:text="@string/about_rate_app"
             android:textColor="@color/link_color"
+            android:textAppearance="@style/TextAppearance.Button"
             android:background="?attr/selectableItemBackground"
             android:id="@+id/rate_app_button" />
 
