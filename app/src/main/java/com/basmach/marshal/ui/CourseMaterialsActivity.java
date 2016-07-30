@@ -32,26 +32,24 @@ public class CourseMaterialsActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_course_materials);
 
-        supportPostponeEnterTransition();
-
-        final View decor = getWindow().getDecorView();
-        decor.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
-            @Override
-            public boolean onPreDraw() {
-                decor.getViewTreeObserver().removeOnPreDrawListener(this);
-                supportStartPostponedEnterTransition();
-                return true;
-            }
-        });
-
         mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        if (mCourse.getName() != null) {
+
+        if (mCourse.getName() != null)
             mToolbar.setTitle(mCourse.getName());
-        }
+
         setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+                overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
+            }
+        });
 
         ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
@@ -59,6 +57,12 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
                     MaterialsFragment.newInstanceForCourse(mCourse.getCourseCode(), materials), null).commit();
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
     }
 
     @Override
