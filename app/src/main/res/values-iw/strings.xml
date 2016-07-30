@@ -11,7 +11,7 @@
     <string name="navigation_drawer_malshab">מידע למלש\"ב</string>
     <string name="navigation_drawer_settings">הגדרות</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
-    <string name="navigation_drawer_about">אודות בסמ\"ח</string>
+    <string name="navigation_drawer_about">אודות האפליקציה</string>
     <string name="offline_snackbar_network_unavailable">אין חיבור לאינטרנט</string>
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
@@ -113,6 +113,15 @@
     <string name="filter_not_available">סינון לא זמין.</string>
     <string name="no_materials_for_course">אין חומרים עבור קורס זה.</string>
     <string name="error_message">אירעה שגיאה.</string>
+
+    <!--About-->
+    <string name="about_contributors_heading">תורמים</string>
+    <string name="contributors_list">אור אגו, עדו עמרם, טום לנגר, איתמר דורי, אילן מליסוב, אופיר וקנין, אלה פורטנוב, שני גיטלמן, שני שגיב</string>
+    <string name="about_libraries_heading">ספריות בשימוש</string>
+    <string name="about_app_license_heading">רישיון</string>
+    <string name="about_app_license">קוד המקור זמין ב- &lt;a href=\"https://github.com/marshalappdevs/Marshal-Android-App\">GitHub&lt;/a> לפי תנאי &lt;a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0 License&lt;/a>.</string>
+    <string name="about_rate_app">דרג את האפליקציה</string>
+    <string name="about_basmach">בסמ\"ח- &lt;a href=https://goo.gl/s6thV1>האקדמיה הצה\"לית למקצועות המחשב וההגנה בסייבר&lt;/a></string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>

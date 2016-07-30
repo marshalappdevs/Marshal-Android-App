@@ -71,7 +71,7 @@
         <item name="colorControlActivated">@color/colorAccent</item>
     </style>
 
-    <style name="Review.EditText" parent="Theme.AppCompat.Light" >
+    <style name="Review.EditText" parent="Theme.AppCompat.Light">
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 

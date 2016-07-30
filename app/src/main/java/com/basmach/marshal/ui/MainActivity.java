@@ -902,20 +902,7 @@ public class MainActivity extends AppCompatActivity
             }
             startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
-            String url = "https://goo.gl/s6thV1";
-            Boolean cct = mSharedPreferences.getBoolean("CCT", true);
-            // Check if chrome custom tab preference is enabled
-            if (cct) {
-                new CustomTabsIntent.Builder()
-                        .setToolbarColor(ContextCompat.getColor(getApplicationContext(), R.color.colorPrimary))
-                        .setShowTitle(true)
-                        .addDefaultShareMenuItem()
-                        .setCloseButtonIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_arrow_back_wht))
-                        .build()
-                        .launchUrl(this, Uri.parse(url));
-            } else {
-                startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
-            }
+            startActivity(new Intent(this, AboutActivity.class));
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

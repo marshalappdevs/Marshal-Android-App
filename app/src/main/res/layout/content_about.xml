@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/about_scrollview"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:gravity="center"
+        android:orientation="vertical"
+        android:id="@+id/about_container"
+        android:padding="24.0dip"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/about_logo_image"
+            android:layout_width="48.0dip"
+            android:layout_height="48.0dip"
+            android:src="@mipmap/ic_launcher"
+            android:contentDescription="@null" />
+
+        <LinearLayout
+            android:gravity="center_vertical"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:layout_marginBottom="8.0dip">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="@string/app_name"
+                style="?android:textAppearanceLarge" />
+
+            <TextView
+                android:textColor="#ff888888"
+                android:id="@+id/about_version_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:textIsSelectable="true"
+                style="?android:textAppearanceSmall" />
+        </LinearLayout>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/about_contributors_heading"
+            android:textColor="?android:textColorPrimary"
+            style="?android:textAppearanceSmall" />
+
+        <TextView
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="?android:textColorSecondary"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/contributors_list"
+            android:lineSpacingMultiplier="1.2"
+            android:textIsSelectable="true" />
+
+        <!--<TextView-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginTop="8.0dip"-->
+            <!--android:layout_marginBottom="8.0dip"-->
+            <!--android:text="@string/about_translators_heading"-->
+            <!--style="?android:textAppearanceSmall" />-->
+
+        <!--<TextView-->
+            <!--android:textAppearance="?android:textAppearanceSmall"-->
+            <!--android:textColor="#ff555555"-->
+            <!--android:textColorLink="@color/link_color"-->
+            <!--android:id="@+id/about_translators"-->
+            <!--android:layout_width="match_parent"-->
+            <!--android:layout_height="wrap_content"-->
+            <!--android:layout_marginBottom="8.0dip"-->
+            <!--android:text="@string/about_translators_translatewiki"-->
+            <!--android:lineSpacingMultiplier="1.2"-->
+            <!--android:textIsSelectable="true"-->
+            <!--style="@style/RtlAwareTextView" />-->
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/about_libraries_heading"
+            android:textColor="?android:textColorPrimary"
+            style="?android:textAppearanceSmall" />
+
+        <TextView
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="?android:textColorSecondary"
+            android:textColorLink="@color/link_color"
+            android:id="@+id/activity_about_libraries"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/libraries_list"
+            android:lineSpacingMultiplier="1.2"
+            android:textIsSelectable="true" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8.0dip"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/about_app_license_heading"
+            android:textColor="?android:textColorPrimary"
+            style="?android:textAppearanceSmall" />
+
+        <TextView
+            android:textAppearance="?android:textAppearanceSmall"
+            android:textColor="?android:textColorSecondary"
+            android:textColorLink="@color/link_color"
+            android:id="@+id/about_app_license"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/about_app_license"
+            android:lineSpacingMultiplier="1.2"
+            android:textIsSelectable="true" />
+
+        <Button
+            android:layout_gravity="center_horizontal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32.0dip"
+            android:layout_marginBottom="8.0dip"
+            android:text="@string/about_rate_app"
+            android:textColor="@color/link_color"
+            android:background="?attr/selectableItemBackground"
+            android:id="@+id/rate_app_button" />
+
+        <View
+            android:background="@color/divider_color"
+            android:layout_width="match_parent"
+            android:layout_height="1.0px"
+            android:layout_marginTop="12.0dip"
+            android:layout_marginBottom="12.0dip" />
+
+        <ImageView
+            android:padding="4.0dip"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="12.0dip"
+            android:src="@mipmap/ic_bsmh_old"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:textColor="?android:textColorSecondary"
+            android:textColorLink="@color/link_color"
+            android:id="@+id/about_basmach"
+            android:layout_width="match_parent"
+            android:layout_height="0.0dip"
+            android:layout_gravity="center_horizontal"
+            android:gravity="center_horizontal"
+            android:text="@string/about_basmach"
+            android:layout_weight="1.0"
+            android:textIsSelectable="true"
+            style="?android:textAppearanceSmall" />
+    </LinearLayout>
+</ScrollView>

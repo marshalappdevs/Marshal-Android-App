@@ -99,7 +99,6 @@ public class SettingsActivity extends AppCompatActivity {
     public static class SettingsFragment extends PreferenceFragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
-            String versionName = BuildConfig.VERSION_NAME;
             super.onCreate(savedInstanceState);
 
             // Load the preferences from an XML resource
@@ -108,7 +107,7 @@ public class SettingsActivity extends AppCompatActivity {
 
             Preference prefVersion = findPreference("version");
             prefVersion.setOnPreferenceClickListener(versionClickListener);
-            prefVersion.setSummary(versionName);
+            prefVersion.setSummary(BuildConfig.VERSION_NAME);
 
             ListPreference prefLanguage = (ListPreference) findPreference("language");
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);

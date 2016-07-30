@@ -136,7 +136,12 @@
         <activity
             android:name=".ui.CourseMaterialsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label=""
+            android:theme="@style/AppTheme.Base" />
+
+        <activity
+            android:name=".ui.AboutActivity"
+            android:label="@string/navigation_drawer_about"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
     </application>
 

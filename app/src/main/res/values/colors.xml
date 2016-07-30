@@ -20,4 +20,5 @@
     <color name="hash_tags_background">#10000000</color>
     <color name="hint_text_color_dark">#80ffffff</color>
     <color name="hint_text_color_light">#80000000</color>
+    <color name="link_color">#ff347bff</color>
 </resources>
