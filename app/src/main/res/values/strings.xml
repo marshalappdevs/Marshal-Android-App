@@ -121,13 +121,13 @@
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
-    <string name="contributors_list">Or Ego, Ido Amram, Tom Langer, Itamar Dori, Ilan Malisov, Ofir Vaknin, Ella Portnov, Shani Gitelman, Shani Sagiv</string>
+    <string name="contributors_list">John Doe</string>
     <string name="about_libraries_heading">Libraries used</string>
     <string name="libraries_list"><a href="https://android.googlesource.com/platform/frameworks/support/">Android Support Libraries</a>, <a href="https://github.com/bumptech/glide">Glide</a>, <a href="https://github.com/hdodenhof/CircleImageView">CircleImageView</a>, <a href="https://github.com/jhy/jsoup/">JSoup</a>, <a href="https://square.github.io/okhttp/">OkHttp</a>, <a href="https://square.github.io/retrofit/">Retrofit</a>, <a href="https://github.com/deano2390/MaterialShowcaseView">MaterialShowcaseView</a>"</string>
     <string name="about_app_license_heading">License</string>
     <string name="about_app_license">Source code available on &lt;a href=\"https://github.com/marshalappdevs/Marshal-Android-App\">GitHub&lt;/a> under the &lt;a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0 License&lt;/a>.</string>
     <string name="about_rate_app">Rate the App</string>
-    <string name="about_basmach">A product of &lt;a href=https://goo.gl/s6thV1>Basmach- The I.D.F\'s IT &amp; Cyber Academy&lt;/a></string>
+    <string name="about_basmach">Basmach- &lt;a href=https://goo.gl/s6thV1>The I.D.F\'s IT &amp; Cyber Academy&lt;/a></string>
 
     <!--Roles-->
     <string name="programmer">Programmer</string>

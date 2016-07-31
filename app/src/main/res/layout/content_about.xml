@@ -51,7 +51,8 @@
             android:layout_marginBottom="8.0dip"
             android:text="@string/about_contributors_heading"
             android:textColor="?android:textColorPrimary"
-            style="?android:textAppearanceSmall" />
+            style="?android:textAppearanceSmall"
+            android:visibility="gone" />
 
         <TextView
             android:textAppearance="?android:textAppearanceSmall"
@@ -61,7 +62,8 @@
             android:layout_marginBottom="8.0dip"
             android:text="@string/contributors_list"
             android:lineSpacingMultiplier="1.2"
-            android:textIsSelectable="true" />
+            android:textIsSelectable="true"
+            android:visibility="gone" />
 
         <TextView
             android:layout_width="match_parent"

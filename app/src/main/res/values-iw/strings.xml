@@ -117,12 +117,12 @@
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
-    <string name="contributors_list">אור אגו, עדו עמרם, טום לנגר, איתמר דורי, אילן מליסוב, אופיר וקנין, אלה פורטנוב, שני גיטלמן, שני שגיב</string>
+    <string name="contributors_list">אלמוני פלוני</string>
     <string name="about_libraries_heading">ספריות בשימוש</string>
     <string name="about_app_license_heading">רישיון</string>
     <string name="about_app_license">קוד המקור זמין ב- &lt;a href=\"https://github.com/marshalappdevs/Marshal-Android-App\">GitHub&lt;/a> לפי תנאי &lt;a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0 License&lt;/a>.</string>
     <string name="about_rate_app">דרג את האפליקציה</string>
-    <string name="about_basmach">מוצר של &lt;a href=\"https://goo.gl/s6thV1\">בסמ\"ח - האקדמיה הצה\"לית למקצועות המחשב וההגנה בסייבר&lt;/a></string>
+    <string name="about_basmach">בסמ\"ח- &lt;a href=https://goo.gl/s6thV1>האקדמיה הצה\"לית למקצועות המחשב וההגנה בסייבר&lt;/a></string>
 
     <!--Roles-->
     <string name="programmer">תוכניתן</string>
