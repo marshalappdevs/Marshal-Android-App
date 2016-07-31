@@ -70,13 +70,15 @@ public class AboutActivity extends AppCompatActivity {
         }
         aboutLicense.setMovementMethod(LinkMovementMethod.getInstance());
 
-        TextView aboutBasmach = (TextView)findViewById(R.id.about_basmach);
+        TextView aboutBasmachText = (TextView)findViewById(R.id.about_basmach);
+        String aboutBasmachString = getString(R.string.about_basmach);
+        aboutBasmachString = aboutBasmachString.replace("\r\n", "<br />").replace("\n", "<br />");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            aboutBasmach.setText(Html.fromHtml(getString(R.string.about_basmach), Html.FROM_HTML_MODE_LEGACY));
+            aboutBasmachText.setText(Html.fromHtml(aboutBasmachString, Html.FROM_HTML_MODE_LEGACY));
         } else {
-            aboutBasmach.setText(Html.fromHtml(getString(R.string.about_basmach)));
+            aboutBasmachText.setText(Html.fromHtml(aboutBasmachString));
         }
-        aboutBasmach.setMovementMethod(LinkMovementMethod.getInstance());
+        aboutBasmachText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 
     @Override
