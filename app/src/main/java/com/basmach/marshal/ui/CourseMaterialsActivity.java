@@ -47,7 +47,6 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
             }
         });
 
@@ -57,12 +56,6 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
                     MaterialsFragment.newInstanceForCourse(mCourse.getCourseCode(), materials), null).commit();
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
     }
 
     @Override

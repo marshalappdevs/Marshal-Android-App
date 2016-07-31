@@ -58,7 +58,6 @@ public class RatingsActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
             }
         });
 
@@ -94,12 +93,6 @@ public class RatingsActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
     }
 
     @Override

@@ -419,7 +419,6 @@ public class CourseActivity extends AppCompatActivity {
                         i.putExtra(Constants.EXTRA_RATING_BAR_STARS, mRatingBarAverage.getRating());
                         i.putExtra(Constants.EXTRA_RATING_AVERAGE, mTextViewRatingAverage.getText().toString());
                         startActivity(i);
-                        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
                     }
                 }
             });
@@ -1048,7 +1047,6 @@ public class CourseActivity extends AppCompatActivity {
                                         i.putExtra(Constants.EXTRA_COURSE, mCourse);
                                         i.putParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST, materialItems);
                                         startActivity(i);
-                                        overridePendingTransition(R.anim.slide_in_from_bottom, R.anim.slide_out_bottom);
                                     } catch (Exception e) {
                                         e.printStackTrace();
                                         Toast.makeText(CourseActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
