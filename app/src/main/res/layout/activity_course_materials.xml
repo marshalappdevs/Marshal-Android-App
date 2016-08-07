@@ -7,7 +7,7 @@
     android:layout_height="match_parent"
     android:layoutDirection="locale"
     android:fitsSystemWindows="true"
-    tools:context="com.basmach.marshal.ui.CourseMaterialsActivity">
+    tools:context="com.basmapp.marshal.ui.CourseMaterialsActivity">
 
     <LinearLayout
         android:layout_height="match_parent"

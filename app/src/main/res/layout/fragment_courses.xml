@@ -5,7 +5,7 @@
     android:layout_height="match_parent"
     android:scrollbars="none"
     android:layoutDirection="locale"
-    tools:context="com.basmach.marshal.ui.fragments.CoursesFragment">
+    tools:context="com.basmapp.marshal.ui.fragments.CoursesFragment">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -19,7 +19,7 @@
             android:layout_height="200dp"
             android:layout_width="match_parent">
 
-            <com.basmach.marshal.ui.utils.AutoScrollViewPager
+            <com.basmapp.marshal.ui.utils.AutoScrollViewPager
                 android:id="@+id/main_catalog_view_pager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -77,7 +77,7 @@
                     android:shadowRadius="3.0" />
             </LinearLayout>
 
-            <com.basmach.marshal.ui.utils.InkPageIndicator
+            <com.basmapp.marshal.ui.utils.InkPageIndicator
                 android:id="@+id/main_catalog_indicator"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

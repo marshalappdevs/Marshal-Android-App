@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:layoutDirection="locale"
-    tools:context="com.basmach.marshal.ui.RatingsActivity"
+    tools:context="com.basmapp.marshal.ui.RatingsActivity"
     android:fitsSystemWindows="true">
 
     <LinearLayout

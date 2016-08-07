@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.basmach.marshal">
+    package="com.basmapp.marshal">
 
     <!-- <uses-permission android:name="android.permission.GET_ACCOUNTS" /> -->
     <!-- <uses-permission android:name="android.permission.READ_CALENDAR" /> -->
@@ -13,11 +13,11 @@
     <uses-permission android:name="com.basmach.marshal.permission.C2D_MESSAGE" />
 
     <permission
-        android:name="com.basmach.marshal.permission.C2D_MESSAGE"
+        android:name="com.basmapp.marshal.permission.C2D_MESSAGE"
         android:protectionLevel="signature" />
 
     <application
-        android:name=".ApplicationMarshal"
+        android:name="com.basmapp.marshal.ApplicationMarshal"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -44,8 +44,8 @@
             android:value="598.0dip" />
 
         <provider
-            android:name=".ui.utils.SuggestionProvider"
-            android:authorities="com.basmach.marshal.SuggestionProvider"
+            android:name="com.basmapp.marshal.ui.utils.SuggestionProvider"
+            android:authorities="com.basmapp.marshal.SuggestionProvider"
             android:exported="false" />
 
         <receiver
@@ -61,14 +61,14 @@
         </receiver>
 
         <service
-            android:name=".services.GcmIntentService"
+            android:name="com.basmapp.marshal.services.GcmIntentService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
         <service
-            android:name=".services.GcmIDListenerService"
+            android:name="com.basmapp.marshal.services.GcmIDListenerService"
             android:exported="false">
             <intent-filter>
                 <action android:name="com.google.android.gms.iid.InstanceID" />
@@ -76,7 +76,7 @@
         </service>
 
         <activity
-            android:name=".ui.MainActivity"
+            android:name="com.basmapp.marshal.ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/app_name"
             android:theme="@style/AppTheme.Base.Launcher">
@@ -93,12 +93,12 @@
                 android:resource="@xml/searchable" />
         </activity>
         <activity
-            android:name=".ui.SettingsActivity"
+            android:name="com.basmapp.marshal.ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
             android:theme="@style/AppTheme.Base" />
         <activity
-            android:name=".ui.CourseActivity"
+            android:name="com.basmapp.marshal.ui.CourseActivity"
             android:label="@string/title_activity_course"
             android:theme="@style/AppTheme">
 
@@ -107,21 +107,21 @@
             <!-- android:value=".ui.MainActivity" /> -->
         </activity>
         <activity
-            android:name=".ui.ShowAllCoursesActivity"
+            android:name="com.basmapp.marshal.ui.ShowAllCoursesActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
 
         <activity
-            android:name=".ui.RatingsActivity"
+            android:name="com.basmapp.marshal.ui.RatingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
             android:theme="@style/AppTheme.Base" />
 
         <service
-            android:name=".services.UpdateIntentService"
+            android:name="com.basmapp.marshal.services.UpdateIntentService"
             android:exported="false" />
         <service
-            android:name=".services.GcmRegistrationService"
+            android:name="com.basmapp.marshal.services.GcmRegistrationService"
             android:exported="false" />
 
         <provider
@@ -135,12 +135,12 @@
         </provider>
 
         <activity
-            android:name=".ui.CourseMaterialsActivity"
+            android:name="com.basmapp.marshal.ui.CourseMaterialsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
 
         <activity
-            android:name=".ui.AboutActivity"
+            android:name="com.basmapp.marshal.ui.AboutActivity"
             android:label="@string/navigation_drawer_about"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:theme="@style/AppTheme.Base" />
