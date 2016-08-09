@@ -39,7 +39,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     public static final int LAYOUT_TYPE_LIST = 1;
     public static final int LAYOUT_TYPE_GRID = 2;
-    public static final String ACTION_ITEM_DATA_CHANGED = "com.basmach.marshal.ACTION_courses_adapter_item_data_changed";
+    public static final String ACTION_ITEM_DATA_CHANGED = "com.basmapp.marshal.ACTION_courses_adapter_item_data_changed";
 
     private Context mContext;
     private ArrayList<Course> mCourses;

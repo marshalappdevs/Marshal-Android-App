@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmach.marshal.ACTION_SHOW_COURSE_MATERIALS";
+    public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmapp.marshal.ACTION_SHOW_COURSE_MATERIALS";
     public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
     public static final int RC_SHOW_ALL_ACTIVITY = 7999;
@@ -463,7 +463,7 @@ public class MainActivity extends AppCompatActivity
     private boolean isUpdateIntentServiceRunning() {
 //        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
 //        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if ("com.basmach.marshal.UpdateIntentService".equals(service.service.getClassName())) {
+//            if ("com.basmapp.marshal.UpdateIntentService".equals(service.service.getClassName())) {
 //                Log.i("IS_SERVICE_RUNNING", " --- true");
 //                return true;
 //            }

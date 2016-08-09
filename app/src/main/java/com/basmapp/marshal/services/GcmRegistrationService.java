@@ -28,8 +28,8 @@ import retrofit2.Response;
  */
 public class GcmRegistrationService extends IntentService {
 
-    public static final String ACTION_REGISTER_NEW = "com.basmach.marshal.services.action.GCM_REGISTER_NEW";
-    public static final String ACTION_REGISTER_EXIST = "com.basmach.marshal.services.action.GCM_REGISTER_EXIST";
+    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.GCM_REGISTER_NEW";
+    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.GCM_REGISTER_EXIST";
 
     private static final String PREFERENCE_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
 

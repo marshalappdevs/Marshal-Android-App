@@ -63,7 +63,7 @@ class ShareCourseImageTask extends AsyncTask<Void, Void, File> {
     }
 
     private String getShareText() {
-        String url = "https://play.google.com/store/apps/details?id=com.basmach.marshal";
+        String url = "https://play.google.com/store/apps/details?id=com.basmapp.marshal";
         return String.format(mContext.getString(R.string.share_course_text), mCourse.getName(), url);
     }
 

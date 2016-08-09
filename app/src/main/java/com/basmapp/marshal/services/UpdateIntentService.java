@@ -39,9 +39,9 @@ import retrofit2.Response;
  */
 public class UpdateIntentService extends IntentService {
     // IntentService can perform, e.g. ACTION_FETCH_NEW_ITEMS
-    public static final String ACTION_CHECK_FOR_UPDATE = "com.basmach.marshal.utils.action.CHECK_FOR_UPDATE";
-    public static final String ACTION_UPDATE_DATA = "com.basmach.marshal.utils.action.UPDATE_DATA";
-    public static final String ACTION_UPDATE_DATA_PROGRESS_CHANGED = "com.basmach.marshal.utils.action.UPDATE_DATA_PROGRESS_CHANGED";
+    public static final String ACTION_CHECK_FOR_UPDATE = "com.basmapp.marshal.utils.action.CHECK_FOR_UPDATE";
+    public static final String ACTION_UPDATE_DATA = "com.basmapp.marshal.utils.action.UPDATE_DATA";
+    public static final String ACTION_UPDATE_DATA_PROGRESS_CHANGED = "com.basmapp.marshal.utils.action.UPDATE_DATA_PROGRESS_CHANGED";
 
     public static final String RESULT_CHECK_FOR_UPDATE = "result_check_for_update";
     public static final String RESULT_UPDATE_DATA = "result_update_data";
