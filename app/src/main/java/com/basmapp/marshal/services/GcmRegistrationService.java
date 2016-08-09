@@ -42,8 +42,8 @@ public class GcmRegistrationService extends IntentService {
         GcmRegistration gcmRegistration= new GcmRegistration();
         InstanceID instanceID = InstanceID.getInstance(this);
         try {
+            String apiToken = UpdateIntentService.getApiToken();
             String hardwareId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
-
             if(hardwareId != null) {
                 String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                 if (token != null) {
@@ -55,11 +55,11 @@ public class GcmRegistrationService extends IntentService {
                         final String action = intent.getAction();
                         if (ACTION_REGISTER_NEW.equals(action)) {
                             Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance(null).gcmRegisterNewDevice(gcmRegistration).execute();
+                                    MarshalServiceProvider.getInstance(apiToken).gcmRegisterNewDevice(gcmRegistration).execute();
                             publishResponse(response);
                         } else if (ACTION_REGISTER_EXIST.equals(action)) {
                             Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance(null).gcmRegisterExistDevice(gcmRegistration).execute();
+                                    MarshalServiceProvider.getInstance(apiToken).gcmRegisterExistDevice(gcmRegistration).execute();
                             publishResponse(response);
                         }
                     }
@@ -69,7 +69,7 @@ public class GcmRegistrationService extends IntentService {
             } else {
                 Log.e("GCM_REGISTRATION -- ","NULL HARDWARE_ID");
             }
-        } catch (IOException e) {
+        } catch (Exception e) {
             e.printStackTrace();
             Log.e("GCM_REGISTRATION -- ","failed");
         }

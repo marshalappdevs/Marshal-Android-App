@@ -49,6 +49,7 @@ import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
 import com.basmapp.marshal.ui.utils.ColorUtils;
@@ -607,84 +608,64 @@ public class CourseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    String emailHash = null;
+                    String emailHash;
+                    Rating tempRating;
+
                     try {
                         emailHash = HashUtil.SHA(MainActivity.sUserEmailAddress);
-                        mUserRating = new Rating(CourseActivity.this);
-                        mUserRating.setComment(input.getText().toString());
-                        mUserRating.setRating(mRatingBarUser.getRating());
-                        mUserRating.setUserMailAddress(emailHash);
-                        mUserRating.setPlainMailAddress(MainActivity.sUserEmailAddress);
-                        mUserRating.setCourseCode(mCourse.getCourseCode());
-                        mUserRating.setCreatedAt(new Date());
-                        mUserRating.setLastModified(new Date());
-                        MarshalServiceProvider.getInstance(null).postRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
+                        tempRating = new Rating(CourseActivity.this);
+                        tempRating.setComment(input.getText().toString());
+                        tempRating.setRating(mRatingBarUser.getRating());
+                        tempRating.setUserMailAddress(emailHash);
+                        tempRating.setPlainMailAddress(MainActivity.sUserEmailAddress);
+                        tempRating.setCourseCode(mCourse.getCourseCode());
+                        tempRating.setCreatedAt(new Date());
+                        tempRating.setLastModified(new Date());
+                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_POST, tempRating, new BackgroundTaskCallBack() {
                             @Override
-                            public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                if (response.isSuccessful()) {
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... voids) {
-                                            try {
-                                                mUserRating.create();
-                                                return true;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                return false;
-                                            }
-                                        }
+                            public void onSuccess(String result, List<Object> data) {
+                                // Simulate showing user review
+                                mTextViewReviewHint.setVisibility(View.GONE);
+                                mRatingBarUser.setVisibility(View.GONE);
+                                mReviewItemContainer.setVisibility(View.VISIBLE);
+                                mReviewAuthor.setText(MainActivity.sUserName);
+                                Uri uri = MainActivity.sUserProfileImage;
+                                Glide.with(CourseActivity.this)
+                                        .load(uri)
+                                        .placeholder(R.drawable.ic_profile_none)
+                                        .into(mReviewProfileImageView);
+                                mTextViewReviewEdited.setVisibility(View.GONE);
 
-                                        @Override
-                                        protected void onPostExecute(Boolean result) {
-                                            super.onPostExecute(result);
-                                            if (result) {
-                                                showRatingAverage();
-                                                showRatingsCount();
-                                                showUserRating();
-
-                                                // Send broadcast for update the rating on the CardView
-                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-                                                sendBroadcast(intent);
-                                            }
-                                        }
-                                    }.execute();
-
-                                    // Simulate showing user review
-
-                                    mTextViewReviewHint.setVisibility(View.GONE);
-                                    mRatingBarUser.setVisibility(View.GONE);
-                                    mReviewItemContainer.setVisibility(View.VISIBLE);
-                                    mReviewAuthor.setText(MainActivity.sUserName);
-                                    Uri uri = MainActivity.sUserProfileImage;
-                                    Glide.with(CourseActivity.this)
-                                            .load(uri)
-                                            .placeholder(R.drawable.ic_profile_none)
-                                            .into(mReviewProfileImageView);
-                                    mTextViewReviewEdited.setVisibility(View.GONE);
-
-                                    mReviewRating.setRating(mRatingBarUser.getRating());
-                                    try {
-                                        mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                        mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                    }
-                                    mTextViewReviewText.setText(input.getText().toString());
-                                    Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
+                                mReviewRating.setRating(mRatingBarUser.getRating());
+                                try {
+                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
+                                    mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
+                                } catch (Exception e) {
+                                    e.printStackTrace();
                                 }
+                                mTextViewReviewText.setText(input.getText().toString());
+
+                                showRatingAverage();
+                                showRatingsCount();
+                                showUserRating();
+
+                                // Send broadcast for update the rating on the CardView
+                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+                                sendBroadcast(intent);
+
+                                Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
                             }
+
                             @Override
-                            public void onFailure(Call<Rating> call, Throwable t) {
-                                mRatingBarUser.setOnRatingBarChangeListener(null);
-                                mRatingBarUser.setRating(0);
-                                mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-                                Toast.makeText(CourseActivity.this, R.string.review_feedback_posted_error, Toast.LENGTH_LONG).show();
+                            public void onError(String error) {
+
                             }
-                        });
-                        alertDialog.dismiss();
+                        }).execute();
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
+
+                    alertDialog.dismiss();
                 }
             });
         } else {
@@ -741,49 +722,14 @@ public class CourseActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
 
-                    if(mUserRating != null) {
-                        mUserRating.setRating(ratingBar.getRating());
-                        mUserRating.setComment(input.getText().toString());
-                        mUserRating.setLastModified(new Date());
-                        MarshalServiceProvider.getInstance(null).updateRating(mUserRating).enqueue(new retrofit2.Callback<Rating>() {
-                            @Override
-                            public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                if(response.isSuccessful()) {
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... voids) {
-                                            try {
-                                                mUserRating.save();
-                                                return true;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                return false;
-                                            }
-                                        }
-
-                                        @Override
-                                        protected void onPostExecute(Boolean result) {
-                                            super.onPostExecute(result);
-                                            if (result) {
-                                                mTextViewReviewText.setVisibility(View.VISIBLE);
-                                                showUserRating();
-                                                showRatingsCount();
-                                                showRatingAverage();
-
-                                                // Send broadcast for update the rating on the CardView
-                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-                                                sendBroadcast(intent);
-                                            }
-                                        }
-                                    }.execute();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Rating> call, Throwable t) {
-                                Toast.makeText(CourseActivity.this, R.string.review_save_retry, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                    if (mUserRating != null) {
+                        Rating tempRating = mUserRating;
+                        tempRating.setRating(ratingBar.getRating());
+                        tempRating.setComment(input.getText().toString());
+                        tempRating.setLastModified(new Date());
+                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_PUT, tempRating).execute();
+                    } else {
+                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
                     }
                     alertDialog.dismiss();
                 }
@@ -792,48 +738,10 @@ public class CourseActivity extends AppCompatActivity {
             negativeButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(mUserRating != null) {
-                        MarshalServiceProvider.getInstance(null).deleteRating(mUserRating.getCourseCode(),
-                                mUserRating.getUserMailAddress()).enqueue(new retrofit2.Callback<Rating>() {
-                            @Override
-                            public void onResponse(Call<Rating> call, Response<Rating> response) {
-                                if (response.isSuccessful()) {
-                                    new AsyncTask<Void, Void, Boolean>() {
-                                        @Override
-                                        protected Boolean doInBackground(Void... voids) {
-                                            try {
-                                                mUserRating.delete();
-                                                return true;
-                                            } catch (Exception e) {
-                                                e.printStackTrace();
-                                                return false;
-                                            }
-                                        }
-
-                                        @Override
-                                        protected void onPostExecute(Boolean result) {
-                                            super.onPostExecute(result);
-                                            if (result) {
-                                                // Simulate removing user review
-                                                initializeRatingViews();
-                                                showUserRating();
-                                                showRatingsCount();
-                                                showRatingAverage();
-
-                                                // Send broadcast for update the rating on the CardView
-                                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-                                                sendBroadcast(intent);
-                                            }
-                                        }
-                                    }.execute();
-                                }
-                            }
-
-                            @Override
-                            public void onFailure(Call<Rating> call, Throwable t) {
-                                Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
-                            }
-                        });
+                    if (mUserRating != null) {
+                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_DELETE, mUserRating).execute();
+                    } else {
+                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
                     }
                     alertDialog.dismiss();
                 }
@@ -1075,5 +983,129 @@ public class CourseActivity extends AppCompatActivity {
                 new ShareCourseImageTask(CourseActivity.this, mCourse).execute();
             }
         });
+    }
+
+    private class SendRatingRequest extends AsyncTask<Void,Void,Boolean> {
+
+        public static final int REQUEST_TYPE_POST = 10;
+        public static final int REQUEST_TYPE_PUT = 11;
+        public static final int REQUEST_TYPE_DELETE = 12;
+
+        private int requestType = 0;
+        private Rating tempRating;
+        private BackgroundTaskCallBack callBack;
+
+        public SendRatingRequest (int requestType, Rating rating) {
+            this.requestType = requestType;
+            this.tempRating = rating;
+        }
+
+        public SendRatingRequest (int requestType, Rating rating, BackgroundTaskCallBack callBack) {
+            this.requestType = requestType;
+            this.tempRating = rating;
+            this.callBack = callBack;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            if (requestType != 0) {
+                try {
+                    String apiToken = UpdateIntentService.getApiToken();
+                    switch (requestType) {
+                        case REQUEST_TYPE_POST:
+                            if (MarshalServiceProvider.getInstance(apiToken).
+                                    postRating(tempRating).execute().isSuccessful()) {
+                                tempRating.create();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        case REQUEST_TYPE_PUT:
+                            if (MarshalServiceProvider.getInstance(apiToken).
+                                    updateRating(tempRating).execute().isSuccessful()) {
+                                tempRating.save();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        case REQUEST_TYPE_DELETE:
+                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mUserRating.getCourseCode(),
+                                    mUserRating.getUserMailAddress()).execute().isSuccessful()) {
+                                mUserRating.delete();
+                                return true;
+                            } else {
+                                return false;
+                            }
+
+                        default:
+                            return false;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                    return false;
+                }
+            } else {
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                try {
+                    switch (requestType) {
+                        case REQUEST_TYPE_POST:
+                            mUserRating = tempRating;
+                            callBack.onSuccess("", null);
+                            break;
+                        case REQUEST_TYPE_PUT:
+                            mUserRating = tempRating;
+                            mTextViewReviewText.setVisibility(View.VISIBLE);
+                            showRatingChanges();
+                            break;
+                        case REQUEST_TYPE_DELETE:
+                            // Simulate removing user review
+                            initializeRatingViews();
+                            showRatingChanges();
+                            break;
+                        default:
+                            break;
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            } else {
+
+                switch (requestType) {
+                    case REQUEST_TYPE_POST:
+                        mRatingBarUser.setOnRatingBarChangeListener(null);
+                        mRatingBarUser.setRating(0);
+                        mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
+                        Toast.makeText(CourseActivity.this, R.string.review_create_error, Toast.LENGTH_LONG).show();
+                        break;
+                    case REQUEST_TYPE_PUT:
+                        Toast.makeText(CourseActivity.this, R.string.review_save_retry, Toast.LENGTH_LONG).show();
+                        break;
+                    case REQUEST_TYPE_DELETE:
+                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
+                        break;
+                    default:
+                        break;
+                }
+            }
+        }
+
+        public void showRatingChanges() {
+            showRatingAverage();
+            showRatingsCount();
+            showUserRating();
+
+            // Send broadcast for update the rating on the CardView
+            Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+            sendBroadcast(intent);
+        }
     }
 }

@@ -31,7 +31,7 @@ public class AuthRequest {
     }
 
     private void setAuthHash() {
-        DateFormat format = new SimpleDateFormat("dd/MM hh:mm", Locale.getDefault());
+        DateFormat format = new SimpleDateFormat("dd/MM kk:mm", Locale.getDefault());
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
         String authBeforeHash = "marshaldevapps " + format.format(new Date());
         Log.i("AUTH", authBeforeHash);

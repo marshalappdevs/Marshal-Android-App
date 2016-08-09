@@ -50,6 +50,8 @@ public class UpdateIntentService extends IntentService {
 
     public static boolean isRunning = false;
 
+    private static String token = null;
+
     public UpdateIntentService() {
         super("UpdateIntentService");
     }
@@ -99,63 +101,56 @@ public class UpdateIntentService extends IntentService {
      * parameters.
      */
     private void handleActionCheckForUpdate() {
+        try {
+            getApiToken();
+            Settings settings = MarshalServiceProvider.getInstance(token).getSettings().execute().body();
 
-        authentication();
+            long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
+                    .getLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0);
 
-        MarshalServiceProvider.getInstance(null).getSettings().enqueue(new Callback<Settings>() {
-            @Override
-            public void onResponse(Call<Settings> call, Response<Settings> response){
-                try {
-                    Settings settings = response.body();
-
-                    long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
-                            .getLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0);
-
-                    if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
-                        Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-                        sendCheckForUpdateResult(true);
-                        UpdateIntentService.startUpdateData(UpdateIntentService.this);
-                    } else {
-                        Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
-                        sendCheckForUpdateResult(false);
-                    }
-                } catch (Exception e) {
-                    e.printStackTrace();
-                    sendCheckForUpdateResult(false);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Settings> call, Throwable t) {
-                Log.e("CHECK FOR UPDATES", "fail");
-                t.printStackTrace();
+            if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
+                Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
+                sendCheckForUpdateResult(true);
+                UpdateIntentService.startUpdateData(UpdateIntentService.this);
+            } else {
+                Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
                 sendCheckForUpdateResult(false);
             }
-        });
-//        try {
-//            Thread.sleep(2000);
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+        } catch (Exception e) {
+            e.printStackTrace();
+            sendCheckForUpdateResult(false);
+        }
     }
 
-    private void authentication() {
+//    private boolean authenticate() {
+//        AuthRequest authRequest = new AuthRequest();
+//        try {
+//            Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
+//            if (authResponse.isSuccessful()) {
+//                token = authResponse.body();
+//                Log.i("AUTH", token);
+//                return true;
+//            } else {
+//                Log.e("AUTH", " RESPONSE ERROR");
+//                return false;
+//            }
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//            Log.e("AUTH", " FAILED");
+//            return false;
+//        }
+//    }
+
+    public static String getApiToken() throws Exception{
         AuthRequest authRequest = new AuthRequest();
-        try {
-            Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
-            String token;
-            if (authResponse.isSuccessful()) {
-                token = authResponse.body();
-                Log.i("AUTH", token);
-                Response<JsonObject> response = MarshalServiceProvider.getInstance(token).testDashboard().execute();
-                if(response.isSuccessful()){
-                    Log.i("AUTH", response.body().toString());
-                }
-            } else {
-                Log.e("AUTH", "NOT SUCCESSFUL");
-            }
-        } catch (IOException e) {
-            e.printStackTrace();
+        Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
+        if (authResponse.isSuccessful()) {
+            token = authResponse.body();
+            Log.i("AUTH", token);
+            return token;
+        } else {
+            Log.e("AUTH", " RESPONSE ERROR");
+            throw new Exception("RESPONSE ERROR");
         }
     }
 
@@ -173,7 +168,15 @@ public class UpdateIntentService extends IntentService {
     }
 
     private void handleActionUpdateData() {
-        updateData();
+        try {
+            if (token == null || token.equals("")) {
+                getApiToken();
+            }
+
+            updateData();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void updateData() {
@@ -183,10 +186,10 @@ public class UpdateIntentService extends IntentService {
         SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
 
         try {
-            List<Course> newCourses = MarshalServiceProvider.getInstance(null).getAllCourses().execute().body();
-            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance(null).getAllMaterials().execute().body();
-            List<Rating> newRatings = MarshalServiceProvider.getInstance(null).getAllRatings().execute().body();
-            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance(null).getAllMalshabItems().execute().body();
+            List<Course> newCourses = MarshalServiceProvider.getInstance(token).getAllCourses().execute().body();
+            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance(token).getAllMaterials().execute().body();
+            List<Rating> newRatings = MarshalServiceProvider.getInstance(token).getAllRatings().execute().body();
+            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance(token).getAllMalshabItems().execute().body();
 
             database.beginTransaction();
 

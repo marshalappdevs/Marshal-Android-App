@@ -47,6 +47,7 @@ public class MarshalServiceProvider {
                             .registerTypeAdapter(Date.class, new JsonDateSerializer())
                             .registerTypeAdapter(Date.class, new JsonDateDeserializer())
                             .excludeFieldsWithoutExposeAnnotation()
+                            .setLenient()
                             .create()));
 
     public static IMarshalService getInstance(final String authToken) {

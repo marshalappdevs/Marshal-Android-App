@@ -65,5 +65,5 @@ public interface IMarshalService {
     Call<String> auth(@Body AuthRequest authRequest);
 
     @GET (MarshalServiceProvider.DASHBOARD)
-    Call<JsonObject> testDashboard();
+    Call<String> testDashboard();
 }

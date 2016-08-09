@@ -56,11 +56,13 @@ public class MalshabFragment extends Fragment {
 
                             @Override
                             public void onError(String error) {
-
+                                mMalshabItems = new ArrayList<>();
+                                showData();
                             }
                         });
             } else {
                 mMalshabItems = new ArrayList<>(MainActivity.sMalshabItems);
+                showData();
             }
         } else {
             showData();

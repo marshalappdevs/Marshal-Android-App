@@ -1,6 +1,7 @@
 package com.basmapp.marshal.ui.fragments;
 
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -94,7 +95,10 @@ public class MeetupsFragment extends Fragment {
                         });
             } else {
                 mMeetupsList = new ArrayList<>(MainActivity.sMeetups);
+                filter("");
             }
+        } else {
+            filter("");
         }
 
         return rootView;

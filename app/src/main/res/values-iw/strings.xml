@@ -87,7 +87,7 @@
     <string name="submit">שלח</string>
     <string name="review_save_retry">לא ניתן לעדכן את הביקורת, נסה שוב.</string>
     <string name="review_delete_retry">לא ניתן למחוק את הביקורת, נסה שוב.</string>
-    <string name="review_error">לא ניתן ליצור ביקורת.</string>
+    <string name="review_create_error">לא ניתן ליצור ביקורת.</string>
     <string name="review_feedback_posted">תודה על המשוב ששלחת!</string>
     <string name="review_feedback_posted_error">לא ניתן היה לדרג את התגובה.</string>
     <string name="no_reviews_error">קורס זה עדיין לא דורג.</string>
