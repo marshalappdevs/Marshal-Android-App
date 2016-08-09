@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "608057070384",
-    "project_id": "marshal-1198"
+    "project_number": "891494095092",
+    "project_id": "basmapp-139819"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:608057070384:android:9f9b62e3159e9196",
+        "mobilesdk_app_id": "1:891494095092:android:e1b06e3a714ddb5a",
         "android_client_info": {
-          "package_name": "com.basmach.marshal"
+          "package_name": "com.basmapp.marshal"
         }
       },
       "oauth_client": [
         {
-          "client_id": "608057070384-h6vmmhkga8ftna4pebrrvlmni9tl3vuk.apps.googleusercontent.com",
+          "client_id": "891494095092-bgedvj570m1s476vvt0ddf0f486fmgj0.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.basmach.marshal",
-            "certificate_hash": "8057AA49D89036E82C264C1DB6233BAEE6F5C64C"
+            "package_name": "com.basmapp.marshal",
+            "certificate_hash": "9DDB73CD22797EDCD3EAF4A2247DB468CA7CFE6F"
           }
         },
         {
-          "client_id": "608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com",
+          "client_id": "891494095092-l3dvd9v85h38do09rd1qs7lg43is46dm.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAihYjVcZvsjAWpG8j3ZBupnxbhuiru-nU"
+          "current_key": "AIzaSyBboR2Zlv0rDvyFi2nlkwnXcpYWH9OLcts"
         }
       ],
       "services": {

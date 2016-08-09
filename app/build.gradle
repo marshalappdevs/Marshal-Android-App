@@ -2,17 +2,17 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        marshal_debug_key {
-            keyAlias 'marshal'
-            keyPassword '9or6136J11676P'
-            storeFile file('marshal_debug_key.jks')
-            storePassword '9or6136J11676P'
+        basmapp_keystore_release {
+            keyAlias 'basmapp_keystore_release'
+            keyPassword 'gsuutur'
+            storeFile file('basmapp_keystore_release.jks')
+            storePassword 'turugsu'
         }
     }
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
     defaultConfig {
-        applicationId "com.basmach.marshal"
+        applicationId "com.basmapp.marshal"
         minSdkVersion 19
         targetSdkVersion 24
         versionCode 1
@@ -23,15 +23,16 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.basmapp_keystore_release
         }
         debug {
-            signingConfig signingConfigs.marshal_debug_key
+//            signingConfig signingConfigs.basmapp_keystore_release
         }
     }
 }
 
 ext {
-    servicesLibVersion = '9.2.1'
+    servicesLibVersion = '9.4.0'
     supportLibVersion = '24.1.1'
 }
 
@@ -52,6 +53,14 @@ dependencies {
     compile 'com.squareup.retrofit2:retrofit:2.0.2'
     compile 'com.squareup.retrofit2:converter-gson:2.0.1'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
+    compile 'com.google.android.gms:play-services-auth:9.4.0'
+    compile 'com.google.android.gms:play-services-gcm:9.4.0'
 }
+
+
+
+
+
+
 
 apply plugin: 'com.google.gms.google-services'
