@@ -112,6 +112,7 @@
     <string name="filter_not_available">סינון לא זמין.</string>
     <string name="no_materials_for_course">אין חומרים עבור קורס זה.</string>
     <string name="error_message">אירעה שגיאה.</string>
+    <string name="mooc_flag_title">רשתי</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>

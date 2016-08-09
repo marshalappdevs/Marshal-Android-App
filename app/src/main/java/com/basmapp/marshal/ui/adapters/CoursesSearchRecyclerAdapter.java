@@ -246,7 +246,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
         CardView cardView;
         ImageView courseImage;
-        ImageView moocFlag;
+        TextView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
         TextView courseRating;
@@ -258,7 +258,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
             cardView = (CardView) itemView.findViewById(R.id.course_searchable_cardView) ;
             courseImage = (ImageView) itemView.findViewById(R.id.course_searchable_imageView);
-            moocFlag = (ImageView) itemView.findViewById(R.id.course_searchable_moocFlag);
+            moocFlag = (TextView) itemView.findViewById(R.id.mooc_flag);
             courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
             courseRating = (TextView) itemView.findViewById(R.id.course_searchable_rating);

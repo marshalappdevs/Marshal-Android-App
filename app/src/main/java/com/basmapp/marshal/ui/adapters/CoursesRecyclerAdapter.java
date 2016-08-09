@@ -151,7 +151,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
         FrameLayout frameLayout;
         CardView cardView;
         ImageView courseImage;
-        ImageView moocFlag;
+        TextView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
         LinearLayout courseRating;
@@ -163,7 +163,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             frameLayout = (FrameLayout) itemView.findViewById(R.id.course_cardview_mainFrame);
             cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;
             courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
-            moocFlag = (ImageView) itemView.findViewById(R.id.course_cardview_moocFlag);
+            moocFlag = (TextView) itemView.findViewById(R.id.mooc_flag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
             courseStartDateTime = (TextView) itemView.findViewById(R.id.course_cardview_startDateTime);
             courseRating = (LinearLayout) itemView.findViewById(R.id.course_cardview_rating);
