@@ -2,10 +2,10 @@ apply plugin: 'com.android.application'
 
 android {
     signingConfigs {
-        basmapp_release {
+        basmapp_keystore_release {
             keyAlias 'basmapp'
             keyPassword 'gsuutur'
-            storeFile file('basmapp_release.jks')
+            storeFile file('basmapp_keystore_release.jks')
             storePassword 'turugsu'
         }
     }
@@ -15,7 +15,7 @@ android {
         applicationId "com.basmapp.marshal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 2
+        versionCode 3
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
@@ -23,10 +23,10 @@ android {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.basmapp_release
+            signingConfig signingConfigs.basmapp_keystore_release
         }
         debug {
-//            signingConfig signingConfigs.basmapp_release
+//            signingConfig signingConfigs.basmapp_keystore_release
         }
     }
 }

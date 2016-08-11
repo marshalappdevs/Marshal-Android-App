@@ -101,4 +101,6 @@
         <item name="android:textAllCaps">true</item>
         <item name="android:rotation">45</item>
     </style>
+
+    <style name="DateFilterSpinner" parent="@android:style/Widget.Holo.Light.Spinner" />
 </resources>

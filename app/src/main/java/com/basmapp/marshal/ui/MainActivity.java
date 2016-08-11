@@ -588,22 +588,6 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        } else if (resultCode == RESULT_SHOW_COURSE_MATERIALS) {
-            // Result returned from course activity to show course materials
-
-            // Get course code from course activity
-//            String courseCode = data.getStringExtra(EXTRA_COURSE_CODE);
-//
-//            if (courseCode != null && !(courseCode.equals(""))) {
-//                // If course code is not empty, pass data to materials fragment and set it as query
-//                // Materials should have course code as HashTag in order to show course relevant materials
-//
-////                mMaterialsFragment = MaterialsFragment.newInstanceWithQuery(courseCode, true);
-////
-////                onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_materials));
-////                mNavigationView.setCheckedItem(R.id.nav_materials);
-////                mMaterialsFragment = new MaterialsFragment();
-//            }
         }
     }
 
