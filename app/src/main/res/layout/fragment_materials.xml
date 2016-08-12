@@ -6,22 +6,22 @@
     android:layoutDirection="ltr">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/materials_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/materials_recyclerView" />
+        android:layout_height="match_parent" />
 
     <TextView
         android:id="@+id/materials_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ProgressBar
+        android:id="@+id/materials_progressBar"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true"
-        android:id="@+id/materials_progressBar"
-        android:visibility="gone"/>
+        android:layout_centerInParent="true" />
 
 </RelativeLayout>

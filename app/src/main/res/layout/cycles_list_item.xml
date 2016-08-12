@@ -1,23 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/cycles_list_item_linearLayout_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="vertical"
-    android:clickable="true"
     android:background="?android:attr/selectableItemBackground"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:clickable="true">
 
     <TextView
         android:id="@+id/cycles_list_item_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:padding="16dp"
-        android:layoutDirection="ltr"
         android:gravity="center"
-        android:text="@string/course_cycle_format"
+        android:layoutDirection="ltr"
+        android:textAppearance="@android:style/TextAppearance.Medium"
         android:textColor="?android:textColorPrimary"
-        android:textAppearance="@android:style/TextAppearance.Medium" />
+        android:text="@string/course_cycle_format" />
 
     <View
         android:layout_width="match_parent"

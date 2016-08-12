@@ -8,16 +8,16 @@
     tools:context="com.basmapp.marshal.ui.fragments.MeetupsFragment">
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/meetup_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingTop="4dp"
-        android:clipToPadding="false"
-        android:id="@+id/meetup_recyclerView" />
+        android:clipToPadding="false" />
 
     <TextView
         android:id="@+id/meetup_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:layout_gravity="center" />
+        android:layout_gravity="center"
+        android:textAppearance="?android:attr/textAppearanceMedium" />
 </FrameLayout>

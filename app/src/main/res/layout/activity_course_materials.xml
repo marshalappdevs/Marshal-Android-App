@@ -10,8 +10,8 @@
     tools:context="com.basmapp.marshal.ui.CourseMaterialsActivity">
 
     <LinearLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:orientation="vertical">
 
         <android.support.design.widget.AppBarLayout
@@ -32,10 +32,10 @@
         </android.support.design.widget.AppBarLayout>
 
         <FrameLayout
+            android:id="@+id/course_materials_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/course_materials_container"
-            app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
 
 </android.support.design.widget.CoordinatorLayout>

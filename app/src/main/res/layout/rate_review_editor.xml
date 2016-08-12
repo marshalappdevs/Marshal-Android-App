@@ -1,35 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:orientation="vertical"
     android:background="@android:color/background_light">
 
     <RatingBar
         android:id="@+id/course_content_ratingBar_user"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="8dp"
+        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:visibility="gone"
+        android:layout_gravity="center_horizontal"
+        android:layout_margin="8dp"
         android:numStars="5"
         android:stepSize="1"
         android:theme="@style/DialogAlert.RatingBar" />
 
     <TextView
-        android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/nav_color"
-        android:gravity="center_horizontal"
         android:id="@+id/item_title"
-        android:paddingLeft="16.0dip"
-        android:paddingTop="8.0dip"
-        android:paddingRight="16.0dip"
-        android:paddingBottom="24.0dip"
         android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:maxLines="2" />
+        android:paddingLeft="16.0dp"
+        android:paddingRight="16.0dp"
+        android:paddingTop="8.0dp"
+        android:paddingBottom="24.0dp"
+        android:gravity="center_horizontal"
+        android:textAppearance="?android:textAppearanceSmall"
+        android:maxLines="2"
+        android:textColor="@color/nav_color" />
 
     <android.support.design.widget.TextInputLayout
         android:id="@+id/inputLayout"
@@ -41,16 +41,16 @@
         app:errorEnabled="true">
 
         <EditText
-            android:theme="@style/Review.EditText"
-            android:gravity="top"
             android:id="@+id/review_comment"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="@string/review_dialog_body_hint"
+            android:gravity="top"
+            android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
+            android:theme="@style/Review.EditText"
             android:minLines="3"
             android:maxLength="512"
             android:freezesText="true"
-            android:inputType="textAutoCorrect|textCapSentences|textMultiLine" />
+            android:hint="@string/review_dialog_body_hint" />
     </android.support.design.widget.TextInputLayout>
 
 </LinearLayout>

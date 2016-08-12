@@ -2,10 +2,10 @@
     android:id="@+id/navview_main_header_view"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:clickable="true"
-    android:focusable="true"
     android:background="@android:color/darker_gray"
     android:foreground="?android:attr/selectableItemBackground"
+    android:clickable="true"
+    android:focusable="true"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
     <ImageView
@@ -13,28 +13,28 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="top"
-        android:src="@drawable/bg_default_profile_art"
-        android:scaleType="centerCrop"
         android:foreground="#66000000"
-        android:contentDescription="@null" />
+        android:scaleType="centerCrop"
+        android:contentDescription="@null"
+        android:src="@drawable/bg_default_profile_art" />
 
     <LinearLayout
         android:id="@+id/chosen_account_content_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:gravity="bottom"
-        android:orientation="vertical"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="9dp">
+        android:paddingBottom="9dp"
+        android:orientation="vertical"
+        android:gravity="bottom">
 
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/profile_image"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginBottom="20dp"
-            android:src="@drawable/ic_profile_none"
-            android:contentDescription="@string/navigation_drawer_profile_image_content_description" />
+            android:contentDescription="@string/navigation_drawer_profile_image_content_description"
+            android:src="@drawable/ic_profile_none" />
 
         <TextView
             android:id="@+id/profile_name_text"
@@ -42,9 +42,9 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="@string/sign_in_now_title"
             android:textAppearance="@style/TextAppearance.NavView.Header.Name"
-            android:fontFamily="sans-serif-medium" />
+            android:fontFamily="sans-serif-medium"
+            android:text="@string/sign_in_now_title" />
 
         <TextView
             android:id="@+id/profile_email_text"
@@ -52,9 +52,9 @@
             android:layout_height="wrap_content"
             android:maxLines="1"
             android:ellipsize="end"
-            android:text="@string/sign_in_now_desc"
+            android:alpha="0.72"
             android:textColor="@android:color/white"
-            android:alpha="0.72" />
+            android:text="@string/sign_in_now_desc" />
 
     </LinearLayout>
 

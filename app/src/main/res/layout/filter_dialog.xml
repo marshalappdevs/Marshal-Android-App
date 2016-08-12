@@ -1,69 +1,69 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
-
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_margin="@dimen/activity_horizontal_margin"
-            android:orientation="vertical">
-
-            <TextView
-                android:id="@+id/start_date_text"
-                android:text="@string/start_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin" />
-
-            <TextView
-                android:id="@+id/start_date_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                style="@style/DateFilterSpinner" />
-
-            <TextView
-                android:id="@+id/end_date_text"
-                android:text="@string/end_date"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin" />
-
-            <TextView
-                android:id="@+id/end_date_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="@dimen/activity_vertical_margin"
-                style="@style/DateFilterSpinner" />
-
-        </LinearLayout>
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
 
     <LinearLayout
-        android:gravity="end"
-        android:orientation="horizontal"
-        android:id="@+id/button_bar"
-        android:paddingLeft="12.0dip"
-        android:paddingTop="8.0dip"
-        android:paddingRight="12.0dip"
-        android:paddingBottom="8.0dip"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="?attr/buttonBarStyle">
+        android:layout_margin="@dimen/activity_horizontal_margin"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/start_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/start_date" />
+
+        <TextView
+            style="@style/DateFilterSpinner"
+            android:id="@+id/start_date_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+        <TextView
+            android:id="@+id/end_date_text"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin"
+            android:text="@string/end_date" />
+
+        <TextView
+            style="@style/DateFilterSpinner"
+            android:id="@+id/end_date_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="@dimen/activity_vertical_margin" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        style="?attr/buttonBarStyle"
+        android:id="@+id/button_bar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="12.0dp"
+        android:paddingRight="12.0dp"
+        android:paddingTop="8.0dp"
+        android:paddingBottom="8.0dp"
+        android:orientation="horizontal"
+        android:gravity="end">
 
         <Button
+            style="?attr/buttonBarNegativeButtonStyle"
             android:id="@+id/negative_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_clear"
-            style="?attr/buttonBarNegativeButtonStyle" />
+            android:text="@string/action_clear" />
 
         <Button
+            style="?attr/buttonBarPositiveButtonStyle"
             android:id="@+id/positive_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/action_filter"
-            style="?attr/buttonBarPositiveButtonStyle" />
+            android:text="@string/action_filter" />
     </LinearLayout>
 </LinearLayout>

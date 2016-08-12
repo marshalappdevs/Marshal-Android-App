@@ -282,14 +282,14 @@ public class CoursesFragment extends Fragment {
         mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-                mViewPagerTitleTextView.setVisibility(View.VISIBLE);
-                mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
-                mViewPagerSubtitleTextView.setVisibility(View.VISIBLE);
-                Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
-                String cycleDates = String.format(getString(R.string.course_cycle_format),
-                        DateHelper.dateToString(firstCycle.getStartDate()),
-                        DateHelper.dateToString(firstCycle.getEndDate()));
-                mViewPagerSubtitleTextView.setText(cycleDates);
+//                if (positionOffset == 0) {
+                    mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
+                    Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
+                    String cycleDates = String.format(getString(R.string.course_cycle_format),
+                            DateHelper.dateToString(firstCycle.getStartDate()),
+                            DateHelper.dateToString(firstCycle.getEndDate()));
+                    mViewPagerSubtitleTextView.setText(cycleDates);
+//                }
             }
 
             @Override
@@ -303,6 +303,20 @@ public class CoursesFragment extends Fragment {
             }
         });
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
+//        mViewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
+//            @Override
+//            public void transformPage(View view, float position) {
+//                if(position <= -1.0F || position >= 1.0F) {
+////                    mViewPagerTitlesLayout.setAlpha(0.0F);
+//                } else if(position == 0.0F) {
+//                    mViewPagerTitlesLayout.setAlpha(1.0F);
+//                    mViewPagerTitlesLayout.setTranslationX(0);
+//                } else {
+//                    mViewPagerTitlesLayout.setTranslationX(view.getWidth() * position);
+//                    mViewPagerTitlesLayout.setAlpha(1.0F - Math.abs(position));
+//                }
+//            }
+//        });
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();

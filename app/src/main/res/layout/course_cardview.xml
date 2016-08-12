@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/course_cardview_mainFrame">
+    android:id="@+id/course_cardview_mainFrame"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <android.support.v7.widget.CardView
+        style="@style/AppTheme.CardView"
         android:id="@+id/course_cardview_widget"
         android:layout_width="130dp"
         android:layout_height="180dp"
         android:layout_marginStart="8dp"
         android:layout_marginEnd="8dp"
         android:layout_marginBottom="8dp"
-        android:foreground="?attr/selectableItemBackground"
-        style="@style/AppTheme.CardView">
+        android:foreground="?attr/selectableItemBackground">
 
         <FrameLayout
             android:layout_width="match_parent"
@@ -30,8 +30,8 @@
                     android:layout_height="0dp"
                     android:layout_weight="2"
                     android:background="@drawable/inline_image_placeholder"
-                    android:transitionName="@string/transition_header_image"
                     android:scaleType="centerCrop"
+                    android:transitionName="@string/transition_header_image"
                     android:contentDescription="@null" />
 
                 <TextView
@@ -39,49 +39,49 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:layout_weight="1"
-                    android:layout_marginTop="4.0dip"
+                    android:layout_marginTop="4.0dp"
+                    android:paddingStart="8dp"
+                    android:paddingEnd="8dp"
                     android:ellipsize="end"
                     android:maxLines="3"
                     android:lineSpacingExtra="0.0sp"
-                    android:textColor="?android:textColorPrimary"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="8dp" />
+                    android:textColor="?android:textColorPrimary" />
 
                 <RelativeLayout
-                    android:layout_height="0dp"
                     android:layout_width="match_parent"
+                    android:layout_height="0dp"
                     android:layout_weight="0.5"
-                    android:layoutDirection="ltr" >
+                    android:layoutDirection="ltr">
 
                     <TextView
                         android:id="@+id/course_cardview_startDateTime"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
-                        android:textColor="?android:textColorSecondary"
-                        android:maxLines="1"
-                        android:textSize="12sp"
-                        android:gravity="start|center_vertical"
+                        android:layout_toStartOf="@+id/course_cardview_rating"
+                        android:layout_alignParentStart="true"
                         android:paddingStart="8dp"
                         android:paddingEnd="8dp"
-                        android:layout_alignParentStart="true"
-                        android:layout_toStartOf="@+id/course_cardview_rating"/>
+                        android:gravity="start|center_vertical"
+                        android:maxLines="1"
+                        android:textSize="12sp"
+                        android:textColor="?android:textColorSecondary" />
 
                     <LinearLayout
                         android:id="@+id/course_cardview_rating"
-                        android:layout_height="match_parent"
+                        android:visibility="invisible"
                         android:layout_width="wrap_content"
+                        android:layout_height="match_parent"
                         android:orientation="horizontal"
-                        android:layout_alignParentEnd="true"
-                        android:visibility="invisible">
+                        android:layout_alignParentEnd="true">
 
                         <TextView
                             android:id="@+id/course_cardview_ratingText"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
-                            android:textColor="?android:textColorPrimary"
+                            android:gravity="start|center_vertical"
                             android:maxLines="1"
                             android:textSize="12sp"
-                            android:gravity="start|center_vertical" />
+                            android:textColor="?android:textColorPrimary" />
 
                         <ImageView
                             android:id="@+id/course_cardview_ratingIcon"
@@ -98,17 +98,17 @@
             </LinearLayout>
 
             <TextView
+                style="@style/TextAppearance.MoocFlag"
                 android:id="@+id/mooc_flag"
-                android:text="@string/mooc_flag_title"
-                android:layout_width="80.0dip"
-                android:layout_height="24.0dip"
-                android:layout_marginTop="8.0dip"
-                android:layout_marginEnd="-20.0dip"
-                android:gravity="center"
-                android:layout_gravity="end"
-                android:background="@drawable/mooc_flag_background"
                 android:visibility="gone"
-                style="@style/TextAppearance.MoocFlag"/>
+                android:layout_width="80.0dp"
+                android:layout_height="24.0dp"
+                android:layout_gravity="end"
+                android:layout_marginEnd="-20.0dp"
+                android:layout_marginTop="8.0dp"
+                android:gravity="center"
+                android:background="@drawable/mooc_flag_background"
+                android:text="@string/mooc_flag_title" />
         </FrameLayout>
 
     </android.support.v7.widget.CardView>

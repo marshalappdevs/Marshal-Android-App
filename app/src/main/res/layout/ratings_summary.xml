@@ -1,22 +1,22 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:orientation="vertical"
     android:id="@+id/ratings_summary_box"
-    android:focusable="true"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:focusable="true"
     android:baselineAlignedChildIndex="1">
 
     <RatingBar
+        style="?android:attr/ratingBarStyleSmall"
         android:id="@+id/summary_rating_bar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:clickable="false"
         android:numStars="5"
         android:stepSize="0.5"
-        android:clickable="false"
         android:rating="0"
-        style="?android:attr/ratingBarStyleSmall"
         android:theme="@style/Course.RatingBar" />
 
     <RelativeLayout
@@ -27,18 +27,18 @@
             android:id="@+id/course_content_textView_ratingsAmount"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="0"
             android:textSize="12sp"
+            android:includeFontPadding="false"
             android:textColor="?android:textColorSecondary"
-            android:includeFontPadding="false" />
+            android:text="0" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="3.0dip"
+            android:layout_toEndOf="@id/course_content_textView_ratingsAmount"
+            android:layout_marginStart="3.0dp"
             app:srcCompat="@drawable/ic_user_rating"
             android:baselineAlignBottom="true"
-            android:layout_toEndOf="@id/course_content_textView_ratingsAmount"
             android:layout_alignBaseline="@id/course_content_textView_ratingsAmount"
             android:contentDescription="@null" />
 
