@@ -19,7 +19,7 @@ public class AutoScrollViewPager extends ViewPager {
     public static final int        RIGHT                       = 1;
 
     private long                   interval                    = DEFAULT_INTERVAL;
-    private int                    direction                   = RIGHT;
+    private int                    direction                   = LEFT;
 
     private Handler                handler;
     private boolean                isAutoScroll                = false;
@@ -123,7 +123,7 @@ public class AutoScrollViewPager extends ViewPager {
         this.interval = interval;
     }
 
-    // set auto scroll direction, default is RIGHT
+    // set auto scroll direction, default is LEFT (for RTL)
     public void setDirection(int direction) {
         this.direction = direction;
     }

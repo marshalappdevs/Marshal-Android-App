@@ -283,12 +283,12 @@ public class CoursesFragment extends Fragment {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
 //                if (positionOffset == 0) {
-                    mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
-                    Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
-                    String cycleDates = String.format(getString(R.string.course_cycle_format),
-                            DateHelper.dateToString(firstCycle.getStartDate()),
-                            DateHelper.dateToString(firstCycle.getEndDate()));
-                    mViewPagerSubtitleTextView.setText(cycleDates);
+                mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
+                Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
+                String cycleDates = String.format(getString(R.string.course_cycle_format),
+                        DateHelper.dateToString(firstCycle.getStartDate()),
+                        DateHelper.dateToString(firstCycle.getEndDate()));
+                mViewPagerSubtitleTextView.setText(cycleDates);
 //                }
             }
 
@@ -319,6 +319,11 @@ public class CoursesFragment extends Fragment {
 //        });
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
+        if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            mViewPager.setDirection(AutoScrollViewPager.LEFT);
+        } else {
+            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
+        }
         mViewPager.startAutoScroll();
     }
 

@@ -124,7 +124,7 @@ public class MainActivity extends AppCompatActivity
 
     private ProgressDialog mUpdateProgressDialog;
 
-    public static int sLastCoursesViewPagerIndex = 0;
+    public static int sLastCoursesViewPagerIndex = 4;
 
     public static ArrayList<Course> sAllCourses;
     public static ArrayList<Course> sViewPagerCourses;
@@ -454,8 +454,8 @@ public class MainActivity extends AppCompatActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        // Set viewpager page to 0 when app is closed
-        sLastCoursesViewPagerIndex = 0;
+        // Set viewpager page to start when app is closed
+        sLastCoursesViewPagerIndex = 4;
         // Close db if exist when app is closed
         LocalDBHelper.closeIfExist();
     }
