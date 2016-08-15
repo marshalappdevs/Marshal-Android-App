@@ -8,7 +8,6 @@ import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
-import com.google.gson.JsonObject;
 
 import java.util.List;
 import retrofit2.Call;

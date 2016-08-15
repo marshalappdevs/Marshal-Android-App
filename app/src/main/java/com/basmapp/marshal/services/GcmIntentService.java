@@ -53,7 +53,7 @@ public class GcmIntentService extends GcmListenerService {
 
                 NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.ic_basmapp_mac)
+                        .setSmallIcon(R.drawable.stat_notify_basmapp)
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(message)
                         .setLights(Color.RED, 1000, 1000)

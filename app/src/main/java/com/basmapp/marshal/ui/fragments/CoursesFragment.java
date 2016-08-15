@@ -104,108 +104,108 @@ public class CoursesFragment extends Fragment {
      @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
-        mCoursesList = null;
-        mCyberCourses = null;
-        mSoftwareCourses = null;
-        mITCourses = null;
-        mToolsCourses = null;
-        mSystemCourses = null;
+         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
+         mCoursesList = null;
+         mCyberCourses = null;
+         mSoftwareCourses = null;
+         mITCourses = null;
+         mToolsCourses = null;
+         mSystemCourses = null;
+         setHasOptionsMenu(true);
+         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
-        setHasOptionsMenu(true);
+         if (savedInstanceState != null && mCoursesList == null) {
+             mCoursesList = savedInstanceState.getParcelableArrayList(Constants.EXTRA_COURSES_LIST);
+         }
 
-        mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+         if (mCoursesList == null || mViewPagerCourses == null) {
 
-        if (savedInstanceState != null && mCoursesList == null) {
-            mCoursesList = savedInstanceState.getParcelableArrayList(Constants.EXTRA_COURSES_LIST);
+             mViewPagerCourses = new ArrayList<>();
+
+             mCoursesList = new ArrayList<>();
+
+             new AsyncTask<Void, Void, Boolean>() {
+
+                 ProgressDialog progressDialog;
+
+                 @Override
+                 protected void onPreExecute() {
+                     super.onPreExecute();
+                     progressDialog = new ProgressDialog(getActivity());
+                     progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
+                     progressDialog.setCancelable(false);
+                     progressDialog.setCanceledOnTouchOutside(false);
+                     progressDialog.show();
+                 }
+
+                 @Override
+                 @SuppressWarnings("unchecked")
+                 protected Boolean doInBackground(Void... voids) {
+                     try {
+                         if (MainActivity.sAllCourses == null) {
+                             mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
+                                     false, DBConstants.COL_ID, getActivity(), Course.class);
+                             MainActivity.sAllCourses = mCoursesList;
+                         } else {
+                             mCoursesList = MainActivity.sAllCourses;
+                         }
+
+                         if (MainActivity.sViewPagerCourses == null) {
+                             mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                     Course.getCloestCoursesSqlQuery(5, true), Course.class);
+
+                             if (mViewPagerCourses == null || mViewPagerCourses.size() == 0)
+                                 mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                         Course.getCloestCoursesSqlQuery(5, false), Course.class);
+
+                             MainActivity.sViewPagerCourses = mViewPagerCourses;
+                         } else {
+                             mViewPagerCourses = MainActivity.sViewPagerCourses;
+                         }
+
+                         filterData();
+
+                         return mCoursesList.size() > 0;
+                     } catch (Exception e) {
+                         e.printStackTrace();
+                         return false;
+                     }
+                 }
+
+                 @Override
+                 protected void onPostExecute(Boolean result) {
+                     super.onPostExecute(result);
+                     if (result) {
+                         showImagesViewPager();
+                         showData();
+//                         initializeTutorial();
+                     }
+
+                     progressDialog.dismiss();
+                 }
+             }.execute();
+
+         } else {
+             showImagesViewPager();
+             showData();
+//             initializeTutorial();
         }
 
-        if (mCoursesList == null || mViewPagerCourses == null) {
-            mViewPagerCourses = new ArrayList<>();
-            mCoursesList = new ArrayList<>();
+         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+             @Override
+             public void onReceive(Context context, Intent intent) {
+                 mRecyclerAdapterCyber.notifyDataSetChanged();
+                 mRecyclerAdapterIT.notifyDataSetChanged();
+                 mRecyclerAdapterSoftware.notifyDataSetChanged();
+                 mRecyclerAdapterTools.notifyDataSetChanged();
+                 mRecyclerAdapterSystem.notifyDataSetChanged();
+             }
+         };
 
-            new AsyncTask<Void, Void, Boolean>() {
+         getActivity().registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
 
-                ProgressDialog progressDialog;
-
-                @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    progressDialog = new ProgressDialog(getActivity());
-                    progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
-                    progressDialog.setCancelable(false);
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.show();
-                }
-
-                @Override
-                @SuppressWarnings("unchecked")
-                protected Boolean doInBackground(Void... voids) {
-                    try {
-                        if (MainActivity.sAllCourses == null) {
-                            mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
-                                    false, DBConstants.COL_ID, getActivity(), Course.class);
-                            MainActivity.sAllCourses = mCoursesList;
-                        } else {
-                            mCoursesList = MainActivity.sAllCourses;
-                        }
-
-                        if (MainActivity.sViewPagerCourses == null) {
-                            mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
-                                    Course.getCloestCoursesSqlQuery(5, true), Course.class);
-
-                            if (mViewPagerCourses == null || mViewPagerCourses.size() == 0)
-                                mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
-                                        Course.getCloestCoursesSqlQuery(5, false), Course.class);
-
-                            MainActivity.sViewPagerCourses = mViewPagerCourses;
-                        } else {
-                            mViewPagerCourses = MainActivity.sViewPagerCourses;
-                        }
-
-                        filterData();
-
-                        return mCoursesList.size() > 0;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return false;
-                    }
-                }
-
-                @Override
-                protected void onPostExecute(Boolean result) {
-                    super.onPostExecute(result);
-                    if (result) {
-                        showImagesViewPager();
-                        showData();
-//                        initializeTutorial();
-                    }
-
-                    progressDialog.dismiss();
-                }
-            }.execute();
-
-        } else {
-            showImagesViewPager();
-            showData();
-//            initializeTutorial();
-        }
-
-        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                mRecyclerAdapterCyber.notifyDataSetChanged();
-                mRecyclerAdapterIT.notifyDataSetChanged();
-                mRecyclerAdapterSoftware.notifyDataSetChanged();
-                mRecyclerAdapterTools.notifyDataSetChanged();
-                mRecyclerAdapterSystem.notifyDataSetChanged();
-            }
-        };
-
-        getActivity().registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
-
-        return mRootView;
-    }
+         return mRootView;
+     }
 
     private void filterData() {
         if (mCyberCourses == null ||

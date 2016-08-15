@@ -1,32 +1,22 @@
 apply plugin: 'com.android.application'
 
 android {
-    signingConfigs {
-        basmapp_keystore_release {
-            keyAlias 'basmapp'
-            keyPassword 'gsuutur'
-            storeFile file('basmapp_keystore_release.jks')
-            storePassword 'turugsu'
-        }
-    }
     compileSdkVersion 24
     buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "com.basmapp.marshal"
         minSdkVersion 19
         targetSdkVersion 24
-        versionCode 4
+        versionCode 5
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
     }
     buildTypes {
         release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-            signingConfig signingConfigs.basmapp_keystore_release
-        }
-        debug {
-//            signingConfig signingConfigs.basmapp_keystore_release
+            shrinkResources true
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'),
+                    'proguard-rules.pro'
         }
     }
 }
@@ -48,13 +38,10 @@ dependencies {
     compile "com.android.support:palette-v7:${supportLibVersion}"
     compile "com.android.support:design:${supportLibVersion}"
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    compile 'de.hdodenhof:circleimageview:2.0.0'
-    compile 'org.jetbrains:annotations-java5:15.0'
-    compile 'com.squareup.retrofit2:retrofit:2.0.2'
-    compile 'com.squareup.retrofit2:converter-gson:2.0.1'
+    compile 'de.hdodenhof:circleimageview:2.1.0'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'com.github.deano2390:MaterialShowcaseView:1.1.0'
-    compile 'com.google.android.gms:play-services-auth:9.4.0'
-    compile 'com.google.android.gms:play-services-gcm:9.4.0'
 }
 
 apply plugin: 'com.google.gms.google-services'

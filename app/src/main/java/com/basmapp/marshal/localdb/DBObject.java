@@ -6,7 +6,7 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import org.jetbrains.annotations.NotNull;
+import android.support.annotation.NonNull;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.localdb.annotations.Column;
@@ -267,7 +267,7 @@ public abstract class DBObject {
         }
     }
 
-    public String dateToString(@NotNull Date date) {
+    public String dateToString(@NonNull Date date) {
         return DateHelper.dateToString(date);
     }
 
