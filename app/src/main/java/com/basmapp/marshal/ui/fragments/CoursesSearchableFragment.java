@@ -114,13 +114,12 @@ public class CoursesSearchableFragment extends Fragment {
                     filterView = getActivity().findViewById(R.id.menu_main_filter);
                 }
                 if (filterView != null && filterView.getVisibility() == View.VISIBLE) {
-                    Button button = (Button) getActivity().getLayoutInflater().inflate(R.layout.view_custom_button, null);
                     mShowcaseView = new ShowcaseView.Builder(getActivity())
                             .withMaterialShowcase()
                             .setStyle(R.style.ShowcaseView_BasmApp)
                             .setTarget(new ViewTarget(filterView))
                             .setContentTitle(R.string.filter_tutorial_description)
-                            .replaceEndButton(button)
+                            .replaceEndButton(R.layout.view_custom_button)
                             .singleShot(FILTER_SHOWCASE_ID)
                             .build();
                 }

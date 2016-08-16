@@ -246,13 +246,12 @@ public class CourseActivity extends AppCompatActivity {
 
                         @Override
                         public void onTransitionEnd(Transition transition) {
-                            Button button = (Button) getLayoutInflater().inflate(R.layout.view_custom_button, null);
                             mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
                                     .withMaterialShowcase()
                                     .setStyle(R.style.ShowcaseView_BasmApp)
                                     .setTarget(new ViewTarget(mFabCycles))
                                     .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                    .replaceEndButton(button)
+                                    .replaceEndButton(R.layout.view_custom_button)
                                     .singleShot(FAB_SHOWCASE_ID)
                                     .build();
                         }
@@ -270,13 +269,12 @@ public class CourseActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    Button button = (Button) getLayoutInflater().inflate(R.layout.view_custom_button, null);
                     mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
                             .withMaterialShowcase()
                             .setStyle(R.style.ShowcaseView_BasmApp)
                             .setTarget(new ViewTarget(mFabCycles))
                             .setContentTitle(R.string.cycle_fab_tutorial_description)
-                            .replaceEndButton(button)
+                            .replaceEndButton(R.layout.view_custom_button)
                             .singleShot(FAB_SHOWCASE_ID)
                             .build();
                 }
