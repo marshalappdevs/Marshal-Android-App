@@ -113,7 +113,7 @@
     </style>
 
     <style name="ShowcaseView.BasmApp" parent="ShowcaseView.Light">
-        <item name="sv_backgroundColor">@color/default_viewport_overlay_color</item>
+        <item name="sv_backgroundColor">@color/tutorial_blue_background</item>
         <item name="sv_buttonText">@string/got_it</item>
         <item name="sv_tintButtonColor">false</item>
         <item name="sv_titleTextAppearance">@style/TextAppearance.ShowCase.Title</item>

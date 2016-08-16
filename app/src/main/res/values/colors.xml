@@ -21,6 +21,7 @@
     <color name="hint_text_color_dark">#80ffffff</color>
     <color name="hint_text_color_light">#80000000</color>
     <color name="link_color">#ff347bff</color>
-    <color name="default_viewport_overlay_color">#80000080</color>
-    <color name="viewport_overlay_color">#80000000</color>
+    <color name="tutorial_blue_background">#e53266d5</color>
+    <color name="tutorial_green_background">#e50a7f42</color>
+    <color name="tutorial_orange_background">#ede65100</color>
 </resources>
