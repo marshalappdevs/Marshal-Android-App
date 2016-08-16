@@ -9,7 +9,6 @@ import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -18,7 +17,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -42,18 +40,9 @@ import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.adapters.ViewPagerAdapter;
 import com.basmapp.marshal.utils.DateHelper;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseSequence;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-import uk.co.deanwild.materialshowcaseview.ShowcaseConfig;
-
-
 public class CoursesFragment extends Fragment {
-    private static final String DRAWER_SHOWCASE_ID = "navigation_drawer_tutorial";
-    private static final String SEARCH_SHOWCASE_ID = "search_tutorial";
-
     public static ArrayList<Course> mCoursesList = null;
     private ArrayList<Course> mViewPagerCourses = null;
 
@@ -319,11 +308,11 @@ public class CoursesFragment extends Fragment {
 //        });
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
-        if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-            mViewPager.setDirection(AutoScrollViewPager.LEFT);
-        } else {
-            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
-        }
+//        if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+//            mViewPager.setDirection(AutoScrollViewPager.LEFT);
+//        } else {
+//            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
+//        }
         mViewPager.startAutoScroll();
     }
 
@@ -333,70 +322,6 @@ public class CoursesFragment extends Fragment {
         initializeITComponents();
         initializeToolsComponents();
         initializeSystemComponents();
-    }
-
-    private void initializeTutorial() {
-        ShowcaseConfig config = new ShowcaseConfig();
-        config.setDelay(500); // half second between each showcase view
-
-        final MaterialShowcaseSequence sequence = new MaterialShowcaseSequence(getActivity());
-        sequence.setConfig(config);
-
-        try {
-            Toolbar toolbar = null;
-            if (getActivity() != null) {
-                toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            }
-            Field navButtonField = Toolbar.class.getDeclaredField("mNavButtonView");
-            navButtonField.setAccessible(true);
-            View navigationView = null;
-            if (toolbar != null) {
-                navigationView = (View) navButtonField.get(toolbar);
-            }
-            if (navigationView != null) {
-                sequence.addSequenceItem(
-                        new MaterialShowcaseView.Builder(getActivity())
-                                .setTarget(navigationView)
-                                .setDismissText(R.string.got_it)
-                                .setDismissOnTouch(false)
-                                .setDismissOnTargetTouch(true)
-                                .setTargetTouchable(false)
-                                .setTitleText(R.string.navigation_drawer_tutorial_description)
-//                                .setMaskColour(Color.argb(210, 0, 0, 0))
-                                .singleUse(DRAWER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                                .build()
-                );
-            }
-        } catch (NoSuchFieldException | IllegalAccessException e) {
-            e.printStackTrace();
-        }
-
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                View searchView = null;
-                if (getActivity() != null) {
-                    searchView = getActivity().findViewById(R.id.menu_main_searchView);
-                }
-                if (searchView != null) {
-                    sequence.addSequenceItem(
-                            new MaterialShowcaseView.Builder(getActivity())
-                                    .setTarget(searchView)
-                                    .setDismissText(R.string.got_it)
-                                    .setDismissOnTouch(false)
-                                    .setDismissOnTargetTouch(true)
-                                    .setTargetTouchable(false)
-                                    .setTitleText(R.string.search_tutorial_description)
-//                                    .setMaskColour(Color.argb(210, 0, 0, 0))
-                                    .setShapePadding(24)
-                                    .singleUse(SEARCH_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                                    .build()
-                    );
-                }
-            }
-        });
-
-        sequence.start();
     }
 
     private void initializeSoftwareComponents() {

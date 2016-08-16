@@ -103,4 +103,20 @@
     </style>
 
     <style name="DateFilterSpinner" parent="@android:style/Widget.Holo.Light.Spinner" />
+
+    <style name="TextAppearance.ShowCase.Title" parent="@android:style/TextAppearance.Large">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="TextAppearance.ShowCase.SubTitle" parent="@android:style/TextAppearance.Small">
+        <item name="android:textColor">@android:color/white</item>
+    </style>
+
+    <style name="ShowcaseView.BasmApp" parent="ShowcaseView.Light">
+        <item name="sv_backgroundColor">@color/viewport_overlay_color</item>
+        <item name="sv_buttonText">@string/got_it</item>
+        <item name="sv_tintButtonColor">false</item>
+        <item name="sv_titleTextAppearance">@style/TextAppearance.ShowCase.Title</item>
+        <item name="sv_detailTextAppearance">@style/TextAppearance.ShowCase.SubTitle</item>
+    </style>
 </resources>

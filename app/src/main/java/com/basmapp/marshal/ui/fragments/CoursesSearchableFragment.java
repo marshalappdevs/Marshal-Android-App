@@ -34,17 +34,17 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.utils.DateHelper;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-
 public class CoursesSearchableFragment extends Fragment {
 
-    private static final String FILTER_SHOWCASE_ID = "filter_tutorial";
+    private static final int FILTER_SHOWCASE_ID = 2;
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
@@ -63,6 +63,7 @@ public class CoursesSearchableFragment extends Fragment {
     private String mTempEndDate;
     private long tempStartDate = 0;
     private boolean isEmptyResult = false;
+    private ShowcaseView mShowcaseView;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
@@ -113,17 +114,15 @@ public class CoursesSearchableFragment extends Fragment {
                     filterView = getActivity().findViewById(R.id.menu_main_filter);
                 }
                 if (filterView != null && filterView.getVisibility() == View.VISIBLE) {
-                    new MaterialShowcaseView.Builder(getActivity())
-                            .setTarget(filterView)
-                            .setShapePadding(24)
-                            .setDismissText(R.string.got_it)
-                            .setDismissOnTouch(false)
-                            .setDismissOnTargetTouch(true)
-                            .setTargetTouchable(true)
-                            .setTitleText(R.string.filter_tutorial_description)
-//                            .setMaskColour(Color.argb(210, 0, 0, 0))
-                            .singleUse(FILTER_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                            .show();
+                    Button button = (Button) getActivity().getLayoutInflater().inflate(R.layout.view_custom_button, null);
+                    mShowcaseView = new ShowcaseView.Builder(getActivity())
+                            .withMaterialShowcase()
+                            .setStyle(R.style.ShowcaseView_BasmApp)
+                            .setTarget(new ViewTarget(filterView))
+                            .setContentTitle(R.string.filter_tutorial_description)
+                            .replaceEndButton(button)
+                            .singleShot(FILTER_SHOWCASE_ID)
+                            .build();
                 }
             }
         });
@@ -136,6 +135,9 @@ public class CoursesSearchableFragment extends Fragment {
         super.onDetach();
         // Release navigation view lock
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+        // Hide Showcase
+        if (mShowcaseView != null && mShowcaseView.isShowing())
+            mShowcaseView.hide();
     }
 
     @Override
@@ -157,9 +159,11 @@ public class CoursesSearchableFragment extends Fragment {
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                if (!isEmptyResult)
+                if (mShowcaseView != null && mShowcaseView.isShowing())
+                    mShowcaseView.hide();
+                if (!isEmptyResult) {
                     showFilterByDateDialog();
-                else {
+                } else {
                     Toast.makeText(getActivity(), R.string.filter_not_available, Toast.LENGTH_SHORT).show();
                 }
                 return false;

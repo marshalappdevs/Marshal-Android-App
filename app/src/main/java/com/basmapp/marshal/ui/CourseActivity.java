@@ -61,6 +61,8 @@ import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+import com.github.amlcurran.showcaseview.ShowcaseView;
+import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -68,13 +70,10 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-import retrofit2.Call;
-import retrofit2.Response;
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
 
 public class CourseActivity extends AppCompatActivity {
 
-    private static final String FAB_SHOWCASE_ID = "cycle_fab_tutorial";
+    private static final int FAB_SHOWCASE_ID = 1;
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -120,6 +119,8 @@ public class CourseActivity extends AppCompatActivity {
     private RatingBar.OnRatingBarChangeListener mRatingBarUserOnChangeListener;
     private LinearLayout mRatingsFrame;
     private SharedPreferences mSharedPreferences;
+
+    private ShowcaseView mShowcaseView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -213,7 +214,11 @@ public class CourseActivity extends AppCompatActivity {
                 mFabCycles.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
+
+                        if (mShowcaseView != null && mShowcaseView.isShowing())
+                            mShowcaseView.hide();
+
+                            ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
 
                         for (int index = 0; index < cycles.size(); index++) {
                             if (cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
@@ -241,17 +246,15 @@ public class CourseActivity extends AppCompatActivity {
 
                         @Override
                         public void onTransitionEnd(Transition transition) {
-                            new MaterialShowcaseView.Builder(CourseActivity.this)
-                                    .setTarget(mFabCycles)
-                                    .setShapePadding(48)
-                                    .setDismissText(R.string.got_it)
-                                    .setDismissOnTouch(false)
-                                    .setDismissOnTargetTouch(true)
-                                    .setTargetTouchable(true)
-                                    .setTitleText(R.string.cycle_fab_tutorial_description)
-//                            .setMaskColour(Color.argb(210, 0, 0, 0))
-                                    .singleUse(FAB_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                                    .show();
+                            Button button = (Button) getLayoutInflater().inflate(R.layout.view_custom_button, null);
+                            mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                                    .withMaterialShowcase()
+                                    .setStyle(R.style.ShowcaseView_BasmApp)
+                                    .setTarget(new ViewTarget(mFabCycles))
+                                    .setContentTitle(R.string.cycle_fab_tutorial_description)
+                                    .replaceEndButton(button)
+                                    .singleShot(FAB_SHOWCASE_ID)
+                                    .build();
                         }
 
                         @Override
@@ -267,17 +270,15 @@ public class CourseActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    new MaterialShowcaseView.Builder(CourseActivity.this)
-                            .setTarget(mFabCycles)
-                            .setShapePadding(48)
-                            .setDismissText(R.string.got_it)
-                            .setDismissOnTouch(false)
-                            .setDismissOnTargetTouch(true)
-                            .setTargetTouchable(true)
-                            .setTitleText(R.string.cycle_fab_tutorial_description)
-//                            .setMaskColour(Color.argb(210, 0, 0, 0))
-                            .singleUse(FAB_SHOWCASE_ID) // provide a unique ID used to ensure it is only shown once
-                            .show();
+                    Button button = (Button) getLayoutInflater().inflate(R.layout.view_custom_button, null);
+                    mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                            .withMaterialShowcase()
+                            .setStyle(R.style.ShowcaseView_BasmApp)
+                            .setTarget(new ViewTarget(mFabCycles))
+                            .setContentTitle(R.string.cycle_fab_tutorial_description)
+                            .replaceEndButton(button)
+                            .singleShot(FAB_SHOWCASE_ID)
+                            .build();
                 }
             }
 
@@ -898,7 +899,9 @@ public class CourseActivity extends AppCompatActivity {
     public void onBackPressed() {
         Boolean courseShared = mSharedPreferences.getBoolean("courseShared", false);
         if (courseShared) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (mShowcaseView != null && mShowcaseView.isShowing()) {
+                mShowcaseView.hide();
+            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 mFabCycles.animate().cancel();
                 mFabCycles.animate()
                         .scaleX(0f)

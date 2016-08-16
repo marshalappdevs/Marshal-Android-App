@@ -27,8 +27,6 @@ import com.basmapp.marshal.ui.utils.ThemeUtils;
 
 import java.util.Objects;
 
-import uk.co.deanwild.materialshowcaseview.MaterialShowcaseView;
-
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
 
@@ -125,9 +123,6 @@ public class SettingsActivity extends AppCompatActivity {
             Preference prefClearHistory = findPreference("clear-history");
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
 
-            Preference prefResetTutorials = findPreference("reset-tutorial");
-            prefResetTutorials.setOnPreferenceClickListener(resetTutorialsClickListener);
-
             CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("chrome_custom_tabs");
             prefCCT.setOnPreferenceChangeListener(cctChangeListener);
         }
@@ -202,15 +197,6 @@ public class SettingsActivity extends AppCompatActivity {
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.clearHistory();
                 Toast.makeText(getActivity().getApplicationContext(), R.string.pref_search_history_cleared, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener resetTutorialsClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                MaterialShowcaseView.resetAll(getActivity());
-                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_showcases_cleared, Toast.LENGTH_SHORT).show();
                 return false;
             }
         };

@@ -19,10 +19,6 @@
             android:title="@string/clear_local_history_title"
             android:key="clear-history"
             android:summary="@string/clear_local_history_summary" />
-        <Preference
-            android:title="@string/reset_tutorial_title"
-            android:key="reset-tutorial"
-            android:summary="@string/reset_tutorial_summary" />
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_notifications_category">

@@ -21,4 +21,5 @@
     <color name="hint_text_color_dark">#80ffffff</color>
     <color name="hint_text_color_light">#80000000</color>
     <color name="link_color">#ff347bff</color>
+    <color name="viewport_overlay_color">#80000080</color>
 </resources>
