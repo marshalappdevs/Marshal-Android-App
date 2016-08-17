@@ -106,26 +106,6 @@ public class CoursesSearchableFragment extends Fragment {
 
         getActivity().setTitle(R.string.search_title);
 
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                View filterView = null;
-                if (getActivity() != null) {
-                    filterView = getActivity().findViewById(R.id.menu_main_filter);
-                }
-                if (filterView != null && filterView.getVisibility() == View.VISIBLE) {
-                    mShowcaseView = new ShowcaseView.Builder(getActivity())
-                            .withMaterialShowcase()
-                            .setStyle(R.style.ShowcaseView_BasmApp)
-                            .setTarget(new ViewTarget(filterView))
-                            .setContentTitle(R.string.filter_tutorial_description)
-                            .replaceEndButton(R.layout.view_custom_button)
-                            .singleShot(FILTER_SHOWCASE_ID)
-                            .build();
-                }
-            }
-        });
-
         return rootView;
     }
 
@@ -146,6 +126,20 @@ public class CoursesSearchableFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
+        new Handler().post(new Runnable() {
+            @Override
+            public void run() {
+                View filterView = getActivity().findViewById(R.id.menu_main_filter);
+                mShowcaseView = new ShowcaseView.Builder(getActivity())
+                        .withMaterialShowcase()
+                        .setStyle(R.style.ShowcaseView_BasmApp)
+                        .setTarget(new ViewTarget(filterView))
+                        .setContentTitle(R.string.filter_tutorial_description)
+                        .replaceEndButton(R.layout.view_custom_button)
+//                        .singleShot(FILTER_SHOWCASE_ID)
+                        .build();
+                }
+        });
     }
 
     @Override
