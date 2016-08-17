@@ -196,6 +196,17 @@ public class CoursesFragment extends Fragment {
          return mRootView;
      }
 
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (mViewPager == null) {
+            mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+        } else if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+            mViewPager.setDirection(AutoScrollViewPager.LEFT);
+        } else {
+            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
+        }
+    }
+
     private void filterData() {
         if (mCyberCourses == null ||
                 mITCourses == null ||
@@ -308,11 +319,6 @@ public class CoursesFragment extends Fragment {
 //        });
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
-//        if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
-//            mViewPager.setDirection(AutoScrollViewPager.LEFT);
-//        } else {
-//            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
-//        }
         mViewPager.startAutoScroll();
     }
 
