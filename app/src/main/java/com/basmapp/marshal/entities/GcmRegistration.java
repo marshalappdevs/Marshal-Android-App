@@ -3,9 +3,11 @@ package com.basmapp.marshal.entities;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class GcmRegistration {
+
     @Expose
     @SerializedName("registerationTokenId")
     private String registerationTokenId;
@@ -17,6 +19,10 @@ public class GcmRegistration {
     @Expose
     @SerializedName("lastModified")
     private Date lastModified;
+
+    @Expose
+    @SerializedName("channels")
+    private ArrayList<String> channels;
 
     public String getRegisterationTokenId() {
         return registerationTokenId;
@@ -41,4 +47,14 @@ public class GcmRegistration {
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
+
+    public ArrayList<String> getChannels() {
+        return channels;
+    }
+
+    public void setChannels(ArrayList<String> channels) {
+        this.channels = channels;
+    }
+
+
 }
