@@ -1,5 +1,6 @@
 package com.basmapp.marshal.services;
 
+import android.app.Notification;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
@@ -52,16 +53,18 @@ public class GcmIntentService extends GcmListenerService {
                 }
 
                 NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
+                Notification.Builder notif = new Notification.Builder(this)
                         .setSmallIcon(R.drawable.stat_notify_basmapp)
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(message)
-                        .setLights(Color.RED, 1000, 1000)
+                        .setStyle(new Notification.BigTextStyle()
+                                .bigText(message))
+                        .setLights(Color.CYAN, 1000, 1000)
                         .setSound(ringtoneUri)
                         .setContentIntent(pendingIntent)
                         .setAutoCancel(true)
                         .setVibrate(vibrate);
-                notificationManager.notify(1, mBuilder.build());
+                notificationManager.notify(1, notif.build());
             }
         }
     }
