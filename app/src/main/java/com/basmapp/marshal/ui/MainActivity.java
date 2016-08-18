@@ -77,10 +77,7 @@ import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 import java.io.File;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -712,7 +709,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     public void navHeaderClicked() {
-        if (signedIn) {
+        if (signedIn && mGoogleApiClient.isConnected()) {
             // Google account is connected, show logout alert dialog
             mDrawerLayout.closeDrawer(GravityCompat.START);
             new AlertDialog.Builder(this)
@@ -738,30 +735,6 @@ public class MainActivity extends AppCompatActivity
             mDrawerLayout.closeDrawer(GravityCompat.START);
             signIn();
         }
-    }
-
-    public String debugInfo() {
-        // Get debug info from the device for error report email and save it as string
-        long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
-        String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
-        String debugInfo="--Support Info--";
-        debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
-        debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
-        debugInfo += "\n Model: " + Build.MODEL;
-        debugInfo += "\n Locale: " + getBaseContext().getResources().getConfiguration().locale.toString();
-        debugInfo += "\n OS: " + Build.VERSION.RELEASE + " ("+android.os.Build.VERSION.SDK_INT+")";
-        debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
-        float density = getResources().getDisplayMetrics().density;
-        String densityName = null;
-        if (density == 4.0) densityName = "xxxhdpi";
-        if (density == 3.0) densityName = "xxhdpi";
-        if (density == 2.0) densityName = "xhdpi";
-        if (density == 1.5) densityName = "hdpi";
-        if (density == 1.0) densityName = "mdpi";
-        if (density == 0.75) densityName = "ldpi";
-        debugInfo += "\n Screen Density: " + density + " (" + densityName + ")";
-        debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
-        return debugInfo;
     }
 
     @Override
@@ -861,29 +834,31 @@ public class MainActivity extends AppCompatActivity
             startActivity(new Intent(this, SettingsActivity.class));
             overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
         } else if (id == R.id.nav_contact_us) {
-            // Open mail intent, set email address, title and add attachment
-            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-            emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
-            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-            Calendar now = Calendar.getInstance();
-            // Create debug info text file and set file name to current date and time
-            String filename = String.format(Locale.getDefault(),
-                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
-                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
-                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt") ;
-            try {
-                FileWriter writer = new FileWriter(tempFile);
-                writer.write(debugInfo());
-                writer.close();
-                Uri log = Uri.fromFile(tempFile);
-                emailIntent.putExtra(Intent.EXTRA_STREAM, log);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
+            startActivity(new Intent(this, DescribeProblemActivity.class));
+            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
+//            // Open mail intent, set email address, title and add attachment
+//            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
+//            emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
+//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
+//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
+//            Calendar now = Calendar.getInstance();
+//            // Create debug info text file and set file name to current date and time
+//            String filename = String.format(Locale.getDefault(),
+//                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
+//                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
+//                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
+//                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+//            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt") ;
+//            try {
+//                FileWriter writer = new FileWriter(tempFile);
+//                writer.write(debugInfo());
+//                writer.close();
+//                Uri log = Uri.fromFile(tempFile);
+//                emailIntent.putExtra(Intent.EXTRA_STREAM, log);
+//            } catch (IOException e) {
+//                e.printStackTrace();
+//            }
+//            startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
             overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);

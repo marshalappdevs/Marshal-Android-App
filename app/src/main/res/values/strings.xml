@@ -118,6 +118,12 @@
     <string name="filter_not_available">Filter is not available.</string>
     <string name="no_materials_for_course">This course has no materials.</string>
     <string name="error_message">An error has occurred.</string>
+    <string name="describe_problem_screenshots">Add screenshots (optional):</string>
+    <string name="describe_problem_description">Please describe your problem</string>
+    <string name="describe_problem_description_further">Please further describe your problem.</string>
+    <string name="faq">Have you read our FAQ yet?</string>
+    <string name="next">Next</string>
+    <string name="choose_action">Choose an action</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>

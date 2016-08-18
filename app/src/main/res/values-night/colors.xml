@@ -13,4 +13,5 @@
     <color name="materials_card_background">#08FFFFFF</color>
     <color name="hash_tags_background">#10FFFFFF</color>
     <color name="link_color">#ff2b6fb2</color>
+    <color name="description_background">#FF424242</color>
 </resources>
