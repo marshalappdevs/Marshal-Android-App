@@ -123,12 +123,15 @@ public class DescribeProblemActivity extends AppCompatActivity {
                             intentShareList.add(emailIntent);
                         }
                     }
-                    Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
-                    chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentShareList.toArray(new Parcelable[intentShareList.size()]));
-                    if (intentShareList.isEmpty())
-                        chooserIntent.setData(Uri.parse("mailto:")); // will show no apps supported error screen
-                    startActivity(chooserIntent);
-                    finish();
+                    if (intentShareList.isEmpty()) {
+                        Toast.makeText(DescribeProblemActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
+                        finish();
+                    } else {
+                        Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
+                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentShareList.toArray(new Parcelable[intentShareList.size()]));
+                        startActivity(chooserIntent);
+                        finish();
+                    }
                 } else {
                     Toast.makeText(DescribeProblemActivity.this, R.string.describe_problem_description_further, Toast.LENGTH_LONG).show();
                 }
