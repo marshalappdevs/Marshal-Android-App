@@ -179,8 +179,11 @@ public class DescribeProblemActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST_ONE || requestCode == PICK_IMAGE_REQUEST_TWO || requestCode == PICK_IMAGE_REQUEST_THREE) {
-            if (resultCode == RESULT_OK && data != null && data.getData() != null) {
+            if (resultCode == RESULT_OK) {
                 if (requestCode == PICK_IMAGE_REQUEST_ONE) {
+                    if (data == null || data.getData() == null) {
+                        return;
+                    }
                     Uri uri = data.getData();
                     try {
                         attachments.add(data.getData());
@@ -190,6 +193,9 @@ public class DescribeProblemActivity extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 } else if (requestCode == PICK_IMAGE_REQUEST_TWO) {
+                    if (data == null || data.getData() == null) {
+                        return;
+                    }
                     Uri uri = data.getData();
                     try {
                         attachments.add(data.getData());
@@ -198,7 +204,10 @@ public class DescribeProblemActivity extends AppCompatActivity {
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
-                } else if (requestCode == PICK_IMAGE_REQUEST_THREE) {
+                } else {
+                    if (data == null || data.getData() == null) {
+                        return;
+                    }
                     Uri uri = data.getData();
                     try {
                         attachments.add(data.getData());
