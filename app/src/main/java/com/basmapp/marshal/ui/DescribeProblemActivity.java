@@ -241,6 +241,7 @@ public class DescribeProblemActivity extends AppCompatActivity {
         Cursor cursor = cursorLoader.loadInBackground();
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
+//        String fileName = Uri.parse(cursor.getString(column_index)).getLastPathSegment();
         String result = cursor.getString(column_index);
         cursor.close();
         return result;
