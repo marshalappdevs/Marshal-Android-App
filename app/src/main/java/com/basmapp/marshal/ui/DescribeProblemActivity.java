@@ -235,15 +235,15 @@ public class DescribeProblemActivity extends AppCompatActivity {
         LocaleUtils.updateLocale(this);
     }
 
-    public String getRealPathFromURI(Uri contentUri) {
-        String[] projection = { MediaStore.Images.Media.DATA };
-
+    private String getRealPathFromURI(Uri contentUri) {
+        String[] projection = {MediaStore.Images.Media.DATA};
         CursorLoader cursorLoader = new CursorLoader(this, contentUri, projection, null, null, null);
         Cursor cursor = cursorLoader.loadInBackground();
-
         int column_index = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.DATA);
         cursor.moveToFirst();
-        return cursor.getString(column_index);
+        String result = cursor.getString(column_index);
+        cursor.close();
+        return result;
     }
 
     public String debugInfo() {
