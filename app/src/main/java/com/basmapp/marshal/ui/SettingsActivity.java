@@ -32,9 +32,8 @@ import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 
+import java.io.File;
 import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Objects;
 import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
@@ -137,6 +136,11 @@ public class SettingsActivity extends AppCompatActivity {
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
             updateGcmChannelsPrefSummary();
 
+            Preference prefClearCache = findPreference(Constants.PREF_CLEAR_CACHE);
+            prefClearCache.setOnPreferenceClickListener(clearCacheClickListener);
+            prefClearCache.setSummary(String.format(getString(R.string.clear_local_cache_summary),
+                    getCacheFolderSize() / 1048576L));
+
             Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
 
@@ -157,35 +161,13 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         private void updateGcmChannelsPrefSummary() {
-            String summary = "";
-            HashSet<String> channels = (HashSet<String>) prefGcmChannels.getValues();
-
-            for (String channel : channels) {
-                String channelEntry = getGcmChannelEntry(channel);
-                if (channelEntry != null) {
-                    if (summary.equals("")) summary = channelEntry;
-                    else summary = summary + ", " + channelEntry;
-                }
+            Set<String> values = prefGcmChannels.getValues();
+            Set<CharSequence> labels = new HashSet<>();
+            for(String value: values) {
+                int index = prefGcmChannels.findIndexOfValue(value);
+                labels.add(prefGcmChannels.getEntries()[index]);
             }
-
-            prefGcmChannels.setSummary(summary);
-        }
-
-        private String getGcmChannelEntry(String channelEntryValue) {
-            Resources res = getResources();
-            if (channelEntryValue.equals(res.getString(R.string.gcm_channel_software)))
-                return res.getString(R.string.course_type_software);
-            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_cyber)))
-                return res.getString(R.string.course_type_cyber);
-            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_it)))
-                return res.getString(R.string.course_type_it);
-            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_tools)))
-                return res.getString(R.string.course_type_tools);
-            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_system)))
-                return res.getString(R.string.course_type_system);
-            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_test)))
-                return res.getString(R.string.gcm_channel_test_ui);
-            else return null;
+            prefGcmChannels.setSummary(labels.toString().replaceAll("\\[", "").replaceAll("\\]",""));
         }
 
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
@@ -217,6 +199,21 @@ public class SettingsActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
                 restartApp();
+                return false;
+            }
+        };
+
+        Preference.OnPreferenceClickListener clearCacheClickListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                try {
+                    deleteDir(getActivity().getCacheDir());
+                    findPreference(Constants.PREF_CLEAR_CACHE).setSummary(String.format(getString(R.string.clear_local_cache_summary),
+                            getCacheFolderSize() / 1048576L));
+                    Toast.makeText(getActivity().getApplicationContext(), R.string.pref_cache_cleared, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 return false;
             }
         };
@@ -258,6 +255,29 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(getActivity(), MainActivity.class));
             startActivity(getActivity().getIntent());
             getActivity().overridePendingTransition(0, 0);
+        }
+
+        private long getCacheFolderSize() {
+            long size = 0;
+            File[] files = getActivity().getCacheDir().listFiles();
+            for (File f:files) {
+                size = size+f.length();
+            }
+            return size;
+        }
+
+        private boolean deleteDir(File dir) {
+            if (dir != null && dir.isDirectory()) {
+                String[] children = dir.list();
+                for (String aChildren : children) {
+                    boolean success = deleteDir(new File(dir, aChildren));
+                    if (!success) {
+                        return false;
+                    }
+                }
+                return dir.delete();
+            } else
+                return dir != null && dir.isFile() && dir.delete();
         }
 
         @Override

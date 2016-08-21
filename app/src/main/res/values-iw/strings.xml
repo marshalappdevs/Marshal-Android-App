@@ -120,9 +120,6 @@
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
-    <string name="gcm_settings_change_success">הגדרות ההודעות עודכנו בהצלחה</string>
-    <string name="gcm_settings_change_failed">עדכון הגדרת ההודעות נכשל.\nנסה שוב מאוחר יותר</string>
-    <string name="gcm_settings_change">מעדכן את הגדרות ההודעות...</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -147,14 +144,17 @@
     <!-- Strings related to Settings -->
     <string name="pref_general_category">כללי</string>
     <string name="pref_language_title">שפה</string>
+    <string name="pref_memory_category">אחסון</string>
     <string name="language_english">אנגלית</string>
     <string name="language_hebrew">עברית</string>
     <string name="night_mode_title">עיצוב</string>
     <string name="night_mode_no">בהיר</string>
     <string name="night_mode_yes">כהה</string>
     <string name="night_mode_auto">באופן אוטומטי</string>
-    <string name="clear_local_history_summary">הסר חיפושים שביצעת מהמכשיר הזה</string>
+    <string name="clear_local_cache_title">נקה מטמון אפליקציה</string>
+    <string name="clear_local_cache_summary">גודל מטמון נוכחי: %1$s MB</string>
     <string name="clear_local_history_title">נקה את היסטוריית החיפושים המקומית</string>
+    <string name="clear_local_history_summary">הסר חיפושים שביצעת מהמכשיר הזה</string>
     <string name="reset_tutorial_summary">הצג שוב את כל מסכי ההסברה</string>
     <string name="reset_tutorial_title">אפס מסכי הסברה</string>
     <string name="pref_notifications_category">הודעות</string>
@@ -170,7 +170,10 @@
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
     <string name="pref_showcases_cleared">מסכי הסברה אופסו.</string>
     <string name="pref_search_history_cleared">היסטוריית החיפושים נוקתה.</string>
+    <string name="pref_cache_cleared">מטמון נוקה בהצלחה.</string>
     <string name="pref_gcm_channels_title">ערוצים</string>
-
     <string name="gcm_channel_test_ui">פיתוח BasmApp</string>
+    <string name="gcm_settings_change_success">עדכון ערוצי ההודעות בוצע בהצלחה.</string>
+    <string name="gcm_settings_change_failed">אירעה שגיאה במהלך ניסיון עדכון של ערוצי ההודעות. אנא נסה שוב מאוחר יותר.</string>
+    <string name="gcm_settings_change">מעדכן את ערוצי ההודעות…</string>
 </resources>

@@ -12,6 +12,7 @@ public class Constants {
     public static final String PREF_THEME = "THEME";
     public static final String PREF_LANGUAGE = "LANG";
     public static final String PREF_VERSION = "version";
+    public static final String PREF_CLEAR_CACHE = "clear-cache";
     public static final String PREF_CLEAR_HISTORY = "clear-history";
     public static final String PREF_CCT = "CCT";
     public static final String PREF_NOTIFICATIONS_RINGTONE = "notifications_new_message_ringtone";
@@ -27,7 +28,6 @@ public class Constants {
     public static final String EXTRA_ALL_COURSES = "all_courses";
     public static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
     public static final String EXTRA_PROGRESS_PERCENT = "progress_percent";
-    public static final String EXTRA_TOOLBAR_COLOR = "EXTRA_TOOLBAR_COLOR";
     public static final String EXTRA_COURSE_MATERIALS_LIST = "EXTRA_COURSE_MATERIALS_LIST";
     public static final String EXTRA_IS_RUN_FOR_COURSE = "EXTRA_IS_RUN_FOR_COURSE";
     public static final String EXTRA_RATING_AMOUNT = "extra_rating_amount";

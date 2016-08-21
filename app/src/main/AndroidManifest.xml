@@ -147,7 +147,7 @@
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:label="@string/mail_subject"
             android:theme="@style/AppTheme.Base"
-            android:windowSoftInputMode="adjustResize" />
+            android:windowSoftInputMode="adjustResize|stateHidden" />
 
         <receiver
             android:name=".receivers.GcmRegistrationReceiver"

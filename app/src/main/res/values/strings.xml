@@ -125,9 +125,6 @@
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
-    <string name="gcm_settings_change_success">Notifications settings changed successfully</string>
-    <string name="gcm_settings_change_failed">Failed to change Notifications settings, please try again later</string>
-    <string name="gcm_settings_change">Changing Notifications settings</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -164,14 +161,17 @@
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>
+    <string name="pref_memory_category">Memory</string>
     <string name="language_english">English</string>
     <string name="language_hebrew">Hebrew</string>
     <string name="night_mode_title">Theme</string>
     <string name="night_mode_no">Light</string>
     <string name="night_mode_yes">Dark</string>
     <string name="night_mode_auto">Automatic</string>
-    <string name="clear_local_history_summary">Remove searches you have performed from this device</string>
+    <string name="clear_local_cache_title">Clear app cache</string>
+    <string name="clear_local_cache_summary">Current cache size: %1$s MB</string>
     <string name="clear_local_history_title">Clear local search history</string>
+    <string name="clear_local_history_summary">Remove searches you have performed from this device</string>
     <string name="reset_tutorial_summary">Review all tutorial screens again</string>
     <string name="reset_tutorial_title">Reset tutorial screens</string>
     <string name="pref_notifications_category">Notifications</string>
@@ -187,7 +187,11 @@
     <string name="pref_restart_required">Application restart is required to apply the changes</string>
     <string name="pref_showcases_cleared">Showcases cleared.</string>
     <string name="pref_search_history_cleared">Search history cleared.</string>
+    <string name="pref_cache_cleared">Cache has been cleared successfully.</string>
     <string name="pref_gcm_channels_title">Channels</string>
+    <string name="gcm_settings_change_success">Notification channels has been updated successfully.</string>
+    <string name="gcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
+    <string name="gcm_settings_change">Updating notification channels…</string>
     <string-array name="language_entries" translatable="false">
         <item name="iw">@string/language_hebrew</item>
         <item name="en">@string/language_english</item>
