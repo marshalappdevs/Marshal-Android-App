@@ -1,7 +1,9 @@
 package com.basmapp.marshal.ui;
 
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -21,7 +23,11 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.basmapp.marshal.BuildConfig;
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
+import com.basmapp.marshal.interfaces.GcmReceiverListener;
+import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
+import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
@@ -106,32 +112,80 @@ public class SettingsActivity extends AppCompatActivity {
     }
 
     public static class SettingsFragment extends PreferenceFragment {
+        GcmRegistrationReceiver gcmRegistrationReceiver;
+        MultiSelectListPreference prefGcmChannels;
+
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
-            bindPreferenceSummaryToValue(findPreference("notifications_new_message_ringtone"));
+            bindPreferenceSummaryToValue(findPreference(Constants.PREF_NOTIFICATIONS_RINGTONE));
 
-            Preference prefVersion = findPreference("version");
+            Preference prefVersion = findPreference(Constants.PREF_VERSION);
             prefVersion.setOnPreferenceClickListener(versionClickListener);
             prefVersion.setSummary(BuildConfig.VERSION_NAME);
 
-            ListPreference prefLanguage = (ListPreference) findPreference("LANG");
+            ListPreference prefLanguage = (ListPreference) findPreference(Constants.PREF_LANGUAGE);
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
 
-            ListPreference prefTheme = (ListPreference) findPreference("THEME");
+            ListPreference prefTheme = (ListPreference) findPreference(Constants.PREF_THEME);
             prefTheme.setOnPreferenceChangeListener(themeChangeListener);
 
-            MultiSelectListPreference prefGcmChannels = (MultiSelectListPreference) findPreference("gcm_channels");
+            prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
+            updateGcmChannelsPrefSummary();
 
-            Preference prefClearHistory = findPreference("clear-history");
+            Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
 
-            CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("CCT");
+            CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference(Constants.PREF_CCT);
             prefCCT.setOnPreferenceChangeListener(cctChangeListener);
+
+            gcmRegistrationReceiver = new GcmRegistrationReceiver(new GcmReceiverListener() {
+                @Override
+                public void onFinish(boolean result) {
+                    if (result) {
+                        restartApp();
+                    }
+
+                    updateGcmChannelsPrefSummary();
+                    prefGcmChannels.setEnabled(true);
+                }
+            });
+        }
+
+        private void updateGcmChannelsPrefSummary() {
+            String summary = "";
+            HashSet<String> channels = (HashSet<String>) prefGcmChannels.getValues();
+
+            for (String channel : channels) {
+                String channelEntry = getGcmChannelEntry(channel);
+                if (channelEntry != null) {
+                    if (summary.equals("")) summary = channelEntry;
+                    else summary = summary + ", " + channelEntry;
+                }
+            }
+
+            prefGcmChannels.setSummary(summary);
+        }
+
+        private String getGcmChannelEntry(String channelEntryValue) {
+            Resources res = getResources();
+            if (channelEntryValue.equals(res.getString(R.string.gcm_channel_software)))
+                return res.getString(R.string.course_type_software);
+            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_cyber)))
+                return res.getString(R.string.course_type_cyber);
+            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_it)))
+                return res.getString(R.string.course_type_it);
+            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_tools)))
+                return res.getString(R.string.course_type_tools);
+            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_system)))
+                return res.getString(R.string.course_type_system);
+            else if (channelEntryValue.equals(res.getString(R.string.gcm_channel_test)))
+                return res.getString(R.string.gcm_channel_test_ui);
+            else return null;
         }
 
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
@@ -150,23 +204,8 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                ListPreference prefLanguage = (ListPreference) findPreference("language");
-//                switch (newValue.toString()) {
-//                    case "iw":
-//                        if (!Objects.equals(prefLanguage.getValue(), "iw")) {
-//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
-//                            restartApp();
-//                        }
-//                        break;
-//                    case "en":
-//                        if (!Objects.equals(prefLanguage.getValue(), "en")) {
-//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
-//                            restartApp();
-//                        }
-//                        break;
-//                }
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                        .edit().putString("LANG", newValue.toString()).apply();
+                        .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
                 restartApp();
                 return false;
             }
@@ -175,29 +214,8 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-//                ListPreference prefLanguage = (ListPreference) findPreference("THEME");
-//                switch (newValue.toString()) {
-//                    case "light":
-//                        if (!Objects.equals(prefLanguage.getValue(), "light")) {
-//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "light").apply();
-//                            restartApp();
-//                        }
-//                        break;
-//                    case "dark":
-//                        if (!Objects.equals(prefLanguage.getValue(), "dark")) {
-//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "dark").apply();
-//                            restartApp();
-//                        }
-//                        break;
-//                    case "auto":
-//                        if (!Objects.equals(prefLanguage.getValue(), "auto")) {
-//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "auto").apply();
-//                            restartApp();
-//                        }
-//                        break;
-//                }
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                        .edit().putString("THEME", newValue.toString()).apply();
+                        .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
                 restartApp();
                 return false;
             }
@@ -224,7 +242,13 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener gcmChannelsChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return true;
+                preference.setEnabled(false);
+                Toast.makeText(getActivity(), getResources().getString(R.string.gcm_settings_change), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), GcmRegistrationService.class);
+                intent.setAction(GcmRegistrationService.ACTION_UPDATE_CHANNELS);
+                intent.putExtra(Constants.EXTRA_GCM_CHANNELS, ((HashSet<String>)newValue));
+                getActivity().startService(intent);
+                return false;
             }
         };
 
@@ -234,6 +258,18 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(getActivity(), MainActivity.class));
             startActivity(getActivity().getIntent());
             getActivity().overridePendingTransition(0, 0);
+        }
+
+        @Override
+        public void onResume() {
+            super.onResume();
+            getActivity().registerReceiver(gcmRegistrationReceiver, new IntentFilter(GcmRegistrationReceiver.ACTION_RESULT));
+        }
+
+        @Override
+        public void onStop() {
+            super.onStop();
+            getActivity().unregisterReceiver(gcmRegistrationReceiver);
         }
     }
 }

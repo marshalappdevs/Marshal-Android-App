@@ -42,6 +42,7 @@
 
         <MultiSelectListPreference
             android:defaultValue="@array/gcm_channels_values_defaults"
+            android:dependency="notifications_new_message"
             android:key="gcm_channels"
             android:title="@string/pref_gcm_channels_title"
             android:entries="@array/gcm_channels_entries"

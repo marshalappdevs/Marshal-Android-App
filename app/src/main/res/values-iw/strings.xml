@@ -120,6 +120,9 @@
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
+    <string name="gcm_settings_change_success">הגדרות ההודעות עודכנו בהצלחה</string>
+    <string name="gcm_settings_change_failed">עדכון הגדרת ההודעות נכשל.\nנסה שוב מאוחר יותר</string>
+    <string name="gcm_settings_change">מעדכן את הגדרות ההודעות...</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -168,4 +171,6 @@
     <string name="pref_showcases_cleared">מסכי הסברה אופסו.</string>
     <string name="pref_search_history_cleared">היסטוריית החיפושים נוקתה.</string>
     <string name="pref_gcm_channels_title">ערוצים</string>
+
+    <string name="gcm_channel_test_ui">פיתוח BasmApp</string>
 </resources>

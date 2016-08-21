@@ -146,8 +146,17 @@
             android:name=".ui.DescribeProblemActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:label="@string/mail_subject"
-            android:windowSoftInputMode="adjustResize"
-            android:theme="@style/AppTheme.Base" />
+            android:theme="@style/AppTheme.Base"
+            android:windowSoftInputMode="adjustResize" />
+
+        <receiver
+            android:name=".receivers.GcmRegistrationReceiver"
+            android:enabled="true"
+            android:exported="false">
+            <intent-filter>
+                <action android:name="com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT" />
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>

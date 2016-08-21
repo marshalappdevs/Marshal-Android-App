@@ -125,6 +125,9 @@
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
+    <string name="gcm_settings_change_success">Notifications settings changed successfully</string>
+    <string name="gcm_settings_change_failed">Failed to change Notifications settings, please try again later</string>
+    <string name="gcm_settings_change">Changing Notifications settings</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -155,7 +158,8 @@
     <string name="gcm_channel_system" translatable="false">system</string>
     <string name="gcm_channel_it" translatable="false">it</string>
     <string name="gcm_channel_cyber" translatable="false">cyber</string>
-    <string name="gcm_channel_test" translatable="false">test</string>
+    <string name="gcm_channel_test" translatable="false">basmapp_test</string>
+    <string name="gcm_channel_test_ui">BasmApp Testing</string>
 
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
@@ -208,7 +212,7 @@
         <item>@string/course_type_it</item>
         <item>@string/course_type_system</item>
         <item>@string/course_type_tools</item>
-        <item>Test Channel</item>
+        <item>@string/gcm_channel_test_ui</item>
     </string-array>
     <string-array name="gcm_channels_values" translatable="false">
         <item>@string/gcm_channel_software</item>

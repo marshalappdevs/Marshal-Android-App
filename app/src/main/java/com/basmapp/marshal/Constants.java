@@ -8,6 +8,14 @@ public class Constants {
     public static final String PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE = "is_update_service_success_once";
     public static final String PREF_IS_THERE_UPDATES_TO_SHOW = "is_there_new_updates_to_show";
     public static final String PREF_LAST_UPDATE_TIMESTAMP = "last_update_timestamp";
+    public static final String PREF_GCM_CHANNELS = "gcm_channels";
+    public static final String PREF_THEME = "THEME";
+    public static final String PREF_LANGUAGE = "LANG";
+    public static final String PREF_VERSION = "version";
+    public static final String PREF_CLEAR_HISTORY = "clear-history";
+    public static final String PREF_CCT = "CCT";
+    public static final String PREF_NOTIFICATIONS_RINGTONE = "notifications_new_message_ringtone";
+    public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
 
     // Extras Keys
     public static final String EXTRA_COURSE = "course_extra";
@@ -25,4 +33,5 @@ public class Constants {
     public static final String EXTRA_RATING_AMOUNT = "extra_rating_amount";
     public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
+    public static final String EXTRA_GCM_CHANNELS = "extra_gcm_channels";
 }
