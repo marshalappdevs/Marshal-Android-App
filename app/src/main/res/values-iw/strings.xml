@@ -119,6 +119,7 @@
     <string name="faq">כבר קראת את השאלות הנפוצות?</string>
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
+    <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>

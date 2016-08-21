@@ -187,36 +187,45 @@ public class DescribeProblemActivity extends AppCompatActivity {
                         return;
                     }
                     Uri uri = data.getData();
-                    try {
-                        attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        mScreenshotOne.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (getRealPathFromURI(uri) != null) {
+                        try {
+                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            mScreenshotOne.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
                 } else if (requestCode == PICK_IMAGE_REQUEST_TWO) {
                     if (data == null || data.getData() == null) {
                         return;
                     }
                     Uri uri = data.getData();
-                    try {
-                        attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        mScreenshotTwo.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (getRealPathFromURI(uri) != null) {
+                        try {
+                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            mScreenshotTwo.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    if (data == null || data.getData() == null) {
-                        return;
-                    }
                     Uri uri = data.getData();
-                    try {
-                        attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
-                        Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                        mScreenshotThree.setImageBitmap(bitmap);
-                    } catch (IOException e) {
-                        e.printStackTrace();
+                    if (getRealPathFromURI(uri) != null) {
+                        try {
+                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
+                            mScreenshotThree.setImageBitmap(bitmap);
+                        } catch (IOException e) {
+                            e.printStackTrace();
+                        }
+                    } else {
+                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
                 }
             }

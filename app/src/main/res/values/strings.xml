@@ -124,6 +124,7 @@
     <string name="faq">Have you read our FAQ yet?</string>
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
+    <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
