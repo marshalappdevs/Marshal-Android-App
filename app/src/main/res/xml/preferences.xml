@@ -3,14 +3,14 @@
         android:title="@string/pref_general_category">
         <ListPreference
             android:defaultValue="iw"
-            android:key="language"
+            android:key="LANG"
             android:title="@string/pref_language_title"
             android:summary="%s"
             android:entries="@array/language_entries"
             android:entryValues="@array/language_values" />
         <ListPreference
             android:defaultValue="light"
-            android:key="night_mode"
+            android:key="THEME"
             android:title="@string/night_mode_title"
             android:summary="%s"
             android:entries="@array/night_mode_entries"
@@ -39,12 +39,20 @@
             android:dependency="notifications_new_message"
             android:key="notifications_new_message_vibrate"
             android:title="@string/pref_vibrate_title" />
+
+        <MultiSelectListPreference
+            android:defaultValue="@array/gcm_channels_values_defaults"
+            android:key="gcm_channels"
+            android:title="@string/pref_gcm_channels_title"
+            android:entries="@array/gcm_channels_entries"
+            android:entryValues="@array/gcm_channels_values" />
+
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_advanced_category">
         <CheckBoxPreference
             android:defaultValue="true"
-            android:key="chrome_custom_tabs"
+            android:key="CCT"
             android:title="@string/custom_tabs_pref_title"
             android:summary="@string/custom_tabs_pref_summary" />
     </PreferenceCategory>

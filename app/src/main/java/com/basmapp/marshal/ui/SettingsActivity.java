@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.preference.CheckBoxPreference;
 import android.preference.ListPreference;
+import android.preference.MultiSelectListPreference;
 import android.preference.Preference;
 import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
@@ -25,7 +26,10 @@ import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.Objects;
+import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
@@ -114,16 +118,19 @@ public class SettingsActivity extends AppCompatActivity {
             prefVersion.setOnPreferenceClickListener(versionClickListener);
             prefVersion.setSummary(BuildConfig.VERSION_NAME);
 
-            ListPreference prefLanguage = (ListPreference) findPreference("language");
+            ListPreference prefLanguage = (ListPreference) findPreference("LANG");
             prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
 
-            ListPreference prefNightMode = (ListPreference) findPreference("night_mode");
-            prefNightMode.setOnPreferenceChangeListener(themeChangeListener);
+            ListPreference prefTheme = (ListPreference) findPreference("THEME");
+            prefTheme.setOnPreferenceChangeListener(themeChangeListener);
+
+            MultiSelectListPreference prefGcmChannels = (MultiSelectListPreference) findPreference("gcm_channels");
+            prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
 
             Preference prefClearHistory = findPreference("clear-history");
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
 
-            CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("chrome_custom_tabs");
+            CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference("CCT");
             prefCCT.setOnPreferenceChangeListener(cctChangeListener);
         }
 
@@ -143,50 +150,56 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                ListPreference prefLanguage = (ListPreference) findPreference("language");
-                switch (newValue.toString()) {
-                    case "iw":
-                        if (!Objects.equals(prefLanguage.getValue(), "iw")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
-                            restartApp();
-                        }
-                        break;
-                    case "en":
-                        if (!Objects.equals(prefLanguage.getValue(), "en")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
-                            restartApp();
-                        }
-                        break;
-                }
-                return true;
+//                ListPreference prefLanguage = (ListPreference) findPreference("language");
+//                switch (newValue.toString()) {
+//                    case "iw":
+//                        if (!Objects.equals(prefLanguage.getValue(), "iw")) {
+//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "iw").apply();
+//                            restartApp();
+//                        }
+//                        break;
+//                    case "en":
+//                        if (!Objects.equals(prefLanguage.getValue(), "en")) {
+//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("LANG", "en").apply();
+//                            restartApp();
+//                        }
+//                        break;
+//                }
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString("LANG", newValue.toString()).apply();
+                restartApp();
+                return false;
             }
         };
 
         Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                ListPreference prefLanguage = (ListPreference) findPreference("night_mode");
-                switch (newValue.toString()) {
-                    case "light":
-                        if (!Objects.equals(prefLanguage.getValue(), "light")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "light").apply();
-                            restartApp();
-                        }
-                        break;
-                    case "dark":
-                        if (!Objects.equals(prefLanguage.getValue(), "dark")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "dark").apply();
-                            restartApp();
-                        }
-                        break;
-                    case "auto":
-                        if (!Objects.equals(prefLanguage.getValue(), "auto")) {
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "auto").apply();
-                            restartApp();
-                        }
-                        break;
-                }
-                return true;
+//                ListPreference prefLanguage = (ListPreference) findPreference("THEME");
+//                switch (newValue.toString()) {
+//                    case "light":
+//                        if (!Objects.equals(prefLanguage.getValue(), "light")) {
+//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "light").apply();
+//                            restartApp();
+//                        }
+//                        break;
+//                    case "dark":
+//                        if (!Objects.equals(prefLanguage.getValue(), "dark")) {
+//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "dark").apply();
+//                            restartApp();
+//                        }
+//                        break;
+//                    case "auto":
+//                        if (!Objects.equals(prefLanguage.getValue(), "auto")) {
+//                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putString("THEME", "auto").apply();
+//                            restartApp();
+//                        }
+//                        break;
+//                }
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString("THEME", newValue.toString()).apply();
+                restartApp();
+                return false;
             }
         };
 
@@ -204,11 +217,13 @@ public class SettingsActivity extends AppCompatActivity {
         Preference.OnPreferenceChangeListener cctChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                if ((Boolean) newValue) {
-                    PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putBoolean("CCT", true).apply();
-                } else {
-                    PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit().putBoolean("CCT", false).apply();
-                }
+                return true;
+            }
+        };
+
+        Preference.OnPreferenceChangeListener gcmChannelsChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
                 return true;
             }
         };

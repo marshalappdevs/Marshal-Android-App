@@ -149,6 +149,14 @@
     <string name="programing_course">Programing Course Aids</string>
     <string name="cyber_defender_course">Cyber Defender Course Aids</string>
 
+    <!--Gcm Channels-->
+    <string name="gcm_channel_software" translatable="false">software</string>
+    <string name="gcm_channel_tools" translatable="false">tools</string>
+    <string name="gcm_channel_system" translatable="false">system</string>
+    <string name="gcm_channel_it" translatable="false">it</string>
+    <string name="gcm_channel_cyber" translatable="false">cyber</string>
+    <string name="gcm_channel_test" translatable="false">test</string>
+
     <!-- Strings related to Settings -->
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>
@@ -175,6 +183,7 @@
     <string name="pref_restart_required">Application restart is required to apply the changes</string>
     <string name="pref_showcases_cleared">Showcases cleared.</string>
     <string name="pref_search_history_cleared">Search history cleared.</string>
+    <string name="pref_gcm_channels_title">Channels</string>
     <string-array name="language_entries" translatable="false">
         <item name="iw">@string/language_hebrew</item>
         <item name="en">@string/language_english</item>
@@ -193,9 +202,33 @@
         <item>dark</item>
         <item>auto</item>
     </string-array>
+    <string-array name="gcm_channels_entries" translatable="true">
+        <item>@string/course_type_software</item>
+        <item>@string/course_type_cyber</item>
+        <item>@string/course_type_it</item>
+        <item>@string/course_type_system</item>
+        <item>@string/course_type_tools</item>
+        <item>Test Channel</item>
+    </string-array>
+    <string-array name="gcm_channels_values" translatable="false">
+        <item>@string/gcm_channel_software</item>
+        <item>@string/gcm_channel_cyber</item>
+        <item>@string/gcm_channel_it</item>
+        <item>@string/gcm_channel_system</item>
+        <item>@string/gcm_channel_tools</item>
+        <item>@string/gcm_channel_test</item>
+    </string-array>
+    <string-array name="gcm_channels_values_defaults" translatable="false">
+        <item>@string/gcm_channel_software</item>
+        <item>@string/gcm_channel_cyber</item>
+        <item>@string/gcm_channel_it</item>
+        <item>@string/gcm_channel_system</item>
+        <item>@string/gcm_channel_tools</item>
+    </string-array>
 
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com</string>
     <string name="share_authority" translatable="false">com.basmapp.marshal.shareprovider</string>
+
 </resources>

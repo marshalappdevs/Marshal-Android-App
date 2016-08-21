@@ -146,7 +146,7 @@
             android:name=".ui.DescribeProblemActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:label="@string/mail_subject"
-            android:windowSoftInputMode="adjustPan|stateHidden"
+            android:windowSoftInputMode="adjustResize"
             android:theme="@style/AppTheme.Base" />
     </application>
 

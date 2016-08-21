@@ -10,12 +10,10 @@ import android.util.Log;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.GcmRegistration;
-import com.basmapp.marshal.interfaces.GcmChannels;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
@@ -53,8 +51,9 @@ public class GcmRegistrationService extends IntentService {
                     gcmRegistration.setRegisterationTokenId(token);
                     gcmRegistration.setHardwareId(hardwareId);
                     gcmRegistration.setLastModified(new Date());
-                    gcmRegistration.setChannels(new ArrayList<>(Arrays.asList(GcmChannels.SOFTWARE,
-                            GcmChannels.CYBER, GcmChannels.IT, GcmChannels.SYSTEM, GcmChannels.TOOLS)));
+                    gcmRegistration.setChannels(new ArrayList<>(Arrays.asList(getString(R.string.gcm_channel_software),
+                            getString(R.string.gcm_channel_cyber),getString(R.string.gcm_channel_it),
+                            getString(R.string.gcm_channel_tools),getString(R.string.gcm_channel_system))));
 
                     if (intent != null) {
                         final String action = intent.getAction();
