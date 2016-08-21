@@ -38,14 +38,14 @@ public class GcmRegistrationReceiver extends BroadcastReceiver {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_success), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_success), Toast.LENGTH_SHORT).show();
                 }
             });
         } else {
             handler.post(new Runnable() {
                 @Override
                 public void run() {
-                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_failed), Toast.LENGTH_LONG).show();
+                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_failed), Toast.LENGTH_SHORT).show();
                 }
             });
         }

@@ -160,16 +160,6 @@ public class SettingsActivity extends AppCompatActivity {
             });
         }
 
-        private void updateGcmChannelsPrefSummary() {
-            Set<String> values = prefGcmChannels.getValues();
-            Set<CharSequence> labels = new HashSet<>();
-            for(String value: values) {
-                int index = prefGcmChannels.findIndexOfValue(value);
-                labels.add(prefGcmChannels.getEntries()[index]);
-            }
-            prefGcmChannels.setSummary(labels.toString().replaceAll("\\[", "").replaceAll("\\]",""));
-        }
-
         Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
             int mTapCount;
             @Override
@@ -255,6 +245,20 @@ public class SettingsActivity extends AppCompatActivity {
             startActivity(new Intent(getActivity(), MainActivity.class));
             startActivity(getActivity().getIntent());
             getActivity().overridePendingTransition(0, 0);
+        }
+
+        private void updateGcmChannelsPrefSummary() {
+            Set<String> values = prefGcmChannels.getValues();
+            Set<CharSequence> labels = new HashSet<>();
+            for(String value: values) {
+                int index = prefGcmChannels.findIndexOfValue(value);
+                labels.add(prefGcmChannels.getEntries()[index]);
+            }
+            if (!values.isEmpty()) {
+                prefGcmChannels.setSummary(labels.toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+            } else {
+                prefGcmChannels.setSummary(getString(R.string.pref_gcm_channels_summary));
+            }
         }
 
         private long getCacheFolderSize() {
