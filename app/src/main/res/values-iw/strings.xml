@@ -174,7 +174,7 @@
     <string name="pref_search_history_cleared">היסטוריית החיפושים נוקתה.</string>
     <string name="pref_cache_cleared">מטמון נוקה בהצלחה.</string>
     <string name="gcm_channel_test_ui">פיתוח BasmApp</string>
-    <string name="gcm_settings_change_success">עדכון ערוצי ההודעות בוצע בהצלחה.</string>
+    <string name="gcm_settings_change_success">ערוצי ההודעות עודכנו.</string>
     <string name="gcm_settings_change_failed">אירעה שגיאה במהלך ניסיון עדכון של ערוצי ההודעות. אנא נסה שוב מאוחר יותר.</string>
     <string name="gcm_settings_change">מעדכן את ערוצי ההודעות…</string>
 </resources>

@@ -190,7 +190,7 @@
     <string name="pref_showcases_cleared">Showcases cleared.</string>
     <string name="pref_search_history_cleared">Search history cleared.</string>
     <string name="pref_cache_cleared">Cache has been cleared successfully.</string>
-    <string name="gcm_settings_change_success">Notification channels has been updated successfully.</string>
+    <string name="gcm_settings_change_success">Notification channels has been updated.</string>
     <string name="gcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
     <string name="gcm_settings_change">Updating notification channels…</string>
     <string-array name="language_entries" translatable="false">

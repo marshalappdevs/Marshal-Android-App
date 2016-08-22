@@ -157,6 +157,7 @@
                 <action android:name="com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT" />
             </intent-filter>
         </receiver>
+
     </application>
 
 </manifest>

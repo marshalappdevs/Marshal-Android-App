@@ -136,10 +136,10 @@ public class SettingsActivity extends AppCompatActivity {
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
             updateGcmChannelsPrefSummary();
 
-            Preference prefClearCache = findPreference(Constants.PREF_CLEAR_CACHE);
-            prefClearCache.setOnPreferenceClickListener(clearCacheClickListener);
-            prefClearCache.setSummary(String.format(getString(R.string.clear_local_cache_summary),
-                    getCacheFolderSize() / 1048576L));
+//            Preference prefClearCache = findPreference(Constants.PREF_CLEAR_CACHE);
+//            prefClearCache.setOnPreferenceClickListener(clearCacheClickListener);
+//            prefClearCache.setSummary(String.format(getString(R.string.clear_local_cache_summary),
+//                    getCacheFolderSize() / 1048576L));
 
             Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
