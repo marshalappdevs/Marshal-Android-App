@@ -64,7 +64,7 @@ public class GcmRegistrationService extends IntentService {
                 if(hardwareId != null) {
                     String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                     if (token != null) {
-                        gcmRegistration.setRegisterationTokenId(token);
+                        gcmRegistration.setRegistrationTokenId(token);
                         gcmRegistration.setHardwareId(hardwareId);
                         gcmRegistration.setLastModified(new Date());
                         Set<String> channels = PreferenceManager.getDefaultSharedPreferences(this)

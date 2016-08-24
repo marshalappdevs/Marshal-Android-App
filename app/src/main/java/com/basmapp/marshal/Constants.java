@@ -17,6 +17,7 @@ public class Constants {
     public static final String PREF_CCT = "CCT";
     public static final String PREF_NOTIFICATIONS_RINGTONE = "notifications_new_message_ringtone";
     public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
+    public static final String PREF_MUST_UPDATE = "must_update";
 
     // Extras Keys
     public static final String EXTRA_COURSE = "course_extra";

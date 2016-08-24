@@ -9,8 +9,8 @@ import java.util.Date;
 public class GcmRegistration {
 
     @Expose
-    @SerializedName("registerationTokenId")
-    private String registerationTokenId;
+    @SerializedName("registrationTokenId")
+    private String registrationTokenId;
 
     @Expose
     @SerializedName("hardwareId")
@@ -24,12 +24,16 @@ public class GcmRegistration {
     @SerializedName("channels")
     private ArrayList<String> channels;
 
-    public String getRegisterationTokenId() {
-        return registerationTokenId;
+    @Expose
+    @SerializedName("courses")
+    private ArrayList<String> courses;
+
+    public String getRegistrationTokenId() {
+        return registrationTokenId;
     }
 
-    public void setRegisterationTokenId(String registerationTokenId) {
-        this.registerationTokenId = registerationTokenId;
+    public void setRegistrationTokenId(String registrationTokenId) {
+        this.registrationTokenId = registrationTokenId;
     }
 
     public String getHardwareId() {
@@ -56,5 +60,11 @@ public class GcmRegistration {
         this.channels = channels;
     }
 
+    public ArrayList<String> getCourses() {
+        return courses;
+    }
 
+    public void setCourses(ArrayList<String> courses) {
+        this.courses = courses;
+    }
 }

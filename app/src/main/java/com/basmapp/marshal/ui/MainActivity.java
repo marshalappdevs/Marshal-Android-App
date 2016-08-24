@@ -248,6 +248,22 @@ public class MainActivity extends AppCompatActivity
                 }
             }
         });
+
+        if (mSharedPreferences.getBoolean(Constants.PREF_MUST_UPDATE, false)) {
+            AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
+            dialogBuilder.setCancelable(false);
+            dialogBuilder.setIcon(R.drawable.ic_drawer_info);
+            dialogBuilder.setMessage(getString(R.string.must_update_message));
+            dialogBuilder.setPositiveButton(R.string.must_update_button, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    mSharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, false).apply();
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
+            });
+            dialogBuilder.show();
+        }
     }
 
     private void setErrorScreenVisibility(int visibility) {

@@ -125,6 +125,8 @@
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
+    <string name="must_update_message">Hi!\n A newer version of this app is available on PlayStore. Please update for better performances.</string>
+    <string name="must_update_button">Update</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>

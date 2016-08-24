@@ -14,6 +14,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
 import com.google.android.gms.gcm.GcmListenerService;
@@ -34,6 +35,10 @@ public class GcmIntentService extends GcmListenerService {
         } else if(message != null && message.equals("data-update-true")) {
             Log.i("GCM","data-update-true");
             UpdateIntentService.startUpdateData(this);
+        } else if(message != null && message.equals("reset-gcm-registration-pref")) {
+            sharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false).apply();
+        } else if(message != null && message.equals("show-must-update-dialog")) {
+            sharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
         } else {
             if (sharedPreferences.getBoolean("notifications_new_message", true)) {
                 PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,

@@ -120,6 +120,8 @@
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
+    <string name="must_update_message">היי!\nקיימת גרסא חדשה יותר של האפליקציה ב - PlayStore. עדכן על מנת לחוות ביצועים טובים יותר.</string>
+    <string name="must_update_button">עדכן</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
