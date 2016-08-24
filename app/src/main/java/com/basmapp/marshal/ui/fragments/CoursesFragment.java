@@ -17,6 +17,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -32,7 +33,6 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.MainActivity;
-import com.basmapp.marshal.ui.ShowAllCoursesActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.utils.AutoScrollViewPager;
 import com.basmapp.marshal.ui.utils.InkPageIndicator;
@@ -100,7 +100,12 @@ public class CoursesFragment extends Fragment {
          mITCourses = null;
          mToolsCourses = null;
          mSystemCourses = null;
+
          setHasOptionsMenu(true);
+
+         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+         toolbar.setTitle(R.string.navigation_drawer_courses);
+
          mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
          if (savedInstanceState != null && mCoursesList == null) {
@@ -335,10 +340,13 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST,mSoftwareCourses);
-                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
-                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
+                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mSoftwareCourses);
+                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
+                showAllCoursesFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        add(R.id.content_frame, showAllCoursesFragment).commit();
             }
         });
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
@@ -357,10 +365,13 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST,mCyberCourses);
-                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
-                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
+                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCyberCourses);
+                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
+                showAllCoursesFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        add(R.id.content_frame, showAllCoursesFragment).commit();
             }
         });
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
@@ -379,10 +390,13 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mITCourses);
-                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
-                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
+                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mITCourses);
+                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
+                showAllCoursesFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        add(R.id.content_frame, showAllCoursesFragment).commit();
             }
         });
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
@@ -401,10 +415,13 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllTools.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mToolsCourses);
-                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
-                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
+                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mToolsCourses);
+                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
+                showAllCoursesFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        add(R.id.content_frame, showAllCoursesFragment).commit();
             }
         });
         mRecyclerTools = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_tools_recyclerView);
@@ -423,10 +440,13 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSystem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mSystemCourses);
-                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
-                startActivityForResult(intent, MainActivity.RC_SHOW_ALL_ACTIVITY);
+                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
+                Bundle args = new Bundle();
+                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mSystemCourses);
+                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
+                showAllCoursesFragment.setArguments(args);
+                getActivity().getSupportFragmentManager().beginTransaction().
+                        add(R.id.content_frame, showAllCoursesFragment).commit();
             }
         });
         mRecyclerSystem = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_system_recyclerView);

@@ -107,10 +107,6 @@
             <!-- android:value=".ui.MainActivity"/> -->
         </activity>
         <activity
-            android:name=".ui.ShowAllCoursesActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Base" />
-        <activity
             android:name=".ui.RatingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"

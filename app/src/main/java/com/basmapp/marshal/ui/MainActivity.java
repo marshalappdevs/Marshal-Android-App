@@ -11,7 +11,6 @@ import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -41,7 +40,6 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
@@ -76,9 +74,7 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
-import java.io.File;
 import java.util.ArrayList;
-import java.util.Locale;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -90,16 +86,13 @@ public class MainActivity extends AppCompatActivity
 //            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
-    public static final String ACTION_SHOW_COURSE_MATERIALS = "com.basmapp.marshal.ACTION_SHOW_COURSE_MATERIALS";
-    public static final int RESULT_SHOW_COURSE_MATERIALS = 8001;
     public static final int RC_COURSE_ACTIVITY = 8000;
-    public static final int RC_SHOW_ALL_ACTIVITY = 7999;
 
     private GoogleApiClient mGoogleApiClient;
     //    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
-    private DrawerLayout mDrawerLayout;
-    private ActionBarDrawerToggle mDrawerToggle;
+    public static DrawerLayout mDrawerLayout;
+    public static ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
@@ -822,7 +815,6 @@ public class MainActivity extends AppCompatActivity
 //            }
             if (mMeetupsFragment == null)
                 mMeetupsFragment = new MeetupsFragment();
-
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
@@ -836,29 +828,6 @@ public class MainActivity extends AppCompatActivity
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(this, DescribeProblemActivity.class));
             overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
-//            // Open mail intent, set email address, title and add attachment
-//            Intent emailIntent = new Intent(Intent.ACTION_SENDTO);
-//            emailIntent.setData(Uri.parse("mailto:")); // only email apps should handle this
-//            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com" });
-//            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-//            Calendar now = Calendar.getInstance();
-//            // Create debug info text file and set file name to current date and time
-//            String filename = String.format(Locale.getDefault(),
-//                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
-//                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
-//                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
-//                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
-//            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt") ;
-//            try {
-//                FileWriter writer = new FileWriter(tempFile);
-//                writer.write(debugInfo());
-//                writer.close();
-//                Uri log = Uri.fromFile(tempFile);
-//                emailIntent.putExtra(Intent.EXTRA_STREAM, log);
-//            } catch (IOException e) {
-//                e.printStackTrace();
-//            }
-//            startActivity(Intent.createChooser(emailIntent, getResources().getText(R.string.send_to)));
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
             overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);

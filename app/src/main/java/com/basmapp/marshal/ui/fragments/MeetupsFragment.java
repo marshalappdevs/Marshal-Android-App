@@ -7,6 +7,7 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -45,7 +46,8 @@ public class MeetupsFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        getActivity().setTitle(R.string.navigation_drawer_meetups);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.navigation_drawer_meetups);
 
         mNoResults = (TextView) rootView.findViewById(R.id.meetup_no_results);
 

@@ -136,7 +136,7 @@ public class CoursesSearchableFragment extends Fragment {
                         .setTarget(new ViewTarget(filterView))
                         .setContentTitle(R.string.filter_tutorial_description)
                         .replaceEndButton(R.layout.view_custom_button)
-//                        .singleShot(FILTER_SHOWCASE_ID)
+                        .singleShot(FILTER_SHOWCASE_ID)
                         .build();
                 }
         });
