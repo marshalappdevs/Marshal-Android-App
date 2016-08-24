@@ -11,11 +11,23 @@ public class Settings {
     @SerializedName("lastUpdateAt")
     Date lastUpdateAt;
 
+    @Expose
+    @SerializedName("minVersion")
+    int minVersion;
+
     public Date getLastUpdateAt() {
         return lastUpdateAt;
     }
 
     public void setLastUpdateAt(Date lastUpdateAt) {
         this.lastUpdateAt = lastUpdateAt;
+    }
+
+    public int getVersion() {
+        return minVersion;
+    }
+
+    public void setVersion(int version) {
+        this.minVersion = version;
     }
 }

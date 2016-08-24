@@ -27,8 +27,8 @@ public class Cycle extends DBObject implements Parcelable {
 
     @Expose
     @SerializedName("CourseID")
-    @Column(name = DBConstants.COL_COURSE_ID)
-    private String courseId;
+    @Column(name = DBConstants.COL_COURSE_CODE)
+    private String courseCode;
 
     @Expose
     @SerializedName("Name")
@@ -70,14 +70,14 @@ public class Cycle extends DBObject implements Parcelable {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COURSE_ID)
-    public String getCourseId() {
-        return courseId;
+    @ColumnGetter(columnName = DBConstants.COL_COURSE_CODE)
+    public String getCourseCode() {
+        return courseCode;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COURSE_ID, type = TYPE_STRING)
-    public void setCourseId(String courseId) {
-        this.courseId = courseId;
+    @ColumnSetter(columnName = DBConstants.COL_COURSE_CODE, type = TYPE_STRING)
+    public void setCourseCode(String courseCode) {
+        this.courseCode = courseCode;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_NAME)

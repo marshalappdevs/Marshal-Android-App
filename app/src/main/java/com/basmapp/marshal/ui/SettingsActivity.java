@@ -291,7 +291,7 @@ public class SettingsActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onStop() {
+        public void onPause() {
             super.onStop();
             getActivity().unregisterReceiver(gcmRegistrationReceiver);
         }

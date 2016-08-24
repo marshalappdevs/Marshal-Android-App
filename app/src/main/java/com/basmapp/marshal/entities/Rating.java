@@ -207,4 +207,34 @@ public class Rating extends DBObject implements Parcelable{
             return null;
         }
     }
+
+    public String getUpdateSql(long objectId) {
+        String sql = "UPDATE " + DBConstants.T_RATING + " SET " +
+                DBConstants.COL_USER_MAIL_ADDRESS + " = " + prepareStringForSql(userMailAddress) + "," +
+                DBConstants.COL_COURSE_CODE + " = " + prepareStringForSql(courseCode) + "," +
+                DBConstants.COL_RATING + " = " + rating + "," +
+                DBConstants.COL_CREATED_AT + " = " + createdAt.getTime() + "," +
+                DBConstants.COL_LAST_MODIFIED + " = " + lastModified.getTime() + "," +
+                DBConstants.COL_COMMENT + " = " + prepareStringForSql(comment) + "," +
+                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
+                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
+
+        return sql;
+    }
+
+    public String getInsertSql() {
+        String sql = "INSERT INTO " + DBConstants.T_RATING + "(" +
+                DBConstants.COL_USER_MAIL_ADDRESS + "," +
+                DBConstants.COL_COURSE_CODE + "," +
+                DBConstants.COL_RATING + "," +
+                DBConstants.COL_CREATED_AT + "," +
+                DBConstants.COL_LAST_MODIFIED + "," +
+                DBConstants.COL_COMMENT + "," +
+                DBConstants.COL_IS_UP_TO_DATE + ")" +
+                " VALUES (" + prepareStringForSql(userMailAddress) + "," +
+                prepareStringForSql(courseCode) + "," + rating + "," + createdAt.getTime() +
+                "," + lastModified.getTime() + "," + prepareStringForSql(comment) + ",1);";
+
+        return sql;
+    }
 }

@@ -14,9 +14,8 @@ public class DBConstants {
     public static final String COL_URL = "url";
     public static final String COL_TITLE = "title";
     public static final String COL_DESCRIPTION = "description";
-    public static final String COL_CANNONICIAL_URL = "cannonical_url";
+    public static final String COL_BASE_URL = "base_url";
     public static final String COL_IMAGE_URL = "image_url";
-    public static final String COL_COURSE_ID = "course_id";
     public static final String COL_NAME = "name";
     public static final String COL_MIN_PEOPLE = "min_people";
     public static final String COL_MAX_PEOPLE = "max_people";
@@ -39,36 +38,30 @@ public class DBConstants {
     public static final String COL_RATING = "rating";
     public static final String COL_COMMENT = "comment";
     public static final String COL_COURSE_CODE = "course_code";
-    public static final String COL_IS_GET_LINK_DATA_EXECUTED = "is_get_link_data_executed";
     public static final String COL_LAST_MODIFIED = "last_modified";
     public static final String COL_CREATED_AT = "created_at";
     public static final String COL_CATEGORY = "category";
     public static final String COL_IS_MEETUP = "is_meetup";
+    public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
+    public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
 
     // 'Create Table' commands
     public static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE "+ T_MALSHAB_ITEM + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
-            COL_IMAGE_URL + " TEXT);";
+            COL_IMAGE_URL + " TEXT, " +
+            COL_IS_UP_TO_DATE + " INTEGER);";
 
     public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_DESCRIPTION + " TEXT," +
-            COL_CANNONICIAL_URL + " TEXT," +
+            COL_BASE_URL + " TEXT," +
             COL_TAGS + " TEXT," +
-            COL_IMAGE_URL + " TEXT);";
-
-    public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
-            COL_ID + " INTEGER PRIMARY KEY, " +
-            COL_COURSE_ID + " TEXT, " +
-            COL_NAME + " TEXT, " +
-            COL_MAX_PEOPLE + " INTEGER," +
-            COL_DESCRIPTION + " TEXT," +
-            COL_START_DATE + " INTEGER," +
-            COL_END_DATE + " INTEGER);";
+            COL_IMAGE_URL + " TEXT ," +
+            COL_IS_UP_TO_DATE + " INTEGER);";
 
     public static final String CREATE_T_RATING = "CREATE TABLE "+ T_RATING + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
@@ -77,11 +70,21 @@ public class DBConstants {
             COL_RATING + " REAL," +
             COL_CREATED_AT + " INTEGER," +
             COL_LAST_MODIFIED + " INTEGER," +
-            COL_COMMENT + " TEXT);";
+            COL_COMMENT + " TEXT," +
+            COL_IS_UP_TO_DATE + " INTEGER);";
+
+    public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
+            COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_COURSE_CODE + " TEXT, " +
+            COL_NAME + " TEXT, " +
+            COL_MAX_PEOPLE + " INTEGER," +
+            COL_DESCRIPTION + " TEXT," +
+            COL_START_DATE + " INTEGER," +
+            COL_END_DATE + " INTEGER);";
 
     public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
-            COL_COURSE_ID + " TEXT UNIQUE, " +
+            COL_COURSE_CODE + " TEXT UNIQUE, " +
             COL_NAME + " TEXT UNIQUE, " +
             COL_MIN_PEOPLE + " INTEGER, " +
             COL_MAX_PEOPLE + " INTEGER, " +
@@ -100,7 +103,9 @@ public class DBConstants {
             COL_IS_MOOC + " INTEGER, " +
             COL_IS_MEETUP + " INTEGER, " +
             COL_CATEGORY + " TEXT, " +
-            COL_IMAGE_URL + " TEXT);";
+            COL_IMAGE_URL + " TEXT," +
+            COL_IS_USER_SUBSCRIBE + " INTEGER, " +
+            COL_IS_UP_TO_DATE + " INTEGER);";
 
     // Database Drop command
     public static final String DROP_T_MATERIAL_ITEM = "DROP TABLE IF EXISTS " + T_MATERIAL_ITEM + ";";
@@ -108,4 +113,15 @@ public class DBConstants {
     public static final String DROP_T_CYCLE = "DROP TABLE IF EXISTS " + T_CYCLE + ";";
     public static final String DROP_T_RATING = "DROP TABLE IF EXISTS " + T_RATING + ";";
     public static final String DROP_T_MALSHAB_ITEM = "DROP TABLE IF EXISTS " + T_MALSHAB_ITEM + ";";
+
+    /////////////////////////////////////////////////////////////////////////////////////////
+    public static String getDeleteNotUpToDateStatement(String tableName) {
+        return "DELETE FROM " + tableName +
+                " WHERE " + DBConstants.COL_IS_UP_TO_DATE + " = 0;";
+    }
+
+    public static String getSetAllItemsNotUpToDateStatement(String tableName) {
+        return "UPDATE " + tableName +
+                " SET " + DBConstants.COL_IS_UP_TO_DATE + " = 0;";
+    }
 }

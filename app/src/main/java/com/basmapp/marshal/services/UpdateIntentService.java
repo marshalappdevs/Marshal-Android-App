@@ -23,6 +23,7 @@ import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.google.gson.JsonObject;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -180,6 +181,258 @@ public class UpdateIntentService extends IntentService {
     }
 
     private void updateData() {
+
+        isRunning = true;
+        boolean result = false;
+        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
+
+        try {
+            List<Course> newCourses = MarshalServiceProvider.getInstance(token).getAllCourses().execute().body();
+            List<MaterialItem> newMaterials = MarshalServiceProvider.getInstance(token).getAllMaterials().execute().body();
+            List<Rating> newRatings = MarshalServiceProvider.getInstance(token).getAllRatings().execute().body();
+            List<MalshabItem> newMalshabItems = MarshalServiceProvider.getInstance(token).getAllMalshabItems().execute().body();
+            List<Course> tempNewCourses = new ArrayList<>(newCourses);
+            List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
+            List<Rating> tempNewRatings = new ArrayList<>(newRatings);
+            List<MalshabItem> tempNewMalshabItems = new ArrayList<>(newMalshabItems);
+
+            database.beginTransaction();
+
+            // Clear database
+            database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
+//            database.execSQL("DELETE FROM " + DBConstants.T_COURSE);
+
+            //////////////////////// Insert Materials /////////////////////////////////
+
+            // Set all objects to be NOT Up To Date
+            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_MATERIAL_ITEM))
+                    .executeUpdateDelete();
+
+            // Update
+            for (MaterialItem materialItem : tempNewMaterials) {
+                List<MaterialItem> dbResult = null;
+                try {
+                    dbResult = (List) MaterialItem.getAllByColumn(DBConstants.COL_URL, materialItem.getUrl(),
+                            DBConstants.COL_ID, this, MaterialItem.class);
+
+                    if (dbResult != null && dbResult.size() > 0) {
+                        database.compileStatement(materialItem.getUpdateSql(dbResult.get(0).getId())).execute();
+                        newMaterials.remove(materialItem);
+                    }
+                } catch (Exception e) {
+                    Log.e("UPDATE","FAILED TO UPDATE MATERIAL_ITEM");
+                    e.printStackTrace();
+                }
+            }
+
+            // Delete
+            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_MATERIAL_ITEM))
+                    .executeUpdateDelete();
+
+            // Insert
+            for (MaterialItem materialItem : newMaterials) {
+                long id = database.compileStatement(materialItem.getInsertSql()).executeInsert();
+//                Log.i("UPDATE", "MATERIAL_ITEM_ID : " + id);
+            }
+
+            //////////////////////// Insert MalshabItems /////////////////////////////////
+
+            // Set all objects to be NOT Up To Date
+            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_MALSHAB_ITEM))
+                    .executeUpdateDelete();
+
+            // Update
+            for (MalshabItem malshabItem : tempNewMalshabItems) {
+                List<MalshabItem> dbResult = null;
+                try {
+                    dbResult = (List) MalshabItem.getAllByColumn(DBConstants.COL_URL, malshabItem.getUrl(),
+                            DBConstants.COL_ID, this, MalshabItem.class);
+
+                    if (dbResult != null && dbResult.size() > 0) {
+                        database.compileStatement(malshabItem.getUpdateSql(dbResult.get(0).getId())).execute();
+                        newMalshabItems.remove(malshabItem);
+                    }
+                } catch (Exception e) {
+                    Log.e("UPDATE","FAILED TO UPDATE MALSHAB_ITEM");
+                    e.printStackTrace();
+                }
+            }
+
+            // Delete
+            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_MALSHAB_ITEM))
+                    .executeUpdateDelete();
+
+            // Insert
+            for (MalshabItem malshabItem : newMalshabItems) {
+                long id = database.compileStatement(malshabItem.getInsertSql()).executeInsert();
+//                Log.i("UPDATE", "MALSHAB_ITEM_ID : " + id);
+            }
+
+            //////////////////////// Insert Ratings /////////////////////////////////
+
+            // Set all objects to be NOT Up To Date
+            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_RATING))
+                    .executeUpdateDelete();
+
+            // Update
+            try {
+                List<Rating> dbResult = null;
+                dbResult = (List) Rating.getAll(DBConstants.COL_ID, this, Rating.class);
+                int position = 0;
+                if (dbResult != null && dbResult.size() > 0) {
+                    for (Rating rating : tempNewRatings) {
+                        database.compileStatement(rating.getUpdateSql(dbResult.get(position).getId())).execute();
+                        position++;
+                        newRatings.remove(rating);
+                    }
+                }
+            } catch (Exception e) {
+                Log.e("UPDATE","FAILED TO UPDATE RATING_ITEM");
+                e.printStackTrace();
+            }
+//            for (Rating rating : tempNewRatings) {
+//                List<Rating> dbResult = null;
+//                try {
+//                    dbResult = (List) Rating.getAllByColumn(DBConstants.COL_USER_MAIL_ADDRESS, rating.getUserMailAddress(),
+//                            DBConstants.COL_ID, this, Rating.class);
+//
+//                    if (dbResult != null && dbResult.size() > 0) {
+//                        database.compileStatement(rating.getUpdateSql(dbResult.get(0).getId())).execute();
+//                        newRatings.remove(rating);
+//                    }
+//                } catch (Exception e) {
+//                    Log.e("UPDATE","FAILED TO UPDATE RATING_ITEM");
+//                    e.printStackTrace();
+//                }
+//            }
+
+            // Delete
+            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_RATING))
+                    .executeUpdateDelete();
+
+            // Insert
+            for (Rating rating : newRatings) {
+                long id = database.compileStatement(rating.getInsertSql()).executeInsert();
+//                Log.i("UPDATE", "RATING_ITEM_ID : " + id);
+            }
+
+            //////////////////////// Insert Courses  /////////////////////////////////
+
+            int cycleId = 1;
+
+            // Set all Courses to be NOT Up To Date
+            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_COURSE))
+                    .executeUpdateDelete();
+
+            // Update
+            for (Course course : tempNewCourses) {
+                List<Course> dbResult = null;
+                try {
+                    dbResult = (List) Course.getAllByColumn(DBConstants.COL_COURSE_CODE, course.getCourseCode(),
+                            DBConstants.COL_ID, this, Course.class);
+
+                    if (dbResult != null && dbResult.size() > 0) {
+                        //TODO: Take care to the course Cycles
+                        /////////////////////////// CYCLES //////////////////////////////
+                        if(course.getCycles() != null && course.getCycles().size() > 0) {
+                            //////////////////////// Insert Course Cycles  /////////////////////////////////
+                            String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                                    "(?,?,?,?,?,?,?);";
+
+                            SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
+
+                            for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
+                                Cycle cycle = course.getCycles().get(cycleIndex);
+
+                                SQLiteStatement currCycleStatement =
+                                        cycle.getStatement(cycleStatement, course.getCourseCode(), cycleId);
+                                if (currCycleStatement != null) {
+                                    long insertCycleId = currCycleStatement.executeInsert();
+                                    if (insertCycleId == -1)
+                                        throw new Exception("Failed to insert cycle");
+                                    cycle.setId(insertCycleId);
+                                    cycleId++;
+                                } else {
+                                    course.getCycles().remove(cycleIndex);
+                                    cycleIndex--;
+                                }
+                            }
+                        }
+                        /////////////////////////// END CYCLES //////////////////////////////
+
+                        database.compileStatement(course.getUpdateSql(dbResult.get(0).getId())).execute();
+                        newCourses.remove(course);
+                    }
+                } catch (Exception e) {
+                    Log.e("UPDATE","FAILED TO UPDATE COURSE_ITEM");
+                    e.printStackTrace();
+                }
+            }
+
+            // Delete
+            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_COURSE))
+                    .executeUpdateDelete();
+
+            // Insert
+            for (Course course : newCourses) {
+                //TODO: Take care to the course Cycles
+                /////////////////////////// CYCLES //////////////////////////////
+                if(course.getCycles() != null && course.getCycles().size() > 0) {
+                    //////////////////////// Insert Course Cycles  /////////////////////////////////
+                    String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                            "(?,?,?,?,?,?,?);";
+
+                    SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
+
+                    for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
+                        Cycle cycle = course.getCycles().get(cycleIndex);
+
+                        SQLiteStatement currCycleStatement =
+                                cycle.getStatement(cycleStatement, course.getCourseCode(), cycleId);
+                        if (currCycleStatement != null) {
+                            long insertCycleId = currCycleStatement.executeInsert();
+                            if (insertCycleId == -1)
+                                throw new Exception("Failed to insert cycle");
+                            cycle.setId(insertCycleId);
+                            cycleId++;
+                        } else {
+                            course.getCycles().remove(cycleIndex);
+                            cycleIndex--;
+                        }
+                    }
+                }
+                /////////////////////////// END CYCLES //////////////////////////////
+
+                long id = database.compileStatement(course.getInsertSql()).executeInsert();
+//                Log.i("UPDATE", "COURSE_ITEM_ID : " + id);
+            }
+
+            PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
+            ApplicationMarshal.setLastUpdatedNow(this);
+            database.setTransactionSuccessful();
+
+            result = true;
+        } catch (Exception e) {
+            e.printStackTrace();
+            result = false;
+        } finally {
+            if (database.inTransaction()) {
+                database.endTransaction();
+            }
+
+            Intent broadcastIntent = new Intent();
+            broadcastIntent.setAction(ACTION_UPDATE_DATA);
+            broadcastIntent.addCategory(Intent.CATEGORY_DEFAULT);
+            broadcastIntent.putExtra(RESULT_UPDATE_DATA, result);
+            sendBroadcast(broadcastIntent);
+
+            isRunning = false;
+
+            Log.i("UPDATE_SERVICE","result=" + String.valueOf(result));
+        }
+    }
+
+    private void updateDataOld() {
 
         isRunning = true;
         boolean result = false;
@@ -517,6 +770,7 @@ public class UpdateIntentService extends IntentService {
 //        broadcastIntent.putExtra(RESULT_UPDATE_DATA, proccess_result);
 //        sendBroadcast(broadcastIntent);
     }
+
     public void publishProgress(int progress) {
         Intent broadcastIntent = new Intent();
         broadcastIntent.setAction(ACTION_UPDATE_DATA_PROGRESS_CHANGED);

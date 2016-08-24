@@ -14,6 +14,8 @@ import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.sql.PreparedStatement;
+
 @TableName(name = DBConstants.T_MALSHAB_ITEM)
 public class MalshabItem extends DBObject{
 
@@ -38,6 +40,9 @@ public class MalshabItem extends DBObject{
     @Expose
     @SerializedName("imageUrl")
     private String imageUrl;
+
+    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    private boolean isUpToDate;
 
     @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
@@ -80,6 +85,40 @@ public class MalshabItem extends DBObject{
         this.imageUrl = imageUrl;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_IS_UP_TO_DATE)
+    public boolean isUpToDate() {
+        return isUpToDate;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_IS_UP_TO_DATE, type = TYPE_BOOLEAN)
+    public void setIsUpToDate(boolean isUpToDate) {
+        this.isUpToDate = isUpToDate;
+    }
+
+    public String getUpdateSql(long objectId) {
+        String sql = "UPDATE " + DBConstants.T_MALSHAB_ITEM + " SET " +
+                DBConstants.COL_URL + " = " + prepareStringForSql(url) + "," +
+                DBConstants.COL_TITLE + " = " + prepareStringForSql(title) + "," +
+                DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
+                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
+                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
+
+        return sql;
+    }
+
+    public String getInsertSql() {
+        String sql = "INSERT INTO " + DBConstants.T_MALSHAB_ITEM + "(" +
+                DBConstants.COL_URL + "," +
+                DBConstants.COL_TITLE + "," +
+                DBConstants.COL_IMAGE_URL + "," +
+                DBConstants.COL_IS_UP_TO_DATE + ")" +
+                " VALUES (" + prepareStringForSql(url) +
+                "," + prepareStringForSql(title) +
+                "," + prepareStringForSql(imageUrl) + ",1);";
+
+        return sql;
+    }
+
     public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
         if (getUrl() != null && !getUrl().equals("") && getTitle() != null && !getTitle().equals("")) {
             statement.clearBindings();
@@ -95,5 +134,22 @@ public class MalshabItem extends DBObject{
         } else {
             return null;
         }
+    }
+
+    public boolean compare(MalshabItem malshabItem) {
+        boolean result = false;
+
+        if (url != null && malshabItem.getUrl() != null &&
+                !url.equals(malshabItem.getUrl())) {
+            result = true;
+        } else if (title != null && malshabItem.getTitle() != null &&
+                !title.equals(malshabItem.getTitle())){
+            result = true;
+        } else if (imageUrl != null && malshabItem.getImageUrl() != null &&
+                !imageUrl.equals(malshabItem.getImageUrl())){
+            result = true;
+        }
+
+        return result;
     }
 }

@@ -206,46 +206,46 @@ public class MockDataProvider {
         m1.setUrl("http://stackoverflow.com/questions/28525112/android-recyclerview-vs-listview-with-viewholder");
         m1.setTitle("Android Recyclerview vs ListView with Viewholder");
         m1.setDescription("I recently came across the android RecycleView which was released with Android 5.0 and it seems that RecycleView is just an encapsulated traditional ListView with the ViewHolder pattern incorporate...");
-        m1.setCannonicalUrl("stackoverflow.com");
+        m1.setBaseUrl("stackoverflow.com");
         m1.setTags("#android #recyclerview #listview #viewholder #stackoverflow");
         m1.setImageUrl("http://cdn.sstatic.net/stackoverflow/img/apple-touch-icon@2.png?v=73d79a89bded&a");
 
         m2.setUrl("https://github.com/LeonardoCardoso/Android-Link-Preview");
         m2.setTitle("LeonardoCardoso/Android-Link-Preview");
         m2.setDescription("Android-Link-Preview - It makes a preview from an url, grabbing all informations. Such as title, relevant texts and images. This a version for Android of my web link preview http://lab.leocardz.com/facebook-link-preview-php--jquery/");
-        m2.setCannonicalUrl("github.com");
+        m2.setBaseUrl("github.com");
         m2.setTags("#android #link #preview #linkpreview #git #library");
         m2.setImageUrl("https://avatars0.githubusercontent.com/u/1775157?v=3&s=400");
 
         m3.setUrl("https://www.youtube.com/watch?v=golN1j4rAug");
         m3.setTitle("How to connect android app to database (JSON) part 1");
         m3.setDescription("Our webSite http://www.mytechhive.com android development Java JSONParser, Json MySQl these our facebook pages : https://www.facebook.com/techapps.official h...");
-        m3.setCannonicalUrl("m.youtube.com");
+        m3.setBaseUrl("m.youtube.com");
         m3.setTags("#mysql #json #jsonparser #java #youtube #tutorial");
         m3.setImageUrl("https://i.ytimg.com/vi/golN1j4rAug/hqdefault.jpg");
 
         m4.setUrl("https://www.instagram.com/p/BCpzIvrnjCQ/?taken-by=ido.amram");
         m4.setTitle("Ido Amram on Instagram: “camomile”");
         m4.setDescription("“camomile”");
-        m4.setCannonicalUrl("www.instagram.com");
+        m4.setBaseUrl("www.instagram.com");
         m4.setImageUrl("https://igcdn-photos-a-a.akamaihd.net/hphotos-ak-xfp1/t51.2885-15/e35/12530818_1560249540952808_430253052_n.jpg?ig_cache_key=MTIwMDcxNTY3Njk5NjQ4MTE2OA%3D%3D.2");
 
         m5.setUrl("http://www.sport5.co.il/HTML/Articles/Article.398.210717.html");
         m5.setTitle("10 שערים ב-100 שניות");
         m5.setDescription("הערב האחרון של שמינית גמר ליגת האלופות ייכנס להיכל התהילה של הכדורגל. הגאונות של יובנטוס, הטירוף של באיירן והגולאסו של ברצלונה. טסים לרבע בפול גז - צפו בקליפ");
-        m5.setCannonicalUrl("www.sport5.co.il");
+        m5.setBaseUrl("www.sport5.co.il");
         m5.setImageUrl("http://www.sport5.co.il/Sip_Storage/FILES/0/size475x318/591500.jpg");
 
         m6.setUrl("https://www.wetsuitcentre.co.uk/firewire-baked-potato-timber-tek-surfboard-5ft-5.html");
         m6.setTitle("Firewire Baked Potato Timber Tek Surfboard 5ft 5");
         m6.setDescription("This Board Is Built For Catching Waves");
-        m6.setCannonicalUrl("www.wetsuitcentre.co.uk");
+        m6.setBaseUrl("www.wetsuitcentre.co.uk");
         m6.setImageUrl("https://wscmediaurl-wetsuitcentre.netdna-ssl.com/catalog/product/cache/1/image/9df78eab33525d08d6e5fb8d27136e95/f/i/firewire-timbertek_2_1.jpg");
 
         m7.setUrl("http://veg.anonymous.org.il/art4.html");
         m7.setTitle("חלבון - המדריך המלא | אתר הצמחונות והטבעונות הישראלי");
         m7.setDescription("החלבון חשוב לבניית רקמות הגוף ולתפקודן. אך מה מקורות החלבון המומלצים בתזונה? ומה ההבדל בין חלבון מהחי ובין חלבון מהצומח? על כך בכתבה זו.");
-        m7.setCannonicalUrl("veg.anonymous.org.il");
+        m7.setBaseUrl("veg.anonymous.org.il");
         m7.setImageUrl("http://veg.anonymous.org.il/CMS/content/article_thumbnails/4.jpg");
 
         tempList.add(m1);

@@ -105,8 +105,8 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         } else {
             holder.descriptionTextView.setText(mMaterials.get(position).getUrl());
         }
-        if (mMaterials.get(position).getCannonicalUrl() != null) {
-            holder.siteUrlTextView.setText(mMaterials.get(position).getCannonicalUrl());
+        if (mMaterials.get(position).getBaseUrl() != null) {
+            holder.siteUrlTextView.setText(mMaterials.get(position).getBaseUrl());
         }
         if (mMaterials.get(position).getImageUrl() != null) {
             Glide.with(mContext).load(mMaterials.get(position).getImageUrl())

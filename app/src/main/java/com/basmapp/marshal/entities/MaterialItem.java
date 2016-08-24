@@ -43,9 +43,9 @@ public class MaterialItem extends DBObject implements Parcelable{
     private String description;
 
     @Expose
-    @SerializedName("mainUrl")
-    @Column(name = DBConstants.COL_CANNONICIAL_URL)
-    private String cannonicalUrl;
+    @SerializedName("baseUrl")
+    @Column(name = DBConstants.COL_BASE_URL)
+    private String baseUrl;
 
     @Expose
     @SerializedName("imageUrl")
@@ -109,14 +109,14 @@ public class MaterialItem extends DBObject implements Parcelable{
         this.description = description;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_CANNONICIAL_URL)
-    public String getCannonicalUrl() {
-        return cannonicalUrl;
+    @ColumnGetter(columnName = DBConstants.COL_BASE_URL)
+    public String getBaseUrl() {
+        return baseUrl;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_CANNONICIAL_URL, type = TYPE_STRING)
-    public void setCannonicalUrl(String cannonicalUrl) {
-        this.cannonicalUrl = cannonicalUrl;
+    @ColumnSetter(columnName = DBConstants.COL_BASE_URL, type = TYPE_STRING)
+    public void setBaseUrl(String baseUrl) {
+        this.baseUrl = baseUrl;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
@@ -142,9 +142,9 @@ public class MaterialItem extends DBObject implements Parcelable{
                 description = "";
             statement.bindString(4, description);
 
-            if (cannonicalUrl == null)
-                cannonicalUrl = "";
-            statement.bindString(5, cannonicalUrl);
+            if (baseUrl == null)
+                baseUrl = "";
+            statement.bindString(5, baseUrl);
 
             if (tags == null)
                 tags = "";
@@ -186,7 +186,7 @@ public class MaterialItem extends DBObject implements Parcelable{
         dest.writeString(tags);
         dest.writeString(title);
         dest.writeString(description);
-        dest.writeString(cannonicalUrl);
+        dest.writeString(baseUrl);
         dest.writeString(imageUrl);
     }
 
@@ -201,7 +201,7 @@ public class MaterialItem extends DBObject implements Parcelable{
         this.tags = in.readString();
         this.title = in.readString();
         this.description = in.readString();
-        this.cannonicalUrl = in.readString();
+        this.baseUrl = in.readString();
         this.imageUrl = in.readString();
     }
 
@@ -217,4 +217,34 @@ public class MaterialItem extends DBObject implements Parcelable{
             return new MaterialItem[size];
         }
     };
+
+    public String getUpdateSql(long objectId) {
+        String sql = "UPDATE " + DBConstants.T_MATERIAL_ITEM + " SET " +
+                DBConstants.COL_URL + " = " + prepareStringForSql(url) + "," +
+                DBConstants.COL_TITLE + " = " + prepareStringForSql(title) + "," +
+                DBConstants.COL_DESCRIPTION + " = " + prepareStringForSql(description) + "," +
+                DBConstants.COL_BASE_URL + " = " + prepareStringForSql(baseUrl) + "," +
+                DBConstants.COL_TAGS + " = " + prepareStringForSql(tags) + "," +
+                DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
+                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
+                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
+
+        return sql;
+    }
+
+    public String getInsertSql() {
+        String sql = "INSERT INTO " + DBConstants.T_MATERIAL_ITEM + "(" +
+                DBConstants.COL_URL + "," +
+                DBConstants.COL_TITLE + "," +
+                DBConstants.COL_DESCRIPTION + "," +
+                DBConstants.COL_BASE_URL + "," +
+                DBConstants.COL_TAGS + "," +
+                DBConstants.COL_IMAGE_URL + "," +
+                DBConstants.COL_IS_UP_TO_DATE + ")" +
+                " VALUES (" + prepareStringForSql(url) + "," + prepareStringForSql(title) + "," +
+                prepareStringForSql(description) + "," + prepareStringForSql(baseUrl)
+                + "," + prepareStringForSql(tags) + "," + prepareStringForSql(imageUrl) + ",1);";
+
+        return sql;
+    }
 }

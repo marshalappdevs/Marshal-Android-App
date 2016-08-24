@@ -62,6 +62,14 @@ public abstract class DBObject {
         getGettersAndSetters();
     }
 
+    protected String prepareStringForSql(String value) {
+        if (value != null && !value.equals("")) {
+            return "'" + value.replace("'","''") + "'";
+        } else {
+            return "''";
+        }
+    }
+
     private static SQLiteDatabase getDatabase(Context context) {
         return LocalDBHelper.getHelperInstance(context).getWritableDatabase();
     }
@@ -489,6 +497,8 @@ public abstract class DBObject {
 
         if(value instanceof Boolean)
             value = (boolean)value ? 1 : 0;
+        else if (value instanceof String)
+            value = "'" + value + "'";
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName + " ASC");
 

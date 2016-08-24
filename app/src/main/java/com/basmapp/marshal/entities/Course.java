@@ -37,8 +37,8 @@ public class Course extends DBObject implements Parcelable{
 
     @Expose
     @SerializedName("CourseCode")
-    @Column(name = DBConstants.COL_COURSE_ID)
-    private String courseID;
+    @Column(name = DBConstants.COL_COURSE_CODE)
+    private String courseCode;
 
     @Expose
     @SerializedName("Name")
@@ -131,6 +131,9 @@ public class Course extends DBObject implements Parcelable{
     @Column(name = DBConstants.COL_CATEGORY)
     private String category;
 
+    @Column(name = DBConstants.COL_IS_USER_SUBSCRIBE)
+    private boolean isUserSubscribe;
+
     public Course (Context context) {
         super(context);
     }
@@ -146,14 +149,14 @@ public class Course extends DBObject implements Parcelable{
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COURSE_ID)
+    @ColumnGetter(columnName = DBConstants.COL_COURSE_CODE)
     public String getCourseCode() {
-        return courseID;
+        return courseCode;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COURSE_ID, type = TYPE_STRING)
+    @ColumnSetter(columnName = DBConstants.COL_COURSE_CODE, type = TYPE_STRING)
     public void setCourseCode(String courseCode) {
-        this.courseID = courseCode;
+        this.courseCode = courseCode;
     }
 
     @ColumnGetter(columnName = DBConstants.COL_NAME)
@@ -346,6 +349,16 @@ public class Course extends DBObject implements Parcelable{
         this.isMeetup = isMeetup;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_IS_USER_SUBSCRIBE)
+    public boolean getIsUserSubscribe() {
+        return this.isUserSubscribe;
+    }
+
+    @ColumnSetter(columnName = DBConstants.COL_IS_USER_SUBSCRIBE, type = TYPE_BOOLEAN)
+    public void setIsUserSubscribe(boolean isUserSubscribe) {
+        this.isUserSubscribe = isUserSubscribe;
+    }
+
     /////////////////////////// methods ////////////////////////////
 
     public void addCycle(Cycle cycle) {
@@ -371,7 +384,7 @@ public class Course extends DBObject implements Parcelable{
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeLong(id);
-        dest.writeString(courseID);
+        dest.writeString(courseCode);
         dest.writeString(name);
         dest.writeInt(minimumPeople);
         dest.writeInt(maximumPeople);
@@ -400,7 +413,7 @@ public class Course extends DBObject implements Parcelable{
      **/
     private Course(Parcel in){
         this.id = in.readLong();
-        this.courseID = in.readString();
+        this.courseCode = in.readString();
         this.name = in.readString();
         this.minimumPeople = in.readInt();
         this.maximumPeople = in.readInt();
@@ -476,7 +489,7 @@ public class Course extends DBObject implements Parcelable{
             statement.bindString(20, getCategory());
             if (imageUrl == null)
                 imageUrl = "";
-            statement.bindString(21, MarshalServiceProvider.IMAGES_URL + courseID);
+            statement.bindString(21, MarshalServiceProvider.IMAGES_URL + courseCode);
 
             return statement;
         } else {
@@ -501,8 +514,8 @@ public class Course extends DBObject implements Parcelable{
 
     public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
         String query = "select * from " + DBConstants.T_COURSE
-                + " where " + DBConstants.COL_COURSE_ID + " IN " +
-                "(select distinct " + DBConstants.COL_COURSE_ID + " from "+ DBConstants.T_CYCLE;
+                + " where " + DBConstants.COL_COURSE_CODE + " IN " +
+                "(select distinct " + DBConstants.COL_COURSE_CODE + " from "+ DBConstants.T_CYCLE;
 
         if (filterByNowTimestamp)
             query += " where " + DBConstants.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());
@@ -532,5 +545,94 @@ public class Course extends DBObject implements Parcelable{
         } else {
             return null;
         }
+    }
+
+    public String getInsertSql() {
+        String sql = null;
+        imageUrl = MarshalServiceProvider.IMAGES_URL + courseCode;
+
+        try {
+            sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
+                    DBConstants.COL_COURSE_CODE + "," +
+                    DBConstants.COL_NAME + "," +
+                    DBConstants.COL_MIN_PEOPLE + "," +
+                    DBConstants.COL_MAX_PEOPLE + "," +
+                    DBConstants.COL_DESCRIPTION + "," +
+                    DBConstants.COL_PREREQUISITES + "," +
+                    DBConstants.COL_TARGET_POPULATION + "," +
+                    DBConstants.COL_PROFESSIONAL_DOMAIN + "," +
+                    DBConstants.COL_SYLLABUS + "," +
+                    DBConstants.COL_DAYTIME + "," +
+                    DBConstants.COL_DURATION_IN_HOURS + "," +
+                    DBConstants.COL_DURATION_IN_DAYS + "," +
+                    DBConstants.COL_COMMENTS + "," +
+                    DBConstants.COL_PASSING_GRADE + "," +
+                    DBConstants.COL_PRICE + "," +
+                    DBConstants.COL_CYCLES + "," +
+                    DBConstants.COL_IS_MOOC + "," +
+                    DBConstants.COL_IS_MEETUP + "," +
+                    DBConstants.COL_CATEGORY + "," +
+                    DBConstants.COL_IMAGE_URL + "," +
+                    DBConstants.COL_IS_UP_TO_DATE + ")" +
+                    " VALUES (" + prepareStringForSql(courseCode) +
+                    "," + prepareStringForSql(name) +
+                    "," + minimumPeople +
+                    "," + maximumPeople +
+                    "," + prepareStringForSql(description) +
+                    "," + prepareStringForSql(prerequisites) +
+                    "," + prepareStringForSql(targetPopulation) +
+                    "," + prepareStringForSql(professionalDomain) +
+                    "," + prepareStringForSql(syllabus) +
+                    "," + prepareStringForSql(dayTime) +
+                    "," + durationInHours +
+                    "," + durationInDays +
+                    "," + prepareStringForSql(comments) +
+                    "," + passingGrade +
+                    "," + price +
+                    "," + prepareStringForSql(getCyclesIdsString()) +
+                    "," + (isMooc ? 1 : 0) +
+                    "," + (isMeetup ? 1 : 0) +
+                    "," + prepareStringForSql(category) +
+                    "," + prepareStringForSql(imageUrl) + ",1);";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sql;
+    }
+
+    public String getUpdateSql(long objectId) {
+        String sql = null;
+        imageUrl = MarshalServiceProvider.IMAGES_URL + courseCode;
+
+        try {
+            sql = "UPDATE " + DBConstants.T_COURSE + " SET " +
+                    DBConstants.COL_COURSE_CODE + " = " + prepareStringForSql(courseCode) + "," +
+                    DBConstants.COL_NAME + " = " + prepareStringForSql(name) + "," +
+                    DBConstants.COL_MIN_PEOPLE + " = " + minimumPeople + "," +
+                    DBConstants.COL_MAX_PEOPLE + " = " + maximumPeople + "," +
+                    DBConstants.COL_DESCRIPTION + " = " + prepareStringForSql(description) + "," +
+                    DBConstants.COL_PREREQUISITES + " = " + prepareStringForSql(prerequisites) + "," +
+                    DBConstants.COL_TARGET_POPULATION + " = " + prepareStringForSql(targetPopulation) + "," +
+                    DBConstants.COL_PROFESSIONAL_DOMAIN + " = " + prepareStringForSql(professionalDomain) + "," +
+                    DBConstants.COL_SYLLABUS + " = " + prepareStringForSql(syllabus) + "," +
+                    DBConstants.COL_DAYTIME + " = " + prepareStringForSql(dayTime) + "," +
+                    DBConstants.COL_DURATION_IN_HOURS + " = " + durationInHours + "," +
+                    DBConstants.COL_DURATION_IN_DAYS + " = " + durationInDays + "," +
+                    DBConstants.COL_COMMENTS + " = " + prepareStringForSql(comments) + "," +
+                    DBConstants.COL_PASSING_GRADE + " = " + passingGrade + "," +
+                    DBConstants.COL_PRICE + " = " + price + "," +
+                    DBConstants.COL_CYCLES + " = " + prepareStringForSql(getCyclesIdsString()) + "," +
+                    DBConstants.COL_IS_MOOC + " = " + (isMooc ? 1 : 0) + "," +
+                    DBConstants.COL_IS_MEETUP + " = " + (isMeetup ? 1 : 0) + "," +
+                    DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +
+                    DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
+                    DBConstants.COL_IS_UP_TO_DATE + " = 1" +
+                    " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        return sql;
     }
 }
