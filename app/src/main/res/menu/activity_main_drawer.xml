@@ -7,6 +7,10 @@
             android:icon="@drawable/ic_drawer_school"
             android:title="@string/navigation_drawer_courses" />
         <item
+            android:id="@+id/nav_my_courses"
+            android:icon="@drawable/ic_drawer_my_courses"
+            android:title="@string/navigation_drawer_my_courses" />
+        <item
             android:id="@+id/nav_materials"
             android:icon="@drawable/ic_drawer_library"
             android:title="@string/navigation_drawer_materials" />

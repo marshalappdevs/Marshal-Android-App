@@ -54,6 +54,7 @@ import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
+import com.basmapp.marshal.ui.fragments.MyCoursesFragment;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
@@ -105,10 +106,11 @@ public class MainActivity extends AppCompatActivity
     private MenuItem mSearchItem;
 
     // Fragments
-    private CoursesFragment mCourseFragment;
+    public static CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
     private MeetupsFragment mMeetupsFragment;
+    public static MyCoursesFragment mMyCoursesFragment;
 
     private UpdateBroadcastReceiver updateReceiver;
 
@@ -119,6 +121,7 @@ public class MainActivity extends AppCompatActivity
     public static ArrayList<Course> sAllCourses;
     public static ArrayList<Course> sViewPagerCourses;
     public static ArrayList<Course> sMeetups;
+    public static ArrayList<Course> sMyCourses;
     public static ArrayList<MaterialItem> sMaterialItems;
     public static ArrayList<MalshabItem> sMalshabItems;
 
@@ -299,6 +302,8 @@ public class MainActivity extends AppCompatActivity
                 mCourseFragment = new CoursesFragment();
                 mMaterialsFragment = new MaterialsFragment();
                 mMalshabFragment = new MalshabFragment();
+                mMeetupsFragment = new MeetupsFragment();
+                mMyCoursesFragment = new MyCoursesFragment();
             }
         });
     }
@@ -388,6 +393,8 @@ public class MainActivity extends AppCompatActivity
         mCourseFragment = null;
         mMaterialsFragment = null;
         mMalshabFragment = null;
+        mMeetupsFragment = null;
+        mMyCoursesFragment = null;
 
         setErrorScreenVisibility(View.GONE);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -398,6 +405,7 @@ public class MainActivity extends AppCompatActivity
         sAllCourses = null;
         sViewPagerCourses = null;
         sMeetups = null;
+        sMyCourses = null;
         sMaterialItems = null;
         sMalshabItems = null;
     }
@@ -594,6 +602,19 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
+        } else if (requestCode == RC_COURSE_ACTIVITY) {
+            if (resultCode == CourseActivity.RESULT_SUBSCRIPTION_STATE_CHANGED) {
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                if (currentFragment instanceof CoursesFragment) {
+                    mNavigationView.setNavigationItemSelectedListener(this);
+                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+                    mNavigationView.setCheckedItem(R.id.nav_courses);
+                } else if (currentFragment instanceof MyCoursesFragment) {
+                    mNavigationView.setNavigationItemSelectedListener(this);
+                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_my_courses));
+                    mNavigationView.setCheckedItem(R.id.nav_my_courses);
+                }
+            }
         }
     }
 
@@ -817,6 +838,12 @@ public class MainActivity extends AppCompatActivity
                 mCourseFragment = new CoursesFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
+            setTitle(item.getTitle());
+        } else if (id == R.id.nav_my_courses) {
+            if(mMyCoursesFragment == null) {
+                mMyCoursesFragment = new MyCoursesFragment();
+            }
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mMyCoursesFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             if(mMaterialsFragment == null) {

@@ -11,6 +11,7 @@ import com.basmapp.marshal.utils.MarshalServiceProvider;
 
 import java.util.List;
 import retrofit2.Call;
+import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
@@ -54,6 +55,12 @@ public interface IMarshalService {
 
     @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
     Call<Rating> deleteGcmRegistration(@Path("hardwareId") String hardwareId);
+
+    @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
+    Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
+
+    @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
+    Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
 
     // ******** Settings ********//
     @GET (MarshalServiceProvider.GET_SETTINGS)

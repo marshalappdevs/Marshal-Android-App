@@ -2,9 +2,19 @@
     <string name="app_name" translatable="false">BasmApp</string>
     <string name="title_activity_course" translatable="false">CourseActivity</string>
 
+    <string name="no">No</string>
+    <string name="yes">Yes</string>
+    <string name="subscribe">Subscribe</string>
+    <string name="try_subscribing_to_course">Subscribing...</string>
+    <string name="try_unsubscribing_to_course">Unsubscribing...</string>
+    <string name="subscription_success">You are now subscribed</string>
+    <string name="subscription_failed">Failed to subscribe.\\nTry again later.</string>
+    <string name="unsubscription_success">You are not subscribe any more</string>
+    <string name="unsubscription_failed">Failed to unsubscribe.\\nTry again later.</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_courses">Continuing Education</string>
+    <string name="navigation_drawer_my_courses">My Courses</string>
     <string name="navigation_drawer_materials">Study Materials</string>
     <string name="navigation_drawer_meetups">Meetups</string>
     <string name="navigation_drawer_discussions">Discussions</string>
@@ -127,6 +137,7 @@
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
     <string name="must_update_message">Hi!\n A newer version of this app is available on PlayStore. Please update for better performances.</string>
     <string name="must_update_button">Update</string>
+    <string name="course_subsription_remove_message">Are you sure ?</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -241,5 +252,6 @@
      from https://console.developers.google.com/ -->
     <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com</string>
     <string name="share_authority" translatable="false">com.basmapp.marshal.shareprovider</string>
+    <string name="no_my_courses">There\'s no courses that you subscribe of.\\nTo Subscribe, click on the \"Star\" icon on the top of the course screen.</string>
 
 </resources>

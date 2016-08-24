@@ -404,6 +404,7 @@ public class Course extends DBObject implements Parcelable{
         dest.writeString(category);
         dest.writeInt((isMooc) ? 1 : 0);
         dest.writeInt((isMeetup) ? 1 : 0);
+        dest.writeInt((isUserSubscribe) ? 1 : 0);
     }
 
     /**
@@ -433,6 +434,7 @@ public class Course extends DBObject implements Parcelable{
         this.category = in.readString();
         this.isMooc = (in.readInt() != 0);
         this.isMeetup = (in.readInt() != 0);
+        this.isUserSubscribe = (in.readInt() != 0);
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {

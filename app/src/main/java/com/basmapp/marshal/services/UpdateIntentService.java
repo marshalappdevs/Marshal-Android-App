@@ -19,6 +19,7 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.LocalDBHelper;
+import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.google.gson.JsonObject;
 
@@ -103,7 +104,7 @@ public class UpdateIntentService extends IntentService {
      */
     private void handleActionCheckForUpdate() {
         try {
-            getApiToken();
+            token = AuthUtil.getApiToken();
             Settings settings = MarshalServiceProvider.getInstance(token).getSettings().execute().body();
 
             long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
@@ -142,19 +143,6 @@ public class UpdateIntentService extends IntentService {
 //        }
 //    }
 
-    public static String getApiToken() throws Exception{
-        AuthRequest authRequest = new AuthRequest();
-        Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
-        if (authResponse.isSuccessful()) {
-            token = authResponse.body();
-            Log.i("AUTH", token);
-            return token;
-        } else {
-            Log.e("AUTH", " RESPONSE ERROR");
-            throw new Exception("RESPONSE ERROR");
-        }
-    }
-
     /**
      * Handle action Baz in the provided background thread with the provided
      * parameters.
@@ -171,7 +159,7 @@ public class UpdateIntentService extends IntentService {
     private void handleActionUpdateData() {
         try {
             if (token == null || token.equals("")) {
-                getApiToken();
+                token = AuthUtil.getApiToken();
             }
 
             updateData();

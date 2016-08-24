@@ -30,8 +30,11 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -51,10 +54,13 @@ import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
+import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
+import com.basmapp.marshal.ui.fragments.MyCoursesFragment;
 import com.basmapp.marshal.ui.utils.ColorUtils;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.DateHelper;
 import com.basmapp.marshal.utils.HashUtil;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
@@ -70,10 +76,12 @@ import java.util.List;
 import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Response;
 
 public class CourseActivity extends AppCompatActivity {
 
     private static final int FAB_SHOWCASE_ID = 1;
+    public static final int RESULT_SUBSCRIPTION_STATE_CHANGED = 123;
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -148,6 +156,7 @@ public class CourseActivity extends AppCompatActivity {
         });
 
         mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
+        mCourse.Ctor(this);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -1011,7 +1020,7 @@ public class CourseActivity extends AppCompatActivity {
         protected Boolean doInBackground(Void... voids) {
             if (requestType != 0) {
                 try {
-                    String apiToken = UpdateIntentService.getApiToken();
+                    String apiToken = AuthUtil.getApiToken();
                     switch (requestType) {
                         case REQUEST_TYPE_POST:
                             if (MarshalServiceProvider.getInstance(apiToken).
@@ -1107,6 +1116,119 @@ public class CourseActivity extends AppCompatActivity {
             // Send broadcast for update the rating on the CardView
             Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
             sendBroadcast(intent);
+        }
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.course_activity, menu);
+        MenuItem subscribeMenuItem = menu.findItem(R.id.subscribe_to_course);
+        subscribeMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+            @Override
+            public boolean onMenuItemClick(final MenuItem menuItem) {
+                if (mCourse.getIsUserSubscribe()) {
+                    new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, menuItem).execute();
+                } else {
+                    new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, menuItem).execute();
+                }
+                return false;
+            }
+        });
+        if (mCourse.getIsUserSubscribe()) {
+            subscribeMenuItem.setIcon(R.drawable.ic_subscription_on_24dp);
+        } else {
+            subscribeMenuItem.setIcon(R.drawable.ic_subscription_off_24dp);
+        }
+        return true;
+    }
+
+    private class SubscribeTask extends AsyncTask<Void,Void,Boolean> {
+
+        public static final int TASK_TYPE_SUBSCRIBE = 1;
+        public static final int TASK_TYPE_UNSUBSCRIBE = 2;
+
+        private int taskType;
+        private MenuItem subscriptionMenuItem;
+
+        public SubscribeTask(int taskType, MenuItem menuItem) {
+            this.subscriptionMenuItem = menuItem;
+            this.taskType = taskType;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+            if (taskType == TASK_TYPE_SUBSCRIBE) {
+                Toast.makeText(CourseActivity.this,
+                        getString(R.string.try_subscribing_to_course), Toast.LENGTH_SHORT).show();
+            } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
+                Toast.makeText(CourseActivity.this,
+                        getString(R.string.try_unsubscribing_to_course), Toast.LENGTH_SHORT).show();
+            }
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                // Subscribe in Server
+                Response serverResponse;
+                if (taskType == TASK_TYPE_SUBSCRIBE) {
+                    serverResponse = MarshalServiceProvider.getInstance(AuthUtil.getApiToken())
+                            .subsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseCode()).execute();
+                } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
+                    serverResponse = MarshalServiceProvider.getInstance(AuthUtil.getApiToken())
+                            .unsubsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseCode()).execute();
+                } else return false;
+
+                // Save the subscription locally IF successfully saved in the server
+                if (serverResponse != null && serverResponse.isSuccessful()){
+                    if (taskType == TASK_TYPE_SUBSCRIBE) {
+                        mCourse.setIsUserSubscribe(true);
+                    } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                        mCourse.setIsUserSubscribe(false);
+                    }
+
+                    mCourse.save();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+
+            if (result) {
+                if (taskType == TASK_TYPE_SUBSCRIBE) {
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.subscription_success), Toast.LENGTH_LONG).show();
+                    if (subscriptionMenuItem != null) subscriptionMenuItem.setIcon(R.drawable.ic_subscription_on_24dp);
+                } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.unsubscription_success), Toast.LENGTH_LONG).show();
+                    if (subscriptionMenuItem != null) subscriptionMenuItem.setIcon(R.drawable.ic_subscription_off_24dp);
+                }
+                MainActivity.sAllCourses = null;
+                MainActivity.sMyCourses = null;
+                MainActivity.mCourseFragment = null;
+                MainActivity.mMyCoursesFragment = null;
+                setResult(RESULT_SUBSCRIPTION_STATE_CHANGED);
+            } else {
+                Toast.makeText(CourseActivity.this,
+                        getString(R.string.subscription_failed), Toast.LENGTH_LONG).show();
+                if (taskType == TASK_TYPE_SUBSCRIBE) {
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.subscription_failed), Toast.LENGTH_LONG).show();
+                } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.unsubscription_failed), Toast.LENGTH_LONG).show();
+                }
+            }
         }
     }
 }

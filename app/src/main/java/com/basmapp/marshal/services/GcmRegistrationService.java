@@ -14,6 +14,7 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.GcmRegistration;
 import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
+import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
@@ -59,8 +60,8 @@ public class GcmRegistrationService extends IntentService {
             GcmRegistration gcmRegistration= new GcmRegistration();
             InstanceID instanceID = InstanceID.getInstance(this);
             try {
-                String apiToken = UpdateIntentService.getApiToken();
-                String hardwareId = Settings.Secure.getString(this.getContentResolver(), Settings.Secure.ANDROID_ID);
+                String apiToken = AuthUtil.getApiToken();
+                String hardwareId = AuthUtil.getHardwareId(getContentResolver());
                 if(hardwareId != null) {
                     String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                     if (token != null) {

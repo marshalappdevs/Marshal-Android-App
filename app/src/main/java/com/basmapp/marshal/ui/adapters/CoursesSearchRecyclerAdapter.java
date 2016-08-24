@@ -2,10 +2,12 @@ package com.basmapp.marshal.ui.adapters;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -48,7 +50,6 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
     @Override
     public void onBindViewHolder(final CourseVH holder, final int position) {
-
         // Set card onClickListener
         final long[] mLastClickTime = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -73,6 +74,45 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY, options.toBundle());
             }
         });
+
+        // Set onLongClickListener - Remove Subscription
+//        if (mCourses.get(position).getIsUserSubscribe()) {
+//            holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
+//                @Override
+//                public boolean onLongClick(View view) {
+//                    AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(mContext);
+//                    dialogBuilder.setCancelable(true);
+//                    dialogBuilder.setMessage(R.string.course_subsription_remove_message);
+//                    dialogBuilder.setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            dialogInterface.dismiss();
+//                        }
+//                    });
+//                    dialogBuilder.setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+//                        @Override
+//                        public void onClick(DialogInterface dialogInterface, int i) {
+//                            Course currentCourse = mCourses.get(holder.getAdapterPosition());
+//                            currentCourse.setIsUserSubscribe(false);
+//                            currentCourse.saveInBackground(mContext, false, new BackgroundTaskCallBack() {
+//                                @Override
+//                                public void onSuccess(String result, List<Object> data) {
+//
+//                                }
+//
+//                                @Override
+//                                public void onError(String error) {
+//
+//                                }
+//                            });
+//                        }
+//                    });
+//                    return true;
+//                }
+//            });
+//        } else {
+//            holder.cardView.setOnLongClickListener(null);
+//        }
 
         // Set course title
         holder.courseName.setText(mCourses.get(position).getName());
