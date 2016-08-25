@@ -1,18 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="no">לא</string>
     <string name="yes">כן</string>
-    <string name="subscribe">הוסף לקורסים שלי</string>
-    <string name="try_subscribing_to_course">נרשם...</string>
-    <string name="try_unsubscribing_to_course">מבטל הרשמה...</string>
-    <string name="subscription_success">אתה מנוי כעת</string>
-    <string name="subscription_failed">ההרשמה לקורס נכשלה.\nנסה שוב מאוחר יותר.</string>
-    <string name="unsubscription_success">הרשמתך בוטלה</string>
-    <string name="unsubscription_failed">ביטול ההרשמה נכשל.\nנסה שוב מאוחר יותר.</string>
+    <string name="no">לא</string>
     <string name="navigation_drawer_open">הצג את חלונית הניווט</string>
     <string name="navigation_drawer_close">הסתר את חלונית הניווט</string>
     <string name="navigation_drawer_courses">קורסים והשתלמויות</string>
-    <string name="navigation_drawer_my_courses">הקורסים שלי</string>
+    <string name="navigation_drawer_subscriptions">הרשמות</string>
     <string name="navigation_drawer_materials">חומרי עזר ולימוד</string>
     <string name="navigation_drawer_meetups">מיטאפים</string>
     <string name="navigation_drawer_discussions">דיונים</string>
@@ -57,6 +50,7 @@
     <string name="course_hours_duration">מספר שעות</string>
     <string name="course_day_time">זמן ביום</string>
     <string name="course_comments">הערות</string>
+    <string name="course_wishlist">רשימת משאלות</string>
     <string name="course_related_content">חומרים</string>
     <string name="course_share">שתף</string>
     <string name="share_with">שתף עם</string>
@@ -130,9 +124,15 @@
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
-    <string name="must_update_message">היי!\nקיימת גרסא חדשה יותר של האפליקציה ב - PlayStore. עדכן על מנת לחוות ביצועים טובים יותר.</string>
-    <string name="must_update_button">עדכן</string>
-    <string name="course_subsription_remove_message">למחוק את ההרשמה ?</string>
+    <string name="app_upgrade_available">יש עדכון זמין עבור BasmApp. אנא עבור לחנות Play והורד את הגירסה האחרונה.</string>
+    <string name="btn_play_store">חנות Play</string>
+    <string name="subscribe">הירשם כמנוי</string>
+    <string name="subscribed">רשום כמנוי</string>
+    <string name="subscribing">נרשם…</string>
+    <string name="unsubscribing">מבטל רישום…</string>
+    <string name="subsribe_error">לא ניתן היה להירשם לקורס זה. אנא נסה שוב מאוחר יותר.</string>
+    <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
+    <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -190,6 +190,4 @@
     <string name="gcm_settings_change_success">ערוצי ההודעות עודכנו.</string>
     <string name="gcm_settings_change_failed">אירעה שגיאה במהלך ניסיון עדכון של ערוצי ההודעות. אנא נסה שוב מאוחר יותר.</string>
     <string name="gcm_settings_change">מעדכן את ערוצי ההודעות…</string>
-    <string name="no_my_courses">There\'s no courses that you subscribe of.\\nTo Subscribe, click on the \"Star\" icon on the top of the course screen.</string>
-
 </resources>

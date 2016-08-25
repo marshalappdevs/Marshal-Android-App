@@ -29,30 +29,30 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class MyCoursesFragment extends Fragment {
+public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private TextView mNoResults;
     private SearchView mSearchView;
     private CoursesSearchRecyclerAdapter mAdapter;
     private ArrayList<Course> mFilteredCourseList;
-    private ArrayList<Course> mMyCoursesList;
+    private ArrayList<Course> mSubscriptionsList;
     private String mFilterText;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_my_courses, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_subscriptions, container, false);
 
         setHasOptionsMenu(true);
 
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.navigation_drawer_my_courses);
+        toolbar.setTitle(R.string.navigation_drawer_subscriptions);
 
-        mNoResults = (TextView) rootView.findViewById(R.id.fragment_myCourses_search_no_results);
+        mNoResults = (TextView) rootView.findViewById(R.id.fragment_subscriptions_search_no_results);
 
         // Initialize RecyclerView
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_myCourses_search_recyclerView);
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_subscriptions_search_recyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -67,7 +67,7 @@ public class MyCoursesFragment extends Fragment {
         if (mRecycler.getAdapter() == null)
             mRecycler.setAdapter(mAdapter);
 
-        if (mMyCoursesList == null) {
+        if (mSubscriptionsList == null) {
             if (MainActivity.sMyCourses == null) {
                 Course.getByColumnInBackground(true, DBConstants.COL_IS_USER_SUBSCRIBE, true, DBConstants.COL_ID,
                         getActivity(), Course.class, new BackgroundTaskCallBack() {
@@ -75,14 +75,14 @@ public class MyCoursesFragment extends Fragment {
                             public void onSuccess(String result, List<Object> data) {
                                 if (data != null && data.size() > 0) {
                                     try {
-                                        mMyCoursesList = new ArrayList<>((ArrayList) data);
-                                        MainActivity.sMyCourses = mMyCoursesList;
+                                        mSubscriptionsList = new ArrayList<>((ArrayList) data);
+                                        MainActivity.sMyCourses = mSubscriptionsList;
                                     } catch (Exception e) {
                                         e.printStackTrace();
-                                        mMyCoursesList = new ArrayList<>();
+                                        mSubscriptionsList = new ArrayList<>();
                                     }
                                 } else {
-                                    mMyCoursesList = new ArrayList<>();
+                                    mSubscriptionsList = new ArrayList<>();
                                 }
 
                                 filter("");
@@ -90,12 +90,12 @@ public class MyCoursesFragment extends Fragment {
 
                             @Override
                             public void onError(String error) {
-                                mMyCoursesList = new ArrayList<>();
+                                mSubscriptionsList = new ArrayList<>();
                                 filter("");
                             }
                         });
             } else {
-                mMyCoursesList = new ArrayList<>(MainActivity.sMyCourses);
+                mSubscriptionsList = new ArrayList<>(MainActivity.sMyCourses);
                 filter("");
             }
         } else {
@@ -154,13 +154,13 @@ public class MyCoursesFragment extends Fragment {
 
     private void filter(String filterText) {
         if (filterText == null) {
-            mFilteredCourseList = new ArrayList<>(mMyCoursesList);
+            mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
         } else if (filterText.equals("*")) {
-            mFilteredCourseList = new ArrayList<>(mMyCoursesList);
+            mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
         } else {
             mFilterText = filterText.toLowerCase();
             mFilteredCourseList = new ArrayList<>();
-            for(Course item:mMyCoursesList) {
+            for(Course item: mSubscriptionsList) {
                 if (item.getName().toLowerCase().contains(mFilterText) ||
                         item.getDescription().toLowerCase().contains(mFilterText) ||
                         item.getSyllabus().toLowerCase().contains(mFilterText) || isHasCycle(item, mFilterText)) {

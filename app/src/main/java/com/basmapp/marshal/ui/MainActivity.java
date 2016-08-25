@@ -54,7 +54,7 @@ import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
-import com.basmapp.marshal.ui.fragments.MyCoursesFragment;
+import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
@@ -110,7 +110,7 @@ public class MainActivity extends AppCompatActivity
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
     private MeetupsFragment mMeetupsFragment;
-    public static MyCoursesFragment mMyCoursesFragment;
+    public static SubscriptionsFragment mSubscriptionsFragment;
 
     private UpdateBroadcastReceiver updateReceiver;
 
@@ -256,8 +256,8 @@ public class MainActivity extends AppCompatActivity
             AlertDialog.Builder dialogBuilder = new AlertDialog.Builder(this);
             dialogBuilder.setCancelable(false);
             dialogBuilder.setIcon(R.drawable.ic_drawer_info);
-            dialogBuilder.setMessage(getString(R.string.must_update_message));
-            dialogBuilder.setPositiveButton(R.string.must_update_button, new DialogInterface.OnClickListener() {
+            dialogBuilder.setMessage(getString(R.string.app_upgrade_available));
+            dialogBuilder.setPositiveButton(R.string.btn_play_store, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
                     mSharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, false).apply();
@@ -303,7 +303,7 @@ public class MainActivity extends AppCompatActivity
                 mMaterialsFragment = new MaterialsFragment();
                 mMalshabFragment = new MalshabFragment();
                 mMeetupsFragment = new MeetupsFragment();
-                mMyCoursesFragment = new MyCoursesFragment();
+                mSubscriptionsFragment = new SubscriptionsFragment();
             }
         });
     }
@@ -394,7 +394,7 @@ public class MainActivity extends AppCompatActivity
         mMaterialsFragment = null;
         mMalshabFragment = null;
         mMeetupsFragment = null;
-        mMyCoursesFragment = null;
+        mSubscriptionsFragment = null;
 
         setErrorScreenVisibility(View.GONE);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -609,10 +609,10 @@ public class MainActivity extends AppCompatActivity
                     mNavigationView.setNavigationItemSelectedListener(this);
                     onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
                     mNavigationView.setCheckedItem(R.id.nav_courses);
-                } else if (currentFragment instanceof MyCoursesFragment) {
+                } else if (currentFragment instanceof SubscriptionsFragment) {
                     mNavigationView.setNavigationItemSelectedListener(this);
-                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_my_courses));
-                    mNavigationView.setCheckedItem(R.id.nav_my_courses);
+                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_subscriptions));
+                    mNavigationView.setCheckedItem(R.id.nav_subscriptions);
                 }
             }
         }
@@ -839,11 +839,11 @@ public class MainActivity extends AppCompatActivity
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
             setTitle(item.getTitle());
-        } else if (id == R.id.nav_my_courses) {
-            if(mMyCoursesFragment == null) {
-                mMyCoursesFragment = new MyCoursesFragment();
+        } else if (id == R.id.nav_subscriptions) {
+            if(mSubscriptionsFragment == null) {
+                mSubscriptionsFragment = new SubscriptionsFragment();
             }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, mMyCoursesFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             if(mMaterialsFragment == null) {

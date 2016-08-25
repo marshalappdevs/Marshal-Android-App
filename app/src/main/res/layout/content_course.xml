@@ -603,6 +603,43 @@
             android:baselineAligned="false">
 
             <LinearLayout
+                android:id="@+id/subscribe_button"
+                android:layout_width="0.0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1.0"
+                android:padding="12.0dp"
+                android:orientation="vertical"
+                android:gravity="center"
+                android:background="?attr/selectableItemBackground"
+                android:clickable="true"
+                android:focusable="true">
+
+                <FrameLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="32.0dp"
+                    android:layout_margin="2.0dp"
+                    android:gravity="center">
+
+                    <ImageView
+                        android:id="@+id/subscribe_button_icon"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        app:srcCompat="@drawable/ic_wishlist_add"
+                        android:contentDescription="@null" />
+
+                </FrameLayout>
+
+                <TextView
+                    android:id="@+id/subscribe_button_text"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="14.0sp"
+                    android:textColor="?android:textColorPrimary"
+                    android:text="@string/subscribe" />
+            </LinearLayout>
+
+            <LinearLayout
                 android:id="@+id/share_button"
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
