@@ -188,18 +188,51 @@ public class CoursesFragment extends Fragment {
          mAdaptersBroadcastReceiver = new BroadcastReceiver() {
              @Override
              public void onReceive(Context context, Intent intent) {
-                 mRecyclerAdapterCyber.notifyDataSetChanged();
-                 mRecyclerAdapterIT.notifyDataSetChanged();
-                 mRecyclerAdapterSoftware.notifyDataSetChanged();
-                 mRecyclerAdapterTools.notifyDataSetChanged();
-                 mRecyclerAdapterSystem.notifyDataSetChanged();
+                 if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
+                     int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
+                     Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
+                     if (course != null && course.getCategory() != null &&
+                             coursePositionInList != -1) {
+                         switch (course.getCategory()) {
+                             case Course.CATEGORY_SOFTWARE:
+                                 mSoftwareCourses.set(coursePositionInList, course);
+                                 break;
+                             case Course.CATEGORY_CYBER:
+                                 mCyberCourses.set(coursePositionInList, course);
+                                 break;
+                             case Course.CATEGORY_SYSTEM:
+                                 mSystemCourses.set(coursePositionInList, course);
+                                 break;
+                             case Course.CATEGORY_IT:
+                                 mITCourses.set(coursePositionInList, course);
+                                 break;
+                             case Course.CATEGORY_TOOLS:
+                                 mToolsCourses.set(coursePositionInList, course);
+                                 break;
+                             default:
+                                 break;
+                         }
+                     }
+                 }
+                 notifyDataSetsChanged();
              }
          };
 
-         getActivity().registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
+         IntentFilter intentFilter = new IntentFilter();
+         intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+         intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+         getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
          return mRootView;
      }
+
+    private void notifyDataSetsChanged() {
+        if (mRecyclerAdapterCyber != null) mRecyclerAdapterCyber.notifyDataSetChanged();
+        if (mRecyclerAdapterIT != null) mRecyclerAdapterIT.notifyDataSetChanged();
+        if (mRecyclerAdapterSoftware != null) mRecyclerAdapterSoftware.notifyDataSetChanged();
+        if (mRecyclerAdapterTools != null) mRecyclerAdapterTools.notifyDataSetChanged();
+        if (mRecyclerAdapterSystem != null) mRecyclerAdapterSystem.notifyDataSetChanged();
+    }
 
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);

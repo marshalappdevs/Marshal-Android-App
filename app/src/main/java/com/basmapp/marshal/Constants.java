@@ -1,7 +1,13 @@
 package com.basmapp.marshal;
 
+import android.content.Intent;
+
 public class Constants {
     public static final String LOG_TAG = "Marshal";
+
+    // Actions
+    public static final String ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED =
+            "com.basmapp.marshal.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED";
 
     // Preferences Keys
     public static final String PREF_IS_FIRST_RUN = "pref_is_first_run";
@@ -35,4 +41,5 @@ public class Constants {
     public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
     public static final String EXTRA_GCM_CHANNELS = "extra_gcm_channels";
+    public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
 }

@@ -1,5 +1,9 @@
 package com.basmapp.marshal.ui.fragments;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -17,12 +21,14 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.MainActivity;
+import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 
 import java.util.ArrayList;
@@ -38,6 +44,7 @@ public class SubscriptionsFragment extends Fragment {
     private ArrayList<Course> mFilteredCourseList;
     private ArrayList<Course> mSubscriptionsList;
     private String mFilterText;
+    private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -67,43 +74,69 @@ public class SubscriptionsFragment extends Fragment {
         if (mRecycler.getAdapter() == null)
             mRecycler.setAdapter(mAdapter);
 
-        if (mSubscriptionsList == null) {
-            if (MainActivity.sMyCourses == null) {
-                Course.getByColumnInBackground(true, DBConstants.COL_IS_USER_SUBSCRIBE, true, DBConstants.COL_ID,
-                        getActivity(), Course.class, new BackgroundTaskCallBack() {
-                            @Override
-                            public void onSuccess(String result, List<Object> data) {
-                                if (data != null && data.size() > 0) {
-                                    try {
-                                        mSubscriptionsList = new ArrayList<>((ArrayList) data);
-                                        MainActivity.sMyCourses = mSubscriptionsList;
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        mSubscriptionsList = new ArrayList<>();
-                                    }
-                                } else {
-                                    mSubscriptionsList = new ArrayList<>();
-                                }
+//        if (MainActivity.sMyCourses == null) {
+//
+//        } else {
+//            mSubscriptionsList = new ArrayList<>(MainActivity.sMyCourses);
+//            filter("");
+//        }
 
-                                filter("");
-                            }
-
-                            @Override
-                            public void onError(String error) {
+        Course.getByColumnInBackground(true, DBConstants.COL_IS_USER_SUBSCRIBE, true, DBConstants.COL_ID,
+                getActivity(), Course.class, new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null && data.size() > 0) {
+                            try {
+                                mSubscriptionsList = new ArrayList<>((ArrayList) data);
+                                MainActivity.sMyCourses = mSubscriptionsList;
+                            } catch (Exception e) {
+                                e.printStackTrace();
                                 mSubscriptionsList = new ArrayList<>();
-                                filter("");
                             }
-                        });
-            } else {
-                mSubscriptionsList = new ArrayList<>(MainActivity.sMyCourses);
-                filter("");
+                        } else {
+                            mSubscriptionsList = new ArrayList<>();
+                        }
+
+                        filter("");
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        mSubscriptionsList = new ArrayList<>();
+                        filter("");
+                    }
+                });
+
+        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
+                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
+                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
+                    if (course != null && course.getCategory() != null &&
+                            coursePositionInList != -1) {
+                        mFilteredCourseList.remove(coursePositionInList);
+                        mAdapter.removeItem(coursePositionInList);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
             }
-        } else {
-            filter("");
-        }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
         return rootView;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

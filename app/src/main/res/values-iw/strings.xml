@@ -128,6 +128,7 @@
     <string name="btn_play_store">חנות Play</string>
     <string name="subscribe">הירשם כמנוי</string>
     <string name="subscribed">רשום כמנוי</string>
+    <string name="unsubscribed">הרשמתך בוטלה</string>
     <string name="subscribing">נרשם…</string>
     <string name="unsubscribing">מבטל רישום…</string>
     <string name="subsribe_error">לא ניתן היה להירשם לקורס זה. אנא נסה שוב מאוחר יותר.</string>

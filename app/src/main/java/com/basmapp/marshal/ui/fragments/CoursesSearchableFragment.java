@@ -2,7 +2,10 @@ package com.basmapp.marshal.ui.fragments;
 
 import android.app.DatePickerDialog;
 import android.app.SearchManager;
+import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
@@ -31,6 +34,7 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.utils.DateHelper;
@@ -64,6 +68,7 @@ public class CoursesSearchableFragment extends Fragment {
     private long tempStartDate = 0;
     private boolean isEmptyResult = false;
     private ShowcaseView mShowcaseView;
+    private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
@@ -106,8 +111,35 @@ public class CoursesSearchableFragment extends Fragment {
 
         getActivity().setTitle(R.string.search_title);
 
+        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
+                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
+                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
+                    if (course != null && course.getCategory() != null &&
+                            coursePositionInList != -1) {
+                        mCoursesList.set(coursePositionInList, course);
+                    }
+                }
+                mAdapter.notifyDataSetChanged();
+            }
+        };
+
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
+
         return rootView;
     }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
 
     @Override
     public void onDetach() {

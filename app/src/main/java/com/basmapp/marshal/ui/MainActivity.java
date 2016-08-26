@@ -55,6 +55,7 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
+import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
@@ -106,11 +107,11 @@ public class MainActivity extends AppCompatActivity
     private MenuItem mSearchItem;
 
     // Fragments
-    public static CoursesFragment mCourseFragment;
+    private CoursesFragment mCourseFragment;
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
     private MeetupsFragment mMeetupsFragment;
-    public static SubscriptionsFragment mSubscriptionsFragment;
+    private SubscriptionsFragment mSubscriptionsFragment;
 
     private UpdateBroadcastReceiver updateReceiver;
 
@@ -602,19 +603,6 @@ public class MainActivity extends AppCompatActivity
         if (requestCode == RC_SIGN_IN) {
             GoogleSignInResult result = Auth.GoogleSignInApi.getSignInResultFromIntent(data);
             handleSignInResult(result);
-        } else if (requestCode == RC_COURSE_ACTIVITY) {
-            if (resultCode == CourseActivity.RESULT_SUBSCRIPTION_STATE_CHANGED) {
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                if (currentFragment instanceof CoursesFragment) {
-                    mNavigationView.setNavigationItemSelectedListener(this);
-                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
-                    mNavigationView.setCheckedItem(R.id.nav_courses);
-                } else if (currentFragment instanceof SubscriptionsFragment) {
-                    mNavigationView.setNavigationItemSelectedListener(this);
-                    onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_subscriptions));
-                    mNavigationView.setCheckedItem(R.id.nav_subscriptions);
-                }
-            }
         }
     }
 

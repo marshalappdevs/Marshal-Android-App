@@ -30,6 +30,8 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -40,7 +42,6 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
@@ -75,7 +76,6 @@ import retrofit2.Response;
 public class CourseActivity extends AppCompatActivity {
 
     private static final int FAB_SHOWCASE_ID = 1;
-    public static final int RESULT_SUBSCRIPTION_STATE_CHANGED = 123;
 
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -958,17 +958,16 @@ public class CourseActivity extends AppCompatActivity {
     }
 
     public void onSecondaryActionsClick() {
+
         mSubscribeButton = (LinearLayout) findViewById(R.id.subscribe_button);
         mSubscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mCourse.getIsUserSubscribe()) {
-                    new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
-                } else {
-                    new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
-                }
-            }
-        });
+            if (mCourse.getIsUserSubscribe()) {
+                new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
+            } else {
+                new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
+            }}});
         mMaterialsButton = (LinearLayout) findViewById(R.id.materials_button);
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -1138,6 +1137,29 @@ public class CourseActivity extends AppCompatActivity {
         }
     }
 
+//    @Override
+//    public boolean onCreateOptionsMenu(Menu menu) {
+//        getMenuInflater().inflate(R.menu.course_activity, menu);
+//        MenuItem subscribeMenuItem = menu.findItem(R.id.subscribe_to_course);
+//        subscribeMenuItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+//            @Override
+//            public boolean onMenuItemClick(final MenuItem menuItem) {
+//                if (mCourse.getIsUserSubscribe()) {
+//                    new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, menuItem).execute();
+//                } else {
+//                    new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, menuItem).execute();
+//                }
+//                return false;
+//            }
+//        });
+//        if (mCourse.getIsUserSubscribe()) {
+//            subscribeMenuItem.setIcon(R.drawable.ic_wishlist_added);
+//        } else {
+//            subscribeMenuItem.setIcon(R.drawable.ic_wishlist_add);
+//        }
+//        return true;
+//    }
+
     private class SubscribeTask extends AsyncTask<Void,Void,Boolean> {
 
         public static final int TASK_TYPE_SUBSCRIBE = 1;
@@ -1203,20 +1225,22 @@ public class CourseActivity extends AppCompatActivity {
 
             if (result) {
                 if (taskType == TASK_TYPE_SUBSCRIBE) {
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.subscribed), Toast.LENGTH_LONG).show();
                     if (subscribeText != null) subscribeText.setText(R.string.subscribed);
                     if (subscribeIcon != null) subscribeIcon.setImageResource(R.drawable.ic_wishlist_added);
                 } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                    Toast.makeText(CourseActivity.this,
+                            getString(R.string.unsubscribed), Toast.LENGTH_LONG).show();
                     if (subscribeText != null) subscribeText.setText(R.string.subscribe);
                     if (subscribeIcon != null) subscribeIcon.setImageResource(R.drawable.ic_wishlist_add);
                 }
-                MainActivity.sAllCourses = null;
-                MainActivity.sMyCourses = null;
-                MainActivity.mCourseFragment = null;
-                MainActivity.mSubscriptionsFragment = null;
-                setResult(RESULT_SUBSCRIPTION_STATE_CHANGED);
+                Intent intent = new Intent(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+                intent.putExtra(Constants.EXTRA_COURSE, mCourse);
+                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST,
+                        getIntent().getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1));
+                sendBroadcast(intent);
             } else {
-                Toast.makeText(CourseActivity.this,
-                        getString(R.string.subsribe_error), Toast.LENGTH_LONG).show();
                 if (taskType == TASK_TYPE_SUBSCRIBE) {
                     Toast.makeText(CourseActivity.this,
                             getString(R.string.subsribe_error), Toast.LENGTH_LONG).show();

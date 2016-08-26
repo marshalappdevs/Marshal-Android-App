@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.basmapp.marshal.ApplicationMarshal;
+import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.AuthRequest;
 import com.basmapp.marshal.entities.Course;
@@ -117,6 +118,12 @@ public class UpdateIntentService extends IntentService {
             } else {
                 Log.i("CHECK FOR UPDATES", "NOT NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
                 sendCheckForUpdateResult(false);
+            }
+
+            if(settings.getMinVersion() != 0 &&
+                    BuildConfig.VERSION_CODE < settings.getMinVersion()) {
+                PreferenceManager.getDefaultSharedPreferences(this)
+                        .edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
             }
         } catch (Exception e) {
             e.printStackTrace();

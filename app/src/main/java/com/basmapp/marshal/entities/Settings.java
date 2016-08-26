@@ -19,15 +19,8 @@ public class Settings {
         return lastUpdateAt;
     }
 
-    public void setLastUpdateAt(Date lastUpdateAt) {
-        this.lastUpdateAt = lastUpdateAt;
-    }
-
-    public int getVersion() {
+    public int getMinVersion() {
         return minVersion;
     }
 
-    public void setVersion(int version) {
-        this.minVersion = version;
-    }
 }

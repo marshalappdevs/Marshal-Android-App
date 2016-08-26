@@ -58,7 +58,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     }
 
     @Override
-    public void onBindViewHolder(final CourseVH holder, int position) {
+    public void onBindViewHolder(final CourseVH holder, final int position) {
 
         // Set card onClickListener
         final long[] mLastClickTime = {0};
@@ -72,6 +72,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit().putBoolean("courseShared", true).apply();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
+                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 // get status bar and navigation bar views and add them as shared elements
                 // to prevent glitches
