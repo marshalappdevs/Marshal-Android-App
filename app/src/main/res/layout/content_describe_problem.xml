@@ -80,7 +80,7 @@
                             android:paddingBottom="10.0dp"
                             android:gravity="center|start"
                             android:textSize="16.0sp"
-                            android:textColor="@color/colorAccent"
+                            android:textColor="?colorAccent"
                             android:text="@string/describe_problem_screenshots" />
 
                         <View

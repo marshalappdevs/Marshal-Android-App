@@ -56,7 +56,7 @@
                 android:paddingStart="6.0dp"
                 android:textAllCaps="true"
                 android:textSize="14.0sp"
-                android:textColor="@color/colorAccent"
+                android:textColor="?colorAccent"
                 android:text="@string/edit_review" />
         </LinearLayout>
 

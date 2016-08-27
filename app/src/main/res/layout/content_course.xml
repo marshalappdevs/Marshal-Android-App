@@ -582,7 +582,7 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackground"
-                android:textColor="@color/colorAccent"
+                android:textColor="?colorAccent"
                 android:text="@string/review_snippets_footer" />
 
             <View
