@@ -14,8 +14,7 @@
         android:layout_gravity="center_horizontal"
         android:layout_margin="8dp"
         android:numStars="5"
-        android:stepSize="1"
-        android:theme="@style/DialogAlert.RatingBar" />
+        android:stepSize="1" />
 
     <TextView
         android:id="@+id/item_title"
@@ -46,7 +45,6 @@
             android:layout_height="wrap_content"
             android:gravity="top"
             android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
-            android:theme="@style/Review.EditText"
             android:minLines="3"
             android:maxLength="512"
             android:freezesText="true"

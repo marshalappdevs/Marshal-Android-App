@@ -219,8 +219,8 @@
         <item name="android:shadowRadius">1.0</item>
     </style>
 
-    <style name="Cycle.DialogAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Cycle.DialogAlert" parent="Theme.AppCompat.Light.Dialog">
+        <item name="colorAccent">@color/red_primary_color_dark</item>
         <item name="android:windowTitleStyle">@style/Cycle.DialogAlert.Title</item>
     </style>
 
@@ -229,17 +229,8 @@
         <item name="android:textAllCaps">true</item>
     </style>
 
-    <style name="Rating.DialogAlert" parent="Theme.AppCompat.Light.Dialog.Alert">
-        <item name="colorAccent">@color/colorAccent</item>
+    <style name="Rating.DialogAlert" parent="Theme.AppCompat.Light.Dialog">
         <item name="android:windowBackground">@android:color/transparent</item>
-    </style>
-
-    <style name="DialogAlert.RatingBar" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">?colorAccent</item>
-    </style>
-
-    <style name="Review.EditText" parent="Theme.AppCompat.Light">
-        <item name="colorAccent">@color/colorAccent</item>
     </style>
 
     <style name="Course.RatingBar" parent="Theme.AppCompat">
