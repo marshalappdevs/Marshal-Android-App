@@ -6,8 +6,7 @@
     android:paddingStart="8dp"
     android:paddingEnd="8dp"
     android:paddingTop="0.0dp"
-    android:orientation="vertical"
-    android:background="@drawable/rate_review_bg">
+    android:orientation="vertical">
 
     <include layout="@layout/review_google_plus_header" />
 

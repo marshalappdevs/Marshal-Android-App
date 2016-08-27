@@ -225,7 +225,7 @@
     </style>
 
     <style name="Cycle.DialogAlert.Title" parent="TextAppearance.AppCompat.Title">
-        <item name="android:textColor">@color/colorAccent</item>
+        <item name="android:textColor">?colorAccent</item>
         <item name="android:textAllCaps">true</item>
     </style>
 
@@ -235,7 +235,7 @@
     </style>
 
     <style name="DialogAlert.RatingBar" parent="Theme.AppCompat.Light">
-        <item name="colorControlActivated">@color/colorAccent</item>
+        <item name="colorControlActivated">?colorAccent</item>
     </style>
 
     <style name="Review.EditText" parent="Theme.AppCompat.Light">

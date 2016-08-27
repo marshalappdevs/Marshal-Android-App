@@ -228,8 +228,6 @@ public class SettingsActivity extends AppCompatActivity {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_COLOR_CODE, color).apply();
                             restartApp();
-//                            MainActivity.getPreferences().edit().putInt("colors", color).apply();
-//                            getActivity().recreate();
                         }
                     }
                 });

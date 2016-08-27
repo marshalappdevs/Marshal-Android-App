@@ -13,4 +13,8 @@
     <style name="AppTheme.CardView" parent="CardView.Dark" />
 
     <style name="DateFilterSpinner" parent="@android:style/Widget.Holo.Spinner" />
+
+    <style name="Review.EditText" parent="Theme.AppCompat">
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
 </resources>
