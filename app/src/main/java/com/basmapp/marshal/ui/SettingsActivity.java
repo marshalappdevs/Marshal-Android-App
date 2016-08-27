@@ -226,8 +226,6 @@ public class SettingsActivity extends AppCompatActivity {
                     public void onColorSelected(int color) {
                         if (color != MainActivity.getColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                                    .edit().putString(Constants.PREF_COLOR_NAME, String.valueOf(color)).apply();
-                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_COLOR_CODE, color).apply();
                             restartApp();
 //                            MainActivity.getPreferences().edit().putInt("colors", color).apply();

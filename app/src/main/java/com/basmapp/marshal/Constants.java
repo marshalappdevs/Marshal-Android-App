@@ -17,7 +17,6 @@ public class Constants {
     public static final String PREF_GCM_CHANNELS = "gcm_channels";
     public static final String PREF_THEME = "THEME";
     public static final String PREF_COLOR = "COLOR";
-    public static final String PREF_COLOR_NAME = "COLOR_NAME";
     public static final String PREF_COLOR_CODE = "COLOR_CODE";
     public static final String PREF_LANGUAGE = "LANG";
     public static final String PREF_VERSION = "version";
