@@ -15,6 +15,9 @@
             android:summary="%s"
             android:entries="@array/night_mode_entries"
             android:entryValues="@array/night_mode_values" />
+        <Preference
+            android:key="COLOR"
+            android:title="@string/choose_color"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_memory_category">

@@ -134,6 +134,7 @@
     <string name="subsribe_error">לא ניתן היה להירשם לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
+    <string name="choose_color">צבע עיצוב</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>

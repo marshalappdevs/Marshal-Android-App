@@ -55,7 +55,6 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
-import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
@@ -798,6 +797,12 @@ public class MainActivity extends AppCompatActivity
             updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
             startService(updateServiceIntent);
         }
+    }
+
+    public static int getColorCode(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + "_preferences", MODE_PRIVATE);
+        int defaultColor = ContextCompat.getColor(context.getApplicationContext(), R.color.colorPrimary);
+        return prefs.getInt(Constants.PREF_COLOR_CODE, defaultColor);
     }
 
     @Override

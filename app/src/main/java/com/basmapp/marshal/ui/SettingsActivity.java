@@ -3,7 +3,7 @@ package com.basmapp.marshal.ui;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.res.Configuration;
-import android.content.res.Resources;
+import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
 import android.net.Uri;
@@ -22,6 +22,8 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.android.colorpicker.ColorPickerDialog;
+import com.android.colorpicker.ColorPickerSwatch;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -38,6 +40,28 @@ import java.util.Set;
 
 public class SettingsActivity extends AppCompatActivity {
     private Toolbar mToolbar;
+    public final static int[] PRIMARY_COLORS = new int[]{
+            Color.parseColor("#F44336"),
+            Color.parseColor("#E91E63"),
+            Color.parseColor("#9C27B0"),
+            Color.parseColor("#673AB7"),
+            Color.parseColor("#3F51B5"),
+            Color.parseColor("#2196F3"),
+            Color.parseColor("#03A9F4"),
+            Color.parseColor("#00BCD4"),
+            Color.parseColor("#009688"),
+            Color.parseColor("#4CAF50"),
+            Color.parseColor("#8BC34A"),
+            Color.parseColor("#CDDC39"),
+            Color.parseColor("#FFEB3B"),
+            Color.parseColor("#FFC107"),
+            Color.parseColor("#FF9800"),
+            Color.parseColor("#FF5722"),
+            Color.parseColor("#795548"),
+            Color.parseColor("#9E9E9E"),
+            Color.parseColor("#607D8B"),
+            Color.parseColor("#000000")
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -132,6 +156,10 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference prefTheme = (ListPreference) findPreference(Constants.PREF_THEME);
             prefTheme.setOnPreferenceChangeListener(themeChangeListener);
 
+            Preference prefColor = findPreference(Constants.PREF_COLOR);
+            prefColor.setOnPreferenceClickListener(colorChangeListener);
+            prefColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getColorCode(getActivity()))));
+
             prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
             updateGcmChannelsPrefSummary();
@@ -179,6 +207,34 @@ public class SettingsActivity extends AppCompatActivity {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
                 restartApp();
+                return false;
+            }
+        };
+
+        Preference.OnPreferenceClickListener colorChangeListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SettingsActivity act = (SettingsActivity) getActivity();
+                if (act == null)
+                    return false;
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+                colorPickerDialog.initialize(
+                        R.string.color_picker_default_title, PRIMARY_COLORS, MainActivity.getColorCode(act), 4, PRIMARY_COLORS.length);
+                colorPickerDialog.show(getFragmentManager(), Constants.FRAGMENT_COLOR_PICKER);
+                colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        if (color != MainActivity.getColorCode(getActivity())) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                                    .edit().putString(Constants.PREF_COLOR_NAME, String.valueOf(color)).apply();
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                                    .edit().putInt(Constants.PREF_COLOR_CODE, color).apply();
+                            restartApp();
+//                            MainActivity.getPreferences().edit().putInt("colors", color).apply();
+//                            getActivity().recreate();
+                        }
+                    }
+                });
                 return false;
             }
         };

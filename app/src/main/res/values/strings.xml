@@ -141,6 +141,7 @@
     <string name="subsribe_error">Could not subscribe to this course. Please try again later.</string>
     <string name="unsubscribe_error">Could not unsubsribe from this course. Please try again later.</string>
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
+    <string name="choose_color">Theme Color</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
