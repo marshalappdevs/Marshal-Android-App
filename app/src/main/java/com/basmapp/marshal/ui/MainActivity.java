@@ -801,7 +801,7 @@ public class MainActivity extends AppCompatActivity
 
     public static int getColorCode(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + "_preferences", MODE_PRIVATE);
-        int defaultColor = ContextCompat.getColor(context.getApplicationContext(), R.color.colorPrimary);
+        int defaultColor = ContextCompat.getColor(context.getApplicationContext(), R.color.blue_primary_color);
         return prefs.getInt(Constants.PREF_COLOR_CODE, defaultColor);
     }
 
