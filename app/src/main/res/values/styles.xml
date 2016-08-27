@@ -19,7 +19,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/purple_primary_color</item>
         <item name="colorPrimaryDark">@color/purple_primary_color_dark</item>
-        <item name="colorAccent">@color/green_accent_color</item>
+        <item name="colorAccent">@color/light_green_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Deep.Purple" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -47,7 +47,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/light_blue_primary_color</item>
         <item name="colorPrimaryDark">@color/light_blue_primary_color_dark</item>
-        <item name="colorAccent">@color/orange_accent_color</item>
+        <item name="colorAccent">@color/deep_orange_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Cyan" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -61,14 +61,14 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/teal_primary_color</item>
         <item name="colorPrimaryDark">@color/teal_primary_color_dark</item>
-        <item name="colorAccent">@color/deep_purple_accent_color</item>
+        <item name="colorAccent">@color/amber_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Green" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/green_primary_color</item>
         <item name="colorPrimaryDark">@color/green_primary_color_dark</item>
-        <item name="colorAccent">@color/purple_accent_color</item>
+        <item name="colorAccent">@color/deep_purple_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Light.Green" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -103,21 +103,21 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/orange_primary_color</item>
         <item name="colorPrimaryDark">@color/orange_primary_color_dark</item>
-        <item name="colorAccent">@color/blue_accent_color</item>
+        <item name="colorAccent">@color/cyan_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Deep.Orange" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/deep_orange_primary_color</item>
         <item name="colorPrimaryDark">@color/deep_orange_primary_color_dark</item>
-        <item name="colorAccent">@color/indigo_accent_color</item>
+        <item name="colorAccent">@color/light_blue_accent_color</item>
     </style>
 
     <style name="AppTheme.Base.Brown" parent="Theme.AppCompat.DayNight.NoActionBar">
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/brown_primary_color</item>
         <item name="colorPrimaryDark">@color/brown_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/brown_primary_color</item>
     </style>
 
     <style name="AppTheme.Base.Grey" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -131,7 +131,7 @@
         <!-- Customize your light theme here. -->
         <item name="colorPrimary">@color/blue_grey_primary_color</item>
         <item name="colorPrimaryDark">@color/blue_grey_primary_color_dark</item>
-        <item name="colorAccent">@color/red_accent_color</item>
+        <item name="colorAccent">@color/teal_primary_color</item>
     </style>
 
     <style name="AppTheme.Base.Black" parent="Theme.AppCompat.DayNight.NoActionBar">
