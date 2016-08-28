@@ -70,38 +70,38 @@ public class ThemeUtils {
         } else if (primaryColorCode == Color.parseColor("#000000")) {
             appCompatActivity.setTheme(R.style.AppTheme_Black);
         }
-        int colorAccentColor = MainActivity.getAccentColorCode(appCompatActivity);
-        if (colorAccentColor == Color.parseColor("#FF5252")) {
+        int accentColorCode = MainActivity.getAccentColorCode(appCompatActivity);
+        if (accentColorCode == Color.parseColor("#FF5252")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorRed, true);
-        } else if (colorAccentColor == Color.parseColor("#FF4081")) {
+        } else if (accentColorCode == Color.parseColor("#FF4081")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorPink, true);
-        } else if (colorAccentColor == Color.parseColor("#E040FB")) {
+        } else if (accentColorCode == Color.parseColor("#E040FB")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorPurple, true);
-        } else if (colorAccentColor == Color.parseColor("#7C4DFF")) {
+        } else if (accentColorCode == Color.parseColor("#7C4DFF")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorDeepPurple, true);
-        } else if (colorAccentColor == Color.parseColor("#536DFE")) {
+        } else if (accentColorCode == Color.parseColor("#536DFE")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorIndigo, true);
-        } else if (colorAccentColor == Color.parseColor("#448AFF")) {
+        } else if (accentColorCode == Color.parseColor("#448AFF")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorBlue, true);
-        } else if (colorAccentColor == Color.parseColor("#40C4FF")) {
+        } else if (accentColorCode == Color.parseColor("#40C4FF")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorLightBlue, true);
-        } else if (colorAccentColor == Color.parseColor("#18FFFF")) {
+        } else if (accentColorCode == Color.parseColor("#18FFFF")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorCyan, true);
-        } else if (colorAccentColor == Color.parseColor("#64FFDA")) {
+        } else if (accentColorCode == Color.parseColor("#64FFDA")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorTeal, true);
-        } else if (colorAccentColor == Color.parseColor("#69F0AE")) {
+        } else if (accentColorCode == Color.parseColor("#69F0AE")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorGreen, true);
-        } else if (colorAccentColor == Color.parseColor("#B2FF59")) {
+        } else if (accentColorCode == Color.parseColor("#B2FF59")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorLightGreen, true);
-        } else if (colorAccentColor == Color.parseColor("#EEFF41")) {
+        } else if (accentColorCode == Color.parseColor("#EEFF41")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorLime, true);
-        } else if (colorAccentColor == Color.parseColor("#FFFF00")) {
+        } else if (accentColorCode == Color.parseColor("#FFFF00")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorYellow, true);
-        } else if (colorAccentColor == Color.parseColor("#FFD740")) {
+        } else if (accentColorCode == Color.parseColor("#FFD740")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorAmber, true);
-        } else if (colorAccentColor == Color.parseColor("#FFAB40")) {
+        } else if (accentColorCode == Color.parseColor("#FFAB40")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorOrange, true);
-        } else if (colorAccentColor == Color.parseColor("#FF6E40")) {
+        } else if (accentColorCode == Color.parseColor("#FF6E40")) {
             appCompatActivity.getTheme().applyStyle(R.style.OverrideAccentColorDeepOrange, true);
         }
     }
