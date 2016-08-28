@@ -38,7 +38,6 @@
                     android:imeOptions="actionDone"
                     android:scrollbarFadeDuration="300"
                     android:scrollbarDefaultDelayBeforeFade="200"
-                    android:textColor="#ff000000"
                     android:hint="@string/describe_problem_description" />
 
                 <Button
