@@ -220,7 +220,7 @@
     </style>
 
     <style name="Cycle.DialogAlert" parent="Theme.AppCompat.Light.Dialog">
-        <item name="colorAccent">@color/red_accent_color_dark</item>
+        <item name="colorAccent">@color/error_color</item>
         <item name="android:windowTitleStyle">@style/Cycle.DialogAlert.Title</item>
     </style>
 
