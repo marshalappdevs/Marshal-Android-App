@@ -30,8 +30,6 @@ import android.transition.TransitionInflater;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.LayoutInflater;
-import android.view.Menu;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
@@ -51,7 +49,7 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
-import com.basmapp.marshal.ui.fragments.CyclesBottomSheetDialogFragment;
+import com.basmapp.marshal.ui.fragments.CyclesBottomSheet;
 import com.basmapp.marshal.ui.utils.ColorUtils;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
@@ -244,8 +242,8 @@ public class CourseActivity extends AppCompatActivity {
                         }
 
                         if (cycles.size() > 0) {
-                            CyclesBottomSheetDialogFragment bottomSheet =
-                                    CyclesBottomSheetDialogFragment.newInstance(mCourse);
+                            CyclesBottomSheet bottomSheet =
+                                    CyclesBottomSheet.newInstance(mCourse);
                             bottomSheet.show(getSupportFragmentManager(), "CyclesBottomSheet");
                         } else {
                             Toast.makeText(CourseActivity.this,

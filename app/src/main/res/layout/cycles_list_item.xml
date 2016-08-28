@@ -15,7 +15,7 @@
         android:gravity="center"
         android:layoutDirection="ltr"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?android:textColorPrimary"
+        android:textColor="?android:textColorSecondary"
         android:text="@string/course_cycle_format" />
 
     <View

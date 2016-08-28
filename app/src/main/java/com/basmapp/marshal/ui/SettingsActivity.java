@@ -22,8 +22,6 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.android.colorpicker.ColorPickerDialog;
-import com.android.colorpicker.ColorPickerSwatch;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -33,6 +31,8 @@ import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.ui.utils.colorpicker.ColorPickerDialog;
+import com.basmapp.marshal.ui.utils.colorpicker.ColorPickerSwatch;
 
 import java.io.File;
 import java.util.HashSet;

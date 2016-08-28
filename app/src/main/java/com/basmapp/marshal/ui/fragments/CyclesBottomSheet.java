@@ -20,12 +20,12 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 
-public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
+public class CyclesBottomSheet extends BottomSheetDialogFragment {
 
     private ArrayList<Cycle> mCycles;
 
-    public static CyclesBottomSheetDialogFragment newInstance(Course course){
-        CyclesBottomSheetDialogFragment instance = new CyclesBottomSheetDialogFragment();
+    public static CyclesBottomSheet newInstance(Course course){
+        CyclesBottomSheet instance = new CyclesBottomSheet();
 
         Bundle bundle = new Bundle();
         bundle.putParcelable(Constants.EXTRA_COURSE, course);
@@ -41,7 +41,7 @@ public class CyclesBottomSheetDialogFragment extends BottomSheetDialogFragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.activity_cycles, container, false);
+        View rootView = inflater.inflate(R.layout.bottom_sheet_cycles, container, false);
 
         try {
             Course course = getArguments().getParcelable(Constants.EXTRA_COURSE);

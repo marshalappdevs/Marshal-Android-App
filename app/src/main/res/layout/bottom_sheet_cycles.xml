@@ -11,8 +11,9 @@
         android:layout_height="wrap_content"
         android:padding="16dp"
         android:gravity="center_vertical"
-        android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?android:textColorSecondary"
+        android:textSize="20sp"
+        android:fontFamily="sans-serif-medium"
+        android:textColor="?android:textColorPrimary"
         android:text="@string/course_choose_cycle" />
 
     <android.support.v7.widget.RecyclerView
