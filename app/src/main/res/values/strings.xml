@@ -141,8 +141,6 @@
     <string name="subsribe_error">Could not subscribe to this course. Please try again later.</string>
     <string name="unsubscribe_error">Could not unsubsribe from this course. Please try again later.</string>
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
-    <string name="choose_primary_color">Theme Color</string>
-    <string name="choose_accent_color">Accent Color</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -187,6 +185,8 @@
     <string name="night_mode_no">Light</string>
     <string name="night_mode_yes">Dark</string>
     <string name="night_mode_auto">Automatic</string>
+    <string name="choose_primary_color">Primary Color</string>
+    <string name="choose_accent_color">Accent Color</string>
     <string name="clear_local_cache_title">Clear app cache</string>
     <string name="clear_local_cache_summary">Current cache size: %1$s MB</string>
     <string name="clear_local_history_title">Clear local search history</string>

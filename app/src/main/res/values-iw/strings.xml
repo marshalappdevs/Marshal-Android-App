@@ -134,8 +134,6 @@
     <string name="subsribe_error">לא ניתן היה להירשם לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
-    <string name="choose_primary_color">צבע עיצוב</string>
-    <string name="choose_accent_color">צבע הדגש</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -168,6 +166,8 @@
     <string name="night_mode_no">בהיר</string>
     <string name="night_mode_yes">כהה</string>
     <string name="night_mode_auto">באופן אוטומטי</string>
+    <string name="choose_primary_color">צבע יסוד</string>
+    <string name="choose_accent_color">צבע הדגש</string>
     <string name="clear_local_cache_title">נקה מטמון אפליקציה</string>
     <string name="clear_local_cache_summary">גודל מטמון נוכחי: %1$s MB</string>
     <string name="clear_local_history_title">נקה את היסטוריית החיפושים המקומית</string>
