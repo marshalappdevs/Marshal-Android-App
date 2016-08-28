@@ -177,6 +177,7 @@
     <string name="gcm_channel_test_ui">BasmApp Testing</string>
 
     <!-- Strings related to Settings -->
+    <string name="pref_user_interface_category">User Interface</string>
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>
     <string name="pref_memory_category">Memory</string>

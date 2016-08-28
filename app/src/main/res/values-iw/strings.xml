@@ -135,7 +135,7 @@
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
     <string name="choose_primary_color">צבע עיצוב</string>
-    <string name="choose_accent_color">צבע הבלט</string>
+    <string name="choose_accent_color">צבע הדגש</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -158,6 +158,7 @@
     <string name="cyber_defender_course">עזרים לקורס מגן בסייבר</string>
 
     <!-- Strings related to Settings -->
+    <string name="pref_user_interface_category">ממשק משתמש</string>
     <string name="pref_general_category">כללי</string>
     <string name="pref_language_title">שפה</string>
     <string name="pref_memory_category">אחסון</string>
