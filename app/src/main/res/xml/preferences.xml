@@ -16,8 +16,11 @@
             android:entries="@array/night_mode_entries"
             android:entryValues="@array/night_mode_values" />
         <Preference
-            android:key="COLOR"
-            android:title="@string/choose_color"/>
+            android:key="PRIMARY-COLOR"
+            android:title="@string/choose_primary_color"/>
+        <Preference
+            android:key="ACCENT-COLOR"
+            android:title="@string/choose_accent_color"/>
     </PreferenceCategory>
     <PreferenceCategory
         android:title="@string/pref_memory_category">

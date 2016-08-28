@@ -16,8 +16,10 @@ public class Constants {
     public static final String PREF_LAST_UPDATE_TIMESTAMP = "last_update_timestamp";
     public static final String PREF_GCM_CHANNELS = "gcm_channels";
     public static final String PREF_THEME = "THEME";
-    public static final String PREF_COLOR = "COLOR";
-    public static final String PREF_COLOR_CODE = "COLOR_CODE";
+    public static final String PREF_PRIMARY_COLOR = "PRIMARY-COLOR";
+    public static final String PREF_ACCENT_COLOR = "ACCENT-COLOR";
+    public static final String PREF_PRIMARY_COLOR_CODE = "PRIMARY_COLOR_CODE";
+    public static final String PREF_ACCENT_COLOR_CODE = "ACCENT_COLOR_CODE";
     public static final String PREF_LANGUAGE = "LANG";
     public static final String PREF_VERSION = "version";
     public static final String PREF_CLEAR_CACHE = "clear-cache";
@@ -46,5 +48,6 @@ public class Constants {
     public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
 
     // Fragment Tags
-    public static final String FRAGMENT_COLOR_PICKER = "color_picker";
+    public static final String FRAGMENT_PRIMARY_COLOR_PICKER = "primary_color_picker";
+    public static final String FRAGMENT_ACCENT_COLOR_PICKER = "accent_color_picker";
 }

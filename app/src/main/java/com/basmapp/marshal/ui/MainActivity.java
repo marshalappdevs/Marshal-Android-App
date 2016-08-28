@@ -799,10 +799,16 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    public static int getColorCode(Context context) {
+    public static int getPrimaryColorCode(Context context) {
         SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + "_preferences", MODE_PRIVATE);
         int defaultColor = ContextCompat.getColor(context.getApplicationContext(), R.color.blue_primary_color);
-        return prefs.getInt(Constants.PREF_COLOR_CODE, defaultColor);
+        return prefs.getInt(Constants.PREF_PRIMARY_COLOR_CODE, defaultColor);
+    }
+
+    public static int getAccentColorCode(Context context) {
+        SharedPreferences prefs = context.getSharedPreferences(context.getPackageName() + "_preferences", MODE_PRIVATE);
+        int defaultColor = ContextCompat.getColor(context.getApplicationContext(), R.color.red_accent_color);
+        return prefs.getInt(Constants.PREF_ACCENT_COLOR_CODE, defaultColor);
     }
 
     @Override

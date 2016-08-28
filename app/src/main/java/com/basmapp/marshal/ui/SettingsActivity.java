@@ -62,6 +62,24 @@ public class SettingsActivity extends AppCompatActivity {
             Color.parseColor("#607D8B"),
             Color.parseColor("#000000")
     };
+    public final static int[] ACCENT_COLORS = new int[]{
+            Color.parseColor("#FF5252"),
+            Color.parseColor("#FF4081"),
+            Color.parseColor("#E040FB"),
+            Color.parseColor("#7C4DFF"),
+            Color.parseColor("#536DFE"),
+            Color.parseColor("#448AFF"),
+            Color.parseColor("#40C4FF"),
+            Color.parseColor("#18FFFF"),
+            Color.parseColor("#64FFDA"),
+            Color.parseColor("#69F0AE"),
+            Color.parseColor("#B2FF59"),
+            Color.parseColor("#EEFF41"),
+            Color.parseColor("#FFFF00"),
+            Color.parseColor("#FFD740"),
+            Color.parseColor("#FFAB40"),
+            Color.parseColor("#FF6E40")
+    };
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +174,13 @@ public class SettingsActivity extends AppCompatActivity {
             ListPreference prefTheme = (ListPreference) findPreference(Constants.PREF_THEME);
             prefTheme.setOnPreferenceChangeListener(themeChangeListener);
 
-            Preference prefColor = findPreference(Constants.PREF_COLOR);
-            prefColor.setOnPreferenceClickListener(colorChangeListener);
-            prefColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getColorCode(getActivity()))));
+            Preference prefColor = findPreference(Constants.PREF_PRIMARY_COLOR);
+            prefColor.setOnPreferenceClickListener(primaryColorChangeListener);
+            prefColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getPrimaryColorCode(getActivity()))));
+
+            Preference prefAccentColor = findPreference(Constants.PREF_ACCENT_COLOR);
+            prefAccentColor.setOnPreferenceClickListener(accentColorChangeListener);
+            prefAccentColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getAccentColorCode(getActivity()))));
 
             prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
@@ -211,7 +233,7 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-        Preference.OnPreferenceClickListener colorChangeListener = new Preference.OnPreferenceClickListener() {
+        Preference.OnPreferenceClickListener primaryColorChangeListener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 SettingsActivity act = (SettingsActivity) getActivity();
@@ -219,14 +241,38 @@ public class SettingsActivity extends AppCompatActivity {
                     return false;
                 ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
                 colorPickerDialog.initialize(
-                        R.string.color_picker_default_title, PRIMARY_COLORS, MainActivity.getColorCode(act), 4, PRIMARY_COLORS.length);
-                colorPickerDialog.show(getFragmentManager(), Constants.FRAGMENT_COLOR_PICKER);
+                        R.string.color_picker_default_title, PRIMARY_COLORS, MainActivity.getPrimaryColorCode(act), 4, PRIMARY_COLORS.length);
+                colorPickerDialog.show(getFragmentManager(), Constants.FRAGMENT_PRIMARY_COLOR_PICKER);
                 colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
                     @Override
                     public void onColorSelected(int color) {
-                        if (color != MainActivity.getColorCode(getActivity())) {
+                        if (color != MainActivity.getPrimaryColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                                    .edit().putInt(Constants.PREF_COLOR_CODE, color).apply();
+                                    .edit().putInt(Constants.PREF_PRIMARY_COLOR_CODE, color).apply();
+                            restartApp();
+                        }
+                    }
+                });
+                return false;
+            }
+        };
+
+        Preference.OnPreferenceClickListener accentColorChangeListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                SettingsActivity act = (SettingsActivity) getActivity();
+                if (act == null)
+                    return false;
+                ColorPickerDialog colorPickerDialog = new ColorPickerDialog();
+                colorPickerDialog.initialize(
+                        R.string.color_picker_default_title, ACCENT_COLORS, MainActivity.getAccentColorCode(act), 4, ACCENT_COLORS.length);
+                colorPickerDialog.show(getFragmentManager(), Constants.FRAGMENT_ACCENT_COLOR_PICKER);
+                colorPickerDialog.setOnColorSelectedListener(new ColorPickerSwatch.OnColorSelectedListener() {
+                    @Override
+                    public void onColorSelected(int color) {
+                        if (color != MainActivity.getAccentColorCode(getActivity())) {
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                                    .edit().putInt(Constants.PREF_ACCENT_COLOR_CODE, color).apply();
                             restartApp();
                         }
                     }
