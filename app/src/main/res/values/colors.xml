@@ -92,9 +92,9 @@
     <color name="blue_grey_primary_color_dark">#455A64</color>
     <color name="blue_grey_primary_color_light">#90A4AE</color>
 
-    <color name="black_primary_color">#000000</color>
+    <color name="black_primary_color">#212121</color>
     <color name="black_primary_color_dark">#000000</color>
-    <color name="black_primary_color_light">#000000</color>
+    <color name="black_primary_color_light">#424242</color>
 
     <color name="colorPrimary">#2196F3</color>
     <color name="colorPrimaryLight">#64B5F6</color>
