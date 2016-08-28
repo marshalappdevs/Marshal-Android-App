@@ -1,6 +1,9 @@
 package com.basmapp.marshal.ui.utils;
 
+import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.res.Resources;
+import android.content.res.TypedArray;
 import android.graphics.Color;
 import android.preference.PreferenceManager;
 import android.support.v7.app.AppCompatActivity;
@@ -67,5 +70,12 @@ public class ThemeUtils {
         } else if (colorCode == Color.parseColor("#000000")) {
             appCompatActivity.setTheme(R.style.AppTheme_Black);
         }
+    }
+    public static int getThemeColor(Context context, int id) {
+        Resources.Theme theme = context.getTheme();
+        TypedArray a = theme.obtainStyledAttributes(new int[] { id });
+        int result = a.getColor(0, 0);
+        a.recycle();
+        return result;
     }
 }

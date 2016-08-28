@@ -8,7 +8,6 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.preference.PreferenceManager;
 import android.support.customtabs.CustomTabsIntent;
-import android.support.v4.content.ContextCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +17,7 @@ import android.widget.TextView;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MalshabItem;
+import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;
@@ -80,7 +80,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
                 Boolean cct = mSharedPreferences.getBoolean("CCT", true);
                 if (cct) {
                     new CustomTabsIntent.Builder()
-                            .setToolbarColor(ContextCompat.getColor(mContext, R.color.colorPrimary))
+                            .setToolbarColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
                             .setShowTitle(true)
                             .addDefaultShareMenuItem()
                             .setCloseButtonIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_arrow_back_wht))
