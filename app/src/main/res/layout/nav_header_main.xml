@@ -110,6 +110,6 @@
             android:layout_marginBottom="8.0dp"
             android:scaleType="center"
             android:contentDescription="@null"
-            app:srcCompat="@drawable/ic_expand_more" />
+            app:srcCompat="@drawable/ic_arrow_drop_down" />
     </FrameLayout>
 </FrameLayout>
