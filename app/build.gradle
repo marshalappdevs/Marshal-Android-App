@@ -10,6 +10,7 @@ android {
         versionCode 6
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
+        buildConfigField "String", "SECRET_KEY", "\"${secret_key}\""
     }
     buildTypes {
         debug {
@@ -25,10 +26,8 @@ android {
     }
 }
 
-ext {
-    servicesLibVersion = '9.4.0'
-    supportLibVersion = '24.1.1'
-}
+ext.servicesLibVersion = '9.4.0'
+ext.supportLibVersion = '24.1.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
@@ -49,7 +48,5 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:9.4.0'
     compile 'com.google.android.gms:play-services-gcm:9.4.0'
 }
-
-
 
 apply plugin: 'com.google.gms.google-services'
