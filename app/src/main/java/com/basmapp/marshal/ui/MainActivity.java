@@ -165,11 +165,11 @@ public class MainActivity extends AppCompatActivity
         initializeNewUpdatesButton();
 
         // Initialize navigation view header items
-        mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_name_text);
-        mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_email_text);
-        mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_cover_image);
-        mProfileImageView = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.profile_image);
-        mNavHeaderFrame = (FrameLayout) mNavigationView.getHeaderView(0).findViewById(R.id.navview_main_header_view);
+        mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
+        mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
+        mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.cover_photo);
+        mProfileImageView = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        mNavHeaderFrame = (FrameLayout) mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container);
         mNavHeaderFrame.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

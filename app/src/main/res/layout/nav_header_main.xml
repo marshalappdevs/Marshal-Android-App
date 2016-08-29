@@ -1,61 +1,115 @@
+<?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/navview_main_header_view"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="@dimen/nav_header_height"
-    android:background="@android:color/darker_gray"
-    android:foreground="?android:attr/selectableItemBackground"
-    android:clickable="true"
-    android:focusable="true"
-    android:theme="@style/ThemeOverlay.AppCompat.Dark">
+    android:background="@android:color/darker_gray">
 
     <ImageView
-        android:id="@+id/profile_cover_image"
+        android:id="@+id/cover_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_gravity="top"
-        android:foreground="#66000000"
+        android:foreground="@color/navigation_view_cover_overlay_shade"
         android:scaleType="centerCrop"
         android:contentDescription="@null"
         android:src="@drawable/bg_default_profile_art" />
 
-    <LinearLayout
-        android:id="@+id/chosen_account_content_view"
+    <include
+        android:id="@+id/avatar"
+        android:layout_width="64.0dp"
+        android:layout_height="64.0dp"
+        android:layout_gravity="start|bottom|center"
+        android:layout_marginStart="16.0dp"
+        android:layout_marginEnd="16.0dp"
+        android:layout_marginBottom="68.0dp"
+        layout="@layout/nav_header_account_avatar" />
+
+    <FrameLayout
+        android:id="@+id/secondary_avatar_frame_left"
+        android:visibility="gone"
+        android:layout_width="48.0dp"
+        android:layout_height="48.0dp"
+        android:layout_gravity="end|bottom|center"
+        android:layout_marginEnd="68.0dp"
+        android:layout_marginBottom="80.0dp"
+        android:padding="4.0dp">
+
+        <include
+            android:id="@+id/secondary_avatar_left"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/nav_header_account_avatar" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/secondary_avatar_frame_right"
+        android:visibility="gone"
+        android:layout_width="48.0dp"
+        android:layout_height="48.0dp"
+        android:layout_gravity="end|bottom|center"
+        android:layout_marginEnd="12.0dp"
+        android:layout_marginBottom="80.0dp"
+        android:padding="4.0dp">
+
+        <include
+            android:id="@+id/secondary_avatar_right"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            layout="@layout/nav_header_account_avatar" />
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/account_info_container"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="@dimen/activity_horizontal_margin"
-        android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingBottom="9dp"
-        android:orientation="vertical"
-        android:gravity="bottom">
+        android:layout_height="56.0dp"
+        android:layout_gravity="bottom"
+        android:layout_marginBottom="8.0dp"
+        android:paddingStart="16.0dp"
+        android:paddingEnd="16.0dp"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        android:focusable="true">
 
-        <de.hdodenhof.circleimageview.CircleImageView
-            android:id="@+id/profile_image"
-            android:layout_width="64dp"
-            android:layout_height="64dp"
-            android:layout_marginBottom="20dp"
-            android:contentDescription="@string/navigation_drawer_profile_image_content_description"
-            android:src="@drawable/ic_profile_none" />
-
-        <TextView
-            android:id="@+id/profile_name_text"
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:textAppearance="@style/TextAppearance.NavView.Header.Name"
-            android:fontFamily="sans-serif-medium"
-            android:text="@string/sign_in_now_title" />
+            android:layout_gravity="start|bottom|center"
+            android:layout_marginEnd="24.0dp"
+            android:layout_marginBottom="8.0dp"
+            android:orientation="vertical">
 
-        <TextView
-            android:id="@+id/profile_email_text"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:maxLines="1"
-            android:ellipsize="end"
-            android:alpha="0.72"
-            android:textColor="@android:color/white"
-            android:text="@string/sign_in_now_desc" />
+            <TextView
+                android:id="@+id/display_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="14.0sp"
+                android:textAppearance="@style/TextAppearance.NavView.Header.Name"
+                android:fontFamily="sans-serif-medium"
+                android:textColor="@android:color/white"
+                android:text="@string/sign_in_now_title" />
 
-    </LinearLayout>
+            <TextView
+                android:id="@+id/account_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:ellipsize="end"
+                android:maxLines="1"
+                android:textSize="14.0sp"
+                android:alpha="0.72"
+                android:textColor="@android:color/white"
+                android:text="@string/sign_in_now_desc" />
+        </LinearLayout>
 
+        <ImageView
+            android:id="@+id/toggle_account_list_button"
+            android:layout_width="24.0dp"
+            android:layout_height="24.0dp"
+            android:layout_gravity="end|bottom|center"
+            android:layout_marginBottom="8.0dp"
+            android:scaleType="center"
+            android:contentDescription="@null"
+            app:srcCompat="@drawable/ic_expand_more" />
+    </FrameLayout>
 </FrameLayout>

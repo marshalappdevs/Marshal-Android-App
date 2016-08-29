@@ -123,4 +123,5 @@
     <color name="tutorial_background">#e53266d5</color>
     <color name="description_background">#ffffffff</color>
     <color name="error_color">#D50000</color>
+    <color name="navigation_view_cover_overlay_shade">#38000000</color>
 </resources>
