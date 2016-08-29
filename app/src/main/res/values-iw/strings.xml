@@ -126,6 +126,8 @@
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
     <string name="app_upgrade_available">יש עדכון זמין עבור BasmApp. אנא עבור לחנות Play והורד את הגירסה האחרונה.</string>
     <string name="btn_play_store">חנות Play</string>
+    <string name="course_subscribe_action">הירשם לקורס הזה</string>
+    <string name="course_unsubscribe_action">בטל את ההרשמה לקורס הזה</string>
     <string name="subscribe">הירשם כמנוי</string>
     <string name="subscribed">רשום כמנוי</string>
     <string name="unsubscribed">הרשמתך בוטלה</string>
