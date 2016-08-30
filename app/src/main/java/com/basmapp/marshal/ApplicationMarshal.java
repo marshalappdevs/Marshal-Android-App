@@ -29,10 +29,6 @@ public class ApplicationMarshal extends Application {
         LocaleUtils.updateLocale(this);
     }
 
-    public static void updateLocale(Context context) {
-        LocaleUtils.updateLocale(context);
-    }
-
     public static void setLastUpdatedNow(Context context){
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         sharedPreferences.edit().putLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, new Date().getTime()).apply();

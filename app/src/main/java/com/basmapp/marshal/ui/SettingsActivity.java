@@ -223,7 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
-                ApplicationMarshal.updateLocale(getActivity());
+                LocaleUtils.updateLocale(getActivity());
                 restartApp();
                 return false;
             }
