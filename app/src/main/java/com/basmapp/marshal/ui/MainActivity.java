@@ -655,6 +655,7 @@ public class MainActivity extends AppCompatActivity
 
 //    private void signOut() {
 //        // SignOut from Google account *without* revoking app permission to SignIn
+//        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
 //        Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
 //                new ResultCallback<Status>() {
 //                    @Override
@@ -668,6 +669,7 @@ public class MainActivity extends AppCompatActivity
 
     private void revokeAccess() {
         // SignOut from Google account and revoke app permission to SignIn
+        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
