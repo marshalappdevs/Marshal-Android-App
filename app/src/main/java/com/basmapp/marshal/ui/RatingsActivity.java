@@ -43,7 +43,6 @@ public class RatingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        LocaleUtils.updateLocale(this);
 
         setContentView(R.layout.activity_ratings);
 
@@ -93,12 +92,6 @@ public class RatingsActivity extends AppCompatActivity {
                         }
                     });
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     private void initializeRecycler() {

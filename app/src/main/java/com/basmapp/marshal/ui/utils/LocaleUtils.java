@@ -13,11 +13,10 @@ public class LocaleUtils {
 
     public static void updateLocale(Context context) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-        Configuration config = context.getResources().getConfiguration();
         String lang = sharedPreferences.getString("LANG", "iw");
-        if (!"".equals(lang) && !config.locale.getLanguage().equals(lang)) {
+        if (!"".equals(lang) && !Locale.getDefault().toString().toLowerCase().equals(lang)) {
             Locale locale = new Locale(lang);
-            Resources res = context.getResources();
+            Resources res = context.getApplicationContext().getResources();
             DisplayMetrics dm = res.getDisplayMetrics();
             Configuration conf = res.getConfiguration();
             conf.setLocale(locale);

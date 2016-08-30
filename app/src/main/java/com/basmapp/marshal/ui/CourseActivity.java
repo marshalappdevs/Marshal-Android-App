@@ -129,7 +129,6 @@ public class CourseActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        LocaleUtils.updateLocale(this);
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_transition));
@@ -947,12 +946,6 @@ public class CourseActivity extends AppCompatActivity {
         } else {
             super.onBackPressed();
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     public void onSecondaryActionsClick() {

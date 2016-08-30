@@ -27,7 +27,6 @@ public class CourseMaterialsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        LocaleUtils.updateLocale(this);
 
         setContentView(R.layout.activity_course_materials);
 
@@ -55,12 +54,6 @@ public class CourseMaterialsActivity extends AppCompatActivity {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
                     MaterialsFragment.newInstanceForCourse(mCourse.getCourseCode(), materials), null).commit();
         }
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     @Override

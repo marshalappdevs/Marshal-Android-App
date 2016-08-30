@@ -138,8 +138,6 @@ public class MainActivity extends AppCompatActivity
         // Change theme based on preference choice
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        // Change language based on preference choice
-        LocaleUtils.updateLocale(this);
 
 //        checkPlayServicesAvailability();
         checkGcmRegistrationState();
@@ -377,13 +375,6 @@ public class MainActivity extends AppCompatActivity
 //            }
 //        }
 //    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Change location again when configuration changed (screen rotation)
-        LocaleUtils.updateLocale(this);
-    }
 
     private void showFirstRun() {
         // Change shared preference value to false so next startup will not be called as first

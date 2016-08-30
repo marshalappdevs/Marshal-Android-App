@@ -4,7 +4,6 @@
     android:id="@+id/meetup_mainFrame"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layoutDirection="locale"
     tools:context="com.basmapp.marshal.ui.fragments.MeetupsFragment">
 
     <android.support.v7.widget.RecyclerView

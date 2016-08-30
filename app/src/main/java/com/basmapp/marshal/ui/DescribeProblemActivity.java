@@ -50,7 +50,7 @@ public class DescribeProblemActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        LocaleUtils.updateLocale(this);
+
         setContentView(R.layout.activity_describe_problem);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -236,12 +236,6 @@ public class DescribeProblemActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     private String getRealPathFromURI(Uri contentUri) {

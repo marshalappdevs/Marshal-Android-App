@@ -22,6 +22,7 @@ import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.basmapp.marshal.ApplicationMarshal;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -85,7 +86,7 @@ public class SettingsActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
-        LocaleUtils.updateLocale(this);
+
         setContentView(R.layout.activity_container);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -108,12 +109,6 @@ public class SettingsActivity extends AppCompatActivity {
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
-    }
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -228,6 +223,7 @@ public class SettingsActivity extends AppCompatActivity {
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
+                ApplicationMarshal.updateLocale(getActivity());
                 restartApp();
                 return false;
             }
