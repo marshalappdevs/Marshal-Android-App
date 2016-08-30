@@ -16,6 +16,8 @@
     <string name="navigation_drawer_contact_us">Contact Us</string>
     <string name="navigation_drawer_about">About Application</string>
     <string name="navigation_drawer_profile_image_content_description" translatable="false">User-defined Google Account profile image</string>
+    <string name="navigation_drawer_profile_sign_in">Sign in</string>
+    <string name="navigation_drawer_profile_stranger">Hey stranger!</string>
     <string name="offline_snackbar_network_unavailable">No internet connection</string>
     <string name="offline_snackbar_retry">Retry</string>
     <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
@@ -29,8 +31,6 @@
     <string name="sign_in_progress">Signing in…</string>
     <string name="sign_out_progress">Signing out…</string>
     <string name="sign_out_confirm">Do you want to sign out of this account?</string>
-    <string name="sign_in_now_title">Sign In Now</string>
-    <string name="sign_in_now_desc">Sign in to your Google Account</string>
     <string name="confirm_exit">Press back again to exit.</string>
     <string name="search_title">Search</string>
     <string name="send_to">Send email via</string>

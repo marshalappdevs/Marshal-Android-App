@@ -27,6 +27,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.OnHashTagClickListener;
 import com.basmapp.marshal.ui.utils.HashTag;
+import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -85,7 +86,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                 Boolean cct = mSharedPreferences.getBoolean("CCT", true);
                 if (cct) {
                     new CustomTabsIntent.Builder()
-                            .setToolbarColor(ContextCompat.getColor(mContext.getApplicationContext(), R.color.colorPrimary))
+                            .setToolbarColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
                             .setShowTitle(true)
                             .addDefaultShareMenuItem()
                             .setCloseButtonIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_arrow_back_wht))

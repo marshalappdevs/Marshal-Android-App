@@ -13,6 +13,8 @@
     <string name="navigation_drawer_settings">הגדרות</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
     <string name="navigation_drawer_about">אודות האפליקציה</string>
+    <string name="navigation_drawer_profile_sign_in">היכנס</string>
+    <string name="navigation_drawer_profile_stranger">שלום אורח!</string>
     <string name="offline_snackbar_network_unavailable">אין חיבור לאינטרנט</string>
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
@@ -26,8 +28,6 @@
     <string name="sign_in_progress">נכנס…</string>
     <string name="sign_out_progress">יוצא…</string>
     <string name="sign_out_confirm">האם ברצונך לצאת מחשבון זה?</string>
-    <string name="sign_in_now_title">היכנס עכשיו</string>
-    <string name="sign_in_now_desc">‏היכנס אל חשבון ה-Google שלך</string>
     <string name="confirm_exit">הקש על מקש החזרה שוב כדי לצאת.</string>
     <string name="search_title">חיפוש</string>
     <string name="send_to">שלח דוא\"ל דרך</string>
