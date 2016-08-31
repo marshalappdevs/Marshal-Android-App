@@ -65,7 +65,12 @@
             android:name=".ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
-            android:theme="@style/AppTheme.Base.Blue" />
+            android:theme="@style/AppTheme.Base.Blue">
+            <intent-filter>
+                <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".ui.DescribeProblemActivity"

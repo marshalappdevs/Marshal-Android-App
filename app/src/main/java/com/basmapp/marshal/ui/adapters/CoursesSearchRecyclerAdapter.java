@@ -28,6 +28,7 @@ import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.utils.DateHelper;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -168,7 +169,10 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
         // Set course image
         if (mCourses.get(position).getImageUrl() != null) {
-            Glide.with(mContext).load(mCourses.get(position).getImageUrl()).into(holder.courseImage);
+            Glide.with(mContext)
+                    .load(mCourses.get(position).getImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(holder.courseImage);
         }
 
         String category = mCourses.get(position).getCategory();
