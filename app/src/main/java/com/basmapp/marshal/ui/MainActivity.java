@@ -101,7 +101,6 @@ public class MainActivity extends AppCompatActivity
     private Button mButtonRetry;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
-    private CircleTransform mCircleTransform;
 
     // Fragments
     private CoursesFragment mCourseFragment;
@@ -145,8 +144,6 @@ public class MainActivity extends AppCompatActivity
         // translucent navigation bar
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
-
-        mCircleTransform = new CircleTransform(this);
 
         // Initialize shared preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -616,7 +613,7 @@ public class MainActivity extends AppCompatActivity
                 Glide.with(this)
                         .load(uri)
                         .placeholder(R.drawable.ic_profile_none)
-                        .transform(mCircleTransform)
+                        .transform(new CircleTransform(this))
                         .into(mProfileImageView);
 
                 // Use Google plus API to get user cover photo if exists

@@ -113,7 +113,6 @@ public class CourseActivity extends AppCompatActivity {
     private Button mBtnReadAllReviews;
     private ImageView mProfileImageView;
     private ImageView mReviewProfileImageView;
-    private CircleTransform mCircleTransform;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -137,8 +136,6 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_course);
-
-        mCircleTransform = new CircleTransform(this);
 
         supportPostponeEnterTransition();
 
@@ -489,7 +486,7 @@ public class CourseActivity extends AppCompatActivity {
                                 Uri uri = MainActivity.sUserProfileImage;
                                 Glide.with(CourseActivity.this)
                                         .load(uri)
-                                        .transform(mCircleTransform)
+                                        .transform(new CircleTransform(CourseActivity.this))
                                         .placeholder(R.drawable.ic_profile_none)
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewHint.setVisibility(View.GONE);
@@ -579,7 +576,7 @@ public class CourseActivity extends AppCompatActivity {
         Uri uri = MainActivity.sUserProfileImage;
         Glide.with(this)
                 .load(uri)
-                .transform(mCircleTransform)
+                .transform(new CircleTransform(this))
                 .placeholder(R.drawable.ic_profile_none)
                 .into(mProfileImageView);
 
