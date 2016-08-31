@@ -6,9 +6,11 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.database.Cursor;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
@@ -47,8 +49,6 @@ import java.util.Calendar;
 import java.util.Locale;
 
 public class CoursesSearchableFragment extends Fragment {
-
-    private static final int FILTER_SHOWCASE_ID = 2;
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
@@ -158,20 +158,23 @@ public class CoursesSearchableFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
-        new Handler().post(new Runnable() {
-            @Override
-            public void run() {
-                View filterView = getActivity().findViewById(R.id.menu_main_filter);
-                mShowcaseView = new ShowcaseView.Builder(getActivity())
-                        .withMaterialShowcase()
-                        .setStyle(R.style.ShowcaseView_BasmApp)
-                        .setTarget(new ViewTarget(filterView))
-                        .setContentTitle(R.string.filter_tutorial_description)
-                        .replaceEndButton(R.layout.view_custom_button)
-                        .singleShot(FILTER_SHOWCASE_ID)
-                        .build();
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SHOW_FILTER_SHOWCASE, true)) {
+            new Handler().post(new Runnable() {
+                @Override
+                public void run() {
+                    View filterView = getActivity().findViewById(R.id.menu_main_filter);
+                    mShowcaseView = new ShowcaseView.Builder(getActivity())
+                            .withMaterialShowcase()
+                            .setStyle(R.style.ShowcaseView_BasmApp)
+                            .setTarget(new ViewTarget(filterView))
+                            .setContentTitle(R.string.filter_tutorial_description)
+                            .replaceEndButton(R.layout.view_custom_button)
+                            .build();
+                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                            .putBoolean(Constants.SHOW_FILTER_SHOWCASE, false).commit();
                 }
-        });
+            });
+        }
     }
 
     @Override

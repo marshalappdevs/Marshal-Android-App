@@ -1,8 +1,8 @@
 package com.basmapp.marshal.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -16,13 +16,14 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
-import com.basmapp.marshal.ApplicationMarshal;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -177,6 +178,9 @@ public class SettingsActivity extends AppCompatActivity {
             prefAccentColor.setOnPreferenceClickListener(accentColorChangeListener);
             prefAccentColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getAccentColorCode(getActivity()))));
 
+            Preference prefRevertTheme = findPreference(Constants.PREF_REVERT_THEME);
+            prefRevertTheme.setOnPreferenceClickListener(revertThemeClickListener);
+
             prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
             prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
             updateGcmChannelsPrefSummary();
@@ -185,6 +189,9 @@ public class SettingsActivity extends AppCompatActivity {
 //            prefClearCache.setOnPreferenceClickListener(clearCacheClickListener);
 //            prefClearCache.setSummary(String.format(getString(R.string.clear_local_cache_summary),
 //                    getCacheFolderSize() / 1048576L));
+
+            Preference prefClearShowcases = findPreference(Constants.PREF_CLEAR_SHOWCASES);
+            prefClearShowcases.setOnPreferenceClickListener(clearShowcasesClickListener);
 
             Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
             prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
@@ -205,25 +212,22 @@ public class SettingsActivity extends AppCompatActivity {
             });
         }
 
-        Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
-            int mTapCount;
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                if (mTapCount == 7) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
-                    mTapCount = 0;
-                }
-                mTapCount++;
-                return false;
-            }
-        };
-
         Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
                 LocaleUtils.updateLocale(getActivity());
+                restartApp();
+                return false;
+            }
+        };
+
+        Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
                 restartApp();
                 return false;
             }
@@ -277,12 +281,31 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
-        Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
+        Preference.OnPreferenceClickListener revertThemeClickListener = new Preference.OnPreferenceClickListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                        .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
-                restartApp();
+            public boolean onPreferenceClick(Preference preference) {
+                new AlertDialog.Builder(getActivity())
+                        .setMessage(R.string.are_you_sure)
+                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
+                                        .putInt(Constants.PREF_PRIMARY_COLOR_CODE, ContextCompat.getColor(getActivity()
+                                                .getApplicationContext(), R.color.blue_primary_color))
+                                        .putInt(Constants.PREF_ACCENT_COLOR_CODE, ContextCompat.getColor(getActivity()
+                                                .getApplicationContext(), R.color.red_accent_color))
+                                        .putString(Constants.PREF_THEME, "light")
+                                        .apply();
+                                restartApp();
+                            }
+                        })
+                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        })
+                        .show();
                 return false;
             }
         };
@@ -302,6 +325,18 @@ public class SettingsActivity extends AppCompatActivity {
             }
         };
 
+        Preference.OnPreferenceClickListener clearShowcasesClickListener = new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
+                        .putBoolean(Constants.SHOW_FAB_SHOWCASE, true)
+                        .putBoolean(Constants.SHOW_FILTER_SHOWCASE, true)
+                        .apply();
+                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_showcases_cleared, Toast.LENGTH_SHORT).show();
+                return false;
+            }
+        };
+
         Preference.OnPreferenceClickListener clearHistoryClickListener = new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
@@ -317,6 +352,20 @@ public class SettingsActivity extends AppCompatActivity {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 return true;
+            }
+        };
+
+
+        Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
+            int mTapCount;
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                if (mTapCount == 7) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
+                    mTapCount = 0;
+                }
+                mTapCount++;
+                return false;
             }
         };
 

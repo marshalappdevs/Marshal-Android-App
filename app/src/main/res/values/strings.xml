@@ -15,7 +15,6 @@
     <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_contact_us">Contact Us</string>
     <string name="navigation_drawer_about">About Application</string>
-    <string name="navigation_drawer_profile_image_content_description" translatable="false">User-defined Google Account profile image</string>
     <string name="navigation_drawer_profile_sign_in">Sign in</string>
     <string name="navigation_drawer_profile_stranger">Hey stranger!</string>
     <string name="offline_snackbar_network_unavailable">No internet connection</string>
@@ -141,6 +140,7 @@
     <string name="subsribe_error">Could not subscribe to this course. Please try again later.</string>
     <string name="unsubscribe_error">Could not unsubsribe from this course. Please try again later.</string>
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
+    <string name="are_you_sure">Are you sure?</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -175,7 +175,7 @@
     <string name="gcm_channel_test_ui">BasmApp Testing</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_user_interface_category">User Interface</string>
+    <string name="pref_personalization_category">Personalization</string>
     <string name="pref_general_category">General</string>
     <string name="pref_language_title">Language</string>
     <string name="pref_memory_category">Memory</string>
@@ -187,6 +187,9 @@
     <string name="night_mode_auto">Automatic</string>
     <string name="choose_primary_color">Primary Color</string>
     <string name="choose_accent_color">Accent Color</string>
+    <string name="revert_to_default_theme">Revert to default theme</string>
+    <string name="clear_showcases_title">Reset tutorial screens</string>
+    <string name="clear_showcases_summary">Show all tutorial screens again</string>
     <string name="clear_local_cache_title">Clear app cache</string>
     <string name="clear_local_cache_summary">Current cache size: %1$s MB</string>
     <string name="clear_local_history_title">Clear local search history</string>

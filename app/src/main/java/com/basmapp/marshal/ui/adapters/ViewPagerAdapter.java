@@ -51,7 +51,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         Glide.with(context)
                 .load(COURSES.get(position).getImageUrl())
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                .priority(Priority.IMMEDIATE)
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);

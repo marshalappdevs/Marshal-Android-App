@@ -68,8 +68,6 @@ import retrofit2.Response;
 
 public class CourseActivity extends AppCompatActivity {
 
-    private static final int FAB_SHOWCASE_ID = 1;
-
     private Toolbar mToolbar;
     private CollapsingToolbarLayout collapsingToolbarLayout;
 
@@ -111,7 +109,6 @@ public class CourseActivity extends AppCompatActivity {
 
     private int contentColor = -1;
     private int scrimColor = -1;
-    private static final float SCRIM_ADJUSTMENT = 0.075f;
 
     private FloatingActionButton mFabCycles;
     private RatingBar.OnRatingBarChangeListener mRatingBarUserOnChangeListener;
@@ -143,6 +140,9 @@ public class CourseActivity extends AppCompatActivity {
                 return true;
             }
         });
+
+        //Initialize Shared Preferences
+        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
         mCourse.Ctor(this);
@@ -211,9 +211,6 @@ public class CourseActivity extends AppCompatActivity {
             mSubscribeIcon.setImageResource(R.drawable.ic_wishlist_add);
         }
 
-        //Initialize Shared Preferences
-        mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         if (mCourse != null) {
 
             if (mCourse.getCycles() == null || mCourse.getCycles().size() == 0) {
@@ -255,14 +252,16 @@ public class CourseActivity extends AppCompatActivity {
 
                         @Override
                         public void onTransitionEnd(Transition transition) {
-                            mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                                    .withMaterialShowcase()
-                                    .setStyle(R.style.ShowcaseView_BasmApp)
-                                    .setTarget(new ViewTarget(mFabCycles))
-                                    .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                    .replaceEndButton(R.layout.view_custom_button)
-                                    .singleShot(FAB_SHOWCASE_ID)
-                                    .build();
+                            if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                                mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                                        .withMaterialShowcase()
+                                        .setStyle(R.style.ShowcaseView_BasmApp)
+                                        .setTarget(new ViewTarget(mFabCycles))
+                                        .setContentTitle(R.string.cycle_fab_tutorial_description)
+                                        .replaceEndButton(R.layout.view_custom_button)
+                                        .build();
+                                mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                            }
                         }
 
                         @Override
@@ -278,14 +277,16 @@ public class CourseActivity extends AppCompatActivity {
                         }
                     });
                 } else {
-                    mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                            .withMaterialShowcase()
-                            .setStyle(R.style.ShowcaseView_BasmApp)
-                            .setTarget(new ViewTarget(mFabCycles))
-                            .setContentTitle(R.string.cycle_fab_tutorial_description)
-                            .replaceEndButton(R.layout.view_custom_button)
-                            .singleShot(FAB_SHOWCASE_ID)
-                            .build();
+                    if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                        mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                                .withMaterialShowcase()
+                                .setStyle(R.style.ShowcaseView_BasmApp)
+                                .setTarget(new ViewTarget(mFabCycles))
+                                .setContentTitle(R.string.cycle_fab_tutorial_description)
+                                .replaceEndButton(R.layout.view_custom_button)
+                                .build();
+                        mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                    }
                 }
             }
 

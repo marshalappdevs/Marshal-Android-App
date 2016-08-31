@@ -136,6 +136,7 @@
     <string name="subsribe_error">לא ניתן היה להירשם לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
+    <string name="are_you_sure">האם אתה בטוח?</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
@@ -158,7 +159,7 @@
     <string name="cyber_defender_course">עזרים לקורס מגן בסייבר</string>
 
     <!-- Strings related to Settings -->
-    <string name="pref_user_interface_category">ממשק משתמש</string>
+    <string name="pref_personalization_category">התאמה אישית</string>
     <string name="pref_general_category">כללי</string>
     <string name="pref_language_title">שפה</string>
     <string name="pref_memory_category">אחסון</string>
@@ -170,6 +171,9 @@
     <string name="night_mode_auto">באופן אוטומטי</string>
     <string name="choose_primary_color">צבע יסוד</string>
     <string name="choose_accent_color">צבע הדגש</string>
+    <string name="revert_to_default_theme">החזר לעיצוב ברירת המחדל</string>
+    <string name="clear_showcases_title">אפס מסכי הסברה</string>
+    <string name="clear_showcases_summary">הצג שוב את כל מסכי ההסברה</string>
     <string name="clear_local_cache_title">נקה מטמון אפליקציה</string>
     <string name="clear_local_cache_summary">גודל מטמון נוכחי: %1$s MB</string>
     <string name="clear_local_history_title">נקה את היסטוריית החיפושים המקומית</string>
