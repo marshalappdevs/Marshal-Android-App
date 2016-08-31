@@ -5,10 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
@@ -27,7 +24,6 @@ import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
@@ -49,7 +45,6 @@ import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.fragments.CyclesBottomSheet;
-import com.basmapp.marshal.ui.utils.ColorUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.DateHelper;
@@ -334,69 +329,6 @@ public class CourseActivity extends AppCompatActivity {
                                     collapsingToolbarLayout.setContentScrimColor(contentColor);
                                 }
                             });
-
-                            final int twentyFourDip = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP,
-                                    24, CourseActivity.this.getResources().getDisplayMetrics());
-                            Palette.from(bitmap)
-                                    .maximumColorCount(3)
-                                    .clearFilters() /* by default palette ignore certain hues
-                                    (e.g. pure black/white) but we don't want this. */
-                                    .setRegion(0, 0, bitmap.getWidth() - 1, twentyFourDip) /* - 1 to work around
-                                    https://code.google.com/p/android/issues/detail?id=191013 */
-                                    .generate(new Palette.PaletteAsyncListener() {
-                                        @Override
-                                        public void onGenerated(Palette palette) {
-                                            boolean isDark;
-                                            @ColorUtils.Lightness int lightness = ColorUtils.isDark(palette);
-                                            if (lightness == ColorUtils.LIGHTNESS_UNKNOWN) {
-                                                isDark = ColorUtils.isDark(bitmapDrawable, bitmapDrawable.getWidth() / 2, 0);
-                                            } else {
-                                                isDark = lightness == ColorUtils.IS_DARK;
-                                            }
-
-                                            if (!isDark) { // make toolbar icons and title dark on light images
-                                                final PorterDuffColorFilter colorFilter
-                                                        = new PorterDuffColorFilter(ContextCompat.getColor(
-                                                        CourseActivity.this, R.color.dark_icon), PorterDuff.Mode.MULTIPLY);
-
-                                                // Change the color of the navigation icon
-                                                Drawable navigationIcon = mToolbar.getNavigationIcon();
-                                                if (navigationIcon != null) {
-                                                    navigationIcon.setColorFilter(colorFilter);
-                                                    mToolbar.setNavigationIcon(navigationIcon);
-                                                }
-
-                                                // Change the color of the overflow icon
-                                                Drawable overflowIcon = mToolbar.getOverflowIcon();
-                                                if (overflowIcon != null) {
-                                                    overflowIcon.setColorFilter(colorFilter);
-                                                    mToolbar.setOverflowIcon(overflowIcon);
-                                                }
-
-                                                // Change the color of the title
-                                                collapsingToolbarLayout.setCollapsedTitleTextColor(ContextCompat.getColor(
-                                                        getApplicationContext(), android.R.color.primary_text_light));
-                                            }
-
-                                            // color the status bar. Set a semi transparent dark color on L,
-                                            // light or dark color on M (with matching status bar icons)
-                                            if (Build.VERSION.SDK_INT == Build.VERSION_CODES.LOLLIPOP && !isDark) {
-                                                getWindow().setStatusBarColor(ContextCompat.getColor(
-                                                        getApplicationContext(), R.color.black_trans80));
-                                            }
-                                            final Palette.Swatch topColor =
-                                                    ColorUtils.getMostPopulousSwatch(palette);
-                                            if (topColor != null &&
-                                                    (isDark || Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                                                ColorUtils.scrimify(topColor.getRgb(),
-                                                        isDark, SCRIM_ADJUSTMENT);
-                                                // set a light status bar on M+
-                                                if (!isDark && Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                                                    setLightStatusBar(mHeader);
-                                                }
-                                            }
-                                        }
-                                    });
                         }
                     });
             initializeTextViews();

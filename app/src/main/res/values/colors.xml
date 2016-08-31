@@ -124,4 +124,5 @@
     <color name="description_background">#ffffffff</color>
     <color name="error_color">#D50000</color>
     <color name="navigation_view_cover_overlay_shade">#38000000</color>
+    <color name="status_bar_overlay">#33000000</color>
 </resources>

@@ -37,6 +37,13 @@
                 app:layout_collapseMode="parallax"
                 android:contentDescription="@null" />
 
+            <View
+                android:id="@+id/header_image_top_overlay"
+                android:layout_width="match_parent"
+                android:layout_height="72.0dp"
+                android:background="@drawable/ctl_overlay"
+                android:fitsSystemWindows="true" />
+
             <android.support.v7.widget.Toolbar
                 android:id="@+id/toolbar"
                 android:layout_width="match_parent"
