@@ -7,7 +7,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -55,8 +54,8 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.utils.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -77,8 +76,6 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 import java.util.ArrayList;
 
-import de.hdodenhof.circleimageview.CircleImageView;
-
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     //    private static final int REQUEST_CONTACTS = 0;
@@ -98,12 +95,13 @@ public class MainActivity extends AppCompatActivity
     private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
-    private CircleImageView mProfileImageView;
+    private ImageView mProfileImageView;
     private FrameLayout mNavHeaderFrame;
     private ImageView mCoverImageView;
     private Button mButtonRetry;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
+    private CircleTransform mCircleTransform;
 
     // Fragments
     private CoursesFragment mCourseFragment;
@@ -148,6 +146,8 @@ public class MainActivity extends AppCompatActivity
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_NAVIGATION);
         setContentView(R.layout.activity_main);
 
+        mCircleTransform = new CircleTransform(this);
+
         // Initialize shared preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -166,7 +166,7 @@ public class MainActivity extends AppCompatActivity
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
         mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.cover_photo);
-        mProfileImageView = (CircleImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
         mNavHeaderFrame = (FrameLayout) mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container);
         mNavHeaderFrame.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -616,10 +616,7 @@ public class MainActivity extends AppCompatActivity
                 Glide.with(this)
                         .load(uri)
                         .placeholder(R.drawable.ic_profile_none)
-                        // CircleImageView known to have issues with TransitionDrawable, use dontAnimate() as workaround
-                        // .circleCrop() will be available in v4 of Glide, when it's available
-                        // CircleImageView can be removed and replaced with this
-                        .dontAnimate()
+                        .transform(mCircleTransform)
                         .into(mProfileImageView);
 
                 // Use Google plus API to get user cover photo if exists

@@ -15,6 +15,8 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
@@ -48,8 +50,8 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(context)
                 .load(COURSES.get(position).getImageUrl())
-//                .placeholder(R.drawable.highlights_bottom_overlay)
-//                .fitCenter()
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                .priority(Priority.IMMEDIATE)
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);

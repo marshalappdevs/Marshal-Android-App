@@ -159,7 +159,7 @@
 
         <!-- Glide configurations for image loading -->
         <meta-data
-            android:name="com.basmapp.marshal.utils.GlideConfiguration"
+            android:name="com.basmapp.marshal.utils.glide.GlideConfiguration"
             android:value="GlideModule" />
 
         <receiver

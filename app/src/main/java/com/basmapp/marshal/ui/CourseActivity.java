@@ -4,7 +4,6 @@ import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
@@ -56,6 +55,7 @@ import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.DateHelper;
 import com.basmapp.marshal.utils.HashUtil;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
+import com.basmapp.marshal.utils.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -69,7 +69,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Response;
 
 public class CourseActivity extends AppCompatActivity {
@@ -112,8 +111,9 @@ public class CourseActivity extends AppCompatActivity {
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
     private Button mBtnReadAllReviews;
-    private CircleImageView mProfileImageView;
-    private CircleImageView mReviewProfileImageView;
+    private ImageView mProfileImageView;
+    private ImageView mReviewProfileImageView;
+    private CircleTransform mCircleTransform;
 
     private int contentColor = -1;
     private int scrimColor = -1;
@@ -137,6 +137,8 @@ public class CourseActivity extends AppCompatActivity {
         }
 
         setContentView(R.layout.activity_course);
+
+        mCircleTransform = new CircleTransform(this);
 
         supportPostponeEnterTransition();
 
@@ -312,7 +314,7 @@ public class CourseActivity extends AppCompatActivity {
             mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
             mTextViewComments = (TextView) findViewById(R.id.course_content_textView_comments);
             mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
-            mReviewProfileImageView = (CircleImageView) findViewById(R.id.user_profile_image);
+            mReviewProfileImageView = (ImageView) findViewById(R.id.user_profile_image);
 
             // Set the course photo
             mHeader = (ImageView) findViewById(R.id.header);
@@ -487,8 +489,8 @@ public class CourseActivity extends AppCompatActivity {
                                 Uri uri = MainActivity.sUserProfileImage;
                                 Glide.with(CourseActivity.this)
                                         .load(uri)
+                                        .transform(mCircleTransform)
                                         .placeholder(R.drawable.ic_profile_none)
-                                        .dontAnimate()
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewHint.setVisibility(View.GONE);
                                 mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
@@ -569,7 +571,7 @@ public class CourseActivity extends AppCompatActivity {
         final View dialogView = layoutInflater.inflate(R.layout.rate_review_dialog, null);
         alertDialog.setView(dialogView);
 
-        mProfileImageView = (CircleImageView) dialogView.findViewById(R.id.user_profile_image);
+        mProfileImageView = (ImageView) dialogView.findViewById(R.id.user_profile_image);
         TextView reviewBy = (TextView) dialogView.findViewById(R.id.review_by);
         String userName = String.format(getString(R.string.review_by), MainActivity.sUserName);
         reviewBy.setText(userName);
@@ -577,6 +579,7 @@ public class CourseActivity extends AppCompatActivity {
         Uri uri = MainActivity.sUserProfileImage;
         Glide.with(this)
                 .load(uri)
+                .transform(mCircleTransform)
                 .placeholder(R.drawable.ic_profile_none)
                 .into(mProfileImageView);
 
