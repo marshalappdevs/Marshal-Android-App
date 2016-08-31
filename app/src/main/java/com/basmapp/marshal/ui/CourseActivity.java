@@ -51,13 +51,14 @@ import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.fragments.CyclesBottomSheet;
 import com.basmapp.marshal.ui.utils.ColorUtils;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.basmapp.marshal.utils.AuthUtil;
 import com.basmapp.marshal.utils.DateHelper;
 import com.basmapp.marshal.utils.HashUtil;
 import com.basmapp.marshal.utils.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 import com.github.amlcurran.showcaseview.ShowcaseView;
@@ -319,6 +320,8 @@ public class CourseActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(mCourse.getImageUrl())
                     .asBitmap()
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .priority(Priority.IMMEDIATE)
                     .into(new BitmapImageViewTarget(mHeader) {
                         @Override
                         public void onResourceReady(Bitmap bitmap, GlideAnimation<? super Bitmap> glideAnimation) {

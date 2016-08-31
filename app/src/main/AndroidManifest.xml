@@ -43,6 +43,64 @@
             android:name="com.sec.android.multiwindow.MINIMUM_SIZE_H"
             android:value="598.0dp" />
 
+        <activity
+            android:name=".ui.MainActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/app_name"
+            android:theme="@style/AppTheme.Base.Launcher">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <action android:name="android.intent.action.SEARCH" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.app.searchable"
+                android:resource="@xml/searchable" />
+        </activity>
+
+        <activity
+            android:name=".ui.SettingsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/navigation_drawer_settings"
+            android:theme="@style/AppTheme.Base.Blue" />
+
+        <activity
+            android:name=".ui.DescribeProblemActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
+            android:label="@string/mail_subject"
+            android:theme="@style/AppTheme.Base.Blue"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+
+        <activity
+            android:name=".ui.AboutActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/navigation_drawer_about"
+            android:theme="@style/AppTheme.Base.Blue" />
+
+        <activity
+            android:name=".ui.CourseActivity"
+            android:label="@string/title_activity_course"
+            android:theme="@style/AppTheme.Blue">
+
+            <!-- <meta-data -->
+            <!-- android:name="android.support.PARENT_ACTIVITY" -->
+            <!-- android:value=".ui.MainActivity"/> -->
+        </activity>
+
+        <activity
+            android:name=".ui.CourseMaterialsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:theme="@style/AppTheme.Base.Blue" />
+
+        <activity
+            android:name=".ui.RatingsActivity"
+            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
+            android:label="@string/all_reviews"
+            android:theme="@style/AppTheme.Base.Blue" />
+
         <provider
             android:name=".ui.utils.SuggestionProvider"
             android:authorities="com.basmapp.marshal.SuggestionProvider"
@@ -67,6 +125,7 @@
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
             </intent-filter>
         </service>
+
         <service
             android:name=".services.GcmIDListenerService"
             android:exported="false">
@@ -75,46 +134,10 @@
             </intent-filter>
         </service>
 
-        <activity
-            android:name=".ui.MainActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/app_name"
-            android:theme="@style/AppTheme.Base.Launcher">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <action android:name="android.intent.action.SEARCH" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-                <category android:name="android.intent.category.MULTIWINDOW_LAUNCHER" />
-            </intent-filter>
-
-            <meta-data
-                android:name="android.app.searchable"
-                android:resource="@xml/searchable" />
-        </activity>
-        <activity
-            android:name=".ui.SettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/navigation_drawer_settings"
-            android:theme="@style/AppTheme.Base.Blue" />
-        <activity
-            android:name=".ui.CourseActivity"
-            android:label="@string/title_activity_course"
-            android:theme="@style/AppTheme.Blue">
-
-            <!-- <meta-data -->
-            <!-- android:name="android.support.PARENT_ACTIVITY" -->
-            <!-- android:value=".ui.MainActivity"/> -->
-        </activity>
-        <activity
-            android:name=".ui.RatingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/all_reviews"
-            android:theme="@style/AppTheme.Base.Blue" />
-
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
+
         <service
             android:name=".services.GcmRegistrationService"
             android:exported="false" />
@@ -129,21 +152,10 @@
                 android:resource="@xml/glide_disk_cache_path" />
         </provider>
 
-        <activity
-            android:name=".ui.CourseMaterialsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Base.Blue" />
-        <activity
-            android:name=".ui.AboutActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:label="@string/navigation_drawer_about"
-            android:theme="@style/AppTheme.Base.Blue" />
-        <activity
-            android:name=".ui.DescribeProblemActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
-            android:label="@string/mail_subject"
-            android:theme="@style/AppTheme.Base.Blue"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <!-- Glide configurations for image loading -->
+        <meta-data
+            android:name="com.basmapp.marshal.utils.GlideConfiguration"
+            android:value="GlideModule" />
 
         <receiver
             android:name=".receivers.GcmRegistrationReceiver"
