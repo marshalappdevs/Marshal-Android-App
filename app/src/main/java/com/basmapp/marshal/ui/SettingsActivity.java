@@ -33,8 +33,8 @@ import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.SuggestionProvider;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
-import com.basmapp.marshal.ui.utils.colorpicker.ColorPickerDialog;
-import com.basmapp.marshal.ui.utils.colorpicker.ColorPickerSwatch;
+import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerDialog;
+import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerSwatch;
 
 import java.io.File;
 import java.util.HashSet;

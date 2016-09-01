@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.content.res.Configuration;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
@@ -13,7 +12,6 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 
 import java.util.ArrayList;

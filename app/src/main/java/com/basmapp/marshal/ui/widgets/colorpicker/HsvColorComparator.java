@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.basmapp.marshal.ui.utils.colorpicker;
+package com.basmapp.marshal.ui.widgets.colorpicker;
 
 import android.graphics.Color;
 

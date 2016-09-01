@@ -3,7 +3,6 @@ package com.basmapp.marshal.ui;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
@@ -22,7 +21,6 @@ import android.widget.Toast;
 
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 
 import java.io.File;

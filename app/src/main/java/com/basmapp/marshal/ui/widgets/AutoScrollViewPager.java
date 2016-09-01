@@ -1,4 +1,4 @@
-package com.basmapp.marshal.ui.utils;
+package com.basmapp.marshal.ui.widgets;
 
 import java.lang.ref.WeakReference;
 

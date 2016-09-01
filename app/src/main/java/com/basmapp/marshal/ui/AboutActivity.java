@@ -1,7 +1,6 @@
 package com.basmapp.marshal.ui;
 
 import android.content.Intent;
-import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,7 +13,6 @@ import android.widget.TextView;
 
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
 
 public class AboutActivity extends AppCompatActivity {
