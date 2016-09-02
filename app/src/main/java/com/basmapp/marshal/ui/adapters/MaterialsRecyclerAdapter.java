@@ -22,6 +22,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.OnHashTagClickListener;
@@ -82,8 +83,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 String url = mMaterials.get(holder.getAdapterPosition()).getUrl();
-                Boolean cct = mSharedPreferences.getBoolean("CCT", true);
-                if (cct) {
+                if (mSharedPreferences.getBoolean(Constants.PREF_CCT, true)) {
                     new CustomTabsIntent.Builder()
                             .setToolbarColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
                             .setShowTitle(true)

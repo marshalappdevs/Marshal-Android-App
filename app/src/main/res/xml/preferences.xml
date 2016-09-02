@@ -1,6 +1,5 @@
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
-    <PreferenceCategory
-        android:title="@string/pref_personalization_category">
+    <PreferenceCategory android:title="@string/pref_personalization_category">
         <ListPreference
             android:defaultValue="iw"
             android:key="LANG"
@@ -17,19 +16,18 @@
             android:entryValues="@array/night_mode_values" />
         <Preference
             android:key="PRIMARY-COLOR"
-            android:title="@string/choose_primary_color"/>
+            android:title="@string/choose_primary_color" />
         <Preference
             android:key="ACCENT-COLOR"
-            android:title="@string/choose_accent_color"/>
+            android:title="@string/choose_accent_color" />
         <Preference
             android:key="REVERT-THEME"
-            android:title="@string/revert_to_default_theme"/>
+            android:title="@string/revert_to_default_theme" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_general_category">
+    <PreferenceCategory android:title="@string/pref_general_category">
         <!--<Preference-->
-            <!--android:title="@string/clear_local_cache_title"-->
-            <!--android:key="clear-cache" />-->
+        <!--android:title="@string/clear_local_cache_title"-->
+        <!--android:key="clear-cache"/>-->
         <Preference
             android:title="@string/clear_showcases_title"
             android:summary="@string/clear_showcases_summary"
@@ -37,10 +35,9 @@
         <Preference
             android:title="@string/clear_local_history_title"
             android:key="clear-history"
-            android:summary="@string/clear_local_history_summary"/>
+            android:summary="@string/clear_local_history_summary" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_notifications_category">
+    <PreferenceCategory android:title="@string/pref_notifications_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="notifications_new_message"
@@ -59,6 +56,15 @@
             android:key="notifications_new_message_vibrate"
             android:title="@string/pref_vibrate_title" />
 
+        <com.basmapp.marshal.ui.widgets.ListPreferenceSummaryFix
+            android:title="@string/pref_notification_light"
+            android:summary="%s"
+            android:entries="@array/led_colors"
+            android:entryValues="@array/led_color_values"
+            android:key="notify_light_color"
+            android:defaultValue="#FFFFFF"
+            android:dependency="notifications_new_message" />
+
         <MultiSelectListPreference
             android:defaultValue="@array/gcm_channels_values_defaults"
             android:dependency="notifications_new_message"
@@ -69,16 +75,14 @@
             android:entryValues="@array/gcm_channels_values" />
 
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_advanced_category">
+    <PreferenceCategory android:title="@string/pref_advanced_category">
         <CheckBoxPreference
             android:defaultValue="true"
             android:key="CCT"
             android:title="@string/custom_tabs_pref_title"
             android:summary="@string/custom_tabs_pref_summary" />
     </PreferenceCategory>
-    <PreferenceCategory
-        android:title="@string/pref_about_category">
+    <PreferenceCategory android:title="@string/pref_about_category">
         <PreferenceScreen
             android:title="@string/pref_version_title"
             android:key="version">

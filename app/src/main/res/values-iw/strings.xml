@@ -185,6 +185,16 @@
     <string name="pref_ringtone_title">צלצול</string>
     <string name="pref_ringtone_silent">שקט</string>
     <string name="pref_vibrate_title">רטט</string>
+    <string name="pref_notification_light">תאורה</string>
+    <string name="pref_notification_light_summary">בחר צבע להבהוב ההתראה כאשר מתקבלת הודעה חדשה.</string>
+    <string name="color_none">ללא</string>
+    <string name="color_white">לבן</string>
+    <string name="color_red">אדום</string>
+    <string name="color_yellow">צהוב</string>
+    <string name="color_green">ירוק</string>
+    <string name="color_cyan">טורקיז</string>
+    <string name="color_blue">כחול</string>
+    <string name="color_purple">סגול</string>
     <string name="pref_gcm_channels_title">ערוצים</string>
     <string name="pref_gcm_channels_summary">הגדר ערוצי הודעות בהתאם לתחומי העניין שלך</string>
     <string name="pref_advanced_category">מתקדם</string>

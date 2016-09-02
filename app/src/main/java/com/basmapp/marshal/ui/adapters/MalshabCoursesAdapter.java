@@ -15,6 +15,7 @@ import android.widget.BaseAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.ui.utils.ThemeUtils;
@@ -77,8 +78,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Boolean cct = mSharedPreferences.getBoolean("CCT", true);
-                if (cct) {
+                if (mSharedPreferences.getBoolean(Constants.PREF_CCT, true)) {
                     new CustomTabsIntent.Builder()
                             .setToolbarColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
                             .setShowTitle(true)

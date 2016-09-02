@@ -56,7 +56,6 @@ public class GcmIntentService extends GcmListenerService {
                 } else {
                     ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
                 }
-
                 NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
                 Notification.Builder notif = new Notification.Builder(this)
                         .setSmallIcon(R.drawable.stat_notify_basmapp)
@@ -64,7 +63,8 @@ public class GcmIntentService extends GcmListenerService {
                         .setContentText(message)
                         .setStyle(new Notification.BigTextStyle()
                                 .bigText(message))
-                        .setLights(Color.CYAN, 1000, 1000)
+                        .setLights(Color.parseColor(sharedPreferences
+                                .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF")), 1000, 1000)
                         .setSound(ringtoneUri)
                         .setContentIntent(pendingIntent)
                         .setAutoCancel(true)

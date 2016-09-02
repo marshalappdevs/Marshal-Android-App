@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.media.Ringtone;
 import android.media.RingtoneManager;
@@ -36,7 +37,6 @@ import com.basmapp.marshal.ui.utils.ThemeUtils;
 import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerDialog;
 import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerSwatch;
 
-import java.io.File;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -93,7 +93,7 @@ public class SettingsActivity extends AppCompatActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(R.string.navigation_drawer_settings);
         setSupportActionBar(mToolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,22 +118,42 @@ public class SettingsActivity extends AppCompatActivity {
             String stringValue = value.toString();
 
             if (preference instanceof ListPreference) {
+                // For list preferences, look up the correct display value in
+                // the preference's 'entries' list.
                 ListPreference listPreference = (ListPreference) preference;
                 int index = listPreference.findIndexOfValue(stringValue);
-                preference.setSummary(index >= 0 ? listPreference.getEntries()[index] : null);
+
+                // Set the summary to reflect the new value.
+                preference.setSummary(
+                        index >= 0
+                                ? listPreference.getEntries()[index]
+                                : null);
+
             } else if (preference instanceof RingtonePreference) {
+                // For ringtone preferences, look up the correct display value
+                // using RingtoneManager.
                 if (TextUtils.isEmpty(stringValue)) {
+                    // Empty values correspond to 'silent' (no ringtone).
                     preference.setSummary(R.string.pref_ringtone_silent);
+
                 } else {
-                    Ringtone ringtone = RingtoneManager.getRingtone(preference.getContext(), Uri.parse(stringValue));
+                    Ringtone ringtone = RingtoneManager.getRingtone(
+                            preference.getContext(), Uri.parse(stringValue));
+
                     if (ringtone == null) {
+                        // Clear the summary if there was a lookup error.
                         preference.setSummary(null);
                     } else {
+                        // Set the summary to reflect the new ringtone display
+                        // name.
                         String name = ringtone.getTitle(preference.getContext());
                         preference.setSummary(name);
                     }
                 }
+
             } else {
+                // For all other preferences, set the summary to the value's
+                // simple string representation.
                 preference.setSummary(stringValue);
             }
             return true;
@@ -141,16 +161,22 @@ public class SettingsActivity extends AppCompatActivity {
     };
 
     private static void bindPreferenceSummaryToValue(Preference preference) {
+        // Set the listener to watch for value changes.
         preference.setOnPreferenceChangeListener(sBindPreferenceSummaryToValueListener);
+
+        // Trigger the listener immediately with the preference's
+        // current value.
         sBindPreferenceSummaryToValueListener.onPreferenceChange(preference,
                 PreferenceManager
                         .getDefaultSharedPreferences(preference.getContext())
                         .getString(preference.getKey(), ""));
     }
 
-    public static class SettingsFragment extends PreferenceFragment {
+    public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener,
+            Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
         GcmRegistrationReceiver gcmRegistrationReceiver;
         MultiSelectListPreference prefGcmChannels;
+        int mTapCount;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -158,46 +184,51 @@ public class SettingsActivity extends AppCompatActivity {
 
             // Load the preferences from an XML resource
             addPreferencesFromResource(R.xml.preferences);
+
+            // Bind the summaries of EditText/List/Dialog/Ringtone preferences
+            // to their values. When their values change, their summaries are
+            // updated to reflect the new value, per the Android Design
+            // guidelines.
             bindPreferenceSummaryToValue(findPreference(Constants.PREF_NOTIFICATIONS_RINGTONE));
 
             Preference prefVersion = findPreference(Constants.PREF_VERSION);
-            prefVersion.setOnPreferenceClickListener(versionClickListener);
+            prefVersion.setOnPreferenceClickListener(this);
             prefVersion.setSummary(BuildConfig.VERSION_NAME);
 
             ListPreference prefLanguage = (ListPreference) findPreference(Constants.PREF_LANGUAGE);
-            prefLanguage.setOnPreferenceChangeListener(languageChangeListener);
+            prefLanguage.setOnPreferenceChangeListener(this);
 
             ListPreference prefTheme = (ListPreference) findPreference(Constants.PREF_THEME);
-            prefTheme.setOnPreferenceChangeListener(themeChangeListener);
+            prefTheme.setOnPreferenceChangeListener(this);
 
             Preference prefColor = findPreference(Constants.PREF_PRIMARY_COLOR);
-            prefColor.setOnPreferenceClickListener(primaryColorChangeListener);
-            prefColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getPrimaryColorCode(getActivity()))));
+            prefColor.setOnPreferenceClickListener(this);
+            prefColor.setSummary(String.format("#%06X", (0xFFFFFF &
+                    MainActivity.getPrimaryColorCode(getActivity()))));
 
             Preference prefAccentColor = findPreference(Constants.PREF_ACCENT_COLOR);
-            prefAccentColor.setOnPreferenceClickListener(accentColorChangeListener);
-            prefAccentColor.setSummary(String.format("#%06X", (0xFFFFFF & MainActivity.getAccentColorCode(getActivity()))));
+            prefAccentColor.setOnPreferenceClickListener(this);
+            prefAccentColor.setSummary(String.format("#%06X", (0xFFFFFF &
+                    MainActivity.getAccentColorCode(getActivity()))));
 
             Preference prefRevertTheme = findPreference(Constants.PREF_REVERT_THEME);
-            prefRevertTheme.setOnPreferenceClickListener(revertThemeClickListener);
+            prefRevertTheme.setOnPreferenceClickListener(this);
 
             prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
-            prefGcmChannels.setOnPreferenceChangeListener(gcmChannelsChangeListener);
+            prefGcmChannels.setOnPreferenceChangeListener(this);
             updateGcmChannelsPrefSummary();
 
-//            Preference prefClearCache = findPreference(Constants.PREF_CLEAR_CACHE);
-//            prefClearCache.setOnPreferenceClickListener(clearCacheClickListener);
-//            prefClearCache.setSummary(String.format(getString(R.string.clear_local_cache_summary),
-//                    getCacheFolderSize() / 1048576L));
-
             Preference prefClearShowcases = findPreference(Constants.PREF_CLEAR_SHOWCASES);
-            prefClearShowcases.setOnPreferenceClickListener(clearShowcasesClickListener);
+            prefClearShowcases.setOnPreferenceClickListener(this);
 
             Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
-            prefClearHistory.setOnPreferenceClickListener(clearHistoryClickListener);
+            prefClearHistory.setOnPreferenceClickListener(this);
+
+            ListPreference prefNotificationColor = (ListPreference) findPreference(Constants.PREF_NOTIFICATIONS_COLOR);
+            prefNotificationColor.setOnPreferenceChangeListener(this);
 
             CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference(Constants.PREF_CCT);
-            prefCCT.setOnPreferenceChangeListener(cctChangeListener);
+            prefCCT.setOnPreferenceChangeListener(this);
 
             gcmRegistrationReceiver = new GcmRegistrationReceiver(new GcmReceiverListener() {
                 @Override
@@ -205,37 +236,42 @@ public class SettingsActivity extends AppCompatActivity {
                     if (result) {
                         restartApp();
                     }
-
                     updateGcmChannelsPrefSummary();
                     prefGcmChannels.setEnabled(true);
                 }
             });
         }
 
-        Preference.OnPreferenceChangeListener languageChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                        .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
-                LocaleUtils.updateLocale(getActivity());
-                restartApp();
-                return false;
-            }
-        };
+        @Override
+        public void onResume() {
+            super.onResume();
+            getActivity().registerReceiver(gcmRegistrationReceiver, new IntentFilter(GcmRegistrationReceiver.ACTION_RESULT));
+            getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
+        }
 
-        Preference.OnPreferenceChangeListener themeChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
-                        .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
-                restartApp();
-                return false;
-            }
-        };
+        @Override
+        public void onPause() {
+            super.onPause();
+            getActivity().unregisterReceiver(gcmRegistrationReceiver);
+            getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
+        }
 
-        Preference.OnPreferenceClickListener primaryColorChangeListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+        @Override
+        public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
+            if (key.equals(Constants.PREF_LANGUAGE) || key.equals(Constants.PREF_THEME) || key.equals(Constants.PREF_PRIMARY_COLOR_CODE)
+                    || key.equals(Constants.PREF_ACCENT_COLOR_CODE))
+                restartApp();
+        }
+
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            if (preference.getKey().equals(Constants.PREF_VERSION)) {
+                if (mTapCount == 7) {
+                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
+                    mTapCount = 0;
+                }
+                mTapCount++;
+            } else if (preference.getKey().equals(Constants.PREF_PRIMARY_COLOR)) {
                 SettingsActivity act = (SettingsActivity) getActivity();
                 if (act == null)
                     return false;
@@ -249,17 +285,10 @@ public class SettingsActivity extends AppCompatActivity {
                         if (color != MainActivity.getPrimaryColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_PRIMARY_COLOR_CODE, color).apply();
-                            restartApp();
                         }
                     }
                 });
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener accentColorChangeListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+            } else if (preference.getKey().equals(Constants.PREF_ACCENT_COLOR)) {
                 SettingsActivity act = (SettingsActivity) getActivity();
                 if (act == null)
                     return false;
@@ -273,17 +302,10 @@ public class SettingsActivity extends AppCompatActivity {
                         if (color != MainActivity.getAccentColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_ACCENT_COLOR_CODE, color).apply();
-                            restartApp();
                         }
                     }
                 });
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener revertThemeClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+            } else if (preference.getKey().equals(Constants.PREF_REVERT_THEME)) {
                 new AlertDialog.Builder(getActivity())
                         .setMessage(R.string.are_you_sure)
                         .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
@@ -296,7 +318,6 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .getApplicationContext(), R.color.red_accent_color))
                                         .putString(Constants.PREF_THEME, "light")
                                         .apply();
-                                restartApp();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -306,81 +327,46 @@ public class SettingsActivity extends AppCompatActivity {
                             }
                         })
                         .show();
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener clearCacheClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                try {
-                    deleteDir(getActivity().getCacheDir());
-                    findPreference(Constants.PREF_CLEAR_CACHE).setSummary(String.format(getString(R.string.clear_local_cache_summary),
-                            getCacheFolderSize() / 1048576L));
-                    Toast.makeText(getActivity().getApplicationContext(), R.string.pref_cache_cleared, Toast.LENGTH_SHORT).show();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener clearShowcasesClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+            } else if (preference.getKey().equals(Constants.PREF_CLEAR_SHOWCASES)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
                         .putBoolean(Constants.SHOW_FAB_SHOWCASE, true)
                         .putBoolean(Constants.SHOW_FILTER_SHOWCASE, true)
                         .apply();
                 Toast.makeText(getActivity().getApplicationContext(), R.string.pref_showcases_cleared, Toast.LENGTH_SHORT).show();
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceClickListener clearHistoryClickListener = new Preference.OnPreferenceClickListener() {
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
+            } else if (preference.getKey().equals(Constants.PREF_CLEAR_HISTORY)) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.clearHistory();
                 Toast.makeText(getActivity().getApplicationContext(), R.string.pref_search_history_cleared, Toast.LENGTH_SHORT).show();
-                return false;
             }
-        };
+            return false;
+        }
 
-        Preference.OnPreferenceChangeListener cctChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
-                return true;
-            }
-        };
-
-
-        Preference.OnPreferenceClickListener versionClickListener = new Preference.OnPreferenceClickListener() {
-            int mTapCount;
-            @Override
-            public boolean onPreferenceClick(Preference preference) {
-                if (mTapCount == 7) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
-                    mTapCount = 0;
-                }
-                mTapCount++;
-                return false;
-            }
-        };
-
-        Preference.OnPreferenceChangeListener gcmChannelsChangeListener = new Preference.OnPreferenceChangeListener() {
-            @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue) {
+        @Override
+        public boolean onPreferenceChange(Preference preference, Object newValue) {
+            if (preference.getKey().equals(Constants.PREF_LANGUAGE)) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
+                LocaleUtils.updateLocale(getActivity());
+            } else if (preference.getKey().equals(Constants.PREF_THEME)) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
+            } else if (preference.getKey().equals(Constants.PREF_GCM_CHANNELS)) {
                 preference.setEnabled(false);
                 Toast.makeText(getActivity(), getResources().getString(R.string.gcm_settings_change), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), GcmRegistrationService.class);
                 intent.setAction(GcmRegistrationService.ACTION_UPDATE_CHANNELS);
-                intent.putExtra(Constants.EXTRA_GCM_CHANNELS, ((HashSet<String>)newValue));
+                intent.putExtra(Constants.EXTRA_GCM_CHANNELS, ((HashSet<String>) newValue));
                 getActivity().startService(intent);
-                return false;
+            } else if (preference.getKey().equals(Constants.PREF_NOTIFICATIONS_COLOR)) {
+                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
+                        .edit().putString(Constants.PREF_NOTIFICATIONS_COLOR, newValue.toString()).apply();
+                return true;
+            } else if (preference.getKey().equals(Constants.PREF_CCT)) {
+                return true;
             }
-        };
+            return false;
+        }
 
         private void restartApp() {
             getActivity().finishAffinity();
@@ -393,7 +379,7 @@ public class SettingsActivity extends AppCompatActivity {
         private void updateGcmChannelsPrefSummary() {
             Set<String> values = prefGcmChannels.getValues();
             Set<CharSequence> labels = new HashSet<>();
-            for(String value: values) {
+            for (String value : values) {
                 int index = prefGcmChannels.findIndexOfValue(value);
                 labels.add(prefGcmChannels.getEntries()[index]);
             }
@@ -402,41 +388,6 @@ public class SettingsActivity extends AppCompatActivity {
             } else {
                 prefGcmChannels.setSummary(getString(R.string.pref_gcm_channels_summary));
             }
-        }
-
-        private long getCacheFolderSize() {
-            long size = 0;
-            File[] files = getActivity().getCacheDir().listFiles();
-            for (File f:files) {
-                size = size+f.length();
-            }
-            return size;
-        }
-
-        private boolean deleteDir(File dir) {
-            if (dir != null && dir.isDirectory()) {
-                String[] children = dir.list();
-                for (String aChildren : children) {
-                    boolean success = deleteDir(new File(dir, aChildren));
-                    if (!success) {
-                        return false;
-                    }
-                }
-                return dir.delete();
-            } else
-                return dir != null && dir.isFile() && dir.delete();
-        }
-
-        @Override
-        public void onResume() {
-            super.onResume();
-            getActivity().registerReceiver(gcmRegistrationReceiver, new IntentFilter(GcmRegistrationReceiver.ACTION_RESULT));
-        }
-
-        @Override
-        public void onPause() {
-            super.onStop();
-            getActivity().unregisterReceiver(gcmRegistrationReceiver);
         }
     }
 }

@@ -201,6 +201,16 @@
     <string name="pref_ringtone_title">Ringtone</string>
     <string name="pref_ringtone_silent">Silent</string>
     <string name="pref_vibrate_title">Vibrate</string>
+    <string name="pref_notification_light">Light</string>
+    <string name="pref_notification_light_summary">Choose a color to blink the notification light when a new message is received.</string>
+    <string name="color_none">None</string>
+    <string name="color_white">White</string>
+    <string name="color_red">Red</string>
+    <string name="color_yellow">Yellow</string>
+    <string name="color_green">Green</string>
+    <string name="color_cyan">Cyan</string>
+    <string name="color_blue">Blue</string>
+    <string name="color_purple">Purple</string>
     <string name="pref_gcm_channels_title">Channels</string>
     <string name="pref_gcm_channels_summary">Set notification channels based on your interests</string>
     <string name="pref_advanced_category">Advanced</string>
@@ -232,6 +242,26 @@
         <item>light</item>
         <item>dark</item>
         <item>auto</item>
+    </string-array>
+    <string-array name="led_color_values">
+        <item>#000000</item>
+        <item>#FFFFFF</item>
+        <item>#FF0000</item>
+        <item>#FFFF00</item>
+        <item>#00FF00</item>
+        <item>#00FFFF</item>
+        <item>#0000FF</item>
+        <item>#FF00FF</item>
+    </string-array>
+    <string-array name="led_colors">
+        <item>@string/color_none</item>
+        <item>@string/color_white</item>
+        <item>@string/color_red</item>
+        <item>@string/color_yellow</item>
+        <item>@string/color_green</item>
+        <item>@string/color_cyan</item>
+        <item>@string/color_blue</item>
+        <item>@string/color_purple</item>
     </string-array>
     <string-array name="gcm_channels_entries" translatable="true">
         <item>@string/course_type_software</item>
