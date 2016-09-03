@@ -20,7 +20,7 @@ import com.basmapp.marshal.localdb.annotations.PrimaryKey;
 import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.DateHelper;
 
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;

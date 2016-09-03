@@ -1,4 +1,4 @@
-package com.basmapp.marshal.utils;
+package com.basmapp.marshal.util;
 
 import android.app.Activity;
 import android.content.pm.PackageManager;

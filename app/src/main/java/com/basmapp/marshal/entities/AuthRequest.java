@@ -2,7 +2,7 @@ package com.basmapp.marshal.entities;
 
 import android.util.Log;
 
-import com.basmapp.marshal.utils.HashUtil;
+import com.basmapp.marshal.util.HashUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

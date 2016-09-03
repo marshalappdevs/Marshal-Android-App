@@ -1,4 +1,4 @@
-package com.basmapp.marshal.ui.widgets;
+package com.basmapp.marshal.ui.widget;
 
 import android.content.Context;
 import android.preference.ListPreference;

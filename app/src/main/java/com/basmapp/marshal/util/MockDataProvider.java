@@ -1,4 +1,4 @@
-package com.basmapp.marshal.utils;
+package com.basmapp.marshal.util;
 
 import android.content.Context;
 import android.util.Log;

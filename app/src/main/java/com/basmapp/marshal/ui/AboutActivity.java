@@ -13,7 +13,7 @@ import android.widget.TextView;
 
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 
 public class AboutActivity extends AppCompatActivity {
     Toolbar mToolbar;

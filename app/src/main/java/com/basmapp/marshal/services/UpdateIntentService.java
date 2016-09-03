@@ -11,7 +11,6 @@ import android.util.Log;
 import com.basmapp.marshal.ApplicationMarshal;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
-import com.basmapp.marshal.entities.AuthRequest;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.MalshabItem;
@@ -20,18 +19,12 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.LocalDBHelper;
-import com.basmapp.marshal.utils.AuthUtil;
-import com.basmapp.marshal.utils.MarshalServiceProvider;
-import com.google.gson.JsonObject;
+import com.basmapp.marshal.util.AuthUtil;
+import com.basmapp.marshal.util.MarshalServiceProvider;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in

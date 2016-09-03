@@ -18,7 +18,7 @@ import android.widget.TextView;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MalshabItem;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.bumptech.glide.Glide;
 
 import java.util.List;

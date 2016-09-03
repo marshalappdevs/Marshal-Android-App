@@ -1,4 +1,4 @@
-package com.basmapp.marshal.utils;
+package com.basmapp.marshal.util;
 
 import com.basmapp.marshal.interfaces.IMarshalService;
 import com.google.gson.GsonBuilder;

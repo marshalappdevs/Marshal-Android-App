@@ -21,7 +21,7 @@ import android.widget.Toast;
 
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 
 import java.io.File;
 import java.io.FileWriter;

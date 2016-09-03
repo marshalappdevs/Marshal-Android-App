@@ -34,7 +34,7 @@
             android:layout_gravity="center"
             android:gravity="center" />
 
-        <com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerPalette
+        <com.basmapp.marshal.ui.widget.colorpicker.ColorPickerPalette
             android:id="@+id/color_picker"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"

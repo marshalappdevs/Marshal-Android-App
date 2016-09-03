@@ -4,23 +4,19 @@ import android.app.IntentService;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.os.Handler;
 import android.preference.PreferenceManager;
-import android.provider.Settings;
 import android.util.Log;
-import android.widget.Toast;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.GcmRegistration;
 import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
-import com.basmapp.marshal.utils.AuthUtil;
-import com.basmapp.marshal.utils.MarshalServiceProvider;
+import com.basmapp.marshal.util.AuthUtil;
+import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.android.gms.iid.InstanceID;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;

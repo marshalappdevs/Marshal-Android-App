@@ -56,7 +56,7 @@
             android:key="notifications_new_message_vibrate"
             android:title="@string/pref_vibrate_title" />
 
-        <com.basmapp.marshal.ui.widgets.ListPreferenceSummaryFix
+        <com.basmapp.marshal.ui.widget.ListPreferenceSummaryFix
             android:title="@string/pref_notification_light"
             android:summary="%s"
             android:entries="@array/led_colors"

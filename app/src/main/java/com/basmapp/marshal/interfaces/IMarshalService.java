@@ -7,11 +7,10 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
-import com.basmapp.marshal.utils.MarshalServiceProvider;
+import com.basmapp.marshal.util.MarshalServiceProvider;
 
 import java.util.List;
 import retrofit2.Call;
-import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;

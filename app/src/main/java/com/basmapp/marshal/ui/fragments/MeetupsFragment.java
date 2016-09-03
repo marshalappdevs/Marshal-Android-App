@@ -172,7 +172,7 @@ public class MeetupsFragment extends Fragment {
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
-        if (listToShow.isEmpty()) {
+        if (listToShow.isEmpty() && !mMeetupsList.isEmpty()) {
             String searchResult;
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);

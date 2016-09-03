@@ -12,7 +12,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 
 import java.util.ArrayList;
 

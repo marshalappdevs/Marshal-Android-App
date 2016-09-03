@@ -1,4 +1,4 @@
-package com.basmapp.marshal.utils;
+package com.basmapp.marshal.util;
 
 import java.io.UnsupportedEncodingException;
 import java.security.MessageDigest;

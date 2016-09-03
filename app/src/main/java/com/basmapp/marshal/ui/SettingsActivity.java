@@ -31,11 +31,11 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.GcmReceiverListener;
 import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
 import com.basmapp.marshal.services.GcmRegistrationService;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
-import com.basmapp.marshal.ui.utils.SuggestionProvider;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
-import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerDialog;
-import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerSwatch;
+import com.basmapp.marshal.util.LocaleUtils;
+import com.basmapp.marshal.util.SuggestionProvider;
+import com.basmapp.marshal.util.ThemeUtils;
+import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
+import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 
 import java.util.HashSet;
 import java.util.Set;

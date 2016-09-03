@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.basmapp.marshal.ui.widgets.colorpicker;
+package com.basmapp.marshal.ui.widget.colorpicker;
 
 import android.content.Context;
 import android.content.res.Resources;
@@ -25,7 +25,7 @@ import android.widget.ImageView;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 
-import com.basmapp.marshal.ui.widgets.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
+import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch.OnColorSelectedListener;
 import com.basmapp.marshal.R;
 
 /**

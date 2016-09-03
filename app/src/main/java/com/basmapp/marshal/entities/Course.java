@@ -15,7 +15,7 @@ import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
 import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
-import com.basmapp.marshal.utils.MarshalServiceProvider;
+import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;

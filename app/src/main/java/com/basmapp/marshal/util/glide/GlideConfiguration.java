@@ -1,4 +1,4 @@
-package com.basmapp.marshal.utils.glide;
+package com.basmapp.marshal.util.glide;
 
 import android.app.ActivityManager;
 import android.content.Context;

@@ -18,7 +18,7 @@
             android:layout_width="match_parent"
             android:layout_height="200dp">
 
-            <com.basmapp.marshal.ui.widgets.AutoScrollViewPager
+            <com.basmapp.marshal.ui.widget.AutoScrollViewPager
                 android:id="@+id/main_catalog_view_pager"
                 android:visibility="gone"
                 android:layout_width="match_parent"
@@ -78,7 +78,7 @@
                     android:textColor="@android:color/white" />
             </LinearLayout>
 
-            <com.basmapp.marshal.ui.widgets.InkPageIndicator
+            <com.basmapp.marshal.ui.widget.InkPageIndicator
                 android:id="@+id/main_catalog_indicator"
                 android:visibility="gone"
                 android:layout_width="match_parent"

@@ -4,7 +4,7 @@
     android:layout_height="match_parent"
     android:foreground="?android:attr/selectableItemBackground">
 
-    <com.basmapp.marshal.ui.widgets.SquareImageView
+    <com.basmapp.marshal.ui.widget.SquareImageView
         android:id="@+id/picture"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

@@ -37,8 +37,8 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
-import com.basmapp.marshal.ui.utils.SuggestionProvider;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.SuggestionProvider;
+import com.basmapp.marshal.util.DateHelper;
 import com.github.amlcurran.showcaseview.ShowcaseView;
 import com.github.amlcurran.showcaseview.targets.ViewTarget;
 

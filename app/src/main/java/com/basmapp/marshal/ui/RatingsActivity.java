@@ -17,7 +17,7 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.RatingsRecyclerAdapter;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 
 import java.util.List;
 

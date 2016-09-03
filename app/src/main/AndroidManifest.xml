@@ -107,7 +107,7 @@
             android:theme="@style/AppTheme.Base.Blue" />
 
         <provider
-            android:name=".ui.utils.SuggestionProvider"
+            android:name=".util.SuggestionProvider"
             android:authorities="com.basmapp.marshal.SuggestionProvider"
             android:exported="false" />
 
@@ -159,7 +159,7 @@
 
         <!-- Glide configurations for image loading -->
         <meta-data
-            android:name="com.basmapp.marshal.utils.glide.GlideConfiguration"
+            android:name="com.basmapp.marshal.util.glide.GlideConfiguration"
             android:value="GlideModule" />
 
         <receiver

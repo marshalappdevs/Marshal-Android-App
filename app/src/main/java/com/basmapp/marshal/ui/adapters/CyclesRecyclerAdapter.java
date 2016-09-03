@@ -17,7 +17,7 @@ import android.widget.Toast;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.DateHelper;
 
 import java.util.ArrayList;
 import java.util.GregorianCalendar;

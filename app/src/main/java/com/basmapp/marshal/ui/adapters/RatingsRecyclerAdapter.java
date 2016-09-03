@@ -10,7 +10,7 @@ import android.widget.TextView;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.DateHelper;
 import java.util.List;
 
 public class RatingsRecyclerAdapter extends RecyclerView.Adapter<RatingsRecyclerAdapter.RatingVH> {

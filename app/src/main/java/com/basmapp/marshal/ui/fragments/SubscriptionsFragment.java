@@ -39,6 +39,7 @@ public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private TextView mNoResults;
+    private MenuItem mSearchItem;
     private SearchView mSearchView;
     private CoursesSearchRecyclerAdapter mAdapter;
     private ArrayList<Course> mFilteredCourseList;
@@ -151,8 +152,8 @@ public class SubscriptionsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup search button
-        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) mSearchItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -170,7 +171,7 @@ public class SubscriptionsFragment extends Fragment {
                 return true;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
+        MenuItemCompat.setOnActionExpandListener(mSearchItem,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
@@ -188,6 +189,10 @@ public class SubscriptionsFragment extends Fragment {
     private void filter(String filterText) {
         if (filterText == null) {
             mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
+//        } else if (mSubscriptionsList.isEmpty() && mSearchItem != null) {
+//            mSearchItem.setVisible(false);
+//        } else if (!mSubscriptionsList.isEmpty() && mSearchItem != null) {
+//            mSearchItem.setVisible(true);
         } else if (filterText.equals("*")) {
             mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
         } else {
@@ -205,7 +210,7 @@ public class SubscriptionsFragment extends Fragment {
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
-        if (listToShow.isEmpty()) {
+        if (listToShow.isEmpty() && !mSubscriptionsList.isEmpty()) {
             String searchResult;
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);
@@ -213,6 +218,10 @@ public class SubscriptionsFragment extends Fragment {
                 searchResult = String.format(getString(R.string.no_results_for_query), query);
             }
             mNoResults.setText(searchResult);
+            mNoResults.setGravity(Gravity.CENTER);
+            mNoResults.setVisibility(View.VISIBLE);
+        } else if (listToShow.isEmpty() && mSubscriptionsList.isEmpty()) {
+            mNoResults.setText(getString(R.string.no_subscriptions));
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
         } else {

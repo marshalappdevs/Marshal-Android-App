@@ -34,11 +34,11 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
-import com.basmapp.marshal.ui.widgets.AutoScrollViewPager;
-import com.basmapp.marshal.ui.widgets.InkPageIndicator;
-import com.basmapp.marshal.ui.utils.SuggestionProvider;
+import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
+import com.basmapp.marshal.ui.widget.InkPageIndicator;
+import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.ui.adapters.ViewPagerAdapter;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.DateHelper;
 
 import java.util.ArrayList;
 

@@ -13,7 +13,7 @@ import com.basmapp.marshal.localdb.annotations.ColumnSetter;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
 import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
-import com.basmapp.marshal.utils.DateHelper;
+import com.basmapp.marshal.util.DateHelper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

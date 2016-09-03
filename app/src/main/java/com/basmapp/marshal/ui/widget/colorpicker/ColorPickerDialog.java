@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package com.basmapp.marshal.ui.widgets.colorpicker;
+package com.basmapp.marshal.ui.widget.colorpicker;
 
 import android.app.Activity;
 import android.app.AlertDialog;

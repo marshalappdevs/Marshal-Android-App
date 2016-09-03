@@ -8,7 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.basmapp.marshal.services.UpdateIntentService;
-import com.basmapp.marshal.ui.utils.LocaleUtils;
+import com.basmapp.marshal.util.LocaleUtils;
 
 import java.util.Date;
 

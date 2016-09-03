@@ -19,7 +19,7 @@ import android.util.Log;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
-import com.basmapp.marshal.ui.utils.ThemeUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.google.android.gms.gcm.GcmListenerService;
 
 import java.io.IOException;
