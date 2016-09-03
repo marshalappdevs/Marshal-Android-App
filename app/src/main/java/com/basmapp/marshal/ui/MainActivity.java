@@ -129,6 +129,8 @@ public class MainActivity extends AppCompatActivity
     public static FrameLayout sNewUpdatesButton;
     public static LinearLayout sErrorScreen;
 
+    public static boolean toBeRecreated;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LIFE_CYCLE","onCreate");
@@ -402,6 +404,12 @@ public class MainActivity extends AppCompatActivity
     protected void onResume() {
         super.onResume();
         Log.i("LIFE_CYCLE","onResume");
+
+        if (toBeRecreated) {
+            toBeRecreated = false;
+            recreate();
+        }
+
         // Register update data from server broadcast and check internet connection broadcast
         registerInternetCheckReceiver();
         registerUpdateReceiver();

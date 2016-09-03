@@ -258,8 +258,11 @@ public class SettingsActivity extends AppCompatActivity {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
-            if (key.equals(Constants.PREF_LANGUAGE))
-                restartApp();
+            if (key.equals(Constants.PREF_LANGUAGE) || key.equals(Constants.PREF_THEME)
+                    || key.equals(Constants.PREF_PRIMARY_COLOR_CODE) || key.equals(Constants.PREF_ACCENT_COLOR_CODE)) {
+                MainActivity.toBeRecreated = true;
+                getActivity().recreate();
+            }
         }
 
         @Override
@@ -284,7 +287,6 @@ public class SettingsActivity extends AppCompatActivity {
                         if (color != MainActivity.getPrimaryColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_PRIMARY_COLOR_CODE, color).apply();
-                            restartApp();
                         }
                     }
                 });
@@ -302,7 +304,6 @@ public class SettingsActivity extends AppCompatActivity {
                         if (color != MainActivity.getAccentColorCode(getActivity())) {
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                                     .edit().putInt(Constants.PREF_ACCENT_COLOR_CODE, color).apply();
-                            restartApp();
                         }
                     }
                 });
@@ -319,7 +320,6 @@ public class SettingsActivity extends AppCompatActivity {
                                                 .getApplicationContext(), R.color.red_accent_color))
                                         .putString(Constants.PREF_THEME, "light")
                                         .apply();
-                                restartApp();
                             }
                         })
                         .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -353,7 +353,6 @@ public class SettingsActivity extends AppCompatActivity {
             } else if (preference.getKey().equals(Constants.PREF_THEME)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
-                restartApp();
             } else if (preference.getKey().equals(Constants.PREF_GCM_CHANNELS)) {
                 preference.setEnabled(false);
                 Toast.makeText(getActivity(), getResources().getString(R.string.gcm_settings_change), Toast.LENGTH_SHORT).show();
