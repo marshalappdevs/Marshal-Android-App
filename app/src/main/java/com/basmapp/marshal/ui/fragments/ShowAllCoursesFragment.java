@@ -110,7 +110,7 @@ public class ShowAllCoursesFragment extends Fragment {
             mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    MainActivity.mDrawerLayout.openDrawer(GravityCompat.START, true);
+                    MainActivity.mDrawerLayout.openDrawer(GravityCompat.START, false);
                 }
             });
         }
