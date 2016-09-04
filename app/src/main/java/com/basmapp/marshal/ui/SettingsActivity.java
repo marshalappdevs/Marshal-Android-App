@@ -265,7 +265,7 @@ public class SettingsActivity extends BaseActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(Constants.PREF_LANGUAGE) || key.equals(Constants.PREF_THEME)
                     || key.equals(Constants.PREF_PRIMARY_COLOR_CODE) || key.equals(Constants.PREF_ACCENT_COLOR_CODE)) {
-                MainActivity.toBeRecreated = true;
+                MainActivity.needRecreate = true;
                 getActivity().recreate();
             }
         }
