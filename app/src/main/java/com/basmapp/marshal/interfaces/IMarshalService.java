@@ -61,6 +61,9 @@ public interface IMarshalService {
     @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
     Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
 
+    @GET(MarshalServiceProvider.GET_GCM_REGISTRATION)
+    Call<GcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
+
     // ******** Settings ********//
     @GET (MarshalServiceProvider.GET_SETTINGS)
     Call<Settings> getSettings();
