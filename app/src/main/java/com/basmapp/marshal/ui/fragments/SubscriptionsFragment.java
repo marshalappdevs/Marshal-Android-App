@@ -210,13 +210,12 @@ public class SubscriptionsFragment extends Fragment {
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
-        if (listToShow.isEmpty()) {
-            String searchResult = "";
+        if (listToShow.isEmpty() && !mSubscriptionsList.isEmpty()) {
+            String searchResult;
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);
             } else {
-                if (query != null && !query.isEmpty())
-                    searchResult = String.format(getString(R.string.no_results_for_query), query);
+                searchResult = String.format(getString(R.string.no_results_for_query), query);
             }
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
