@@ -369,6 +369,9 @@ public class SettingsActivity extends BaseActivity {
             } else if (preference.getKey().equals(Constants.PREF_NOTIFICATIONS_COLOR)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_NOTIFICATIONS_COLOR, newValue.toString()).apply();
+                int i = ((ListPreference)preference).findIndexOfValue(newValue.toString());
+                CharSequence[] entries = ((ListPreference)preference).getEntries();
+                preference.setSummary(entries[i]);
                 return true;
             } else if (preference.getKey().equals(Constants.PREF_CCT)) {
                 return true;

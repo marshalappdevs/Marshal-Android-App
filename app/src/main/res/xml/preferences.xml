@@ -25,9 +25,6 @@
             android:title="@string/revert_to_default_theme" />
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_general_category">
-        <!--<Preference-->
-        <!--android:title="@string/clear_local_cache_title"-->
-        <!--android:key="clear-cache"/>-->
         <Preference
             android:title="@string/clear_showcases_title"
             android:summary="@string/clear_showcases_summary"
@@ -56,7 +53,7 @@
             android:key="notifications_new_message_vibrate"
             android:title="@string/pref_vibrate_title" />
 
-        <com.basmapp.marshal.ui.widget.ListPreferenceSummaryFix
+        <ListPreference
             android:title="@string/pref_notification_light"
             android:summary="%s"
             android:entries="@array/led_colors"
