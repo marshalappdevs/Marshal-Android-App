@@ -17,6 +17,7 @@ import android.preference.PreferenceFragment;
 import android.preference.PreferenceManager;
 import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
+import android.support.design.widget.Snackbar;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.Toolbar;
@@ -339,12 +340,12 @@ public class SettingsActivity extends BaseActivity {
                         .putBoolean(Constants.SHOW_FAB_SHOWCASE, true)
                         .putBoolean(Constants.SHOW_FILTER_SHOWCASE, true)
                         .apply();
-                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_showcases_cleared, Toast.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), R.string.pref_showcases_cleared, Snackbar.LENGTH_SHORT).show();
             } else if (preference.getKey().equals(Constants.PREF_CLEAR_HISTORY)) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.clearHistory();
-                Toast.makeText(getActivity().getApplicationContext(), R.string.pref_search_history_cleared, Toast.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), R.string.pref_search_history_cleared, Snackbar.LENGTH_SHORT).show();
             }
             return false;
         }

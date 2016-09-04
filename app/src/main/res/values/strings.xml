@@ -190,8 +190,6 @@
     <string name="revert_to_default_theme">Revert to default theme</string>
     <string name="clear_showcases_title">Reset tutorial screens</string>
     <string name="clear_showcases_summary">Show all tutorial screens again</string>
-    <string name="clear_local_cache_title">Clear app cache</string>
-    <string name="clear_local_cache_summary">Current cache size: %1$s MB</string>
     <string name="clear_local_history_title">Clear local search history</string>
     <string name="clear_local_history_summary">Remove searches you have performed from this device</string>
     <string name="reset_tutorial_summary">Review all tutorial screens again</string>
@@ -219,9 +217,8 @@
     <string name="pref_about_category">About</string>
     <string name="pref_version_title">App version</string>
     <string name="pref_restart_required">Application restart is required to apply the changes</string>
-    <string name="pref_showcases_cleared">Showcases cleared.</string>
-    <string name="pref_search_history_cleared">Search history cleared.</string>
-    <string name="pref_cache_cleared">Cache has been cleared successfully.</string>
+    <string name="pref_showcases_cleared">Showcases cleared</string>
+    <string name="pref_search_history_cleared">Search history cleared</string>
     <string name="gcm_settings_change_success">Notification channels has been updated.</string>
     <string name="gcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
     <string name="gcm_settings_change">Updating notification channels…</string>
