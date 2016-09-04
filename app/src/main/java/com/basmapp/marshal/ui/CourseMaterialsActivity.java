@@ -1,29 +1,27 @@
 package com.basmapp.marshal.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
-import com.basmapp.marshal.util.ThemeUtils;
 
 import java.util.ArrayList;
 
-public class CourseMaterialsActivity extends AppCompatActivity {
+public class CourseMaterialsActivity extends BaseActivity {
 
     private Toolbar mToolbar;
     private Course mCourse;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_course_materials);

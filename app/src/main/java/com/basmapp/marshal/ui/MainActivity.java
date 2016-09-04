@@ -26,7 +26,6 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -39,6 +38,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
@@ -54,7 +54,6 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
-import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -76,7 +75,7 @@ import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
 import java.util.ArrayList;
 
-public class MainActivity extends AppCompatActivity
+public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     //    private static final int REQUEST_CONTACTS = 0;
 //    private static final int REQUEST_CALENDAR = 1;
@@ -129,13 +128,11 @@ public class MainActivity extends AppCompatActivity
     public static FrameLayout sNewUpdatesButton;
     public static LinearLayout sErrorScreen;
 
-    public static boolean toBeRecreated;
+    public static boolean needRecreate = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LIFE_CYCLE","onCreate");
-        // Change theme based on preference choice
-        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
 
 //        checkPlayServicesAvailability();
@@ -410,8 +407,8 @@ public class MainActivity extends AppCompatActivity
         super.onResume();
         Log.i("LIFE_CYCLE","onResume");
 
-        if (toBeRecreated) {
-            toBeRecreated = false;
+        if (needRecreate) {
+            needRecreate = false;
             recreate();
         }
 
@@ -524,7 +521,7 @@ public class MainActivity extends AppCompatActivity
                         else onReceive(context, intent);
                     }
                 });
-                snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
+//                snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
                 snackbar.setDuration(10000);
                 snackbar.show();
 

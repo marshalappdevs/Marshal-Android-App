@@ -19,12 +19,12 @@ import android.preference.RingtonePreference;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Toast;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -33,14 +33,13 @@ import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
 import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.SuggestionProvider;
-import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class SettingsActivity extends AppCompatActivity {
+public class SettingsActivity extends BaseActivity {
     private Toolbar mToolbar;
     public final static int[] PRIMARY_COLORS = new int[]{
             Color.parseColor("#F44336"),
@@ -85,7 +84,6 @@ public class SettingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_container);
@@ -260,7 +258,7 @@ public class SettingsActivity extends AppCompatActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(Constants.PREF_LANGUAGE) || key.equals(Constants.PREF_THEME)
                     || key.equals(Constants.PREF_PRIMARY_COLOR_CODE) || key.equals(Constants.PREF_ACCENT_COLOR_CODE)) {
-                MainActivity.toBeRecreated = true;
+                MainActivity.needRecreate = true;
                 getActivity().recreate();
             }
         }
@@ -349,7 +347,6 @@ public class SettingsActivity extends AppCompatActivity {
             if (preference.getKey().equals(Constants.PREF_LANGUAGE)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
-                LocaleUtils.updateLocale(getActivity());
             } else if (preference.getKey().equals(Constants.PREF_THEME)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();

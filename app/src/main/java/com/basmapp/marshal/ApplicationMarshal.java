@@ -3,12 +3,10 @@ package com.basmapp.marshal;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.basmapp.marshal.services.UpdateIntentService;
-import com.basmapp.marshal.util.LocaleUtils;
 
 import java.util.Date;
 
@@ -17,16 +15,8 @@ public class ApplicationMarshal extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        LocaleUtils.updateLocale(this);
         Log.i("LIFE_CYCLE", "Application - onCreate");
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
-    }
-
-
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        LocaleUtils.updateLocale(this);
     }
 
     public static void setLastUpdatedNow(Context context){

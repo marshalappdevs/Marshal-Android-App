@@ -10,7 +10,6 @@ import android.os.Build;
 import android.os.Parcelable;
 import android.provider.MediaStore;
 import android.support.v4.content.CursorLoader;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -19,9 +18,9 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.util.ThemeUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -31,7 +30,7 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
-public class DescribeProblemActivity extends AppCompatActivity {
+public class DescribeProblemActivity extends BaseActivity {
     Toolbar mToolbar;
 
     private ImageView mScreenshotOne;
@@ -46,7 +45,6 @@ public class DescribeProblemActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_describe_problem);

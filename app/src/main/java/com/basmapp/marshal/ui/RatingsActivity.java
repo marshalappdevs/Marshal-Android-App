@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -10,6 +9,7 @@ import android.view.View;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
@@ -17,11 +17,10 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.RatingsRecyclerAdapter;
-import com.basmapp.marshal.util.ThemeUtils;
 
 import java.util.List;
 
-public class RatingsActivity extends AppCompatActivity {
+public class RatingsActivity extends BaseActivity {
 
     Toolbar mToolbar;
     Course mCourse;
@@ -39,7 +38,6 @@ public class RatingsActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        ThemeUtils.updateTheme(this);
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_ratings);
