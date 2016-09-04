@@ -33,6 +33,7 @@ import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
 import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.SuggestionProvider;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 
@@ -264,7 +265,7 @@ public class SettingsActivity extends BaseActivity {
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String key) {
             if (key.equals(Constants.PREF_LANGUAGE) || key.equals(Constants.PREF_THEME)
                     || key.equals(Constants.PREF_PRIMARY_COLOR_CODE) || key.equals(Constants.PREF_ACCENT_COLOR_CODE)) {
-                MainActivity.needRecreate = true;
+                MainActivity.toBeRecreated = true;
                 getActivity().recreate();
             }
         }
@@ -353,6 +354,7 @@ public class SettingsActivity extends BaseActivity {
             if (preference.getKey().equals(Constants.PREF_LANGUAGE)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_LANGUAGE, newValue.toString()).apply();
+                LocaleUtils.updateLocale(getActivity());
             } else if (preference.getKey().equals(Constants.PREF_THEME)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
