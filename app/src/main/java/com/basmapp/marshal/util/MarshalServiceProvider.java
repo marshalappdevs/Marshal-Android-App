@@ -40,6 +40,7 @@ public class MarshalServiceProvider {
     public static final String DASHBOARD = "http://marshalweb.azurewebsites.net/dashboard";
     public static final String POST_SUBSCRIBE_COURSE = API_BASE_URL + "gcm/subscription/course/";
     public static final String DELETE_UNSUBSCRIBE_COURSE = API_BASE_URL + "gcm/subscription/course/";
+    public static final String GET_GCM_REGISTRATION = API_BASE_URL + "gcm/registrations/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

@@ -234,9 +234,15 @@ public class SettingsActivity extends AppCompatActivity {
                 @Override
                 public void onFinish(boolean result) {
                     if (result) {
-                        restartApp();
+                        try {
+                            prefGcmChannels.setValues(prefGcmChannels.getSharedPreferences()
+                                    .getStringSet(Constants.PREF_GCM_CHANNELS, prefGcmChannels.getValues()));
+                            updateGcmChannelsPrefSummary();
+                        } catch (Exception e) {
+                            e.printStackTrace();
+                            restartApp();
+                        }
                     }
-                    updateGcmChannelsPrefSummary();
                     prefGcmChannels.setEnabled(true);
                 }
             });

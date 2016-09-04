@@ -13,6 +13,7 @@ import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.entities.GcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -183,6 +184,15 @@ public class UpdateIntentService extends IntentService {
             List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
             List<Rating> tempNewRatings = new ArrayList<>(newRatings);
             List<MalshabItem> tempNewMalshabItems = new ArrayList<>(newMalshabItems);
+
+            List<String> gcmChannels;
+            List<String> gcmSubscriptions;
+
+            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                GcmRegistration gcmRegistration = MarshalServiceProvider.getInstance(token)
+                        .getRegistration(AuthUtil.getHardwareId(getContentResolver()))
+                        .execute().body();
+            }
 
             database.beginTransaction();
 
