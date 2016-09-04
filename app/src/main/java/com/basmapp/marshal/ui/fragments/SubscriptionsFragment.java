@@ -189,10 +189,10 @@ public class SubscriptionsFragment extends Fragment {
     private void filter(String filterText) {
         if (filterText == null) {
             mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
-//        } else if (mSubscriptionsList.isEmpty() && mSearchItem != null) {
-//            mSearchItem.setVisible(false);
-//        } else if (!mSubscriptionsList.isEmpty() && mSearchItem != null) {
-//            mSearchItem.setVisible(true);
+        } else if (mSubscriptionsList.isEmpty() && mSearchItem != null) {
+            mSearchItem.setVisible(false);
+        } else if (!mSubscriptionsList.isEmpty() && mSearchItem != null) {
+            mSearchItem.setVisible(true);
         } else if (filterText.equals("*")) {
             mFilteredCourseList = new ArrayList<>(mSubscriptionsList);
         } else {
@@ -210,12 +210,13 @@ public class SubscriptionsFragment extends Fragment {
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
-        if (listToShow.isEmpty() && !mSubscriptionsList.isEmpty()) {
-            String searchResult;
+        if (listToShow.isEmpty()) {
+            String searchResult = "";
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);
             } else {
-                searchResult = String.format(getString(R.string.no_results_for_query), query);
+                if (query != null && !query.isEmpty())
+                    searchResult = String.format(getString(R.string.no_results_for_query), query);
             }
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
