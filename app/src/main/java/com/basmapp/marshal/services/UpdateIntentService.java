@@ -188,11 +188,11 @@ public class UpdateIntentService extends IntentService {
             List<String> gcmChannels;
             List<String> gcmSubscriptions;
 
-            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
-                GcmRegistration gcmRegistration = MarshalServiceProvider.getInstance(token)
-                        .getRegistration(AuthUtil.getHardwareId(getContentResolver()))
-                        .execute().body();
-            }
+//            if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+//                GcmRegistration gcmRegistration = MarshalServiceProvider.getInstance(token)
+//                        .getRegistration(AuthUtil.getHardwareId(getContentResolver()))
+//                        .execute().body();
+//            }
 
             database.beginTransaction();
 
