@@ -34,7 +34,6 @@ import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
 import com.basmapp.marshal.services.GcmRegistrationService;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.SuggestionProvider;
-import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 

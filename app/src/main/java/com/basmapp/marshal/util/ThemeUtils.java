@@ -18,14 +18,16 @@ public class ThemeUtils {
     public static void updateTheme(AppCompatActivity appCompatActivity) {
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(appCompatActivity);
         String theme = sharedPreferences.getString(Constants.PREF_THEME, "light");
-        if (theme.equals("light")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
-        }
-        if (theme.equals("dark")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        if (theme.equals("auto")) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+        switch (theme) {
+            case "light":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
+                break;
+            case "dark":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
+                break;
+            case "auto":
+                AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_AUTO);
+                break;
         }
         appCompatActivity.getDelegate().applyDayNight();
         int primaryColorCode = MainActivity.getPrimaryColorCode(appCompatActivity);
