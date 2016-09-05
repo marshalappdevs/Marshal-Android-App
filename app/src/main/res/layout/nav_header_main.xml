@@ -6,6 +6,20 @@
     android:background="@android:color/darker_gray">
 
     <ImageView
+        android:id="@+id/cover_photo_placeholder"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingStart="16.0dp"
+        android:paddingEnd="16.0dp"
+        android:paddingTop="16.0dp"
+        android:paddingBottom="16.0dp"
+        android:background="?colorPrimary"
+        android:scaleType="fitEnd"
+        app:srcCompat="@drawable/basmach_logo"
+        android:contentDescription="@null" />
+
+    <ImageView
         android:id="@+id/cover_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
