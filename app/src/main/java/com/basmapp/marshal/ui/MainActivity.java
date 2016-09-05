@@ -403,14 +403,40 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        Log.i("LIFE_CYCLE","onResume");
+    public void onStart() {
+        super.onStart();
+        Log.i("LIFE_CYCLE", "onStart");
 
         if (needRecreate) {
             needRecreate = false;
             recreate();
         }
+
+        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
+        if (opr.isDone()) {
+            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
+            // and the GoogleSignInResult will be available instantly.
+            GoogleSignInResult result = opr.get();
+            handleSignInResult(result);
+        } else {
+            // If the user has not previously signed in on this device or the sign-in has expired,
+            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
+            // single sign-on will occur in this branch.
+//                showProgressDialog();
+            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
+                @Override
+                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
+//                        hideProgressDialog();
+                    handleSignInResult(googleSignInResult);
+                }
+            });
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        Log.i("LIFE_CYCLE", "onResume");
 
         // Register update data from server broadcast and check internet connection broadcast
         registerInternetCheckReceiver();
@@ -452,7 +478,7 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("LIFE_CYCLE","onPause");
+        Log.i("LIFE_CYCLE", "onPause");
         // Unregister update data from server broadcast and check internet connection broadcast
         unregisterReceiver(broadcastReceiver);
         unregisterReceiver(updateReceiver);
@@ -461,11 +487,13 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onStop() {
         super.onStop();
+        Log.i("LIFE_CYCLE", "onStop");
     }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        Log.i("LIFE_CYCLE", "onDestroy");
         // Set viewpager page to start when app is closed
         sLastCoursesViewPagerIndex = 4;
         // Close db if exist when app is closed
@@ -568,29 +596,6 @@ public class MainActivity extends BaseActivity
         signInButton.setScopes(gso.getScopeArray());
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
-        if (opr.isDone()) {
-            // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
-            // and the GoogleSignInResult will be available instantly.
-            GoogleSignInResult result = opr.get();
-            handleSignInResult(result);
-        } else {
-            // If the user has not previously signed in on this device or the sign-in has expired,
-            // this asynchronous branch will attempt to sign in the user silently.  Cross-device
-            // single sign-on will occur in this branch.
-//                showProgressDialog();
-            opr.setResultCallback(new ResultCallback<GoogleSignInResult>() {
-                @Override
-                public void onResult(@NonNull GoogleSignInResult googleSignInResult) {
-//                        hideProgressDialog();
-                    handleSignInResult(googleSignInResult);
-                }
-            });
-        }
-    }
 
     @Override
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
