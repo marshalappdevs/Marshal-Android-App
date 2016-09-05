@@ -173,21 +173,26 @@ public class MeetupsFragment extends Fragment {
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
         if (listToShow.isEmpty()) {
-            String searchResult = "";
+            String searchResult;
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);
             } else {
-                if (query != null && !query.isEmpty())
+                if (query != null && !query.isEmpty()) {
                     searchResult = String.format(getString(R.string.no_results_for_query), query);
+                } else {
+                    searchResult = "";
+                }
             }
-            mNoResults.setText(searchResult);
-            mNoResults.setGravity(Gravity.CENTER);
-            mNoResults.setVisibility(View.VISIBLE);
-        } else {
-            mNoResults.setVisibility(View.GONE);
+            if (searchResult != null && !searchResult.equals("")) {
+                mNoResults.setText(searchResult);
+                mNoResults.setGravity(Gravity.CENTER);
+                mNoResults.setVisibility(View.VISIBLE);
+            } else {
+                mNoResults.setVisibility(View.GONE);
+            }
+            mAdapter.animateTo(listToShow);
+            mRecycler.scrollToPosition(0);
         }
-        mAdapter.animateTo(listToShow);
-        mRecycler.scrollToPosition(0);
     }
 
     private boolean isHasCycle(Course course, String filterText) {
