@@ -412,6 +412,10 @@ public class MainActivity extends BaseActivity
             recreate();
         }
 
+        // Register update data from server broadcast and check internet connection broadcast
+        registerInternetCheckReceiver();
+        registerUpdateReceiver();
+
         OptionalPendingResult<GoogleSignInResult> opr = Auth.GoogleSignInApi.silentSignIn(mGoogleApiClient);
         if (opr.isDone()) {
             // If the user's cached credentials are valid, the OptionalPendingResult will be "done"
@@ -437,10 +441,6 @@ public class MainActivity extends BaseActivity
     protected void onResume() {
         super.onResume();
         Log.i("LIFE_CYCLE", "onResume");
-
-        // Register update data from server broadcast and check internet connection broadcast
-        registerInternetCheckReceiver();
-        registerUpdateReceiver();
 
         // Initialize shared preference if it's null
         if (mSharedPreferences == null)
@@ -479,15 +479,15 @@ public class MainActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         Log.i("LIFE_CYCLE", "onPause");
-        // Unregister update data from server broadcast and check internet connection broadcast
-        unregisterReceiver(broadcastReceiver);
-        unregisterReceiver(updateReceiver);
     }
 
     @Override
     protected void onStop() {
         super.onStop();
         Log.i("LIFE_CYCLE", "onStop");
+        // Unregister update data from server broadcast and check internet connection broadcast
+        unregisterReceiver(broadcastReceiver);
+        unregisterReceiver(updateReceiver);
     }
 
     @Override
