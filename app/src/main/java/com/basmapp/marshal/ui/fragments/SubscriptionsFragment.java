@@ -209,23 +209,20 @@ public class SubscriptionsFragment extends Fragment {
             String searchResult;
             if (filter) {
                 searchResult = getString(R.string.no_results_for_filter);
-            } else {
-                if (query != null && !query.isEmpty()) {
-                    searchResult = String.format(getString(R.string.no_results_for_query), query);
-                } else {
-                    searchResult = "";
-                }
-            }
-            if (searchResult != null && !searchResult.equals("")) {
                 mNoResults.setText(searchResult);
-                mNoResults.setGravity(Gravity.CENTER);
+                mNoResults.setVisibility(View.VISIBLE);
+            } else if (query != null && !query.isEmpty()){
+                searchResult = String.format(getString(R.string.no_results_for_query), query);
+                mNoResults.setText(searchResult);
                 mNoResults.setVisibility(View.VISIBLE);
             } else {
                 mNoResults.setVisibility(View.GONE);
             }
-            mAdapter.animateTo(listToShow);
-            mRecycler.scrollToPosition(0);
+        } else {
+            mNoResults.setVisibility(View.GONE);
         }
+        mAdapter.animateTo(listToShow);
+        mRecycler.scrollToPosition(0);
     }
 
     private boolean isHasCycle(Course course, String filterText) {
