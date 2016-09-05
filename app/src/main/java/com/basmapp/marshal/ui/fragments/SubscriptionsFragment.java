@@ -12,7 +12,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -38,8 +37,9 @@ import java.util.List;
 public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView mRecycler;
-    private TextView mNoResults;
+    private TextView mNoResults, mNoSubscriptions;
     private SearchView mSearchView;
+    private MenuItem mSearchItem;
     private CoursesSearchRecyclerAdapter mAdapter;
     private ArrayList<Course> mFilteredCourseList;
     private ArrayList<Course> mSubscriptionsList;
@@ -57,6 +57,7 @@ public class SubscriptionsFragment extends Fragment {
         toolbar.setTitle(R.string.navigation_drawer_subscriptions);
 
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_subscriptions_search_no_results);
+        mNoSubscriptions = (TextView) rootView.findViewById(R.id.fragment_subscriptions_no_subscriptions);
 
         // Initialize RecyclerView
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_subscriptions_search_recyclerView);
@@ -96,13 +97,30 @@ public class SubscriptionsFragment extends Fragment {
                         } else {
                             mSubscriptionsList = new ArrayList<>();
                         }
-
+                        if (mSubscriptionsList.isEmpty()) {
+                            if (mSearchItem != null)
+                                mSearchItem.setVisible(false);
+                            mNoSubscriptions.setVisibility(View.VISIBLE);
+                        } else if (!mSubscriptionsList.isEmpty()) {
+                            if (mSearchItem != null)
+                                mSearchItem.setVisible(true);
+                            mNoSubscriptions.setVisibility(View.GONE);
+                        }
                         filter("");
                     }
 
                     @Override
                     public void onError(String error) {
                         mSubscriptionsList = new ArrayList<>();
+                        if (mSubscriptionsList.isEmpty()) {
+                            if (mSearchItem != null)
+                                mSearchItem.setVisible(false);
+                            mNoSubscriptions.setVisibility(View.VISIBLE);
+                        } else if (!mSubscriptionsList.isEmpty()) {
+                            if (mSearchItem != null)
+                                mSearchItem.setVisible(true);
+                            mNoSubscriptions.setVisibility(View.GONE);
+                        }
                         filter("");
                     }
                 });
@@ -151,8 +169,8 @@ public class SubscriptionsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup search button
-        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
+        mSearchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchView = (SearchView) mSearchItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -170,7 +188,7 @@ public class SubscriptionsFragment extends Fragment {
                 return true;
             }
         });
-        MenuItemCompat.setOnActionExpandListener(searchItem,
+        MenuItemCompat.setOnActionExpandListener(mSearchItem,
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {

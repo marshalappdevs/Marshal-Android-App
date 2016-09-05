@@ -12,6 +12,22 @@
         android:clipToPadding="false" />
 
     <TextView
+        android:id="@+id/fragment_subscriptions_no_subscriptions"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:paddingLeft="16.0dp"
+        android:paddingRight="16.0dp"
+        android:gravity="center"
+        android:textSize="18.0sp"
+        android:drawableTop="@android:drawable/ic_lock_lock"
+        android:drawablePadding="10.0dp"
+        android:fontFamily="sans-serif-light"
+        android:textColor="?android:textColorSecondary"
+        android:text="@string/no_subscriptions" />
+
+    <TextView
         android:id="@+id/fragment_subscriptions_search_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
