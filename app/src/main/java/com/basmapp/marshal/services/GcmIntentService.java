@@ -72,8 +72,10 @@ public class GcmIntentService extends GcmListenerService {
             if (sharedPreferences.getBoolean("notifications_new_message", true)) {
                 PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                         MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
                 NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
                         .setSmallIcon(R.drawable.stat_notify_basmapp)
+                        .setLargeIcon(largeIcon)
                         .setContentTitle(getString(R.string.app_name))
                         .setContentText(message)
                         .setColor(ThemeUtils.getThemeColor(this, R.attr.colorPrimary))
@@ -132,9 +134,10 @@ class generatePictureStyleNotification extends AsyncTask<String, Void, Bitmap> {
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
                 MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
+        Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
         NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
                 .setSmallIcon(R.drawable.stat_notify_basmapp)
-                .setLargeIcon(result)
+                .setLargeIcon(largeIcon)
                 .setContentTitle(mContext.getString(R.string.app_name))
                 .setContentText(message)
                 .setColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
