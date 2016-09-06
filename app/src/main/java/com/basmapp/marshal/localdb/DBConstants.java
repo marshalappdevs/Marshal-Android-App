@@ -44,6 +44,7 @@ public class DBConstants {
     public static final String COL_IS_MEETUP = "is_meetup";
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
+    public static final String COL_RATINGS = "ratings";
 
     // 'Create Table' commands
     public static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE "+ T_MALSHAB_ITEM + " (" +
@@ -70,8 +71,7 @@ public class DBConstants {
             COL_RATING + " REAL," +
             COL_CREATED_AT + " INTEGER," +
             COL_LAST_MODIFIED + " INTEGER," +
-            COL_COMMENT + " TEXT," +
-            COL_IS_UP_TO_DATE + " INTEGER);";
+            COL_COMMENT + " TEXT);";
 
     public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
@@ -100,6 +100,7 @@ public class DBConstants {
             COL_PASSING_GRADE + " INTEGER, " +
             COL_PRICE + " REAL, " +
             COL_CYCLES + " TEXT, " +
+            COL_RATINGS + " TEXT, " +
             COL_IS_MOOC + " INTEGER, " +
             COL_IS_MEETUP + " INTEGER, " +
             COL_CATEGORY + " TEXT, " +

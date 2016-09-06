@@ -969,7 +969,7 @@ public class CourseActivity extends BaseActivity {
                     switch (requestType) {
                         case REQUEST_TYPE_POST:
                             if (MarshalServiceProvider.getInstance(apiToken).
-                                    postRating(tempRating).execute().isSuccessful()) {
+                                    postRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
                                 tempRating.create();
                                 return true;
                             } else {
@@ -978,7 +978,7 @@ public class CourseActivity extends BaseActivity {
 
                         case REQUEST_TYPE_PUT:
                             if (MarshalServiceProvider.getInstance(apiToken).
-                                    updateRating(tempRating).execute().isSuccessful()) {
+                                    updateRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
                                 tempRating.save();
                                 return true;
                             } else {
@@ -986,8 +986,8 @@ public class CourseActivity extends BaseActivity {
                             }
 
                         case REQUEST_TYPE_DELETE:
-                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mUserRating.getCourseCode(),
-                                    mUserRating.getUserMailAddress()).execute().isSuccessful()) {
+                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mCourse.getCourseCode(),
+                                    mUserRating).execute().isSuccessful()) {
                                 mUserRating.delete();
                                 return true;
                             } else {

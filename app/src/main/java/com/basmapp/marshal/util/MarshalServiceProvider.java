@@ -28,9 +28,9 @@ public class MarshalServiceProvider {
     public static final String GET_ALL_MATERIALS                    = API_BASE_URL + "materials";
     public static final String GET_ALL_RATINGS                      = API_BASE_URL + "ratings";
     public static final String IMAGES_URL                           = API_BASE_URL + "images/";
-    public static final String POST_RATING                          = API_BASE_URL + "ratings/";
-    public static final String PUT_RATING                           = API_BASE_URL + "ratings/";
-    public static final String DELETE_RATING                        = API_BASE_URL + "ratings/";
+    public static final String POST_RATING                          = API_BASE_URL + "courses/ratings/";
+    public static final String PUT_RATING                           = API_BASE_URL + "courses/ratings/";
+    public static final String DELETE_RATING                        = API_BASE_URL + "courses/ratings/";
     public static final String POST_GCM_REGISTER_NEW_DEVICE         = API_BASE_URL + "gcm/register/";
     public static final String PUT_GCM_REGISTER_EXIST_DEVICE        = API_BASE_URL + "gcm/register/";
     public static final String DELETE_GCM_UNREGISTER_DEVICE         = API_BASE_URL + "gcm/unregister/";

@@ -188,14 +188,14 @@ public class Rating extends DBObject implements Parcelable{
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception{
-        if(getCourseCode() != null && !getCourseCode().equals("") &&
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId ,String courseCode) throws Exception{
+        if(courseCode != null && !courseCode.equals("") &&
                 getUserMailAddress() != null && !getUserMailAddress().equals("")
                 && getCreatedAt() != null && getLastModified() != null) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
             statement.bindString(2, getUserMailAddress());
-            statement.bindString(3, getCourseCode());
+            statement.bindString(3, courseCode);
             statement.bindDouble(4, getRating());
             statement.bindLong(5, createdAt.getTime());
             statement.bindLong(6, lastModified.getTime());

@@ -389,8 +389,13 @@ public class CoursesFragment extends Fragment {
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
-        mRootView.findViewById(R.id.fragment_courses_software_see_all).setVisibility(View.VISIBLE);
-        mRootView.findViewById(R.id.fragment_courses_software_recyclerView).setVisibility(View.VISIBLE);
+        if (mSoftwareCourses.size() > 0) {
+            mRootView.findViewById(R.id.fragment_courses_software_see_all).setVisibility(View.VISIBLE);
+            mRootView.findViewById(R.id.fragment_courses_software_recyclerView).setVisibility(View.VISIBLE);
+        } else {
+            mRootView.findViewById(R.id.fragment_courses_software_see_all).setVisibility(View.GONE);
+            mRootView.findViewById(R.id.fragment_courses_software_recyclerView).setVisibility(View.GONE);
+        }
     }
 
     private void initializeCyberComponents() {
@@ -414,8 +419,13 @@ public class CoursesFragment extends Fragment {
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
-        mRootView.findViewById(R.id.fragment_courses_cyber_see_all).setVisibility(View.VISIBLE);
-        mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView).setVisibility(View.VISIBLE);
+        if (mCyberCourses.size() > 0) {
+            mRootView.findViewById(R.id.fragment_courses_cyber_see_all).setVisibility(View.VISIBLE);
+            mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView).setVisibility(View.VISIBLE);
+        } else {
+            mRootView.findViewById(R.id.fragment_courses_cyber_see_all).setVisibility(View.GONE);
+            mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView).setVisibility(View.GONE);
+        }
     }
 
     private void initializeITComponents() {
@@ -439,8 +449,13 @@ public class CoursesFragment extends Fragment {
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
-        mRootView.findViewById(R.id.fragment_courses_it_see_all).setVisibility(View.VISIBLE);
-        mRootView.findViewById(R.id.fragment_courses_it_recyclerView).setVisibility(View.VISIBLE);
+        if (mITCourses.size() > 0) {
+            mRootView.findViewById(R.id.fragment_courses_it_see_all).setVisibility(View.VISIBLE);
+            mRootView.findViewById(R.id.fragment_courses_it_recyclerView).setVisibility(View.VISIBLE);
+        } else {
+            mRootView.findViewById(R.id.fragment_courses_it_see_all).setVisibility(View.GONE);
+            mRootView.findViewById(R.id.fragment_courses_it_recyclerView).setVisibility(View.GONE);
+        }
     }
 
     private void initializeToolsComponents() {
@@ -464,8 +479,13 @@ public class CoursesFragment extends Fragment {
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerTools.setItemAnimator(new DefaultItemAnimator());
         mRecyclerTools.setAdapter(mRecyclerAdapterTools);
-        mRootView.findViewById(R.id.fragment_courses_tools_see_all).setVisibility(View.VISIBLE);
-        mRootView.findViewById(R.id.fragment_courses_tools_recyclerView).setVisibility(View.VISIBLE);
+        if (mToolsCourses.size() > 0) {
+            mRootView.findViewById(R.id.fragment_courses_tools_see_all).setVisibility(View.VISIBLE);
+            mRootView.findViewById(R.id.fragment_courses_tools_recyclerView).setVisibility(View.VISIBLE);
+        } else {
+            mRootView.findViewById(R.id.fragment_courses_tools_see_all).setVisibility(View.GONE);
+            mRootView.findViewById(R.id.fragment_courses_tools_recyclerView).setVisibility(View.GONE);
+        }
     }
 
     private void initializeSystemComponents() {
@@ -489,8 +509,13 @@ public class CoursesFragment extends Fragment {
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSystem.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSystem.setAdapter(mRecyclerAdapterSystem);
-        mRootView.findViewById(R.id.fragment_courses_system_see_all).setVisibility(View.VISIBLE);
-        mRootView.findViewById(R.id.fragment_courses_system_recyclerView).setVisibility(View.VISIBLE);
+        if (mSystemCourses.size() > 0) {
+            mRootView.findViewById(R.id.fragment_courses_system_see_all).setVisibility(View.VISIBLE);
+            mRootView.findViewById(R.id.fragment_courses_system_recyclerView).setVisibility(View.VISIBLE);
+        } else {
+            mRootView.findViewById(R.id.fragment_courses_system_see_all).setVisibility(View.GONE);
+            mRootView.findViewById(R.id.fragment_courses_system_recyclerView).setVisibility(View.GONE);
+        }
     }
 
     @Override

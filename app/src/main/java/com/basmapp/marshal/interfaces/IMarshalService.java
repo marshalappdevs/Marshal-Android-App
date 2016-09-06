@@ -26,21 +26,20 @@ public interface IMarshalService {
     @GET(MarshalServiceProvider.GET_ALL_MATERIALS)
     Call<List<MaterialItem>> getAllMaterials();
 
-    @GET(MarshalServiceProvider.GET_ALL_RATINGS)
-    Call<List<Rating>> getAllRatings();
+//    @GET(MarshalServiceProvider.GET_ALL_RATINGS)
+//    Call<List<Rating>> getAllRatings();
 
-    @GET(MarshalServiceProvider.GET_ALL_RATINGS + "/{courseCode}")
-    Call<List<Rating>> getCourseRatings(@Path("courseCode") String courseCode);
+//    @GET(MarshalServiceProvider.GET_ALL_RATINGS + "/{courseCode}")
+//    Call<List<Rating>> getCourseRatings(@Path("courseCode") String courseCode);
 
-    @POST(MarshalServiceProvider.POST_RATING)
-    Call<Rating> postRating(@Body Rating ratingObject);
+    @POST(MarshalServiceProvider.POST_RATING + "{courseCode}")
+    Call<Rating> postRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
-    @PUT(MarshalServiceProvider.PUT_RATING)
-    Call<Rating> updateRating(@Body Rating ratingObject);
+    @PUT(MarshalServiceProvider.PUT_RATING + "{courseCode}" )
+    Call<Rating> updateRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
-    @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}/{userMailAddress}")
-    Call<Rating> deleteRating(@Path("courseCode") String courseCode,
-                              @Path("userMailAddress") String userMailAddress);
+    @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}")
+    Call<Rating> deleteRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
     Call<List<MalshabItem>> getAllMalshabItems();

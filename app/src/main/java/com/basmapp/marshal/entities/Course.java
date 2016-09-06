@@ -112,6 +112,11 @@ public class Course extends DBObject implements Parcelable{
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
     @Expose
+    @SerializedName("ratings")
+    @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_RATINGS, entityClass = Rating.class)
+    private ArrayList<Rating> ratings = new ArrayList<>();
+
+    @Expose
     @SerializedName("PictureUrl")
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
@@ -309,6 +314,16 @@ public class Course extends DBObject implements Parcelable{
         this.cycles = cycles;
     }
 
+    @ColumnGetter(columnName = DBConstants.COL_RATINGS)
+    public ArrayList<Rating> getRatings() {
+        return ratings;
+    }
+
+    @EntityArraySetter(fkColumnName = DBConstants.COL_RATINGS, entityClass = Rating.class)
+    public void setRatings(ArrayList<Rating> ratings) {
+        this.ratings = ratings;
+    }
+
     @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
     public String getImageUrl() {
         return imageUrl;
@@ -502,12 +517,27 @@ public class Course extends DBObject implements Parcelable{
     private String getCyclesIdsString() throws Exception {
         String ids = "";
 
-        if (getCycles() != null && getCycles().size() > 0) {
-            for (Cycle cycle : getCycles()) {
+        if (cycles != null && cycles.size() > 0) {
+            for (Cycle cycle : cycles) {
                 if (ids.equals(""))
                     ids = String.valueOf(cycle.getId());
                 else
                     ids += ("," + String.valueOf(cycle.getId()));
+            }
+        }
+
+        return ids;
+    }
+
+    private String getRatingsIdsString() throws Exception {
+        String ids = "";
+
+        if (ratings != null && ratings.size() > 0) {
+            for (Rating rating : ratings) {
+                if (ids.equals(""))
+                    ids = String.valueOf(rating.getId());
+                else
+                    ids += ("," + String.valueOf(rating.getId()));
             }
         }
 
@@ -571,6 +601,7 @@ public class Course extends DBObject implements Parcelable{
                     DBConstants.COL_PASSING_GRADE + "," +
                     DBConstants.COL_PRICE + "," +
                     DBConstants.COL_CYCLES + "," +
+                    DBConstants.COL_RATINGS + "," +
                     DBConstants.COL_IS_MOOC + "," +
                     DBConstants.COL_IS_MEETUP + "," +
                     DBConstants.COL_CATEGORY + "," +
@@ -592,6 +623,7 @@ public class Course extends DBObject implements Parcelable{
                     "," + passingGrade +
                     "," + price +
                     "," + prepareStringForSql(getCyclesIdsString()) +
+                    "," + prepareStringForSql(getRatingsIdsString()) +
                     "," + (isMooc ? 1 : 0) +
                     "," + (isMeetup ? 1 : 0) +
                     "," + prepareStringForSql(category) +
@@ -625,6 +657,7 @@ public class Course extends DBObject implements Parcelable{
                     DBConstants.COL_PASSING_GRADE + " = " + passingGrade + "," +
                     DBConstants.COL_PRICE + " = " + price + "," +
                     DBConstants.COL_CYCLES + " = " + prepareStringForSql(getCyclesIdsString()) + "," +
+                    DBConstants.COL_RATINGS + " = " + prepareStringForSql(getRatingsIdsString()) + "," +
                     DBConstants.COL_IS_MOOC + " = " + (isMooc ? 1 : 0) + "," +
                     DBConstants.COL_IS_MEETUP + " = " + (isMeetup ? 1 : 0) + "," +
                     DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +
