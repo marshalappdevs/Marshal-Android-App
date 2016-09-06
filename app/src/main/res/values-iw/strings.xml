@@ -158,6 +158,29 @@
     <string name="programing_course">עזרים לקורס תכנות</string>
     <string name="cyber_defender_course">עזרים לקורס מגן בסייבר</string>
 
+    <!-- Colors -->
+    <string name="red">אדום</string>
+    <string name="pink">ורוד</string>
+    <string name="purple">סגול</string>
+    <string name="deep_purple">סגול כהה</string>
+    <string name="indigo">אינדיגו</string>
+    <string name="blue">כחול</string>
+    <string name="light_blue">כחול בהיר</string>
+    <string name="cyan">תכלת</string>
+    <string name="teal">תיל</string>
+    <string name="green">ירוק</string>
+    <string name="light_green">ירוק בהיר</string>
+    <string name="lime">ליים</string>
+    <string name="yellow">צהוב</string>
+    <string name="amber">ענבר</string>
+    <string name="orange">כתום</string>
+    <string name="deep_orange">כתום כהה</string>
+    <string name="brown">חום</string>
+    <string name="grey">אפור</string>
+    <string name="blue_grey">כחול אפור</string>
+    <string name="black">שחור</string>
+    <string name="transparent">שקוף</string>
+
     <!-- Strings related to Settings -->
     <string name="pref_personalization_category">התאמה אישית</string>
     <string name="pref_general_category">כללי</string>
