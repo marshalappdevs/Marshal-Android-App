@@ -202,13 +202,13 @@ public class SettingsActivity extends BaseActivity {
 
             Preference prefColor = findPreference(Constants.PREF_PRIMARY_COLOR);
             prefColor.setOnPreferenceClickListener(this);
-            prefColor.setSummary(String.format("#%06X", (0xFFFFFF &
-                    MainActivity.getPrimaryColorCode(getActivity()))));
+            prefColor.setSummary(prefColor.getSharedPreferences().
+                    getString(Constants.PREF_PRIMARY_COLOR_NAME, "Blue"));
 
             Preference prefAccentColor = findPreference(Constants.PREF_ACCENT_COLOR);
             prefAccentColor.setOnPreferenceClickListener(this);
-            prefAccentColor.setSummary(String.format("#%06X", (0xFFFFFF &
-                    MainActivity.getAccentColorCode(getActivity()))));
+            prefAccentColor.setSummary(prefColor.getSharedPreferences().
+                    getString(Constants.PREF_ACCENT_COLOR_NAME, "Red"));
 
             Preference prefRevertTheme = findPreference(Constants.PREF_REVERT_THEME);
             prefRevertTheme.setOnPreferenceClickListener(this);

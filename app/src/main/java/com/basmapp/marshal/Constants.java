@@ -20,7 +20,9 @@ public class Constants {
     public static final String PREF_ACCENT_COLOR = "ACCENT-COLOR";
     public static final String PREF_REVERT_THEME = "REVERT-THEME";
     public static final String PREF_PRIMARY_COLOR_CODE = "PRIMARY_COLOR_CODE";
+    public static final String PREF_PRIMARY_COLOR_NAME = "PRIMARY_COLOR_NAME";
     public static final String PREF_ACCENT_COLOR_CODE = "ACCENT_COLOR_CODE";
+    public static final String PREF_ACCENT_COLOR_NAME = "ACCENT_COLOR_NAME";
     public static final String PREF_LANGUAGE = "LANG";
     public static final String PREF_VERSION = "version";
     public static final String PREF_CLEAR_CACHE = "clear-cache";
