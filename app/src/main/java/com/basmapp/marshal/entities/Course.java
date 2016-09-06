@@ -107,12 +107,12 @@ public class Course extends DBObject implements Parcelable{
     private long price;
 
     @Expose
-    @SerializedName("cycleList")
+    @SerializedName("CycleList")
     @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
     @Expose
-    @SerializedName("ratings")
+    @SerializedName("Ratings")
     @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_RATINGS, entityClass = Rating.class)
     private ArrayList<Rating> ratings = new ArrayList<>();
 
