@@ -138,7 +138,7 @@ public class CoursesFragment extends Fragment {
                      try {
                          if (MainActivity.sAllCourses == null) {
                              mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
-                                     false, DBConstants.COL_ID, getActivity(), Course.class);
+                                     false, DBConstants.COL_NAME, getActivity(), Course.class);
                              MainActivity.sAllCourses = mCoursesList;
                          } else {
                              mCoursesList = MainActivity.sAllCourses;
