@@ -14,6 +14,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
 import retrofit2.http.GET;
+import retrofit2.http.HTTP;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -38,7 +39,7 @@ public interface IMarshalService {
     @PUT(MarshalServiceProvider.PUT_RATING + "{courseCode}" )
     Call<Rating> updateRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
-    @DELETE(MarshalServiceProvider.DELETE_RATING + "{courseCode}")
+    @HTTP(method = "DELETE", path = MarshalServiceProvider.DELETE_RATING + "{courseCode}", hasBody = true)
     Call<Rating> deleteRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)

@@ -347,7 +347,7 @@ public class UpdateIntentService extends IntentService {
 
                             for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                                 Rating rating = course.getRatings().get(ratingIndex);
-
+                                rating.setCourseCode(course.getCourseCode());
                                 SQLiteStatement currRatingStatement =
                                         rating.getStatement(ratingStatement, ratingId, course.getCourseCode());
                                 if (currRatingStatement != null) {
@@ -416,7 +416,7 @@ public class UpdateIntentService extends IntentService {
 
                     for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                         Rating rating = course.getRatings().get(ratingIndex);
-
+                        rating.setCourseCode(course.getCourseCode());
                         SQLiteStatement currRatingStatement =
                                 rating.getStatement(ratingStatement, ratingId, course.getCourseCode());
                         if (currRatingStatement != null) {

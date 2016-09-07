@@ -434,7 +434,8 @@ public abstract class DBObject {
     }
 
     public static int countByColumn(Context context, Class<? extends DBObject> targetClass,
-                            String filterColumn, String filterValue) throws Exception {
+                            String filterColumn, Object filterValue) throws Exception {
+        if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query,null);
@@ -445,7 +446,8 @@ public abstract class DBObject {
     }
 
     public static float getAverageByColumn(Context context, Class<? extends DBObject> targetClass,
-                                 String avgColumn, String filterColumn, String filterValue) throws Exception {
+                                 String avgColumn, String filterColumn, Object filterValue) throws Exception {
+        if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT AVG(" + avgColumn + ") FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
