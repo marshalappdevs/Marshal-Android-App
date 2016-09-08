@@ -19,8 +19,6 @@
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>
     <string name="permission_contacts_access">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר. הקש על הגדרות > הרשאות, והפעל את אנשי קשר.</string>
-    <string name="permission_calendar_access_for_meetups">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן.</string>
-    <string name="permission_calendar_access">כדי ליצור אירועי מיטאפ ביומן, התר למרש\"ל גישה אל היומן. הקש על הגדרות > הרשאות, והפעל את היומן.</string>
     <string name="permission_continue">המשך</string>
     <string name="permission_cancel">לא עכשיו</string>
     <string name="permission_settings_open">הגדרות</string>
@@ -137,6 +135,7 @@
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
     <string name="are_you_sure">האם אתה בטוח?</string>
+    <string name="permission_storage_rationale">גישה אל האחסון דרושה כדי לצרף תמונות מהגלריה</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>

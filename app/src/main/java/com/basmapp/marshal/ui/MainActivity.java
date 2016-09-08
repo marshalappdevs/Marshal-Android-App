@@ -77,10 +77,6 @@ import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
-    //    private static final int REQUEST_CONTACTS = 0;
-//    private static final int REQUEST_CALENDAR = 1;
-//    private static String[] PERMISSIONS_CALENDAR = {Manifest.permission.READ_CALENDAR,
-//            Manifest.permission.WRITE_CALENDAR};
     private static final int RC_SIGN_IN = 9001;
     private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final int RC_COURSE_ACTIVITY = 8000;
@@ -853,10 +849,6 @@ public class MainActivity extends BaseActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
-//            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.READ_CALENDAR) != PackageManager.PERMISSION_GRANTED
-//                    || ActivityCompat.checkSelfPermission(this, Manifest.permission.WRITE_CALENDAR) != PackageManager.PERMISSION_GRANTED) {
-//                requestCalendarPermission();
-//            }
             if (mMeetupsFragment == null)
                 mMeetupsFragment = new MeetupsFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
@@ -879,134 +871,4 @@ public class MainActivity extends BaseActivity
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
     }
-
-//    private void requestContactsPermission() {
-//        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
-//            // Provide an additional rationale to the user if the permission was not granted
-//            // and the user would benefit from additional context for the use of the permission.
-//            // For example, if the request has been denied previously.
-//            new AlertDialog.Builder(this)
-//                    .setMessage(R.string.permission_contacts_access_for_gplus)
-//                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    })
-//                    .show();
-//        } else {
-//            // Contact permission has not been granted yet. Request it directly.
-//            ActivityCompat.requestPermissions(MainActivity.this, new String[]{Manifest.permission.GET_ACCOUNTS}, REQUEST_CONTACTS);
-//        }
-//    }
-//    private void requestCalendarPermission() {
-//        if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
-//                || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-//            // Provide an additional rationale to the user if the permission was not granted
-//            // and the user would benefit from additional context for the use of the permission.
-//            // For example, if the request has been denied previously.
-//            new AlertDialog.Builder(this)
-//                    .setMessage(R.string.permission_calendar_access_for_meetups)
-//                    .setPositiveButton(R.string.permission_continue, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                            ActivityCompat.requestPermissions(MainActivity.this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
-//                        }
-//                    })
-//                    .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-//                        @Override
-//                        public void onClick(DialogInterface dialog, int which) {
-//                            dialog.dismiss();
-//                        }
-//                    })
-//                    .show();
-//        } else {
-//            // Calendar permissions have not been granted yet. Request them directly.
-//            ActivityCompat.requestPermissions(this, PERMISSIONS_CALENDAR, REQUEST_CALENDAR);
-//        }
-//    }
-
-//    @Override
-//    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
-//        if (requestCode == REQUEST_CONTACTS) {
-//            boolean contactsNeverAskAgain = mSharedPreferences.getBoolean("contactsNeverAskAgain", false);
-//            if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-//                // User granted permissions dialog
-//                initializeGoogleSignIn();
-//                signIn();
-//            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.GET_ACCOUNTS)) {
-//                // User denied permissions dialog
-//            } else {
-//                // User denied permissions dialog and checked never ask again
-//                if (contactsNeverAskAgain) {
-//                    new AlertDialog.Builder(this)
-//                            .setMessage(R.string.permission_contacts_access)
-//                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Intent intent = new Intent();
-//                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-//                                    intent.setData(uri);
-//                                    startActivity(intent);
-//                                    finish();
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            })
-//                            .show();
-//                }
-//                mSharedPreferences.edit().putBoolean("contactsNeverAskAgain", true).apply();
-//            }
-//        }
-//        if (requestCode == REQUEST_CALENDAR) {
-//            boolean calendarNeverAskAgain = mSharedPreferences.getBoolean("calendarNeverAskAgain", false);
-//            if (PermissionUtil.verifyPermissions(grantResults)) {
-//                // User granted permissions dialog
-//            } else if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_CALENDAR)
-//                    || ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_CALENDAR)) {
-//                // User denied permissions dialog
-//            } else {
-//                // User denied permissions dialog and checked never ask again
-//                if (calendarNeverAskAgain) {
-//                    new AlertDialog.Builder(this)
-//                            .setMessage(R.string.permission_calendar_access)
-//                            .setPositiveButton(R.string.permission_settings_open, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    Intent intent = new Intent();
-//                                    intent.setAction(Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
-//                                    Uri uri = Uri.fromParts("package", MainActivity.this.getPackageName(), null);
-//                                    intent.setData(uri);
-//                                    startActivity(intent);
-//                                    finish();
-//                                }
-//                            })
-//                            .setNegativeButton(R.string.permission_cancel, new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialog, int which) {
-//                                    dialog.dismiss();
-//                                }
-//                            })
-//                            .show();
-//                }
-//                mSharedPreferences.edit().putBoolean("calendarNeverAskAgain", true).apply();
-//            }
-//        } else {
-//            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-//        }
-//    }
-
 }

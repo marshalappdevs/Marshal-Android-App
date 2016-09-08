@@ -21,8 +21,6 @@
     <string name="offline_snackbar_retry">Retry</string>
     <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
     <string name="permission_contacts_access">To show profile details from your Google+ account, allow Marshal access your contacts. Tap Settings > Permissions, and turn Contacts on.</string>
-    <string name="permission_calendar_access_for_meetups">To create calendar events for Meetups, allow Marshal access your calendar.</string>
-    <string name="permission_calendar_access">To create calendar events for Meetups, allow Marshal access your calendar. Tap Settings > Permissions, and turn Calendar on.</string>
     <string name="permission_continue">CONTINUE</string>
     <string name="permission_cancel">NOT NOW</string>
     <string name="permission_settings_open">SETTINGS</string>
@@ -141,6 +139,7 @@
     <string name="unsubscribe_error">Could not unsubsribe from this course. Please try again later.</string>
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
     <string name="are_you_sure">Are you sure?</string>
+    <string name="permission_storage_rationale">Storage permission is needed to add photos from Gallery</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
