@@ -151,7 +151,7 @@
     <string name="about_app_license">Source code available on &lt;a href=\"https://github.com/marshalappdevs/Marshal-Android-App\">GitHub&lt;/a> under the &lt;a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0 License&lt;/a>.</string>
     <string name="about_rate_app">Rate the App</string>
     <!--<string name="about_basmach"><![CDATA[Basmach- <br />&lt;a href=https://goo.gl/s6thV1>The I.D.F\'s IT &amp; Cyber Academy&lt;/a>]]></string>-->
-    <string name="about_basmach">Basmach-\n &lt;a href=https://goo.gl/s6thV1>The I.D.F\'s IT &amp; Cyber Academy&lt;/a></string>
+    <string name="about_basmach"><![CDATA[Basmach-<br /><a href="https://goo.gl/s6thV1">The I.D.F\'s IT &amp; Cyber Academy</a>]]></string>
     <string name="mooc_flag_title">mooc</string>
 
     <!--Roles-->

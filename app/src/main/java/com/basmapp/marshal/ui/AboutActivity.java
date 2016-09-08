@@ -3,16 +3,22 @@ package com.basmapp.marshal.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.Spannable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.method.LinkMovementMethod;
+import android.text.style.URLSpan;
 import android.view.View;
-import android.widget.Button;
+import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
+import com.basmapp.marshal.util.URLSpanNoUnderline;
 
 public class AboutActivity extends BaseActivity {
     Toolbar mToolbar;
@@ -37,14 +43,20 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        TextView aboutVersion = (TextView) findViewById(R.id.about_version_text);
-        aboutVersion.setText(BuildConfig.VERSION_NAME);
+        ((TextView) findViewById(R.id.about_version_text)).setText(BuildConfig.VERSION_NAME);
 
-        TextView aboutLibraries = (TextView) findViewById(R.id.activity_about_libraries);
-        aboutLibraries.setMovementMethod(LinkMovementMethod.getInstance());
+        TextView librariesTextView = (TextView) findViewById(R.id.activity_about_libraries);
+        removeUnderlinesFromLinks(librariesTextView);
 
-        Button aboutRate = (Button) findViewById(R.id.rate_app_button);
-        aboutRate.setOnClickListener(new View.OnClickListener() {
+        TextView appLicenseTextView = (TextView)findViewById(R.id.about_app_license);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+            appLicenseTextView.setText(Html.fromHtml(getString(R.string.about_app_license), Html.FROM_HTML_MODE_LEGACY));
+        } else {
+            appLicenseTextView.setText(Html.fromHtml(getString(R.string.about_app_license)));
+        }
+        removeUnderlinesFromLinks(appLicenseTextView);
+
+        findViewById(R.id.rate_app_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 startActivity(new Intent(Intent.ACTION_VIEW,
@@ -52,28 +64,51 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        TextView aboutLicense = (TextView)findViewById(R.id.about_app_license);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            aboutLicense.setText(Html.fromHtml(getString(R.string.about_app_license), Html.FROM_HTML_MODE_LEGACY));
-        } else {
-            aboutLicense.setText(Html.fromHtml(getString(R.string.about_app_license)));
-        }
-        aboutLicense.setMovementMethod(LinkMovementMethod.getInstance());
-
         TextView aboutBasmachText = (TextView)findViewById(R.id.about_basmach);
-        String aboutBasmachString = getString(R.string.about_basmach);
-        aboutBasmachString = aboutBasmachString.replace("\r\n", "<br />").replace("\n", "<br />");
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
-            aboutBasmachText.setText(Html.fromHtml(aboutBasmachString, Html.FROM_HTML_MODE_LEGACY));
+            aboutBasmachText.setText(Html.fromHtml(getString(R.string.about_basmach), Html.FROM_HTML_MODE_LEGACY));
         } else {
-            aboutBasmachText.setText(Html.fromHtml(aboutBasmachString));
+            aboutBasmachText.setText(Html.fromHtml(getString(R.string.about_basmach)));
         }
-        aboutBasmachText.setMovementMethod(LinkMovementMethod.getInstance());
+        removeUnderlinesFromLinks(aboutBasmachText);
+
+        makeEverythingClickable((ViewGroup) findViewById(R.id.about_container));
     }
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+    }
+
+    public static void removeUnderlinesFromLinks(@NonNull TextView textView) {
+        CharSequence text = textView.getText();
+        if (text instanceof Spanned) {
+            Spannable spannable = new SpannableString(text);
+            removeUnderlinesFromLinks(spannable, spannable.getSpans(0, spannable.length(), URLSpan.class));
+            textView.setText(spannable);
+        }
+    }
+
+    public static void removeUnderlinesFromLinks(@NonNull Spannable spannable,
+                                                 @NonNull URLSpan[] spans) {
+        for (URLSpan span: spans) {
+            int start = spannable.getSpanStart(span);
+            int end = spannable.getSpanEnd(span);
+            spannable.removeSpan(span);
+            span = new URLSpanNoUnderline(span.getURL());
+            spannable.setSpan(span, start, end, 0);
+        }
+    }
+
+    private void makeEverythingClickable(ViewGroup vg) {
+        for (int i = 0; i < vg.getChildCount(); i++) {
+            if (vg.getChildAt(i) instanceof ViewGroup) {
+                makeEverythingClickable((ViewGroup)vg.getChildAt(i));
+            } else if (vg.getChildAt(i) instanceof TextView) {
+                TextView tv = (TextView) vg.getChildAt(i);
+                tv.setMovementMethod(LinkMovementMethod.getInstance());
+            }
+        }
     }
 }
