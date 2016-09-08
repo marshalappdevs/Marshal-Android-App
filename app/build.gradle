@@ -10,7 +10,7 @@ android {
         versionCode 6
         versionName "1.0"
         vectorDrawables.useSupportLibrary = true
-        buildConfigField "String", "SECRET_KEY", "\"${secret_key}\""
+        buildConfigField "String", "AUTH_KEY", "\"${auth_key}\""
     }
     buildTypes {
         debug {

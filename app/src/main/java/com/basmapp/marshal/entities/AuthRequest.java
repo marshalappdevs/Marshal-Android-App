@@ -1,7 +1,6 @@
 package com.basmapp.marshal.entities;
 
-import android.util.Log;
-
+import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.util.HashUtil;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -33,9 +32,7 @@ public class AuthRequest {
     private void setAuthHash() {
         DateFormat format = new SimpleDateFormat("dd/MM kk:mm", Locale.getDefault());
         format.setTimeZone(TimeZone.getTimeZone("UTC"));
-        String authBeforeHash = "marshaldevapps " + format.format(new Date());
-        Log.i("AUTH", authBeforeHash);
+        String authBeforeHash = BuildConfig.AUTH_KEY + " " + format.format(new Date());
         authReq = HashUtil.SHA(authBeforeHash);
-        Log.i("AUTH", authReq);
     }
 }
