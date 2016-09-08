@@ -80,7 +80,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8.0dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColorLink="@color/link_color"
+            android:textColorLink="?colorPrimaryDark"
             android:lineSpacingMultiplier="1.2"
             android:textIsSelectable="true"
             android:textColor="?android:textColorSecondary"
@@ -101,7 +101,7 @@
             android:layout_height="wrap_content"
             android:layout_marginBottom="8.0dp"
             android:textAppearance="?android:textAppearanceSmall"
-            android:textColorLink="@color/link_color"
+            android:textColorLink="?colorPrimaryDark"
             android:lineSpacingMultiplier="1.2"
             android:textIsSelectable="true"
             android:textColor="?android:textColorSecondary"
@@ -116,7 +116,7 @@
             android:layout_marginBottom="8.0dp"
             android:background="?attr/selectableItemBackground"
             android:textAppearance="@style/TextAppearance.Button"
-            android:textColor="@color/link_color"
+            android:textColor="?colorAccent"
             android:text="@string/about_rate_app" />
 
         <View
@@ -142,7 +142,7 @@
             android:layout_weight="1.0"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"
-            android:textColorLink="@color/link_color"
+            android:textColorLink="?colorPrimaryDark"
             android:textIsSelectable="true"
             android:textColor="?android:textColorSecondary"
             android:text="@string/about_basmach" />
