@@ -40,9 +40,7 @@ public class DescribeProblemActivity extends BaseActivity {
 
     private static final int REQUEST_STORAGE = 0;
 
-    private ImageView mScreenshotOne;
-    private ImageView mScreenshotTwo;
-    private ImageView mScreenshotThree;
+    private ImageView[] screenshots = new ImageView[3];
 
     private int PICK_IMAGE_REQUEST;
 
@@ -140,62 +138,30 @@ public class DescribeProblemActivity extends BaseActivity {
             }
         });
 
-        mScreenshotOne = (ImageView) findViewById(R.id.screenshot_one);
-        mScreenshotOne.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PICK_IMAGE_REQUEST = 1;
-                // Check for storage permission
-                if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestStoragePermission();
-                } else {
-                    // Create intent to Open Image applications like Gallery, Google Photos
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    // Start the Intent
-                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_action)), PICK_IMAGE_REQUEST);
-                }
-            }
-        });
+        screenshots[0] = (ImageView) findViewById(R.id.screenshot_one);
+        screenshots[1] = (ImageView) findViewById(R.id.screenshot_two);
+        screenshots[2] = (ImageView) findViewById(R.id.screenshot_three);
 
-        mScreenshotTwo = (ImageView) findViewById(R.id.screenshot_two);
-        mScreenshotTwo.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PICK_IMAGE_REQUEST = 2;
-                // Check for storage permission
-                if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestStoragePermission();
-                } else {
-                    // Create intent to Open Image applications like Gallery, Google Photos
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    // Start the Intent
-                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_action)), PICK_IMAGE_REQUEST);
+        for (int i = 0; i < screenshots.length; i++) {
+            final int finalI = i;
+            screenshots[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    PICK_IMAGE_REQUEST = finalI;
+                    // Check for storage permission
+                    if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
+                            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                        requestStoragePermission();
+                    } else {
+                        // Create intent to Open Image applications like Gallery, Google Photos
+                        Intent intent = new Intent(Intent.ACTION_PICK,
+                                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                        // Start the Intent
+                        startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_action)), PICK_IMAGE_REQUEST);
                 }
-            }
-        });
-
-        mScreenshotThree = (ImageView) findViewById(R.id.screenshot_three);
-        mScreenshotThree.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                PICK_IMAGE_REQUEST = 3;
-                // Check for storage permission
-                if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
-                        Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                    requestStoragePermission();
-                } else {
-                    // Create intent to Open Image applications like Gallery, Google Photos
-                    Intent intent = new Intent(Intent.ACTION_PICK,
-                            android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                    // Start the Intent
-                    startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_action)), PICK_IMAGE_REQUEST);
                 }
-            }
-        });
+            });
+        }
     }
 
     @Override
@@ -203,7 +169,7 @@ public class DescribeProblemActivity extends BaseActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == RESULT_OK) {
-                if (requestCode == 1) {
+                if (requestCode == 0) {
                     if (data == null || data.getData() == null) {
                         return;
                     }
@@ -212,14 +178,14 @@ public class DescribeProblemActivity extends BaseActivity {
                         try {
                             attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            mScreenshotOne.setImageBitmap(bitmap);
+                            screenshots[0].setImageBitmap(bitmap);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
-                } else if (requestCode == 2) {
+                } else if (requestCode == 1) {
                     if (data == null || data.getData() == null) {
                         return;
                     }
@@ -228,7 +194,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         try {
                             attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            mScreenshotTwo.setImageBitmap(bitmap);
+                            screenshots[1].setImageBitmap(bitmap);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -241,7 +207,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         try {
                             attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
-                            mScreenshotThree.setImageBitmap(bitmap);
+                            screenshots[2].setImageBitmap(bitmap);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }

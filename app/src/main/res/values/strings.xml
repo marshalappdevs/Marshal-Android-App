@@ -139,7 +139,7 @@
     <string name="unsubscribe_error">Could not unsubsribe from this course. Please try again later.</string>
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
     <string name="are_you_sure">Are you sure?</string>
-    <string name="permission_storage_rationale">Storage permission is needed to add photos from Gallery</string>
+    <string name="permission_storage_rationale">Storage permission is needed to add photos from gallery</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
