@@ -176,9 +176,10 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            attachments.add(0, Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[0].setImageBitmap(bitmap);
+                            screenshots[0].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -192,9 +193,10 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            attachments.add(1, Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[1].setImageBitmap(bitmap);
+                            screenshots[1].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -205,9 +207,10 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            attachments.add(2, Uri.fromFile(new File(getRealPathFromURI(uri))));
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[2].setImageBitmap(bitmap);
+                            screenshots[2].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
