@@ -135,7 +135,7 @@
     <string name="unsubscribe_error">לא היה ניתן לבטל את ההרשמה לקורס זה. אנא נסה שוב מאוחר יותר.</string>
     <string name="no_subscriptions">אתה לא רשום לאף קורס. כדי להירשם לקורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
     <string name="are_you_sure">האם אתה בטוח?</string>
-    <string name="permission_storage_rationale">גישה אל האחסון דרושה כדי לצרף תמונות מהגלריה</string>
+    <string name="permission_storage_rationale">גישה לאחסון נדרשת כדי להציג את בוחר המידה</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
