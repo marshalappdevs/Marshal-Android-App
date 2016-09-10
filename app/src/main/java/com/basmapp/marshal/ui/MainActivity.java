@@ -774,16 +774,6 @@ public class MainActivity extends BaseActivity
                 return true;
             }
         });
-
-        MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
-        filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-//                updateData();
-                return true;
-            }
-        });
-
         return true;
     }
 

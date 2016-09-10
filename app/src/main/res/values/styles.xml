@@ -242,6 +242,11 @@
         <item name="colorControlNormal">@android:color/white</item>
         <item name="android:textColorHint">@color/hint_text_color_dark</item>
         <item name="android:editTextColor">@android:color/white</item>
+        <item name="autoCompleteTextViewStyle">@style/Custom.AutoCompleteTextView.SearchView</item>
+    </style>
+
+    <style name="Custom.AutoCompleteTextView.SearchView" parent="Widget.AppCompat.AutoCompleteTextView">
+        <item name="android:textColor">@android:color/white</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
