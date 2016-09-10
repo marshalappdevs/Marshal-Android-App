@@ -140,6 +140,7 @@
     <string name="no_subscriptions">You are not subscribed to any course. To subscribe for courses, tap the bookmark in the bottom menu of the course details.</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="permission_storage_rationale">Storage permission is required to show media picker</string>
+    <string name="screenshot_removed">Screenshot removed</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>

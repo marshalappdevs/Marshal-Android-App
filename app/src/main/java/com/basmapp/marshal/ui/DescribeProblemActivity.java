@@ -163,6 +163,20 @@ public class DescribeProblemActivity extends BaseActivity {
                 }
                 }
             });
+            screenshots[i].setOnLongClickListener(new View.OnLongClickListener() {
+                @Override
+                public boolean onLongClick(View view) {
+                    if (uris[finalI] != null && attachments.contains(uris[finalI])) {
+                        attachments.remove(uris[finalI]);
+                        screenshots[finalI].setImageBitmap(null);
+                        Snackbar.make(findViewById(R.id.coordinatorLayout),
+                                R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();
+                        return true;
+                    } else {
+                        return false;
+                    }
+                }
+            });
         }
     }
 
