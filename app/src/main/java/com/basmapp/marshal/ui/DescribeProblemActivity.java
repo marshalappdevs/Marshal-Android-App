@@ -42,6 +42,8 @@ public class DescribeProblemActivity extends BaseActivity {
 
     private ImageView[] screenshots = new ImageView[3];
 
+    private Uri[] uris = new Uri[3];
+
     private int PICK_IMAGE_REQUEST;
 
     private ArrayList<Uri> attachments = new ArrayList<>();
@@ -176,10 +178,12 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            if (uris[0] != null && attachments.contains(uris[0]))
+                                attachments.remove(uris[0]);
+                            uris[0] = Uri.fromFile(new File(getRealPathFromURI(uri)));
+                            attachments.add(uris[0]);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[0].setImageBitmap(bitmap);
-                            screenshots[0].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -193,10 +197,12 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            if (uris[1] != null && attachments.contains(uris[1]))
+                                attachments.remove(uris[1]);
+                            uris[1] = Uri.fromFile(new File(getRealPathFromURI(uri)));
+                            attachments.add(uris[1]);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[1].setImageBitmap(bitmap);
-                            screenshots[1].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
@@ -207,10 +213,12 @@ public class DescribeProblemActivity extends BaseActivity {
                     Uri uri = data.getData();
                     if (getRealPathFromURI(uri) != null) {
                         try {
-                            attachments.add(Uri.fromFile(new File(getRealPathFromURI(uri))));
+                            if (uris[2] != null && attachments.contains(uris[2]))
+                                attachments.remove(uris[2]);
+                            uris[2] = Uri.fromFile(new File(getRealPathFromURI(uri)));
+                            attachments.add(uris[2]);
                             Bitmap bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), uri);
                             screenshots[2].setImageBitmap(bitmap);
-                            screenshots[2].setClickable(false);
                         } catch (IOException e) {
                             e.printStackTrace();
                         }
