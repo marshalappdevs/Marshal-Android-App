@@ -3,15 +3,13 @@
     android:id="@+id/course_cardview_widget"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="8dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginBottom="8dp"
     android:foreground="?attr/selectableItemBackground">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:rotationY="180">
 
         <com.basmapp.marshal.ui.widget.SquareImageView
             android:id="@+id/picture"

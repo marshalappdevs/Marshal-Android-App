@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.SystemClock;
+import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
@@ -58,6 +59,13 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit()
+                            .putBoolean("courseShared", true).apply();
+                } else {
+                    PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit()
+                            .putBoolean("courseShared", false).apply();
+                }
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(position));
                 intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));

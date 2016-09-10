@@ -155,38 +155,33 @@ public class CourseActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Boolean courseShared = mSharedPreferences.getBoolean("courseShared", false);
-                if (courseShared) {
-                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                        mFabCycles.animate().cancel();
-                        mFabCycles.animate()
-                                .scaleX(0f)
-                                .scaleY(0f)
-                                .alpha(0f)
-                                .setDuration(200)
-                                .setInterpolator(new FastOutLinearInInterpolator())
-                                .setListener(new Animator.AnimatorListener() {
-                                    @Override
-                                    public void onAnimationStart(Animator animation) {
-                                    }
+                if (mSharedPreferences.getBoolean("courseShared", false)) {
+                    mFabCycles.animate().cancel();
+                    mFabCycles.animate()
+                            .scaleX(0f)
+                            .scaleY(0f)
+                            .alpha(0f)
+                            .setDuration(200)
+                            .setInterpolator(new FastOutLinearInInterpolator())
+                            .setListener(new Animator.AnimatorListener() {
+                                @Override
+                                public void onAnimationStart(Animator animation) {
+                                }
 
-                                    @Override
-                                    public void onAnimationEnd(Animator animation) {
-                                        mToolbar.setVisibility(View.GONE);
-                                        supportFinishAfterTransition();
-                                    }
+                                @Override
+                                public void onAnimationEnd(Animator animation) {
+                                    mToolbar.setVisibility(View.GONE);
+                                    supportFinishAfterTransition();
+                                }
 
-                                    @Override
-                                    public void onAnimationCancel(Animator animation) {
-                                    }
+                                @Override
+                                public void onAnimationCancel(Animator animation) {
+                                }
 
-                                    @Override
-                                    public void onAnimationRepeat(Animator animation) {
-                                    }
-                                });
-                    } else {
-                        finish();
-                    }
+                                @Override
+                                public void onAnimationRepeat(Animator animation) {
+                                }
+                            });
                 } else {
                     finish();
                 }
@@ -199,6 +194,10 @@ public class CourseActivity extends BaseActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
+        if (mSharedPreferences.getBoolean("courseShared", false)
+                && !mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+            mFabCycles.hide();
+        }
 
         // Set subscribe menu item
         mSubscribeText = (TextView) findViewById(R.id.subscribe_button_text);
@@ -245,37 +244,51 @@ public class CourseActivity extends BaseActivity {
                 });
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
-                    sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {
-                        }
-
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
-                                mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                                        .withMaterialShowcase()
-                                        .setStyle(R.style.ShowcaseView_BasmApp)
-                                        .setTarget(new ViewTarget(mFabCycles))
-                                        .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                        .replaceEndButton(R.layout.view_custom_button)
-                                        .build();
-                                mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                    if (mSharedPreferences.getBoolean("courseShared", true)) {
+                        sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
+                            @Override
+                            public void onTransitionStart(Transition transition) {
                             }
-                        }
 
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
-                        }
+                            @Override
+                            public void onTransitionEnd(Transition transition) {
+                                mFabCycles.show();
+                                if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                                    mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                                            .withMaterialShowcase()
+                                            .setStyle(R.style.ShowcaseView_BasmApp)
+                                            .setTarget(new ViewTarget(mFabCycles))
+                                            .setContentTitle(R.string.cycle_fab_tutorial_description)
+                                            .replaceEndButton(R.layout.view_custom_button)
+                                            .build();
+                                    mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                                }
+                            }
 
-                        @Override
-                        public void onTransitionPause(Transition transition) {
-                        }
+                            @Override
+                            public void onTransitionCancel(Transition transition) {
+                            }
 
-                        @Override
-                        public void onTransitionResume(Transition transition) {
+                            @Override
+                            public void onTransitionPause(Transition transition) {
+                            }
+
+                            @Override
+                            public void onTransitionResume(Transition transition) {
+                            }
+                        });
+                    } else {
+                        if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                            mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
+                                    .withMaterialShowcase()
+                                    .setStyle(R.style.ShowcaseView_BasmApp)
+                                    .setTarget(new ViewTarget(mFabCycles))
+                                    .setContentTitle(R.string.cycle_fab_tutorial_description)
+                                    .replaceEndButton(R.layout.view_custom_button)
+                                    .build();
+                            mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
                         }
-                    });
+                    }
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
                         mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
@@ -845,40 +858,33 @@ public class CourseActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        Boolean courseShared = mSharedPreferences.getBoolean("courseShared", false);
-        if (courseShared) {
-            if (mShowcaseView != null && mShowcaseView.isShowing()) {
-                mShowcaseView.hide();
-            } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                mFabCycles.animate().cancel();
-                mFabCycles.animate()
-                        .scaleX(0f)
-                        .scaleY(0f)
-                        .alpha(0f)
-                        .setDuration(200)
-                        .setInterpolator(new FastOutLinearInInterpolator())
-                        .setListener(new Animator.AnimatorListener() {
-                            @Override
-                            public void onAnimationStart(Animator animation) {
-                            }
+        if (mSharedPreferences.getBoolean("courseShared", false)) {
+            mFabCycles.animate().cancel();
+            mFabCycles.animate()
+                    .scaleX(0f)
+                    .scaleY(0f)
+                    .alpha(0f)
+                    .setDuration(200)
+                    .setInterpolator(new FastOutLinearInInterpolator())
+                    .setListener(new Animator.AnimatorListener() {
+                        @Override
+                        public void onAnimationStart(Animator animation) {
+                        }
 
-                            @Override
-                            public void onAnimationEnd(Animator animation) {
-                                mToolbar.setVisibility(View.GONE);
-                                supportFinishAfterTransition();
-                            }
+                        @Override
+                        public void onAnimationEnd(Animator animation) {
+                            mToolbar.setVisibility(View.GONE);
+                            supportFinishAfterTransition();
+                        }
 
-                            @Override
-                            public void onAnimationCancel(Animator animation) {
-                            }
+                        @Override
+                        public void onAnimationCancel(Animator animation) {
+                        }
 
-                            @Override
-                            public void onAnimationRepeat(Animator animation) {
-                            }
-                        });
-            } else {
-                super.onBackPressed();
-            }
+                        @Override
+                        public void onAnimationRepeat(Animator animation) {
+                        }
+                    });
         } else {
             super.onBackPressed();
         }

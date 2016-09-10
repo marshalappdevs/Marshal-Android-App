@@ -70,7 +70,13 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
-                PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit().putBoolean("courseShared", true).apply();
+                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                    PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit()
+                            .putBoolean("courseShared", true).apply();
+                } else {
+                    PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit()
+                            .putBoolean("courseShared", false).apply();
+                }
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
                 intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
