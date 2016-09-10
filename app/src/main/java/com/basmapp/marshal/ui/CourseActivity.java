@@ -858,7 +858,9 @@ public class CourseActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mSharedPreferences.getBoolean("courseShared", false)) {
+        if (mShowcaseView != null && mShowcaseView.isShowing()) {
+            mShowcaseView.hide();
+        } else if (mSharedPreferences.getBoolean("courseShared", false)) {
             mFabCycles.animate().cancel();
             mFabCycles.animate()
                     .scaleX(0f)
