@@ -168,6 +168,7 @@ public class DescribeProblemActivity extends BaseActivity {
                 public boolean onLongClick(View view) {
                     if (uris[finalI] != null && attachments.contains(uris[finalI])) {
                         attachments.remove(uris[finalI]);
+                        uris[finalI] = null;
                         screenshots[finalI].setImageBitmap(null);
                         Snackbar.make(findViewById(R.id.coordinatorLayout),
                                 R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();
