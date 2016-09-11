@@ -27,27 +27,27 @@ public class GcmRegistrationReceiver extends BroadcastReceiver {
         boolean result = intent.getBooleanExtra(EXTRA_RESULT, false);
         if (callback != null) {
             callback.onFinish(result);
-        } else {
-            publishResultToUI(result, context);
+//        } else {
+//            publishResultToUI(result, context);
         }
     }
-
-    private void publishResultToUI(boolean result, final Context context) {
-        Handler handler = new Handler(context.getMainLooper());
-        if (result) {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_success), Toast.LENGTH_SHORT).show();
-                }
-            });
-        } else {
-            handler.post(new Runnable() {
-                @Override
-                public void run() {
-                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_failed), Toast.LENGTH_SHORT).show();
-                }
-            });
-        }
-    }
+//
+//    private void publishResultToUI(boolean result, final Context context) {
+//        Handler handler = new Handler(context.getMainLooper());
+//        if (result) {
+//            handler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_success), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        } else {
+//            handler.post(new Runnable() {
+//                @Override
+//                public void run() {
+//                    Toast.makeText(context, context.getResources().getString(R.string.gcm_settings_change_failed), Toast.LENGTH_SHORT).show();
+//                }
+//            });
+//        }
+//    }
 }

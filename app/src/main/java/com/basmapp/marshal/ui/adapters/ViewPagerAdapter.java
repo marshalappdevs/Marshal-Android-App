@@ -15,18 +15,17 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
 public class ViewPagerAdapter extends PagerAdapter {
-    Context context;
+    private Context mContext;
     private ArrayList<Course> COURSES = new ArrayList<>();
 
     public ViewPagerAdapter(Context context, ArrayList<Course> COURSES) {
         this.COURSES = COURSES;
-        this.context=context;
+        this.mContext = context;
     }
 
     @Override
@@ -46,9 +45,9 @@ public class ViewPagerAdapter extends PagerAdapter {
 
     @Override
     public Object instantiateItem(ViewGroup container, int position) {
-        ImageView imageView = new ImageView(context);
+        ImageView imageView = new ImageView(mContext);
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
-        Glide.with(context)
+        Glide.with(mContext)
                 .load(COURSES.get(position).getImageUrl())
                 .diskCacheStrategy(DiskCacheStrategy.ALL)
                 .into(imageView);
@@ -62,10 +61,10 @@ public class ViewPagerAdapter extends PagerAdapter {
         @Override
         public void onClick(View v) {
             final int position = (Integer) v.getTag();
-            PreferenceManager.getDefaultSharedPreferences(context.getApplicationContext()).edit().putBoolean("courseShared", false).apply();
-            Intent intent = new Intent(context, CourseActivity.class);
+            PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit().putBoolean("courseShared", false).apply();
+            Intent intent = new Intent(mContext, CourseActivity.class);
             intent.putExtra(Constants.EXTRA_COURSE, COURSES.get(position));
-            ((Activity) context).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
+            ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
         }
     };
 
