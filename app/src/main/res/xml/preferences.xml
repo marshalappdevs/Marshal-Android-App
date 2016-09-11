@@ -79,10 +79,4 @@
             android:title="@string/custom_tabs_pref_title"
             android:summary="@string/custom_tabs_pref_summary" />
     </PreferenceCategory>
-    <PreferenceCategory android:title="@string/pref_about_category">
-        <PreferenceScreen
-            android:title="@string/pref_version_title"
-            android:key="version">
-        </PreferenceScreen>
-    </PreferenceCategory>
 </PreferenceScreen>

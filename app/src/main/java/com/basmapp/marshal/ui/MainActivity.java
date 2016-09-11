@@ -96,6 +96,7 @@ public class MainActivity extends BaseActivity
     private Button mButtonRetry;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
+    private Snackbar mNetworkSnackbar;
 
     // Fragments
     private CoursesFragment mCourseFragment;
@@ -475,6 +476,9 @@ public class MainActivity extends BaseActivity
     protected void onPause() {
         super.onPause();
         Log.i("LIFE_CYCLE", "onPause");
+        // Cancel no network Snackbar
+        if (mNetworkSnackbar != null)
+            mNetworkSnackbar.dismiss();
     }
 
     @Override
@@ -495,6 +499,7 @@ public class MainActivity extends BaseActivity
         // Close db if exist when app is closed
         LocalDBHelper.closeIfExist();
     }
+
 
     private boolean isUpdateIntentServiceRunning() {
 //        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
@@ -536,18 +541,18 @@ public class MainActivity extends BaseActivity
         @Override
         public void onReceive(final Context context, final Intent intent) {
             if (!isConnected()) {
-                // There is no internet connection, show error snackbar
-                final Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_INDEFINITE);
-                snackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
+                // There is no internet connection, show error Snackbar
+                mNetworkSnackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_LONG);
+                mNetworkSnackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (isConnected()) snackbar.dismiss();
+                        if (isConnected()) mNetworkSnackbar.dismiss();
                         else onReceive(context, intent);
                     }
                 });
-//                snackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
-                snackbar.setDuration(10000);
-                snackbar.show();
+//                mNetworkSnackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
+                mNetworkSnackbar.setDuration(10000);
+                mNetworkSnackbar.show();
 
                 // As there is no internet connection, dismiss update dialog if showed and show error screen
                 if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())

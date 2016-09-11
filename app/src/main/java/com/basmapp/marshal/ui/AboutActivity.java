@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -14,6 +15,7 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
@@ -21,7 +23,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.util.URLSpanNoUnderline;
 
 public class AboutActivity extends BaseActivity {
-    Toolbar mToolbar;
+    private int mTapCount;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,17 +31,31 @@ public class AboutActivity extends BaseActivity {
 
         setContentView(R.layout.activity_about);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.navigation_drawer_about);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.navigation_drawer_about);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
                 overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+            }
+        });
+
+        findViewById(R.id.about_logo_image).setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (mTapCount == 7) {
+                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), "Easter Egg!!! " + ("\ud83d\udc83"), Snackbar.LENGTH_LONG);
+                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
+                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
+                    snackbar.show();
+                    mTapCount = 0;
+                }
+                mTapCount++;
             }
         });
 

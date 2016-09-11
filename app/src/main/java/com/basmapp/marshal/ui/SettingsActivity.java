@@ -26,7 +26,6 @@ import android.view.View;
 import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
-import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.GcmReceiverListener;
@@ -175,7 +174,6 @@ public class SettingsActivity extends BaseActivity {
             Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
         GcmRegistrationReceiver gcmRegistrationReceiver;
         MultiSelectListPreference prefGcmChannels;
-        int mTapCount;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -189,10 +187,6 @@ public class SettingsActivity extends BaseActivity {
             // updated to reflect the new value, per the Android Design
             // guidelines.
             bindPreferenceSummaryToValue(findPreference(Constants.PREF_NOTIFICATIONS_RINGTONE));
-
-            Preference prefVersion = findPreference(Constants.PREF_VERSION);
-            prefVersion.setOnPreferenceClickListener(this);
-            prefVersion.setSummary(BuildConfig.VERSION_NAME);
 
             ListPreference prefLanguage = (ListPreference) findPreference(Constants.PREF_LANGUAGE);
             prefLanguage.setOnPreferenceChangeListener(this);
@@ -270,13 +264,7 @@ public class SettingsActivity extends BaseActivity {
 
         @Override
         public boolean onPreferenceClick(final Preference preference) {
-            if (preference.getKey().equals(Constants.PREF_VERSION)) {
-                if (mTapCount == 7) {
-                    Toast.makeText(getActivity().getApplicationContext(), "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
-                    mTapCount = 0;
-                }
-                mTapCount++;
-            } else if (preference.getKey().equals(Constants.PREF_PRIMARY_COLOR)) {
+            if (preference.getKey().equals(Constants.PREF_PRIMARY_COLOR)) {
                 SettingsActivity act = (SettingsActivity) getActivity();
                 if (act == null)
                     return false;
