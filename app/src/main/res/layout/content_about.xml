@@ -16,7 +16,7 @@
             android:id="@+id/logo_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="@dimen/margin_medium"
+            android:padding="8dp"
             android:background="?attr/selectableItemBackgroundBorderless">
 
             <ImageView
