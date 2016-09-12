@@ -293,11 +293,9 @@ public class DescribeProblemActivity extends BaseActivity {
         if (requestCode == REQUEST_STORAGE) {
             // Check if the only required permission has been granted
             if (grantResults.length == 1 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                // Storage permission has been granted, gallery can be opened
-                Intent intent = new Intent(Intent.ACTION_PICK,
-                        android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-                // Start the Intent
-                startActivityForResult(Intent.createChooser(intent, getString(R.string.choose_action)), PICK_IMAGE_REQUEST);
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
             }
         } else {
             super.onRequestPermissionsResult(requestCode, permissions, grantResults);

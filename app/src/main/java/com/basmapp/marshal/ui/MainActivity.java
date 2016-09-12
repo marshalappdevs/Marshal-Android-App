@@ -189,11 +189,6 @@ public class MainActivity extends BaseActivity
                 if (mSearchItem != null)
                     mSearchItem.collapseActionView();
             }
-
-            public void onDrawerSlide(View drawerView, float slideOffset) {
-                // Disable hamburger animation
-                super.onDrawerSlide(drawerView, 0);
-            }
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);

@@ -66,7 +66,7 @@ public class GcmIntentService extends GcmListenerService {
         } else if(message != null && message.contains("show-picture-style-notification")
                 && sharedPreferences.getBoolean("notifications_new_message", true)) {
             String[] separated = message.split(";");
-            new generatePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
+            new GeneratePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
                     vibrate, ringtoneUri, lightColor).execute();
         } else {
             if (sharedPreferences.getBoolean("notifications_new_message", true)) {
@@ -92,64 +92,64 @@ public class GcmIntentService extends GcmListenerService {
             }
         }
     }
-}
 
-class generatePictureStyleNotification extends AsyncTask<String, Void, Bitmap> {
+    public class GeneratePictureStyleNotification extends AsyncTask<String, Void, Bitmap> {
 
-    private Context mContext;
-    private String message, imageUrl;
-    private long[] vibrate;
-    private Uri ringtoneUri;
-    private int lightColor;
+        private Context mContext;
+        private String message, imageUrl;
+        private long[] vibrate;
+        private Uri ringtoneUri;
+        private int lightColor;
 
-    public generatePictureStyleNotification(Context context, String message, String imageUrl, long[] vibrate, Uri ringtoneUri, int lightColor) {
-        super();
-        this.mContext = context;
-        this.message = message;
-        this.imageUrl = imageUrl;
-        this.vibrate = vibrate;
-        this.ringtoneUri = ringtoneUri;
-        this.lightColor = lightColor;
-    }
-
-    @Override
-    protected Bitmap doInBackground(String... params) {
-        InputStream inputStream;
-        try {
-            URL url = new URL(this.imageUrl);
-            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-            connection.setDoInput(true);
-            connection.connect();
-            inputStream = connection.getInputStream();
-            return BitmapFactory.decodeStream(inputStream);
-        } catch (IOException e) {
-            e.printStackTrace();
+        public GeneratePictureStyleNotification(Context context, String message, String imageUrl, long[] vibrate, Uri ringtoneUri, int lightColor) {
+            super();
+            this.mContext = context;
+            this.message = message;
+            this.imageUrl = imageUrl;
+            this.vibrate = vibrate;
+            this.ringtoneUri = ringtoneUri;
+            this.lightColor = lightColor;
         }
-        return null;
-    }
 
-    @Override
-    protected void onPostExecute(Bitmap result) {
-        super.onPostExecute(result);
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
-                MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        @Override
+        protected Bitmap doInBackground(String... params) {
+            InputStream inputStream;
+            try {
+                URL url = new URL(this.imageUrl);
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                connection.setDoInput(true);
+                connection.connect();
+                inputStream = connection.getInputStream();
+                return BitmapFactory.decodeStream(inputStream);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return null;
+        }
 
-        Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
-        NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                .setSmallIcon(R.drawable.stat_notify_basmapp)
-                .setLargeIcon(largeIcon)
-                .setContentTitle(mContext.getString(R.string.app_name))
-                .setContentText(message)
-                .setColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
-                .setStyle(new NotificationCompat.BigPictureStyle()
-                        .bigPicture(result))
-                .setLights(lightColor, 500, 2000)
-                .setSound(ringtoneUri)
-                .setContentIntent(notifyPendingIntent)
-                .setAutoCancel(true)
-                .setVibrate(vibrate);
-        NotificationManager mNotificationManager=
-                (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(2, mBuilder.build());
+        @Override
+        protected void onPostExecute(Bitmap result) {
+            super.onPostExecute(result);
+            PendingIntent notifyPendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
+                    MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+            Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                    .setSmallIcon(R.drawable.stat_notify_basmapp)
+                    .setLargeIcon(largeIcon)
+                    .setContentTitle(mContext.getString(R.string.app_name))
+                    .setContentText(message)
+                    .setColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
+                    .setStyle(new NotificationCompat.BigPictureStyle()
+                            .bigPicture(result))
+                    .setLights(lightColor, 500, 2000)
+                    .setSound(ringtoneUri)
+                    .setContentIntent(notifyPendingIntent)
+                    .setAutoCancel(true)
+                    .setVibrate(vibrate);
+            NotificationManager mNotificationManager =
+                    (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(2, mBuilder.build());
+        }
     }
 }
