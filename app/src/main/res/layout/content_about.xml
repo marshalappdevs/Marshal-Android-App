@@ -8,16 +8,27 @@
         android:id="@+id/about_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="24.0dp"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:layout_marginBottom="@dimen/activity_vertical_margin"
         android:orientation="vertical"
         android:gravity="center">
 
-        <ImageView
-            android:id="@+id/about_logo_image"
-            android:layout_width="48.0dp"
-            android:layout_height="48.0dp"
-            android:contentDescription="@null"
-            android:src="@mipmap/ic_launcher" />
+        <FrameLayout
+            android:id="@+id/logo_container"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="@dimen/margin_medium"
+            android:background="?attr/selectableItemBackgroundBorderless">
+
+            <ImageView
+                android:id="@+id/about_logo_image"
+                android:layout_width="48.0dp"
+                android:layout_height="48.0dp"
+                android:contentDescription="@null"
+                android:src="@mipmap/ic_launcher" />
+        </FrameLayout>
 
         <LinearLayout
             android:layout_width="match_parent"

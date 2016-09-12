@@ -10,10 +10,19 @@
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="text_margin">16dp</dimen>
-    <dimen name="link_preview_thumb_height">80.0sp</dimen>
-    <dimen name="link_preview_thumb_width">80.0dip</dimen>
+    <dimen name="link_preview_thumb_height">80sp</dimen>
+    <dimen name="link_preview_thumb_width">80dp</dimen>
+    <!-- Color picker dimens -->
     <dimen name="color_swatch_large">64dip</dimen>
     <dimen name="color_swatch_small">48dip</dimen>
     <dimen name="color_swatch_margins_large">8dip</dimen>
     <dimen name="color_swatch_margins_small">4dip</dimen>
+    <!-- Native reader dimens -->
+    <dimen name="margin_none">0dp</dimen>
+    <dimen name="margin_extra_small">2dp</dimen>
+    <dimen name="margin_small">4dp</dimen>
+    <dimen name="margin_medium">8dp</dimen>
+    <dimen name="margin_large">12dp</dimen>
+    <dimen name="margin_extra_large">16dp</dimen>
+    <dimen name="margin_filter_spinner">64dp</dimen>
 </resources>
