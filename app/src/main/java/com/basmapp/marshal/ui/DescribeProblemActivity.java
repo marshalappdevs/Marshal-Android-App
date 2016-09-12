@@ -187,14 +187,13 @@ public class DescribeProblemActivity extends BaseActivity {
                     if (data == null || data.getData() == null) {
                         return;
                     }
-                    Uri uri = data.getData();
                     String filePath = GetFilePathFromUri.getPath(this, data.getData());
                     if (filePath != null) {
                         if (uris[0] != null && attachments.contains(uris[0]))
                             attachments.remove(uris[0]);
                         uris[0] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[0]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(GetFilePathFromUri.getPath(this, uri));
+                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[0].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
@@ -203,27 +202,25 @@ public class DescribeProblemActivity extends BaseActivity {
                     if (data == null || data.getData() == null) {
                         return;
                     }
-                    Uri uri = data.getData();
                     String filePath = GetFilePathFromUri.getPath(this, data.getData());
                     if (filePath != null) {
                         if (uris[1] != null && attachments.contains(uris[1]))
                             attachments.remove(uris[1]);
                         uris[1] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[1]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(GetFilePathFromUri.getPath(this, uri));
+                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[1].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
                 } else {
-                    Uri uri = data.getData();
                     String filePath = GetFilePathFromUri.getPath(this, data.getData());
                     if (filePath != null) {
                         if (uris[2] != null && attachments.contains(uris[2]))
                             attachments.remove(uris[2]);
                         uris[2] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[2]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(GetFilePathFromUri.getPath(this, uri));
+                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[2].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
