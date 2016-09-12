@@ -49,7 +49,7 @@ public class ViewPagerAdapter extends PagerAdapter {
         imageView.setScaleType(ImageView.ScaleType.FIT_XY);
         Glide.with(mContext)
                 .load(COURSES.get(position).getImageUrl())
-                .diskCacheStrategy(DiskCacheStrategy.ALL)
+                .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
         imageView.setTag(position);
