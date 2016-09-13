@@ -105,8 +105,9 @@
                             android:background="@drawable/inline_screenshot_placeholder"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
-                            android:scaleType="centerCrop"
-                            android:contentDescription="@null" />
+                            android:scaleType="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_add_large" />
 
                         <ImageView
                             android:id="@+id/screenshot_two"
@@ -117,8 +118,9 @@
                             android:background="@drawable/inline_screenshot_placeholder"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
-                            android:scaleType="centerCrop"
-                            android:contentDescription="@null" />
+                            android:scaleType="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_add_large" />
 
                         <ImageView
                             android:id="@+id/screenshot_three"
@@ -129,8 +131,9 @@
                             android:background="@drawable/inline_screenshot_placeholder"
                             android:foreground="?android:attr/selectableItemBackground"
                             android:clickable="true"
-                            android:scaleType="centerCrop"
-                            android:contentDescription="@null" />
+                            android:scaleType="center"
+                            android:contentDescription="@null"
+                            android:src="@drawable/ic_add_large" />
                     </LinearLayout>
                 </LinearLayout>
 

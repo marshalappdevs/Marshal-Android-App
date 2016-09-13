@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -166,7 +167,9 @@ public class DescribeProblemActivity extends BaseActivity {
                     if (uris[finalI] != null && attachments.contains(uris[finalI])) {
                         attachments.remove(uris[finalI]);
                         uris[finalI] = null;
-                        screenshots[finalI].setImageBitmap(null);
+                        screenshots[finalI].setImageDrawable(ContextCompat.getDrawable(
+                                DescribeProblemActivity.this, R.drawable.ic_add_large));
+                        screenshots[finalI].setScaleType(ImageView.ScaleType.CENTER);
                         Snackbar.make(findViewById(R.id.coordinatorLayout),
                                 R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();
                         return true;
@@ -195,6 +198,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         attachments.add(uris[0]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[0].setImageBitmap(bitmap);
+                        screenshots[0].setScaleType(ImageView.ScaleType.CENTER_CROP);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
@@ -210,6 +214,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         attachments.add(uris[1]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[1].setImageBitmap(bitmap);
+                        screenshots[1].setScaleType(ImageView.ScaleType.CENTER_CROP);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
@@ -222,6 +227,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         attachments.add(uris[2]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
                         screenshots[2].setImageBitmap(bitmap);
+                        screenshots[2].setScaleType(ImageView.ScaleType.CENTER_CROP);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
