@@ -137,6 +137,7 @@
     <string name="are_you_sure">האם אתה בטוח?</string>
     <string name="permission_storage_rationale">גישה לאחסון נדרשת כדי להציג את בוחר המידה</string>
     <string name="screenshot_removed">צילום מסך הוסר</string>
+    <string name="no_supported_apps">אין יישומים המסוגלים לבצע פעולה זו.</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>
