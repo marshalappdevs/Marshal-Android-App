@@ -186,11 +186,11 @@ public class Cycle extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement,String courseId, long objectId) throws Exception {
+    public SQLiteStatement getStatement(SQLiteStatement statement,String courseCode, long objectId) throws Exception {
         if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
-            statement.bindString(2, courseId);
+            statement.bindString(2, courseCode);
 
             if (name == null)
                 name = "";

@@ -1,11 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <group android:checkableBehavior="single" android:id="@+id/grp1">
         <item
             android:id="@+id/nav_courses"
             android:icon="@drawable/ic_drawer_school"
-            android:title="@string/navigation_drawer_courses" />
+            android:title="@string/navigation_drawer_courses"
+            app:actionViewClass="android.widget.TextView"/>
         <item
             android:id="@+id/nav_subscriptions"
             android:icon="@drawable/ic_drawer_subscriptions"
@@ -13,11 +15,13 @@
         <item
             android:id="@+id/nav_materials"
             android:icon="@drawable/ic_drawer_library"
-            android:title="@string/navigation_drawer_materials" />
+            android:title="@string/navigation_drawer_materials"
+            app:actionViewClass="android.widget.TextView"/>
         <item
             android:id="@+id/nav_meetups"
             android:icon="@drawable/ic_drawer_event"
-            android:title="@string/navigation_drawer_meetups" />
+            android:title="@string/navigation_drawer_meetups"
+            app:actionViewClass="android.widget.TextView"/>
         <item
             android:id="@+id/nav_discussions"
             android:icon="@drawable/ic_drawer_discussions"
@@ -26,7 +30,8 @@
         <item
             android:id="@+id/nav_malshab"
             android:icon="@drawable/ic_drawer_person"
-            android:title="@string/navigation_drawer_malshab" />
+            android:title="@string/navigation_drawer_malshab"
+            app:actionViewClass="android.widget.TextView"/>
     </group>
 
     <group android:id="@+id/grp2">

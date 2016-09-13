@@ -71,7 +71,4 @@ public interface IMarshalService {
     // ******** Auth ***********//
     @POST (MarshalServiceProvider.AUTH)
     Call<String> auth(@Body AuthRequest authRequest);
-
-    @GET (MarshalServiceProvider.DASHBOARD)
-    Call<String> testDashboard();
 }

@@ -26,8 +26,8 @@ public class MarshalServiceProvider {
     private static final String API_BASE_URL = "http://marshalweb.azurewebsites.net/api/";
     public static final String GET_ALL_COURSES                      = API_BASE_URL + "courses";
     public static final String GET_ALL_MATERIALS                    = API_BASE_URL + "materials";
-    public static final String GET_ALL_RATINGS                      = API_BASE_URL + "ratings";
-    public static final String IMAGES_URL                           = API_BASE_URL + "images/";
+//    public static final String GET_ALL_RATINGS                      = API_BASE_URL + "ratings";
+    public static final String IMAGES_URL                           = API_BASE_URL + "courses/images/";
     public static final String POST_RATING                          = API_BASE_URL + "courses/ratings/";
     public static final String PUT_RATING                           = API_BASE_URL + "courses/ratings/";
     public static final String DELETE_RATING                        = API_BASE_URL + "courses/ratings/";
