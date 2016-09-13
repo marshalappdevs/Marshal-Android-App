@@ -26,12 +26,15 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -529,7 +532,37 @@ public class CourseActivity extends BaseActivity {
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
 
         final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
-
+        input.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                final AlertDialog.Builder commentDialogBuilder = new AlertDialog.Builder(CourseActivity.this);
+                commentDialogBuilder.setTitle("תגובות");
+                commentDialogBuilder.setItems(R.array.review_comments, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                        input.setText(getResources().getStringArray(R.array.review_comments)[i]);
+                    }
+                });
+                commentDialogBuilder.show();
+            }
+        });
+//        final Spinner commentsSpinner = (Spinner) dialogView.findViewById(R.id.review_comments_spinner);
+//        ArrayAdapter<CharSequence> commentsSpinnerAdapter = ArrayAdapter.createFromResource(this,
+//                R.array.review_comments, android.R.layout.simple_spinner_item);
+//        commentsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+//        commentsSpinner.setAdapter(commentsSpinnerAdapter);
+//        commentsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+//            @Override
+//            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
+//                input.setText((String)adapterView.getItemAtPosition(position));
+//            }
+//
+//            @Override
+//            public void onNothingSelected(AdapterView<?> adapterView) {
+//
+//            }
+//        });
         final Button negativeButton = (Button) dialogView.findViewById(R.id.negative_button);
         final Button positiveButton = (Button) dialogView.findViewById(R.id.positive_button);
 

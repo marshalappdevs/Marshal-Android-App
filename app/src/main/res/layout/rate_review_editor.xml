@@ -48,7 +48,16 @@
             android:minLines="3"
             android:maxLength="512"
             android:freezesText="true"
-            android:hint="@string/review_dialog_body_hint" />
+            android:hint="@string/review_dialog_body_hint"
+            android:focusable="false"/>
+
     </android.support.design.widget.TextInputLayout>
 
+    <Spinner
+        android:id="@+id/review_comments_spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="16dp"
+        android:visibility="gone"/>
 </LinearLayout>
