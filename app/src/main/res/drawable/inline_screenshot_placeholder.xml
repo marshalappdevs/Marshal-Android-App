@@ -8,9 +8,4 @@
                 android:color="@color/light_gray" />
         </shape>
     </item>
-    <item>
-        <bitmap
-            android:gravity="center"
-            android:src="@drawable/ic_add_large" />
-    </item>
 </layer-list>
