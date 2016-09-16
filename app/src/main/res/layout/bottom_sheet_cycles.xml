@@ -1,24 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cycles_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/cycles_bottom_sheet_title"
-        android:layout_width="match_parent"
+    <LinearLayout
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:textSize="20sp"
-        android:fontFamily="sans-serif-medium"
-        android:textColor="?android:textColorPrimary"
-        android:text="@string/course_choose_cycle" />
+        android:layout_width="wrap_content"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            app:srcCompat="@drawable/ic_event"
+            android:contentDescription="@null" />
+
+        <TextView
+            android:id="@+id/cycles_bottom_sheet_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="16dp"
+            android:textSize="20sp"
+            android:fontFamily="sans-serif-medium"
+            android:textColor="?android:textColorPrimary"
+            android:text="@string/course_choose_cycle" />
+    </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cycle_activity_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_below="@+id/cycles_bottom_sheet_title" />
+        android:layout_height="match_parent" />
 
-</RelativeLayout>
+</LinearLayout>

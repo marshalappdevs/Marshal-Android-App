@@ -17,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutLinearInInterpolator;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
@@ -24,17 +25,15 @@ import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RatingBar;
 import android.widget.RelativeLayout;
-import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -60,8 +59,6 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -69,6 +66,7 @@ import java.util.List;
 import java.util.Objects;
 
 import retrofit2.Response;
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class CourseActivity extends BaseActivity {
 
@@ -119,7 +117,7 @@ public class CourseActivity extends BaseActivity {
     private LinearLayout mRatingsFrame;
     private SharedPreferences mSharedPreferences;
 
-    private ShowcaseView mShowcaseView;
+    private MaterialTapTargetPrompt mFabPrompt;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -222,11 +220,7 @@ public class CourseActivity extends BaseActivity {
                 mFabCycles.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
-                        if (mShowcaseView != null && mShowcaseView.isShowing())
-                            mShowcaseView.hide();
-
-                            ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
+                        ArrayList<Cycle> cycles = new ArrayList<>(mCourse.getCycles());
 
                         for (int index = 0; index < cycles.size(); index++) {
                             if (cycles.get(index).getStartDate() == null || cycles.get(index).getEndDate() == null) {
@@ -257,13 +251,30 @@ public class CourseActivity extends BaseActivity {
                             public void onTransitionEnd(Transition transition) {
                                 mFabCycles.show();
                                 if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
-                                    mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                                            .withMaterialShowcase()
-                                            .setStyle(R.style.ShowcaseView_BasmApp)
-                                            .setTarget(new ViewTarget(mFabCycles))
-                                            .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                            .replaceEndButton(R.layout.view_custom_button)
-                                            .build();
+                                    mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                            .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                            .setPrimaryText(R.string.cycle_fab_tip_title)
+                                            .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                            .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
+                                            .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                            .setAutoDismiss(false)
+                                            .setAutoFinish(false)
+                                            .setCaptureTouchEventOutsidePrompt(true)
+                                            .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                                                @Override
+                                                public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                                    if (tappedTarget) {
+                                                        mFabPrompt.finish();
+                                                        mFabPrompt = null;
+                                                    }
+                                                }
+
+                                                @Override
+                                                public void onHidePromptComplete() {
+
+                                                }
+                                            })
+                                            .show();
                                     mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
                                 }
                             }
@@ -282,25 +293,63 @@ public class CourseActivity extends BaseActivity {
                         });
                     } else {
                         if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
-                            mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                                    .withMaterialShowcase()
-                                    .setStyle(R.style.ShowcaseView_BasmApp)
-                                    .setTarget(new ViewTarget(mFabCycles))
-                                    .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                    .replaceEndButton(R.layout.view_custom_button)
-                                    .build();
+                            mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                    .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                    .setPrimaryText(R.string.cycle_fab_tip_title)
+                                    .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                    .setAutoDismiss(false)
+                                    .setAutoFinish(false)
+                                    .setCaptureTouchEventOutsidePrompt(true)
+                                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
+                                    {
+                                        @Override
+                                        public void onHidePrompt(MotionEvent event, boolean tappedTarget)
+                                        {
+                                            if (tappedTarget) {
+                                                mFabPrompt.finish();
+                                                mFabPrompt = null;
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onHidePromptComplete()
+                                        {
+
+                                        }
+                                    })
+                                    .show();
                             mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
                         }
                     }
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
-                        mShowcaseView = new ShowcaseView.Builder(CourseActivity.this)
-                                .withMaterialShowcase()
-                                .setStyle(R.style.ShowcaseView_BasmApp)
-                                .setTarget(new ViewTarget(mFabCycles))
-                                .setContentTitle(R.string.cycle_fab_tutorial_description)
-                                .replaceEndButton(R.layout.view_custom_button)
-                                .build();
+                        mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                .setPrimaryText(R.string.cycle_fab_tip_title)
+                                .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                .setAutoDismiss(false)
+                                .setAutoFinish(false)
+                                .setCaptureTouchEventOutsidePrompt(true)
+                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
+                                {
+                                    @Override
+                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget)
+                                    {
+                                        if (tappedTarget) {
+                                            mFabPrompt.finish();
+                                            mFabPrompt = null;
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onHidePromptComplete()
+                                    {
+
+                                    }
+                                })
+                                .show();
                         mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
                     }
                 }
@@ -891,8 +940,9 @@ public class CourseActivity extends BaseActivity {
 
     @Override
     public void onBackPressed() {
-        if (mShowcaseView != null && mShowcaseView.isShowing()) {
-            mShowcaseView.hide();
+        if (mFabPrompt != null) {
+            mFabPrompt.finish();
+            mFabPrompt = null;
         } else if (mSharedPreferences.getBoolean("courseShared", false)) {
             mFabCycles.animate().cancel();
             mFabCycles.animate()

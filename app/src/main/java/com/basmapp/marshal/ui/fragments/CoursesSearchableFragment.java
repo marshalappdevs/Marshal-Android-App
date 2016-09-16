@@ -8,22 +8,24 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Bundle;
-import android.os.Handler;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -39,13 +41,14 @@ import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.DateHelper;
-import com.github.amlcurran.showcaseview.ShowcaseView;
-import com.github.amlcurran.showcaseview.targets.ViewTarget;
+import com.basmapp.marshal.util.ThemeUtils;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
+
+import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class CoursesSearchableFragment extends Fragment {
 
@@ -66,7 +69,7 @@ public class CoursesSearchableFragment extends Fragment {
     private String mTempEndDate;
     private long tempStartDate = 0;
     private boolean isEmptyResult = false;
-    private ShowcaseView mShowcaseView;
+    private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
@@ -146,8 +149,10 @@ public class CoursesSearchableFragment extends Fragment {
         // Release navigation view lock
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         // Hide Showcase
-        if (mShowcaseView != null && mShowcaseView.isShowing())
-            mShowcaseView.hide();
+        if (mFilterPrompt != null) {
+            mFilterPrompt.finish();
+            mFilterPrompt = null;
+        }
     }
 
     @Override
@@ -158,21 +163,34 @@ public class CoursesSearchableFragment extends Fragment {
             mRecycler.setAdapter(mAdapter);
         }
         if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SHOW_FILTER_SHOWCASE, true)) {
-            new Handler().post(new Runnable() {
-                @Override
-                public void run() {
-                    View filterView = getActivity().findViewById(R.id.menu_main_filter);
-                    mShowcaseView = new ShowcaseView.Builder(getActivity())
-                            .withMaterialShowcase()
-                            .setStyle(R.style.ShowcaseView_BasmApp)
-                            .setTarget(new ViewTarget(filterView))
-                            .setContentTitle(R.string.filter_tutorial_description)
-                            .replaceEndButton(R.layout.view_custom_button)
-                            .build();
+            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+            mFilterPrompt = new MaterialTapTargetPrompt.Builder(getActivity())
+                    .setTarget(toolbar.getChildAt(0))
+                    .setPrimaryText(R.string.filter_tip_title)
+                    .setSecondaryText(R.string.filter_tip_subtitle)
+                    .setBackgroundColour(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
+                    .setIcon(R.drawable.ic_filter_vert)
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                    .setAutoDismiss(false)
+                    .setAutoFinish(false)
+                    .setCaptureTouchEventOutsidePrompt(true)
+                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                        @Override
+                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                            if (tappedTarget) {
+                                mFilterPrompt.finish();
+                                mFilterPrompt = null;
+                            }
+                        }
+
+                        @Override
+                        public void onHidePromptComplete() {
+
+                        }
+                    })
+                    .show();
                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                            .putBoolean(Constants.SHOW_FILTER_SHOWCASE, false).commit();
-                }
-            });
+                            .putBoolean(Constants.SHOW_FILTER_SHOWCASE, false).apply();
         }
     }
 
@@ -186,8 +204,6 @@ public class CoursesSearchableFragment extends Fragment {
         filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(MenuItem menuItem) {
-                if (mShowcaseView != null && mShowcaseView.isShowing())
-                    mShowcaseView.hide();
                 if (!isEmptyResult) {
                     showFilterByDateDialog();
                 } else {

@@ -103,11 +103,10 @@
     <string name="update_error">Something went wrong while trying to update data. Try again later.</string>
     <string name="update_retry">Retry</string>
     <string name="got_it">GOT IT</string>
-    <string name="cycle_fab_tutorial_description">Press here to see more dates of this course</string>
-    <string name="navigation_drawer_tutorial_description">Check out more options in this menu</string>
-    <string name="search_tutorial_description">Search Course or Meetup by any content</string>
-    <string name="filter_tutorial_description">Filter search results by date range</string>
-    <string name="profile_image_tutorial_description">Log in to your Google account in order to rate courses and more</string>
+    <string name="cycle_fab_tip_title">See more dates</string>
+    <string name="cycle_fab_tip_subtitle">Press here to see more dates of this course</string>
+    <string name="filter_tip_title">Filter by date</string>
+    <string name="filter_tip_subtitle">Filter search results by date range</string>
     <string name="date_filter">Filter by date</string>
     <string name="start_date">From</string>
     <string name="end_date">To</string>
@@ -147,7 +146,7 @@
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
     <string name="contributors_list">John Doe</string>
     <string name="about_libraries_heading">Libraries used</string>
-    <string name="libraries_list" translatable="false"><a href="https://android.googlesource.com/platform/frameworks/support/">Android Support Libraries</a>, <a href="https://developers.google.com/android/reference/packages">Google Play Services</a>, <a href="https://github.com/bumptech/glide">Glide</a>, <a href="https://square.github.io/okhttp/">OkHttp</a>, <a href="https://square.github.io/retrofit/">Retrofit</a>, <a href="https://github.com/amlcurran/ShowcaseView">ShowcaseView</a>, <a href="https://android.googlesource.com/platform/frameworks/opt/colorpicker/">ColorPicker</a>"</string>
+    <string name="libraries_list" translatable="false"><a href="https://android.googlesource.com/platform/frameworks/support/">Android Support Libraries</a>, <a href="https://developers.google.com/android/reference/packages">Google Play Services</a>, <a href="https://github.com/bumptech/glide">Glide</a>, <a href="https://square.github.io/okhttp/">OkHttp</a>, <a href="https://square.github.io/retrofit/">Retrofit</a>, <a href="https://github.com/sjwall/MaterialTapTargetPrompt">MaterialTapTargetPrompt</a>, <a href="https://android.googlesource.com/platform/frameworks/opt/colorpicker/">ColorPicker</a>"</string>
     <string name="about_app_license_heading">License</string>
     <string name="about_app_license">Source code available on &lt;a href=\"https://github.com/marshalappdevs/Marshal-Android-App\">GitHub&lt;/a> under the &lt;a href=\"http://www.apache.org/licenses/LICENSE-2.0\">Apache 2.0 License&lt;/a>.</string>
     <string name="about_rate_app">Rate the App</string>
