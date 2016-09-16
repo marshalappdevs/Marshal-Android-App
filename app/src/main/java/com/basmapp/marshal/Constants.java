@@ -26,15 +26,15 @@ public class Constants {
     public static final String PREF_LANGUAGE = "LANG";
     public static final String PREF_VERSION = "version";
     public static final String PREF_CLEAR_CACHE = "clear-cache";
-    public static final String PREF_CLEAR_SHOWCASES = "clear-showcases";
+    public static final String PREF_CLEAR_TAP_TARGETS = "clear-tap-targets";
     public static final String PREF_CLEAR_HISTORY = "clear-history";
     public static final String PREF_CCT = "CCT";
     public static final String PREF_NOTIFICATIONS_RINGTONE = "notifications_new_message_ringtone";
     public static final String PREF_NOTIFICATIONS_COLOR = "notify_light_color";
     public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
     public static final String PREF_MUST_UPDATE = "must_update";
-    public static final String SHOW_FILTER_SHOWCASE = "show_filter_showcase";
-    public static final String SHOW_FAB_SHOWCASE = "show_fab_showcase";
+    public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
+    public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_CYCLE_fab_tap_target";
 
     // Extras Keys
     public static final String EXTRA_COURSE = "course_extra";

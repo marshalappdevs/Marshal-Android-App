@@ -148,7 +148,7 @@ public class CoursesSearchableFragment extends Fragment {
         super.onDetach();
         // Release navigation view lock
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        // Hide Showcase
+        // Hide tap target
         if (mFilterPrompt != null) {
             mFilterPrompt.finish();
             mFilterPrompt = null;
@@ -162,7 +162,7 @@ public class CoursesSearchableFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SHOW_FILTER_SHOWCASE, true)) {
+        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SHOW_FILTER_TAP_TARGET, true)) {
             Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
             mFilterPrompt = new MaterialTapTargetPrompt.Builder(getActivity())
                     .setTarget(toolbar.getChildAt(0))
@@ -190,7 +190,7 @@ public class CoursesSearchableFragment extends Fragment {
                     })
                     .show();
                     PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                            .putBoolean(Constants.SHOW_FILTER_SHOWCASE, false).apply();
+                            .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
         }
     }
 

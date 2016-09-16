@@ -209,8 +209,8 @@ public class SettingsActivity extends BaseActivity {
             prefGcmChannels.setOnPreferenceChangeListener(this);
             updateGcmChannelsPrefSummary();
 
-            Preference prefClearShowcases = findPreference(Constants.PREF_CLEAR_SHOWCASES);
-            prefClearShowcases.setOnPreferenceClickListener(this);
+            Preference prefClearTapTargets = findPreference(Constants.PREF_CLEAR_TAP_TARGETS);
+            prefClearTapTargets.setOnPreferenceClickListener(this);
 
             Preference prefClearHistory = findPreference(Constants.PREF_CLEAR_HISTORY);
             prefClearHistory.setOnPreferenceClickListener(this);
@@ -320,12 +320,12 @@ public class SettingsActivity extends BaseActivity {
                             }
                         })
                         .show();
-            } else if (preference.getKey().equals(Constants.PREF_CLEAR_SHOWCASES)) {
+            } else if (preference.getKey().equals(Constants.PREF_CLEAR_TAP_TARGETS)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
-                        .putBoolean(Constants.SHOW_FAB_SHOWCASE, true)
-                        .putBoolean(Constants.SHOW_FILTER_SHOWCASE, true)
+                        .putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)
+                        .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, true)
                         .apply();
-                Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), R.string.pref_showcases_cleared, Snackbar.LENGTH_SHORT).show();
+                Snackbar.make(getActivity().findViewById(R.id.coordinatorLayout), R.string.pref_tap_targets_cleared, Snackbar.LENGTH_SHORT).show();
             } else if (preference.getKey().equals(Constants.PREF_CLEAR_HISTORY)) {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);

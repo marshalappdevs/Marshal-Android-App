@@ -195,8 +195,8 @@
     <string name="choose_primary_color">צבע יסוד</string>
     <string name="choose_accent_color">צבע הדגש</string>
     <string name="revert_to_default_theme">החזר לעיצוב ברירת המחדל</string>
-    <string name="clear_showcases_title">אפס מסכי הסברה</string>
-    <string name="clear_showcases_summary">הצג שוב את כל מסכי ההסברה</string>
+    <string name="clear_tap_targets_title">אפס מסכי הסברה</string>
+    <string name="clear_tap_targets_summary">הצג שוב את כל מסכי ההסברה</string>
     <string name="clear_local_history_title">נקה את היסטוריית החיפושים המקומית</string>
     <string name="clear_local_history_summary">הסר חיפושים שביצעת מהמכשיר הזה</string>
     <string name="reset_tutorial_summary">הצג שוב את כל מסכי ההסברה</string>
@@ -224,7 +224,7 @@
     <string name="pref_about_category">מידע כללי</string>
     <string name="pref_version_title">גרסת אפליקציה</string>
     <string name="pref_restart_required">נדרשת הפעלה מחדש של האפליקציה כדי להחיל שינויים</string>
-    <string name="pref_showcases_cleared">מסכי הסברה אופסו</string>
+    <string name="pref_tap_targets_cleared">מסכי הנחייה אופסו</string>
     <string name="pref_search_history_cleared">היסטוריית החיפושים נוקתה</string>
     <string name="gcm_channel_test_ui">פיתוח BasmApp</string>
     <string name="gcm_settings_change_success">ערוצי ההודעות עודכנו.</string>

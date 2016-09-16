@@ -26,9 +26,9 @@
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_general_category">
         <Preference
-            android:title="@string/clear_showcases_title"
-            android:summary="@string/clear_showcases_summary"
-            android:key="clear-showcases" />
+            android:title="@string/clear_tap_targets_title"
+            android:summary="@string/clear_tap_targets_summary"
+            android:key="clear-tap-targets" />
         <Preference
             android:title="@string/clear_local_history_title"
             android:key="clear-history"

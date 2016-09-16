@@ -196,7 +196,7 @@ public class CourseActivity extends BaseActivity {
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
         if (mSharedPreferences.getBoolean("courseShared", false)
-                && !mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                && !mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
             mFabCycles.hide();
         }
 
@@ -250,7 +250,7 @@ public class CourseActivity extends BaseActivity {
                             @Override
                             public void onTransitionEnd(Transition transition) {
                                 mFabCycles.show();
-                                if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                                if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                                     mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
                                             .setTarget(findViewById(R.id.course_activity_fab_cycles))
                                             .setPrimaryText(R.string.cycle_fab_tip_title)
@@ -275,7 +275,7 @@ public class CourseActivity extends BaseActivity {
                                                 }
                                             })
                                             .show();
-                                    mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                                    mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                                 }
                             }
 
@@ -292,7 +292,7 @@ public class CourseActivity extends BaseActivity {
                             }
                         });
                     } else {
-                        if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                        if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                             mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
                                     .setTarget(findViewById(R.id.course_activity_fab_cycles))
                                     .setPrimaryText(R.string.cycle_fab_tip_title)
@@ -319,11 +319,11 @@ public class CourseActivity extends BaseActivity {
                                         }
                                     })
                                     .show();
-                            mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                            mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                         }
                     }
                 } else {
-                    if (mSharedPreferences.getBoolean(Constants.SHOW_FAB_SHOWCASE, true)) {
+                    if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                         mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
                                 .setTarget(findViewById(R.id.course_activity_fab_cycles))
                                 .setPrimaryText(R.string.cycle_fab_tip_title)
@@ -350,7 +350,7 @@ public class CourseActivity extends BaseActivity {
                                     }
                                 })
                                 .show();
-                        mSharedPreferences.edit().putBoolean(Constants.SHOW_FAB_SHOWCASE, false).apply();
+                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                     }
                 }
             }

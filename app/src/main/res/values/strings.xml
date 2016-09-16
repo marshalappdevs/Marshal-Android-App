@@ -211,8 +211,8 @@
     <string name="choose_primary_color">Primary Color</string>
     <string name="choose_accent_color">Accent Color</string>
     <string name="revert_to_default_theme">Revert to default theme</string>
-    <string name="clear_showcases_title">Reset tutorial screens</string>
-    <string name="clear_showcases_summary">Show all tutorial screens again</string>
+    <string name="clear_tap_targets_title">Reset discovery prompts</string>
+    <string name="clear_tap_targets_summary">Show all discovery prompts again</string>
     <string name="clear_local_history_title">Clear local search history</string>
     <string name="clear_local_history_summary">Remove searches you have performed from this device</string>
     <string name="reset_tutorial_summary">Review all tutorial screens again</string>
@@ -240,7 +240,7 @@
     <string name="pref_about_category">About</string>
     <string name="pref_version_title">App version</string>
     <string name="pref_restart_required">Application restart is required to apply the changes</string>
-    <string name="pref_showcases_cleared">Showcases cleared</string>
+    <string name="pref_tap_targets_cleared">Discovery prompts cleared</string>
     <string name="pref_search_history_cleared">Search history cleared</string>
     <string name="gcm_settings_change_success">Notification channels has been updated.</string>
     <string name="gcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
