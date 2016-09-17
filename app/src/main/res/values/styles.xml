@@ -312,13 +312,4 @@
     </style>
 
     <style name="DateFilterSpinner" parent="@android:style/Widget.Holo.Light.Spinner" />
-
-    <style name="TextAppearance.ShowCase.Title" parent="@android:style/TextAppearance.Large">
-        <item name="android:textColor">@android:color/white</item>
-        <item name="android:lineSpacingMultiplier">1.4</item>
-    </style>
-
-    <style name="TextAppearance.ShowCase.SubTitle" parent="@android:style/TextAppearance.Small">
-        <item name="android:textColor">@android:color/white</item>
-    </style>
 </resources>
