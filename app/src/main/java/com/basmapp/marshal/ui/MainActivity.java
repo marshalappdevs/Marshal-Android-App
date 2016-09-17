@@ -144,6 +144,12 @@ public class MainActivity extends BaseActivity
         // Initialize shared preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
+        if(mSharedPreferences != null) {
+            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                startActivity(new Intent(this, WelcomeActivity.class));
+            }
+        }
+
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         // Set course fragment as main fragment

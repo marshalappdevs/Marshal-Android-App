@@ -141,6 +141,15 @@
     <string name="permission_storage_rationale">Storage permission is required to show media picker</string>
     <string name="screenshot_removed">Screenshot removed</string>
     <string name="no_supported_apps">Unable to find application to perform this action.</string>
+    <string name="warm_welcome_done_button">Done</string>
+    <string name="warm_welcome_next_button">Next</string>
+    <string name="warm_welcome_skip_button">Skip</string>
+    <string name="welcome_courses_title">קורסים השתלמויות ומיטאפים</string>
+    <string name="welcome_courses_subtitle">ראה פרטים של קורסים, השתלמויות ומיטאפים, דרג וקרא ביקורות, הירשם לקבלת עדכונים, שמור תאריך ביומן, שתף ועוד</string>
+    <string name="welcome_materials_title">חומרי עזר ולימוד</string>
+    <string name="welcome_materials_subtitle">ראה והורד חומרי עזר ולימוד יעודיים עבור קורסים, השתלמויות ומבחנים</string>
+    <string name="welcome_malshab_title">מידע למלש\"ב</string>
+    <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
@@ -309,9 +318,9 @@
 
     <string name="color_picker_default_title">Select a Color</string>
     <!-- Content description for a color square. -->
-    <string name="color_swatch_description">Color <xliff:g id="color_index" example="14">%1$d</xliff:g></string>
+    <string name="color_swatch_description">Color <xliff:g example="14" id="color_index">%1$d</xliff:g></string>
     <!-- Content description for a selected color square. -->
-    <string name="color_swatch_description_selected">Color <xliff:g id="color_index" example="14">%1$d</xliff:g> selected</string>
+    <string name="color_swatch_description_selected">Color <xliff:g example="14" id="color_index">%1$d</xliff:g> selected</string>
 
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->

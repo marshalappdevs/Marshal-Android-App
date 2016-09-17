@@ -312,4 +312,8 @@
     </style>
 
     <style name="DateFilterSpinner" parent="@android:style/Widget.Holo.Light.Spinner" />
+
+    <style name="AppTheme.Blue.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
+
+    <style name="AppTheme.Blue.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 </resources>

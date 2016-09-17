@@ -137,6 +137,15 @@
     <string name="permission_storage_rationale">גישה לאחסון נדרשת כדי להציג את בוחר המידה</string>
     <string name="screenshot_removed">צילום מסך הוסר</string>
     <string name="no_supported_apps">אין יישומים המסוגלים לבצע פעולה זו.</string>
+    <string name="warm_welcome_done_button">סיום</string>
+    <string name="warm_welcome_next_button">הבא</string>
+    <string name="warm_welcome_skip_button">דלג</string>
+    <string name="welcome_courses_title">קורסים השתלמויות ומיטאפים</string>
+    <string name="welcome_courses_subtitle">ראה פרטים של קורסים, השתלמויות ומיטאפים, דרג וקרא ביקורות, הירשם לקבלת עדכונים, שמור תאריך ביומן, שתף ועוד</string>
+    <string name="welcome_materials_title">חומרי עזר ולימוד</string>
+    <string name="welcome_materials_subtitle">ראה והורד חומרי עזר ולימוד יעודיים עבור קורסים, השתלמויות ומבחנים</string>
+    <string name="welcome_malshab_title">מידע למלש\"ב</string>
+    <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
 
     <!--About-->
     <string name="about_contributors_heading">מפתחים ותורמים</string>

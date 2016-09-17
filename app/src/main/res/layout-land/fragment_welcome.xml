@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout android:id="@id/welcome_fragment"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:clipChildren="false"
+    tools:context="com.basmapp.marshal.ui.WelcomeActivity$PlaceholderFragment">
+
+    <FrameLayout
+        android:id="@+id/images"
+        android:layout_width="@dimen/welcome_images_size"
+        android:layout_height="@dimen/welcome_images_size"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_marginTop="0dp"
+        android:clipChildren="false" />
+
+    <TextView
+        android:id="@+id/heading"
+        android:layout_width="@dimen/welcome_landscape_text_max_width"
+        android:layout_height="wrap_content"
+        android:layout_centerVertical="true"
+        android:layout_marginEnd="@dimen/welcome_landscape_text_margin_end"
+        android:layout_marginBottom="@dimen/welcome_heading_margin_bottom"
+        android:maxWidth="@dimen/welcome_landscape_text_max_width"
+        android:textAppearance="@android:style/TextAppearance.Large"
+        android:textSize="24sp"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white" />
+
+    <TextView
+        android:id="@id/blurb"
+        android:layout_width="@dimen/welcome_landscape_text_max_width"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heading"
+        android:layout_marginEnd="@dimen/welcome_landscape_text_margin_end"
+        android:maxWidth="@dimen/welcome_landscape_text_max_width"
+        android:textSize="16sp"
+        android:textAppearance="@android:style/TextAppearance"
+        android:layout_alignParentEnd="true"
+        android:textColor="@android:color/white" />
+</RelativeLayout>
