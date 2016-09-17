@@ -34,7 +34,7 @@ public class Constants {
     public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
     public static final String PREF_MUST_UPDATE = "must_update";
     public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
-    public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_CYCLE_fab_tap_target";
+    public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";
 
     // Extras Keys
     public static final String EXTRA_COURSE = "course_extra";
