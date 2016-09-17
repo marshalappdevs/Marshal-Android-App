@@ -104,7 +104,7 @@
     <string name="update_retry">Retry</string>
     <string name="got_it">GOT IT</string>
     <string name="cycle_fab_tip_title">See more dates</string>
-    <string name="cycle_fab_tip_subtitle">Press here to see more dates of this course</string>
+    <string name="cycle_fab_tip_subtitle">Tap here to see more dates of this course</string>
     <string name="filter_tip_title">Filter by date</string>
     <string name="filter_tip_subtitle">Filter search results by date range</string>
     <string name="date_filter">Filter by date</string>

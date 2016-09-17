@@ -226,6 +226,27 @@ public class CoursesFragment extends Fragment {
          return mRootView;
      }
 
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
+        // stop auto scroll when onPause
+        mViewPager.stopAutoScroll();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        // start auto scroll when onResume
+        mViewPager.startAutoScroll();
+    }
+
     private void notifyDataSetsChanged() {
         if (mRecyclerAdapterCyber != null) mRecyclerAdapterCyber.notifyDataSetChanged();
         if (mRecyclerAdapterIT != null) mRecyclerAdapterIT.notifyDataSetChanged();
@@ -283,28 +304,6 @@ public class CoursesFragment extends Fragment {
             }
         }
     }
-
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-        MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
-        // stop auto scroll when onPause
-        mViewPager.stopAutoScroll();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-        // start auto scroll when onResume
-        mViewPager.startAutoScroll();
-    }
-
     private void showImagesViewPager() {
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
         mViewPager.setVisibility(View.VISIBLE);

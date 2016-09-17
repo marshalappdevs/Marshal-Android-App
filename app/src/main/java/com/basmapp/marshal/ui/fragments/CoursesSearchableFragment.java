@@ -137,15 +137,9 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
-    public void onDestroy() {
-        super.onDestroy();
+    public void onDestroyView() {
+        super.onDestroyView();
         getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
-    }
-
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
         // Release navigation view lock
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
         // Hide tap target
@@ -171,6 +165,7 @@ public class CoursesSearchableFragment extends Fragment {
                     .setBackgroundColour(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
                     .setIcon(R.drawable.ic_filter_vert)
                     .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                    .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                     .setAutoDismiss(false)
                     .setAutoFinish(false)
                     .setCaptureTouchEventOutsidePrompt(true)
