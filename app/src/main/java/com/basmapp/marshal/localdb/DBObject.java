@@ -281,38 +281,38 @@ public abstract class DBObject {
 
     public Object cursorToObject(Cursor cursor, Context context) throws Exception{
         if (cursor.getCount() > 0) {
-            for (String column:allColumnsList) {
+//            for (String column:allColumnsList) {
                 for (Method setter:allSetters) {
                     if (setter.isAnnotationPresent(ColumnSetter.class)) {
                         ColumnSetter columnSetter = setter.getAnnotation(ColumnSetter.class);
-                        if (column.equals(columnSetter.columnName())) {
+//                        if (column.equals(columnSetter.columnName())) {
                             try {
                                 setter.setAccessible(true);
                                 if (columnSetter.type().equals(TYPE_INT)) {
-                                    setter.invoke(this, cursor.getInt(cursor.getColumnIndex(column)));
+                                    setter.invoke(this, cursor.getInt(cursor.getColumnIndex(columnSetter.columnName())));
                                 } else if (columnSetter.type().equals(TYPE_LONG)) {
-                                    setter.invoke(this, cursor.getLong(cursor.getColumnIndex(column)));
+                                    setter.invoke(this, cursor.getLong(cursor.getColumnIndex(columnSetter.columnName())));
                                 } else if (columnSetter.type().equals(TYPE_DOUBLE)) {
-                                    setter.invoke(this, (cursor.getDouble(cursor.getColumnIndex(column))));
+                                    setter.invoke(this, (cursor.getDouble(cursor.getColumnIndex(columnSetter.columnName()))));
                                 } else if (columnSetter.type().equals(TYPE_BOOLEAN)) {
-                                    setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(column))) != 0);
+                                    setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(columnSetter.columnName()))) != 0);
                                 } else if (columnSetter.type().equals(TYPE_STRING)) {
-                                    setter.invoke(this, cursor.getString(cursor.getColumnIndex(column)));
+                                    setter.invoke(this, cursor.getString(cursor.getColumnIndex(columnSetter.columnName())));
                                 } else if (columnSetter.type().equals(TYPE_DATE)) {
                                     setter.invoke(this,
-                                            new Date(cursor.getLong(cursor.getColumnIndex(column))));
+                                            new Date(cursor.getLong(cursor.getColumnIndex(columnSetter.columnName()))));
 
                                 }
                             } catch (Exception e) {
                                 throw e;
                             }
 
-                            break;
-                        }
+//                            break;
+//                        }
                     }
                     else if (setter.isAnnotationPresent(EntitySetter.class)) {
                         EntitySetter entitySetter = setter.getAnnotation(EntitySetter.class);
-                        if (column.equals(entitySetter.fkColumnName())) {
+//                        if (column.equals(entitySetter.fkColumnName())) {
                             try {
                                 Class<? extends DBObject> entityClass = entitySetter.entityClass();
 
@@ -322,7 +322,7 @@ public abstract class DBObject {
 
                                 entityClass.cast(entityInstance)
                                         .getById(cursor.getLong(cursor
-                                                        .getColumnIndex(column)),
+                                                        .getColumnIndex(entitySetter.fkColumnName())),
                                                 context);
 
                                 setter.setAccessible(true);
@@ -331,13 +331,13 @@ public abstract class DBObject {
                                 throw e;
                             }
 
-                            break;
-                        }
+//                            break;
+//                        }
                     }
                     else if (setter.isAnnotationPresent(EntityArraySetter.class)) {
                         EntityArraySetter entityArraySetter =
                                 setter.getAnnotation(EntityArraySetter.class);
-                        if (column.equals(entityArraySetter.fkColumnName())) {
+//                        if (column.equals(entityArraySetter.fkColumnName())) {
                             try {
                                 ArrayList<Object> objectArray = new ArrayList<>();
                                 Class<? extends DBObject> entityClass = entityArraySetter.entityClass();
@@ -371,11 +371,11 @@ public abstract class DBObject {
                                 throw e;
                             }
 
-                            break;
-                        }
+//                            break;
+//                        }
                     }
                 }
-            }
+//            }
         }
 
         return this.getClass();

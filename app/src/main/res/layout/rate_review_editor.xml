@@ -48,8 +48,7 @@
             android:minLines="3"
             android:maxLength="512"
             android:freezesText="true"
-            android:hint="@string/review_dialog_body_hint"
-            android:focusable="false"/>
+            android:hint="@string/review_dialog_body_hint" />
 
     </android.support.design.widget.TextInputLayout>
 
