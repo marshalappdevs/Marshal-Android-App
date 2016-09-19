@@ -172,7 +172,8 @@ public class WelcomeActivity extends AppCompatActivity {
 
             int[] backgrounds = new int[]{R.drawable.warm_welcome_student,
                     R.drawable.warm_welcome_backpack,
-                    R.drawable.warm_welcome_teacher};
+                    R.drawable.warm_welcome_teach
+            };
 
             FrameLayout images = (FrameLayout) rootView.findViewById(R.id.images);
             images.setBackgroundResource(backgrounds[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);

@@ -141,10 +141,11 @@
     <string name="permission_storage_rationale">Storage permission is required to show media picker</string>
     <string name="screenshot_removed">Screenshot removed</string>
     <string name="no_supported_apps">Unable to find application to perform this action.</string>
+    <string name="no_supported_mail_apps">Unable to find installed application to send an email.</string>
     <string name="warm_welcome_done_button">Done</string>
     <string name="warm_welcome_next_button">Next</string>
     <string name="warm_welcome_skip_button">Skip</string>
-    <string name="welcome_courses_title">קורסים השתלמויות ומיטאפים</string>
+    <string name="welcome_courses_title">קורסים, השתלמויות ומיטאפים</string>
     <string name="welcome_courses_subtitle">ראה פרטים של קורסים, השתלמויות ומיטאפים, דרג וקרא ביקורות, הירשם לקבלת עדכונים, שמור תאריך ביומן, שתף ועוד</string>
     <string name="welcome_materials_title">חומרי עזר ולימוד</string>
     <string name="welcome_materials_subtitle">ראה והורד חומרי עזר ולימוד יעודיים עבור קורסים, השתלמויות ומבחנים</string>

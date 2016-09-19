@@ -126,7 +126,7 @@ public class DescribeProblemActivity extends BaseActivity {
                         }
                     }
                     if (intentShareList.isEmpty()) {
-                        Toast.makeText(DescribeProblemActivity.this, R.string.no_supported_apps, Toast.LENGTH_LONG).show();
+                        Toast.makeText(DescribeProblemActivity.this, R.string.no_supported_mail_apps, Toast.LENGTH_LONG).show();
 //                        finish();
                     } else {
                         Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
