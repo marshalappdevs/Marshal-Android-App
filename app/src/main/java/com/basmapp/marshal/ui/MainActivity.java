@@ -151,7 +151,7 @@ public class MainActivity extends BaseActivity
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         if(mSharedPreferences != null) {
-            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+            if (mSharedPreferences.getBoolean(Constants.PREF_SHOW_WARM_WELCOME, true)) {
                 startActivity(new Intent(this, WelcomeActivity.class));
             }
         }

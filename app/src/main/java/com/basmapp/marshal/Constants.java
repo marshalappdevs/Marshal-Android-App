@@ -10,6 +10,7 @@ public class Constants {
             "com.basmapp.marshal.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED";
 
     // Preferences Keys
+    public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
     public static final String PREF_IS_FIRST_RUN = "pref_is_first_run";
     public static final String PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE = "is_update_service_success_once";
     public static final String PREF_IS_THERE_UPDATES_TO_SHOW = "is_there_new_updates_to_show";

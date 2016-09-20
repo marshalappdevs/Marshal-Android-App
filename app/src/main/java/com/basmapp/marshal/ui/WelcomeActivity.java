@@ -1,7 +1,9 @@
 package com.basmapp.marshal.ui;
 
 import android.animation.ArgbEvaluator;
+import android.content.SharedPreferences;
 import android.os.Build;
+import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 
@@ -15,10 +17,11 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
 
@@ -120,10 +123,17 @@ public class WelcomeActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 finish();
-                //  optional: set PREF_IS_FIRST_RUN to false
             }
         });
 
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        //  Set show warm welcome shared preference to false so it will not show up again
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+        sharedPreferences.edit().putBoolean(Constants.PREF_SHOW_WARM_WELCOME, false).apply();
     }
 
     /**
@@ -175,8 +185,8 @@ public class WelcomeActivity extends AppCompatActivity {
                     R.drawable.warm_welcome_teach
             };
 
-            FrameLayout images = (FrameLayout) rootView.findViewById(R.id.images);
-            images.setBackgroundResource(backgrounds[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            ImageView images = (ImageView) rootView.findViewById(R.id.welcome_image);
+            images.setImageResource(backgrounds[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
 
             return rootView;
         }

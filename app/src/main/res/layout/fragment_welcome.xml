@@ -1,45 +1,53 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView android:id="@+id/scrollview"
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/welcome_fragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:clipChildren="false"
     tools:context="com.basmapp.marshal.ui.WelcomeActivity$PlaceholderFragment">
 
-    <FrameLayout
-        android:id="@+id/images"
-        android:layout_width="@dimen/welcome_images_size"
-        android:layout_height="@dimen/welcome_images_size"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="0dp"
-        android:clipChildren="false" />
-
-    <TextView
-        android:id="@+id/heading"
+    <LinearLayout
+        android:id="@+id/welcome_fragment"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_above="@+id/blurb"
-        android:layout_alignStart="@+id/images"
-        android:layout_marginStart="@dimen/welcome_text_margin"
-        android:layout_marginEnd="@dimen/welcome_text_margin"
-        android:layout_marginBottom="@dimen/welcome_heading_margin_bottom"
-        android:textAppearance="@android:style/TextAppearance.Large"
-        android:textSize="24sp"
-        android:textColor="@android:color/white" />
+        android:layout_gravity="center_vertical"
+        android:orientation="vertical"
+        android:gravity="center_horizontal">
 
-    <TextView
-        android:id="@+id/blurb"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignStart="@+id/images"
-        android:layout_alignParentBottom="true"
-        android:layout_marginStart="@dimen/welcome_text_margin"
-        android:layout_marginEnd="@dimen/welcome_text_margin"
-        android:layout_marginBottom="@dimen/welcome_text_margin_bottom"
-        android:minHeight="@dimen/welcome_blurb_min_height"
-        android:textSize="16sp"
-        android:textAppearance="@android:style/TextAppearance"
-        android:textColor="@android:color/white" />
-</RelativeLayout>
+        <ImageView
+            android:id="@+id/welcome_image"
+            android:layout_width="@dimen/welcome_image_size"
+            android:layout_height="@dimen/welcome_image_size"
+            android:layout_marginTop="@dimen/welcome_image_text_margin"
+            android:layout_marginBottom="@dimen/welcome_image_text_margin"
+            android:contentDescription="@null" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:paddingLeft="36dp"
+            android:paddingRight="36dp"
+            android:paddingTop="24dp"
+            android:paddingBottom="24dp"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/heading"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/welcome_heading_margin_bottom"
+                android:textSize="24sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Headline"
+                android:textColor="@android:color/white" />
+
+            <TextView
+                android:id="@+id/blurb"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="@dimen/welcome_text_margin_bottom"
+                android:textSize="16sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
+                android:textColor="@android:color/white" />
+        </LinearLayout>
+    </LinearLayout>
+</ScrollView>
