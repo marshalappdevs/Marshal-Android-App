@@ -19,6 +19,7 @@ import android.util.Log;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
+import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.google.android.gms.gcm.GcmListenerService;
 
@@ -66,90 +67,15 @@ public class GcmIntentService extends GcmListenerService {
         } else if(message != null && message.contains("show-picture-style-notification")
                 && sharedPreferences.getBoolean("notifications_new_message", true)) {
             String[] separated = message.split(";");
-            new GeneratePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
+            new NotificationUtils.GeneratePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
                     vibrate, ringtoneUri, lightColor).execute();
         } else {
             if (sharedPreferences.getBoolean("notifications_new_message", true)) {
                 PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                         MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-                Bitmap largeIcon = BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher);
-                NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(this)
-                        .setSmallIcon(R.drawable.stat_notify_basmapp)
-                        .setLargeIcon(largeIcon)
-                        .setContentTitle(getString(R.string.app_name))
-                        .setContentText(message)
-                        .setColor(ThemeUtils.getThemeColor(this, R.attr.colorPrimary))
-                        .setStyle(new NotificationCompat.BigTextStyle()
-                                .bigText(message))
-                        .setLights(lightColor, 500, 2000)
-                        .setSound(ringtoneUri)
-                        .setContentIntent(notifyPendingIntent)
-                        .setAutoCancel(true)
-                        .setVibrate(vibrate);
-                NotificationManager mNotificationManager=
-                        (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-                mNotificationManager.notify(1, mBuilder.build());
+                NotificationUtils.Notify(this, message, lightColor, ringtoneUri,
+                        notifyPendingIntent, vibrate);
             }
-        }
-    }
-
-    public class GeneratePictureStyleNotification extends AsyncTask<String, Void, Bitmap> {
-
-        private Context mContext;
-        private String message, imageUrl;
-        private long[] vibrate;
-        private Uri ringtoneUri;
-        private int lightColor;
-
-        public GeneratePictureStyleNotification(Context context, String message, String imageUrl, long[] vibrate, Uri ringtoneUri, int lightColor) {
-            super();
-            this.mContext = context;
-            this.message = message;
-            this.imageUrl = imageUrl;
-            this.vibrate = vibrate;
-            this.ringtoneUri = ringtoneUri;
-            this.lightColor = lightColor;
-        }
-
-        @Override
-        protected Bitmap doInBackground(String... params) {
-            InputStream inputStream;
-            try {
-                URL url = new URL(this.imageUrl);
-                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
-                connection.setDoInput(true);
-                connection.connect();
-                inputStream = connection.getInputStream();
-                return BitmapFactory.decodeStream(inputStream);
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Bitmap result) {
-            super.onPostExecute(result);
-            PendingIntent notifyPendingIntent = PendingIntent.getActivity(mContext, 0, new Intent(mContext,
-                    MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-
-            Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
-            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
-                    .setSmallIcon(R.drawable.stat_notify_basmapp)
-                    .setLargeIcon(largeIcon)
-                    .setContentTitle(mContext.getString(R.string.app_name))
-                    .setContentText(message)
-                    .setColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
-                    .setStyle(new NotificationCompat.BigPictureStyle()
-                            .bigPicture(result))
-                    .setLights(lightColor, 500, 2000)
-                    .setSound(ringtoneUri)
-                    .setContentIntent(notifyPendingIntent)
-                    .setAutoCancel(true)
-                    .setVibrate(vibrate);
-            NotificationManager mNotificationManager =
-                    (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
-            mNotificationManager.notify(2, mBuilder.build());
         }
     }
 }

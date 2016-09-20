@@ -7,9 +7,12 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -21,6 +24,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -39,7 +43,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
+import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
+import com.basmapp.marshal.Manifest;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MalshabItem;
@@ -264,6 +270,23 @@ public class MainActivity extends BaseActivity
             });
             dialogBuilder.show();
         }
+    }
+
+    private TextView getInializedBadgeFromNavDrawer(int menuItemId) {
+        TextView badge = (TextView)
+                MenuItemCompat.getActionView(mNavigationView.getMenu().findItem(menuItemId));
+        badge.setGravity(Gravity.CENTER_VERTICAL);
+        badge.setTypeface(null, Typeface.BOLD);
+
+        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            badge.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
+        } else{
+            badge.setTextColor(getResources().getColor(R.color.colorAccent));
+        }
+
+        badge.setText("99+");
+
+        return badge;
     }
 
     private void setErrorScreenVisibility(int visibility) {
