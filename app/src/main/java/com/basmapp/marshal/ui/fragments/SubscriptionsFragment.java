@@ -100,8 +100,8 @@ public class SubscriptionsFragment extends Fragment {
                         if (mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(false);
-                            if (MainActivity.sErrorScreen != null &&
-                                    MainActivity.sErrorScreen.getVisibility() == View.VISIBLE) {
+                            if (getActivity().findViewById(R.id.placeholder_error)
+                                    .getVisibility() == View.VISIBLE) {
                                 mNoSubscriptions.setVisibility(View.GONE);
                             } else {
                                 mNoSubscriptions.setVisibility(View.VISIBLE);

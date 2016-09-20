@@ -7,12 +7,10 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.content.pm.ApplicationInfo;
 import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -43,9 +41,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
-import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
-import com.basmapp.marshal.Manifest;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MalshabItem;
@@ -60,6 +56,7 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -90,7 +87,7 @@ public class MainActivity extends BaseActivity
     private GoogleApiClient mGoogleApiClient;
     //    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
-    public static DrawerLayout mDrawerLayout;
+    public DrawerLayout mDrawerLayout;
     public static ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SearchView mSearchView;
@@ -99,7 +96,6 @@ public class MainActivity extends BaseActivity
     private ImageView mProfileImageView;
     private FrameLayout mNavHeaderFrame;
     private ImageView mCoverImageView;
-    private Button mButtonRetry;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
@@ -128,8 +124,8 @@ public class MainActivity extends BaseActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
-    public static FrameLayout sNewUpdatesButton;
-    public static LinearLayout sErrorScreen;
+    private FrameLayout sNewUpdatesButton;
+    private LinearLayout sErrorScreen;
 
     public static boolean needRecreate = false;
 
@@ -164,7 +160,6 @@ public class MainActivity extends BaseActivity
 
         initializeUpdateProgressBar();
 
-        MainActivity.sNewUpdatesButton = null;
         initializeNewUpdatesButton();
 
         // Initialize navigation view header items
@@ -214,8 +209,8 @@ public class MainActivity extends BaseActivity
         }
 
         // Initialize error screen re-try button
-        mButtonRetry = (Button) findViewById(R.id.retry_button);
-        mButtonRetry.setOnClickListener(new View.OnClickListener() {
+        Button retryButton = (Button) findViewById(R.id.retry_button);
+        retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // Update data if there is internet connection, else throw error toast
@@ -277,15 +272,8 @@ public class MainActivity extends BaseActivity
                 MenuItemCompat.getActionView(mNavigationView.getMenu().findItem(menuItemId));
         badge.setGravity(Gravity.CENTER_VERTICAL);
         badge.setTypeface(null, Typeface.BOLD);
-
-        if (android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            badge.setTextColor(getResources().getColor(R.color.colorAccent, getTheme()));
-        } else{
-            badge.setTextColor(getResources().getColor(R.color.colorAccent));
-        }
-
+        badge.setTextColor(ThemeUtils.getThemeColor(this, R.attr.colorAccent));
         badge.setText("99+");
-
         return badge;
     }
 
@@ -296,7 +284,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void showNewUpdatesButton() {
-        if (MainActivity.sNewUpdatesButton != null) {
+        if (sNewUpdatesButton != null) {
             animateNewUpdatesButton(View.VISIBLE);
         } else {
             initializeNewUpdatesButton();
@@ -305,8 +293,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void initializeNewUpdatesButton() {
-        MainActivity.sNewUpdatesButton = (FrameLayout) findViewById(R.id.new_updates_button);
-        MainActivity.sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
+        sNewUpdatesButton = (FrameLayout) findViewById(R.id.new_updates_button);
+        sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 releaseAllDataLists();
@@ -337,14 +325,14 @@ public class MainActivity extends BaseActivity
             // show out animation on invisible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_out);
         }
-        MainActivity.sNewUpdatesButton.startAnimation(animation);
+        sNewUpdatesButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {}
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                MainActivity.sNewUpdatesButton.setVisibility(visibility);
+                sNewUpdatesButton.setVisibility(visibility);
             }
 
             @Override
