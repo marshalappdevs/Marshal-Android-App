@@ -3,7 +3,6 @@
     android:id="@+id/cycles_list_item_linearLayout_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginStart="56dp"
     android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
     android:clickable="true">
@@ -12,11 +11,11 @@
         android:id="@+id/cycles_list_item_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:layout_marginBottom="@dimen/activity_vertical_margin"
-        android:gravity="start"
+        android:padding="16dp"
+        android:gravity="center"
+        android:layoutDirection="ltr"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?android:textColorSecondary"
+        android:textColor="?android:textColorPrimary"
         android:text="@string/course_cycle_format" />
 
     <View
