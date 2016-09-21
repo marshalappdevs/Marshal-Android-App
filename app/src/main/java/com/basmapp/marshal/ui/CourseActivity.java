@@ -126,6 +126,7 @@ public class CourseActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_transition));
             getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_transition));
+//            getWindow().setSharedElementsUseOverlay(false);
         }
 
         setContentView(R.layout.activity_course);
@@ -156,36 +157,7 @@ public class CourseActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSharedPreferences.getBoolean("courseShared", false)) {
-                    mFabCycles.animate().cancel();
-                    mFabCycles.animate()
-                            .scaleX(0f)
-                            .scaleY(0f)
-                            .alpha(0f)
-                            .setDuration(200)
-                            .setInterpolator(new FastOutLinearInInterpolator())
-                            .setListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    mToolbar.setVisibility(View.GONE);
-                                    supportFinishAfterTransition();
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-                                }
-                            });
-                } else {
-                    finish();
-                }
+                supportFinishAfterTransition();
             }
         });
 
@@ -195,10 +167,6 @@ public class CourseActivity extends BaseActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        if (mSharedPreferences.getBoolean("courseShared", false)
-                && !mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-            mFabCycles.hide();
-        }
 
         // Set subscribe menu item
         mSubscribeText = (TextView) findViewById(R.id.subscribe_button_text);
@@ -240,89 +208,58 @@ public class CourseActivity extends BaseActivity {
                     }
                 });
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
-                    if (mSharedPreferences.getBoolean("courseShared", true)) {
-                        sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
-                            @Override
-                            public void onTransitionStart(Transition transition) {
-                            }
+                    getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+                        @Override
+                        public void onTransitionStart(Transition transition) {
 
-                            @Override
-                            public void onTransitionEnd(Transition transition) {
-                                mFabCycles.show();
-                                if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                                    mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                            .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                            .setPrimaryText(R.string.cycle_fab_tip_title)
-                                            .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                            .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                            .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                            .setAutoDismiss(false)
-                                            .setAutoFinish(false)
-                                            .setCaptureTouchEventOutsidePrompt(true)
-                                            .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                                                @Override
-                                                public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                                    if (tappedTarget) {
-                                                        mFabPrompt.finish();
-                                                        mFabPrompt = null;
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onHidePromptComplete() {
-
-                                                }
-                                            })
-                                            .show();
-                                    mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
-                                }
-                            }
-
-                            @Override
-                            public void onTransitionCancel(Transition transition) {
-                            }
-
-                            @Override
-                            public void onTransitionPause(Transition transition) {
-                            }
-
-                            @Override
-                            public void onTransitionResume(Transition transition) {
-                            }
-                        });
-                    } else {
-                        if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                            mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                    .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                    .setPrimaryText(R.string.cycle_fab_tip_title)
-                                    .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                    .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                    .setAutoDismiss(false)
-                                    .setAutoFinish(false)
-                                    .setCaptureTouchEventOutsidePrompt(true)
-                                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
-                                    {
-                                        @Override
-                                        public void onHidePrompt(MotionEvent event, boolean tappedTarget)
-                                        {
-                                            if (tappedTarget) {
-                                                mFabPrompt.finish();
-                                                mFabPrompt = null;
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onHidePromptComplete()
-                                        {
-
-                                        }
-                                    })
-                                    .show();
-                            mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                         }
-                    }
+
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
+                                mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                        .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                        .setPrimaryText(R.string.cycle_fab_tip_title)
+                                        .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                        .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
+                                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                        .setAutoDismiss(false)
+                                        .setAutoFinish(false)
+                                        .setCaptureTouchEventOutsidePrompt(true)
+                                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                                            @Override
+                                            public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                                if (tappedTarget) {
+                                                    mFabPrompt.finish();
+                                                    mFabPrompt = null;
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onHidePromptComplete() {
+
+                                            }
+                                        })
+                                        .show();
+                                mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
+                            }
+                        }
+
+                        @Override
+                        public void onTransitionCancel(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionPause(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionResume(Transition transition) {
+
+                        }
+                    });
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                         mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
@@ -334,11 +271,9 @@ public class CourseActivity extends BaseActivity {
                                 .setAutoDismiss(false)
                                 .setAutoFinish(false)
                                 .setCaptureTouchEventOutsidePrompt(true)
-                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
-                                {
+                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                                     @Override
-                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget)
-                                    {
+                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
                                         if (tappedTarget) {
                                             mFabPrompt.finish();
                                             mFabPrompt = null;
@@ -346,8 +281,7 @@ public class CourseActivity extends BaseActivity {
                                     }
 
                                     @Override
-                                    public void onHidePromptComplete()
-                                    {
+                                    public void onHidePromptComplete() {
 
                                     }
                                 })
@@ -945,33 +879,6 @@ public class CourseActivity extends BaseActivity {
         if (mFabPrompt != null) {
             mFabPrompt.finish();
             mFabPrompt = null;
-        } else if (mSharedPreferences.getBoolean("courseShared", false)) {
-            mFabCycles.animate().cancel();
-            mFabCycles.animate()
-                    .scaleX(0f)
-                    .scaleY(0f)
-                    .alpha(0f)
-                    .setDuration(200)
-                    .setInterpolator(new FastOutLinearInInterpolator())
-                    .setListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mToolbar.setVisibility(View.GONE);
-                            supportFinishAfterTransition();
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
         } else {
             super.onBackPressed();
         }
