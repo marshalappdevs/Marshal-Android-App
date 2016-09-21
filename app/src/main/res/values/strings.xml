@@ -11,7 +11,7 @@
     <string name="navigation_drawer_materials">Study Materials</string>
     <string name="navigation_drawer_meetups">Meetups</string>
     <string name="navigation_drawer_discussions">Discussions</string>
-    <string name="navigation_drawer_malshab">Malshab</string>
+    <string name="navigation_drawer_malshab">Security Service Candidates</string>
     <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_contact_us">Contact Us</string>
     <string name="navigation_drawer_about">About Application</string>
@@ -145,12 +145,12 @@
     <string name="warm_welcome_done_button">Done</string>
     <string name="warm_welcome_next_button">Next</string>
     <string name="warm_welcome_skip_button">Skip</string>
-    <string name="welcome_courses_title">קורסים, השתלמויות ומיטאפים</string>
-    <string name="welcome_courses_subtitle">ראה פרטים של קורסים, השתלמויות ומיטאפים, דרג וקרא ביקורות, הירשם לקבלת עדכונים, שמור תאריך ביומן, שתף ועוד</string>
-    <string name="welcome_materials_title">חומרי עזר ולימוד</string>
-    <string name="welcome_materials_subtitle">ראה והורד חומרי עזר ולימוד יעודיים עבור קורסים, השתלמויות ומבחנים</string>
-    <string name="welcome_malshab_title">מידע למלש\"ב</string>
-    <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
+    <string name="welcome_courses_title">Courses and Meetups</string>
+    <string name="welcome_courses_subtitle">See details of courses and meetups, rate and read comments, subscribe to get updates, save date in calendar, share and more</string>
+    <string name="welcome_materials_title">Study Materials</string>
+    <string name="welcome_materials_subtitle">See and download courses and tests dedicated study materials</string>
+    <string name="welcome_malshab_title">Information for security service candidates</string>
+    <string name="welcome_malshab_subtitle">Read about the basic trainings that Basmach offers</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
