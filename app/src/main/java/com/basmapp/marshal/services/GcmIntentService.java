@@ -1,33 +1,19 @@
 package com.basmapp.marshal.services;
 
-import android.app.NotificationManager;
 import android.app.PendingIntent;
-import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.v4.app.NotificationCompat;
 import android.util.Log;
 
 import com.basmapp.marshal.Constants;
-import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
-import com.basmapp.marshal.util.ThemeUtils;
 import com.google.android.gms.gcm.GcmListenerService;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.net.HttpURLConnection;
-import java.net.URL;
-
 
 public class GcmIntentService extends GcmListenerService {
     @Override

@@ -657,16 +657,16 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      */
     public abstract class PendingStartAnimator extends ValueAnimator {
 
-        protected boolean hasStarted;
-        protected StartPredicate predicate;
+        boolean hasStarted;
+        StartPredicate predicate;
 
-        public PendingStartAnimator(StartPredicate predicate) {
+        PendingStartAnimator(StartPredicate predicate) {
             super();
             this.predicate = predicate;
             hasStarted = false;
         }
 
-        public void startIfNecessary(float currentValue) {
+        void startIfNecessary(float currentValue) {
             if (!hasStarted && predicate.shouldStart(currentValue)) {
                 start();
                 hasStarted = true;
@@ -681,7 +681,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      */
     public class PendingRetreatAnimator extends PendingStartAnimator {
 
-        public PendingRetreatAnimator(int was, int now, int steps, StartPredicate predicate) {
+        PendingRetreatAnimator(int was, int now, int steps, StartPredicate predicate) {
             super(predicate);
             setDuration(animHalfDuration);
             setInterpolator(interpolator);
@@ -775,7 +775,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
 
         private int dot;
 
-        public PendingRevealAnimator(int dot, StartPredicate predicate) {
+        PendingRevealAnimator(int dot, StartPredicate predicate) {
             super(predicate);
             setFloatValues(MINIMAL_REVEAL, 1f);
             this.dot = dot;
@@ -804,9 +804,9 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      */
     public abstract class StartPredicate {
 
-        protected float thresholdValue;
+        float thresholdValue;
 
-        public StartPredicate(float thresholdValue) {
+        StartPredicate(float thresholdValue) {
             this.thresholdValue = thresholdValue;
         }
 
@@ -819,7 +819,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      */
     public class RightwardStartPredicate extends StartPredicate {
 
-        public RightwardStartPredicate(float thresholdValue) {
+        RightwardStartPredicate(float thresholdValue) {
             super(thresholdValue);
         }
 
@@ -833,7 +833,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
      */
     public class LeftwardStartPredicate extends StartPredicate {
 
-        public LeftwardStartPredicate(float thresholdValue) {
+        LeftwardStartPredicate(float thresholdValue) {
             super(thresholdValue);
         }
 
@@ -861,7 +861,7 @@ public class InkPageIndicator extends View implements ViewPager.OnPageChangeList
     static class SavedState extends BaseSavedState {
         int currentPage;
 
-        public SavedState(Parcelable superState) {
+        SavedState(Parcelable superState) {
             super(superState);
         }
 

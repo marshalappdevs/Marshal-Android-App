@@ -20,10 +20,6 @@ import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
-/**
- * Created by Ido on 9/20/2016.
- */
-
 public class NotificationUtils {
     public static void Notify(Context context, String message, int lightColor, Uri ringtoneUri,
                               PendingIntent pendingIntent, long[] vibrate) {

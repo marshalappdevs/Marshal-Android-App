@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
@@ -942,20 +940,20 @@ public class CourseActivity extends BaseActivity {
 
     private class SendRatingRequest extends AsyncTask<Void,Void,Boolean> {
 
-        public static final int REQUEST_TYPE_POST = 10;
-        public static final int REQUEST_TYPE_PUT = 11;
-        public static final int REQUEST_TYPE_DELETE = 12;
+        static final int REQUEST_TYPE_POST = 10;
+        static final int REQUEST_TYPE_PUT = 11;
+        static final int REQUEST_TYPE_DELETE = 12;
 
         private int requestType = 0;
         private Rating tempRating;
         private BackgroundTaskCallBack callBack;
 
-        public SendRatingRequest (int requestType, Rating rating) {
+        SendRatingRequest(int requestType, Rating rating) {
             this.requestType = requestType;
             this.tempRating = rating;
         }
 
-        public SendRatingRequest (int requestType, Rating rating, BackgroundTaskCallBack callBack) {
+        SendRatingRequest(int requestType, Rating rating, BackgroundTaskCallBack callBack) {
             this.requestType = requestType;
             this.tempRating = rating;
             this.callBack = callBack;
@@ -1053,7 +1051,7 @@ public class CourseActivity extends BaseActivity {
             }
         }
 
-        public void showRatingChanges() {
+        void showRatingChanges() {
             showRatingAverage();
             showRatingsCount();
             showUserRating();
@@ -1089,14 +1087,14 @@ public class CourseActivity extends BaseActivity {
 
     private class SubscribeTask extends AsyncTask<Void,Void,Boolean> {
 
-        public static final int TASK_TYPE_SUBSCRIBE = 1;
-        public static final int TASK_TYPE_UNSUBSCRIBE = 2;
+        static final int TASK_TYPE_SUBSCRIBE = 1;
+        static final int TASK_TYPE_UNSUBSCRIBE = 2;
 
         private int taskType;
         private TextView subscribeText;
         private ImageView subscribeIcon;
 
-        public SubscribeTask(int taskType, ImageView icon, TextView text) {
+        SubscribeTask(int taskType, ImageView icon, TextView text) {
             this.subscribeText = text;
             this.subscribeIcon = icon;
             this.taskType = taskType;
