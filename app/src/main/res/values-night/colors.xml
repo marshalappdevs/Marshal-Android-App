@@ -13,4 +13,6 @@
     <color name="hash_tags_background">#10FFFFFF</color>
     <color name="link_color">#ff2b6fb2</color>
     <color name="description_background">#FF424242</color>
+    <color name="page_indicator">#80333333</color>
+    <color name="page_indicator_selected">#ff333333</color>
 </resources>

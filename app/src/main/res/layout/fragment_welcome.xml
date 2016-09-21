@@ -34,7 +34,7 @@
             android:layout_marginTop="10dp"
             android:gravity="center_horizontal"
             android:textAppearance="@style/TextAppearance.AppCompat.Headline"
-            android:textColor="?android:textColorPrimaryInverse" />
+            android:textColor="@android:color/white" />
 
         <TextView
             android:id="@+id/welcome_subhead"
@@ -47,6 +47,6 @@
             android:minHeight="64dp"
             android:lineSpacingExtra="4dp"
             android:textAppearance="@style/TextAppearance.AppCompat.Subhead"
-            android:textColor="?android:textColorPrimaryInverse" />
+            android:textColor="@android:color/white" />
     </LinearLayout>
 </LinearLayout>

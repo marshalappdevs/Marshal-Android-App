@@ -125,4 +125,6 @@
     <color name="error_color">#D50000</color>
     <color name="navigation_view_cover_overlay_shade">#38000000</color>
     <color name="status_bar_overlay">#33000000</color>
+    <color name="page_indicator">#80ffffff</color>
+    <color name="page_indicator_selected">#ffffffff</color>
 </resources>
