@@ -61,8 +61,8 @@ public class WelcomeActivity extends AppCompatActivity {
         mViewPager.setCurrentItem(page);
 
         final int color1 = ContextCompat.getColor(this, R.color.cyan_primary_color);
-        final int color2 = ContextCompat.getColor(this, R.color.orange_primary_color);
-        final int color3 = ContextCompat.getColor(this, R.color.green_primary_color);
+        final int color2 = ContextCompat.getColor(this, R.color.green_primary_color);
+        final int color3 = ContextCompat.getColor(this, R.color.teal_primary_color);
 
         final int[] colorList = new int[]{color1, color2, color3};
 
@@ -170,23 +170,23 @@ public class WelcomeActivity extends AppCompatActivity {
                     getActivity().getResources().getString(R.string.welcome_materials_title),
                     getActivity().getResources().getString(R.string.welcome_malshab_title)};
 
-            TextView title = (TextView) rootView.findViewById(R.id.heading);
-            title.setText(titles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            TextView headline = (TextView) rootView.findViewById(R.id.welcome_headline);
+            headline.setText(titles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
 
             String[] subtitles = new String[]{getActivity().getResources().getString(R.string.welcome_courses_subtitle),
                     getActivity().getResources().getString(R.string.welcome_materials_subtitle),
                     getActivity().getResources().getString(R.string.welcome_malshab_subtitle)};
 
-            TextView subtitle = (TextView) rootView.findViewById(R.id.blurb);
-            subtitle.setText(subtitles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            TextView subhead = (TextView) rootView.findViewById(R.id.welcome_subhead);
+            subhead.setText(subtitles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
 
-            int[] backgrounds = new int[]{R.drawable.warm_welcome_student,
+            int[] images = new int[]{R.drawable.warm_welcome_student,
                     R.drawable.warm_welcome_backpack,
                     R.drawable.warm_welcome_teach
             };
 
-            ImageView images = (ImageView) rootView.findViewById(R.id.welcome_image);
-            images.setImageResource(backgrounds[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            ImageView image = (ImageView) rootView.findViewById(R.id.welcome_image);
+            image.setImageResource(images[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
 
             return rootView;
         }

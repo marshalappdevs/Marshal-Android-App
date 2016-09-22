@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.animation.Animator;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,7 +15,6 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.animation.FastOutLinearInInterpolator;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
@@ -126,6 +124,7 @@ public class CourseActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setSharedElementEnterTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_transition));
             getWindow().setSharedElementReturnTransition(TransitionInflater.from(this).inflateTransition(R.transition.course_transition));
+//            getWindow().setSharedElementsUseOverlay(false);
         }
 
         setContentView(R.layout.activity_course);
@@ -156,36 +155,7 @@ public class CourseActivity extends BaseActivity {
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mSharedPreferences.getBoolean("courseShared", false)) {
-                    mFabCycles.animate().cancel();
-                    mFabCycles.animate()
-                            .scaleX(0f)
-                            .scaleY(0f)
-                            .alpha(0f)
-                            .setDuration(200)
-                            .setInterpolator(new FastOutLinearInInterpolator())
-                            .setListener(new Animator.AnimatorListener() {
-                                @Override
-                                public void onAnimationStart(Animator animation) {
-                                }
-
-                                @Override
-                                public void onAnimationEnd(Animator animation) {
-                                    mToolbar.setVisibility(View.GONE);
-                                    supportFinishAfterTransition();
-                                }
-
-                                @Override
-                                public void onAnimationCancel(Animator animation) {
-                                }
-
-                                @Override
-                                public void onAnimationRepeat(Animator animation) {
-                                }
-                            });
-                } else {
-                    finish();
-                }
+                supportFinishAfterTransition();
             }
         });
 
@@ -195,10 +165,6 @@ public class CourseActivity extends BaseActivity {
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
-        if (mSharedPreferences.getBoolean("courseShared", false)
-                && !mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-            mFabCycles.hide();
-        }
 
         // Set subscribe menu item
         mSubscribeText = (TextView) findViewById(R.id.subscribe_button_text);
@@ -240,89 +206,58 @@ public class CourseActivity extends BaseActivity {
                     }
                 });
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    Transition sharedElementEnterTransition = getWindow().getSharedElementEnterTransition();
-                    if (mSharedPreferences.getBoolean("courseShared", true)) {
-                        sharedElementEnterTransition.addListener(new Transition.TransitionListener() {
-                            @Override
-                            public void onTransitionStart(Transition transition) {
-                            }
+                    getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
+                        @Override
+                        public void onTransitionStart(Transition transition) {
 
-                            @Override
-                            public void onTransitionEnd(Transition transition) {
-                                mFabCycles.show();
-                                if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                                    mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                            .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                            .setPrimaryText(R.string.cycle_fab_tip_title)
-                                            .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                            .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                            .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                            .setAutoDismiss(false)
-                                            .setAutoFinish(false)
-                                            .setCaptureTouchEventOutsidePrompt(true)
-                                            .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                                                @Override
-                                                public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                                    if (tappedTarget) {
-                                                        mFabPrompt.finish();
-                                                        mFabPrompt = null;
-                                                    }
-                                                }
-
-                                                @Override
-                                                public void onHidePromptComplete() {
-
-                                                }
-                                            })
-                                            .show();
-                                    mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
-                                }
-                            }
-
-                            @Override
-                            public void onTransitionCancel(Transition transition) {
-                            }
-
-                            @Override
-                            public void onTransitionPause(Transition transition) {
-                            }
-
-                            @Override
-                            public void onTransitionResume(Transition transition) {
-                            }
-                        });
-                    } else {
-                        if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                            mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                    .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                    .setPrimaryText(R.string.cycle_fab_tip_title)
-                                    .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                    .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                    .setAutoDismiss(false)
-                                    .setAutoFinish(false)
-                                    .setCaptureTouchEventOutsidePrompt(true)
-                                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
-                                    {
-                                        @Override
-                                        public void onHidePrompt(MotionEvent event, boolean tappedTarget)
-                                        {
-                                            if (tappedTarget) {
-                                                mFabPrompt.finish();
-                                                mFabPrompt = null;
-                                            }
-                                        }
-
-                                        @Override
-                                        public void onHidePromptComplete()
-                                        {
-
-                                        }
-                                    })
-                                    .show();
-                            mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                         }
-                    }
+
+                        @Override
+                        public void onTransitionEnd(Transition transition) {
+                            if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
+                                mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                        .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                        .setPrimaryText(R.string.cycle_fab_tip_title)
+                                        .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                        .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
+                                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                        .setAutoDismiss(false)
+                                        .setAutoFinish(false)
+                                        .setCaptureTouchEventOutsidePrompt(true)
+                                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                                            @Override
+                                            public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                                if (tappedTarget) {
+                                                    mFabPrompt.finish();
+                                                    mFabPrompt = null;
+                                                }
+                                            }
+
+                                            @Override
+                                            public void onHidePromptComplete() {
+
+                                            }
+                                        })
+                                        .show();
+                                mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
+                            }
+                        }
+
+                        @Override
+                        public void onTransitionCancel(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionPause(Transition transition) {
+
+                        }
+
+                        @Override
+                        public void onTransitionResume(Transition transition) {
+
+                        }
+                    });
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                         mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
@@ -334,11 +269,9 @@ public class CourseActivity extends BaseActivity {
                                 .setAutoDismiss(false)
                                 .setAutoFinish(false)
                                 .setCaptureTouchEventOutsidePrompt(true)
-                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener()
-                                {
+                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
                                     @Override
-                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget)
-                                    {
+                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
                                         if (tappedTarget) {
                                             mFabPrompt.finish();
                                             mFabPrompt = null;
@@ -346,8 +279,7 @@ public class CourseActivity extends BaseActivity {
                                     }
 
                                     @Override
-                                    public void onHidePromptComplete()
-                                    {
+                                    public void onHidePromptComplete() {
 
                                     }
                                 })
@@ -945,33 +877,6 @@ public class CourseActivity extends BaseActivity {
         if (mFabPrompt != null) {
             mFabPrompt.finish();
             mFabPrompt = null;
-        } else if (mSharedPreferences.getBoolean("courseShared", false)) {
-            mFabCycles.animate().cancel();
-            mFabCycles.animate()
-                    .scaleX(0f)
-                    .scaleY(0f)
-                    .alpha(0f)
-                    .setDuration(200)
-                    .setInterpolator(new FastOutLinearInInterpolator())
-                    .setListener(new Animator.AnimatorListener() {
-                        @Override
-                        public void onAnimationStart(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationEnd(Animator animation) {
-                            mToolbar.setVisibility(View.GONE);
-                            supportFinishAfterTransition();
-                        }
-
-                        @Override
-                        public void onAnimationCancel(Animator animation) {
-                        }
-
-                        @Override
-                        public void onAnimationRepeat(Animator animation) {
-                        }
-                    });
         } else {
             super.onBackPressed();
         }
@@ -1035,20 +940,20 @@ public class CourseActivity extends BaseActivity {
 
     private class SendRatingRequest extends AsyncTask<Void,Void,Boolean> {
 
-        public static final int REQUEST_TYPE_POST = 10;
-        public static final int REQUEST_TYPE_PUT = 11;
-        public static final int REQUEST_TYPE_DELETE = 12;
+        static final int REQUEST_TYPE_POST = 10;
+        static final int REQUEST_TYPE_PUT = 11;
+        static final int REQUEST_TYPE_DELETE = 12;
 
         private int requestType = 0;
         private Rating tempRating;
         private BackgroundTaskCallBack callBack;
 
-        public SendRatingRequest (int requestType, Rating rating) {
+        SendRatingRequest(int requestType, Rating rating) {
             this.requestType = requestType;
             this.tempRating = rating;
         }
 
-        public SendRatingRequest (int requestType, Rating rating, BackgroundTaskCallBack callBack) {
+        SendRatingRequest(int requestType, Rating rating, BackgroundTaskCallBack callBack) {
             this.requestType = requestType;
             this.tempRating = rating;
             this.callBack = callBack;
@@ -1146,7 +1051,7 @@ public class CourseActivity extends BaseActivity {
             }
         }
 
-        public void showRatingChanges() {
+        void showRatingChanges() {
             showRatingAverage();
             showRatingsCount();
             showUserRating();
@@ -1182,14 +1087,14 @@ public class CourseActivity extends BaseActivity {
 
     private class SubscribeTask extends AsyncTask<Void,Void,Boolean> {
 
-        public static final int TASK_TYPE_SUBSCRIBE = 1;
-        public static final int TASK_TYPE_UNSUBSCRIBE = 2;
+        static final int TASK_TYPE_SUBSCRIBE = 1;
+        static final int TASK_TYPE_UNSUBSCRIBE = 2;
 
         private int taskType;
         private TextView subscribeText;
         private ImageView subscribeIcon;
 
-        public SubscribeTask(int taskType, ImageView icon, TextView text) {
+        SubscribeTask(int taskType, ImageView icon, TextView text) {
             this.subscribeText = text;
             this.subscribeIcon = icon;
             this.taskType = taskType;
