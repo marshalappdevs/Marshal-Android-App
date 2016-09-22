@@ -12,6 +12,10 @@ android {
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "AUTH_KEY", "\"${auth_key}\""
         resConfigs "en", "iw"
+
+        jackOptions {
+            enabled true
+        }
     }
     buildTypes {
         debug {
@@ -24,6 +28,10 @@ android {
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
     }
 }
 

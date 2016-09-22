@@ -228,7 +228,6 @@ public class MainActivity extends BaseActivity
             @Override
             public void onFinish(boolean result) {
 
-                Log.i("LIFE_CYCLE", "updateReceiver -- onFinish: " + String.valueOf(result));
                 if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing()) {
                     mUpdateProgressDialog.dismiss();
                 }

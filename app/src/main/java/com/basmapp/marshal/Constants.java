@@ -34,6 +34,10 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_COLOR = "notify_light_color";
     public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
     public static final String PREF_MUST_UPDATE = "must_update";
+    public static final String PREF_NOTIFICATIONS_NEW_MESSAGE_VIBRATE = "notifications_new_message_vibrate";
+    public static final String PREF_NOTIFY_NEW_MESSAGE = "notify_new_message";
+    public static final String PREF_NOTIFICATIONS_NEW_RINGTONE = "notifications_new_message_ringtone";
+
     public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
     public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";
 

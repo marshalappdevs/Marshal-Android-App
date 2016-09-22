@@ -37,21 +37,27 @@ public class GcmIntentService extends GcmListenerService {
 
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        long[] vibrate = new long[]{0};
-        if (sharedPreferences.getBoolean("notifications_new_message_vibrate", false)) {
-            vibrate = new long[]{0,1000};
-        }
+        NotificationUtils mNotificationUtils = new NotificationUtils(this);
 
-        String ringtonePref = sharedPreferences.getString("notifications_new_message_ringtone", null);
-        Uri ringtoneUri;
-        if (ringtonePref != null) {
-            ringtoneUri = Uri.parse(ringtonePref);
-        } else {
-            ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-        }
+        Uri ringtoneUri = mNotificationUtils.getRingtoneUri();
+        long[] vibrate = mNotificationUtils.getVibrate();
+        int lightColor = mNotificationUtils.getLightColor();
 
-        int lightColor = Color.parseColor(sharedPreferences
-                .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF"));
+//        long[] vibrate = new long[]{0};
+//        if (sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_NEW_MESSAGE, false)) {
+//            vibrate = new long[]{0,1000};
+//        }
+
+//        String ringtonePref = sharedPreferences.getString(Constants.PREF_NOTIFICATIONS_NEW_RINGTONE, null);
+//        Uri ringtoneUri;
+//        if (ringtonePref != null) {
+//            ringtoneUri = Uri.parse(ringtonePref);
+//        } else {
+//            ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+//        }
+
+//        int lightColor = Color.parseColor(sharedPreferences
+//                .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF"));
 
         String message = data.getString("message");
         if(message != null &&
@@ -67,14 +73,18 @@ public class GcmIntentService extends GcmListenerService {
         } else if(message != null && message.contains("show-picture-style-notification")
                 && sharedPreferences.getBoolean("notifications_new_message", true)) {
             String[] separated = message.split(";");
+
+            PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                    MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
             new NotificationUtils.GeneratePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
-                    vibrate, ringtoneUri, lightColor).execute();
+                    vibrate, ringtoneUri, lightColor, notifyPendingIntent).execute();
         } else {
-            if (sharedPreferences.getBoolean("notifications_new_message", true)) {
+            if (sharedPreferences.getBoolean(Constants.PREF_NOTIFY_NEW_MESSAGE, true)) {
                 PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                         MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-                NotificationUtils.Notify(this, message, lightColor, ringtoneUri,
-                        notifyPendingIntent, vibrate);
+
+                mNotificationUtils.notify(message, notifyPendingIntent);
             }
         }
     }

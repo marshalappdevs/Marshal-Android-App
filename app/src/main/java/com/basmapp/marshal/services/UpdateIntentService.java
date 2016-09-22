@@ -1,10 +1,12 @@
 package com.basmapp.marshal.services;
 
 import android.app.IntentService;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -20,12 +22,16 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.LocalDBHelper;
+import com.basmapp.marshal.ui.MainActivity;
+import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -427,8 +433,51 @@ public class UpdateIntentService extends IntentService {
             Log.i("UPDATE_SERVICE","result=" + String.valueOf(result));
 
             // Notify new courses
-            if(newCourses.size() > 0) {
+            if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                if(newCourses.size() > 0) {
+                    notifyNewCourses(newCourses);
+                }
+            }
+        }
+    }
 
+    private void notifyNewCourses(List<Course> newCourses) {
+        List<Course> courses = getCoursesMatchUserChannels(newCourses);
+
+        PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+                MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+        String message = "New " + courses.get(0).getName() + " course!";
+        new NotificationUtils.GeneratePictureStyleNotification(this, message,
+                courses.get(0).getImageUrl(), notifyPendingIntent).execute();
+        if (courses.size() > 1) {
+            String restCoursesMessage = "We have " + (courses.size()) + " new courses!\n" +
+                    "Tap and take a look!";
+            new NotificationUtils(this).notify(restCoursesMessage, notifyPendingIntent);
+        }
+    }
+
+    private List<Course> getCoursesMatchUserChannels(List<Course> newCourses) {
+        Set<String> gcmChannels = PreferenceManager.getDefaultSharedPreferences(this)
+                .getStringSet(Constants.PREF_GCM_CHANNELS, null);
+        if (gcmChannels == null) return newCourses;
+        else {
+            // Using Java 8 from sdk 24
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+
+                newCourses = newCourses.stream()
+                        .filter(course -> gcmChannels.contains(course.getName()))
+                        .collect(Collectors.toList());
+
+                return newCourses;
+
+            } else {
+                List<Course> filteredCourses = new ArrayList<>();
+                for (Course course : newCourses) {
+                    if (gcmChannels.contains(course.getCategory()))
+                        filteredCourses.add(course);
+                }
+
+                return filteredCourses;
             }
         }
     }
