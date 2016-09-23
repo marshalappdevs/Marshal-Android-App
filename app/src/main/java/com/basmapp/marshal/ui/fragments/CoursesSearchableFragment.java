@@ -15,6 +15,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -51,6 +52,10 @@ import java.util.Locale;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class CoursesSearchableFragment extends Fragment {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
