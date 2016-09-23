@@ -34,6 +34,7 @@ public class ShowAllCoursesFragment extends Fragment {
     GridLayoutManager mGridLayoutManager;
     CoursesRecyclerAdapter mAdapter;
     Toolbar mToolbar;
+    DrawerLayout mDrawerLayout;
 
     String mCoursesType;
     ArrayList<Course> mCourses;
@@ -95,6 +96,11 @@ public class ShowAllCoursesFragment extends Fragment {
         return rootView;
     }
 
+    @Override
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
+    }
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
@@ -108,11 +114,9 @@ public class ShowAllCoursesFragment extends Fragment {
         MainActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.navigation_drawer_courses);
-            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    DrawerLayout drawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-                    drawerLayout.openDrawer(GravityCompat.START, false);
+            mToolbar.setNavigationOnClickListener(view -> {
+                if (mDrawerLayout != null) {
+                    mDrawerLayout.openDrawer(GravityCompat.START);
                 }
             });
         }
