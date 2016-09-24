@@ -326,7 +326,7 @@
 
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
-    <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com</string>
+    <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">608057070384-89hqqe32ur69geso8fiekkqhe91dpa0n.apps.googleusercontent.com</string>
     <string name="share_authority" translatable="false">com.basmapp.marshal.shareprovider</string>
     <string name="review_comment1">היה קורס מצוין. למדתי המון.</string>
     <string name="review_comment2">למדתי המון והחומרים היו רלוונטיים. מבחינה לוגיסטית טעון שיפור.</string>
