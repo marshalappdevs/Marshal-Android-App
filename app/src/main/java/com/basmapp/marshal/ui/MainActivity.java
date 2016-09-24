@@ -7,7 +7,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.graphics.Typeface;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -21,7 +21,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -56,7 +58,6 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
-import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -263,16 +264,6 @@ public class MainActivity extends BaseActivity
             });
             dialogBuilder.show();
         }
-    }
-
-    private TextView getInializedBadgeFromNavDrawer(int menuItemId) {
-        TextView badge = (TextView)
-                MenuItemCompat.getActionView(mNavigationView.getMenu().findItem(menuItemId));
-        badge.setGravity(Gravity.CENTER_VERTICAL);
-        badge.setTypeface(null, Typeface.BOLD);
-        badge.setTextColor(ThemeUtils.getThemeColor(this, R.attr.colorAccent));
-        badge.setText("99+");
-        return badge;
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -804,6 +795,31 @@ public class MainActivity extends BaseActivity
         return prefs.getInt(Constants.PREF_ACCENT_COLOR_CODE, defaultColor);
     }
 
+    public static int dp2px(int dp) {
+        return (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dp, Resources.getSystem().getDisplayMetrics());
+    }
+
+    public static float px2dp(float px) {
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_PX, px, Resources.getSystem().getDisplayMetrics());
+    }
+
+    private TextView setBadge(int menuItemId) {
+        TextView badge = (TextView)
+                MenuItemCompat.getActionView(mNavigationView.getMenu().findItem(menuItemId));
+        badge.setLayoutParams(new FrameLayout.LayoutParams(FrameLayout.LayoutParams.WRAP_CONTENT,
+                FrameLayout.LayoutParams.WRAP_CONTENT, Gravity.CENTER));
+        badge.setBackgroundResource(R.drawable.new_promo_background);
+        badge.setEllipsize(TextUtils.TruncateAt.END);
+        badge.setGravity(Gravity.CENTER_VERTICAL);
+        badge.setMaxLines(1);
+        badge.setPaddingRelative(dp2px(4), dp2px(2), dp2px(4), dp2px(2));
+        badge.setText("99+");
+        badge.setAllCaps(true);
+        badge.setTextColor(ContextCompat.getColor(this, android.R.color.white));
+        badge.setTextSize(TypedValue.COMPLEX_UNIT_SP, 12);
+        return badge;
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -831,6 +847,7 @@ public class MainActivity extends BaseActivity
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
             setTitle(item.getTitle());
+//            setBadge(item.getItemId());
         } else if (id == R.id.nav_subscriptions) {
             if (mSubscriptionsFragment == null) {
                 mSubscriptionsFragment = new SubscriptionsFragment();

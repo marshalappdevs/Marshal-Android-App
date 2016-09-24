@@ -39,7 +39,7 @@ public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private TextView mNoResults;
-    private LinearLayout mNoSubscriptions;
+    private LinearLayout mNoSubscriptions, sErrorScreen;
     private SearchView mSearchView;
     private MenuItem mSearchItem;
     private CoursesSearchRecyclerAdapter mAdapter;
@@ -102,12 +102,12 @@ public class SubscriptionsFragment extends Fragment {
                         if (mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(false);
-                            if (getActivity().findViewById(R.id.placeholder_error)
-                                    .getVisibility() == View.VISIBLE) {
-                                mNoSubscriptions.setVisibility(View.GONE);
-                            } else {
-                                mNoSubscriptions.setVisibility(View.VISIBLE);
-                            }
+                            if (sErrorScreen != null)
+                                if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                                    mNoSubscriptions.setVisibility(View.GONE);
+                                } else {
+                                    mNoSubscriptions.setVisibility(View.VISIBLE);
+                                }
                         } else if (!mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(true);
@@ -170,6 +170,7 @@ public class SubscriptionsFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
+        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
