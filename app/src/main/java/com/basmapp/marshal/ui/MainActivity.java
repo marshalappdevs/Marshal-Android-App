@@ -64,7 +64,6 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
-import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
@@ -82,7 +81,6 @@ import java.util.ArrayList;
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private static final int RC_SIGN_IN = 9001;
-    private static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     public static final int RC_COURSE_ACTIVITY = 8000;
 
     private GoogleApiClient mGoogleApiClient;
@@ -348,20 +346,6 @@ public class MainActivity extends BaseActivity
             Intent intent = new Intent(this, GcmRegistrationService.class);
             intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
             startService(intent);
-        }
-    }
-
-    private void checkPlayServicesAvailability() {
-        GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
-        int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this);
-        if (resultCode != ConnectionResult.SUCCESS) {
-            if (googleApiAvailability.isUserResolvableError(resultCode)) {
-                //Play Services is not installed/enabled
-                googleApiAvailability.getErrorDialog(this, resultCode,
-                        PLAY_SERVICES_RESOLUTION_REQUEST).show();
-            } else {
-                //This device does not support Play Services
-            }
         }
     }
 
