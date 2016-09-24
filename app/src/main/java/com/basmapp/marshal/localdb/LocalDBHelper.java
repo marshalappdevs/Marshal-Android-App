@@ -11,11 +11,11 @@ import com.basmapp.marshal.Constants;
 
 public class LocalDBHelper extends SQLiteOpenHelper {
 
-    public static final String DATABASE_NAME = "marshal_local_db";
+    private static final String DATABASE_NAME = "marshal_local_db";
     private static final int DATABASE_VERSION = 1;
 
     public static LocalDBHelper helperInstance;
-    public static SQLiteDatabase databaseInstance;
+    private static SQLiteDatabase databaseInstance;
 
     private Context context;
 
@@ -24,7 +24,7 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
-    public static LocalDBHelper getHelperInstance(Context context) {
+    static LocalDBHelper getHelperInstance(Context context) {
         if (helperInstance == null)
             helperInstance = new LocalDBHelper(context.getApplicationContext());
 
@@ -39,7 +39,7 @@ public class LocalDBHelper extends SQLiteOpenHelper {
         return databaseInstance;
     }
 
-    public static void closeIfExist(){
+    public static void closeIfExist() {
         if (helperInstance != null)
             helperInstance.close();
     }
@@ -61,8 +61,7 @@ public class LocalDBHelper extends SQLiteOpenHelper {
             Log.i(DATABASE_NAME, "database created");
 
             initializePreferences();
-        }
-        catch (SQLException e){
+        } catch (SQLException e) {
             Log.e(DATABASE_NAME, e.getMessage());
         }
     }

@@ -79,7 +79,7 @@ public class MaterialsFragment extends Fragment {
                                 public void onSuccess(String result, List<Object> data) {
                                     if (data != null) {
                                         try {
-                                            mMaterialsList = (ArrayList)data;
+                                            mMaterialsList = (ArrayList) data;
                                             MainActivity.sMaterialItems = mMaterialsList;
                                         } catch (Exception e) {
                                             e.printStackTrace();
@@ -95,9 +95,9 @@ public class MaterialsFragment extends Fragment {
                                 @Override
                                 public void onError(String error) {
                                     if (error != null) {
-                                        Log.e("GET MATERIALS "," ERROR:\n" + error);
+                                        Log.e("GET MATERIALS ", " ERROR:\n" + error);
                                     } else {
-                                        Log.e("GET MATERIALS "," ERROR");
+                                        Log.e("GET MATERIALS ", " ERROR");
                                     }
                                     mProgressBar.setVisibility(View.GONE);
                                 }
@@ -221,7 +221,7 @@ public class MaterialsFragment extends Fragment {
             mFilterText = filterText.toLowerCase();
             mFilteredMaterialsList = new ArrayList<>();
 
-            for(MaterialItem item:mMaterialsList) {
+            for (MaterialItem item : mMaterialsList) {
                 if (item.getTitle() != null && item.getTitle().contains(filterText)) {
                     mFilteredMaterialsList.add(item);
                 } else if (item.getDescription() != null && item.getDescription().contains(filterText)) {

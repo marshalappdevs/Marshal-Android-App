@@ -22,7 +22,7 @@ import com.basmapp.marshal.util.DateHelper;
 import java.util.ArrayList;
 import java.util.GregorianCalendar;
 
-public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAdapter.CycleVH>{
+public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAdapter.CycleVH> {
 
     private Course mCourse;
     private Context mContext;
@@ -33,6 +33,7 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
         this.mCycles = cycles;
         this.mCourse = course;
     }
+
     @Override
     public CycleVH onCreateViewHolder(ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.cycles_list_item, parent, false);

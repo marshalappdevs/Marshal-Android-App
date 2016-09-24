@@ -11,12 +11,14 @@ public class BaseActivity extends AppCompatActivity {
     public BaseActivity() {
         LocaleUtils.updateConfig(this);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         ThemeUtils.updateTheme(this);
         LocaleUtils.updateLocale(this);
         super.onCreate(savedInstanceState);
     }
+
     @Override
     public void onConfigurationChanged(Configuration newConfig) {
         super.onConfigurationChanged(newConfig);

@@ -164,7 +164,7 @@ public class Cycle extends DBObject implements Parcelable {
      * This constructor is invoked by the method createFromParcel(Parcel source) of
      * the object CREATOR
      **/
-    private Cycle(Parcel in){
+    private Cycle(Parcel in) {
         this.id = in.readLong();
         this.name = in.readString();
         this.maximumPeople = in.readInt();
@@ -186,7 +186,7 @@ public class Cycle extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement,String courseCode, long objectId) throws Exception {
+    public SQLiteStatement getStatement(SQLiteStatement statement, String courseCode, long objectId) throws Exception {
         if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
             statement.clearBindings();
             statement.bindLong(1, objectId);

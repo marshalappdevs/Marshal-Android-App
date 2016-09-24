@@ -45,7 +45,9 @@ class ShareCourseImageTask extends AsyncTask<Void, Void, File> {
 
     @Override
     protected void onPostExecute(File result) {
-        if (result == null) { return; }
+        if (result == null) {
+            return;
+        }
         // glide cache uses an unfriendly & extension-less name,
         // massage it based on the original
         String fileName = mCourse.getImageUrl();

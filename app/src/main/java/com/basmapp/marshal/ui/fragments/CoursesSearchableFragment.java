@@ -79,8 +79,8 @@ public class CoursesSearchableFragment extends Fragment {
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.EXTRA_SEARCH_QUERY,query);
-        bundle.putParcelableArrayList(Constants.EXTRA_ALL_COURSES,courses);
+        bundle.putString(Constants.EXTRA_SEARCH_QUERY, query);
+        bundle.putParcelableArrayList(Constants.EXTRA_ALL_COURSES, courses);
         CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
         coursesSearchableFragment.setArguments(bundle);
         return coursesSearchableFragment;
@@ -189,8 +189,8 @@ public class CoursesSearchableFragment extends Fragment {
                         }
                     })
                     .show();
-                    PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                            .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
+            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                    .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
         }
     }
 
@@ -235,8 +235,8 @@ public class CoursesSearchableFragment extends Fragment {
 
             @Override
             public boolean onSuggestionSelect(int position) {
-                    return false;
-                }
+                return false;
+            }
         });
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -269,8 +269,8 @@ public class CoursesSearchableFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
-            MenuItemCompat.expandActionView(searchItem);
-            mSearchView.setQuery(mSearchQuery,true);
+        MenuItemCompat.expandActionView(searchItem);
+        mSearchView.setQuery(mSearchQuery, true);
     }
 
     public void showFilterByDateDialog() {
@@ -398,7 +398,7 @@ public class CoursesSearchableFragment extends Fragment {
                 long rangeStartTime = DateHelper.stringToDate(sStartDate).getTime();
                 long rangeEndTime = DateHelper.stringToDate(sEndDate).getTime();
 
-                for (Course course:mFilteredCourseList) {
+                for (Course course : mFilteredCourseList) {
                     if (course.getCycles() != null) {
                         for (Cycle cycle : course.getCycles()) {
                             try {
@@ -432,7 +432,7 @@ public class CoursesSearchableFragment extends Fragment {
         } else {
             mFilterText = filterText.toLowerCase();
             mFilteredCourseList = new ArrayList<>();
-            for(Course item:mCoursesList) {
+            for (Course item : mCoursesList) {
                 if (item.getName().toLowerCase().contains(mFilterText) ||
                         item.getDescription().toLowerCase().contains(mFilterText) ||
                         item.getSyllabus().toLowerCase().contains(mFilterText) || isHasCycle(item, mFilterText)) {
@@ -469,7 +469,7 @@ public class CoursesSearchableFragment extends Fragment {
             return false;
         } else {
             for (Cycle cycle : course.getCycles()) {
-                if(isTextIncludeInCycle(cycle, filterText)) {
+                if (isTextIncludeInCycle(cycle, filterText)) {
                     return true;
                 }
             }
@@ -481,10 +481,10 @@ public class CoursesSearchableFragment extends Fragment {
     private boolean isTextIncludeInCycle(Cycle cycle, String text) {
 
         int day, month;
-        text = text.replace(".","/");
+        text = text.replace(".", "/");
         String[] textParts = text.split("/");
 
-        if(textParts.length == 1) {
+        if (textParts.length == 1) {
             try {
                 Calendar startCalendar, endCalendar;
                 int searchNumber, startDay, endDay, startMonth, endMonth;
@@ -493,14 +493,14 @@ public class CoursesSearchableFragment extends Fragment {
                 startCalendar = Calendar.getInstance();
                 startCalendar.setTime(cycle.getStartDate());
                 startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
-                startMonth= startCalendar.get(Calendar.MONTH);
+                startMonth = startCalendar.get(Calendar.MONTH);
 
                 endCalendar = Calendar.getInstance();
                 endCalendar.setTime(cycle.getEndDate());
                 endDay = startCalendar.get(Calendar.DAY_OF_MONTH);
-                endMonth= startCalendar.get(Calendar.MONTH);
+                endMonth = startCalendar.get(Calendar.MONTH);
 
-                if((searchNumber >= startDay || searchNumber <= endDay) ||
+                if ((searchNumber >= startDay || searchNumber <= endDay) ||
                         searchNumber == endMonth || searchNumber == startMonth) {
                     return true;
                 }

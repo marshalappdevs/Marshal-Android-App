@@ -159,7 +159,7 @@ public class MeetupsFragment extends Fragment {
         } else {
             mFilterText = filterText.toLowerCase();
             mFilteredMeetupsList = new ArrayList<>();
-            for(Course item:mMeetupsList) {
+            for (Course item : mMeetupsList) {
                 if (item.getName().toLowerCase().contains(mFilterText) ||
                         item.getDescription().toLowerCase().contains(mFilterText) ||
                         item.getSyllabus().toLowerCase().contains(mFilterText) || isHasCycle(item, mFilterText)) {
@@ -177,7 +177,7 @@ public class MeetupsFragment extends Fragment {
                 searchResult = getString(R.string.no_results_for_filter);
                 mNoResults.setText(searchResult);
                 mNoResults.setVisibility(View.VISIBLE);
-            } else if (query != null && !query.isEmpty()){
+            } else if (query != null && !query.isEmpty()) {
                 searchResult = String.format(getString(R.string.no_results_for_query), query);
                 mNoResults.setText(searchResult);
                 mNoResults.setVisibility(View.VISIBLE);
@@ -197,7 +197,7 @@ public class MeetupsFragment extends Fragment {
             return false;
         } else {
             for (Cycle cycle : course.getCycles()) {
-                if(isTextIncludeInCycle(cycle, filterText)) {
+                if (isTextIncludeInCycle(cycle, filterText)) {
                     return true;
                 }
             }
@@ -209,10 +209,10 @@ public class MeetupsFragment extends Fragment {
     private boolean isTextIncludeInCycle(Cycle cycle, String text) {
 
         int day, month;
-        text = text.replace(".","/");
+        text = text.replace(".", "/");
         String[] textParts = text.split("/");
 
-        if(textParts.length == 1) {
+        if (textParts.length == 1) {
             try {
                 Calendar startCalendar, endCalendar;
                 int searchNumber, startDay, endDay, startMonth, endMonth;
@@ -221,14 +221,14 @@ public class MeetupsFragment extends Fragment {
                 startCalendar = Calendar.getInstance();
                 startCalendar.setTime(cycle.getStartDate());
                 startDay = startCalendar.get(Calendar.DAY_OF_MONTH);
-                startMonth= startCalendar.get(Calendar.MONTH);
+                startMonth = startCalendar.get(Calendar.MONTH);
 
                 endCalendar = Calendar.getInstance();
                 endCalendar.setTime(cycle.getEndDate());
                 endDay = startCalendar.get(Calendar.DAY_OF_MONTH);
-                endMonth= startCalendar.get(Calendar.MONTH);
+                endMonth = startCalendar.get(Calendar.MONTH);
 
-                if((searchNumber >= startDay || searchNumber <= endDay) ||
+                if ((searchNumber >= startDay || searchNumber <= endDay) ||
                         searchNumber == endMonth || searchNumber == startMonth) {
                     return true;
                 }

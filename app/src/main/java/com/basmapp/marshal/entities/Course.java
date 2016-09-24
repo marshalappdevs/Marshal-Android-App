@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.widget.ImageView;
+
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
@@ -19,11 +20,12 @@ import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+
 import java.util.ArrayList;
 import java.util.Date;
 
 @TableName(name = DBConstants.T_COURSE)
-public class Course extends DBObject implements Parcelable{
+public class Course extends DBObject implements Parcelable {
 
     public static final String CATEGORY_SOFTWARE = "software";
     public static final String CATEGORY_CYBER = "cyber";
@@ -139,7 +141,7 @@ public class Course extends DBObject implements Parcelable{
     @Column(name = DBConstants.COL_IS_USER_SUBSCRIBE)
     private boolean isUserSubscribe;
 
-    public Course (Context context) {
+    public Course(Context context) {
         super(context);
     }
 
@@ -427,7 +429,7 @@ public class Course extends DBObject implements Parcelable{
      * This constructor is invoked by the method createFromParcel(Parcel source) of
      * the object CREATOR
      **/
-    private Course(Parcel in){
+    private Course(Parcel in) {
         this.id = in.readLong();
         this.courseCode = in.readString();
         this.name = in.readString();
@@ -547,7 +549,7 @@ public class Course extends DBObject implements Parcelable{
     public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
         String query = "select * from " + DBConstants.T_COURSE
                 + " where " + DBConstants.COL_COURSE_CODE + " IN " +
-                "(select distinct " + DBConstants.COL_COURSE_CODE + " from "+ DBConstants.T_CYCLE;
+                "(select distinct " + DBConstants.COL_COURSE_CODE + " from " + DBConstants.T_CYCLE;
 
         if (filterByNowTimestamp)
             query += " where " + DBConstants.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());

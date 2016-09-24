@@ -18,11 +18,8 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-/**
- * Created by Ido on 5/3/2016.
- */
 @TableName(name = DBConstants.T_RATING)
-public class Rating extends DBObject implements Parcelable{
+public class Rating extends DBObject implements Parcelable {
 
     public Rating(Context context) {
         super(context);
@@ -77,7 +74,7 @@ public class Rating extends DBObject implements Parcelable{
     }
 
     @ColumnGetter(columnName = DBConstants.COL_USER_MAIL_ADDRESS)
-    public String getUserMailAddress() {
+    private String getUserMailAddress() {
         return userMailAddress;
     }
 
@@ -165,7 +162,7 @@ public class Rating extends DBObject implements Parcelable{
      * This constructor is invoked by the method createFromParcel(Parcel source) of
      * the object CREATOR
      **/
-    private Rating(Parcel in){
+    private Rating(Parcel in) {
         this.id = in.readLong();
         this.userMailAddress = in.readString();
         this.courseCode = in.readString();
@@ -188,8 +185,8 @@ public class Rating extends DBObject implements Parcelable{
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId ,String courseCode) throws Exception{
-        if(courseCode != null && !courseCode.equals("") &&
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId, String courseCode) throws Exception {
+        if (courseCode != null && !courseCode.equals("") &&
                 getUserMailAddress() != null && !getUserMailAddress().equals("")
                 && getCreatedAt() != null && getLastModified() != null) {
             statement.clearBindings();

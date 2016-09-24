@@ -47,14 +47,14 @@ public class DBConstants {
     public static final String COL_RATINGS = "ratings";
 
     // 'Create Table' commands
-    public static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE "+ T_MALSHAB_ITEM + " (" +
+    static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE " + T_MALSHAB_ITEM + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_IMAGE_URL + " TEXT, " +
             COL_IS_UP_TO_DATE + " INTEGER);";
 
-    public static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE "+ T_MATERIAL_ITEM + " (" +
+    static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE " + T_MATERIAL_ITEM + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
@@ -64,7 +64,7 @@ public class DBConstants {
             COL_IMAGE_URL + " TEXT ," +
             COL_IS_UP_TO_DATE + " INTEGER);";
 
-    public static final String CREATE_T_RATING = "CREATE TABLE "+ T_RATING + " (" +
+    static final String CREATE_T_RATING = "CREATE TABLE " + T_RATING + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_USER_MAIL_ADDRESS + " TEXT, " +
             COL_COURSE_CODE + " TEXT, " +
@@ -73,7 +73,7 @@ public class DBConstants {
             COL_LAST_MODIFIED + " INTEGER," +
             COL_COMMENT + " TEXT);";
 
-    public static final String CREATE_T_CYCLE = "CREATE TABLE "+ T_CYCLE + " (" +
+    static final String CREATE_T_CYCLE = "CREATE TABLE " + T_CYCLE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_COURSE_CODE + " TEXT, " +
             COL_NAME + " TEXT, " +
@@ -82,7 +82,7 @@ public class DBConstants {
             COL_START_DATE + " INTEGER," +
             COL_END_DATE + " INTEGER);";
 
-    public static final String CREATE_T_COURSE = "CREATE TABLE "+ T_COURSE + " (" +
+    static final String CREATE_T_COURSE = "CREATE TABLE " + T_COURSE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_COURSE_CODE + " TEXT UNIQUE, " +
             COL_NAME + " TEXT UNIQUE, " +
@@ -109,11 +109,11 @@ public class DBConstants {
             COL_IS_UP_TO_DATE + " INTEGER);";
 
     // Database Drop command
-    public static final String DROP_T_MATERIAL_ITEM = "DROP TABLE IF EXISTS " + T_MATERIAL_ITEM + ";";
-    public static final String DROP_T_COURSE = "DROP TABLE IF EXISTS " + T_COURSE + ";";
-    public static final String DROP_T_CYCLE = "DROP TABLE IF EXISTS " + T_CYCLE + ";";
-    public static final String DROP_T_RATING = "DROP TABLE IF EXISTS " + T_RATING + ";";
-    public static final String DROP_T_MALSHAB_ITEM = "DROP TABLE IF EXISTS " + T_MALSHAB_ITEM + ";";
+    static final String DROP_T_MATERIAL_ITEM = "DROP TABLE IF EXISTS " + T_MATERIAL_ITEM + ";";
+    static final String DROP_T_COURSE = "DROP TABLE IF EXISTS " + T_COURSE + ";";
+    static final String DROP_T_CYCLE = "DROP TABLE IF EXISTS " + T_CYCLE + ";";
+    static final String DROP_T_RATING = "DROP TABLE IF EXISTS " + T_RATING + ";";
+    static final String DROP_T_MALSHAB_ITEM = "DROP TABLE IF EXISTS " + T_MALSHAB_ITEM + ";";
 
     /////////////////////////////////////////////////////////////////////////////////////////
     public static String getDeleteNotUpToDateStatement(String tableName) {

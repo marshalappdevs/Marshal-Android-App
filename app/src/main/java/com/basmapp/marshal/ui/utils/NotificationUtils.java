@@ -19,6 +19,7 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.ThemeUtils;
+
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
@@ -43,7 +44,7 @@ public class NotificationUtils {
     public long[] getVibrate() {
         long[] vibrate = new long[]{0};
         if (mSharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_NEW_MESSAGE_VIBRATE, false)) {
-            vibrate = new long[]{0,1000};
+            vibrate = new long[]{0, 1000};
         }
 
         return vibrate;
@@ -77,7 +78,7 @@ public class NotificationUtils {
                     .setContentIntent(pendingIntent)
                     .setAutoCancel(true)
                     .setVibrate(getVibrate());
-            NotificationManager mNotificationManager=
+            NotificationManager mNotificationManager =
                     (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
             mNotificationManager.notify(1, mBuilder.build());
         }
@@ -99,7 +100,7 @@ public class NotificationUtils {
                 .setContentIntent(pendingIntent)
                 .setAutoCancel(true)
                 .setVibrate(vibrate);
-        NotificationManager mNotificationManager=
+        NotificationManager mNotificationManager =
                 (NotificationManager) context.getSystemService(Context.NOTIFICATION_SERVICE);
         mNotificationManager.notify(1, mBuilder.build());
     }
@@ -133,7 +134,7 @@ public class NotificationUtils {
             this.pendingIntent = pendingIntent;
         }
 
-        private void initializeDefaultValues(Context context){
+        private void initializeDefaultValues(Context context) {
             NotificationUtils notificationUtils = new NotificationUtils(context);
             this.vibrate = notificationUtils.getVibrate();
             this.ringtoneUri = notificationUtils.getRingtoneUri();

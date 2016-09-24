@@ -53,12 +53,12 @@ public class GcmRegistrationService extends IntentService {
             DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_it));
             DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_tools));
 
-            GcmRegistration gcmRegistration= new GcmRegistration();
+            GcmRegistration gcmRegistration = new GcmRegistration();
             InstanceID instanceID = InstanceID.getInstance(this);
             try {
                 String apiToken = AuthUtil.getApiToken();
                 String hardwareId = AuthUtil.getHardwareId(getContentResolver());
-                if(hardwareId != null) {
+                if (hardwareId != null) {
                     String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
                     if (token != null) {
                         gcmRegistration.setRegistrationTokenId(token);
@@ -91,7 +91,7 @@ public class GcmRegistrationService extends IntentService {
                                         MarshalServiceProvider.getInstance(apiToken).gcmRegisterExistDevice(gcmRegistration).execute();
                                 if (response.isSuccessful()) {
                                     PreferenceManager.getDefaultSharedPreferences(this).edit()
-                                            .putStringSet(Constants.PREF_GCM_CHANNELS,newChannels).apply();
+                                            .putStringSet(Constants.PREF_GCM_CHANNELS, newChannels).apply();
                                 }
 
                                 publishResult(response.isSuccessful(), true);
@@ -99,16 +99,16 @@ public class GcmRegistrationService extends IntentService {
                             } else publishResult(false, true);
                         }
                     } else {
-                        Log.e("GCM_REGISTRATION -- ","NULL TOKEN");
+                        Log.e("GCM_REGISTRATION -- ", "NULL TOKEN");
                         if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                     }
                 } else {
-                    Log.e("GCM_REGISTRATION -- ","NULL HARDWARE_ID");
+                    Log.e("GCM_REGISTRATION -- ", "NULL HARDWARE_ID");
                     if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("GCM_REGISTRATION -- ","failed");
+                Log.e("GCM_REGISTRATION -- ", "failed");
                 if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
             }
         } else {
@@ -118,10 +118,10 @@ public class GcmRegistrationService extends IntentService {
 
     private void publishResult(boolean result, boolean showResultToUser) {
         if (result) {
-            Log.d("GCM_RESPONSE -- ","success");
+            Log.d("GCM_RESPONSE -- ", "success");
             GcmRegistrationService.setDeviceRegistrationState(this, true);
         } else {
-            Log.d("GCM_RESPONSE -- ","failed");
+            Log.d("GCM_RESPONSE -- ", "failed");
             GcmRegistrationService.setDeviceRegistrationState(this, false);
         }
 
@@ -148,14 +148,14 @@ public class GcmRegistrationService extends IntentService {
         boolean state = false;
         try {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-            state = sharedPreferences.getBoolean(Constants.PREF_IS_DEVICE_REGISTERED,false);
+            state = sharedPreferences.getBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return state;
     }
 
-    public static void setDeviceRegistrationState(Context context, boolean state){
+    public static void setDeviceRegistrationState(Context context, boolean state) {
         try {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
             sharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, state).apply();

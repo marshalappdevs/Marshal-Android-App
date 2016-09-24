@@ -36,7 +36,7 @@ public class MalshabFragment extends Fragment {
         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation_drawer_malshab);
 
-        mGridView = (GridView)rootView.findViewById(R.id.gridview);
+        mGridView = (GridView) rootView.findViewById(R.id.gridview);
 
         if (mMalshabItems == null) {
             if (MainActivity.sMalshabItems == null) {
@@ -46,7 +46,7 @@ public class MalshabFragment extends Fragment {
                             public void onSuccess(String result, List<Object> data) {
                                 if (data != null) {
                                     try {
-                                        mMalshabItems = (ArrayList)data;
+                                        mMalshabItems = (ArrayList) data;
                                         MainActivity.sMalshabItems = mMalshabItems;
                                     } catch (Exception e) {
                                         e.printStackTrace();

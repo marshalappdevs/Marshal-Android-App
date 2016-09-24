@@ -17,7 +17,7 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.PreparedStatement;
 
 @TableName(name = DBConstants.T_MALSHAB_ITEM)
-public class MalshabItem extends DBObject{
+public class MalshabItem extends DBObject {
 
     public MalshabItem(Context context) {
         super(context);
@@ -143,10 +143,10 @@ public class MalshabItem extends DBObject{
                 !url.equals(malshabItem.getUrl())) {
             result = true;
         } else if (title != null && malshabItem.getTitle() != null &&
-                !title.equals(malshabItem.getTitle())){
+                !title.equals(malshabItem.getTitle())) {
             result = true;
         } else if (imageUrl != null && malshabItem.getImageUrl() != null &&
-                !imageUrl.equals(malshabItem.getImageUrl())){
+                !imageUrl.equals(malshabItem.getImageUrl())) {
             result = true;
         }
 

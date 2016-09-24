@@ -64,7 +64,7 @@ public class AboutActivity extends BaseActivity {
         TextView librariesTextView = (TextView) findViewById(R.id.activity_about_libraries);
         removeUnderlinesFromLinks(librariesTextView);
 
-        TextView appLicenseTextView = (TextView)findViewById(R.id.about_app_license);
+        TextView appLicenseTextView = (TextView) findViewById(R.id.about_app_license);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             appLicenseTextView.setText(Html.fromHtml(getString(R.string.about_app_license), Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -80,7 +80,7 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        TextView aboutBasmachText = (TextView)findViewById(R.id.about_basmach);
+        TextView aboutBasmachText = (TextView) findViewById(R.id.about_basmach);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
             aboutBasmachText.setText(Html.fromHtml(getString(R.string.about_basmach), Html.FROM_HTML_MODE_LEGACY));
         } else {
@@ -108,7 +108,7 @@ public class AboutActivity extends BaseActivity {
 
     public static void removeUnderlinesFromLinks(@NonNull Spannable spannable,
                                                  @NonNull URLSpan[] spans) {
-        for (URLSpan span: spans) {
+        for (URLSpan span : spans) {
             int start = spannable.getSpanStart(span);
             int end = spannable.getSpanEnd(span);
             spannable.removeSpan(span);
@@ -120,7 +120,7 @@ public class AboutActivity extends BaseActivity {
     private void makeEverythingClickable(ViewGroup vg) {
         for (int i = 0; i < vg.getChildCount(); i++) {
             if (vg.getChildAt(i) instanceof ViewGroup) {
-                makeEverythingClickable((ViewGroup)vg.getChildAt(i));
+                makeEverythingClickable((ViewGroup) vg.getChildAt(i));
             } else if (vg.getChildAt(i) instanceof TextView) {
                 TextView tv = (TextView) vg.getChildAt(i);
                 tv.setMovementMethod(LinkMovementMethod.getInstance());

@@ -47,7 +47,7 @@ public class RatingsActivity extends BaseActivity {
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         mToolbar.setTitle(mCourse.getName());
         setSupportActionBar(mToolbar);
-        if(getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -78,7 +78,7 @@ public class RatingsActivity extends BaseActivity {
                     DBConstants.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {
-                            mRatings = (List)data;
+                            mRatings = (List) data;
                             initializeRecycler();
                         }
 

@@ -422,15 +422,15 @@ public class CourseActivity extends BaseActivity {
                                         .placeholder(R.drawable.ic_profile_none)
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewHint.setVisibility(View.GONE);
-                                mTextViewReviewText.setText(((Rating)(data.get(0))).getComment());
+                                mTextViewReviewText.setText(((Rating) (data.get(0))).getComment());
                                 try {
                                     mTextViewReviewDate.setVisibility(View.VISIBLE);
-                                    mTextViewReviewDate.setText(DateHelper.dateToString(((Rating)(data.get(0))).getLastModified()));
+                                    mTextViewReviewDate.setText(DateHelper.dateToString(((Rating) (data.get(0))).getLastModified()));
                                 } catch (Exception e) {
                                     e.printStackTrace();
                                 }
-                                mReviewRating.setRating((float) ((Rating)(data.get(0))).getRating());
-                                mUserRating = (Rating)data.get(0);
+                                mReviewRating.setRating((float) ((Rating) (data.get(0))).getRating());
+                                mUserRating = (Rating) data.get(0);
                                 if (mUserRating.getCreatedAt().before(mUserRating.getLastModified())) {
                                     mTextViewReviewEdited.setVisibility(View.VISIBLE);
                                 }
@@ -478,7 +478,7 @@ public class CourseActivity extends BaseActivity {
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null && data.size() > 0) {
                             try {
-                                mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0,3));
+                                mTextViewRatingAverage.setText(String.valueOf(data.get(0)).substring(0, 3));
                                 mRatingBarAverage.setRating((Float) data.get(0));
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -726,7 +726,7 @@ public class CourseActivity extends BaseActivity {
             });
         }
         alertDialog.show();
-}
+    }
 
     private void setLightStatusBar(@NonNull View view) {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
@@ -867,7 +867,7 @@ public class CourseActivity extends BaseActivity {
         } else {
             findViewById(R.id.course_content_relativeLayout_comments).setVisibility(View.GONE);
         }
-        if(!isAnyDataExist) {
+        if (!isAnyDataExist) {
             findViewById(R.id.course_content_textView_noDetailsMessage).setVisibility(View.VISIBLE);
         }
     }
@@ -888,11 +888,13 @@ public class CourseActivity extends BaseActivity {
         mSubscribeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-            if (mCourse.getIsUserSubscribe()) {
-                new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
-            } else {
-                new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
-            }}});
+                if (mCourse.getIsUserSubscribe()) {
+                    new SubscribeTask(SubscribeTask.TASK_TYPE_UNSUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
+                } else {
+                    new SubscribeTask(SubscribeTask.TASK_TYPE_SUBSCRIBE, mSubscribeIcon, mSubscribeText).execute();
+                }
+            }
+        });
         mMaterialsButton = (LinearLayout) findViewById(R.id.materials_button);
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -903,7 +905,7 @@ public class CourseActivity extends BaseActivity {
                             public void onSuccess(String result, List<Object> data) {
                                 if (data != null && data.size() > 0) {
                                     try {
-                                        ArrayList<MaterialItem> materialItems = (ArrayList)data;
+                                        ArrayList<MaterialItem> materialItems = (ArrayList) data;
                                         Intent i = new Intent(CourseActivity.this, CourseMaterialsActivity.class);
                                         i.putExtra(Constants.EXTRA_COURSE, mCourse);
                                         i.putParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST, materialItems);
@@ -920,9 +922,9 @@ public class CourseActivity extends BaseActivity {
                             @Override
                             public void onError(String error) {
                                 if (error != null) {
-                                    Log.e("GET COURSE MATERIALS "," ERROR:\n" + error);
+                                    Log.e("GET COURSE MATERIALS ", " ERROR:\n" + error);
                                 } else {
-                                    Log.e("GET COURSE MATERIALS "," ERROR");
+                                    Log.e("GET COURSE MATERIALS ", " ERROR");
                                 }
                                 Toast.makeText(CourseActivity.this, R.string.error_message, Toast.LENGTH_LONG).show();
                             }
@@ -938,7 +940,7 @@ public class CourseActivity extends BaseActivity {
         });
     }
 
-    private class SendRatingRequest extends AsyncTask<Void,Void,Boolean> {
+    private class SendRatingRequest extends AsyncTask<Void, Void, Boolean> {
 
         static final int REQUEST_TYPE_POST = 10;
         static final int REQUEST_TYPE_PUT = 11;
@@ -1085,7 +1087,7 @@ public class CourseActivity extends BaseActivity {
 //        return true;
 //    }
 
-    private class SubscribeTask extends AsyncTask<Void,Void,Boolean> {
+    private class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
 
         static final int TASK_TYPE_SUBSCRIBE = 1;
         static final int TASK_TYPE_UNSUBSCRIBE = 2;
@@ -1126,10 +1128,10 @@ public class CourseActivity extends BaseActivity {
                 } else return false;
 
                 // Save the subscription locally IF successfully saved in the server
-                if (serverResponse != null && serverResponse.isSuccessful()){
+                if (serverResponse != null && serverResponse.isSuccessful()) {
                     if (taskType == TASK_TYPE_SUBSCRIBE) {
                         mCourse.setIsUserSubscribe(true);
-                    } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                    } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
                         mCourse.setIsUserSubscribe(false);
                     }
 
@@ -1153,12 +1155,14 @@ public class CourseActivity extends BaseActivity {
                     Toast.makeText(CourseActivity.this,
                             getString(R.string.subscribed), Toast.LENGTH_LONG).show();
                     if (subscribeText != null) subscribeText.setText(R.string.subscribed);
-                    if (subscribeIcon != null) subscribeIcon.setImageResource(R.drawable.ic_wishlist_added);
-                } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                    if (subscribeIcon != null)
+                        subscribeIcon.setImageResource(R.drawable.ic_wishlist_added);
+                } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
                     Toast.makeText(CourseActivity.this,
                             getString(R.string.unsubscribed), Toast.LENGTH_LONG).show();
                     if (subscribeText != null) subscribeText.setText(R.string.subscribe);
-                    if (subscribeIcon != null) subscribeIcon.setImageResource(R.drawable.ic_wishlist_add);
+                    if (subscribeIcon != null)
+                        subscribeIcon.setImageResource(R.drawable.ic_wishlist_add);
                 }
                 Intent intent = new Intent(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
                 intent.putExtra(Constants.EXTRA_COURSE, mCourse);
@@ -1169,7 +1173,7 @@ public class CourseActivity extends BaseActivity {
                 if (taskType == TASK_TYPE_SUBSCRIBE) {
                     Toast.makeText(CourseActivity.this,
                             getString(R.string.subsribe_error), Toast.LENGTH_LONG).show();
-                } else if (taskType == TASK_TYPE_UNSUBSCRIBE){
+                } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
                     Toast.makeText(CourseActivity.this,
                             getString(R.string.unsubscribe_error), Toast.LENGTH_LONG).show();
                 }

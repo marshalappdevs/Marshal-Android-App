@@ -90,141 +90,141 @@ public class CoursesFragment extends Fragment {
 
     private SearchView mSearchView;
 
-     @Override
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
-         mCoursesList = null;
-         mCyberCourses = null;
-         mSoftwareCourses = null;
-         mITCourses = null;
-         mToolsCourses = null;
-         mSystemCourses = null;
+        mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
+        mCoursesList = null;
+        mCyberCourses = null;
+        mSoftwareCourses = null;
+        mITCourses = null;
+        mToolsCourses = null;
+        mSystemCourses = null;
 
-         setHasOptionsMenu(true);
+        setHasOptionsMenu(true);
 
-         Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-         toolbar.setTitle(R.string.navigation_drawer_courses);
+        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.navigation_drawer_courses);
 
-         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+        mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
-         if (savedInstanceState != null && mCoursesList == null) {
-             mCoursesList = savedInstanceState.getParcelableArrayList(Constants.EXTRA_COURSES_LIST);
-         }
+        if (savedInstanceState != null && mCoursesList == null) {
+            mCoursesList = savedInstanceState.getParcelableArrayList(Constants.EXTRA_COURSES_LIST);
+        }
 
-         if (mCoursesList == null || mViewPagerCourses == null) {
+        if (mCoursesList == null || mViewPagerCourses == null) {
 
-             mViewPagerCourses = new ArrayList<>();
+            mViewPagerCourses = new ArrayList<>();
 
-             mCoursesList = new ArrayList<>();
+            mCoursesList = new ArrayList<>();
 
-             new AsyncTask<Void, Void, Boolean>() {
+            new AsyncTask<Void, Void, Boolean>() {
 
-                 ProgressDialog progressDialog;
+                ProgressDialog progressDialog;
 
-                 @Override
-                 protected void onPreExecute() {
-                     super.onPreExecute();
-                     progressDialog = new ProgressDialog(getActivity());
-                     progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
-                     progressDialog.setCancelable(false);
-                     progressDialog.setCanceledOnTouchOutside(false);
-                     progressDialog.show();
-                 }
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    progressDialog = new ProgressDialog(getActivity());
+                    progressDialog.setMessage(getActivity().getResources().getString(R.string.loading));
+                    progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
+                }
 
-                 @Override
-                 @SuppressWarnings("unchecked")
-                 protected Boolean doInBackground(Void... voids) {
-                     try {
-                         if (MainActivity.sAllCourses == null) {
-                             mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
-                                     false, DBConstants.COL_NAME, getActivity(), Course.class);
-                             MainActivity.sAllCourses = mCoursesList;
-                         } else {
-                             mCoursesList = MainActivity.sAllCourses;
-                         }
+                @Override
+                @SuppressWarnings("unchecked")
+                protected Boolean doInBackground(Void... voids) {
+                    try {
+                        if (MainActivity.sAllCourses == null) {
+                            mCoursesList = (ArrayList) Course.getAllByColumn(DBConstants.COL_IS_MEETUP,
+                                    false, DBConstants.COL_NAME, getActivity(), Course.class);
+                            MainActivity.sAllCourses = mCoursesList;
+                        } else {
+                            mCoursesList = MainActivity.sAllCourses;
+                        }
 
-                         if (MainActivity.sViewPagerCourses == null) {
-                             mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
-                                     Course.getCloestCoursesSqlQuery(5, true), Course.class);
+                        if (MainActivity.sViewPagerCourses == null) {
+                            mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                    Course.getCloestCoursesSqlQuery(5, true), Course.class);
 
-                             if (mViewPagerCourses == null || mViewPagerCourses.size() == 0)
-                                 mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
-                                         Course.getCloestCoursesSqlQuery(5, false), Course.class);
+                            if (mViewPagerCourses == null || mViewPagerCourses.size() == 0)
+                                mViewPagerCourses = (ArrayList) Course.rawQuery(getActivity(),
+                                        Course.getCloestCoursesSqlQuery(5, false), Course.class);
 
-                             MainActivity.sViewPagerCourses = mViewPagerCourses;
-                         } else {
-                             mViewPagerCourses = MainActivity.sViewPagerCourses;
-                         }
+                            MainActivity.sViewPagerCourses = mViewPagerCourses;
+                        } else {
+                            mViewPagerCourses = MainActivity.sViewPagerCourses;
+                        }
 
-                         filterData();
+                        filterData();
 
-                         return mCoursesList.size() > 0;
-                     } catch (Exception e) {
-                         e.printStackTrace();
-                         return false;
-                     }
-                 }
+                        return mCoursesList.size() > 0;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
 
-                 @Override
-                 protected void onPostExecute(Boolean result) {
-                     super.onPostExecute(result);
-                     if (result) {
-                         showImagesViewPager();
-                         showData();
+                @Override
+                protected void onPostExecute(Boolean result) {
+                    super.onPostExecute(result);
+                    if (result) {
+                        showImagesViewPager();
+                        showData();
 //                         initializeTutorial();
-                     }
+                    }
 
-                     progressDialog.dismiss();
-                 }
-             }.execute();
+                    progressDialog.dismiss();
+                }
+            }.execute();
 
-         } else {
-             showImagesViewPager();
-             showData();
+        } else {
+            showImagesViewPager();
+            showData();
 //             initializeTutorial();
         }
 
-         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
-             @Override
-             public void onReceive(Context context, Intent intent) {
-                 if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
-                     int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
-                     Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
-                     if (course != null && course.getCategory() != null &&
-                             coursePositionInList != -1) {
-                         switch (course.getCategory()) {
-                             case Course.CATEGORY_SOFTWARE:
-                                 mSoftwareCourses.set(coursePositionInList, course);
-                                 break;
-                             case Course.CATEGORY_CYBER:
-                                 mCyberCourses.set(coursePositionInList, course);
-                                 break;
-                             case Course.CATEGORY_SYSTEM:
-                                 mSystemCourses.set(coursePositionInList, course);
-                                 break;
-                             case Course.CATEGORY_IT:
-                                 mITCourses.set(coursePositionInList, course);
-                                 break;
-                             case Course.CATEGORY_TOOLS:
-                                 mToolsCourses.set(coursePositionInList, course);
-                                 break;
-                             default:
-                                 break;
-                         }
-                     }
-                 }
-                 notifyDataSetsChanged();
-             }
-         };
+        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
+                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
+                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
+                    if (course != null && course.getCategory() != null &&
+                            coursePositionInList != -1) {
+                        switch (course.getCategory()) {
+                            case Course.CATEGORY_SOFTWARE:
+                                mSoftwareCourses.set(coursePositionInList, course);
+                                break;
+                            case Course.CATEGORY_CYBER:
+                                mCyberCourses.set(coursePositionInList, course);
+                                break;
+                            case Course.CATEGORY_SYSTEM:
+                                mSystemCourses.set(coursePositionInList, course);
+                                break;
+                            case Course.CATEGORY_IT:
+                                mITCourses.set(coursePositionInList, course);
+                                break;
+                            case Course.CATEGORY_TOOLS:
+                                mToolsCourses.set(coursePositionInList, course);
+                                break;
+                            default:
+                                break;
+                        }
+                    }
+                }
+                notifyDataSetsChanged();
+            }
+        };
 
-         IntentFilter intentFilter = new IntentFilter();
-         intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-         intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
-         getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
-         return mRootView;
-     }
+        return mRootView;
+    }
 
     @Override
     public void onDestroyView() {
@@ -279,7 +279,7 @@ public class CoursesFragment extends Fragment {
             mToolsCourses = new ArrayList<>();
             mSystemCourses = new ArrayList<>();
 
-            for(Course course : mCoursesList) {
+            for (Course course : mCoursesList) {
                 if (course.getCategory() != null) {
                     switch (course.getCategory()) {
                         case Course.CATEGORY_SOFTWARE:
@@ -304,6 +304,7 @@ public class CoursesFragment extends Fragment {
             }
         }
     }
+
     private void showImagesViewPager() {
         ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
         mViewPager.setVisibility(View.VISIBLE);
@@ -382,9 +383,9 @@ public class CoursesFragment extends Fragment {
             }
         });
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
-        mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mLinearLayoutManagerSoftware = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerSoftware.setLayoutManager(mLinearLayoutManagerSoftware);
-        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(),mSoftwareCourses,
+        mRecyclerAdapterSoftware = new CoursesRecyclerAdapter(getActivity(), mSoftwareCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSoftware.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSoftware.setAdapter(mRecyclerAdapterSoftware);
@@ -412,9 +413,9 @@ public class CoursesFragment extends Fragment {
             }
         });
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
-        mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mLinearLayoutManagerCyber = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerCyber.setLayoutManager(mLinearLayoutManagerCyber);
-        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(),mCyberCourses,
+        mRecyclerAdapterCyber = new CoursesRecyclerAdapter(getActivity(), mCyberCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerCyber.setItemAnimator(new DefaultItemAnimator());
         mRecyclerCyber.setAdapter(mRecyclerAdapterCyber);
@@ -442,9 +443,9 @@ public class CoursesFragment extends Fragment {
             }
         });
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
-        mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mLinearLayoutManagerIT = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerIT.setLayoutManager(mLinearLayoutManagerIT);
-        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(),mITCourses,
+        mRecyclerAdapterIT = new CoursesRecyclerAdapter(getActivity(), mITCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerIT.setItemAnimator(new DefaultItemAnimator());
         mRecyclerIT.setAdapter(mRecyclerAdapterIT);
@@ -472,9 +473,9 @@ public class CoursesFragment extends Fragment {
             }
         });
         mRecyclerTools = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_tools_recyclerView);
-        mLinearLayoutManagerTools = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mLinearLayoutManagerTools = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerTools.setLayoutManager(mLinearLayoutManagerTools);
-        mRecyclerAdapterTools = new CoursesRecyclerAdapter(getActivity(),mToolsCourses,
+        mRecyclerAdapterTools = new CoursesRecyclerAdapter(getActivity(), mToolsCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerTools.setItemAnimator(new DefaultItemAnimator());
         mRecyclerTools.setAdapter(mRecyclerAdapterTools);
@@ -502,9 +503,9 @@ public class CoursesFragment extends Fragment {
             }
         });
         mRecyclerSystem = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_system_recyclerView);
-        mLinearLayoutManagerSystem = new LinearLayoutManager(getActivity(),LinearLayoutManager.HORIZONTAL,false);
+        mLinearLayoutManagerSystem = new LinearLayoutManager(getActivity(), LinearLayoutManager.HORIZONTAL, false);
         mRecyclerSystem.setLayoutManager(mLinearLayoutManagerSystem);
-        mRecyclerAdapterSystem = new CoursesRecyclerAdapter(getActivity(),mSystemCourses,
+        mRecyclerAdapterSystem = new CoursesRecyclerAdapter(getActivity(), mSystemCourses,
                 CoursesRecyclerAdapter.LAYOUT_TYPE_LIST);
         mRecyclerSystem.setItemAnimator(new DefaultItemAnimator());
         mRecyclerSystem.setAdapter(mRecyclerAdapterSystem);
@@ -526,8 +527,7 @@ public class CoursesFragment extends Fragment {
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener()
-        {
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
             public boolean onSuggestionClick(int position) {
                 mSearchView.clearFocus();
@@ -577,7 +577,7 @@ public class CoursesFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST,mCoursesList);
+        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCoursesList);
         outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }
 }

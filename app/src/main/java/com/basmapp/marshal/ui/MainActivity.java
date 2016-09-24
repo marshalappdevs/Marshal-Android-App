@@ -76,6 +76,7 @@ import com.google.android.gms.plus.People;
 import com.google.android.gms.plus.Plus;
 import com.google.android.gms.plus.model.people.Person;
 import com.google.android.gms.plus.model.people.PersonBuffer;
+
 import java.util.ArrayList;
 
 public class MainActivity extends BaseActivity
@@ -131,7 +132,7 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("LIFE_CYCLE","onCreate");
+        Log.i("LIFE_CYCLE", "onCreate");
         super.onCreate(savedInstanceState);
 
 //        checkPlayServicesAvailability();
@@ -146,7 +147,7 @@ public class MainActivity extends BaseActivity
         // Initialize shared preferences
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
-        if(mSharedPreferences != null) {
+        if (mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_SHOW_WARM_WELCOME, true)) {
                 startActivity(new Intent(this, WelcomeActivity.class));
             }
@@ -201,7 +202,7 @@ public class MainActivity extends BaseActivity
         mDrawerLayout.addDrawerListener(mDrawerToggle);
         mDrawerToggle.syncState();
 
-        if(mSharedPreferences != null) {
+        if (mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
@@ -278,7 +279,8 @@ public class MainActivity extends BaseActivity
 
     private void setErrorScreenVisibility(int visibility) {
         // Initialize error screen and set viability based on integer
-        if (sErrorScreen == null) sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
+        if (sErrorScreen == null)
+            sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
         if (visibility != sErrorScreen.getVisibility()) sErrorScreen.setVisibility(visibility);
     }
 
@@ -315,7 +317,7 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    private void animateNewUpdatesButton (final int visibility) {
+    private void animateNewUpdatesButton(final int visibility) {
         Animation animation;
         if (visibility == View.VISIBLE) {
             // show in animation on visible
@@ -327,7 +329,8 @@ public class MainActivity extends BaseActivity
         sNewUpdatesButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
-            public void onAnimationStart(Animation animation) {}
+            public void onAnimationStart(Animation animation) {
+            }
 
             @Override
             public void onAnimationEnd(Animation animation) {
@@ -335,12 +338,13 @@ public class MainActivity extends BaseActivity
             }
 
             @Override
-            public void onAnimationRepeat(Animation animation) {}
+            public void onAnimationRepeat(Animation animation) {
+            }
         });
     }
 
-    private void checkGcmRegistrationState(){
-        if(!GcmRegistrationService.isDeviceRegistered(this)) {
+    private void checkGcmRegistrationState() {
+        if (!GcmRegistrationService.isDeviceRegistered(this)) {
             Intent intent = new Intent(this, GcmRegistrationService.class);
             intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
             startService(intent);
@@ -350,7 +354,7 @@ public class MainActivity extends BaseActivity
     private void checkPlayServicesAvailability() {
         GoogleApiAvailability googleApiAvailability = GoogleApiAvailability.getInstance();
         int resultCode = googleApiAvailability.isGooglePlayServicesAvailable(this);
-        if(resultCode != ConnectionResult.SUCCESS) {
+        if (resultCode != ConnectionResult.SUCCESS) {
             if (googleApiAvailability.isUserResolvableError(resultCode)) {
                 //Play Services is not installed/enabled
                 googleApiAvailability.getErrorDialog(this, resultCode,
@@ -569,8 +573,9 @@ public class MainActivity extends BaseActivity
                 if (mUpdateProgressDialog != null && mUpdateProgressDialog.isShowing())
                     mUpdateProgressDialog.dismiss();
 
-                if (mSharedPreferences == null) mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
-                if(mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                if (mSharedPreferences == null)
+                    mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                     if (!mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false)) {
                         setErrorScreenVisibility(View.VISIBLE);
                     } else {
@@ -837,19 +842,19 @@ public class MainActivity extends BaseActivity
         FragmentManager fragmentManager = getSupportFragmentManager();
 
         if (id == R.id.nav_courses) {
-            if(mCourseFragment == null) {
+            if (mCourseFragment == null) {
                 mCourseFragment = new CoursesFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_subscriptions) {
-            if(mSubscriptionsFragment == null) {
+            if (mSubscriptionsFragment == null) {
                 mSubscriptionsFragment = new SubscriptionsFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
             setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
-            if(mMaterialsFragment == null) {
+            if (mMaterialsFragment == null) {
                 mMaterialsFragment = new MaterialsFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();

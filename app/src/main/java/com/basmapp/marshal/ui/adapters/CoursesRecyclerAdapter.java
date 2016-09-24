@@ -76,11 +76,13 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 // get status bar and navigation bar views and add them as shared elements
                 // to prevent glitches
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    View decor = ((Activity)mContext).getWindow().getDecorView();
+                    View decor = ((Activity) mContext).getWindow().getDecorView();
                     View statusBar = decor.findViewById(android.R.id.statusBarBackground);
                     View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);
-                    if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
-                    if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (statusBar != null)
+                        pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (navigationBar != null)
+                        pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                 }
                 // get the common element for the transition in this activity
                 pairs.add(Pair.create(view.findViewById(R.id.course_cardview_image), mContext.getString(R.string.transition_header_image)));
@@ -112,7 +114,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                     public void onSuccess(String result, List<Object> data) {
                         try {
                             if ((Float) data.get(0) > 0) {
-                                holder.courseRatingText.setText(String.valueOf(data.get(0)).substring(0,3));
+                                holder.courseRatingText.setText(String.valueOf(data.get(0)).substring(0, 3));
                                 holder.courseRating.setVisibility(View.VISIBLE);
                             } else {
                                 holder.courseRating.setVisibility(View.INVISIBLE);
@@ -129,7 +131,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 });
 
         // Check if MOOC
-        if (mCourses.get(holder.getAdapterPosition()).getIsMooc()){
+        if (mCourses.get(holder.getAdapterPosition()).getIsMooc()) {
             holder.moocFlag.setVisibility(View.VISIBLE);
         } else {
             holder.moocFlag.setVisibility(View.GONE);
@@ -164,7 +166,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             super(itemView);
 
             frameLayout = (FrameLayout) itemView.findViewById(R.id.course_cardview_mainFrame);
-            cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget) ;
+            cardView = (CardView) itemView.findViewById(R.id.course_cardview_widget);
             courseImage = (ImageView) itemView.findViewById(R.id.course_cardview_image);
             moocFlag = (TextView) itemView.findViewById(R.id.mooc_flag);
             courseName = (TextView) itemView.findViewById(R.id.course_cardview_name);
@@ -177,7 +179,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 cardLayoutParams.width = CardView.LayoutParams.MATCH_PARENT;
                 cardLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, mContext.getResources().getDisplayMetrics());
                 int dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-                cardLayoutParams.setMargins(dp4, dp4*3, dp4 ,dp4);
+                cardLayoutParams.setMargins(dp4, dp4 * 3, dp4, dp4);
 
                 courseName.setMaxLines(2);
                 courseName.setEllipsize(TextUtils.TruncateAt.END);

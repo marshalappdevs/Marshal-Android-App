@@ -46,17 +46,17 @@ public class GcmIntentService extends GcmListenerService {
 //                .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF"));
 
         String message = data.getString("message");
-        if(message != null &&
-                message.equals("set-registration-state=false")){
+        if (message != null &&
+                message.equals("set-registration-state=false")) {
             GcmRegistrationService.setDeviceRegistrationState(this, false);
-        } else if(message != null && message.equals("data-update-true")) {
-            Log.i("GCM","data-update-true");
+        } else if (message != null && message.equals("data-update-true")) {
+            Log.i("GCM", "data-update-true");
             UpdateIntentService.startUpdateData(this);
-        } else if(message != null && message.equals("reset-gcm-registration-pref")) {
+        } else if (message != null && message.equals("reset-gcm-registration-pref")) {
             sharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false).apply();
-        } else if(message != null && message.equals("show-must-update-dialog")) {
+        } else if (message != null && message.equals("show-must-update-dialog")) {
             sharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
-        } else if(message != null && message.contains("show-picture-style-notification")
+        } else if (message != null && message.contains("show-picture-style-notification")
                 && sharedPreferences.getBoolean("notifications_new_message", true)) {
             String[] separated = message.split(";");
 

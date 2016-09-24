@@ -6,7 +6,6 @@ import android.content.Intent;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
-import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -15,7 +14,6 @@ import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
-import com.basmapp.marshal.entities.GcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -31,7 +29,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Set;
-import java.util.stream.Collectors;
 
 /**
  * An {@link IntentService} subclass for handling asynchronous task requests in
@@ -111,7 +108,7 @@ public class UpdateIntentService extends IntentService {
             long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                     .getLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0);
 
-            if(settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
+            if (settings.getLastUpdateAt().compareTo(new Date(appLastUpdateTimeStamp)) > 0) {
                 Log.i("CHECK FOR UPDATES", "NEED UPDATE -- " + settings.getLastUpdateAt().toString() + " | " + new Date(appLastUpdateTimeStamp).toString());
                 sendCheckForUpdateResult(true);
                 UpdateIntentService.startUpdateData(UpdateIntentService.this);
@@ -120,7 +117,7 @@ public class UpdateIntentService extends IntentService {
                 sendCheckForUpdateResult(false);
             }
 
-            if(settings.getMinVersion() != 0 &&
+            if (settings.getMinVersion() != 0 &&
                     BuildConfig.VERSION_CODE < settings.getMinVersion()) {
                 PreferenceManager.getDefaultSharedPreferences(this)
                         .edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
@@ -217,7 +214,7 @@ public class UpdateIntentService extends IntentService {
                         newMaterials.remove(materialItem);
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE","FAILED TO UPDATE MATERIAL_ITEM");
+                    Log.e("UPDATE", "FAILED TO UPDATE MATERIAL_ITEM");
                     e.printStackTrace();
                 }
             }
@@ -250,7 +247,7 @@ public class UpdateIntentService extends IntentService {
                         newMalshabItems.remove(malshabItem);
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE","FAILED TO UPDATE MALSHAB_ITEM");
+                    Log.e("UPDATE", "FAILED TO UPDATE MALSHAB_ITEM");
                     e.printStackTrace();
                 }
             }
@@ -284,7 +281,7 @@ public class UpdateIntentService extends IntentService {
                     if (dbResult != null && dbResult.size() > 0) {
                         //TODO: Take care to the course Cycles
                         /////////////////////////// CYCLES //////////////////////////////
-                        if(course.getCycles() != null && course.getCycles().size() > 0) {
+                        if (course.getCycles() != null && course.getCycles().size() > 0) {
                             //////////////////////// Insert Course Cycles  /////////////////////////////////
                             String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
                                     "(?,?,?,?,?,?,?);";
@@ -311,7 +308,7 @@ public class UpdateIntentService extends IntentService {
                         /////////////////////////// END CYCLES //////////////////////////////
                         //TODO: Take care to the course Ratings
                         /////////////////////////// RATINGS //////////////////////////////
-                        if(course.getRatings() != null && course.getRatings().size() > 0) {
+                        if (course.getRatings() != null && course.getRatings().size() > 0) {
                             //////////////////////// Insert Course Ratings  /////////////////////////////////
                             String ratingSql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
                                     "(?,?,?,?,?,?,?);";
@@ -340,7 +337,7 @@ public class UpdateIntentService extends IntentService {
                         newCourses.remove(course);
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE","FAILED TO UPDATE COURSE_ITEM");
+                    Log.e("UPDATE", "FAILED TO UPDATE COURSE_ITEM");
                     e.printStackTrace();
                 }
             }
@@ -353,7 +350,7 @@ public class UpdateIntentService extends IntentService {
             for (Course course : newCourses) {
                 //TODO: Take care to the course Cycles
                 /////////////////////////// CYCLES //////////////////////////////
-                if(course.getCycles() != null && course.getCycles().size() > 0) {
+                if (course.getCycles() != null && course.getCycles().size() > 0) {
                     //////////////////////// Insert Course Cycles  /////////////////////////////////
                     String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
                             "(?,?,?,?,?,?,?);";
@@ -380,7 +377,7 @@ public class UpdateIntentService extends IntentService {
                 /////////////////////////// END CYCLES //////////////////////////////
                 //TODO: Take care to the course Ratings
                 /////////////////////////// RATINGS //////////////////////////////
-                if(course.getRatings() != null && course.getRatings().size() > 0) {
+                if (course.getRatings() != null && course.getRatings().size() > 0) {
                     //////////////////////// Insert Course Ratings  /////////////////////////////////
                     String ratingSql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
                             "(?,?,?,?,?,?,?);";
@@ -430,11 +427,11 @@ public class UpdateIntentService extends IntentService {
 
             isRunning = false;
 
-            Log.i("UPDATE_SERVICE","result=" + String.valueOf(result));
+            Log.i("UPDATE_SERVICE", "result=" + String.valueOf(result));
 
             // Notify new courses
             if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
-                if(newCourses.size() > 0) {
+                if (newCourses.size() > 0) {
                     notifyNewCourses(newCourses);
                 }
             }
@@ -461,24 +458,13 @@ public class UpdateIntentService extends IntentService {
                 .getStringSet(Constants.PREF_GCM_CHANNELS, null);
         if (gcmChannels == null) return newCourses;
         else {
-            // Using Java 8 from sdk 24
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
-
-                newCourses = newCourses.stream()
-                        .filter(course -> gcmChannels.contains(course.getName()))
-                        .collect(Collectors.toList());
-
-                return newCourses;
-
-            } else {
-                List<Course> filteredCourses = new ArrayList<>();
-                for (Course course : newCourses) {
-                    if (gcmChannels.contains(course.getCategory()))
-                        filteredCourses.add(course);
-                }
-
-                return filteredCourses;
+            List<Course> filteredCourses = new ArrayList<>();
+            for (Course course : newCourses) {
+                if (gcmChannels.contains(course.getCategory()))
+                    filteredCourses.add(course);
             }
+
+            return filteredCourses;
         }
     }
 

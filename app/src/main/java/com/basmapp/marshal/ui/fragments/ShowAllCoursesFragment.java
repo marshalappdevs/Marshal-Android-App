@@ -114,9 +114,12 @@ public class ShowAllCoursesFragment extends Fragment {
         MainActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.navigation_drawer_courses);
-            mToolbar.setNavigationOnClickListener(view -> {
-                if (mDrawerLayout != null) {
-                    mDrawerLayout.openDrawer(GravityCompat.START);
+            mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (mDrawerLayout != null) {
+                        mDrawerLayout.openDrawer(GravityCompat.START);
+                    }
                 }
             });
         }

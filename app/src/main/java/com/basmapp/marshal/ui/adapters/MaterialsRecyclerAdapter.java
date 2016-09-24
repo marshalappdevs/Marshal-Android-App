@@ -203,7 +203,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         notifyItemChanged(toPosition);
     }
 
-    public class MaterialVH extends RecyclerView.ViewHolder{
+    public class MaterialVH extends RecyclerView.ViewHolder {
 
         CardView cardView;
         ImageView imageView;
@@ -239,11 +239,11 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                 spans.add(currentSpan);
             }
 
-            return  spans;
+            return spans;
         }
 
         private void setSpanTag(SpannableString tagsContent, ArrayList<int[]> hashTagSpans) {
-            for(int i = 0; i < hashTagSpans.size(); i++) {
+            for (int i = 0; i < hashTagSpans.size(); i++) {
                 int[] span = hashTagSpans.get(i);
                 int hashTagStart = span[0];
                 int hashTagEnd = span[1];

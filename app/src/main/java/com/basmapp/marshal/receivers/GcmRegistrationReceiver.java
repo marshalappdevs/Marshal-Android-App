@@ -15,7 +15,8 @@ public class GcmRegistrationReceiver extends BroadcastReceiver {
     public static final String ACTION_RESULT = "com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT";
     private GcmReceiverListener callback;
 
-    public GcmRegistrationReceiver() {}
+    public GcmRegistrationReceiver() {
+    }
 
     public GcmRegistrationReceiver(GcmReceiverListener callback) {
         this.callback = callback;
@@ -23,7 +24,7 @@ public class GcmRegistrationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("GCM BR","onReceive");
+        Log.i("GCM BR", "onReceive");
         boolean result = intent.getBooleanExtra(EXTRA_RESULT, false);
         if (callback != null) {
             callback.onFinish(result);

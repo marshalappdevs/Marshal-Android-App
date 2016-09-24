@@ -24,7 +24,7 @@ public class CyclesBottomSheet extends BottomSheetDialogFragment {
 
     private ArrayList<Cycle> mCycles;
 
-    public static CyclesBottomSheet newInstance(Course course){
+    public static CyclesBottomSheet newInstance(Course course) {
         CyclesBottomSheet instance = new CyclesBottomSheet();
 
         Bundle bundle = new Bundle();

@@ -13,19 +13,19 @@ import android.view.MotionEvent;
 
 public class AutoScrollViewPager extends ViewPager {
 
-    public static final int        DEFAULT_INTERVAL            = 1500;
+    public static final int DEFAULT_INTERVAL = 1500;
 
-    public static final int        LEFT                        = 0;
-    public static final int        RIGHT                       = 1;
+    public static final int LEFT = 0;
+    public static final int RIGHT = 1;
 
-    private long                   interval                    = DEFAULT_INTERVAL;
-    private int                    direction                   = LEFT;
+    private long interval = DEFAULT_INTERVAL;
+    private int direction = LEFT;
 
-    private Handler                handler;
-    private boolean                isAutoScroll                = false;
-    private boolean                isStopByTouch               = false;
+    private Handler handler;
+    private boolean isAutoScroll = false;
+    private boolean isStopByTouch = false;
 
-    public static final int        SCROLL_WHAT                 = 0;
+    public static final int SCROLL_WHAT = 0;
 
     public AutoScrollViewPager(Context paramContext) {
         super(paramContext);

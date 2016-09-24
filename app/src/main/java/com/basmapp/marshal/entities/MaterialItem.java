@@ -17,7 +17,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
-public class MaterialItem extends DBObject implements Parcelable{
+public class MaterialItem extends DBObject implements Parcelable {
 
     @PrimaryKey(columnName = DBConstants.COL_ID)
     private long id;
@@ -130,7 +130,7 @@ public class MaterialItem extends DBObject implements Parcelable{
     }
 
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception{
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
         if ((getUrl() != null && !getUrl().equals("")) &&
                 (getTitle() != null && !getTitle().equals(""))) {
             statement.clearBindings();
@@ -195,7 +195,7 @@ public class MaterialItem extends DBObject implements Parcelable{
      * This constructor is invoked by the method createFromParcel(Parcel source) of
      * the object CREATOR
      **/
-    private MaterialItem(Parcel in){
+    private MaterialItem(Parcel in) {
         this.id = in.readLong();
         this.url = in.readString();
         this.tags = in.readString();

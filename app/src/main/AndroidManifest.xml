@@ -46,8 +46,7 @@
             android:label=""
             android:launchMode="singleTop"
             android:theme="@style/WelcomeTheme"
-            android:windowNoTitle="true">
-        </activity>
+            android:windowNoTitle="true" />
         <activity
             android:name=".ui.MainActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"

@@ -10,6 +10,7 @@ import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 
 import java.util.List;
+
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -23,6 +24,7 @@ public interface IMarshalService {
     // TODO
     @GET(MarshalServiceProvider.GET_ALL_COURSES)
     Call<List<Course>> getAllCourses();
+
     // TODO
     @GET(MarshalServiceProvider.GET_ALL_MATERIALS)
     Call<List<MaterialItem>> getAllMaterials();
@@ -36,7 +38,7 @@ public interface IMarshalService {
     @POST(MarshalServiceProvider.POST_RATING + "{courseCode}")
     Call<Rating> postRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
-    @PUT(MarshalServiceProvider.PUT_RATING + "{courseCode}" )
+    @PUT(MarshalServiceProvider.PUT_RATING + "{courseCode}")
     Call<Rating> updateRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
 
     @HTTP(method = "DELETE", path = MarshalServiceProvider.DELETE_RATING + "{courseCode}", hasBody = true)
@@ -46,10 +48,10 @@ public interface IMarshalService {
     Call<List<MalshabItem>> getAllMalshabItems();
 
     //******** GCM ********//
-    @POST (MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
+    @POST(MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
     Call<GcmRegistration> gcmRegisterNewDevice(@Body GcmRegistration gcmRegistration);
 
-    @PUT (MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
+    @PUT(MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
     Call<GcmRegistration> gcmRegisterExistDevice(@Body GcmRegistration gcmRegistration);
 
     @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
@@ -65,10 +67,10 @@ public interface IMarshalService {
     Call<GcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
 
     // ******** Settings ********//
-    @GET (MarshalServiceProvider.GET_SETTINGS)
+    @GET(MarshalServiceProvider.GET_SETTINGS)
     Call<Settings> getSettings();
 
     // ******** Auth ***********//
-    @POST (MarshalServiceProvider.AUTH)
+    @POST(MarshalServiceProvider.AUTH)
     Call<String> auth(@Body AuthRequest authRequest);
 }

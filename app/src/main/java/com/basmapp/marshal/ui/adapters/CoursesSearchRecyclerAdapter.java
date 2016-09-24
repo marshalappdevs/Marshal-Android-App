@@ -71,11 +71,13 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
-                    View decor = ((Activity)mContext).getWindow().getDecorView();
+                    View decor = ((Activity) mContext).getWindow().getDecorView();
                     View statusBar = decor.findViewById(android.R.id.statusBarBackground);
                     View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);
-                    if (statusBar != null) pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
-                    if (navigationBar != null) pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (statusBar != null)
+                        pairs.add(Pair.create(statusBar, Window.STATUS_BAR_BACKGROUND_TRANSITION_NAME));
+                    if (navigationBar != null)
+                        pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                 }
                 pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), mContext.getString(R.string.transition_header_image)));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
@@ -148,7 +150,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                             if ((Float) data.get(0) > 0) {
                                 holder.starIcon.setVisibility(View.VISIBLE);
                                 holder.courseRating.setVisibility(View.VISIBLE);
-                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0,3));
+                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0, 3));
                             } else {
                                 holder.courseRating.setVisibility(View.GONE);
                                 holder.starIcon.setVisibility(View.GONE);
@@ -166,7 +168,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 });
 
         // Check if MOOC
-        if(mCourses.get(holder.getAdapterPosition()).getIsMooc()){
+        if (mCourses.get(holder.getAdapterPosition()).getIsMooc()) {
             // if (holder.courseImage.getVisibility() == View.VISIBLE)
             holder.moocFlag.setVisibility(View.VISIBLE);
         } else {
@@ -236,7 +238,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         applyAndAnimateAdditions(coursesList);
         applyAndAnimateMovedItems(coursesList);
 
-        for(int i = 0; i < mCourses.size(); i++) {
+        for (int i = 0; i < mCourses.size(); i++) {
             notifyItemChanged(i);
         }
     }
@@ -293,7 +295,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         notifyItemMoved(fromPosition, toPosition);
     }
 
-    public class CourseVH extends RecyclerView.ViewHolder{
+    public class CourseVH extends RecyclerView.ViewHolder {
 
         CardView cardView;
         ImageView courseImage;
@@ -307,7 +309,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         public CourseVH(View itemView) {
             super(itemView);
 
-            cardView = (CardView) itemView.findViewById(R.id.course_searchable_cardView) ;
+            cardView = (CardView) itemView.findViewById(R.id.course_searchable_cardView);
             courseImage = (ImageView) itemView.findViewById(R.id.course_searchable_imageView);
             moocFlag = (TextView) itemView.findViewById(R.id.mooc_flag);
             courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
