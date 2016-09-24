@@ -258,6 +258,34 @@ public class CourseActivity extends BaseActivity {
 
                         }
                     });
+                    // Target android version higher than lollipop but activity wasn't started as shared element
+                    if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
+                        mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                                .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                                .setPrimaryText(R.string.cycle_fab_tip_title)
+                                .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                                .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
+                                .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                                .setAutoDismiss(false)
+                                .setAutoFinish(false)
+                                .setCaptureTouchEventOutsidePrompt(true)
+                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                                    @Override
+                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                                        if (tappedTarget) {
+                                            mFabPrompt.finish();
+                                            mFabPrompt = null;
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onHidePromptComplete() {
+
+                                    }
+                                })
+                                .show();
+                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
+                    }
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
                         mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
@@ -334,22 +362,65 @@ public class CourseActivity extends BaseActivity {
             initializeTextViews();
         }
 
-        mReviewItemContainer = (RelativeLayout) findViewById(R.id.review_item_container);
-        mActionContainer = (LinearLayout) findViewById(R.id.action_container);
-        mReviewRating = (RatingBar) findViewById(R.id.review_rating);
-        mRatingBarAverage = (RatingBar) findViewById(R.id.summary_rating_bar);
-        mRatingBarUser = (RatingBar) findViewById(R.id.course_content_ratingBar_user);
-        mTextViewReviewHint = (TextView) findViewById(R.id.review_hint);
-        mTextViewReviewDate = (TextView) findViewById(R.id.review_date);
-        mTextViewReviewText = (TextView) findViewById(R.id.review_text);
-        mTextViewReviewEdited = (TextView) findViewById(R.id.review_edited);
-        mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
-        mTextViewRatingAverage = (TextView) findViewById(R.id.course_content_textView_average_value);
-        mReviewAuthor = (TextView) findViewById(R.id.review_author);
-        mBtnReadAllReviews = (Button) findViewById(R.id.course_content_button_readAllReviews);
-        mRatingsFrame = (LinearLayout) findViewById(R.id.course_content_ratingsFrame);
+        mReviewItemContainer = (RelativeLayout)
 
-        if (mCourse != null) {
+                findViewById(R.id.review_item_container);
+
+        mActionContainer = (LinearLayout)
+
+                findViewById(R.id.action_container);
+
+        mReviewRating = (RatingBar)
+
+                findViewById(R.id.review_rating);
+
+        mRatingBarAverage = (RatingBar)
+
+                findViewById(R.id.summary_rating_bar);
+
+        mRatingBarUser = (RatingBar)
+
+                findViewById(R.id.course_content_ratingBar_user);
+
+        mTextViewReviewHint = (TextView)
+
+                findViewById(R.id.review_hint);
+
+        mTextViewReviewDate = (TextView)
+
+                findViewById(R.id.review_date);
+
+        mTextViewReviewText = (TextView)
+
+                findViewById(R.id.review_text);
+
+        mTextViewReviewEdited = (TextView)
+
+                findViewById(R.id.review_edited);
+
+        mTextViewRatingsAmount = (TextView)
+
+                findViewById(R.id.course_content_textView_ratingsAmount);
+
+        mTextViewRatingAverage = (TextView)
+
+                findViewById(R.id.course_content_textView_average_value);
+
+        mReviewAuthor = (TextView)
+
+                findViewById(R.id.review_author);
+
+        mBtnReadAllReviews = (Button)
+
+                findViewById(R.id.course_content_button_readAllReviews);
+
+        mRatingsFrame = (LinearLayout)
+
+                findViewById(R.id.course_content_ratingsFrame);
+
+        if (mCourse != null)
+
+        {
             setRatingViewsVisibility(View.VISIBLE);
             showRatingAverage();
             showRatingsCount();
