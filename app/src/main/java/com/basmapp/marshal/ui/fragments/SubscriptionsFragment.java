@@ -18,6 +18,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.basmapp.marshal.Constants;
@@ -37,7 +38,8 @@ import java.util.List;
 public class SubscriptionsFragment extends Fragment {
 
     private RecyclerView mRecycler;
-    private TextView mNoResults, mNoSubscriptions;
+    private TextView mNoResults;
+    private LinearLayout mNoSubscriptions;
     private SearchView mSearchView;
     private MenuItem mSearchItem;
     private CoursesSearchRecyclerAdapter mAdapter;
@@ -57,7 +59,7 @@ public class SubscriptionsFragment extends Fragment {
         toolbar.setTitle(R.string.navigation_drawer_subscriptions);
 
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_subscriptions_search_no_results);
-        mNoSubscriptions = (TextView) rootView.findViewById(R.id.fragment_subscriptions_no_subscriptions);
+        mNoSubscriptions = (LinearLayout) rootView.findViewById(R.id.fragment_subscriptions_no_subscriptions);
 
         // Initialize RecyclerView
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_subscriptions_search_recyclerView);

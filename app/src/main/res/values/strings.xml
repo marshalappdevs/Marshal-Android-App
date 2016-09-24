@@ -151,6 +151,7 @@
     <string name="welcome_materials_subtitle">See and download courses and tests dedicated study materials</string>
     <string name="welcome_malshab_title">Information for security service candidates</string>
     <string name="welcome_malshab_subtitle">Read about the basic trainings that Basmach offers</string>
+    <string name="regrettable_lack_of_easter_egg" translatable="false">¯\\_(ツ)_/¯</string>
 
     <!--About-->
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
