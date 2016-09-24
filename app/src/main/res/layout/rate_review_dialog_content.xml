@@ -8,19 +8,19 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:gravity="center">
+        android:gravity="center"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="0.0dp"
             android:layout_height="0.0dp"
-            android:orientation="vertical"
-            android:focusableInTouchMode="true" />
+            android:focusableInTouchMode="true"
+            android:orientation="vertical" />
 
         <include
             android:id="@+id/review_editor"
+            layout="@layout/rate_review_editor"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            layout="@layout/rate_review_editor" />
+            android:layout_height="wrap_content" />
     </LinearLayout>
 </ScrollView>

@@ -3,20 +3,20 @@
     android:id="@+id/cycles_list_item_linearLayout_mainLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
     android:background="?android:attr/selectableItemBackground"
-    android:clickable="true">
+    android:clickable="true"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/cycles_list_item_textView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
         android:gravity="center"
         android:layoutDirection="ltr"
+        android:padding="16dp"
+        android:text="@string/course_cycle_format"
         android:textAppearance="@android:style/TextAppearance.Medium"
-        android:textColor="?android:textColorPrimary"
-        android:text="@string/course_cycle_format" />
+        android:textColor="?android:textColorPrimary" />
 
     <View
         android:layout_width="match_parent"

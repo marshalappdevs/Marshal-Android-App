@@ -8,12 +8,12 @@
         android:id="@+id/cycles_bottom_sheet_title"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
-        android:gravity="center_vertical"
-        android:textSize="20sp"
         android:fontFamily="sans-serif-medium"
+        android:gravity="center_vertical"
+        android:padding="16dp"
+        android:text="@string/course_choose_cycle"
         android:textColor="?android:textColorPrimary"
-        android:text="@string/course_choose_cycle" />
+        android:textSize="20sp" />
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/cycle_activity_recyclerView"

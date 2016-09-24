@@ -2,9 +2,9 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:padding="16dp"
+    android:background="?android:selectableItemBackground"
     android:orientation="vertical"
-    android:background="?android:selectableItemBackground">
+    android:padding="16dp">
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -12,15 +12,15 @@
         android:orientation="horizontal">
 
         <RatingBar
-            style="?android:attr/ratingBarStyleSmall"
             android:id="@+id/rating_list_item_rating_bar"
+            style="?android:attr/ratingBarStyleSmall"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|top"
             android:clickable="false"
             android:numStars="5"
-            android:stepSize="0.5"
             android:rating="0"
+            android:stepSize="0.5"
             android:theme="@style/Course.RatingBar" />
 
         <TextView
@@ -29,9 +29,9 @@
             android:layout_height="wrap_content"
             android:layout_margin="2dp"
             android:gravity="center_vertical|end"
-            android:textSize="12sp"
             android:includeFontPadding="false"
-            android:textColor="?android:textColorSecondary" />
+            android:textColor="?android:textColorSecondary"
+            android:textSize="12sp" />
     </LinearLayout>
 
     <TextView
@@ -40,7 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="2dp"
         android:gravity="start|top"
-        android:textSize="14sp"
-        android:textColor="?android:textColorPrimary" />
+        android:textColor="?android:textColorPrimary"
+        android:textSize="14sp" />
 
 </LinearLayout>

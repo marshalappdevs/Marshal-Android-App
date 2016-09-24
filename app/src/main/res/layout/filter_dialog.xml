@@ -18,8 +18,8 @@
             android:text="@string/start_date" />
 
         <TextView
-            style="@style/DateFilterSpinner"
             android:id="@+id/start_date_spinner"
+            style="@style/DateFilterSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin" />
@@ -32,8 +32,8 @@
             android:text="@string/end_date" />
 
         <TextView
-            style="@style/DateFilterSpinner"
             android:id="@+id/end_date_spinner"
+            style="@style/DateFilterSpinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="@dimen/activity_vertical_margin" />
@@ -41,27 +41,27 @@
     </LinearLayout>
 
     <LinearLayout
-        style="?attr/buttonBarStyle"
         android:id="@+id/button_bar"
+        style="?attr/buttonBarStyle"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:gravity="end"
+        android:orientation="horizontal"
+        android:paddingBottom="8.0dp"
         android:paddingLeft="12.0dp"
         android:paddingRight="12.0dp"
-        android:paddingTop="8.0dp"
-        android:paddingBottom="8.0dp"
-        android:orientation="horizontal"
-        android:gravity="end">
+        android:paddingTop="8.0dp">
 
         <Button
-            style="?attr/buttonBarNegativeButtonStyle"
             android:id="@+id/negative_button"
+            style="?attr/buttonBarNegativeButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_clear" />
 
         <Button
-            style="?attr/buttonBarPositiveButtonStyle"
             android:id="@+id/positive_button"
+            style="?attr/buttonBarPositiveButtonStyle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@string/action_filter" />

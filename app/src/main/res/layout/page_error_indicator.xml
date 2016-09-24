@@ -3,8 +3,8 @@
     android:id="@+id/page_error_indicator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:orientation="vertical">
 
     <ImageView
         android:layout_width="wrap_content"
@@ -17,18 +17,18 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
+        android:gravity="center"
         android:paddingLeft="20.0dp"
         android:paddingRight="20.0dp"
-        android:gravity="center"
+        android:text="@string/update_error"
         android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="?android:textColorPrimary"
-        android:text="@string/update_error" />
+        android:textColor="?android:textColorPrimary" />
 
     <Button
         android:id="@+id/retry_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/activity_vertical_margin"
-        android:textAppearance="?android:textAppearanceLarge"
-        android:text="@string/update_retry" />
+        android:text="@string/update_retry"
+        android:textAppearance="?android:textAppearanceLarge" />
 </LinearLayout>

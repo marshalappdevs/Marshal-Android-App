@@ -16,15 +16,15 @@
 
         <TextView
             android:id="@+id/course_content_textView_noDetailsMessage"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="32dp"
-            android:maxLines="3"
             android:ellipsize="end"
+            android:maxLines="3"
+            android:text="@string/course_no_details_error"
             android:textAppearance="@android:style/TextAppearance.Medium"
             android:textStyle="bold"
-            android:text="@string/course_no_details_error" />
+            android:visibility="gone" />
 
         <!--Course name-->
         <RelativeLayout
@@ -42,28 +42,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_name"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_name" />
 
             <TextView
                 android:id="@+id/course_content_textView_nameTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_nameIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_nameIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_nameIcon"
+                android:text="@string/course_name"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_name" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_courseName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_nameTitle"
                 android:layout_alignStart="@+id/course_content_textView_nameTitle"
+                android:layout_below="@+id/course_content_textView_nameTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -85,28 +85,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_category"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_category" />
 
             <TextView
                 android:id="@+id/course_content_textView_categoryTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_categoryIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_categoryIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_categoryIcon"
+                android:text="@string/course_category"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_category" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_courseCategory"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_categoryTitle"
                 android:layout_alignStart="@+id/course_content_textView_categoryTitle"
+                android:layout_below="@+id/course_content_textView_categoryTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -128,28 +128,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_code"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_code" />
 
             <TextView
                 android:id="@+id/course_content_textView_codeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_codeIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_codeIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_codeIcon"
+                android:text="@string/course_code"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_code" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_courseCode"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_codeTitle"
                 android:layout_alignStart="@+id/course_content_textView_codeTitle"
+                android:layout_below="@+id/course_content_textView_codeTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -171,28 +171,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_description"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_description" />
 
             <TextView
                 android:id="@+id/course_content_textView_descriptionTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_descriptionIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_descriptionIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_descriptionIcon"
+                android:text="@string/course_general_description"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_general_description" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_description"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_descriptionTitle"
                 android:layout_alignStart="@+id/course_content_textView_descriptionTitle"
+                android:layout_below="@+id/course_content_textView_descriptionTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -214,28 +214,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_syllabus"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_syllabus" />
 
             <TextView
                 android:id="@+id/course_content_textView_syllabusTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_syllabusIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_syllabusIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_syllabusIcon"
+                android:text="@string/course_syllabus"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_syllabus" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_syllabus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_syllabusTitle"
                 android:layout_alignStart="@+id/course_content_textView_syllabusTitle"
+                android:layout_below="@+id/course_content_textView_syllabusTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -258,28 +258,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_prerequisites"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_prerequisites" />
 
             <TextView
                 android:id="@+id/course_content_textView_prerequisitesTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_prerequisitesIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_prerequisitesIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_prerequisitesIcon"
+                android:text="@string/course_prerequisites"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_prerequisites" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_prerequisites"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_prerequisitesTitle"
                 android:layout_alignStart="@+id/course_content_textView_prerequisitesTitle"
+                android:layout_below="@+id/course_content_textView_prerequisitesTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -301,28 +301,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_target_population"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_target_population" />
 
             <TextView
                 android:id="@+id/course_content_textView_targetPopulationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_targetPopulationIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_targetPopulationIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_targetPopulationIcon"
+                android:text="@string/course_target_population"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_target_population" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_targetPopulation"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_targetPopulationTitle"
                 android:layout_alignStart="@+id/course_content_textView_targetPopulationTitle"
+                android:layout_below="@+id/course_content_textView_targetPopulationTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -344,28 +344,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_daytime"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_daytime" />
 
             <TextView
                 android:id="@+id/course_content_textView_dayTimeTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_dayTimeIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_dayTimeIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_dayTimeIcon"
+                android:text="@string/course_day_time"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_day_time" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_dayTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_dayTimeTitle"
                 android:layout_alignStart="@+id/course_content_textView_dayTimeTitle"
+                android:layout_below="@+id/course_content_textView_dayTimeTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -387,28 +387,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_days_duration"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_days_duration" />
 
             <TextView
                 android:id="@+id/course_content_textView_daysDurationTitle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_daysDurationIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_daysDurationIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_daysDurationIcon"
+                android:text="@string/course_days_duration"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_days_duration" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_daysDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_daysDurationTitle"
                 android:layout_alignStart="@+id/course_content_textView_daysDurationTitle"
+                android:layout_below="@+id/course_content_textView_daysDurationTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -430,28 +430,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_hours_duration"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_hours_duration" />
 
             <TextView
                 android:id="@+id/course_content_textView_hoursDurationTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_hoursDurationIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_hoursDurationIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_hoursDurationIcon"
+                android:text="@string/course_hours_duration"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_hours_duration" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_hoursDuration"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_hoursDurationTitle"
                 android:layout_alignStart="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_below="@+id/course_content_textView_hoursDurationTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -473,28 +473,28 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginEnd="8dp"
-                app:srcCompat="@drawable/ic_course_comments"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_course_comments" />
 
             <TextView
                 android:id="@+id/course_content_textView_commentsTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_alignBottom="@+id/course_content_imageView_commentsIcon"
                 android:layout_gravity="start|center_vertical"
                 android:layout_toEndOf="@+id/course_content_imageView_commentsIcon"
-                android:layout_alignBottom="@+id/course_content_imageView_commentsIcon"
+                android:text="@string/course_comments"
                 android:textAppearance="@android:style/TextAppearance.Medium"
-                android:textStyle="bold"
                 android:textColor="?android:textColorPrimary"
-                android:text="@string/course_comments" />
+                android:textStyle="bold" />
 
             <TextView
                 android:id="@+id/course_content_textView_comments"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/course_content_textView_commentsTitle"
                 android:layout_alignStart="@+id/course_content_textView_commentsTitle"
+                android:layout_below="@+id/course_content_textView_commentsTitle"
+                android:layout_gravity="start|center_vertical"
                 android:layout_marginTop="4dp"
                 android:textAppearance="@android:style/TextAppearance.Medium"
                 android:textColor="?android:textColorSecondary" />
@@ -503,8 +503,8 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1dp"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
+            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:layout_marginTop="@dimen/activity_vertical_margin"
             android:background="@color/divider_color" />
 
@@ -520,12 +520,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:paddingTop="8dp"
-                android:textSize="12.0sp"
                 android:ellipsize="end"
                 android:focusable="true"
+                android:paddingTop="8dp"
+                android:text="@string/rate_this_course"
                 android:textColor="?android:textColorSecondary"
-                android:text="@string/rate_this_course" />
+                android:textSize="12.0sp" />
 
             <RatingBar
                 android:id="@+id/course_content_ratingBar_user"
@@ -541,8 +541,8 @@
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/divider_color" />
 
@@ -558,21 +558,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
-                    android:paddingStart="8.0dp"
-                    android:paddingEnd="8.0dp"
-                    android:textSize="56.0sp"
                     android:focusable="true"
-                    android:includeFontPadding="false"
                     android:fontFamily="sans-serif-light"
+                    android:includeFontPadding="false"
+                    android:paddingEnd="8.0dp"
+                    android:paddingStart="8.0dp"
+                    android:text="0.0"
                     android:textColor="?android:textColorPrimary"
-                    android:text="0.0" />
+                    android:textSize="56.0sp" />
 
                 <include
+                    layout="@layout/ratings_summary"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_toEndOf="@id/course_content_textView_average_value"
                     android:layout_alignBaseline="@id/course_content_textView_average_value"
-                    layout="@layout/ratings_summary" />
+                    android:layout_toEndOf="@id/course_content_textView_average_value" />
 
             </RelativeLayout>
 
@@ -582,14 +582,14 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
                 android:background="?attr/selectableItemBackground"
-                android:textColor="?colorAccent"
-                android:text="@string/review_snippets_footer" />
+                android:text="@string/review_snippets_footer"
+                android:textColor="?colorAccent" />
 
             <View
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginTop="@dimen/activity_vertical_margin"
                 android:background="@color/divider_color" />
         </LinearLayout>
@@ -599,20 +599,20 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:id="@+id/subscribe_button"
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:padding="12.0dp"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12.0dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -625,8 +625,8 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_wishlist_add"
-                        android:contentDescription="@null" />
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/ic_wishlist_add" />
 
                 </FrameLayout>
 
@@ -634,9 +634,9 @@
                     android:id="@+id/subscribe_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14.0sp"
+                    android:text="@string/subscribe"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/subscribe" />
+                    android:textSize="14.0sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -644,12 +644,12 @@
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:padding="12.0dp"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12.0dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -662,17 +662,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_share"
-                        android:contentDescription="@null" />
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/ic_share" />
 
                 </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14.0sp"
+                    android:text="@string/course_share"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_share" />
+                    android:textSize="14.0sp" />
             </LinearLayout>
 
             <LinearLayout
@@ -680,12 +680,12 @@
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
-                android:padding="12.0dp"
-                android:orientation="vertical"
-                android:gravity="center"
                 android:background="?attr/selectableItemBackground"
                 android:clickable="true"
-                android:focusable="true">
+                android:focusable="true"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="12.0dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
@@ -698,17 +698,17 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
-                        app:srcCompat="@drawable/ic_materials"
-                        android:contentDescription="@null" />
+                        android:contentDescription="@null"
+                        app:srcCompat="@drawable/ic_materials" />
 
                 </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:textSize="14.0sp"
+                    android:text="@string/course_related_content"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_related_content" />
+                    android:textSize="14.0sp" />
             </LinearLayout>
         </LinearLayout>
 

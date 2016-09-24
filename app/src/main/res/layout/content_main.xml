@@ -10,11 +10,11 @@
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/sign_in_button"
-        android:visibility="gone"
-        tools:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone"
+        tools:visibility="gone" />
 
     <FrameLayout
         android:id="@+id/content_frame"
@@ -23,17 +23,17 @@
 
     <include
         android:id="@+id/new_updates_button"
-        android:visibility="gone"
+        layout="@layout/new_updates_banner"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="4.0dp"
         android:clickable="true"
-        layout="@layout/new_updates_banner" />
+        android:visibility="gone" />
 
     <include
         android:id="@+id/placeholder_error"
-        android:visibility="gone"
-        layout="@layout/page_error_indicator" />
+        layout="@layout/page_error_indicator"
+        android:visibility="gone" />
 
 </RelativeLayout>

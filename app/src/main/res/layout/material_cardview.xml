@@ -7,16 +7,16 @@
     android:foreground="?android:selectableItemBackground">
 
     <android.support.v7.widget.CardView
-        style="@style/AppTheme.CardView"
         android:id="@+id/link_preview_cardView"
+        style="@style/AppTheme.CardView"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginEnd="8dp"
-        android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
-        android:foreground="?attr/selectableItemBackground"
-        android:clickable="true">
+        android:layout_marginEnd="8dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginTop="8dp"
+        android:clickable="true"
+        android:foreground="?attr/selectableItemBackground">
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -26,39 +26,39 @@
                 android:id="@+id/link_preview_content"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
+                android:background="@color/materials_card_background"
                 android:gravity="center_vertical"
                 android:minWidth="280dp"
-                android:background="@color/materials_card_background">
+                android:orientation="horizontal">
 
                 <ImageView
                     android:id="@+id/thumb"
                     android:layout_width="@dimen/link_preview_thumb_width"
                     android:layout_height="@dimen/link_preview_thumb_height"
                     android:background="@color/placeholder_background"
-                    android:scaleType="centerCrop"
                     android:contentDescription="@null"
+                    android:scaleType="centerCrop"
                     android:src="@drawable/link_image_placeholder" />
 
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="wrap_content"
                     android:layout_weight="1.0"
-                    android:paddingStart="8dp"
-                    android:paddingEnd="4dp"
-                    android:paddingTop="2dp"
+                    android:orientation="vertical"
                     android:paddingBottom="2dp"
-                    android:orientation="vertical">
+                    android:paddingEnd="4dp"
+                    android:paddingStart="8dp"
+                    android:paddingTop="2dp">
 
                     <TextView
                         android:id="@id/title"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:gravity="start"
                         android:ellipsize="end"
-                        android:maxLines="3"
+                        android:gravity="start"
                         android:lineSpacingMultiplier="1.08"
+                        android:maxLines="3"
                         android:textColor="?android:textColorPrimary" />
 
                     <TextView
@@ -66,11 +66,11 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="start"
-                        android:paddingBottom="1.0dp"
-                        android:gravity="start"
                         android:ellipsize="end"
-                        android:maxLines="1"
+                        android:gravity="start"
                         android:includeFontPadding="false"
+                        android:maxLines="1"
+                        android:paddingBottom="1.0dp"
                         android:textColor="@color/url_color" />
 
                 </LinearLayout>
@@ -81,41 +81,41 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/link_preview_content"
-                android:paddingStart="8dp"
-                android:paddingEnd="23dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
-                android:maxLines="2"
                 android:ellipsize="end"
+                android:maxLines="2"
+                android:paddingBottom="10dp"
+                android:paddingEnd="23dp"
+                android:paddingStart="8dp"
+                android:paddingTop="10dp"
                 android:textAppearance="@android:style/TextAppearance.Small" />
 
             <ImageView
                 android:id="@+id/chevron"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="start|center_vertical"
-                android:layout_below="@+id/link_preview_content"
                 android:layout_alignBottom="@+id/description"
-                app:srcCompat="@drawable/chevron"
-                android:tint="#ffb3b7ba"
                 android:layout_alignParentEnd="true"
-                android:contentDescription="@null" />
+                android:layout_below="@+id/link_preview_content"
+                android:layout_gravity="start|center_vertical"
+                android:contentDescription="@null"
+                android:tint="#ffb3b7ba"
+                app:srcCompat="@drawable/chevron" />
 
             <TextView
                 android:id="@+id/tags"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_below="@+id/description"
-                android:paddingStart="8dp"
-                android:paddingEnd="10dp"
-                android:paddingTop="10dp"
-                android:paddingBottom="10dp"
                 android:background="@color/hash_tags_background"
-                android:textColorLink="?android:textColorLink"
-                android:maxLines="2"
                 android:ellipsize="end"
-                android:textAppearance="@android:style/TextAppearance.Small" />
+                android:maxLines="2"
+                android:paddingBottom="10dp"
+                android:paddingEnd="10dp"
+                android:paddingStart="8dp"
+                android:paddingTop="10dp"
+                android:textAppearance="@android:style/TextAppearance.Small"
+                android:textColorLink="?android:textColorLink"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <ProgressBar

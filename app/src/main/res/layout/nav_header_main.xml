@@ -7,69 +7,69 @@
 
     <ImageView
         android:id="@+id/cover_photo_placeholder"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingStart="16.0dp"
-        android:paddingEnd="16.0dp"
-        android:paddingTop="16.0dp"
-        android:paddingBottom="16.0dp"
         android:background="?colorPrimary"
+        android:contentDescription="@null"
+        android:paddingBottom="16.0dp"
+        android:paddingEnd="16.0dp"
+        android:paddingStart="16.0dp"
+        android:paddingTop="16.0dp"
         android:scaleType="fitEnd"
-        app:srcCompat="@drawable/basmach_logo"
-        android:contentDescription="@null" />
+        android:visibility="gone"
+        app:srcCompat="@drawable/basmach_logo" />
 
     <ImageView
         android:id="@+id/cover_photo"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:contentDescription="@null"
         android:foreground="@color/navigation_view_cover_overlay_shade"
         android:scaleType="centerCrop"
-        android:contentDescription="@null"
         android:src="@drawable/bg_default_profile_art" />
 
     <include
         android:id="@+id/avatar"
+        layout="@layout/nav_header_account_avatar"
         android:layout_width="64.0dp"
         android:layout_height="64.0dp"
         android:layout_gravity="start|bottom|center"
-        android:layout_marginStart="16.0dp"
-        android:layout_marginEnd="16.0dp"
         android:layout_marginBottom="68.0dp"
-        layout="@layout/nav_header_account_avatar" />
+        android:layout_marginEnd="16.0dp"
+        android:layout_marginStart="16.0dp" />
 
     <FrameLayout
         android:id="@+id/secondary_avatar_frame_left"
-        android:visibility="gone"
         android:layout_width="48.0dp"
         android:layout_height="48.0dp"
         android:layout_gravity="end|bottom|center"
-        android:layout_marginEnd="68.0dp"
         android:layout_marginBottom="80.0dp"
-        android:padding="4.0dp">
+        android:layout_marginEnd="68.0dp"
+        android:padding="4.0dp"
+        android:visibility="gone">
 
         <include
             android:id="@+id/secondary_avatar_left"
+            layout="@layout/nav_header_account_avatar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/nav_header_account_avatar" />
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <FrameLayout
         android:id="@+id/secondary_avatar_frame_right"
-        android:visibility="gone"
         android:layout_width="48.0dp"
         android:layout_height="48.0dp"
         android:layout_gravity="end|bottom|center"
-        android:layout_marginEnd="12.0dp"
         android:layout_marginBottom="80.0dp"
-        android:padding="4.0dp">
+        android:layout_marginEnd="12.0dp"
+        android:padding="4.0dp"
+        android:visibility="gone">
 
         <include
             android:id="@+id/secondary_avatar_right"
+            layout="@layout/nav_header_account_avatar"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            layout="@layout/nav_header_account_avatar" />
+            android:layout_height="match_parent" />
     </FrameLayout>
 
     <FrameLayout
@@ -78,19 +78,19 @@
         android:layout_height="56.0dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="8.0dp"
-        android:paddingStart="16.0dp"
-        android:paddingEnd="16.0dp"
-        android:foreground="?android:attr/selectableItemBackground"
         android:clickable="true"
         android:focusable="true"
+        android:foreground="?android:attr/selectableItemBackground"
+        android:paddingEnd="16.0dp"
+        android:paddingStart="16.0dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="start|bottom|center"
-            android:layout_marginEnd="24.0dp"
             android:layout_marginBottom="8.0dp"
+            android:layout_marginEnd="24.0dp"
             android:orientation="vertical">
 
             <TextView
@@ -98,23 +98,23 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
-                android:maxLines="1"
-                android:textSize="14.0sp"
-                android:textAppearance="@style/TextAppearance.NavView.Header.Name"
                 android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
+                android:text="@string/navigation_drawer_profile_stranger"
+                android:textAppearance="@style/TextAppearance.NavView.Header.Name"
                 android:textColor="@android:color/white"
-                android:text="@string/navigation_drawer_profile_stranger" />
+                android:textSize="14.0sp" />
 
             <TextView
                 android:id="@+id/account_name"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:alpha="0.72"
                 android:ellipsize="end"
                 android:maxLines="1"
-                android:textSize="14.0sp"
-                android:alpha="0.72"
+                android:text="@string/navigation_drawer_profile_sign_in"
                 android:textColor="@android:color/white"
-                android:text="@string/navigation_drawer_profile_sign_in" />
+                android:textSize="14.0sp" />
         </LinearLayout>
 
         <ImageView
@@ -123,8 +123,8 @@
             android:layout_height="24.0dp"
             android:layout_gravity="end|bottom|center"
             android:layout_marginBottom="8.0dp"
-            android:scaleType="center"
             android:contentDescription="@null"
+            android:scaleType="center"
             app:srcCompat="@drawable/ic_arrow_drop_down" />
     </FrameLayout>
 </FrameLayout>

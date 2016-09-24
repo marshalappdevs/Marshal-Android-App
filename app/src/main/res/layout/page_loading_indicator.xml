@@ -3,8 +3,8 @@
     android:id="@+id/loading_indicator"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="32.0dp"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="32.0dp">
 
     <ProgressBar
         android:layout_width="wrap_content"

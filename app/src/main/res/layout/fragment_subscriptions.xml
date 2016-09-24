@@ -8,32 +8,32 @@
         android:id="@+id/fragment_subscriptions_search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:paddingTop="4dp"
-        android:clipToPadding="false" />
+        android:clipToPadding="false"
+        android:paddingTop="4dp" />
 
     <TextView
         android:id="@+id/fragment_subscriptions_no_subscriptions"
-        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
+        android:drawablePadding="10.0dp"
+        android:drawableTop="@android:drawable/ic_lock_lock"
+        android:fontFamily="sans-serif-light"
+        android:gravity="center"
         android:paddingLeft="16.0dp"
         android:paddingRight="16.0dp"
-        android:gravity="center"
-        android:textSize="18.0sp"
-        android:drawableTop="@android:drawable/ic_lock_lock"
-        android:drawablePadding="10.0dp"
-        android:fontFamily="sans-serif-light"
+        android:text="@string/no_subscriptions"
         android:textColor="?android:textColorSecondary"
-        android:text="@string/no_subscriptions" />
+        android:textSize="18.0sp"
+        android:visibility="gone" />
 
     <TextView
         android:id="@+id/fragment_subscriptions_search_no_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:gravity="center"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 </FrameLayout>

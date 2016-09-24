@@ -4,48 +4,48 @@
     android:id="@+id/review_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:paddingBottom="12.0dp"
     android:paddingStart="16.0dp"
-    android:paddingTop="12.0dp"
-    android:paddingBottom="12.0dp">
+    android:paddingTop="12.0dp">
 
     <ImageView
         android:id="@+id/user_profile_image"
         android:layout_width="40.0dp"
         android:layout_height="40.0dp"
         android:layout_marginTop="10.0dp"
-        android:focusable="true"
         android:background="@drawable/circle_border_small"
+        android:focusable="true"
         android:src="@drawable/ic_profile_none" />
 
     <RelativeLayout
         android:id="@+id/review_content"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/user_profile_image"
-        android:paddingStart="16.0dp"
-        android:layout_alignParentEnd="true">
+        android:paddingStart="16.0dp">
 
         <LinearLayout
             android:id="@+id/action_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
             android:layout_alignParentTop="true"
-            android:paddingStart="16.0dp"
-            android:paddingEnd="16.0dp"
-            android:paddingTop="8.0dp"
-            android:paddingBottom="8.0dp"
-            android:orientation="horizontal"
             android:background="?attr/selectableItemBackground"
             android:clickable="true"
             android:focusable="true"
-            android:layout_alignParentEnd="true">
+            android:orientation="horizontal"
+            android:paddingBottom="8.0dp"
+            android:paddingEnd="16.0dp"
+            android:paddingStart="16.0dp"
+            android:paddingTop="8.0dp">
 
             <ImageView
                 android:id="@+id/action_image"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                app:srcCompat="@drawable/ic_edit_course"
-                android:contentDescription="@null" />
+                android:contentDescription="@null"
+                app:srcCompat="@drawable/ic_edit_course" />
 
             <TextView
                 android:id="@+id/action_text"
@@ -53,10 +53,10 @@
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:paddingStart="6.0dp"
+                android:text="@string/edit_review"
                 android:textAllCaps="true"
-                android:textSize="14.0sp"
                 android:textColor="?colorAccent"
-                android:text="@string/edit_review" />
+                android:textSize="14.0sp" />
         </LinearLayout>
 
         <View
@@ -68,33 +68,33 @@
             android:id="@+id/author_block"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/leading_spacer"
             android:layout_toStartOf="@+id/action_container"
-            android:paddingEnd="8.0dp"
-            android:layout_alignWithParentIfMissing="true">
+            android:paddingEnd="8.0dp">
 
             <TextView
                 android:id="@+id/review_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingEnd="8.0dp"
-                android:textSize="14.0sp"
                 android:focusable="true"
-                android:textColor="?android:textColorPrimary" />
+                android:paddingEnd="8.0dp"
+                android:textColor="?android:textColorPrimary"
+                android:textSize="14.0sp" />
 
             <TextView
                 android:id="@+id/your_review_label"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:background="@drawable/your_review_background"
+                android:gravity="center"
                 android:paddingLeft="4.0dp"
                 android:paddingRight="4.0dp"
-                android:gravity="center"
-                android:background="@drawable/your_review_background"
-                android:textSize="10.0sp"
-                android:textStyle="bold"
+                android:text="@string/your_review_text"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:text="@string/your_review_text" />
+                android:textSize="10.0sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
@@ -103,64 +103,64 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/author_block"
             android:layout_toStartOf="@+id/action_container"
-            android:paddingEnd="8.0dp"
-            android:focusable="true">
+            android:focusable="true"
+            android:paddingEnd="8.0dp">
 
             <RatingBar
-                style="?android:attr/ratingBarStyleSmall"
                 android:id="@+id/review_rating"
+                style="?android:attr/ratingBarStyleSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
                 android:layout_marginEnd="6.0dp"
                 android:clickable="false"
                 android:numStars="5"
-                android:stepSize="1"
                 android:rating="0"
+                android:stepSize="1"
                 android:theme="@style/Course.RatingBar" />
 
             <TextView
                 android:id="@+id/review_date"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12.0sp"
                 android:lineSpacingExtra="0.0sp"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="?android:textColorSecondary"
+                android:textSize="12.0sp"
+                android:visibility="gone" />
 
             <TextView
                 android:id="@+id/review_edited"
-                android:visibility="gone"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:paddingStart="6.0dp"
-                android:textSize="12.0sp"
                 android:lineSpacingExtra="0.0sp"
+                android:paddingStart="6.0dp"
+                android:text="@string/review_edited_after_developer_reply"
                 android:textColor="?android:textColorSecondary"
-                android:text="@string/review_edited_after_developer_reply" />
+                android:textSize="12.0sp"
+                android:visibility="gone" />
         </LinearLayout>
 
         <FrameLayout
             android:id="@+id/metadata_block"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/review_header"
-            android:layout_toStartOf="@+id/action_container"
-            android:layout_marginTop="-2.0dp"
             android:layout_marginBottom="2.0dp"
+            android:layout_marginTop="-2.0dp"
+            android:layout_toStartOf="@+id/action_container"
+            android:focusable="true"
             android:paddingEnd="8.0dp"
-            android:focusable="true">
+            android:visibility="gone">
 
             <TextView
                 android:id="@+id/review_metadata"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:textSize="12.0sp"
                 android:ellipsize="end"
                 android:focusable="true"
                 android:lineSpacingExtra="0.0sp"
-                android:textColor="?android:textColorSecondary" />
+                android:textColor="?android:textColorSecondary"
+                android:textSize="12.0sp" />
         </FrameLayout>
 
         <View
@@ -171,27 +171,27 @@
 
         <TextView
             android:id="@+id/review_title"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/review_title_body_spacer"
             android:layout_alignParentStart="true"
+            android:layout_below="@id/review_title_body_spacer"
             android:layout_marginBottom="4.0dp"
-            android:paddingEnd="32.0dp"
-            android:textSize="14.0sp"
             android:focusable="true"
+            android:paddingEnd="32.0dp"
+            android:textColor="?android:textColorPrimary"
+            android:textSize="14.0sp"
             android:textStyle="bold"
-            android:textColor="?android:textColorPrimary" />
+            android:visibility="gone" />
 
         <TextView
-            style="@style/MarshalDetailDescription"
             android:id="@+id/review_text"
+            style="@style/MarshalDetailDescription"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/review_title"
             android:layout_alignParentStart="true"
-            android:paddingEnd="16.0dp"
-            android:focusable="true" />
+            android:layout_below="@+id/review_title"
+            android:focusable="true"
+            android:paddingEnd="16.0dp" />
     </RelativeLayout>
     <!--<ViewStub android:id="@+id/review_reply_stub" android:layout="@layout/reviews_developer_reply" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dp" android:layout_below="@+id/review_content"/>-->
 </RelativeLayout>

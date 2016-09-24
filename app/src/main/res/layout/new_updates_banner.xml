@@ -3,33 +3,33 @@
     android:id="@+id/banner"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:orientation="vertical"
+    android:baselineAligned="false"
     android:gravity="center_horizontal"
-    android:baselineAligned="false">
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/text_banner_layout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="8.0dp"
         android:layout_marginBottom="8.0dp"
-        android:paddingStart="12.0dp"
-        android:paddingEnd="16.0dp"
-        android:orientation="horizontal"
+        android:layout_marginTop="8.0dp"
+        android:background="@drawable/text_banner_background"
+        android:baselineAligned="false"
         android:gravity="center"
         android:minHeight="36.0dp"
         android:minWidth="36.0dp"
-        android:background="@drawable/text_banner_background"
-        android:baselineAligned="false">
+        android:orientation="horizontal"
+        android:paddingEnd="16.0dp"
+        android:paddingStart="12.0dp">
 
         <ImageView
             android:id="@+id/banner_arrow"
             android:layout_width="20.0dp"
             android:layout_height="20.0dp"
             android:layout_marginEnd="4.0dp"
+            android:contentDescription="@null"
             android:gravity="center_vertical"
             android:scaleType="center"
-            android:contentDescription="@null"
             android:src="@drawable/ic_arrow_notif_up" />
 
         <TextView
@@ -37,9 +37,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:gravity="center_vertical"
-            android:textSize="12.0sp"
             android:maxLines="1"
+            android:text="@string/new_updates"
             android:textColor="@android:color/white"
-            android:text="@string/new_updates" />
+            android:textSize="12.0sp" />
     </LinearLayout>
 </FrameLayout>

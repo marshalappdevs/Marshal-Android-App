@@ -8,16 +8,16 @@
         android:id="@+id/about_container"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:gravity="center"
         android:orientation="vertical"
-        android:gravity="center">
+        android:padding="16dp">
 
         <FrameLayout
             android:id="@+id/logo_container"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:padding="8dp"
-            android:background="?attr/selectableItemBackgroundBorderless">
+            android:background="?attr/selectableItemBackgroundBorderless"
+            android:padding="8dp">
 
             <ImageView
                 android:id="@+id/about_logo_image"
@@ -30,10 +30,10 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8.0dp"
             android:layout_marginBottom="8.0dp"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:layout_marginTop="8.0dp"
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 style="?android:textAppearanceLarge"
@@ -43,115 +43,115 @@
                 android:text="@string/app_name" />
 
             <TextView
-                style="?android:textAppearanceSmall"
                 android:id="@+id/about_version_text"
+                style="?android:textAppearanceSmall"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:textIsSelectable="true"
-                android:textColor="#ff888888" />
+                android:textColor="#ff888888"
+                android:textIsSelectable="true" />
         </LinearLayout>
 
         <TextView
             style="?android:textAppearanceSmall"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8.0dp"
             android:layout_marginBottom="8.0dp"
+            android:layout_marginTop="8.0dp"
+            android:text="@string/about_contributors_heading"
             android:textColor="?android:textColorPrimary"
-            android:text="@string/about_contributors_heading" />
+            android:visibility="gone" />
 
         <TextView
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8.0dp"
-            android:textAppearance="?android:textAppearanceSmall"
             android:lineSpacingMultiplier="1.2"
-            android:textIsSelectable="true"
+            android:text="@string/contributors_list"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:textColorSecondary"
-            android:text="@string/contributors_list" />
+            android:textIsSelectable="true"
+            android:visibility="gone" />
 
         <TextView
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8.0dp"
             android:layout_marginBottom="8.0dp"
-            android:textColor="?android:textColorPrimary"
-            android:text="@string/about_libraries_heading" />
+            android:layout_marginTop="8.0dp"
+            android:text="@string/about_libraries_heading"
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/activity_about_libraries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8.0dp"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColorLink="?colorPrimaryDark"
             android:lineSpacingMultiplier="1.2"
-            android:textIsSelectable="true"
+            android:text="@string/libraries_list"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:textColorSecondary"
-            android:text="@string/libraries_list" />
+            android:textColorLink="?colorPrimaryDark"
+            android:textIsSelectable="true" />
 
         <TextView
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8.0dp"
             android:layout_marginBottom="8.0dp"
-            android:textColor="?android:textColorPrimary"
-            android:text="@string/about_app_license_heading" />
+            android:layout_marginTop="8.0dp"
+            android:text="@string/about_app_license_heading"
+            android:textColor="?android:textColorPrimary" />
 
         <TextView
             android:id="@+id/about_app_license"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginBottom="8.0dp"
-            android:textAppearance="?android:textAppearanceSmall"
-            android:textColorLink="?colorPrimaryDark"
             android:lineSpacingMultiplier="1.2"
-            android:textIsSelectable="true"
+            android:text="@string/about_app_license"
+            android:textAppearance="?android:textAppearanceSmall"
             android:textColor="?android:textColorSecondary"
-            android:text="@string/about_app_license" />
+            android:textColorLink="?colorPrimaryDark"
+            android:textIsSelectable="true" />
 
         <Button
             android:id="@+id/rate_app_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginTop="32.0dp"
             android:layout_marginBottom="8.0dp"
+            android:layout_marginTop="32.0dp"
             android:background="?attr/selectableItemBackground"
-            android:textColor="?colorAccent"
-            android:text="@string/about_rate_app" />
+            android:text="@string/about_rate_app"
+            android:textColor="?colorAccent" />
 
         <View
             android:layout_width="match_parent"
             android:layout_height="1.0px"
-            android:layout_marginTop="12.0dp"
             android:layout_marginBottom="12.0dp"
+            android:layout_marginTop="12.0dp"
             android:background="@color/divider_color" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="12.0dp"
-            android:padding="4.0dp"
             android:contentDescription="@null"
+            android:padding="4.0dp"
             android:src="@mipmap/ic_bsmh_old" />
 
         <TextView
-            style="?android:textAppearanceSmall"
             android:id="@+id/about_basmach"
+            style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="0.0dp"
-            android:layout_weight="1.0"
             android:layout_gravity="center_horizontal"
+            android:layout_weight="1.0"
             android:gravity="center_horizontal"
-            android:textColorLink="?colorPrimaryDark"
-            android:textIsSelectable="true"
+            android:text="@string/about_basmach"
             android:textColor="?android:textColorSecondary"
-            android:text="@string/about_basmach" />
+            android:textColorLink="?colorPrimaryDark"
+            android:textIsSelectable="true" />
     </LinearLayout>
 </ScrollView>

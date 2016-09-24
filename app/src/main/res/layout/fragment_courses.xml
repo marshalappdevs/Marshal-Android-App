@@ -8,9 +8,9 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
         android:animateLayoutChanges="true"
-        android:focusableInTouchMode="true">
+        android:focusableInTouchMode="true"
+        android:orientation="vertical">
 
         <RelativeLayout
             android:id="@+id/fragment_courses_relativeLayout_viewPager"
@@ -19,287 +19,287 @@
 
             <com.basmapp.marshal.ui.widget.AutoScrollViewPager
                 android:id="@+id/main_catalog_view_pager"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_alignParentTop="true"
-                android:background="@color/placeholder_background" />
+                android:background="@color/placeholder_background"
+                android:visibility="gone" />
 
             <View
                 android:id="@+id/gradient_overlay"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="100.0dp"
                 android:layout_alignParentBottom="true"
-                android:background="@drawable/highlights_bottom_overlay" />
+                android:background="@drawable/highlights_bottom_overlay"
+                android:visibility="gone" />
 
             <LinearLayout
                 android:id="@+id/highlight_overlay_title"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_gravity="center"
                 android:layout_above="@+id/main_catalog_indicator"
                 android:layout_alignParentBottom="true"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_gravity="center"
                 android:layout_marginBottom="@dimen/activity_vertical_margin"
-                android:orientation="vertical"
+                android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:focusable="false"
                 android:gravity="bottom|center"
-                android:focusable="false">
+                android:orientation="vertical"
+                android:visibility="gone">
 
                 <TextView
-                    style="@style/MarshalMediumPlainText"
                     android:id="@+id/li_title"
+                    style="@style/MarshalMediumPlainText"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textSize="18.0sp"
                     android:ellipsize="marquee"
+                    android:gravity="center"
                     android:maxLines="1"
                     android:shadowColor="#61000000"
                     android:shadowDy="1.0"
                     android:shadowRadius="5.0"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="18.0sp" />
 
                 <TextView
                     android:id="@+id/li_subtitle"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingBottom="16.0dp"
-                    android:gravity="center"
-                    android:textSize="16.0sp"
                     android:ellipsize="marquee"
+                    android:gravity="center"
                     android:maxLines="1"
+                    android:paddingBottom="16.0dp"
                     android:shadowColor="#61000000"
                     android:shadowDy="1.0"
                     android:shadowRadius="3.0"
-                    android:textColor="@android:color/white" />
+                    android:textColor="@android:color/white"
+                    android:textSize="16.0sp" />
             </LinearLayout>
 
             <com.basmapp.marshal.ui.widget.InkPageIndicator
                 android:id="@+id/main_catalog_indicator"
-                android:visibility="gone"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignParentBottom="true"
-                android:layout_marginBottom="10dp" />
+                android:layout_marginBottom="10dp"
+                android:visibility="gone" />
         </RelativeLayout>
 
         <LinearLayout
             android:id="@+id/fragment_courses_software_see_all"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48.0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:minHeight="48.0dp"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="20.0sp"
+                    android:text="@string/course_type_software"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_type_software" />
+                    android:textSize="20.0sp" />
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/see_all"
                 android:textAppearance="@style/TextAppearance.Button"
-                android:textColor="?colorAccent"
-                android:text="@string/see_all" />
+                android:textColor="?colorAccent" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_courses_software_recyclerView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/fragment_courses_cyber_see_all"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48.0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:minHeight="48.0dp"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="20.0sp"
+                    android:text="@string/course_type_cyber"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_type_cyber" />
+                    android:textSize="20.0sp" />
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/see_all"
                 android:textAppearance="@style/TextAppearance.Button"
-                android:textColor="?colorAccent"
-                android:text="@string/see_all" />
+                android:textColor="?colorAccent" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_courses_cyber_recyclerView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/fragment_courses_it_see_all"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48.0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:minHeight="48.0dp"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="20.0sp"
+                    android:text="@string/course_type_it"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_type_it" />
+                    android:textSize="20.0sp" />
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/see_all"
                 android:textAppearance="@style/TextAppearance.Button"
-                android:textColor="?colorAccent"
-                android:text="@string/see_all" />
+                android:textColor="?colorAccent" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_courses_it_recyclerView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/fragment_courses_tools_see_all"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48.0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:minHeight="48.0dp"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="20.0sp"
+                    android:text="@string/course_type_tools"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_type_tools" />
+                    android:textSize="20.0sp" />
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/see_all"
                 android:textAppearance="@style/TextAppearance.Button"
-                android:textColor="?colorAccent"
-                android:text="@string/see_all" />
+                android:textColor="?colorAccent" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_courses_tools_recyclerView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/fragment_courses_system_see_all"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:minHeight="48.0dp"
             android:background="?attr/selectableItemBackground"
-            android:clickable="true">
+            android:clickable="true"
+            android:minHeight="48.0dp"
+            android:visibility="gone">
 
             <FrameLayout
                 android:layout_width="0.0dp"
                 android:layout_height="wrap_content"
-                android:layout_weight="1.0"
                 android:layout_gravity="center_vertical"
+                android:layout_weight="1.0"
                 android:orientation="horizontal">
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
-                    android:textSize="20.0sp"
+                    android:text="@string/course_type_system"
                     android:textColor="?android:textColorPrimary"
-                    android:text="@string/course_type_system" />
+                    android:textSize="20.0sp" />
             </FrameLayout>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                android:layout_marginStart="@dimen/activity_horizontal_margin"
+                android:text="@string/see_all"
                 android:textAppearance="@style/TextAppearance.Button"
-                android:textColor="?colorAccent"
-                android:text="@string/see_all" />
+                android:textColor="?colorAccent" />
         </LinearLayout>
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/fragment_courses_system_recyclerView"
-            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:paddingTop="4dp" />
+            android:paddingTop="4dp"
+            android:visibility="gone" />
 
     </LinearLayout>
 </ScrollView>

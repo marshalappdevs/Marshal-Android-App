@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.basmapp.marshal.ui.fragments.MaterialsFragment"
-    android:layoutDirection="ltr">
+    android:layoutDirection="ltr"
+    tools:context="com.basmapp.marshal.ui.fragments.MaterialsFragment">
 
     <android.support.v7.widget.RecyclerView
         android:id="@+id/materials_recyclerView"
@@ -15,15 +15,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerInParent="true"
-        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
         android:textAppearance="?android:attr/textAppearanceMedium" />
 
     <ProgressBar
         android:id="@+id/materials_progressBar"
-        android:visibility="gone"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerInParent="true" />
+        android:layout_centerInParent="true"
+        android:visibility="gone" />
 
 </RelativeLayout>

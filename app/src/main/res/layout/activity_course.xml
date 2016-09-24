@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginEnd="76.0dp"
             app:expandedTitleMarginBottom="16.0dp"
+            app:expandedTitleMarginEnd="76.0dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.Expanded.Toolbar.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -30,11 +30,11 @@
                 android:id="@+id/header"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:contentDescription="@null"
+                android:fitsSystemWindows="true"
                 android:scaleType="centerCrop"
                 android:transitionName="@string/transition_header_image"
-                android:fitsSystemWindows="true"
-                app:layout_collapseMode="parallax"
-                android:contentDescription="@null" />
+                app:layout_collapseMode="parallax" />
 
             <View
                 android:id="@+id/header_image_top_overlay"
@@ -62,8 +62,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_margin="@dimen/fab_margin"
-        app:srcCompat="@drawable/ic_course_fab_cycle"
         app:layout_anchor="@id/app_bar"
-        app:layout_anchorGravity="bottom|end" />
+        app:layout_anchorGravity="bottom|end"
+        app:srcCompat="@drawable/ic_course_fab_cycle" />
 
 </android.support.design.widget.CoordinatorLayout>
