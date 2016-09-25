@@ -12,7 +12,7 @@
         android:id="@+id/background"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorPrimary" />
+        android:background="@color/highlight_banner_card_treatment_bg" />
 
     <ImageView
         android:id="@+id/li_thumbnail"

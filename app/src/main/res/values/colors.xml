@@ -127,4 +127,5 @@
     <color name="status_bar_overlay">#33000000</color>
     <color name="page_indicator">#80ffffff</color>
     <color name="page_indicator_selected">#ffffffff</color>
+    <color name="highlight_banner_card_treatment_bg">#ff364852</color>
 </resources>
