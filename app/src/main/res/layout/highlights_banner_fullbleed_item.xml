@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@android:color/transparent"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    tools:context="com.basmapp.marshal.ui.fragments.CoursesFragment$PlaceholderFragment">
+
+    <View
+        android:id="@+id/background"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="?colorPrimary" />
+
+    <ImageView
+        android:id="@+id/li_thumbnail"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:clipToPadding="false"
+        android:contentDescription="@null"
+        android:scaleType="centerCrop" />
+
+    <View
+        android:id="@+id/gradient_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="120.0dip"
+        android:layout_alignParentBottom="true"
+        android:background="@drawable/highlights_bottom_overlay" />
+
+    <View
+        android:id="@+id/swatch"
+        android:layout_width="match_parent"
+        android:layout_height="88.0dip"
+        android:layout_alignParentTop="true" />
+
+    <LinearLayout
+        android:id="@+id/highlight_overlay_title"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentTop="true"
+        android:layout_gravity="center"
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin"
+        android:focusable="false"
+        android:gravity="bottom|center"
+        android:orientation="vertical"
+        android:paddingBottom="16.0dip">
+
+        <TextView
+            android:id="@+id/li_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:shadowColor="#61000000"
+            android:shadowDy="1.0"
+            android:shadowRadius="5.0"
+            android:textColor="@android:color/white"
+            android:textSize="18.0sp"
+            android:textStyle="normal" />
+
+        <TextView
+            android:id="@+id/li_subtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:maxLines="1"
+            android:paddingBottom="16.0dip"
+            android:shadowColor="#61000000"
+            android:shadowDy="1.0"
+            android:shadowRadius="3.0"
+            android:textColor="@android:color/white"
+            android:textSize="16.0sp"
+            android:textStyle="normal" />
+    </LinearLayout>
+</RelativeLayout>

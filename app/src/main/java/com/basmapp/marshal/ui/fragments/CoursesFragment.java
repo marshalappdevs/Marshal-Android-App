@@ -12,7 +12,7 @@ import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.view.ViewPager;
+import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -24,6 +24,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -32,19 +33,21 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
 import com.basmapp.marshal.util.SuggestionProvider;
-import com.basmapp.marshal.ui.adapters.ViewPagerAdapter;
 import com.basmapp.marshal.util.DateHelper;
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 
 public class CoursesFragment extends Fragment {
     public static ArrayList<Course> mCoursesList = null;
-    private ArrayList<Course> mViewPagerCourses = null;
+    private static ArrayList<Course> mViewPagerCourses = null;
 
     public static ArrayList<Course> mSoftwareCourses = null;
     public static ArrayList<Course> mCyberCourses = null;
@@ -56,10 +59,6 @@ public class CoursesFragment extends Fragment {
 
     private InkPageIndicator mInkPageIndicator;
     private AutoScrollViewPager mViewPager;
-    private View mViewPagerOverlay;
-    private LinearLayout mViewPagerTitlesLayout;
-    private TextView mViewPagerTitleTextView;
-    private TextView mViewPagerSubtitleTextView;
 
     private RecyclerView mRecyclerSoftware;
     private LinearLayoutManager mLinearLayoutManagerSoftware;
@@ -306,58 +305,109 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        ViewPagerAdapter mViewPagerAdapter = new ViewPagerAdapter(getActivity(), mViewPagerCourses);
-        mViewPager.setVisibility(View.VISIBLE);
-        mViewPager.setAdapter(mViewPagerAdapter);
-        mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.main_catalog_indicator);
-        mInkPageIndicator.setVisibility(View.VISIBLE);
-        mViewPagerOverlay = mRootView.findViewById(R.id.gradient_overlay);
-        mViewPagerOverlay.setVisibility(View.VISIBLE);
-        mViewPagerTitlesLayout = (LinearLayout) mRootView.findViewById(R.id.highlight_overlay_title);
-        mViewPagerTitlesLayout.setVisibility(View.VISIBLE);
-        mViewPagerTitleTextView = (TextView) mRootView.findViewById(R.id.li_title);
-        mViewPagerSubtitleTextView = (TextView) mRootView.findViewById(R.id.li_subtitle);
-        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
-            @Override
-            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-//                if (positionOffset == 0) {
-                mViewPagerTitleTextView.setText(mViewPagerCourses.get(position).getName());
-                Cycle firstCycle = mViewPagerCourses.get(position).getFirstCycle();
-                String cycleDates = String.format(getString(R.string.course_cycle_format),
-                        DateHelper.dateToString(firstCycle.getStartDate()),
-                        DateHelper.dateToString(firstCycle.getEndDate()));
-                mViewPagerSubtitleTextView.setText(cycleDates);
-//                }
-            }
 
-            @Override
-            public void onPageSelected(int position) {
+        // Create the adapter that will return a fragment for each of the five sections
+        CoursesFragment.SectionsPagerAdapter sectionsPagerAdapter =
+                new CoursesFragment.SectionsPagerAdapter(getActivity().getSupportFragmentManager());
 
-            }
-
-            @Override
-            public void onPageScrollStateChanged(int state) {
-
-            }
-        });
+        // Set up the ViewPager with the sections adapter
+        mViewPager = (AutoScrollViewPager) getActivity().findViewById(R.id.main_catalog_view_pager);
+        mViewPager.setAdapter(sectionsPagerAdapter);
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
-//        mViewPager.setPageTransformer(true, new ViewPager.PageTransformer() {
-//            @Override
-//            public void transformPage(View view, float position) {
-//                if(position <= -1.0F || position >= 1.0F) {
-////                    mViewPagerTitlesLayout.setAlpha(0.0F);
-//                } else if(position == 0.0F) {
-//                    mViewPagerTitlesLayout.setAlpha(1.0F);
-//                    mViewPagerTitlesLayout.setTranslationX(0);
-//                } else {
-//                    mViewPagerTitlesLayout.setTranslationX(view.getWidth() * position);
-//                    mViewPagerTitlesLayout.setAlpha(1.0F - Math.abs(position));
-//                }
-//            }
-//        });
-        mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();
+        mViewPager.setVisibility(View.VISIBLE);
+
+        // Attach page indicator to the ViewPager
+        mInkPageIndicator = (InkPageIndicator) getActivity().findViewById(R.id.page_indicator);
+        mInkPageIndicator.setViewPager(mViewPager);
+        mInkPageIndicator.setVisibility(View.VISIBLE);
+    }
+
+    public static class PlaceholderFragment extends Fragment {
+        private static final String ARG_SECTION_NUMBER = "section_number";
+
+        public PlaceholderFragment() {
+        }
+
+        public static CoursesFragment.PlaceholderFragment newInstance(int sectionNumber) {
+            CoursesFragment.PlaceholderFragment fragment = new CoursesFragment.PlaceholderFragment();
+            Bundle args = new Bundle();
+            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            fragment.setArguments(args);
+            return fragment;
+        }
+
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            View rootView = inflater.inflate(R.layout.highlights_banner_fullbleed_item, container, false);
+
+            TextView title = (TextView) rootView.findViewById(R.id.li_title);
+            title.setText(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getName());
+
+            TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
+            Cycle firstCycle = mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getFirstCycle();
+            String cycleDates = String.format(getString(R.string.course_cycle_format),
+                    DateHelper.dateToString(firstCycle.getStartDate()),
+                    DateHelper.dateToString(firstCycle.getEndDate()));
+            subtitle.setText(cycleDates);
+
+            ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
+            Glide.with(getActivity())
+                    .load(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getImageUrl())
+                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                    .into(image);
+
+            rootView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(getActivity(), CourseActivity.class);
+                    intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get
+                            (getArguments().getInt(ARG_SECTION_NUMBER) - 1));
+                    getActivity().startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
+                }
+            });
+
+            return rootView;
+        }
+    }
+
+    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+
+        SectionsPagerAdapter(FragmentManager fm) {
+            super(fm);
+        }
+
+        @Override
+        public Fragment getItem(int position) {
+            // getItem is called to instantiate the fragment for the given page
+            // Return a PlaceholderFragment (defined as a static inner class below)
+            return CoursesFragment.PlaceholderFragment.newInstance(position + 1);
+        }
+
+        @Override
+        public int getCount() {
+            // Show 5 total pages
+            return 5;
+        }
+
+        @Override
+        public CharSequence getPageTitle(int position) {
+            switch (position) {
+                case 0:
+                    return "SECTION 1";
+                case 1:
+                    return "SECTION 2";
+                case 2:
+                    return "SECTION 3";
+                case 3:
+                    return "SECTION 4";
+                case 4:
+                    return "SECTION 5";
+            }
+            return null;
+        }
     }
 
     private void showData() {
