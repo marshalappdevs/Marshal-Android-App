@@ -305,22 +305,22 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-
         // Create the adapter that will return a fragment for each of the five sections
         CoursesFragment.SectionsPagerAdapter sectionsPagerAdapter =
-                new CoursesFragment.SectionsPagerAdapter(getActivity().getSupportFragmentManager());
+                new CoursesFragment.SectionsPagerAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter
-        mViewPager = (AutoScrollViewPager) getActivity().findViewById(R.id.main_catalog_view_pager);
+        mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
         mViewPager.setAdapter(sectionsPagerAdapter);
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
+        // Attach page indicator to the ViewPager
+        mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);
+        mInkPageIndicator.setViewPager(mViewPager);
+        // Set up auto scroll ViewPager
         mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();
-        mViewPager.setVisibility(View.VISIBLE);
 
-        // Attach page indicator to the ViewPager
-        mInkPageIndicator = (InkPageIndicator) getActivity().findViewById(R.id.page_indicator);
-        mInkPageIndicator.setViewPager(mViewPager);
+        mViewPager.setVisibility(View.VISIBLE);
         mInkPageIndicator.setVisibility(View.VISIBLE);
     }
 
