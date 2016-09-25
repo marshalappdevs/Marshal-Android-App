@@ -102,7 +102,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_courseCategory"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_categoryTitle"
                 android:layout_below="@+id/course_content_textView_categoryTitle"
@@ -145,7 +145,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_courseCode"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_codeTitle"
                 android:layout_below="@+id/course_content_textView_codeTitle"
@@ -188,7 +188,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_description"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_descriptionTitle"
                 android:layout_below="@+id/course_content_textView_descriptionTitle"
@@ -231,7 +231,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_syllabus"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_syllabusTitle"
                 android:layout_below="@+id/course_content_textView_syllabusTitle"
@@ -275,7 +275,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_prerequisites"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_prerequisitesTitle"
                 android:layout_below="@+id/course_content_textView_prerequisitesTitle"
@@ -318,7 +318,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_targetPopulation"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_targetPopulationTitle"
                 android:layout_below="@+id/course_content_textView_targetPopulationTitle"
@@ -361,7 +361,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_dayTime"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_dayTimeTitle"
                 android:layout_below="@+id/course_content_textView_dayTimeTitle"
@@ -404,7 +404,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_daysDuration"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_daysDurationTitle"
                 android:layout_below="@+id/course_content_textView_daysDurationTitle"
@@ -447,7 +447,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_hoursDuration"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_hoursDurationTitle"
                 android:layout_below="@+id/course_content_textView_hoursDurationTitle"
@@ -490,7 +490,7 @@
 
             <TextView
                 android:id="@+id/course_content_textView_comments"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_alignStart="@+id/course_content_textView_commentsTitle"
                 android:layout_below="@+id/course_content_textView_commentsTitle"

@@ -3,14 +3,16 @@ package com.basmapp.marshal.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Parcelable;
-import android.preference.PreferenceManager;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.PagerAdapter;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.basmapp.marshal.Constants;
+import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
@@ -52,6 +54,11 @@ public class ViewPagerAdapter extends PagerAdapter {
                 .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                 .into(imageView);
         imageView.setOnClickListener(imageClickListener);
+        imageView.setBackgroundResource(android.R.color.transparent);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            imageView.setForeground(ContextCompat.getDrawable(mContext,
+                    R.drawable.highlights_ripple_effect_dark));
+        }
         imageView.setTag(position);
         container.addView(imageView, 0);
         return imageView;
@@ -61,7 +68,6 @@ public class ViewPagerAdapter extends PagerAdapter {
         @Override
         public void onClick(View v) {
             final int position = (Integer) v.getTag();
-            PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit().putBoolean("courseShared", false).apply();
             Intent intent = new Intent(mContext, CourseActivity.class);
             intent.putExtra(Constants.EXTRA_COURSE, COURSES.get(position));
             ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
