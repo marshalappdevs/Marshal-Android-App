@@ -25,7 +25,7 @@
     <View
         android:id="@+id/gradient_overlay"
         android:layout_width="match_parent"
-        android:layout_height="120.0dip"
+        android:layout_height="100.0dip"
         android:layout_alignParentBottom="true"
         android:background="@drawable/highlights_bottom_overlay" />
 
