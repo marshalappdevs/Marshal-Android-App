@@ -19,7 +19,7 @@
             <com.basmapp.marshal.ui.widget.AutoScrollViewPager
                 android:id="@+id/main_catalog_view_pager"
                 android:layout_width="match_parent"
-                android:layout_height="225dp"
+                android:layout_height="@dimen/highlight_banner_item_height"
                 android:layout_gravity="top"
                 android:visibility="gone" />
 
