@@ -58,13 +58,13 @@ public class DescribeProblemActivity extends BaseActivity {
         mToolbar.setTitle(R.string.mail_subject);
         setSupportActionBar(mToolbar);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
             }
         });
 
@@ -237,9 +237,11 @@ public class DescribeProblemActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+    protected void onPause() {
+        super.onPause();
+        if (isFinishing()) {
+            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+        }
     }
 
     public String debugInfo() {

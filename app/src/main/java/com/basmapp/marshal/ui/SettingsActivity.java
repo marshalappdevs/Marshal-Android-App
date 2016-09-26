@@ -40,7 +40,6 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SettingsActivity extends BaseActivity {
-    private Toolbar mToolbar;
     public final static int[] PRIMARY_COLORS = new int[]{
             Color.parseColor("#F44336"),
             Color.parseColor("#E91E63"),
@@ -88,16 +87,17 @@ public class SettingsActivity extends BaseActivity {
 
         setContentView(R.layout.activity_container);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.navigation_drawer_settings);
-        setSupportActionBar(mToolbar);
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.navigation_drawer_settings);
+        setSupportActionBar(toolbar);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
             }
         });
 
@@ -105,9 +105,11 @@ public class SettingsActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+    protected void onPause() {
+        super.onPause();
+        if (isFinishing()) {
+            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+        }
     }
 
     private static Preference.OnPreferenceChangeListener sBindPreferenceSummaryToValueListener = new Preference.OnPreferenceChangeListener() {
@@ -454,6 +456,8 @@ public class SettingsActivity extends BaseActivity {
             startActivity(new Intent(getActivity(), MainActivity.class));
             startActivity(getActivity().getIntent());
             getActivity().overridePendingTransition(0, 0);
+//            TaskStackBuilder.create(getActivity().getApplicationContext())
+//                    .addNextIntentWithParentStack(getActivity().getIntent()).startActivities(); 
         }
 
         private void updateGcmChannelsPrefSummary() {

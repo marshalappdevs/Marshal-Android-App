@@ -68,42 +68,67 @@
             android:name=".ui.SettingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Base.Blue">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
 
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.DescribeProblemActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:label="@string/mail_subject"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Base.Blue"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+            android:windowSoftInputMode="adjustResize|stateHidden">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+
         <activity
             android:name=".ui.AboutActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_about"
-            android:theme="@style/AppTheme.Base.Blue" />
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/AppTheme.Base.Blue">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/title_activity_course"
+            android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Blue">
-
-            <!-- <meta-data -->
-            <!-- android:name="android.support.PARENT_ACTIVITY" -->
-            <!-- android:value=".ui.MainActivity"/> -->
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
         </activity>
         <activity
             android:name=".ui.CourseMaterialsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
-            android:theme="@style/AppTheme.Base.Blue" />
+            android:parentActivityName=".ui.CourseActivity"
+            android:theme="@style/AppTheme.Base.Blue">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.CourseActivity" />
+        </activity>
         <activity
             android:name=".ui.RatingsActivity"
             android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
-            android:theme="@style/AppTheme.Base.Blue" />
+            android:parentActivityName=".ui.CourseActivity"
+            android:theme="@style/AppTheme.Base.Blue">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.CourseActivity" />
+        </activity>
 
         <provider
             android:name=".util.SuggestionProvider"

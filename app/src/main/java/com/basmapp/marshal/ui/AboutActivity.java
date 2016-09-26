@@ -35,13 +35,13 @@ public class AboutActivity extends BaseActivity {
         toolbar.setTitle(R.string.navigation_drawer_about);
         setSupportActionBar(toolbar);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
-                overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
             }
         });
 
@@ -92,9 +92,11 @@ public class AboutActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+    protected void onPause() {
+        super.onPause();
+        if (isFinishing()) {
+            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+        }
     }
 
     public static void removeUnderlinesFromLinks(@NonNull TextView textView) {
