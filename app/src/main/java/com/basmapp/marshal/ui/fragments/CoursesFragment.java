@@ -308,18 +308,13 @@ public class CoursesFragment extends Fragment {
         // Create the adapter that will return a fragment for each position
         CoursesFragment.HighlightsAdapter highlightsAdapter =
                 new CoursesFragment.HighlightsAdapter(getChildFragmentManager());
-
-        // Set up the ViewPager with the sections adapter
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
         mViewPager.setAdapter(highlightsAdapter);
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
-        // Attach page indicator to the ViewPager
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);
         mInkPageIndicator.setViewPager(mViewPager);
-        // Set up auto scroll ViewPager
         mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();
-
         mViewPager.setVisibility(View.VISIBLE);
         mInkPageIndicator.setVisibility(View.VISIBLE);
     }
