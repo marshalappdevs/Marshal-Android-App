@@ -52,8 +52,7 @@ class ShareCourseImageTask extends AsyncTask<Void, Void, File> {
         // massage it based on the original
         String fileName = mCourse.getImageUrl();
         fileName = fileName.substring(fileName.lastIndexOf('/') + 1);
-        // TODO: save course images with file extension and remove "+ ".jpg""
-        File renamed = new File(result.getParent(), fileName + ".jpg");
+        File renamed = new File(result.getParent(), fileName);
         result.renameTo(renamed);
         Uri uri = FileProvider.getUriForFile(mContext,
                 mContext.getString(R.string.share_authority), renamed);
