@@ -30,6 +30,7 @@ public class WelcomeActivity extends AppCompatActivity {
     private ViewPager mViewPager;
     private ImageButton mNextBtn;
     private Button mSkipBtn, mDoneBtn;
+    static final int NUM_ITEMS = 3;
 
     int page = 0;   //  to track page position
 
@@ -140,23 +141,18 @@ public class WelcomeActivity extends AppCompatActivity {
      * A placeholder fragment containing a simple view.
      */
     public static class PlaceholderFragment extends Fragment {
-        /**
-         * The fragment argument representing the section number for this
-         * fragment.
-         */
-        private static final String ARG_SECTION_NUMBER = "section_number";
+        final static String ARG_POSITION = "position";
 
         public PlaceholderFragment() {
         }
 
         /**
-         * Returns a new instance of this fragment for the given section
-         * number.
+         * Returns a new instance of this fragment for the given position.
          */
-        public static PlaceholderFragment newInstance(int sectionNumber) {
+        public static PlaceholderFragment newInstance(int position) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
-            args.putInt(ARG_SECTION_NUMBER, sectionNumber);
+            args.putInt(ARG_POSITION, position);
             fragment.setArguments(args);
             return fragment;
         }
@@ -171,14 +167,14 @@ public class WelcomeActivity extends AppCompatActivity {
                     getActivity().getResources().getString(R.string.welcome_malshab_title)};
 
             TextView headline = (TextView) rootView.findViewById(R.id.welcome_headline);
-            headline.setText(titles[getArguments().getInt(ARG_SECTION_NUMBER)]);
+            headline.setText(titles[getArguments().getInt(ARG_POSITION)]);
 
             String[] subtitles = new String[]{getActivity().getResources().getString(R.string.welcome_courses_subtitle),
                     getActivity().getResources().getString(R.string.welcome_materials_subtitle),
                     getActivity().getResources().getString(R.string.welcome_malshab_subtitle)};
 
             TextView subhead = (TextView) rootView.findViewById(R.id.welcome_subhead);
-            subhead.setText(subtitles[getArguments().getInt(ARG_SECTION_NUMBER)]);
+            subhead.setText(subtitles[getArguments().getInt(ARG_POSITION)]);
 
             int[] images = new int[]{R.drawable.warm_welcome_student,
                     R.drawable.warm_welcome_backpack,
@@ -186,7 +182,7 @@ public class WelcomeActivity extends AppCompatActivity {
             };
 
             ImageView image = (ImageView) rootView.findViewById(R.id.welcome_image);
-            image.setImageResource(images[getArguments().getInt(ARG_SECTION_NUMBER)]);
+            image.setImageResource(images[getArguments().getInt(ARG_POSITION)]);
 
             return rootView;
         }
@@ -200,15 +196,12 @@ public class WelcomeActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page
-            // Return a PlaceholderFragment (defined as a static inner class below)
             return PlaceholderFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages
-            return 3;
+            return NUM_ITEMS;
         }
     }
 }
