@@ -344,10 +344,10 @@ public class CoursesFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.highlights_banner_fullbleed_item, container, false);
 
             TextView title = (TextView) rootView.findViewById(R.id.li_title);
-            title.setText(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getName());
+            title.setText(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER)).getName());
 
             TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
-            Cycle firstCycle = mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getFirstCycle();
+            Cycle firstCycle = mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER)).getFirstCycle();
             String cycleDates = String.format(getString(R.string.course_cycle_format),
                     DateHelper.dateToString(firstCycle.getStartDate()),
                     DateHelper.dateToString(firstCycle.getEndDate()));
@@ -355,7 +355,7 @@ public class CoursesFragment extends Fragment {
 
             ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
             Glide.with(getActivity())
-                    .load(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER) - 1).getImageUrl())
+                    .load(mViewPagerCourses.get(getArguments().getInt(ARG_SECTION_NUMBER)).getImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(image);
 
@@ -364,7 +364,7 @@ public class CoursesFragment extends Fragment {
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), CourseActivity.class);
                     intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get
-                            (getArguments().getInt(ARG_SECTION_NUMBER) - 1));
+                            (getArguments().getInt(ARG_SECTION_NUMBER)));
                     getActivity().startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
                 }
             });
@@ -381,32 +381,12 @@ public class CoursesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page
-            // Return a PlaceholderFragment (defined as a static inner class below)
-            return CoursesFragment.PlaceholderFragment.newInstance(position + 1);
+            return CoursesFragment.PlaceholderFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            // Show 5 total pages
-            return 5;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-                case 3:
-                    return "SECTION 4";
-                case 4:
-                    return "SECTION 5";
-            }
-            return null;
+            return mViewPagerCourses.size();
         }
     }
 

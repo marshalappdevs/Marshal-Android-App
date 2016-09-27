@@ -171,14 +171,14 @@ public class WelcomeActivity extends AppCompatActivity {
                     getActivity().getResources().getString(R.string.welcome_malshab_title)};
 
             TextView headline = (TextView) rootView.findViewById(R.id.welcome_headline);
-            headline.setText(titles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            headline.setText(titles[getArguments().getInt(ARG_SECTION_NUMBER)]);
 
             String[] subtitles = new String[]{getActivity().getResources().getString(R.string.welcome_courses_subtitle),
                     getActivity().getResources().getString(R.string.welcome_materials_subtitle),
                     getActivity().getResources().getString(R.string.welcome_malshab_subtitle)};
 
             TextView subhead = (TextView) rootView.findViewById(R.id.welcome_subhead);
-            subhead.setText(subtitles[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            subhead.setText(subtitles[getArguments().getInt(ARG_SECTION_NUMBER)]);
 
             int[] images = new int[]{R.drawable.warm_welcome_student,
                     R.drawable.warm_welcome_backpack,
@@ -186,7 +186,7 @@ public class WelcomeActivity extends AppCompatActivity {
             };
 
             ImageView image = (ImageView) rootView.findViewById(R.id.welcome_image);
-            image.setImageResource(images[getArguments().getInt(ARG_SECTION_NUMBER) - 1]);
+            image.setImageResource(images[getArguments().getInt(ARG_SECTION_NUMBER)]);
 
             return rootView;
         }
@@ -200,28 +200,15 @@ public class WelcomeActivity extends AppCompatActivity {
 
         @Override
         public Fragment getItem(int position) {
-            // getItem is called to instantiate the fragment for the given page.
-            // Return a PlaceholderFragment (defined as a static inner class below).
-            return PlaceholderFragment.newInstance(position + 1);
+            // getItem is called to instantiate the fragment for the given page
+            // Return a PlaceholderFragment (defined as a static inner class below)
+            return PlaceholderFragment.newInstance(position);
         }
 
         @Override
         public int getCount() {
-            // Show 3 total pages.
+            // Show 3 total pages
             return 3;
-        }
-
-        @Override
-        public CharSequence getPageTitle(int position) {
-            switch (position) {
-                case 0:
-                    return "SECTION 1";
-                case 1:
-                    return "SECTION 2";
-                case 2:
-                    return "SECTION 3";
-            }
-            return null;
         }
     }
 }
