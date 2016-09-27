@@ -13,6 +13,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -310,6 +311,7 @@ public class CoursesFragment extends Fragment {
                 new CoursesFragment.HighlightsAdapter(getChildFragmentManager());
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
         mViewPager.setAdapter(highlightsAdapter);
+        mViewPager.setPageTransformer(true, new Transformer());
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);
         mInkPageIndicator.setViewPager(mViewPager);
@@ -317,6 +319,16 @@ public class CoursesFragment extends Fragment {
         mViewPager.startAutoScroll();
         mViewPager.setVisibility(View.VISIBLE);
         mInkPageIndicator.setVisibility(View.VISIBLE);
+    }
+
+    private class Transformer implements ViewPager.PageTransformer {
+
+        @Override
+        public void transformPage(View page, float position) {
+            // Title and subtitle both translates in/out and fades in/out
+            page.findViewById(R.id.highlight_overlay_title)
+                    .setAlpha(1.0F - Math.abs(position) * 1.5F);
+        }
     }
 
     public static class PlaceholderFragment extends Fragment {
