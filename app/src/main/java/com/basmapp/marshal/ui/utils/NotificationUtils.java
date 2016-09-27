@@ -84,6 +84,28 @@ public class NotificationUtils {
         }
     }
 
+    public void notify(String title, String message, PendingIntent pendingIntent) {
+        if (mSharedPreferences.getBoolean(Constants.PREF_NOTIFY_NEW_MESSAGE, true)) {
+            Bitmap largeIcon = BitmapFactory.decodeResource(mContext.getResources(), R.mipmap.ic_launcher);
+            NotificationCompat.Builder mBuilder = new NotificationCompat.Builder(mContext)
+                    .setSmallIcon(R.drawable.stat_notify_basmapp)
+                    .setLargeIcon(largeIcon)
+                    .setContentTitle(title)
+                    .setContentText(message)
+                    .setColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary))
+                    .setStyle(new NotificationCompat.BigTextStyle()
+                            .bigText(message))
+                    .setLights(getLightColor(), 500, 2000)
+                    .setSound(getRingtoneUri())
+                    .setContentIntent(pendingIntent)
+                    .setAutoCancel(true)
+                    .setVibrate(getVibrate());
+            NotificationManager mNotificationManager =
+                    (NotificationManager) mContext.getSystemService(Context.NOTIFICATION_SERVICE);
+            mNotificationManager.notify(1, mBuilder.build());
+        }
+    }
+
     public static void Notify(Context context, String message, int lightColor, Uri ringtoneUri,
                               PendingIntent pendingIntent, long[] vibrate) {
         Bitmap largeIcon = BitmapFactory.decodeResource(context.getResources(), R.mipmap.ic_launcher);

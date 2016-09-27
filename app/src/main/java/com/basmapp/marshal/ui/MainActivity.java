@@ -342,7 +342,6 @@ public class MainActivity extends BaseActivity
 
     private void initializeUpdateProgressBar() {
         mUpdateProgressDialog = new ProgressDialog(MainActivity.this);
-        mUpdateProgressDialog.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         mUpdateProgressDialog.setCanceledOnTouchOutside(false);
         mUpdateProgressDialog.setIndeterminate(true);
         mUpdateProgressDialog.setMessage(getString(R.string.refresh_checking_for_updates));
