@@ -60,6 +60,8 @@
             android:shadowDy="1.0"
             android:shadowRadius="5.0"
             android:textColor="@android:color/white"
+            android:fontFamily="sans-serif-medium"
+            style="@android:style/TextAppearance.Medium"
             android:textSize="18.0sp"
             android:textStyle="normal" />
 

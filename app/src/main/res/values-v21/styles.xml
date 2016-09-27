@@ -123,8 +123,4 @@
     <style name="TextAppearance.NavView.Header.Name" parent="@style/TextAppearance.AppCompat.Body1">
         <item name="android:textStyle">normal</item>
     </style>
-
-    <style name="MarshalMediumPlainText">
-        <item name="android:fontFamily">sans-serif-medium</item>
-    </style>
 </resources>
