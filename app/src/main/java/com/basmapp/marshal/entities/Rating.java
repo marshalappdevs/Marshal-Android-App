@@ -58,10 +58,6 @@ public class Rating extends DBObject implements Parcelable {
     @SerializedName(value = "lastModified")
     Date lastModified;
 
-    @Expose
-    @SerializedName(value = "plainMailAddress")
-    String plainMailAddress;
-
     @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
         return id;
@@ -131,10 +127,6 @@ public class Rating extends DBObject implements Parcelable {
     @ColumnSetter(columnName = DBConstants.COL_LAST_MODIFIED, type = TYPE_DATE)
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
-    }
-
-    public void setPlainMailAddress(String plainMailAddress) {
-        this.plainMailAddress = plainMailAddress;
     }
 
     ////////////////////// Parcelable methods ////////////////////////

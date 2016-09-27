@@ -508,7 +508,7 @@ public class Course extends DBObject implements Parcelable {
             statement.bindString(20, getCategory());
             if (imageUrl == null)
                 imageUrl = "";
-            statement.bindString(21, MarshalServiceProvider.IMAGES_URL + courseCode);
+            statement.bindString(21, imageUrl);
 
             return statement;
         } else {
@@ -583,7 +583,6 @@ public class Course extends DBObject implements Parcelable {
 
     public String getInsertSql() {
         String sql = null;
-        imageUrl = MarshalServiceProvider.IMAGES_URL + courseCode;
 
         try {
             sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
@@ -639,7 +638,6 @@ public class Course extends DBObject implements Parcelable {
 
     public String getUpdateSql(long objectId) {
         String sql = null;
-        imageUrl = MarshalServiceProvider.IMAGES_URL + courseCode;
 
         try {
             sql = "UPDATE " + DBConstants.T_COURSE + " SET " +

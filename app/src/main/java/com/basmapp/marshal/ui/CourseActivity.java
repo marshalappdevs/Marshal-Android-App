@@ -666,7 +666,6 @@ public class CourseActivity extends BaseActivity {
                         tempRating.setComment(input.getText().toString());
                         tempRating.setRating(mRatingBarUser.getRating());
                         tempRating.setUserMailAddress(emailHash);
-                        tempRating.setPlainMailAddress(MainActivity.sUserEmailAddress);
                         tempRating.setCourseCode(mCourse.getCourseCode());
                         tempRating.setCreatedAt(new Date());
                         tempRating.setLastModified(new Date());
