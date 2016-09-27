@@ -305,13 +305,13 @@ public class CoursesFragment extends Fragment {
     }
 
     private void showImagesViewPager() {
-        // Create the adapter that will return a fragment for each of the five sections
-        CoursesFragment.HighlightsAdapter sectionsPagerAdapter =
+        // Create the adapter that will return a fragment for each position
+        CoursesFragment.HighlightsAdapter highlightsAdapter =
                 new CoursesFragment.HighlightsAdapter(getChildFragmentManager());
 
         // Set up the ViewPager with the sections adapter
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
-        mViewPager.setAdapter(sectionsPagerAdapter);
+        mViewPager.setAdapter(highlightsAdapter);
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         // Attach page indicator to the ViewPager
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);

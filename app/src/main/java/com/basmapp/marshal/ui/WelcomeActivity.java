@@ -46,17 +46,15 @@ public class WelcomeActivity extends AppCompatActivity {
 
         setContentView(R.layout.activity_welcome);
 
-        // Create the adapter that will return a fragment for each of the three
-        // primary sections of the activity.
-        SectionsPagerAdapter sectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+        // Create the adapter that will return a fragment for each position
+        WelcomePagerAdapter welcomePagerAdapter = new WelcomePagerAdapter(getSupportFragmentManager());
 
         mNextBtn = (ImageButton) findViewById(R.id.next);
         mSkipBtn = (Button) findViewById(R.id.skip);
         mDoneBtn = (Button) findViewById(R.id.done);
 
-        // Set up the ViewPager with the sections adapter.
         mViewPager = (ViewPager) findViewById(R.id.container);
-        mViewPager.setAdapter(sectionsPagerAdapter);
+        mViewPager.setAdapter(welcomePagerAdapter);
         InkPageIndicator inkPageIndicator = (InkPageIndicator) findViewById(R.id.intro_indicator);
         inkPageIndicator.setViewPager(mViewPager);
         mViewPager.setCurrentItem(page);
@@ -188,9 +186,9 @@ public class WelcomeActivity extends AppCompatActivity {
         }
     }
 
-    public class SectionsPagerAdapter extends FragmentPagerAdapter {
+    public class WelcomePagerAdapter extends FragmentPagerAdapter {
 
-        SectionsPagerAdapter(FragmentManager fm) {
+        WelcomePagerAdapter(FragmentManager fm) {
             super(fm);
         }
 
