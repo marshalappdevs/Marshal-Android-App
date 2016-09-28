@@ -169,6 +169,7 @@ public class CoursesSearchableFragment extends Fragment {
                     .setSecondaryText(R.string.filter_tip_subtitle)
                     .setBackgroundColour(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
                     .setIcon(R.drawable.ic_filter_vert)
+                    .setIconDrawableColourFilter(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
                     .setAnimationInterpolator(new FastOutSlowInInterpolator())
                     .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
                     .setAutoDismiss(false)
