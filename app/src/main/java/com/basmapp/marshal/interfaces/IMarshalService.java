@@ -2,7 +2,7 @@ package com.basmapp.marshal.interfaces;
 
 import com.basmapp.marshal.entities.AuthRequest;
 import com.basmapp.marshal.entities.Course;
-import com.basmapp.marshal.entities.GcmRegistration;
+import com.basmapp.marshal.entities.FcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -49,13 +49,13 @@ public interface IMarshalService {
 
     //******** GCM ********//
     @POST(MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
-    Call<GcmRegistration> gcmRegisterNewDevice(@Body GcmRegistration gcmRegistration);
+    Call<FcmRegistration> fcmRegisterNewDevice(@Body FcmRegistration fcmRegistration);
 
     @PUT(MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
-    Call<GcmRegistration> gcmRegisterExistDevice(@Body GcmRegistration gcmRegistration);
+    Call<FcmRegistration> fcmRegisterExistDevice(@Body FcmRegistration fcmRegistration);
 
     @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
-    Call<Rating> deleteGcmRegistration(@Path("hardwareId") String hardwareId);
+    Call<Rating> deleteFcmRegistration(@Path("hardwareId") String hardwareId);
 
     @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
     Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
@@ -64,7 +64,7 @@ public interface IMarshalService {
     Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
 
     @GET(MarshalServiceProvider.GET_GCM_REGISTRATION)
-    Call<GcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
+    Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
 
     // ******** Settings ********//
     @GET(MarshalServiceProvider.GET_SETTINGS)

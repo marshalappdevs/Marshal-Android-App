@@ -51,7 +51,7 @@ import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
 import com.basmapp.marshal.localdb.LocalDBHelper;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
-import com.basmapp.marshal.services.GcmRegistrationService;
+import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.ui.fragments.MalshabFragment;
@@ -135,7 +135,7 @@ public class MainActivity extends BaseActivity
         super.onCreate(savedInstanceState);
 
 //        checkPlayServicesAvailability();
-        checkGcmRegistrationState();
+        checkFcmRegistrationState();
 
         // enable on final release to disable screenshots and more
         //getWindow().addFlags(WindowManager.LayoutParams.FLAG_SECURE);
@@ -332,10 +332,10 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    private void checkGcmRegistrationState() {
-        if (!GcmRegistrationService.isDeviceRegistered(this)) {
-            Intent intent = new Intent(this, GcmRegistrationService.class);
-            intent.setAction(GcmRegistrationService.ACTION_REGISTER_NEW);
+    private void checkFcmRegistrationState() {
+        if (!FcmRegistrationService.isDeviceRegistered(this)) {
+            Intent intent = new Intent(this, FcmRegistrationService.class);
+            intent.setAction(FcmRegistrationService.ACTION_REGISTER_NEW);
             startService(intent);
         }
     }
