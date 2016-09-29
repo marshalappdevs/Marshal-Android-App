@@ -4,7 +4,6 @@ import android.animation.ArgbEvaluator;
 import android.content.SharedPreferences;
 import android.preference.PreferenceManager;
 import android.support.v4.content.ContextCompat;
-import android.support.v7.app.AppCompatActivity;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -21,11 +20,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
 
-public class WelcomeActivity extends AppCompatActivity {
+public class WelcomeActivity extends BaseActivity {
 
     private ViewPager mViewPager;
     private ImageButton mNextBtn;
@@ -40,7 +40,6 @@ public class WelcomeActivity extends AppCompatActivity {
 
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
                 WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
 
         setContentView(R.layout.activity_welcome);
 
@@ -133,24 +132,22 @@ public class WelcomeActivity extends AppCompatActivity {
         sharedPreferences.edit().putBoolean(Constants.PREF_SHOW_WARM_WELCOME, false).apply();
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
     public static class PlaceholderFragment extends Fragment {
         final static String ARG_POSITION = "position";
+        int mPosition;
 
-        public PlaceholderFragment() {
-        }
-
-        /**
-         * Returns a new instance of this fragment for the given position.
-         */
         public static PlaceholderFragment newInstance(int position) {
             PlaceholderFragment fragment = new PlaceholderFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_POSITION, position);
             fragment.setArguments(args);
             return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            mPosition = getArguments() != null ? getArguments().getInt(ARG_POSITION) : 1;
         }
 
         @Override
@@ -163,14 +160,14 @@ public class WelcomeActivity extends AppCompatActivity {
                     getActivity().getResources().getString(R.string.welcome_malshab_title)};
 
             TextView headline = (TextView) rootView.findViewById(R.id.welcome_headline);
-            headline.setText(titles[getArguments().getInt(ARG_POSITION)]);
+            headline.setText(titles[mPosition]);
 
             String[] subtitles = new String[]{getActivity().getResources().getString(R.string.welcome_courses_subtitle),
                     getActivity().getResources().getString(R.string.welcome_materials_subtitle),
                     getActivity().getResources().getString(R.string.welcome_malshab_subtitle)};
 
             TextView subhead = (TextView) rootView.findViewById(R.id.welcome_subhead);
-            subhead.setText(subtitles[getArguments().getInt(ARG_POSITION)]);
+            subhead.setText(subtitles[mPosition]);
 
             int[] images = new int[]{R.drawable.warm_welcome_student,
                     R.drawable.warm_welcome_backpack,
@@ -178,7 +175,7 @@ public class WelcomeActivity extends AppCompatActivity {
             };
 
             ImageView image = (ImageView) rootView.findViewById(R.id.welcome_image);
-            image.setImageResource(images[getArguments().getInt(ARG_POSITION)]);
+            image.setImageResource(images[mPosition]);
 
             return rootView;
         }
