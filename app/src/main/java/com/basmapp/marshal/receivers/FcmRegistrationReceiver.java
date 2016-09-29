@@ -9,7 +9,7 @@ import com.basmapp.marshal.interfaces.FcmReceiverListener;
 
 public class FcmRegistrationReceiver extends BroadcastReceiver {
     public static final String EXTRA_RESULT = "extra_result";
-    public static final String ACTION_RESULT = "com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT";
+    public static final String ACTION_RESULT = "com.basmapp.marshal.services.action.FCM_REGISTRATION_RESULT";
     private FcmReceiverListener callback;
 
     public FcmRegistrationReceiver() {
@@ -21,7 +21,7 @@ public class FcmRegistrationReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        Log.i("GCM BR", "onReceive");
+        Log.i("FCM BR", "onReceive");
         boolean result = intent.getBooleanExtra(EXTRA_RESULT, false);
         if (callback != null) {
             callback.onFinish(result);

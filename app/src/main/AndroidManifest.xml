@@ -167,7 +167,7 @@
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT" />
+                <action android:name="com.basmapp.marshal.services.action.FCM_REGISTRATION_RESULT" />
             </intent-filter>
         </receiver>
     </application>

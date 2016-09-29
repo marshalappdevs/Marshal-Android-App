@@ -455,7 +455,7 @@ public class UpdateIntentService extends IntentService {
 
     private List<Course> getCoursesMatchUserChannels(List<Course> newCourses) {
         Set<String> fcmChannels = PreferenceManager.getDefaultSharedPreferences(this)
-                .getStringSet(Constants.PREF_GCM_CHANNELS, null);
+                .getStringSet(Constants.PREF_FCM_CHANNELS, null);
         if (fcmChannels == null) return newCourses;
         else {
             List<Course> filteredCourses = new ArrayList<>();

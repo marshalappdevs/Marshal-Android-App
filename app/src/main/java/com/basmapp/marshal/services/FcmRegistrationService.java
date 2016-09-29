@@ -31,9 +31,9 @@ import retrofit2.Response;
  */
 public class FcmRegistrationService extends IntentService {
 
-    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.GCM_REGISTER_NEW";
-    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.GCM_REGISTER_EXIST";
-    public static final String ACTION_UPDATE_CHANNELS = "com.basmapp.marshal.services.action.GCM_UPDATE_CHANNELS";
+    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.FCM_REGISTER_NEW";
+    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.FCM_REGISTER_EXIST";
+    public static final String ACTION_UPDATE_CHANNELS = "com.basmapp.marshal.services.action.FCM_UPDATE_CHANNELS";
 
     private static final Set<String> DEFAULT_CHANNELS_SET = new HashSet<>();
 
@@ -63,7 +63,7 @@ public class FcmRegistrationService extends IntentService {
                         fcmRegistration.setHardwareId(hardwareId);
                         fcmRegistration.setLastModified(new Date());
                         Set<String> channels = PreferenceManager.getDefaultSharedPreferences(this)
-                                .getStringSet(Constants.PREF_GCM_CHANNELS, DEFAULT_CHANNELS_SET);
+                                .getStringSet(Constants.PREF_FCM_CHANNELS, DEFAULT_CHANNELS_SET);
                         fcmRegistration.setChannels(new ArrayList<>(channels));
 
                         if (ACTION_REGISTER_NEW.equals(action)) {
@@ -78,7 +78,7 @@ public class FcmRegistrationService extends IntentService {
                             Set<String> newChannels = null;
                             try {
                                 newChannels = (HashSet<String>) intent.getExtras()
-                                        .get(Constants.EXTRA_GCM_CHANNELS);
+                                        .get(Constants.EXTRA_FCM_CHANNELS);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
@@ -89,7 +89,7 @@ public class FcmRegistrationService extends IntentService {
                                         MarshalServiceProvider.getInstance(apiToken).fcmRegisterExistDevice(fcmRegistration).execute();
                                 if (response.isSuccessful()) {
                                     PreferenceManager.getDefaultSharedPreferences(this).edit()
-                                            .putStringSet(Constants.PREF_GCM_CHANNELS, newChannels).apply();
+                                            .putStringSet(Constants.PREF_FCM_CHANNELS, newChannels).apply();
                                 }
 
                                 publishResult(response.isSuccessful(), true);
@@ -97,16 +97,16 @@ public class FcmRegistrationService extends IntentService {
                             } else publishResult(false, true);
                         }
                     } else {
-                        Log.e("GCM_REGISTRATION -- ", "NULL TOKEN");
+                        Log.e("FCM_REGISTRATION -- ", "NULL TOKEN");
                         if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                     }
                 } else {
-                    Log.e("GCM_REGISTRATION -- ", "NULL HARDWARE_ID");
+                    Log.e("FCM_REGISTRATION -- ", "NULL HARDWARE_ID");
                     if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("GCM_REGISTRATION -- ", "failed");
+                Log.e("FCM_REGISTRATION -- ", "failed");
                 if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
             }
         } else {
@@ -116,10 +116,10 @@ public class FcmRegistrationService extends IntentService {
 
     private void publishResult(boolean result, boolean showResultToUser) {
         if (result) {
-            Log.d("GCM_RESPONSE -- ", "success");
+            Log.d("FCM_RESPONSE -- ", "success");
             FcmRegistrationService.setDeviceRegistrationState(this, true);
         } else {
-            Log.d("GCM_RESPONSE -- ", "failed");
+            Log.d("FCM_RESPONSE -- ", "failed");
             FcmRegistrationService.setDeviceRegistrationState(this, false);
         }
 
@@ -132,10 +132,10 @@ public class FcmRegistrationService extends IntentService {
 
 //    private void publishResponse(Response<FcmRegistration> response, boolean showResultToUser) {
 //        if (response.isSuccessful()) {
-//            Log.d("GCM_RESPONSE -- ","success");
+//            Log.d("FCM_RESPONSE -- ","success");
 //            FcmRegistrationService.setDeviceRegistrationState(this, true);
 //        } else {
-//            Log.d("GCM_RESPONSE -- ","failed");
+//            Log.d("FCM_RESPONSE -- ","failed");
 //            FcmRegistrationService.setDeviceRegistrationState(this, false);
 //        }
 //

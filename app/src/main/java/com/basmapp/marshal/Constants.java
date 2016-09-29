@@ -15,7 +15,7 @@ public class Constants {
     public static final String PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE = "is_update_service_success_once";
     public static final String PREF_IS_THERE_UPDATES_TO_SHOW = "is_there_new_updates_to_show";
     public static final String PREF_LAST_UPDATE_TIMESTAMP = "last_update_timestamp";
-    public static final String PREF_GCM_CHANNELS = "fcm_channels";
+    public static final String PREF_FCM_CHANNELS = "fcm_channels";
     public static final String PREF_THEME = "THEME";
     public static final String PREF_PRIMARY_COLOR = "PRIMARY-COLOR";
     public static final String PREF_ACCENT_COLOR = "ACCENT-COLOR";
@@ -56,7 +56,7 @@ public class Constants {
     public static final String EXTRA_RATING_AMOUNT = "extra_rating_amount";
     public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
-    public static final String EXTRA_GCM_CHANNELS = "extra_fcm_channels";
+    public static final String EXTRA_FCM_CHANNELS = "extra_fcm_channels";
     public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
 
     // Fragment Tags

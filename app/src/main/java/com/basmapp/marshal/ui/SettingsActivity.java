@@ -207,7 +207,7 @@ public class SettingsActivity extends BaseActivity {
             Preference prefRevertTheme = findPreference(Constants.PREF_REVERT_THEME);
             prefRevertTheme.setOnPreferenceClickListener(this);
 
-            prefFcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
+            prefFcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_FCM_CHANNELS);
             prefFcmChannels.setOnPreferenceChangeListener(this);
             updateFcmChannelsPrefSummary();
 
@@ -229,7 +229,7 @@ public class SettingsActivity extends BaseActivity {
                     if (result) {
                         try {
                             prefFcmChannels.setValues(prefFcmChannels.getSharedPreferences()
-                                    .getStringSet(Constants.PREF_GCM_CHANNELS, prefFcmChannels.getValues()));
+                                    .getStringSet(Constants.PREF_FCM_CHANNELS, prefFcmChannels.getValues()));
                             updateFcmChannelsPrefSummary();
                         } catch (Exception e) {
                             e.printStackTrace();
@@ -346,12 +346,12 @@ public class SettingsActivity extends BaseActivity {
             } else if (preference.getKey().equals(Constants.PREF_THEME)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
-            } else if (preference.getKey().equals(Constants.PREF_GCM_CHANNELS)) {
+            } else if (preference.getKey().equals(Constants.PREF_FCM_CHANNELS)) {
                 preference.setEnabled(false);
                 Toast.makeText(getActivity(), getResources().getString(R.string.fcm_settings_change), Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(getActivity(), FcmRegistrationService.class);
                 intent.setAction(FcmRegistrationService.ACTION_UPDATE_CHANNELS);
-                intent.putExtra(Constants.EXTRA_GCM_CHANNELS, ((HashSet<String>) newValue));
+                intent.putExtra(Constants.EXTRA_FCM_CHANNELS, ((HashSet<String>) newValue));
                 getActivity().startService(intent);
             } else if (preference.getKey().equals(Constants.PREF_NOTIFICATIONS_COLOR)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())

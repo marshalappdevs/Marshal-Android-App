@@ -23,7 +23,7 @@ public class FcmIntentService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
-        Log.i("GCM", "onMessageReceived from:" + message.getFrom());
+        Log.i("FCM", "onMessageReceived from:" + message.getFrom());
         Map data = message.getData();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
@@ -93,7 +93,7 @@ public class FcmIntentService extends FirebaseMessagingService {
 //                message.equals("set-registration-state=false")) {
 //            FcmRegistrationService.setDeviceRegistrationState(this, false);
 //        } else if (message != null && message.equals("data-update-true")) {
-//            Log.i("GCM", "data-update-true");
+//            Log.i("FCM", "data-update-true");
 //            UpdateIntentService.startUpdateData(this);
 //        } else if (message != null && message.equals("reset-fcm-registration-pref")) {
 //            mSharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false).apply();

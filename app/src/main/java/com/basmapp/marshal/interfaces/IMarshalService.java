@@ -47,14 +47,14 @@ public interface IMarshalService {
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
     Call<List<MalshabItem>> getAllMalshabItems();
 
-    //******** GCM ********//
-    @POST(MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
+    //******** FCM ********//
+    @POST(MarshalServiceProvider.POST_FCM_REGISTER_NEW_DEVICE)
     Call<FcmRegistration> fcmRegisterNewDevice(@Body FcmRegistration fcmRegistration);
 
-    @PUT(MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
+    @PUT(MarshalServiceProvider.PUT_FCM_REGISTER_EXIST_DEVICE)
     Call<FcmRegistration> fcmRegisterExistDevice(@Body FcmRegistration fcmRegistration);
 
-    @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
+    @DELETE(MarshalServiceProvider.DELETE_FCM_UNREGISTER_DEVICE + "{hardwareId}")
     Call<Rating> deleteFcmRegistration(@Path("hardwareId") String hardwareId);
 
     @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
@@ -63,7 +63,7 @@ public interface IMarshalService {
     @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
     Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
 
-    @GET(MarshalServiceProvider.GET_GCM_REGISTRATION)
+    @GET(MarshalServiceProvider.GET_FCM_REGISTRATION)
     Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
 
     // ******** Settings ********//
