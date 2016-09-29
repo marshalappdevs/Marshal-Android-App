@@ -65,11 +65,17 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.Scopes;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
+import com.google.android.gms.common.api.Scope;
 import com.google.android.gms.common.api.Status;
+import com.google.android.gms.plus.People;
+import com.google.android.gms.plus.Plus;
+import com.google.android.gms.plus.model.people.Person;
+import com.google.android.gms.plus.model.people.PersonBuffer;
 
 import java.util.ArrayList;
 
@@ -561,14 +567,14 @@ public class MainActivity extends BaseActivity
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-//                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
+                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .build();
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .addApi(Plus.API)
+                .addApi(Plus.API)
                 .build();
         // Customize sign-in button. The sign-in button can be displayed in
         // multiple sizes and color schemes. It can also be contextually
@@ -618,24 +624,24 @@ public class MainActivity extends BaseActivity
                         .into(mProfileImageView);
 
                 // Use Google plus API to get user cover photo if exists
-//                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-//                    @Override
-//                    public void onResult(@NonNull People.LoadPeopleResult peopleData) {
-//                        if (peopleData.getStatus().isSuccess()) {
-//                            PersonBuffer personBuffer = peopleData.getPersonBuffer();
-//                            if (personBuffer != null && personBuffer.getCount() > 0) {
-//                                Person person = personBuffer.get(0);
-//                                personBuffer.release();
-//                                if (person.getCover() != null) {
-//                                    Glide.with(MainActivity.this)
-//                                            .load(person.getCover().getCoverPhoto().getUrl())
-//                                            .placeholder(R.drawable.bg_default_profile_art)
-//                                            .into(mCoverImageView);
-//                                }
-//                            } // else Log.e(TAG, "Plus response was empty! Failed to load profile.");
-//                        } // else Log.e(TAG, "Failed to load plus proflie, error " + loadPeopleResult.getStatus().getStatusCode());
-//                    }
-//                });
+                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
+                    @Override
+                    public void onResult(@NonNull People.LoadPeopleResult peopleData) {
+                        if (peopleData.getStatus().isSuccess()) {
+                            PersonBuffer personBuffer = peopleData.getPersonBuffer();
+                            if (personBuffer != null && personBuffer.getCount() > 0) {
+                                Person person = personBuffer.get(0);
+                                personBuffer.release();
+                                if (person.getCover() != null) {
+                                    Glide.with(MainActivity.this)
+                                            .load(person.getCover().getCoverPhoto().getUrl())
+                                            .placeholder(R.drawable.bg_default_profile_art)
+                                            .into(mCoverImageView);
+                                }
+                            } // else Log.e(TAG, "Plus response was empty! Failed to load profile.");
+                        } // else Log.e(TAG, "Failed to load plus proflie, error " + loadPeopleResult.getStatus().getStatusCode());
+                    }
+                });
             }
         } else {
             // Signed out, show unauthenticated UI.
@@ -650,7 +656,7 @@ public class MainActivity extends BaseActivity
 
     private void signOut() {
         // SignOut from Google account *without* revoking app permission to SignIn
-//        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -664,7 +670,7 @@ public class MainActivity extends BaseActivity
 
     private void revokeAccess() {
         // SignOut from Google account and revoke app permission to SignIn
-//        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
+        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
