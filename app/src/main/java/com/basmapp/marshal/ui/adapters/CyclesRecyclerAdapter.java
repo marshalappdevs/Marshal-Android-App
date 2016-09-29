@@ -58,12 +58,12 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
     }
 
 
-    public class CycleVH extends RecyclerView.ViewHolder implements View.OnClickListener {
+    class CycleVH extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         TextView mDateTextView;
         LinearLayout mMainLayout;
 
-        public CycleVH(View itemView) {
+        CycleVH(View itemView) {
             super(itemView);
 
             mMainLayout = (LinearLayout) itemView.findViewById(R.id.cycles_list_item_linearLayout_mainLayout);

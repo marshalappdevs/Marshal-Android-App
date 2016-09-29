@@ -10,7 +10,7 @@
     <TextView
         android:id="@+id/cycles_list_item_textView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:gravity="center"
         android:layoutDirection="ltr"
         android:padding="16dp"
@@ -21,6 +21,6 @@
     <View
         android:layout_width="match_parent"
         android:layout_height="1dp"
-        android:background="#1F000000" />
+        android:background="@color/divider_color" />
 
 </LinearLayout>

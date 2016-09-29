@@ -15,4 +15,5 @@
     <color name="description_background">#FF424242</color>
     <color name="page_indicator">#80333333</color>
     <color name="page_indicator_selected">#ff333333</color>
+    <color name="bottom_sheet_background">@color/material_grey_800</color>
 </resources>

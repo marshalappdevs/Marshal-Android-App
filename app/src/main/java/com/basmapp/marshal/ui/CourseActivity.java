@@ -11,6 +11,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TextInputLayout;
@@ -18,6 +19,9 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
@@ -45,7 +49,7 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
-import com.basmapp.marshal.ui.fragments.CyclesBottomSheet;
+import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.DateHelper;
@@ -59,6 +63,8 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
@@ -195,9 +201,24 @@ public class CourseActivity extends BaseActivity {
                         }
 
                         if (cycles.size() > 0) {
-                            CyclesBottomSheet bottomSheet =
-                                    CyclesBottomSheet.newInstance(mCourse);
-                            bottomSheet.show(getSupportFragmentManager(), "CyclesBottomSheet");
+                            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CourseActivity.this);
+                            View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cycles, null);
+                            bottomSheetDialog.setContentView(sheetView);
+                            bottomSheetDialog.show();
+                            try {
+                                orderCyclesByAscending();
+                                RecyclerView recyclerView = (RecyclerView)
+                                        sheetView.findViewById(R.id.cycle_activity_recyclerView);
+                                LinearLayoutManager linearLayoutManager =
+                                        new LinearLayoutManager(CourseActivity.this);
+                                recyclerView.setLayoutManager(linearLayoutManager);
+                                recyclerView.setItemAnimator(new DefaultItemAnimator());
+                                CyclesRecyclerAdapter cyclesRecyclerAdapter =
+                                        new CyclesRecyclerAdapter(CourseActivity.this, cycles, mCourse);
+                                recyclerView.setAdapter(cyclesRecyclerAdapter);
+                            } catch (Exception e) {
+                                e.printStackTrace();
+                            }
                         } else {
                             Toast.makeText(CourseActivity.this,
                                     getResources().getString(R.string.course_no_cycles_error),
@@ -464,6 +485,16 @@ public class CourseActivity extends BaseActivity {
                 }
             });
         }
+    }
+
+    private void orderCyclesByAscending() {
+        Collections.sort(mCourse.getCycles(), new Comparator<Cycle>() {
+            public int compare(Cycle cycle1, Cycle cycle2) {
+                if (cycle1.getStartDate() == null || cycle2.getStartDate() == null)
+                    return 0;
+                return cycle1.getStartDate().compareTo(cycle2.getStartDate());
+            }
+        });
     }
 
     private void setRatingViewsVisibility(int visibility) {

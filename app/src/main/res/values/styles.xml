@@ -273,7 +273,7 @@
         <item name="android:shadowRadius">1.0</item>
     </style>
 
-    <style name="Cycle.DialogAlert" parent="Theme.AppCompat.Light.Dialog">
+    <style name="Cycle.DialogAlert" parent="Theme.AppCompat.DayNight.Dialog">
         <item name="colorAccent">@color/error_color</item>
         <item name="android:windowTitleStyle">@style/Cycle.DialogAlert.Title</item>
     </style>
