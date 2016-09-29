@@ -128,4 +128,6 @@
     <color name="page_indicator">#80ffffff</color>
     <color name="page_indicator_selected">#ffffffff</color>
     <color name="highlight_banner_card_treatment_bg">#ff364852</color>
+    <color name="bottom_sheet_background">@android:color/white</color>
+
 </resources>

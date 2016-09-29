@@ -1,13 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/cycles_bottom_sheet"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@color/bottom_sheet_background"
+    android:orientation="vertical"
+    app:layout_behavior="android.support.design.widget.BottomSheetBehavior">
 
     <TextView
         android:id="@+id/cycles_bottom_sheet_title"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:fontFamily="sans-serif-medium"
         android:gravity="center_vertical"
         android:padding="16dp"
@@ -19,6 +23,7 @@
         android:id="@+id/cycle_activity_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_below="@+id/cycles_bottom_sheet_title" />
+        android:layout_marginEnd="@dimen/activity_horizontal_margin"
+        android:layout_marginStart="@dimen/activity_horizontal_margin" />
 
-</RelativeLayout>
+</LinearLayout>

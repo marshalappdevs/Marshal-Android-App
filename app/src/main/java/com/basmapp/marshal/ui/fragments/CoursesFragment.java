@@ -307,8 +307,7 @@ public class CoursesFragment extends Fragment {
 
     private void showImagesViewPager() {
         // Create the adapter that will return a fragment for each position
-        CoursesFragment.HighlightsAdapter highlightsAdapter =
-                new CoursesFragment.HighlightsAdapter(getChildFragmentManager());
+        HighlightsAdapter highlightsAdapter = new HighlightsAdapter(getChildFragmentManager());
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
         mViewPager.setAdapter(highlightsAdapter);
         mViewPager.setPageTransformer(true, new Transformer());
@@ -331,18 +330,22 @@ public class CoursesFragment extends Fragment {
         }
     }
 
-    public static class PlaceholderFragment extends Fragment {
+    public static class ArrayListFragment extends Fragment {
         final static String ARG_POSITION = "position";
+        int mPosition;
 
-        public PlaceholderFragment() {
-        }
-
-        public static CoursesFragment.PlaceholderFragment newInstance(int position) {
-            CoursesFragment.PlaceholderFragment fragment = new CoursesFragment.PlaceholderFragment();
+        static ArrayListFragment newInstance(int position) {
+            ArrayListFragment fragment = new ArrayListFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_POSITION, position);
             fragment.setArguments(args);
             return fragment;
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            mPosition = getArguments() != null ? getArguments().getInt(ARG_POSITION) : 1;
         }
 
         @Override
@@ -351,10 +354,10 @@ public class CoursesFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.highlights_banner_fullbleed_item, container, false);
 
             TextView title = (TextView) rootView.findViewById(R.id.li_title);
-            title.setText(mViewPagerCourses.get(getArguments().getInt(ARG_POSITION)).getName());
+            title.setText(mViewPagerCourses.get(mPosition).getName());
 
             TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
-            Cycle firstCycle = mViewPagerCourses.get(getArguments().getInt(ARG_POSITION)).getFirstCycle();
+            Cycle firstCycle = mViewPagerCourses.get(mPosition).getFirstCycle();
             String cycleDates = String.format(getString(R.string.course_cycle_format),
                     DateHelper.dateToString(firstCycle.getStartDate()),
                     DateHelper.dateToString(firstCycle.getEndDate()));
@@ -362,7 +365,7 @@ public class CoursesFragment extends Fragment {
 
             ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
             Glide.with(getActivity())
-                    .load(mViewPagerCourses.get(getArguments().getInt(ARG_POSITION)).getImageUrl())
+                    .load(mViewPagerCourses.get(mPosition).getImageUrl())
                     .diskCacheStrategy(DiskCacheStrategy.SOURCE)
                     .into(image);
 
@@ -370,8 +373,7 @@ public class CoursesFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(getActivity(), CourseActivity.class);
-                    intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get
-                            (getArguments().getInt(ARG_POSITION)));
+                    intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get(mPosition));
                     getActivity().startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
                 }
             });
@@ -388,7 +390,7 @@ public class CoursesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return CoursesFragment.PlaceholderFragment.newInstance(position);
+            return ArrayListFragment.newInstance(position);
         }
 
         @Override
