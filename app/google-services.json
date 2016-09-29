@@ -1,7 +1,9 @@
 {
   "project_info": {
     "project_number": "614661175229",
-    "project_id": "elite-academy-139915"
+    "firebase_url": "https://elite-academy-139915.firebaseio.com",
+    "project_id": "elite-academy-139915",
+    "storage_bucket": "elite-academy-139915.appspot.com"
   },
   "client": [
     {
@@ -21,6 +23,10 @@
           }
         },
         {
+          "client_id": "614661175229-vnl2tsdvfsf91a2ot0vpab4f9qs6rup1.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
           "client_id": "614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com",
           "client_type": 3
         }
@@ -35,11 +41,16 @@
           "status": 1
         },
         "appinvite_service": {
-          "status": 1,
-          "other_platform_oauth_client": []
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614661175229-vnl2tsdvfsf91a2ot0vpab4f9qs6rup1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
         },
         "ads_service": {
-          "status": 1
+          "status": 2
         }
       }
     }

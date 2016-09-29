@@ -176,14 +176,14 @@
     <string name="programing_course">Programing Course Aids</string>
     <string name="cyber_defender_course">Cyber Defender Course Aids</string>
 
-    <!--Gcm Channels-->
-    <string name="gcm_channel_software" translatable="false">software</string>
-    <string name="gcm_channel_tools" translatable="false">tools</string>
-    <string name="gcm_channel_system" translatable="false">system</string>
-    <string name="gcm_channel_it" translatable="false">it</string>
-    <string name="gcm_channel_cyber" translatable="false">cyber</string>
-    <string name="gcm_channel_test" translatable="false">basmapp_test</string>
-    <string name="gcm_channel_test_ui">BasmApp Testing</string>
+    <!--Fcm Channels-->
+    <string name="fcm_channel_software" translatable="false">software</string>
+    <string name="fcm_channel_tools" translatable="false">tools</string>
+    <string name="fcm_channel_system" translatable="false">system</string>
+    <string name="fcm_channel_it" translatable="false">it</string>
+    <string name="fcm_channel_cyber" translatable="false">cyber</string>
+    <string name="fcm_channel_test" translatable="false">basmapp_test</string>
+    <string name="fcm_channel_test_ui">BasmApp Testing</string>
 
     <!-- Colors -->
     <string name="red">Red</string>
@@ -243,8 +243,8 @@
     <string name="color_cyan">Cyan</string>
     <string name="color_blue">Blue</string>
     <string name="color_purple">Purple</string>
-    <string name="pref_gcm_channels_title">Channels</string>
-    <string name="pref_gcm_channels_summary">Set notification channels based on your interests</string>
+    <string name="pref_fcm_channels_title">Channels</string>
+    <string name="pref_fcm_channels_summary">Set notification channels based on your interests</string>
     <string name="pref_advanced_category">Advanced</string>
     <string name="custom_tabs_pref_summary">Turn on for faster browsing</string>
     <string name="custom_tabs_pref_title">Open web links in app</string>
@@ -253,9 +253,9 @@
     <string name="pref_restart_required">Application restart is required to apply the changes</string>
     <string name="pref_tap_targets_cleared">Discovery prompts cleared</string>
     <string name="pref_search_history_cleared">Search history cleared</string>
-    <string name="gcm_settings_change_success">Notification channels has been updated.</string>
-    <string name="gcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
-    <string name="gcm_settings_change">Updating notification channels…</string>
+    <string name="fcm_settings_change_success">Notification channels has been updated.</string>
+    <string name="fcm_settings_change_failed">An error occurred while trying to update notification channels. Please try again later.</string>
+    <string name="fcm_settings_change">Updating notification channels…</string>
     <string-array name="language_entries" translatable="false">
         <item name="iw">@string/language_hebrew</item>
         <item name="en">@string/language_english</item>
@@ -294,28 +294,28 @@
         <item>@string/color_blue</item>
         <item>@string/color_purple</item>
     </string-array>
-    <string-array name="gcm_channels_entries" translatable="true">
+    <string-array name="fcm_channels_entries" translatable="true">
         <item>@string/course_type_software</item>
         <item>@string/course_type_cyber</item>
         <item>@string/course_type_it</item>
         <item>@string/course_type_system</item>
         <item>@string/course_type_tools</item>
-        <item>@string/gcm_channel_test_ui</item>
+        <item>@string/fcm_channel_test_ui</item>
     </string-array>
-    <string-array name="gcm_channels_values" translatable="false">
-        <item>@string/gcm_channel_software</item>
-        <item>@string/gcm_channel_cyber</item>
-        <item>@string/gcm_channel_it</item>
-        <item>@string/gcm_channel_system</item>
-        <item>@string/gcm_channel_tools</item>
-        <item>@string/gcm_channel_test</item>
+    <string-array name="fcm_channels_values" translatable="false">
+        <item>@string/fcm_channel_software</item>
+        <item>@string/fcm_channel_cyber</item>
+        <item>@string/fcm_channel_it</item>
+        <item>@string/fcm_channel_system</item>
+        <item>@string/fcm_channel_tools</item>
+        <item>@string/fcm_channel_test</item>
     </string-array>
-    <string-array name="gcm_channels_values_defaults" translatable="false">
-        <item>@string/gcm_channel_software</item>
-        <item>@string/gcm_channel_cyber</item>
-        <item>@string/gcm_channel_it</item>
-        <item>@string/gcm_channel_system</item>
-        <item>@string/gcm_channel_tools</item>
+    <string-array name="fcm_channels_values_defaults" translatable="false">
+        <item>@string/fcm_channel_software</item>
+        <item>@string/fcm_channel_cyber</item>
+        <item>@string/fcm_channel_it</item>
+        <item>@string/fcm_channel_system</item>
+        <item>@string/fcm_channel_tools</item>
     </string-array>
 
     <string name="color_picker_default_title">Select a Color</string>

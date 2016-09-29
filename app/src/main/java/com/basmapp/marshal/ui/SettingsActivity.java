@@ -28,9 +28,9 @@ import android.widget.Toast;
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.interfaces.GcmReceiverListener;
-import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
-import com.basmapp.marshal.services.GcmRegistrationService;
+import com.basmapp.marshal.interfaces.FcmReceiverListener;
+import com.basmapp.marshal.receivers.FcmRegistrationReceiver;
+import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
@@ -174,8 +174,8 @@ public class SettingsActivity extends BaseActivity {
 
     public static class SettingsFragment extends PreferenceFragment implements SharedPreferences.OnSharedPreferenceChangeListener,
             Preference.OnPreferenceClickListener, Preference.OnPreferenceChangeListener {
-        GcmRegistrationReceiver gcmRegistrationReceiver;
-        MultiSelectListPreference prefGcmChannels;
+        FcmRegistrationReceiver fcmRegistrationReceiver;
+        MultiSelectListPreference prefFcmChannels;
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
@@ -207,9 +207,9 @@ public class SettingsActivity extends BaseActivity {
             Preference prefRevertTheme = findPreference(Constants.PREF_REVERT_THEME);
             prefRevertTheme.setOnPreferenceClickListener(this);
 
-            prefGcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_GCM_CHANNELS);
-            prefGcmChannels.setOnPreferenceChangeListener(this);
-            updateGcmChannelsPrefSummary();
+            prefFcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_FCM_CHANNELS);
+            prefFcmChannels.setOnPreferenceChangeListener(this);
+            updateFcmChannelsPrefSummary();
 
             Preference prefClearTapTargets = findPreference(Constants.PREF_CLEAR_TAP_TARGETS);
             prefClearTapTargets.setOnPreferenceClickListener(this);
@@ -223,20 +223,20 @@ public class SettingsActivity extends BaseActivity {
             CheckBoxPreference prefCCT = (CheckBoxPreference) findPreference(Constants.PREF_CCT);
             prefCCT.setOnPreferenceChangeListener(this);
 
-            gcmRegistrationReceiver = new GcmRegistrationReceiver(new GcmReceiverListener() {
+            fcmRegistrationReceiver = new FcmRegistrationReceiver(new FcmReceiverListener() {
                 @Override
                 public void onFinish(boolean result) {
                     if (result) {
                         try {
-                            prefGcmChannels.setValues(prefGcmChannels.getSharedPreferences()
-                                    .getStringSet(Constants.PREF_GCM_CHANNELS, prefGcmChannels.getValues()));
-                            updateGcmChannelsPrefSummary();
+                            prefFcmChannels.setValues(prefFcmChannels.getSharedPreferences()
+                                    .getStringSet(Constants.PREF_FCM_CHANNELS, prefFcmChannels.getValues()));
+                            updateFcmChannelsPrefSummary();
                         } catch (Exception e) {
                             e.printStackTrace();
                             restartApp();
                         }
                     }
-                    prefGcmChannels.setEnabled(true);
+                    prefFcmChannels.setEnabled(true);
                 }
             });
         }
@@ -244,14 +244,14 @@ public class SettingsActivity extends BaseActivity {
         @Override
         public void onResume() {
             super.onResume();
-            getActivity().registerReceiver(gcmRegistrationReceiver, new IntentFilter(GcmRegistrationReceiver.ACTION_RESULT));
+            getActivity().registerReceiver(fcmRegistrationReceiver, new IntentFilter(FcmRegistrationReceiver.ACTION_RESULT));
             getPreferenceScreen().getSharedPreferences().registerOnSharedPreferenceChangeListener(this);
         }
 
         @Override
         public void onPause() {
             super.onPause();
-            getActivity().unregisterReceiver(gcmRegistrationReceiver);
+            getActivity().unregisterReceiver(fcmRegistrationReceiver);
             getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(this);
         }
 
@@ -346,12 +346,12 @@ public class SettingsActivity extends BaseActivity {
             } else if (preference.getKey().equals(Constants.PREF_THEME)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
                         .edit().putString(Constants.PREF_THEME, newValue.toString()).apply();
-            } else if (preference.getKey().equals(Constants.PREF_GCM_CHANNELS)) {
+            } else if (preference.getKey().equals(Constants.PREF_FCM_CHANNELS)) {
                 preference.setEnabled(false);
-                Toast.makeText(getActivity(), getResources().getString(R.string.gcm_settings_change), Toast.LENGTH_SHORT).show();
-                Intent intent = new Intent(getActivity(), GcmRegistrationService.class);
-                intent.setAction(GcmRegistrationService.ACTION_UPDATE_CHANNELS);
-                intent.putExtra(Constants.EXTRA_GCM_CHANNELS, ((HashSet<String>) newValue));
+                Toast.makeText(getActivity(), getResources().getString(R.string.fcm_settings_change), Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), FcmRegistrationService.class);
+                intent.setAction(FcmRegistrationService.ACTION_UPDATE_CHANNELS);
+                intent.putExtra(Constants.EXTRA_FCM_CHANNELS, ((HashSet<String>) newValue));
                 getActivity().startService(intent);
             } else if (preference.getKey().equals(Constants.PREF_NOTIFICATIONS_COLOR)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext())
@@ -460,17 +460,17 @@ public class SettingsActivity extends BaseActivity {
 //                    .addNextIntentWithParentStack(getActivity().getIntent()).startActivities(); 
         }
 
-        private void updateGcmChannelsPrefSummary() {
-            Set<String> values = prefGcmChannels.getValues();
+        private void updateFcmChannelsPrefSummary() {
+            Set<String> values = prefFcmChannels.getValues();
             Set<CharSequence> labels = new HashSet<>();
             for (String value : values) {
-                int index = prefGcmChannels.findIndexOfValue(value);
-                labels.add(prefGcmChannels.getEntries()[index]);
+                int index = prefFcmChannels.findIndexOfValue(value);
+                labels.add(prefFcmChannels.getEntries()[index]);
             }
             if (!values.isEmpty()) {
-                prefGcmChannels.setSummary(labels.toString().replaceAll("\\[", "").replaceAll("\\]", ""));
+                prefFcmChannels.setSummary(labels.toString().replaceAll("\\[", "").replaceAll("\\]", ""));
             } else {
-                prefGcmChannels.setSummary(getString(R.string.pref_gcm_channels_summary));
+                prefFcmChannels.setSummary(getString(R.string.pref_fcm_channels_summary));
             }
         }
     }

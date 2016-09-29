@@ -15,7 +15,7 @@ public class Constants {
     public static final String PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE = "is_update_service_success_once";
     public static final String PREF_IS_THERE_UPDATES_TO_SHOW = "is_there_new_updates_to_show";
     public static final String PREF_LAST_UPDATE_TIMESTAMP = "last_update_timestamp";
-    public static final String PREF_GCM_CHANNELS = "gcm_channels";
+    public static final String PREF_FCM_CHANNELS = "fcm_channels";
     public static final String PREF_THEME = "THEME";
     public static final String PREF_PRIMARY_COLOR = "PRIMARY-COLOR";
     public static final String PREF_ACCENT_COLOR = "ACCENT-COLOR";
@@ -32,7 +32,7 @@ public class Constants {
     public static final String PREF_CCT = "CCT";
     public static final String PREF_NOTIFICATIONS_RINGTONE = "notifications_new_message_ringtone";
     public static final String PREF_NOTIFICATIONS_COLOR = "notify_light_color";
-    public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_gcm";
+    public static final String PREF_IS_DEVICE_REGISTERED = "is_device_registered_to_fcm";
     public static final String PREF_MUST_UPDATE = "must_update";
     public static final String PREF_NOTIFICATIONS_NEW_MESSAGE_VIBRATE = "notifications_new_message_vibrate";
     public static final String PREF_NOTIFY_NEW_MESSAGE = "notify_new_message";
@@ -56,7 +56,7 @@ public class Constants {
     public static final String EXTRA_RATING_AMOUNT = "extra_rating_amount";
     public static final String EXTRA_RATING_AVERAGE = "extra_rating_average";
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
-    public static final String EXTRA_GCM_CHANNELS = "extra_gcm_channels";
+    public static final String EXTRA_FCM_CHANNELS = "extra_fcm_channels";
     public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
 
     // Fragment Tags

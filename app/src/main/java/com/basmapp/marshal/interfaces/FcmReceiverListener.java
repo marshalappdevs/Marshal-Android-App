@@ -1,5 +1,5 @@
 package com.basmapp.marshal.interfaces;
 
-public interface GcmReceiverListener {
+public interface FcmReceiverListener {
     void onFinish(boolean result);
 }

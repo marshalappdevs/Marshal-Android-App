@@ -3,37 +3,36 @@ package com.basmapp.marshal.services;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.graphics.Color;
-import android.media.RingtoneManager;
+
 import android.net.Uri;
-import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
-
-import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
-import com.google.android.gms.gcm.GcmListenerService;
+import com.google.firebase.messaging.FirebaseMessagingService;
+import com.google.firebase.messaging.RemoteMessage;
 
-public class GcmIntentService extends GcmListenerService {
+import java.util.Map;
+
+public class FcmIntentService extends FirebaseMessagingService {
 
     SharedPreferences mSharedPreferences;
 
     @Override
-    public void onMessageReceived(String from, Bundle data) {
-        super.onMessageReceived(from, data);
-        Log.i("GCM", "onMessageReceived from:" + from);
-
+    public void onMessageReceived(RemoteMessage message) {
+        super.onMessageReceived(message);
+        Log.i("FCM", "onMessageReceived from:" + message.getFrom());
+        Map data = message.getData();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         NotificationUtils mNotificationUtils = new NotificationUtils(this);
-
-        Uri ringtoneUri = mNotificationUtils.getRingtoneUri();
-        long[] vibrate = mNotificationUtils.getVibrate();
-        int lightColor = mNotificationUtils.getLightColor();
-
+//
+//        Uri ringtoneUri = mNotificationUtils.getRingtoneUri();
+//        long[] vibrate = mNotificationUtils.getVibrate();
+//        int lightColor = mNotificationUtils.getLightColor();
+//
 //        long[] vibrate = new long[]{0};
 //        if (sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_NEW_MESSAGE, false)) {
 //            vibrate = new long[]{0,1000};
@@ -55,23 +54,23 @@ public class GcmIntentService extends GcmListenerService {
         PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
-        String type = data.getString("type");
+        String type = (String) data.get("type");
 
         switch (type) {
             case "commands":
-                String[] commands = data.getStringArray("commands");
+                String[] commands = (String[]) data.get("commands");
                 if (commands != null) {
                     executeCommands(commands);
                 }
                 break;
             case "notification":
                 // Get Title
-                String title = data.getString("title");
+                String title = (String) data.get("title");
                 if (title == null) title = getString(R.string.app_name);
                 // Get Content
-                String content = data.getString("content");
+                String content = (String) data.get("content");
                 // Get PhotoUrl
-                String imageUrl = data.getString("imageUrl");
+                String imageUrl = (String) data.get("imageUrl");
 
                 if (content != null) {
                     if (imageUrl != null) {
@@ -92,11 +91,11 @@ public class GcmIntentService extends GcmListenerService {
 //        String message = data.getString("message");
 //        if (message != null &&
 //                message.equals("set-registration-state=false")) {
-//            GcmRegistrationService.setDeviceRegistrationState(this, false);
+//            FcmRegistrationService.setDeviceRegistrationState(this, false);
 //        } else if (message != null && message.equals("data-update-true")) {
-//            Log.i("GCM", "data-update-true");
+//            Log.i("FCM", "data-update-true");
 //            UpdateIntentService.startUpdateData(this);
-//        } else if (message != null && message.equals("reset-gcm-registration-pref")) {
+//        } else if (message != null && message.equals("reset-fcm-registration-pref")) {
 //            mSharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false).apply();
 //        } else if (message != null && message.equals("show-must-update-dialog")) {
 //            mSharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
@@ -129,7 +128,7 @@ public class GcmIntentService extends GcmListenerService {
         switch (command) {
             case "set-registration-state?false":
                 boolean state = Boolean.valueOf(command.split("\\?")[1]);
-                GcmRegistrationService.setDeviceRegistrationState(this, state);
+                FcmRegistrationService.setDeviceRegistrationState(this, state);
                 break;
             case "start-data-update":
                 UpdateIntentService.startUpdateData(this);

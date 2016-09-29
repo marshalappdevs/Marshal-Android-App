@@ -2,7 +2,7 @@ package com.basmapp.marshal.interfaces;
 
 import com.basmapp.marshal.entities.AuthRequest;
 import com.basmapp.marshal.entities.Course;
-import com.basmapp.marshal.entities.GcmRegistration;
+import com.basmapp.marshal.entities.FcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -47,15 +47,15 @@ public interface IMarshalService {
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
     Call<List<MalshabItem>> getAllMalshabItems();
 
-    //******** GCM ********//
-    @POST(MarshalServiceProvider.POST_GCM_REGISTER_NEW_DEVICE)
-    Call<GcmRegistration> gcmRegisterNewDevice(@Body GcmRegistration gcmRegistration);
+    //******** FCM ********//
+    @POST(MarshalServiceProvider.POST_FCM_REGISTER_NEW_DEVICE)
+    Call<FcmRegistration> fcmRegisterNewDevice(@Body FcmRegistration fcmRegistration);
 
-    @PUT(MarshalServiceProvider.PUT_GCM_REGISTER_EXIST_DEVICE)
-    Call<GcmRegistration> gcmRegisterExistDevice(@Body GcmRegistration gcmRegistration);
+    @PUT(MarshalServiceProvider.PUT_FCM_REGISTER_EXIST_DEVICE)
+    Call<FcmRegistration> fcmRegisterExistDevice(@Body FcmRegistration fcmRegistration);
 
-    @DELETE(MarshalServiceProvider.DELETE_GCM_UNREGISTER_DEVICE + "{hardwareId}")
-    Call<Rating> deleteGcmRegistration(@Path("hardwareId") String hardwareId);
+    @DELETE(MarshalServiceProvider.DELETE_FCM_UNREGISTER_DEVICE + "{hardwareId}")
+    Call<Rating> deleteFcmRegistration(@Path("hardwareId") String hardwareId);
 
     @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
     Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
@@ -63,8 +63,8 @@ public interface IMarshalService {
     @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
     Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
 
-    @GET(MarshalServiceProvider.GET_GCM_REGISTRATION)
-    Call<GcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
+    @GET(MarshalServiceProvider.GET_FCM_REGISTRATION)
+    Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
 
     // ******** Settings ********//
     @GET(MarshalServiceProvider.GET_SETTINGS)

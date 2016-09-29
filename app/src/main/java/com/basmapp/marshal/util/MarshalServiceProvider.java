@@ -31,15 +31,15 @@ public class MarshalServiceProvider {
     public static final String POST_RATING                          = API_BASE_URL + "courses/ratings/";
     public static final String PUT_RATING                           = API_BASE_URL + "courses/ratings/";
     public static final String DELETE_RATING                        = API_BASE_URL + "courses/ratings/";
-    public static final String POST_GCM_REGISTER_NEW_DEVICE         = API_BASE_URL + "gcm/register/";
-    public static final String PUT_GCM_REGISTER_EXIST_DEVICE        = API_BASE_URL + "gcm/register/";
-    public static final String DELETE_GCM_UNREGISTER_DEVICE         = API_BASE_URL + "gcm/unregister/";
+    public static final String POST_FCM_REGISTER_NEW_DEVICE         = API_BASE_URL + "fcm/register/";
+    public static final String PUT_FCM_REGISTER_EXIST_DEVICE        = API_BASE_URL + "fcm/register/";
+    public static final String DELETE_FCM_UNREGISTER_DEVICE         = API_BASE_URL + "fcm/unregister/";
     public static final String GET_SETTINGS                         = API_BASE_URL + "settings/";
     public static final String GET_ALL_MALSHAB_ITEMS                = API_BASE_URL + "malshabitems/";
     public static final String AUTH                                 = API_BASE_URL + "authapp/";
-    public static final String POST_SUBSCRIBE_COURSE = API_BASE_URL + "gcm/subscription/course/";
-    public static final String DELETE_UNSUBSCRIBE_COURSE = API_BASE_URL + "gcm/subscription/course/";
-    public static final String GET_GCM_REGISTRATION = API_BASE_URL + "gcm/registrations/";
+    public static final String POST_SUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
+    public static final String DELETE_UNSUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
+    public static final String GET_FCM_REGISTRATION = API_BASE_URL + "fcm/registrations/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 

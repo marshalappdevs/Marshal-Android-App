@@ -6,13 +6,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.READ_PHONE_STATE" />
-    <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.VIBRATE" />
-    <uses-permission android:name="com.basmapp.marshal.permission.C2D_MESSAGE" />
-
-    <permission
-        android:name="com.basmapp.marshal.permission.C2D_MESSAGE"
-        android:protectionLevel="signature" />
 
     <application
         android:name=".ApplicationMarshal"
@@ -134,37 +128,23 @@
             android:authorities="com.basmapp.marshal.SuggestionProvider"
             android:exported="false" />
 
-        <receiver
-            android:name="com.google.android.gms.gcm.GcmReceiver"
-            android:exported="true"
-            android:permission="com.google.android.c2dm.permission.SEND">
-            <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
-                <action android:name="com.google.android.c2dm.intent.REGISTRATION" />
-
-                <category android:name="com.basmapp.marshal" />
-            </intent-filter>
-        </receiver>
-
         <service
-            android:name=".services.GcmIntentService"
-            android:exported="false">
+            android:name=".services.FcmIntentService">
             <intent-filter>
-                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
         <service
-            android:name=".services.GcmIDListenerService"
-            android:exported="false">
+            android:name=".services.FcmIDListenerService">
             <intent-filter>
-                <action android:name="com.google.android.gms.iid.InstanceID" />
+                <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
         <service
-            android:name=".services.GcmRegistrationService"
+            android:name=".services.FcmRegistrationService"
             android:exported="false" />
 
         <provider
@@ -183,11 +163,11 @@
             android:value="GlideModule" />
 
         <receiver
-            android:name=".receivers.GcmRegistrationReceiver"
+            android:name=".receivers.FcmRegistrationReceiver"
             android:enabled="true"
             android:exported="false">
             <intent-filter>
-                <action android:name="com.basmapp.marshal.services.action.GCM_REGISTRATION_RESULT" />
+                <action android:name="com.basmapp.marshal.services.action.FCM_REGISTRATION_RESULT" />
             </intent-filter>
         </receiver>
     </application>

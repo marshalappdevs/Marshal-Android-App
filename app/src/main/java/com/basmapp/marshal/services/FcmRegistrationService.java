@@ -9,12 +9,11 @@ import android.util.Log;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.entities.GcmRegistration;
-import com.basmapp.marshal.receivers.GcmRegistrationReceiver;
+import com.basmapp.marshal.entities.FcmRegistration;
+import com.basmapp.marshal.receivers.FcmRegistrationReceiver;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
-import com.google.android.gms.gcm.GoogleCloudMessaging;
-import com.google.android.gms.iid.InstanceID;
+import com.google.firebase.iid.FirebaseInstanceId;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -30,16 +29,16 @@ import retrofit2.Response;
  * <p/>
  * TODO: Customize class - update intent actions and extra parameters.
  */
-public class GcmRegistrationService extends IntentService {
+public class FcmRegistrationService extends IntentService {
 
-    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.GCM_REGISTER_NEW";
-    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.GCM_REGISTER_EXIST";
-    public static final String ACTION_UPDATE_CHANNELS = "com.basmapp.marshal.services.action.GCM_UPDATE_CHANNELS";
+    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.FCM_REGISTER_NEW";
+    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.FCM_REGISTER_EXIST";
+    public static final String ACTION_UPDATE_CHANNELS = "com.basmapp.marshal.services.action.FCM_UPDATE_CHANNELS";
 
     private static final Set<String> DEFAULT_CHANNELS_SET = new HashSet<>();
 
-    public GcmRegistrationService() {
-        super("GcmRegisterService");
+    public FcmRegistrationService() {
+        super("FcmRegisterService");
     }
 
     @Override
@@ -47,51 +46,50 @@ public class GcmRegistrationService extends IntentService {
         final String action = intent.getAction();
 
         if (action != null) {
-            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_software));
-            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_system));
-            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_cyber));
-            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_it));
-            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.gcm_channel_tools));
+            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_software));
+            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_system));
+            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_cyber));
+            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_it));
+            DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_tools));
 
-            GcmRegistration gcmRegistration = new GcmRegistration();
-            InstanceID instanceID = InstanceID.getInstance(this);
+            FcmRegistration fcmRegistration = new FcmRegistration();
             try {
+                String fcmToken = FirebaseInstanceId.getInstance().getToken();
                 String apiToken = AuthUtil.getApiToken();
                 String hardwareId = AuthUtil.getHardwareId(getContentResolver());
                 if (hardwareId != null) {
-                    String token = instanceID.getToken(this.getString(R.string.gcm_defaultSenderId), GoogleCloudMessaging.INSTANCE_ID_SCOPE, null);
-                    if (token != null) {
-                        gcmRegistration.setRegistrationTokenId(token);
-                        gcmRegistration.setHardwareId(hardwareId);
-                        gcmRegistration.setLastModified(new Date());
+                    if (fcmToken != null) {
+                        fcmRegistration.setRegistrationTokenId(fcmToken);
+                        fcmRegistration.setHardwareId(hardwareId);
+                        fcmRegistration.setLastModified(new Date());
                         Set<String> channels = PreferenceManager.getDefaultSharedPreferences(this)
-                                .getStringSet(Constants.PREF_GCM_CHANNELS, DEFAULT_CHANNELS_SET);
-                        gcmRegistration.setChannels(new ArrayList<>(channels));
+                                .getStringSet(Constants.PREF_FCM_CHANNELS, DEFAULT_CHANNELS_SET);
+                        fcmRegistration.setChannels(new ArrayList<>(channels));
 
                         if (ACTION_REGISTER_NEW.equals(action)) {
-                            Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance(apiToken).gcmRegisterNewDevice(gcmRegistration).execute();
+                            Response<FcmRegistration> response =
+                                    MarshalServiceProvider.getInstance(apiToken).fcmRegisterNewDevice(fcmRegistration).execute();
                             publishResult(response.isSuccessful(), false);
                         } else if (ACTION_REGISTER_EXIST.equals(action)) {
-                            Response<GcmRegistration> response =
-                                    MarshalServiceProvider.getInstance(apiToken).gcmRegisterExistDevice(gcmRegistration).execute();
+                            Response<FcmRegistration> response =
+                                    MarshalServiceProvider.getInstance(apiToken).fcmRegisterExistDevice(fcmRegistration).execute();
                             publishResult(response.isSuccessful(), false);
                         } else if (ACTION_UPDATE_CHANNELS.equals(action)) {
                             Set<String> newChannels = null;
                             try {
                                 newChannels = (HashSet<String>) intent.getExtras()
-                                        .get(Constants.EXTRA_GCM_CHANNELS);
+                                        .get(Constants.EXTRA_FCM_CHANNELS);
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
 
                             if (newChannels != null) {
-                                gcmRegistration.setChannels(new ArrayList<>(newChannels));
-                                Response<GcmRegistration> response =
-                                        MarshalServiceProvider.getInstance(apiToken).gcmRegisterExistDevice(gcmRegistration).execute();
+                                fcmRegistration.setChannels(new ArrayList<>(newChannels));
+                                Response<FcmRegistration> response =
+                                        MarshalServiceProvider.getInstance(apiToken).fcmRegisterExistDevice(fcmRegistration).execute();
                                 if (response.isSuccessful()) {
                                     PreferenceManager.getDefaultSharedPreferences(this).edit()
-                                            .putStringSet(Constants.PREF_GCM_CHANNELS, newChannels).apply();
+                                            .putStringSet(Constants.PREF_FCM_CHANNELS, newChannels).apply();
                                 }
 
                                 publishResult(response.isSuccessful(), true);
@@ -99,16 +97,16 @@ public class GcmRegistrationService extends IntentService {
                             } else publishResult(false, true);
                         }
                     } else {
-                        Log.e("GCM_REGISTRATION -- ", "NULL TOKEN");
+                        Log.e("FCM_REGISTRATION -- ", "NULL TOKEN");
                         if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                     }
                 } else {
-                    Log.e("GCM_REGISTRATION -- ", "NULL HARDWARE_ID");
+                    Log.e("FCM_REGISTRATION -- ", "NULL HARDWARE_ID");
                     if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("GCM_REGISTRATION -- ", "failed");
+                Log.e("FCM_REGISTRATION -- ", "failed");
                 if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
             }
         } else {
@@ -118,27 +116,27 @@ public class GcmRegistrationService extends IntentService {
 
     private void publishResult(boolean result, boolean showResultToUser) {
         if (result) {
-            Log.d("GCM_RESPONSE -- ", "success");
-            GcmRegistrationService.setDeviceRegistrationState(this, true);
+            Log.d("FCM_RESPONSE -- ", "success");
+            FcmRegistrationService.setDeviceRegistrationState(this, true);
         } else {
-            Log.d("GCM_RESPONSE -- ", "failed");
-            GcmRegistrationService.setDeviceRegistrationState(this, false);
+            Log.d("FCM_RESPONSE -- ", "failed");
+            FcmRegistrationService.setDeviceRegistrationState(this, false);
         }
 
         if (showResultToUser) {
-            Intent intent = new Intent(GcmRegistrationReceiver.ACTION_RESULT);
-            intent.putExtra(GcmRegistrationReceiver.EXTRA_RESULT, result);
+            Intent intent = new Intent(FcmRegistrationReceiver.ACTION_RESULT);
+            intent.putExtra(FcmRegistrationReceiver.EXTRA_RESULT, result);
             sendBroadcast(intent);
         }
     }
 
-//    private void publishResponse(Response<GcmRegistration> response, boolean showResultToUser) {
+//    private void publishResponse(Response<FcmRegistration> response, boolean showResultToUser) {
 //        if (response.isSuccessful()) {
-//            Log.d("GCM_RESPONSE -- ","success");
-//            GcmRegistrationService.setDeviceRegistrationState(this, true);
+//            Log.d("FCM_RESPONSE -- ","success");
+//            FcmRegistrationService.setDeviceRegistrationState(this, true);
 //        } else {
-//            Log.d("GCM_RESPONSE -- ","failed");
-//            GcmRegistrationService.setDeviceRegistrationState(this, false);
+//            Log.d("FCM_RESPONSE -- ","failed");
+//            FcmRegistrationService.setDeviceRegistrationState(this, false);
 //        }
 //
 //        if (showResultToUser) publishResultToUI(response.isSuccessful());
