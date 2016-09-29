@@ -91,7 +91,8 @@ public class ShowAllCoursesFragment extends Fragment {
             }
         };
 
-        getActivity().registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver,
+                new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
 
         return rootView;
     }
