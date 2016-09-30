@@ -1,8 +1,8 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="title_activity_course" translatable="false">CourseActivity</string>
 
     <string name="yes">Yes</string>
     <string name="no">No</string>
+    <string name="activity_course">Course Details</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="navigation_drawer_courses">Continuing Education</string>
@@ -327,6 +327,8 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com</string>
+
+
     <string name="review_comment1">היה קורס מצוין. למדתי המון.</string>
     <string name="review_comment2">למדתי המון והחומרים היו רלוונטיים. מבחינה לוגיסטית טעון שיפור.</string>
     <string name="review_comment3">לא היה כל כך רלוונטי. לוגיסטית טעון שיפור</string>

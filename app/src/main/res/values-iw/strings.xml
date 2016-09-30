@@ -2,6 +2,7 @@
 <resources xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
     <string name="yes">כן</string>
     <string name="no">לא</string>
+    <string name="activity_course">פרטי קורס</string>
     <string name="navigation_drawer_open">הצג את חלונית הניווט</string>
     <string name="navigation_drawer_close">הסתר את חלונית הניווט</string>
     <string name="navigation_drawer_courses">קורסים והשתלמויות</string>
@@ -95,7 +96,8 @@
     <string name="no_reviews_error">קורס זה עדיין לא דורג.</string>
     <string name="edit_review">ערוך</string>
     <string name="new_updates">עדכונים חדשים</string>
-    <string name="update_error">משהו השתבש בעת ניסיון לעדכן את הנתונים. נסה שוב מאוחר יותר.</string> 
+    <string name="update_error">משהו השתבש בעת ניסיון לעדכן את הנתונים. נסה שוב מאוחר יותר.</string>
+     
     <string name="update_retry">נסה שוב</string>
     <string name="got_it">הבנתי</string>
     <string name="cycle_fab_tip_title">ראה תאריכים נוספים</string>
@@ -244,6 +246,8 @@
     <string name="color_picker_default_title" msgid="1248663997452044787">"בחר צבע"</string>
     <string name="color_swatch_description" msgid="2883438431173736180">"צבע <xliff:g id="COLOR_INDEX">%1$d</xliff:g>"</string>
     <string name="color_swatch_description_selected" msgid="5020921249944943124">"צבע <xliff:g id="COLOR_INDEX">%1$d</xliff:g> נבחר"</string>
+
+
     <string name="review_comment1">היה קורס מצוין. למדתי המון.</string>
     <string name="review_comment2">למדתי המון והחומרים היו רלוונטיים. מבחינה לוגיסטית טעון שיפור.</string>
     <string name="review_comment3">לא היה כל כך רלוונטי. לוגיסטית טעון שיפור</string>
