@@ -20,6 +20,7 @@ import android.widget.Toast;
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
+import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.URLSpanNoUnderline;
 
 public class AboutActivity extends BaseActivity {
@@ -98,7 +99,13 @@ public class AboutActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         if (isFinishing()) {
-            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+            if (LocaleUtils.isRtl()) {
+                overridePendingTransition(R.anim.activity_close_enter,
+                        R.anim.activity_close_exit_rtl);
+            } else {
+                overridePendingTransition(R.anim.activity_close_enter,
+                        R.anim.activity_close_exit);
+            }
         }
     }
 

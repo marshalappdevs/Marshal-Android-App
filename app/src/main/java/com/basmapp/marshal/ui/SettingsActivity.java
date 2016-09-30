@@ -108,7 +108,13 @@ public class SettingsActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         if (isFinishing()) {
-            overridePendingTransition(R.anim.activity_close_enter, R.anim.activity_close_exit);
+            if (LocaleUtils.isRtl()) {
+                overridePendingTransition(R.anim.activity_close_enter,
+                        R.anim.activity_close_exit_rtl);
+            } else {
+                overridePendingTransition(R.anim.activity_close_enter,
+                        R.anim.activity_close_exit);
+            }
         }
     }
 

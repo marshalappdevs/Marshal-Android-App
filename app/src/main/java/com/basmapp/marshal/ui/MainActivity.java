@@ -58,6 +58,7 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
+import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -866,13 +867,31 @@ public class MainActivity extends BaseActivity
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
-            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
+            if (LocaleUtils.isRtl()) {
+                overridePendingTransition(R.anim.activity_open_enter_rtl,
+                        R.anim.activity_open_exit);
+            } else {
+                overridePendingTransition(R.anim.activity_open_enter,
+                        R.anim.activity_open_exit);
+            }
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(this, DescribeProblemActivity.class));
-            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
+            if (LocaleUtils.isRtl()) {
+                overridePendingTransition(R.anim.activity_open_enter_rtl,
+                        R.anim.activity_open_exit);
+            } else {
+                overridePendingTransition(R.anim.activity_open_enter,
+                        R.anim.activity_open_exit);
+            }
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
-            overridePendingTransition(R.anim.activity_open_enter, R.anim.activity_open_exit);
+            if (LocaleUtils.isRtl()) {
+                overridePendingTransition(R.anim.activity_open_enter_rtl,
+                        R.anim.activity_open_exit);
+            } else {
+                overridePendingTransition(R.anim.activity_open_enter,
+                        R.anim.activity_open_exit);
+            }
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
