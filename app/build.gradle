@@ -38,7 +38,6 @@ dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
     testCompile 'junit:junit:4.12'
     compile "com.google.android.gms:play-services-auth:${servicesLibVersion}"
-    compile "com.google.android.gms:play-services-plus:${servicesLibVersion}"
     compile "com.google.firebase:firebase-messaging:${servicesLibVersion}"
     compile "com.android.support:customtabs:${supportLibVersion}"
     compile "com.android.support:appcompat-v7:${supportLibVersion}"
