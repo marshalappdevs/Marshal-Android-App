@@ -149,6 +149,7 @@
     <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
 
     <!--About-->
+    <string name="about_version">גרסה %1$s (%2$s)</string>
     <string name="about_contributors_heading">מפתחים ותורמים</string>
     <string name="contributors_list">אלמוני פלוני</string>
     <string name="about_libraries_heading">ספריות בשימוש</string>

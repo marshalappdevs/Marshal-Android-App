@@ -9,6 +9,7 @@ import android.support.v4.app.ShareCompat;
 import android.support.v4.content.FileProvider;
 import android.util.Log;
 
+import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.bumptech.glide.Glide;
@@ -55,7 +56,7 @@ class ShareCourseImageTask extends AsyncTask<Void, Void, File> {
         File renamed = new File(result.getParent(), fileName);
         result.renameTo(renamed);
         Uri uri = FileProvider.getUriForFile(mContext,
-                mContext.getString(R.string.share_authority), renamed);
+                BuildConfig.APPLICATION_ID + ".shareprovider", renamed);
         ShareCompat.IntentBuilder.from((Activity) mContext)
                 .setText(getShareText())
                 .setType(getImageMimeType(fileName))

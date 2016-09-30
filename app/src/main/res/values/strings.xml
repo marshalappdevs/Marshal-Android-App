@@ -1,5 +1,4 @@
 <resources xmlns:tools="http://schemas.android.com/tools" xmlns:xliff="urn:oasis:names:tc:xliff:document:1.2">
-    <string name="app_name" translatable="false">BasmApp</string>
     <string name="title_activity_course" translatable="false">CourseActivity</string>
 
     <string name="yes">Yes</string>
@@ -154,6 +153,7 @@
     <string name="regrettable_lack_of_easter_egg" translatable="false">¯\\_(ツ)_/¯</string>
 
     <!--About-->
+    <string name="about_version">Version %1$s (%2$s)</string>
     <string name="about_contributors_heading">Developers &amp; Contributors</string>
     <string name="contributors_list">John Doe</string>
     <string name="about_libraries_heading">Libraries used</string>
@@ -327,7 +327,6 @@
     <!-- Server Client ID.  This should be a valid Web OAuth 2.0 Client ID obtained
      from https://console.developers.google.com/ -->
     <string name="server_client_id" translatable="false" tools:ignore="TypographyDashes">614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com</string>
-    <string name="share_authority" translatable="false">com.basmapp.marshal.shareprovider</string>
     <string name="review_comment1">היה קורס מצוין. למדתי המון.</string>
     <string name="review_comment2">למדתי המון והחומרים היו רלוונטיים. מבחינה לוגיסטית טעון שיפור.</string>
     <string name="review_comment3">לא היה כל כך רלוונטי. לוגיסטית טעון שיפור</string>

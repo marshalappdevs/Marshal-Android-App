@@ -125,7 +125,7 @@
 
         <provider
             android:name=".util.SuggestionProvider"
-            android:authorities="com.basmapp.marshal.SuggestionProvider"
+            android:authorities="${applicationId}.SuggestionProvider"
             android:exported="false" />
 
         <service
@@ -149,7 +149,7 @@
 
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="@string/share_authority"
+            android:authorities="${applicationId}.shareprovider"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

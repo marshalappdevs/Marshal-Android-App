@@ -59,7 +59,10 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        ((TextView) findViewById(R.id.about_version_text)).setText(BuildConfig.VERSION_NAME);
+        ((TextView) findViewById(R.id.about_version_text)).setText(
+                String.format(getString(R.string.about_version),
+                        BuildConfig.VERSION_NAME,
+                        Integer.toString(BuildConfig.VERSION_CODE)));
 
         TextView librariesTextView = (TextView) findViewById(R.id.activity_about_libraries);
         removeUnderlinesFromLinks(librariesTextView);
