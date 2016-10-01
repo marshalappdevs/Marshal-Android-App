@@ -6,9 +6,12 @@ import android.content.SharedPreferences;
 
 import android.net.Uri;
 import android.preference.PreferenceManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
+
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
+import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
@@ -51,8 +54,31 @@ public class FcmIntentService extends FirebaseMessagingService {
 
         /********************************************/
 
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-                MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        Intent resultIntent = new Intent(this, CourseActivity.class);
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        // Adds the back stack
+        stackBuilder.addParentStack(MainActivity.class);
+        // Adds the Intent to the top of the stack
+        stackBuilder.addNextIntent(resultIntent);
+        // Gets a PendingIntent containing the entire back stack
+        PendingIntent resultPendingIntent =
+                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+
+        Intent notifyIntent =
+                new Intent(this, MainActivity.class);
+        // Sets the Activity to start in a new, empty task
+        notifyIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+        // Creates the PendingIntent
+        PendingIntent notifyPendingIntent =
+                PendingIntent.getActivity(
+                        this,
+                        0,
+                        notifyIntent,
+                        PendingIntent.FLAG_UPDATE_CURRENT
+                );
 
         String type = (String) data.get("type");
 
