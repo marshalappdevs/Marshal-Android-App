@@ -614,7 +614,7 @@ public class MainActivity extends BaseActivity
                 Uri uri = acct.getPhotoUrl();
                 Glide.with(this)
                         .load(uri)
-                        .placeholder(R.drawable.ic_profile_none)
+                        .placeholder(R.drawable.ic_default_avatar)
                         .transform(new CircleTransform(this))
                         .into(mProfileImageView);
 

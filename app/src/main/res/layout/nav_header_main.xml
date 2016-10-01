@@ -9,15 +9,9 @@
         android:id="@+id/cover_photo_placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="?colorPrimary"
+        android:background="@drawable/inline_cover_placeholder"
         android:contentDescription="@null"
-        android:paddingBottom="16.0dp"
-        android:paddingEnd="16.0dp"
-        android:paddingStart="16.0dp"
-        android:paddingTop="16.0dp"
-        android:scaleType="fitEnd"
-        android:visibility="gone"
-        app:srcCompat="@drawable/basmach_logo" />
+        android:visibility="visible" />
 
     <ImageView
         android:id="@+id/cover_photo"
@@ -26,7 +20,8 @@
         android:contentDescription="@null"
         android:foreground="@color/navigation_view_cover_overlay_shade"
         android:scaleType="centerCrop"
-        android:src="@drawable/bg_default_profile_art" />
+        android:src="@drawable/bg_default_profile_art"
+        android:visibility="gone" />
 
     <include
         android:id="@+id/avatar"

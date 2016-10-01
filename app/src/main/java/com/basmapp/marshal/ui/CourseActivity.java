@@ -521,7 +521,7 @@ public class CourseActivity extends BaseActivity {
                                 Glide.with(CourseActivity.this)
                                         .load(uri)
                                         .transform(new CircleTransform(CourseActivity.this))
-                                        .placeholder(R.drawable.ic_profile_none)
+                                        .placeholder(R.drawable.ic_default_avatar)
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewHint.setVisibility(View.GONE);
                                 mTextViewReviewText.setText(((Rating) (data.get(0))).getComment());
@@ -611,7 +611,7 @@ public class CourseActivity extends BaseActivity {
         Glide.with(this)
                 .load(uri)
                 .transform(new CircleTransform(this))
-                .placeholder(R.drawable.ic_profile_none)
+                .placeholder(R.drawable.ic_default_avatar)
                 .into(mProfileImageView);
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
@@ -711,7 +711,7 @@ public class CourseActivity extends BaseActivity {
                                 Uri uri = MainActivity.sUserProfileImage;
                                 Glide.with(CourseActivity.this)
                                         .load(uri)
-                                        .placeholder(R.drawable.ic_profile_none)
+                                        .placeholder(R.drawable.ic_default_avatar)
                                         .into(mReviewProfileImageView);
                                 mTextViewReviewEdited.setVisibility(View.GONE);
 
