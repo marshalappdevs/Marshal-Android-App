@@ -34,7 +34,7 @@ public class Course extends DBObject implements Parcelable {
     public static final String CATEGORY_SYSTEM = "system";
 
     // TODO RETROFIT SerializedName
-    @PrimaryKey(columnName = DBConstants.COL_ID)
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
     private long id;
 
     @Expose

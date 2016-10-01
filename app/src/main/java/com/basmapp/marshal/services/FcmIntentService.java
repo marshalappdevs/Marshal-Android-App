@@ -31,40 +31,6 @@ public class FcmIntentService extends FirebaseMessagingService {
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 
         NotificationUtils mNotificationUtils = new NotificationUtils(this);
-//
-//        Uri ringtoneUri = mNotificationUtils.getRingtoneUri();
-//        long[] vibrate = mNotificationUtils.getVibrate();
-//        int lightColor = mNotificationUtils.getLightColor();
-//
-//        long[] vibrate = new long[]{0};
-//        if (sharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_NEW_MESSAGE, false)) {
-//            vibrate = new long[]{0,1000};
-//        }
-
-//        String ringtonePref = sharedPreferences.getString(Constants.PREF_NOTIFICATIONS_NEW_RINGTONE, null);
-//        Uri ringtoneUri;
-//        if (ringtonePref != null) {
-//            ringtoneUri = Uri.parse(ringtonePref);
-//        } else {
-//            ringtoneUri = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
-//        }
-
-//        int lightColor = Color.parseColor(sharedPreferences
-//                .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF"));
-
-        /********************************************/
-
-
-        Intent resultIntent = new Intent(this, CourseActivity.class);
-        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-        // Adds the back stack
-        stackBuilder.addParentStack(MainActivity.class);
-        // Adds the Intent to the top of the stack
-        stackBuilder.addNextIntent(resultIntent);
-        // Gets a PendingIntent containing the entire back stack
-        PendingIntent resultPendingIntent =
-                stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
-
 
         Intent notifyIntent =
                 new Intent(this, MainActivity.class);
@@ -84,7 +50,8 @@ public class FcmIntentService extends FirebaseMessagingService {
 
         switch (type) {
             case "commands":
-                String[] commands = (String[]) data.get("commands");
+                String[] commands = ((String)data.get("commands")).replace("\"","").replace("[","")
+                        .replace("]","").split(",");
                 if (commands != null) {
                     executeCommands(commands);
                 }
@@ -113,35 +80,6 @@ public class FcmIntentService extends FirebaseMessagingService {
             default:
                 break;
         }
-        /********************************************/
-//        String message = data.getString("message");
-//        if (message != null &&
-//                message.equals("set-registration-state=false")) {
-//            FcmRegistrationService.setDeviceRegistrationState(this, false);
-//        } else if (message != null && message.equals("data-update-true")) {
-//            Log.i("FCM", "data-update-true");
-//            UpdateIntentService.startUpdateData(this);
-//        } else if (message != null && message.equals("reset-fcm-registration-pref")) {
-//            mSharedPreferences.edit().putBoolean(Constants.PREF_IS_DEVICE_REGISTERED, false).apply();
-//        } else if (message != null && message.equals("show-must-update-dialog")) {
-//            mSharedPreferences.edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
-//        } else if (message != null && message.contains("show-picture-style-notification")
-//                && mSharedPreferences.getBoolean("notifications_new_message", true)) {
-//            String[] separated = message.split(";");
-//
-//            PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-//                    MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//            new NotificationUtils.GeneratePictureStyleNotification(this, separated[1].trim(), separated[2].trim(),
-//                    vibrate, ringtoneUri, lightColor, notifyPendingIntent).execute();
-//        } else {
-//            if (mSharedPreferences.getBoolean(Constants.PREF_NOTIFY_NEW_MESSAGE, true)) {
-//                PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
-//                        MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
-//
-//                mNotificationUtils.notify(message, notifyPendingIntent);
-//            }
-//        }
     }
 
     private void executeCommands(String[] commands) {

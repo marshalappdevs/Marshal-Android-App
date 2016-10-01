@@ -7,6 +7,7 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 import com.basmapp.marshal.ApplicationMarshal;
@@ -20,6 +21,7 @@ import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.LocalDBHelper;
+import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.basmapp.marshal.util.AuthUtil;
@@ -441,15 +443,37 @@ public class UpdateIntentService extends IntentService {
     private void notifyNewCourses(List<Course> newCourses) {
         List<Course> courses = getCoursesMatchUserChannels(newCourses);
 
-        PendingIntent notifyPendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        try {
+            Course course = (Course) Course.findOne(DBConstants.COL_COURSE_CODE, newCourses.get(0).getCourseCode(),
+                    this, Course.class);
+
+            Intent courseActivityIntent = new Intent(this, CourseActivity.class);
+            courseActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                    | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+            courseActivityIntent.putExtra(Constants.EXTRA_COURSE, course);
+
+            TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+            // Adds the back stack
+            stackBuilder.addParentStack(MainActivity.class);
+            // Adds the Intent to the top of the stack
+            stackBuilder.addNextIntent(courseActivityIntent);
+            // Gets a PendingIntent containing the entire back stack
+            pendingIntent =
+                    stackBuilder.getPendingIntent(0, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         String message = "New " + courses.get(0).getName() + " course!";
         new NotificationUtils.GeneratePictureStyleNotification(this, message,
-                courses.get(0).getImageUrl(), notifyPendingIntent).execute();
+                courses.get(0).getImageUrl(), pendingIntent).execute();
         if (courses.size() > 1) {
             String restCoursesMessage = "We have " + (courses.size()) + " new courses!\n" +
                     "Tap and take a look!";
-            new NotificationUtils(this).notify(restCoursesMessage, notifyPendingIntent);
+            new NotificationUtils(this).notify(restCoursesMessage, pendingIntent);
         }
     }
 

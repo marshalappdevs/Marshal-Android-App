@@ -22,7 +22,7 @@ import java.util.Date;
 @TableName(name = DBConstants.T_CYCLE)
 public class Cycle extends DBObject implements Parcelable {
 
-    @PrimaryKey(columnName = DBConstants.COL_ID)
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
     private long id;
 
     @Expose

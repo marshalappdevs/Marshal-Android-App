@@ -1,6 +1,14 @@
 apply plugin: 'com.android.application'
 
 android {
+    signingConfigs {
+        basmapp_keystore_release {
+            keyAlias 'basmapp_keystore_release'
+            keyPassword 'turugsu'
+            storeFile file('C:/Users/Ido/AndroidStudioProjects/Marshal-Android-App/app/basmapp_keystore_release.jks')
+            storePassword 'gsuutur'
+        }
+    }
     compileSdkVersion 24
     buildToolsVersion "24.0.2"
     defaultConfig {

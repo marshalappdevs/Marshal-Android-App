@@ -25,7 +25,7 @@ public class Rating extends DBObject implements Parcelable {
         super(context);
     }
 
-    @PrimaryKey(columnName = DBConstants.COL_ID)
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
     private long id;
 
     @Column(name = DBConstants.COL_USER_MAIL_ADDRESS)

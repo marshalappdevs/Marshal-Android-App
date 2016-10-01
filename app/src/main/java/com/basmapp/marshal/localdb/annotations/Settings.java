@@ -7,7 +7,6 @@ import java.lang.annotation.Target;
 
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
-public @interface PrimaryKey {
-    String columnName();
-    boolean isAutoIncrement();
+public @interface Settings {
+    boolean isPrimaryKeyAutoIncrement();
 }
