@@ -2,6 +2,7 @@ package com.basmapp.marshal.ui;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.format.DateFormat;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -9,7 +10,6 @@ import android.widget.TextView;
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.R;
 
-import java.text.DateFormat;
 import java.util.Date;
 import java.util.TimeZone;
 
@@ -28,13 +28,12 @@ public class WrongClock extends BaseActivity {
             }
         });
 
-        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
-        DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(getApplicationContext());
+        String date = DateFormat.getDateFormat(getApplicationContext()).format(new Date());
+        String time = DateFormat.getTimeFormat(getApplicationContext()).format(new Date());
 
         TextView wrongDate = (TextView) findViewById(R.id.clock_wrong_date);
         wrongDate.setText(String.format(getString(R.string.clock_wrong_report_current_date_time),
-                dateFormat.format(new Date()) + ", " + timeFormat.format(new Date()),
-                (TimeZone.getDefault().getDisplayName())));
+                date + ", " + time, (TimeZone.getDefault().getDisplayName())));
     }
 
     @Override
