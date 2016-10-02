@@ -111,9 +111,9 @@
     <color name="user_color">#80000000</color>
     <color name="divider_color">#1F000000</color>
     <color name="primary_android_color">#DE000000</color> <!-- 87% black -->
-    <color name="primary_android_color_inverted">#FFFFFFFF</color> <!-- 100% white -->
+    <color name="primary_android_color_inverse">#FFFFFFFF</color> <!-- 100% white -->
     <color name="secondary_android_color">#8A000000</color> <!-- 54% black -->
-    <color name="secondary_android_color_inverted">#B3FFFFFF</color> <!-- 70% white -->
+    <color name="secondary_android_color_inverse">#B3FFFFFF</color> <!-- 70% white -->
     <color name="placeholder_background">#ffeeeeee</color>
     <color name="materials_card_background">#08000000</color>
     <color name="hash_tags_background">#10000000</color>
@@ -129,5 +129,5 @@
     <color name="page_indicator_selected">#ffffffff</color>
     <color name="highlight_banner_card_treatment_bg">#ff364852</color>
     <color name="bottom_sheet_background">@android:color/white</color>
-
+    <color name="fab_icon_color">#FFFFFFFF</color>
 </resources>

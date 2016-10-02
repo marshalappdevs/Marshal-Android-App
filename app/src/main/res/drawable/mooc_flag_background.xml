@@ -15,7 +15,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="@color/red_accent_color" />
+            <solid android:color="#EA3D41" />
         </shape>
     </item>
 </layer-list>
