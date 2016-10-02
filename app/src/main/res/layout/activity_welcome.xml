@@ -44,7 +44,7 @@
             android:text="@string/warm_welcome_skip_button"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="18.0sp" />
+            android:textSize="18sp" />
 
         <com.basmapp.marshal.ui.widget.InkPageIndicator
             android:id="@+id/intro_indicator"
@@ -85,7 +85,7 @@
             android:text="@string/warm_welcome_done_button"
             android:textAllCaps="true"
             android:textColor="@android:color/white"
-            android:textSize="18.0sp"
+            android:textSize="18sp"
             android:visibility="gone" />
     </FrameLayout>
 </android.support.design.widget.CoordinatorLayout>

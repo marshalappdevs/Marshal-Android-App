@@ -149,6 +149,12 @@
     <string name="welcome_materials_subtitle">ראה והורד חומרי עזר ולימוד יעודיים עבור קורסים, השתלמויות ומבחנים</string>
     <string name="welcome_malshab_title">מידע למלש\"ב</string>
     <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
+    <string name="clock_wrong">תאריך הטלפון שלך אינו מדויק! כוון את השעון שלך ונסה שוב.</string>
+    <string name="clock_wrong_report_current_date_time">"תאריך ושעת הטלפון שלך:
+%1$s
+(%2$s)"</string>
+    <string name="clock_wrong_title">התאריך לא מדויק</string>
+    <string name="adjust_date">הגדר תאריך</string>
 
     <!--About-->
     <string name="about_version">גרסה %1$s (%2$s)</string>

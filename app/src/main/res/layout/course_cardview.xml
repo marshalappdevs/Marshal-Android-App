@@ -41,7 +41,7 @@
                     android:layout_marginTop="4.0dp"
                     android:layout_weight="1"
                     android:ellipsize="end"
-                    android:lineSpacingExtra="0.0sp"
+                    android:lineSpacingExtra="0sp"
                     android:maxLines="3"
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"

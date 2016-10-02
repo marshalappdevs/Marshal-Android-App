@@ -30,7 +30,7 @@
         android:paddingRight="16.0dp"
         android:paddingTop="4.0dp"
         android:gravity="center_horizontal"
-        android:textSize="16.0sp"
+        android:textSize="16sp"
         android:textColor="@android:color/white"
         android:text="@string/review_by" />
 </RelativeLayout>

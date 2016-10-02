@@ -80,7 +80,7 @@
                             android:paddingTop="8.0dp"
                             android:text="@string/describe_problem_screenshots"
                             android:textColor="?colorAccent"
-                            android:textSize="16.0sp" />
+                            android:textSize="16sp" />
 
                         <View
                             android:layout_width="match_parent"

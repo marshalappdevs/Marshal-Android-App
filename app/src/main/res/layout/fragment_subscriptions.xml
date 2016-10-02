@@ -29,7 +29,7 @@
             android:gravity="center"
             android:text="@string/regrettable_lack_of_easter_egg"
             android:textColor="?android:textColorSecondary"
-            android:textSize="18.0sp"
+            android:textSize="18sp"
             android:visibility="visible" />
 
         <TextView
@@ -40,7 +40,7 @@
             android:gravity="center"
             android:text="@string/no_subscriptions"
             android:textColor="?android:textColorSecondary"
-            android:textSize="18.0sp"
+            android:textSize="18sp"
             android:visibility="visible" />
     </LinearLayout>
 

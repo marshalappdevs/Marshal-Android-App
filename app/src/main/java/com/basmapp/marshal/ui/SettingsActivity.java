@@ -374,43 +374,43 @@ public class SettingsActivity extends BaseActivity {
 
         public String primaryColorName() {
             String primaryColorName;
-            if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#F44336")) {
+            if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[0]) {
                 primaryColorName = getString(R.string.red);
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#E91E63")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[1]) {
                 primaryColorName = (getString(R.string.pink));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#9C27B0")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[2]) {
                 primaryColorName = (getString(R.string.purple));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#673AB7")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[3]) {
                 primaryColorName = (getString(R.string.deep_purple));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#3F51B5")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[4]) {
                 primaryColorName = (getString(R.string.indigo));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#2196F3")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[5]) {
                 primaryColorName = (getString(R.string.blue));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#03A9F4")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[6]) {
                 primaryColorName = (getString(R.string.light_blue));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#00BCD4")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[7]) {
                 primaryColorName = (getString(R.string.cyan));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#009688")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[8]) {
                 primaryColorName = (getString(R.string.teal));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#4CAF50")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[9]) {
                 primaryColorName = (getString(R.string.green));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#8BC34A")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[10]) {
                 primaryColorName = (getString(R.string.light_green));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#CDDC39")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[11]) {
                 primaryColorName = (getString(R.string.lime));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#FFEB3B")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[12]) {
                 primaryColorName = (getString(R.string.yellow));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#FFC107")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[13]) {
                 primaryColorName = (getString(R.string.amber));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#FF9800")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[14]) {
                 primaryColorName = (getString(R.string.orange));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#FF5722")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[15]) {
                 primaryColorName = (getString(R.string.deep_orange));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#795548")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[16]) {
                 primaryColorName = (getString(R.string.brown));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#9E9E9E")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[17]) {
                 primaryColorName = (getString(R.string.grey));
-            } else if (MainActivity.getPrimaryColorCode(getActivity()) == Color.parseColor("#607D8B")) {
+            } else if (MainActivity.getPrimaryColorCode(getActivity()) == PRIMARY_COLORS[18]) {
                 primaryColorName = (getString(R.string.blue_grey));
             } else {
                 primaryColorName = (getString(R.string.black));
@@ -420,35 +420,35 @@ public class SettingsActivity extends BaseActivity {
 
         public String accentColorName() {
             String accentColorName;
-            if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#FF5252")) {
+            if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[0]) {
                 accentColorName = getString(R.string.red);
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#FF4081")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[1]) {
                 accentColorName = (getString(R.string.pink));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#E040FB")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[2]) {
                 accentColorName = (getString(R.string.purple));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#7C4DFF")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[3]) {
                 accentColorName = (getString(R.string.deep_purple));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#536DFE")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[4]) {
                 accentColorName = (getString(R.string.indigo));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#448AFF")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[5]) {
                 accentColorName = (getString(R.string.blue));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#40C4FF")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[6]) {
                 accentColorName = (getString(R.string.light_blue));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#18FFFF")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[7]) {
                 accentColorName = (getString(R.string.cyan));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#64FFDA")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[8]) {
                 accentColorName = (getString(R.string.teal));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#69F0AE")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[9]) {
                 accentColorName = (getString(R.string.green));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#B2FF59")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[10]) {
                 accentColorName = (getString(R.string.light_green));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#EEFF41")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[11]) {
                 accentColorName = (getString(R.string.lime));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#FFFF00")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[12]) {
                 accentColorName = (getString(R.string.yellow));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#FFD740")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[13]) {
                 accentColorName = (getString(R.string.amber));
-            } else if (MainActivity.getAccentColorCode(getActivity()) == Color.parseColor("#FFAB40")) {
+            } else if (MainActivity.getAccentColorCode(getActivity()) == ACCENT_COLORS[14]) {
                 accentColorName = (getString(R.string.orange));
             } else {
                 accentColorName = (getString(R.string.deep_orange));

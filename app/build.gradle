@@ -5,7 +5,7 @@ android {
         basmapp_keystore_release {
             keyAlias 'basmapp_keystore_release'
             keyPassword 'turugsu'
-            storeFile file('C:/Users/Ido/AndroidStudioProjects/Marshal-Android-App/app/basmapp_keystore_release.jks')
+            storeFile file('basmapp_keystore_release.jks')
             storePassword 'gsuutur'
         }
     }

@@ -56,7 +56,7 @@
                 android:text="@string/edit_review"
                 android:textAllCaps="true"
                 android:textColor="?colorAccent"
-                android:textSize="14.0sp" />
+                android:textSize="14sp" />
         </LinearLayout>
 
         <View
@@ -80,7 +80,7 @@
                 android:focusable="true"
                 android:paddingEnd="8.0dp"
                 android:textColor="?android:textColorPrimary"
-                android:textSize="14.0sp" />
+                android:textSize="14sp" />
 
             <TextView
                 android:id="@+id/your_review_label"
@@ -93,7 +93,7 @@
                 android:text="@string/your_review_text"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
-                android:textSize="10.0sp"
+                android:textSize="10sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -123,20 +123,20 @@
                 android:id="@+id/review_date"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="0.0sp"
+                android:lineSpacingExtra="0sp"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="12.0sp"
+                android:textSize="12sp"
                 android:visibility="gone" />
 
             <TextView
                 android:id="@+id/review_edited"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:lineSpacingExtra="0.0sp"
+                android:lineSpacingExtra="0sp"
                 android:paddingStart="6.0dp"
                 android:text="@string/review_edited_after_developer_reply"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="12.0sp"
+                android:textSize="12sp"
                 android:visibility="gone" />
         </LinearLayout>
 
@@ -158,9 +158,9 @@
                 android:layout_height="wrap_content"
                 android:ellipsize="end"
                 android:focusable="true"
-                android:lineSpacingExtra="0.0sp"
+                android:lineSpacingExtra="0sp"
                 android:textColor="?android:textColorSecondary"
-                android:textSize="12.0sp" />
+                android:textSize="12sp" />
         </FrameLayout>
 
         <View
@@ -179,7 +179,7 @@
             android:focusable="true"
             android:paddingEnd="32.0dp"
             android:textColor="?android:textColorPrimary"
-            android:textSize="14.0sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:visibility="gone" />
 

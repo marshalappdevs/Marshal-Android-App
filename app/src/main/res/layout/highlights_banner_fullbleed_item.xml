@@ -32,7 +32,7 @@
     <View
         android:id="@+id/swatch"
         android:layout_width="match_parent"
-        android:layout_height="88.0dip"
+        android:layout_height="88dp"
         android:layout_alignParentTop="true" />
 
     <LinearLayout
@@ -47,7 +47,7 @@
         android:focusable="false"
         android:gravity="bottom|center"
         android:orientation="vertical"
-        android:paddingBottom="16.0dip">
+        android:paddingBottom="16dp">
 
         <TextView
             android:id="@+id/li_title"
@@ -62,7 +62,7 @@
             android:textColor="@android:color/white"
             android:fontFamily="sans-serif-medium"
             style="@android:style/TextAppearance.Medium"
-            android:textSize="18.0sp"
+            android:textSize="18sp"
             android:textStyle="normal" />
 
         <TextView
@@ -72,12 +72,12 @@
             android:ellipsize="marquee"
             android:gravity="center"
             android:maxLines="1"
-            android:paddingBottom="16.0dip"
+            android:paddingBottom="16dp"
             android:shadowColor="#61000000"
             android:shadowDy="1.0"
             android:shadowRadius="3.0"
             android:textColor="@android:color/white"
-            android:textSize="16.0sp"
+            android:textSize="16sp"
             android:textStyle="normal" />
     </LinearLayout>
 </RelativeLayout>

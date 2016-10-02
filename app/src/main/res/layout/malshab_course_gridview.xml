@@ -31,6 +31,6 @@
             android:paddingStart="8dp"
             android:paddingTop="16dp"
             android:textColor="?android:textColorPrimary"
-            android:textSize="16.0sp" />
+            android:textSize="16sp" />
     </LinearLayout>
 </android.support.v7.widget.CardView>

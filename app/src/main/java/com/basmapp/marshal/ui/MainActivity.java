@@ -147,6 +147,9 @@ public class MainActivity extends BaseActivity
             }
         }
 
+        // TODO: compare device date to server
+//        startActivity(new Intent(this, WrongClock.class));
+
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
         // Set course fragment as main fragment
