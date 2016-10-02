@@ -113,7 +113,7 @@
                 android:paddingEnd="4dp"
                 android:paddingStart="4dp"
                 android:paddingTop="2dp"
-                android:textColor="?android:textColorPrimary"
+                android:textColor="@android:color/white"
                 android:text="@string/mooc_flag_title"
                 android:textAllCaps="true"
                 android:textSize="12sp"
