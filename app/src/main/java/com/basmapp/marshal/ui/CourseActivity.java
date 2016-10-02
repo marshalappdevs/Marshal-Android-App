@@ -123,6 +123,7 @@ public class CourseActivity extends BaseActivity {
     private SharedPreferences mSharedPreferences;
 
     private MaterialTapTargetPrompt mFabPrompt;
+    private ArrayList<Cycle> mCycles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -207,6 +208,7 @@ public class CourseActivity extends BaseActivity {
                             bottomSheetDialog.setContentView(sheetView);
                             bottomSheetDialog.show();
                             try {
+                                mCycles = mCourse.getCycles();
                                 orderCyclesByAscending();
                                 RecyclerView recyclerView = (RecyclerView)
                                         sheetView.findViewById(R.id.cycle_activity_recyclerView);
@@ -215,7 +217,7 @@ public class CourseActivity extends BaseActivity {
                                 recyclerView.setLayoutManager(linearLayoutManager);
                                 recyclerView.setItemAnimator(new DefaultItemAnimator());
                                 CyclesRecyclerAdapter cyclesRecyclerAdapter =
-                                        new CyclesRecyclerAdapter(CourseActivity.this, cycles, mCourse);
+                                        new CyclesRecyclerAdapter(CourseActivity.this, mCycles, mCourse);
                                 recyclerView.setAdapter(cyclesRecyclerAdapter);
                             } catch (Exception e) {
                                 e.printStackTrace();
@@ -490,7 +492,7 @@ public class CourseActivity extends BaseActivity {
     }
 
     private void orderCyclesByAscending() {
-        Collections.sort(mCourse.getCycles(), new Comparator<Cycle>() {
+        Collections.sort(mCycles, new Comparator<Cycle>() {
             public int compare(Cycle cycle1, Cycle cycle2) {
                 if (cycle1.getStartDate() == null || cycle2.getStartDate() == null)
                     return 0;
