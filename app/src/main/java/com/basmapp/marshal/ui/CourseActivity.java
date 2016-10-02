@@ -82,6 +82,7 @@ public class CourseActivity extends BaseActivity {
 
     private TextView mTextViewCourseName;
     private TextView mTextViewCourseCategory;
+    private TextView mTextViewCourseMooc;
     private TextView mTextViewCourseCode;
     private TextView mTextViewGeneralDescription;
     private TextView mTextViewSyllabus;
@@ -345,6 +346,7 @@ public class CourseActivity extends BaseActivity {
 
             mTextViewCourseName = (TextView) findViewById(R.id.course_content_textView_courseName);
             mTextViewCourseCategory = (TextView) findViewById(R.id.course_content_textView_courseCategory);
+            mTextViewCourseMooc = (TextView) findViewById(R.id.mooc_badge);
             mTextViewCourseCode = (TextView) findViewById(R.id.course_content_textView_courseCode);
             mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
@@ -885,6 +887,11 @@ public class CourseActivity extends BaseActivity {
                 mTextViewCourseCategory.setText(getString(R.string.course_type_tools));
             if (Objects.equals(mCourse.getCategory(), "system"))
                 mTextViewCourseCategory.setText(getString(R.string.course_type_system));
+            if (mCourse.getIsMooc()) {
+                mTextViewCourseMooc.setVisibility(View.VISIBLE);
+            } else {
+                mTextViewCourseMooc.setVisibility(View.GONE);
+            }
             isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_category).setVisibility(View.GONE);

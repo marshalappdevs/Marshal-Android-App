@@ -55,8 +55,6 @@
         </android.support.design.widget.CollapsingToolbarLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_course" />
-
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/course_activity_fab_cycles"
         android:layout_width="wrap_content"
@@ -65,5 +63,7 @@
         app:layout_anchor="@id/app_bar"
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_course_fab_cycle" />
+
+    <include layout="@layout/content_course" />
 
 </android.support.design.widget.CoordinatorLayout>
