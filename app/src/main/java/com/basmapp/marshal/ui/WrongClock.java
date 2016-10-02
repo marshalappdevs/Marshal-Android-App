@@ -28,9 +28,12 @@ public class WrongClock extends BaseActivity {
             }
         });
 
+        DateFormat dateFormat = android.text.format.DateFormat.getDateFormat(getApplicationContext());
+        DateFormat timeFormat = android.text.format.DateFormat.getTimeFormat(getApplicationContext());
+
         TextView wrongDate = (TextView) findViewById(R.id.clock_wrong_date);
         wrongDate.setText(String.format(getString(R.string.clock_wrong_report_current_date_time),
-                DateFormat.getDateTimeInstance().format(new Date()),
+                dateFormat.format(new Date()) + ", " + timeFormat.format(new Date()),
                 (TimeZone.getDefault().getDisplayName())));
     }
 
