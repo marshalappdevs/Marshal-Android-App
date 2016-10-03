@@ -15,7 +15,6 @@ import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.Button;
@@ -167,8 +166,7 @@ public class DescribeProblemActivity extends BaseActivity {
                     if (uris[finalI] != null && attachments.contains(uris[finalI])) {
                         attachments.remove(uris[finalI]);
                         uris[finalI] = null;
-                        screenshots[finalI].setImageDrawable(ContextCompat.getDrawable(
-                                DescribeProblemActivity.this, R.drawable.ic_add_large));
+                        screenshots[finalI].setImageResource(R.drawable.ic_add_large);
                         screenshots[finalI].setScaleType(ImageView.ScaleType.CENTER);
                         Snackbar.make(findViewById(R.id.coordinatorLayout),
                                 R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();

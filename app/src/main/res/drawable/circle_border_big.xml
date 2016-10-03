@@ -3,9 +3,9 @@
     <item>
         <shape android:shape="oval">
             <gradient
-                android:startColor="#33000000"
+                android:angle="90.0"
                 android:endColor="#00000000"
-                android:angle="90.0" />
+                android:startColor="#33000000" />
             <padding
                 android:bottom="1.4dp"
                 android:left="1dp"
@@ -20,10 +20,10 @@
                 android:width="3.4dp"
                 android:color="@android:color/white" />
             <padding
+                android:bottom="2.4dp"
                 android:left="2.4dp"
-                android:top="2.4dp"
                 android:right="2.4dp"
-                android:bottom="2.4dp" />
+                android:top="2.4dp" />
         </shape>
     </item>
 </layer-list>
