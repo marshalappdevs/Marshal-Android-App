@@ -70,7 +70,7 @@
                         android:gravity="start"
                         android:includeFontPadding="false"
                         android:maxLines="1"
-                        android:paddingBottom="1.0dp"
+                        android:paddingBottom="1dp"
                         android:textColor="@color/url_color" />
 
                 </LinearLayout>

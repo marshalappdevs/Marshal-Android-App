@@ -31,8 +31,8 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
-            android:layout_marginTop="8.0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:gravity="center_vertical"
             android:orientation="vertical">
 
@@ -57,8 +57,8 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
-            android:layout_marginTop="8.0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/about_contributors_heading"
             android:textColor="?android:textColorPrimary"
             android:visibility="gone" />
@@ -66,7 +66,7 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
+            android:layout_marginBottom="8dp"
             android:lineSpacingMultiplier="1.2"
             android:text="@string/contributors_list"
             android:textAppearance="?android:textAppearanceSmall"
@@ -78,8 +78,8 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
-            android:layout_marginTop="8.0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/about_libraries_heading"
             android:textColor="?android:textColorPrimary" />
 
@@ -87,7 +87,7 @@
             android:id="@+id/activity_about_libraries"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
+            android:layout_marginBottom="8dp"
             android:lineSpacingMultiplier="1.2"
             android:text="@string/libraries_list"
             android:textAppearance="?android:textAppearanceSmall"
@@ -99,8 +99,8 @@
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
-            android:layout_marginTop="8.0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="8dp"
             android:text="@string/about_app_license_heading"
             android:textColor="?android:textColorPrimary" />
 
@@ -108,7 +108,7 @@
             android:id="@+id/about_app_license"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8.0dp"
+            android:layout_marginBottom="8dp"
             android:lineSpacingMultiplier="1.2"
             android:text="@string/about_app_license"
             android:textAppearance="?android:textAppearanceSmall"
@@ -121,8 +121,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_horizontal"
-            android:layout_marginBottom="8.0dp"
-            android:layout_marginTop="32.0dp"
+            android:layout_marginBottom="8dp"
+            android:layout_marginTop="32dp"
             android:background="?attr/selectableItemBackground"
             android:text="@string/about_rate_app"
             android:textColor="?colorAccent" />
@@ -130,23 +130,23 @@
         <View
             android:layout_width="match_parent"
             android:layout_height="1.0px"
-            android:layout_marginBottom="12.0dp"
-            android:layout_marginTop="12.0dp"
+            android:layout_marginBottom="12dp"
+            android:layout_marginTop="12dp"
             android:background="@color/divider_color" />
 
         <ImageView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_margin="12.0dp"
+            android:layout_margin="12dp"
             android:contentDescription="@null"
-            android:padding="4.0dp"
+            android:padding="4dp"
             android:src="@mipmap/ic_bsmh_old" />
 
         <TextView
             android:id="@+id/about_basmach"
             style="?android:textAppearanceSmall"
             android:layout_width="match_parent"
-            android:layout_height="0.0dp"
+            android:layout_height="0dp"
             android:layout_gravity="center_horizontal"
             android:layout_weight="1.0"
             android:gravity="center_horizontal"

@@ -5,6 +5,7 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
@@ -141,12 +143,9 @@ public class DescribeProblemActivity extends BaseActivity {
             }
         });
 
-        screenshots[0] = (ImageView) findViewById(R.id.screenshot_one);
-        screenshots[1] = (ImageView) findViewById(R.id.screenshot_two);
-        screenshots[2] = (ImageView) findViewById(R.id.screenshot_three);
-
         for (int i = 0; i < screenshots.length; i++) {
             final int finalI = i;
+            screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
             screenshots[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -198,8 +197,8 @@ public class DescribeProblemActivity extends BaseActivity {
                         uris[0] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[0]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[0].setImageBitmap(bitmap);
                         screenshots[0].setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        screenshots[0].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
@@ -214,8 +213,8 @@ public class DescribeProblemActivity extends BaseActivity {
                         uris[1] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[1]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[1].setImageBitmap(bitmap);
                         screenshots[1].setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        screenshots[1].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
@@ -227,12 +226,41 @@ public class DescribeProblemActivity extends BaseActivity {
                         uris[2] = Uri.fromFile(new File(filePath));
                         attachments.add(uris[2]);
                         Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[2].setImageBitmap(bitmap);
                         screenshots[2].setScaleType(ImageView.ScaleType.CENTER_CROP);
+                        screenshots[2].setImageBitmap(bitmap);
                     } else {
                         Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
                     }
                 }
+            }
+        }
+    }
+
+    @Override
+    public void onConfigurationChanged(Configuration newConfig) {
+        super.onConfigurationChanged(newConfig);
+        // Checks the orientation of the screen
+        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            // Landscape
+            LinearLayout.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(0, MainActivity.dp2px(288), 1.0F);
+            int margin = getResources().getDimensionPixelSize(R.dimen.medium_thumbnail_padding);
+            layoutParams.setMargins(margin, margin, margin, margin);
+            int i1 = 0;
+            while (i1 < 3) {
+                screenshots[i1].setLayoutParams(layoutParams);
+                i1 += 1;
+            }
+        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
+            // Portrait
+            LinearLayout.LayoutParams layoutParams =
+                    new LinearLayout.LayoutParams(0, MainActivity.dp2px(144), 1.0F);
+            int margin = getResources().getDimensionPixelSize(R.dimen.medium_thumbnail_padding);
+            layoutParams.setMargins(margin, margin, margin, margin);
+            int i1 = 0;
+            while (i1 < 3) {
+                screenshots[i1].setLayoutParams(layoutParams);
+                i1 += 1;
             }
         }
     }

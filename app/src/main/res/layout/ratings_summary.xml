@@ -36,7 +36,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignBaseline="@id/course_content_textView_ratingsAmount"
-            android:layout_marginStart="3.0dp"
+            android:layout_marginStart="3dp"
             android:layout_toEndOf="@id/course_content_textView_ratingsAmount"
             android:baselineAlignBottom="true"
             android:contentDescription="@null"

@@ -580,8 +580,8 @@
                     android:focusable="true"
                     android:fontFamily="sans-serif-light"
                     android:includeFontPadding="false"
-                    android:paddingEnd="8.0dp"
-                    android:paddingStart="8.0dp"
+                    android:paddingEnd="8dp"
+                    android:paddingStart="8dp"
                     android:text="0.0"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="56sp" />
@@ -623,7 +623,7 @@
 
             <LinearLayout
                 android:id="@+id/subscribe_button"
-                android:layout_width="0.0dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="?attr/selectableItemBackground"
@@ -631,12 +631,12 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12.0dp">
+                android:padding="12dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="32.0dp"
-                    android:layout_margin="2.0dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
                     android:gravity="center">
 
                     <ImageView
@@ -660,7 +660,7 @@
 
             <LinearLayout
                 android:id="@+id/share_button"
-                android:layout_width="0.0dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="?attr/selectableItemBackground"
@@ -668,12 +668,12 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12.0dp">
+                android:padding="12dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="32.0dp"
-                    android:layout_margin="2.0dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
                     android:gravity="center">
 
                     <ImageView
@@ -696,7 +696,7 @@
 
             <LinearLayout
                 android:id="@+id/materials_button"
-                android:layout_width="0.0dp"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
                 android:background="?attr/selectableItemBackground"
@@ -704,12 +704,12 @@
                 android:focusable="true"
                 android:gravity="center"
                 android:orientation="vertical"
-                android:padding="12.0dp">
+                android:padding="12dp">
 
                 <FrameLayout
                     android:layout_width="wrap_content"
-                    android:layout_height="32.0dp"
-                    android:layout_margin="2.0dp"
+                    android:layout_height="32dp"
+                    android:layout_margin="2dp"
                     android:gravity="center">
 
                     <ImageView

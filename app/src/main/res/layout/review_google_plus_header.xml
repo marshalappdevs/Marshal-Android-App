@@ -1,23 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/user_review_header"
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/user_review_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
     <ImageView
         android:layout_width="match_parent"
-        android:layout_height="64.0dp"
-        android:layout_marginTop="32.0dp"
-        android:scaleType="centerCrop"
+        android:layout_height="64dp"
+        android:layout_marginTop="32dp"
         android:contentDescription="@null"
+        android:scaleType="centerCrop"
         android:src="@drawable/bg_banner_dialog" />
 
     <ImageView
         android:id="@+id/user_profile_image"
-        android:layout_width="64.0dp"
-        android:layout_height="64.0dp"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
         android:layout_centerHorizontal="true"
         android:background="@drawable/circle_border_big"
+        android:contentDescription="@null"
         android:src="@drawable/ic_profile_none" />
 
     <TextView
@@ -26,11 +27,11 @@
         android:layout_height="wrap_content"
         android:layout_below="@+id/user_profile_image"
         android:layout_centerHorizontal="true"
-        android:paddingLeft="16.0dp"
-        android:paddingRight="16.0dp"
-        android:paddingTop="4.0dp"
         android:gravity="center_horizontal"
-        android:textSize="16sp"
+        android:paddingLeft="16dp"
+        android:paddingRight="16dp"
+        android:paddingTop="4dp"
+        android:text="@string/review_by"
         android:textColor="@android:color/white"
-        android:text="@string/review_by" />
+        android:textSize="16sp" />
 </RelativeLayout>

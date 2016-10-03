@@ -19,9 +19,9 @@
                 android:background="@color/description_background"
                 android:elevation="2dp"
                 android:orientation="vertical"
-                android:paddingLeft="16.0dp"
-                android:paddingRight="16.0dp"
-                android:paddingTop="6.0dp">
+                android:paddingLeft="16dp"
+                android:paddingRight="16dp"
+                android:paddingTop="6dp">
 
                 <EditText
                     android:id="@+id/describe_problem_description"
@@ -45,8 +45,8 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
-                    android:layout_marginBottom="16.0dp"
-                    android:layout_marginTop="4.0dp"
+                    android:layout_marginBottom="16dp"
+                    android:layout_marginTop="4dp"
                     android:text="@string/next"
                     android:textStyle="bold"
                     android:visibility="visible" />
@@ -55,10 +55,10 @@
             <android.support.v7.widget.CardView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="9.0dp"
-                android:layout_marginLeft="10.0dp"
-                android:layout_marginRight="10.0dp"
-                android:layout_marginTop="9.0dp">
+                android:layout_marginBottom="9dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="9dp">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -68,16 +68,16 @@
                     <FrameLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:paddingTop="3.0dp">
+                        android:paddingTop="3dp">
 
                         <TextView
                             android:layout_width="match_parent"
                             android:layout_height="wrap_content"
                             android:gravity="center|start"
-                            android:paddingBottom="10.0dp"
-                            android:paddingEnd="12.0dp"
-                            android:paddingStart="12.0dp"
-                            android:paddingTop="8.0dp"
+                            android:paddingBottom="10dp"
+                            android:paddingEnd="12dp"
+                            android:paddingStart="12dp"
+                            android:paddingTop="8dp"
                             android:text="@string/describe_problem_screenshots"
                             android:textColor="?colorAccent"
                             android:textSize="16sp" />
@@ -93,13 +93,12 @@
                         android:id="@+id/screenshots"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:layout_margin="8.0dp"
+                        android:layout_margin="8dp"
                         android:orientation="horizontal">
 
                         <ImageView
-                            android:id="@+id/screenshot_one"
                             android:layout_width="0dp"
-                            android:layout_height="144.0dp"
+                            android:layout_height="144dp"
                             android:layout_margin="2.1999817dp"
                             android:layout_weight="1"
                             android:background="@drawable/inline_screenshot_placeholder"
@@ -110,9 +109,8 @@
                             android:src="@drawable/ic_add_large" />
 
                         <ImageView
-                            android:id="@+id/screenshot_two"
                             android:layout_width="0dp"
-                            android:layout_height="144.0dp"
+                            android:layout_height="144dp"
                             android:layout_margin="2.1999817dp"
                             android:layout_weight="1"
                             android:background="@drawable/inline_screenshot_placeholder"
@@ -123,9 +121,8 @@
                             android:src="@drawable/ic_add_large" />
 
                         <ImageView
-                            android:id="@+id/screenshot_three"
                             android:layout_width="0dp"
-                            android:layout_height="144.0dp"
+                            android:layout_height="144dp"
                             android:layout_margin="2.1999817dp"
                             android:layout_weight="1"
                             android:background="@drawable/inline_screenshot_placeholder"

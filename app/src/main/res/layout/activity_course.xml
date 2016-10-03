@@ -21,8 +21,8 @@
             android:layout_height="match_parent"
             android:fitsSystemWindows="true"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginBottom="16.0dp"
-            app:expandedTitleMarginEnd="76.0dp"
+            app:expandedTitleMarginBottom="16dp"
+            app:expandedTitleMarginEnd="76dp"
             app:expandedTitleTextAppearance="@style/TextAppearance.Expanded.Toolbar.Title"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -39,7 +39,7 @@
             <View
                 android:id="@+id/header_image_top_overlay"
                 android:layout_width="match_parent"
-                android:layout_height="72.0dp"
+                android:layout_height="72dp"
                 android:background="@drawable/ctl_overlay"
                 android:fitsSystemWindows="true" />
 

@@ -4,15 +4,15 @@
     android:id="@+id/review_item_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingBottom="12.0dp"
-    android:paddingStart="16.0dp"
-    android:paddingTop="12.0dp">
+    android:paddingBottom="12dp"
+    android:paddingStart="16dp"
+    android:paddingTop="12dp">
 
     <ImageView
         android:id="@+id/user_profile_image"
-        android:layout_width="40.0dp"
-        android:layout_height="40.0dp"
-        android:layout_marginTop="10.0dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
         android:background="@drawable/circle_border_small"
         android:focusable="true"
         android:src="@drawable/ic_profile_none" />
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_toEndOf="@+id/user_profile_image"
-        android:paddingStart="16.0dp">
+        android:paddingStart="16dp">
 
         <LinearLayout
             android:id="@+id/action_container"
@@ -35,10 +35,10 @@
             android:clickable="true"
             android:focusable="true"
             android:orientation="horizontal"
-            android:paddingBottom="8.0dp"
-            android:paddingEnd="16.0dp"
-            android:paddingStart="16.0dp"
-            android:paddingTop="8.0dp">
+            android:paddingBottom="8dp"
+            android:paddingEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingTop="8dp">
 
             <ImageView
                 android:id="@+id/action_image"
@@ -52,7 +52,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:paddingStart="6.0dp"
+                android:paddingStart="6dp"
                 android:text="@string/edit_review"
                 android:textAllCaps="true"
                 android:textColor="?colorAccent"
@@ -62,7 +62,7 @@
         <View
             android:id="@+id/leading_spacer"
             android:layout_width="match_parent"
-            android:layout_height="8.0dp" />
+            android:layout_height="8dp" />
 
         <LinearLayout
             android:id="@+id/author_block"
@@ -71,14 +71,14 @@
             android:layout_alignWithParentIfMissing="true"
             android:layout_below="@+id/leading_spacer"
             android:layout_toStartOf="@+id/action_container"
-            android:paddingEnd="8.0dp">
+            android:paddingEnd="8dp">
 
             <TextView
                 android:id="@+id/review_author"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:focusable="true"
-                android:paddingEnd="8.0dp"
+                android:paddingEnd="8dp"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="14sp" />
 
@@ -88,8 +88,8 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/your_review_background"
                 android:gravity="center"
-                android:paddingLeft="4.0dp"
-                android:paddingRight="4.0dp"
+                android:paddingLeft="4dp"
+                android:paddingRight="4dp"
                 android:text="@string/your_review_text"
                 android:textAllCaps="true"
                 android:textColor="@android:color/white"
@@ -104,7 +104,7 @@
             android:layout_below="@+id/author_block"
             android:layout_toStartOf="@+id/action_container"
             android:focusable="true"
-            android:paddingEnd="8.0dp">
+            android:paddingEnd="8dp">
 
             <RatingBar
                 android:id="@+id/review_rating"
@@ -112,7 +112,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"
-                android:layout_marginEnd="6.0dp"
+                android:layout_marginEnd="6dp"
                 android:clickable="false"
                 android:numStars="5"
                 android:rating="0"
@@ -133,7 +133,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:lineSpacingExtra="0sp"
-                android:paddingStart="6.0dp"
+                android:paddingStart="6dp"
                 android:text="@string/review_edited_after_developer_reply"
                 android:textColor="?android:textColorSecondary"
                 android:textSize="12sp"
@@ -145,11 +145,11 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@+id/review_header"
-            android:layout_marginBottom="2.0dp"
-            android:layout_marginTop="-2.0dp"
+            android:layout_marginBottom="2dp"
+            android:layout_marginTop="-2dp"
             android:layout_toStartOf="@+id/action_container"
             android:focusable="true"
-            android:paddingEnd="8.0dp"
+            android:paddingEnd="8dp"
             android:visibility="gone">
 
             <TextView
@@ -166,7 +166,7 @@
         <View
             android:id="@+id/review_title_body_spacer"
             android:layout_width="match_parent"
-            android:layout_height="12.0dp"
+            android:layout_height="12dp"
             android:layout_below="@+id/metadata_block" />
 
         <TextView
@@ -175,9 +175,9 @@
             android:layout_height="wrap_content"
             android:layout_alignParentStart="true"
             android:layout_below="@id/review_title_body_spacer"
-            android:layout_marginBottom="4.0dp"
+            android:layout_marginBottom="4dp"
             android:focusable="true"
-            android:paddingEnd="32.0dp"
+            android:paddingEnd="32dp"
             android:textColor="?android:textColorPrimary"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -191,7 +191,7 @@
             android:layout_alignParentStart="true"
             android:layout_below="@+id/review_title"
             android:focusable="true"
-            android:paddingEnd="16.0dp" />
+            android:paddingEnd="16dp" />
     </RelativeLayout>
-    <!--<ViewStub android:id="@+id/review_reply_stub" android:layout="@layout/reviews_developer_reply" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="40.0dp" android:layout_below="@+id/review_content"/>-->
+    <!--<ViewStub android:id="@+id/review_reply_stub" android:layout="@layout/reviews_developer_reply" android:layout_width="match_parent" android:layout_height="wrap_content" android:layout_marginLeft="40dp" android:layout_below="@+id/review_content"/>-->
 </RelativeLayout>

@@ -7,10 +7,10 @@
     android:background="@drawable/button_bar_background"
     android:gravity="end"
     android:orientation="horizontal"
-    android:paddingBottom="8.0dp"
-    android:paddingLeft="12.0dp"
-    android:paddingRight="12.0dp"
-    android:paddingTop="8.0dp">
+    android:paddingBottom="8dp"
+    android:paddingLeft="12dp"
+    android:paddingRight="12dp"
+    android:paddingTop="8dp">
 
     <Button
         android:id="@+id/negative_button"
@@ -24,6 +24,6 @@
         style="?attr/buttonBarPositiveButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="8.0dp"
+        android:layout_marginLeft="8dp"
         android:text="@string/submit" />
 </LinearLayout>

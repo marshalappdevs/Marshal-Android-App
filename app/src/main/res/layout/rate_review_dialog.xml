@@ -6,7 +6,7 @@
     android:orientation="vertical"
     android:paddingEnd="8dp"
     android:paddingStart="8dp"
-    android:paddingTop="0.0dp">
+    android:paddingTop="0dp">
 
     <include layout="@layout/review_google_plus_header" />
 
