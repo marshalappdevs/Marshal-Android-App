@@ -267,7 +267,7 @@
     <style name="TextAppearance.Expanded.Toolbar.Title" parent="@android:style/TextAppearance.Medium">
         <item name="android:textSize">30sp</item>
         <item name="android:textStyle">bold</item>
-        <item name="android:shadowColor">#ff171819</item>
+        <item name="android:shadowColor">#171819</item>
         <item name="android:shadowDx">0.0</item>
         <item name="android:shadowDy">1.0</item>
         <item name="android:shadowRadius">1.0</item>
@@ -310,7 +310,7 @@
         <item name="android:textStyle">bold</item>
         <item name="android:textAllCaps">true</item>
         <item name="android:rotation">45</item>
-        <item name="android:shadowColor">@android:color/transparent</item>
+        <item name="android:shadowColor">@android:color/black</item>
         <item name="android:shadowRadius">2</item>
     </style>
 

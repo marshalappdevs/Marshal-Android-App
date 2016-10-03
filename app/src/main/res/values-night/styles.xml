@@ -3,7 +3,7 @@
     <style name="AppTheme.AppBarOverlay.Custom" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
-        <item name="colorControlHighlight">#33ffffff</item>
+        <item name="colorControlHighlight">#33FFFFFF</item>
         <!-- 20% white -->
         <!--@color/ripple_material_dark-->
     </style>

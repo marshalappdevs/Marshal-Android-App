@@ -1,20 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     <color name="url_color">#AAFFFFFF</color>
-    <color name="star_color">#FFEFEFEF</color>
+    <color name="star_color">#EFEFEF</color>
     <color name="user_color">#80FFFFFF</color>
     <color name="divider_color">#1FFFFFFF</color>
     <color name="primary_android_color">#FFFFFFFF</color> <!-- 100% white -->
     <color name="primary_android_color_inverse">#DE000000</color> <!-- 87% black -->
     <color name="secondary_android_color">#B3FFFFFF</color> <!-- 70% white -->
     <color name="secondary_android_color_inverse">#8A000000</color> <!-- 54% black -->
-    <color name="placeholder_background">#ff324248</color>
+    <color name="placeholder_background">#324248</color>
     <color name="materials_card_background">#08FFFFFF</color>
     <color name="hash_tags_background">#10FFFFFF</color>
-    <color name="link_color">#ff2b6fb2</color>
-    <color name="description_background">#FF424242</color>
+    <color name="link_color">#2B6FB2</color>
+    <color name="description_background">#424242</color>
     <color name="page_indicator">#80333333</color>
-    <color name="page_indicator_selected">#ff333333</color>
+    <color name="page_indicator_selected">#333333</color>
     <color name="bottom_sheet_background">@color/material_grey_800</color>
     <color name="fab_icon_color">#8A000000</color>
+    <color name="background_material_color">#303030</color>
 </resources>
