@@ -170,7 +170,6 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".ui.WrongClock"></activity>
     </application>
 
 </manifest>

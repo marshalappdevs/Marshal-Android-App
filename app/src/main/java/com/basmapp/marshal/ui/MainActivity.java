@@ -1,5 +1,6 @@
 package com.basmapp.marshal.ui;
 
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -22,9 +23,11 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -33,6 +36,7 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -73,6 +77,8 @@ import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.TimeZone;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -148,7 +154,7 @@ public class MainActivity extends BaseActivity
         }
 
         // TODO: compare device date to server
-//        startActivity(new Intent(this, WrongClock.class));
+//        showWrongClockDialog();
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
@@ -615,11 +621,13 @@ public class MainActivity extends BaseActivity
                 MainActivity.sUserProfileImage = acct.getPhotoUrl();
                 // Set account profile picture if exists
                 Uri uri = acct.getPhotoUrl();
-                Glide.with(this)
-                        .load(uri)
-                        .placeholder(R.drawable.ic_default_avatar)
-                        .transform(new CircleTransform(this))
-                        .into(mProfileImageView);
+                if (uri != null) {
+                    Glide.with(this)
+                            .load(uri)
+                            .placeholder(R.drawable.ic_default_avatar)
+                            .transform(new CircleTransform(this))
+                            .into(mProfileImageView);
+                }
 
                 // Use Google plus API to get user cover photo if exists
 //                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
@@ -781,6 +789,43 @@ public class MainActivity extends BaseActivity
             updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
             startService(updateServiceIntent);
         }
+    }
+
+    public void showWrongClockDialog() {
+        Dialog dialog = new Dialog(this, WindowManager.LayoutParams.MATCH_PARENT);
+        dialog.setContentView(R.layout.clock_wrong);
+        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
+                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+
+        Button adjustDate = (Button) dialog.findViewById(R.id.close);
+        adjustDate.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                finishAffinity();
+            }
+        });
+
+        String date = DateFormat.getDateFormat(getApplicationContext()).format(new Date());
+        String time = DateFormat.getTimeFormat(getApplicationContext()).format(new Date());
+
+        TextView wrongDate = (TextView) dialog.findViewById(R.id.clock_wrong_date);
+        wrongDate.setText(String.format(getString(R.string.clock_wrong_report_current_date_time),
+                date + ", " + time, (TimeZone.getDefault().getDisplayName())));
+
+        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
+            @Override
+            public boolean onKey(DialogInterface arg0, int keyCode,
+                                 KeyEvent event) {
+                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
+                    startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
+                    finishAffinity();
+                }
+                return true;
+            }
+        });
+
+        dialog.show();
     }
 
     public static int getPrimaryColorCode(Context context) {

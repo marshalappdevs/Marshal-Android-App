@@ -79,8 +79,8 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.rate_app_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("http://play.google.com/store/apps/details?id=" + getPackageName())));
+                startActivity(new Intent(android.content.Intent.ACTION_VIEW)
+                        .setData(Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
             }
         });
 

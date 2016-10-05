@@ -26,4 +26,6 @@
     <dimen name="highlight_banner_wide_item_height_v2">256dp</dimen>
     <dimen name="highlight_wide_gradient_overlay_height">120dp</dimen>
     <dimen name="medium_thumbnail_padding">2.1999817dp</dimen>
+    <dimen name="launchscreens_basmah_logo_bottom">48dp</dimen>
+    <dimen name="launchscreens_product_logo_bottom">16dp</dimen>
 </resources>

@@ -522,11 +522,13 @@ public class CourseActivity extends BaseActivity {
                                 mReviewItemContainer.setVisibility(View.VISIBLE);
                                 mReviewAuthor.setText(MainActivity.sUserName);
                                 Uri uri = MainActivity.sUserProfileImage;
-                                Glide.with(CourseActivity.this)
-                                        .load(uri)
-                                        .transform(new CircleTransform(CourseActivity.this))
-                                        .placeholder(R.drawable.ic_default_avatar)
-                                        .into(mReviewProfileImageView);
+                                if (uri != null) {
+                                    Glide.with(CourseActivity.this)
+                                            .load(uri)
+                                            .transform(new CircleTransform(CourseActivity.this))
+                                            .placeholder(R.drawable.ic_profile_none)
+                                            .into(mReviewProfileImageView);
+                                }
                                 mTextViewReviewHint.setVisibility(View.GONE);
                                 mTextViewReviewText.setText(((Rating) (data.get(0))).getComment());
                                 try {
@@ -612,11 +614,13 @@ public class CourseActivity extends BaseActivity {
         reviewBy.setText(userName);
 
         Uri uri = MainActivity.sUserProfileImage;
-        Glide.with(this)
-                .load(uri)
-                .transform(new CircleTransform(this))
-                .placeholder(R.drawable.ic_default_avatar)
-                .into(mProfileImageView);
+        if (uri != null) {
+            Glide.with(this)
+                    .load(uri)
+                    .transform(new CircleTransform(this))
+                    .placeholder(R.drawable.ic_profile_none)
+                    .into(mProfileImageView);
+        }
 
         final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
 
@@ -713,10 +717,12 @@ public class CourseActivity extends BaseActivity {
                                 mReviewItemContainer.setVisibility(View.VISIBLE);
                                 mReviewAuthor.setText(MainActivity.sUserName);
                                 Uri uri = MainActivity.sUserProfileImage;
-                                Glide.with(CourseActivity.this)
-                                        .load(uri)
-                                        .placeholder(R.drawable.ic_default_avatar)
-                                        .into(mReviewProfileImageView);
+                                if (uri != null) {
+                                    Glide.with(CourseActivity.this)
+                                            .load(uri)
+                                            .placeholder(R.drawable.ic_profile_none)
+                                            .into(mReviewProfileImageView);
+                                }
                                 mTextViewReviewEdited.setVisibility(View.GONE);
 
                                 mReviewRating.setRating(mRatingBarUser.getRating());

@@ -2,6 +2,7 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:fitsSystemWindows="true"
     android:orientation="vertical">
 
     <ScrollView
@@ -22,7 +23,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginBottom="36dp"
+                android:layout_marginBottom="24dp"
                 android:gravity="center"
                 android:text="@string/clock_wrong_title"
                 android:textColor="?colorAccent"
@@ -37,6 +38,7 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
+                android:layout_marginTop="8dp"
                 android:layout_weight="1.0"
                 android:gravity="bottom"
                 android:orientation="vertical">
@@ -44,7 +46,7 @@
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginBottom="16dp"
+                    android:layout_marginBottom="24dp"
                     android:layout_marginEnd="16dp"
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="8dp"
@@ -74,7 +76,6 @@
                     android:minHeight="48dp"
                     android:minWidth="96dp"
                     android:text="@string/adjust_date" />
-
             </LinearLayout>
         </LinearLayout>
     </ScrollView>
