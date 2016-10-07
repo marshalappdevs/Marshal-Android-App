@@ -9,6 +9,10 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
 import android.content.res.Resources;
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Paint;
+import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
@@ -24,6 +28,7 @@ import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -63,6 +68,7 @@ import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
 import com.basmapp.marshal.util.LocaleUtils;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.google.android.gms.auth.api.Auth;
@@ -627,6 +633,13 @@ public class MainActivity extends BaseActivity
                             .placeholder(R.drawable.ic_default_avatar)
                             .transform(new CircleTransform(this))
                             .into(mProfileImageView);
+                } else {
+                    String givenName = acct.getGivenName();
+                    if (givenName != null) {
+                        mProfileImageView.setImageBitmap(generateNameAvatar(
+                                ThemeUtils.getThemeColor(this, R.attr.colorPrimaryDark), (float) dp2px(64),
+                                givenName.length() == 2 ? givenName : givenName.substring(0, 1)));
+                    }
                 }
 
                 // Use Google plus API to get user cover photo if exists
@@ -723,6 +736,41 @@ public class MainActivity extends BaseActivity
                 mNavigationView.setCheckedItem(R.id.nav_courses);
             }
         }
+    }
+
+    public static Bitmap generateNameAvatar(int circleColor, float diameterDP, String text) {
+        final int textColor = 0xffffffff;
+
+        DisplayMetrics metrics = Resources.getSystem().getDisplayMetrics();
+        float diameterPixels = diameterDP * (metrics.densityDpi / 160f);
+        float radiusPixels = diameterPixels / 2;
+
+        // Create the bitmap
+        Bitmap output = Bitmap.createBitmap((int) diameterPixels, (int) diameterPixels,
+                Bitmap.Config.ARGB_8888);
+
+        // Create the canvas to draw on
+        Canvas canvas = new Canvas(output);
+        canvas.drawARGB(0, 0, 0, 0);
+
+        // Draw the circle
+        final Paint paintC = new Paint();
+        paintC.setAntiAlias(true);
+        paintC.setColor(circleColor);
+        canvas.drawCircle(radiusPixels, radiusPixels, radiusPixels, paintC);
+
+        // Draw the text
+        if (text != null && text.length() > 0) {
+            final Paint paintT = new Paint();
+            paintT.setColor(textColor);
+            paintT.setAntiAlias(true);
+            paintT.setTextSize(radiusPixels);
+            final Rect textBounds = new Rect();
+            paintT.getTextBounds(text, 0, text.length(), textBounds);
+            canvas.drawText(text, radiusPixels - textBounds.exactCenterX(), radiusPixels - textBounds.exactCenterY(), paintT);
+        }
+
+        return output;
     }
 
     public void navHeaderClicked() {

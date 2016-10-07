@@ -9,8 +9,10 @@
         android:id="@+id/cover_photo_placeholder"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@drawable/inline_cover_placeholder"
+        android:background="?colorPrimary"
         android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@drawable/inline_cover_placeholder"
         android:visibility="visible" />
 
     <ImageView
@@ -22,6 +24,16 @@
         android:scaleType="centerCrop"
         android:visibility="gone"
         app:srcCompat="@drawable/bg_default_profile_art" />
+
+    <include
+        android:id="@+id/avatar"
+        layout="@layout/nav_header_account_avatar"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        android:layout_gravity="start|bottom|center"
+        android:layout_marginBottom="68dp"
+        android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp" />
 
     <FrameLayout
         android:id="@+id/secondary_avatar_frame_left"
@@ -112,14 +124,4 @@
             android:scaleType="center"
             app:srcCompat="@drawable/ic_arrow_drop_down" />
     </FrameLayout>
-
-    <include
-        android:id="@+id/avatar"
-        layout="@layout/nav_header_account_avatar"
-        android:layout_width="64dp"
-        android:layout_height="64dp"
-        android:layout_gravity="start|bottom|center"
-        android:layout_marginBottom="68dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginStart="16dp" />
 </FrameLayout>

@@ -30,8 +30,8 @@
                 android:textSize="18sp" />
 
             <ImageView
-                android:layout_width="130dp"
-                android:layout_height="130dp"
+                android:layout_width="@dimen/wrong_clock_icon_size"
+                android:layout_height="@dimen/wrong_clock_icon_size"
                 android:gravity="top"
                 android:src="@drawable/ic_dateisinaccurate" />
 
