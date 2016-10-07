@@ -290,12 +290,11 @@ public class CoursesSearchableFragment extends Fragment {
 
         mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
-        // Set end date a year from now
-//        Calendar now = Calendar.getInstance();
-//        now.add(Calendar.YEAR, 1);
-//        mTempEndDate = (mSimpleDateFormat.format(now.getTime()));
-//        endDate.updateDate(endDate.getYear() + 1, endDate.getMonth(), endDate.getDayOfMonth());
-        mTempEndDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+//         Set end date a month later from now
+        Calendar now = Calendar.getInstance();
+        now.add(Calendar.MONTH, 1);
+        mTempEndDate = (mSimpleDateFormat.format(now.getTime()));
+        endDate.updateDate(endDate.getYear(), endDate.getMonth() + 1, endDate.getDayOfMonth());
         endDate.setMinDate(System.currentTimeMillis() - 1000);
         endDate.init(
                 endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
@@ -328,8 +327,8 @@ public class CoursesSearchableFragment extends Fragment {
                         // Set twice to workaround this issue https://goo.gl/PV17la
                         endDate.setMinDate(0);
                         endDate.setMinDate(calendar.getTimeInMillis());
-                        // Set end date a year from start date
-//                        endDate.updateDate(year + 1, monthOfYear, dayOfMonth);
+//                         Set end date a month later from start date
+                        endDate.updateDate(year, monthOfYear + 1, dayOfMonth);
                         mTempStartDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
