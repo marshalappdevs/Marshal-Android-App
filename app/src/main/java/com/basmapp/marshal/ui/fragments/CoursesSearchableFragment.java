@@ -76,6 +76,7 @@ public class CoursesSearchableFragment extends Fragment {
     private boolean isEmptyResult = false;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
+    private SimpleDateFormat mSimpleDateFormat;
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
@@ -287,6 +288,14 @@ public class CoursesSearchableFragment extends Fragment {
         DatePicker startDate = (DatePicker) dateRangeView.findViewById(R.id.start_date_picker);
         final DatePicker endDate = (DatePicker) dateRangeView.findViewById(R.id.end_date_picker);
 
+        mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+
+        // Set end date a year from now
+//        Calendar now = Calendar.getInstance();
+//        now.add(Calendar.YEAR, 1);
+//        mTempEndDate = (mSimpleDateFormat.format(now.getTime()));
+//        endDate.updateDate(endDate.getYear() + 1, endDate.getMonth(), endDate.getDayOfMonth());
+        mTempEndDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
         endDate.setMinDate(System.currentTimeMillis() - 1000);
         endDate.init(
                 endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
@@ -295,12 +304,11 @@ public class CoursesSearchableFragment extends Fragment {
                     public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        // update text field
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-                        mTempEndDate = (sdf.format(calendar.getTime()));
+                        mTempEndDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
 
+        mTempStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
         startDate.setMinDate(System.currentTimeMillis() - 1000);
         startDate.init(
                 startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),
@@ -320,9 +328,9 @@ public class CoursesSearchableFragment extends Fragment {
                         // Set twice to workaround this issue https://goo.gl/PV17la
                         endDate.setMinDate(0);
                         endDate.setMinDate(calendar.getTimeInMillis());
-                        // update text field
-                        SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-                        mTempStartDate = (sdf.format(calendar.getTime()));
+                        // Set end date a year from start date
+//                        endDate.updateDate(year + 1, monthOfYear, dayOfMonth);
+                        mTempStartDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
 
@@ -332,16 +340,6 @@ public class CoursesSearchableFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-
-                if (mTempStartDate == null) {
-                    mTempStartDate = (sdf.format(Calendar.getInstance().getTime()));
-                }
-
-                if (mTempEndDate == null) {
-                    mTempEndDate = (sdf.format(Calendar.getInstance().getTime()));
-                }
-
                 if (mTempStartDate != null && mTempEndDate != null) {
                     String sStartDate = mTempStartDate;
                     String sEndDate = mTempEndDate;
