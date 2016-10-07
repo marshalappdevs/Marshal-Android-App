@@ -287,7 +287,7 @@ public class CoursesSearchableFragment extends Fragment {
         TabHost tabHost = (TabHost) dateRangeView.findViewById(R.id.tabHost);
 
         DatePicker startDate = (DatePicker) dateRangeView.findViewById(R.id.start_date_picker);
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
             //noinspection deprecation
             startDate.setCalendarViewShown(false);
         }
