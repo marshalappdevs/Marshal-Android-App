@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
@@ -59,7 +60,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     return;
                 }
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     PreferenceManager.getDefaultSharedPreferences(mContext.getApplicationContext()).edit()
                             .putBoolean("courseShared", true).apply();
                 } else {
@@ -70,7 +71,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(position));
                 intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
                 List<Pair<View, String>> pairs = new ArrayList<>();
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity) mContext).getWindow().getDecorView();
                     View statusBar = decor.findViewById(android.R.id.statusBarBackground);
                     View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);

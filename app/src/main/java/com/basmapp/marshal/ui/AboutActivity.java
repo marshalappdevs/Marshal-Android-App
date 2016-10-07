@@ -2,6 +2,7 @@ package com.basmapp.marshal.ui;
 
 import android.content.Intent;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
@@ -15,7 +16,6 @@ import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
@@ -69,9 +69,10 @@ public class AboutActivity extends BaseActivity {
         removeUnderlinesFromLinks(librariesTextView);
 
         TextView appLicenseTextView = (TextView) findViewById(R.id.about_app_license);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             appLicenseTextView.setText(Html.fromHtml(getString(R.string.about_app_license), Html.FROM_HTML_MODE_LEGACY));
         } else {
+            //noinspection deprecation
             appLicenseTextView.setText(Html.fromHtml(getString(R.string.about_app_license)));
         }
         removeUnderlinesFromLinks(appLicenseTextView);
@@ -85,9 +86,10 @@ public class AboutActivity extends BaseActivity {
         });
 
         TextView aboutBasmachText = (TextView) findViewById(R.id.about_basmach);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.N) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
             aboutBasmachText.setText(Html.fromHtml(getString(R.string.about_basmach), Html.FROM_HTML_MODE_LEGACY));
         } else {
+            //noinspection deprecation
             aboutBasmachText.setText(Html.fromHtml(getString(R.string.about_basmach)));
         }
         removeUnderlinesFromLinks(aboutBasmachText);

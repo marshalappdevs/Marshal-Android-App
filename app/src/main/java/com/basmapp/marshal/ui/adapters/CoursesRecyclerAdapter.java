@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.os.Build;
 import android.os.SystemClock;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
@@ -75,7 +76,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 // get status bar and navigation bar views and add them as shared elements
                 // to prevent glitches
-                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity) mContext).getWindow().getDecorView();
                     View statusBar = decor.findViewById(android.R.id.statusBarBackground);
                     View navigationBar = decor.findViewById(android.R.id.navigationBarBackground);

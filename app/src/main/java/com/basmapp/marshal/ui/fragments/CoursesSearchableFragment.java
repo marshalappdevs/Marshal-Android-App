@@ -7,6 +7,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
@@ -286,7 +287,15 @@ public class CoursesSearchableFragment extends Fragment {
         TabHost tabHost = (TabHost) dateRangeView.findViewById(R.id.tabHost);
 
         DatePicker startDate = (DatePicker) dateRangeView.findViewById(R.id.start_date_picker);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
+            //noinspection deprecation
+            startDate.setCalendarViewShown(false);
+        }
         final DatePicker endDate = (DatePicker) dateRangeView.findViewById(R.id.end_date_picker);
+        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+            //noinspection deprecation
+            endDate.setCalendarViewShown(false);
+        }
 
         mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
