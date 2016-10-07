@@ -327,8 +327,6 @@ public class CoursesSearchableFragment extends Fragment {
                         // Set twice to workaround this issue https://goo.gl/PV17la
                         endDate.setMinDate(0);
                         endDate.setMinDate(calendar.getTimeInMillis());
-//                         Set end date a month later from start date
-                        endDate.updateDate(year, monthOfYear + 1, dayOfMonth);
                         mTempStartDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
