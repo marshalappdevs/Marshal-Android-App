@@ -17,27 +17,24 @@ import java.util.ArrayList;
 
 public class CourseMaterialsActivity extends BaseActivity {
 
-    private Toolbar mToolbar;
-    private Course mCourse;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_course_materials);
 
-        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
+        Course course = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if (mCourse.getName() != null)
-            mToolbar.setTitle(mCourse.getName());
+        if (course.getName() != null)
+            toolbar.setTitle(course.getName());
 
-        setSupportActionBar(mToolbar);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -46,9 +43,9 @@ public class CourseMaterialsActivity extends BaseActivity {
 
         ArrayList<MaterialItem> materials = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
-        if (mCourse.getCourseCode() != null && materials != null) {
+        if (course.getCourseCode() != null && materials != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
-                    MaterialsFragment.newInstanceForCourse(mCourse.getCourseCode(), materials), null).commit();
+                    MaterialsFragment.newInstanceForCourse(course.getCourseCode(), materials), null).commit();
         }
     }
 

@@ -22,19 +22,8 @@ import java.util.List;
 
 public class RatingsActivity extends BaseActivity {
 
-    Toolbar mToolbar;
-    Course mCourse;
-    List<Rating> mRatings;
-    RecyclerView mRecycler;
-    RatingsRecyclerAdapter mAdapter;
-
-    String mRatingsAmount;
-    String mRatingAverage;
-    float mRatingBarStars;
-
-    TextView mTextViewRatingsAmount;
-    TextView mTextViewRatingAverage;
-    RatingBar mRatingBar;
+    private List<Rating> mRatings;
+    private RecyclerView mRecycler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,56 +31,50 @@ public class RatingsActivity extends BaseActivity {
 
         setContentView(R.layout.activity_ratings);
 
-        mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
+        Course course = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(mCourse.getName());
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(course.getName());
+        setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        mTextViewRatingAverage = (TextView) findViewById(R.id.activity_ratings_textView_average_value);
-        mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
-        mRatingBar = (RatingBar) findViewById(R.id.summary_rating_bar);
+        TextView mTextViewRatingAverage = (TextView) findViewById(R.id.activity_ratings_textView_average_value);
+        TextView mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
+        RatingBar mRatingBar = (RatingBar) findViewById(R.id.summary_rating_bar);
 
         mRecycler = (RecyclerView) findViewById(R.id.activity_ratings_recyclerView);
         mRecycler.setLayoutManager(new LinearLayoutManager(RatingsActivity.this));
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mRecycler.setNestedScrollingEnabled(false);
+//        mRecycler.setNestedScrollingEnabled(false);
 
-        mRatingAverage = getIntent().getStringExtra(Constants.EXTRA_RATING_AVERAGE);
-        mRatingsAmount = getIntent().getStringExtra(Constants.EXTRA_RATING_AMOUNT);
-        mRatingBarStars = getIntent().getFloatExtra(Constants.EXTRA_RATING_BAR_STARS, 0);
+        mTextViewRatingAverage.setText(getIntent().getStringExtra(Constants.EXTRA_RATING_AVERAGE));
+        mTextViewRatingsAmount.setText(getIntent().getStringExtra(Constants.EXTRA_RATING_AMOUNT));
+        mRatingBar.setRating(getIntent().getFloatExtra(Constants.EXTRA_RATING_BAR_STARS, 0));
 
-        mTextViewRatingAverage.setText(mRatingAverage);
-        mTextViewRatingsAmount.setText(mRatingsAmount);
-        mRatingBar.setRating(mRatingBarStars);
+        Rating.getByColumnInBackground(true, DBConstants.COL_COURSE_CODE, course.getCourseCode(),
+                DBConstants.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        mRatings = (List) data;
+                        initializeRecycler();
+                    }
 
-        if (mCourse != null) {
-            Rating.getByColumnInBackground(true, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
-                    DBConstants.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
-                        @Override
-                        public void onSuccess(String result, List<Object> data) {
-                            mRatings = (List) data;
-                            initializeRecycler();
-                        }
+                    @Override
+                    public void onError(String error) {
 
-                        @Override
-                        public void onError(String error) {
-
-                        }
-                    });
-        }
+                    }
+                });
     }
 
     private void initializeRecycler() {
-        mAdapter = new RatingsRecyclerAdapter(RatingsActivity.this, mRatings);
-        mRecycler.setAdapter(mAdapter);
+        RatingsRecyclerAdapter ratingsRecyclerAdapter = new RatingsRecyclerAdapter(RatingsActivity.this, mRatings);
+        mRecycler.setAdapter(ratingsRecyclerAdapter);
     }
 }
