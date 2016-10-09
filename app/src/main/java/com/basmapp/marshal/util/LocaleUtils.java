@@ -4,8 +4,6 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
-import android.support.v4.text.TextUtilsCompat;
-import android.support.v4.view.ViewCompat;
 import android.view.ContextThemeWrapper;
 
 import java.util.Locale;
@@ -41,7 +39,7 @@ public class LocaleUtils {
     }
 
     public static boolean isRtl() {
-        return TextUtilsCompat.getLayoutDirectionFromLocale(
-                Locale.getDefault()) == ViewCompat.LAYOUT_DIRECTION_RTL;
+        return Character.getDirectionality(Locale.getDefault().getDisplayName().charAt(0)) ==
+                        Character.DIRECTIONALITY_RIGHT_TO_LEFT;
     }
 }

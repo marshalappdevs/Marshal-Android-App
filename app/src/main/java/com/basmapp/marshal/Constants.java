@@ -1,7 +1,5 @@
 package com.basmapp.marshal;
 
-import android.content.Intent;
-
 public class Constants {
     public static final String LOG_TAG = "Marshal";
 
@@ -21,12 +19,8 @@ public class Constants {
     public static final String PREF_ACCENT_COLOR = "ACCENT-COLOR";
     public static final String PREF_REVERT_THEME = "REVERT-THEME";
     public static final String PREF_PRIMARY_COLOR_CODE = "PRIMARY_COLOR_CODE";
-    public static final String PREF_PRIMARY_COLOR_NAME = "PRIMARY_COLOR_NAME";
     public static final String PREF_ACCENT_COLOR_CODE = "ACCENT_COLOR_CODE";
-    public static final String PREF_ACCENT_COLOR_NAME = "ACCENT_COLOR_NAME";
     public static final String PREF_LANGUAGE = "LANG";
-    public static final String PREF_VERSION = "version";
-    public static final String PREF_CLEAR_CACHE = "clear-cache";
     public static final String PREF_CLEAR_TAP_TARGETS = "clear-tap-targets";
     public static final String PREF_CLEAR_HISTORY = "clear-history";
     public static final String PREF_CCT = "CCT";

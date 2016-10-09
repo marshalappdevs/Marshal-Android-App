@@ -15,6 +15,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.basmapp.marshal.BaseActivity;
@@ -24,6 +25,9 @@ import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.URLSpanNoUnderline;
 
 public class AboutActivity extends BaseActivity {
+    private static final String KEY_SCROLL_X = "KEY_SCROLL_X";
+    private static final String KEY_SCROLL_Y = "KEY_SCROLL_Y";
+    private ScrollView mScrollView;
     private int mTapCount;
 
     @Override
@@ -31,6 +35,8 @@ public class AboutActivity extends BaseActivity {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.activity_about);
+
+        mScrollView = (ScrollView) findViewById(R.id.about_scrollview);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle(R.string.navigation_drawer_about);
@@ -95,6 +101,26 @@ public class AboutActivity extends BaseActivity {
         removeUnderlinesFromLinks(aboutBasmachText);
 
         makeEverythingClickable((ViewGroup) findViewById(R.id.about_container));
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_SCROLL_X, mScrollView.getScrollX());
+        outState.putInt(KEY_SCROLL_Y, mScrollView.getScrollY());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int x = savedInstanceState.getInt(KEY_SCROLL_X);
+        final int y = savedInstanceState.getInt(KEY_SCROLL_Y);
+        mScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                mScrollView.scrollTo(x, y);
+            }
+        });
     }
 
     @Override
