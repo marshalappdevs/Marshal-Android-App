@@ -80,7 +80,7 @@ public class DBConstants {
             COL_END_DATE + " INTEGER);";
 
     static final String CREATE_T_COURSE = "CREATE TABLE " + T_COURSE + " (" +
-            COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_ID + " TEXT PRIMARY KEY, " +
             COL_COURSE_ID + " INTEGER, " +
             COL_COURSE_CODE + " TEXT UNIQUE, " +
             COL_NAME + " TEXT UNIQUE, " +

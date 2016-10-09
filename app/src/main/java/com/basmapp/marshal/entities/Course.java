@@ -29,8 +29,10 @@ public class Course extends DBObject implements Parcelable {
     public static final String CATEGORY_SYSTEM = "system";
 
     // TODO RETROFIT SerializedName
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
-    private long id;
+    @Expose
+    @SerializedName("_id")
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    private String id;
 
     @Expose
     @SerializedName("ID")
@@ -141,14 +143,14 @@ public class Course extends DBObject implements Parcelable {
 
     @Override
     protected boolean isPrimaryKeyAutoIncrement() {
-        return true;
+        return false;
     }
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -332,7 +334,7 @@ public class Course extends DBObject implements Parcelable {
      **/
     @Override
     public void writeToParcel(Parcel dest, int i) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeInt(courseID);
         dest.writeString(courseCode);
         dest.writeString(name);
@@ -361,7 +363,7 @@ public class Course extends DBObject implements Parcelable {
      * the object CREATOR
      **/
     private Course(Parcel in) {
-        this.id = in.readLong();
+        this.id = in.readString();
         this.courseID = in.readInt();
         this.courseCode = in.readString();
         this.name = in.readString();
@@ -441,7 +443,7 @@ public class Course extends DBObject implements Parcelable {
 
         if (!isPrimaryKeyAutoIncrement()) {
             pkColumn = DBConstants.COL_ID + ",";
-            values = values + id + ",";
+            values = values + "'" + id + "',";
         }
 
         try {
@@ -492,12 +494,12 @@ public class Course extends DBObject implements Parcelable {
         return sql;
     }
 
-    public String getUpdateSql(long objectId) {
+    public String getUpdateSql(Object objectId) {
         String sql = null;
         String pkUpdate = "";
 
         if (!isPrimaryKeyAutoIncrement()) {
-            pkUpdate = DBConstants.COL_ID + " = " + id + ",";
+            pkUpdate = DBConstants.COL_ID + " = '" + id + "',";
         }
 
         try {
@@ -521,7 +523,7 @@ public class Course extends DBObject implements Parcelable {
                     DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +
                     DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
                     DBConstants.COL_IS_UP_TO_DATE + " = 1" +
-                    " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
+                    " WHERE " + DBConstants.COL_ID + " = '" + objectId + "';";
         } catch (Exception e) {
             e.printStackTrace();
         }
