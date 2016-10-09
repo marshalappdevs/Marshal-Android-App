@@ -77,7 +77,6 @@
         </activity>
         <activity
             android:name=".ui.DescribeProblemActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenLayout|screenSize|smallestScreenSize|uiMode"
             android:label="@string/mail_subject"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Base.Blue"

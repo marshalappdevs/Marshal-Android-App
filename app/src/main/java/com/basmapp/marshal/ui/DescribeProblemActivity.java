@@ -143,39 +143,75 @@ public class DescribeProblemActivity extends BaseActivity {
         });
 
         for (int i = 0; i < screenshots.length; i++) {
-            final int finalI = i;
             screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
-            screenshots[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    PICK_IMAGE_REQUEST = finalI;
-                    // Check for storage permission
-                    if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
-                            Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
-                        requestStoragePermission();
-                    } else {
-                        Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
-                        intent.setType("image/*");
-                        startActivityForResult(intent, PICK_IMAGE_REQUEST);
-                    }
+            screenshots[i].setOnClickListener(new screenshotClickListener(i));
+            screenshots[i].setOnLongClickListener(new screenshotClickListener(i));
+        }
+
+        if (savedInstanceState != null) {
+            Parcelable[] savedScreenshots = savedInstanceState.getParcelableArray("screenshots");
+            if (savedScreenshots == null) {
+                throw new AssertionError();
+            }
+            int i = 0;
+            while (i < savedScreenshots.length) {
+                if (savedScreenshots[i] != null) {
+                    attachScreenshot(i, (Uri) savedScreenshots[i]);
                 }
-            });
-            screenshots[i].setOnLongClickListener(new View.OnLongClickListener() {
-                @Override
-                public boolean onLongClick(View view) {
-                    if (uris[finalI] != null && attachments.contains(uris[finalI])) {
-                        attachments.remove(uris[finalI]);
-                        uris[finalI] = null;
-                        screenshots[finalI].setImageResource(R.drawable.ic_add_large);
-                        screenshots[finalI].setScaleType(ImageView.ScaleType.CENTER);
-                        Snackbar.make(findViewById(R.id.coordinatorLayout),
-                                R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();
-                        return true;
-                    } else {
-                        return false;
-                    }
-                }
-            });
+                i += 1;
+            }
+        }
+    }
+
+    public class screenshotClickListener implements View.OnClickListener, View.OnLongClickListener {
+
+        int position;
+        screenshotClickListener(int position) {
+            this.position = position;
+        }
+
+        @Override
+        public void onClick(View v) {
+            PICK_IMAGE_REQUEST = position;
+            // Check for storage permission
+            if (ActivityCompat.checkSelfPermission(DescribeProblemActivity.this,
+                    Manifest.permission.READ_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+                requestStoragePermission();
+            } else {
+                Intent intent = new Intent(Intent.ACTION_GET_CONTENT);
+                intent.setType("image/*");
+                startActivityForResult(intent, PICK_IMAGE_REQUEST);
+            }
+        }
+
+        @Override
+        public boolean onLongClick(View v) {
+            if (uris[position] != null && attachments.contains(uris[position])) {
+                attachments.remove(uris[position]);
+                uris[position] = null;
+                screenshots[position].setImageResource(R.drawable.ic_add_large);
+                screenshots[position].setScaleType(ImageView.ScaleType.CENTER);
+                Snackbar.make(findViewById(R.id.coordinatorLayout),
+                        R.string.screenshot_removed, Snackbar.LENGTH_SHORT).show();
+                return true;
+            } else {
+                return false;
+            }
+        }
+    }
+
+    private void attachScreenshot(int position, Uri uri) {
+        String filePath = GetFilePathFromUri.getPath(this, uri);
+        if (filePath != null) {
+            if (uris[position] != null && attachments.contains(uris[position]))
+                attachments.remove(uris[position]);
+            uris[position] = Uri.fromFile(new File(filePath));
+            attachments.add(uris[position]);
+            Bitmap bitmap = BitmapFactory.decodeFile(filePath);
+            screenshots[position].setScaleType(ImageView.ScaleType.CENTER_CROP);
+            screenshots[position].setImageBitmap(bitmap);
+        } else {
+            Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
         }
     }
 
@@ -188,79 +224,25 @@ public class DescribeProblemActivity extends BaseActivity {
                     if (data == null || data.getData() == null) {
                         return;
                     }
-                    String filePath = GetFilePathFromUri.getPath(this, data.getData());
-                    if (filePath != null) {
-                        if (uris[0] != null && attachments.contains(uris[0]))
-                            attachments.remove(uris[0]);
-                        uris[0] = Uri.fromFile(new File(filePath));
-                        attachments.add(uris[0]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[0].setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        screenshots[0].setImageBitmap(bitmap);
-                    } else {
-                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
-                    }
+                    attachScreenshot(requestCode, data.getData());
                 } else if (requestCode == 1) {
                     if (data == null || data.getData() == null) {
                         return;
                     }
-                    String filePath = GetFilePathFromUri.getPath(this, data.getData());
-                    if (filePath != null) {
-                        if (uris[1] != null && attachments.contains(uris[1]))
-                            attachments.remove(uris[1]);
-                        uris[1] = Uri.fromFile(new File(filePath));
-                        attachments.add(uris[1]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[1].setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        screenshots[1].setImageBitmap(bitmap);
-                    } else {
-                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
-                    }
+                    attachScreenshot(requestCode, data.getData());
                 } else {
-                    String filePath = GetFilePathFromUri.getPath(this, data.getData());
-                    if (filePath != null) {
-                        if (uris[2] != null && attachments.contains(uris[2]))
-                            attachments.remove(uris[2]);
-                        uris[2] = Uri.fromFile(new File(filePath));
-                        attachments.add(uris[2]);
-                        Bitmap bitmap = BitmapFactory.decodeFile(filePath);
-                        screenshots[2].setScaleType(ImageView.ScaleType.CENTER_CROP);
-                        screenshots[2].setImageBitmap(bitmap);
-                    } else {
-                        Toast.makeText(DescribeProblemActivity.this, getString(R.string.error_load_image), Toast.LENGTH_SHORT).show();
+                    if (data == null || data.getData() == null) {
+                        return;
                     }
+                    attachScreenshot(requestCode, data.getData());
                 }
             }
         }
     }
 
-    @Override
-    public void onConfigurationChanged(Configuration newConfig) {
-        super.onConfigurationChanged(newConfig);
-        // Checks the orientation of the screen
-        if (newConfig.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            // Landscape
-            LinearLayout.LayoutParams layoutParams =
-                    new LinearLayout.LayoutParams(0, MainActivity.dp2px(288), 1.0F);
-            int margin = getResources().getDimensionPixelSize(R.dimen.medium_thumbnail_padding);
-            layoutParams.setMargins(margin, margin, margin, margin);
-            int i1 = 0;
-            while (i1 < 3) {
-                screenshots[i1].setLayoutParams(layoutParams);
-                i1 += 1;
-            }
-        } else if (newConfig.orientation == Configuration.ORIENTATION_PORTRAIT) {
-            // Portrait
-            LinearLayout.LayoutParams layoutParams =
-                    new LinearLayout.LayoutParams(0, MainActivity.dp2px(144), 1.0F);
-            int margin = getResources().getDimensionPixelSize(R.dimen.medium_thumbnail_padding);
-            layoutParams.setMargins(margin, margin, margin, margin);
-            int i1 = 0;
-            while (i1 < 3) {
-                screenshots[i1].setLayoutParams(layoutParams);
-                i1 += 1;
-            }
-        }
+    protected void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putParcelableArray("screenshots", uris);
     }
 
     @Override
