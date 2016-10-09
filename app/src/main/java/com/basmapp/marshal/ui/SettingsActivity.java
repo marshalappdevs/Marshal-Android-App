@@ -1,5 +1,7 @@
 package com.basmapp.marshal.ui;
 
+import android.app.Dialog;
+import android.app.DialogFragment;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
@@ -60,7 +62,10 @@ public class SettingsActivity extends BaseActivity {
             }
         });
 
-        getFragmentManager().beginTransaction().replace(R.id.container, new SettingsFragment()).commit();
+        if (savedInstanceState == null) {
+            getFragmentManager().beginTransaction()
+                    .add(R.id.container, new SettingsFragment()).commit();
+        }
     }
 
     @Override
@@ -315,27 +320,7 @@ public class SettingsActivity extends BaseActivity {
                     }
                 });
             } else if (preference.getKey().equals(Constants.PREF_REVERT_THEME)) {
-                new AlertDialog.Builder(getActivity())
-                        .setMessage(R.string.are_you_sure)
-                        .setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
-                                        .putInt(Constants.PREF_PRIMARY_COLOR_CODE, ContextCompat.getColor(getActivity()
-                                                .getApplicationContext(), R.color.blue_primary_color))
-                                        .putInt(Constants.PREF_ACCENT_COLOR_CODE, ContextCompat.getColor(getActivity()
-                                                .getApplicationContext(), R.color.red_accent_color))
-                                        .putString(Constants.PREF_THEME, "light")
-                                        .apply();
-                            }
-                        })
-                        .setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        })
-                        .show();
+                new RevertThemeConfirmationDialog().show(getChildFragmentManager(), Constants.DIALOG_FRAGMENT_REVERT_THEME);
             } else if (preference.getKey().equals(Constants.PREF_CLEAR_TAP_TARGETS)) {
                 PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
                         .putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)
@@ -488,4 +473,33 @@ public class SettingsActivity extends BaseActivity {
             }
         }
     }
+
+    public static class RevertThemeConfirmationDialog extends DialogFragment {
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.are_you_sure)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
+                                    .putInt(Constants.PREF_PRIMARY_COLOR_CODE, ContextCompat.getColor(getActivity()
+                                            .getApplicationContext(), R.color.blue_primary_color))
+                                    .putInt(Constants.PREF_ACCENT_COLOR_CODE, ContextCompat.getColor(getActivity()
+                                            .getApplicationContext(), R.color.red_accent_color))
+                                    .putString(Constants.PREF_THEME, "light")
+                                    .apply();
+                        }
+                    })
+                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                        }
+                    })
+                    .create();
+        }
+    }
+
 }

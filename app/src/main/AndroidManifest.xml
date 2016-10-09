@@ -61,7 +61,6 @@
         </activity>
         <activity
             android:name=".ui.SettingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/navigation_drawer_settings"
             android:parentActivityName=".ui.MainActivity"
             android:theme="@style/AppTheme.Base.Blue">

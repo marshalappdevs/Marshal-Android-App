@@ -81,6 +81,7 @@
     <string name="review_dialog_above_average">Liked it</string>
     <string name="review_dialog_excellent">Loved it</string>
     <string name="review_dialog_body_hint">Description</string>
+    <string name="review_dialog_title">Rate it!</string>
     <string name="public_reviews_message">Notice: Your email address will not be published, but will be saved in our database.</string>
     <string name="structured_review_question_submit">Submit</string>
     <string name="delete_review">Delete</string>

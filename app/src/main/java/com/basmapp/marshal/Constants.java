@@ -56,4 +56,5 @@ public class Constants {
     // Fragment Tags
     public static final String FRAGMENT_PRIMARY_COLOR_PICKER = "primary_color_picker";
     public static final String FRAGMENT_ACCENT_COLOR_PICKER = "accent_color_picker";
+    public static final String DIALOG_FRAGMENT_REVERT_THEME = "revert_theme_confirmation_dialog";
 }
