@@ -9,14 +9,9 @@ import android.widget.ImageView;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
-import com.basmapp.marshal.localdb.annotations.EntityArraySetter;
 import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
-import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -36,6 +31,11 @@ public class Course extends DBObject implements Parcelable {
     // TODO RETROFIT SerializedName
     @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
     private long id;
+
+    @Expose
+    @SerializedName("ID")
+    @Column(name = DBConstants.COL_COURSE_ID)
+    private int courseID;
 
     @Expose
     @SerializedName("CourseCode")
@@ -64,11 +64,6 @@ public class Course extends DBObject implements Parcelable {
 
     @Column(name = DBConstants.COL_PREREQUISITES)
     private String prerequisites;
-
-    @Expose
-    @SerializedName("TargetPopulation")
-    @Column(name = DBConstants.COL_TARGET_POPULATION)
-    private String targetPopulation;
 
     @Expose
     @SerializedName("ProfessionalDomain")
@@ -105,17 +100,16 @@ public class Course extends DBObject implements Parcelable {
     @Column(name = DBConstants.COL_PASSING_GRADE)
     private int passingGrade;
 
-    @Column(name = DBConstants.COL_PRICE)
-    private long price;
-
     @Expose
     @SerializedName("cycleList")
-    @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
+    @ForeignKeyEntityArray(valueColumnName = DBConstants.COL_COURSE_ID,
+            fkColumnName = DBConstants.COL_COURSE_ID, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
     @Expose
     @SerializedName("Ratings")
-    @ForeignKeyEntityArray(fkColumnName = DBConstants.COL_RATINGS, entityClass = Rating.class)
+    @ForeignKeyEntityArray(valueColumnName = DBConstants.COL_COURSE_ID,
+            fkColumnName = DBConstants.COL_COURSE_ID, entityClass = Rating.class)
     private ArrayList<Rating> ratings = new ArrayList<>();
 
     @Expose
@@ -145,247 +139,185 @@ public class Course extends DBObject implements Parcelable {
         super(context);
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_ID)
+    @Override
+    protected boolean isPrimaryKeyAutoIncrement() {
+        return true;
+    }
+
     public long getId() {
         return id;
     }
 
-    @PrimaryKeySetter
-    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COURSE_CODE)
+    public int getCourseID() {
+        return courseID;
+    }
+
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
+    }
+
     public String getCourseCode() {
         return courseCode;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COURSE_CODE, type = TYPE_STRING)
     public void setCourseCode(String courseCode) {
         this.courseCode = courseCode;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_NAME)
     public String getName() {
         return name;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_NAME, type = TYPE_STRING)
     public void setName(String name) {
         this.name = name;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_MIN_PEOPLE)
     public int getMinimumPeople() {
         return minimumPeople;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_MIN_PEOPLE, type = TYPE_INT)
     public void setMinimumPeople(int minimumPeople) {
         this.minimumPeople = minimumPeople;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_MAX_PEOPLE)
     public int getMaximumPeople() {
         return maximumPeople;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_MAX_PEOPLE, type = TYPE_INT)
     public void setMaximumPeople(int maximumPeople) {
         this.maximumPeople = maximumPeople;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DESCRIPTION)
     public String getDescription() {
         return description;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DESCRIPTION, type = TYPE_STRING)
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_PREREQUISITES)
     public String getPrerequisites() {
         return prerequisites;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_PREREQUISITES, type = TYPE_STRING)
     public void setPrerequisites(String prerequisites) {
         this.prerequisites = prerequisites;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_TARGET_POPULATION)
-    public String getTargetPopulation() {
-        return targetPopulation;
-    }
-
-    @ColumnSetter(columnName = DBConstants.COL_TARGET_POPULATION, type = TYPE_STRING)
-    public void setTargetPopulation(String targetPopulation) {
-        this.targetPopulation = targetPopulation;
-    }
-
-    @ColumnGetter(columnName = DBConstants.COL_PROFESSIONAL_DOMAIN)
     public String getProfessionalDomain() {
         return professionalDomain;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_PROFESSIONAL_DOMAIN, type = TYPE_STRING)
     public void setProfessionalDomain(String professionalDomain) {
         this.professionalDomain = professionalDomain;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_SYLLABUS)
     public String getSyllabus() {
         return syllabus;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_SYLLABUS, type = TYPE_STRING)
     public void setSyllabus(String syllabus) {
         this.syllabus = syllabus;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DAYTIME)
     public String getDayTime() {
         return dayTime;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DAYTIME, type = TYPE_STRING)
     public void setDayTime(String dayTime) {
         this.dayTime = dayTime;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DURATION_IN_HOURS)
     public int getDurationInHours() {
         return durationInHours;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DURATION_IN_HOURS, type = TYPE_INT)
     public void setDurationInHours(int durationInHours) {
         this.durationInHours = durationInHours;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DURATION_IN_DAYS)
     public int getDurationInDays() {
         return durationInDays;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DURATION_IN_DAYS, type = TYPE_INT)
     public void setDurationInDays(int durationInDays) {
         this.durationInDays = durationInDays;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COMMENTS)
     public String getComments() {
         return comments;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COMMENTS, type = TYPE_STRING)
     public void setComments(String comments) {
         this.comments = comments;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_PASSING_GRADE)
     public int getPassingGrade() {
         return passingGrade;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_PASSING_GRADE, type = TYPE_INT)
     public void setPassingGrade(int passingGrade) {
         this.passingGrade = passingGrade;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_PRICE)
-    public long getPrice() {
-        return price;
-    }
-
-    @ColumnSetter(columnName = DBConstants.COL_PRICE, type = TYPE_LONG)
-    public void setPrice(long price) {
-        this.price = price;
-    }
-
-    @ColumnGetter(columnName = DBConstants.COL_CYCLES)
     public ArrayList<Cycle> getCycles() {
         return cycles;
     }
 
-    @EntityArraySetter(fkColumnName = DBConstants.COL_CYCLES, entityClass = Cycle.class)
     public void setCycles(ArrayList<Cycle> cycles) {
         this.cycles = cycles;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_RATINGS)
     public ArrayList<Rating> getRatings() {
         return ratings;
     }
 
-    @EntityArraySetter(fkColumnName = DBConstants.COL_RATINGS, entityClass = Rating.class)
     public void setRatings(ArrayList<Rating> ratings) {
         this.ratings = ratings;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
     public String getImageUrl() {
         return imageUrl;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IS_MOOC)
     public Boolean getIsMooc() {
         return isMooc;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IS_MOOC, type = TYPE_BOOLEAN)
-    public void setIsMooc(Boolean isMooc) {
+    public void setIsMooc(boolean isMooc) {
         this.isMooc = isMooc;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_CATEGORY)
     public String getCategory() {
         return category;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_CATEGORY, type = TYPE_STRING)
     public void setCategory(String category) {
         this.category = category;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IS_MEETUP)
     public Boolean getIsMeetup() {
         return isMeetup;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IS_MEETUP, type = TYPE_BOOLEAN)
-    public void setIsMeetup(Boolean isMeetup) {
+    public void setIsMeetup(boolean isMeetup) {
         this.isMeetup = isMeetup;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IS_USER_SUBSCRIBE)
     public boolean getIsUserSubscribe() {
         return this.isUserSubscribe;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IS_USER_SUBSCRIBE, type = TYPE_BOOLEAN)
     public void setIsUserSubscribe(boolean isUserSubscribe) {
         this.isUserSubscribe = isUserSubscribe;
-    }
-
-    /////////////////////////// methods ////////////////////////////
-
-    public void addCycle(Cycle cycle) {
-        cycles.add(cycle);
-    }
-
-    public void getPhotoViaGlide(Context context, final ImageView imageView) {
-        Glide.with(context)
-                .load(this.getImageUrl())
-                .into(imageView);
     }
 
     ///////////////////// Parcelable methods //////////////////////
@@ -401,13 +333,13 @@ public class Course extends DBObject implements Parcelable {
     @Override
     public void writeToParcel(Parcel dest, int i) {
         dest.writeLong(id);
+        dest.writeInt(courseID);
         dest.writeString(courseCode);
         dest.writeString(name);
         dest.writeInt(minimumPeople);
         dest.writeInt(maximumPeople);
         dest.writeString(description);
         dest.writeString(prerequisites);
-        dest.writeString(targetPopulation);
         dest.writeString(professionalDomain);
         dest.writeString(syllabus);
         dest.writeString(dayTime);
@@ -415,7 +347,6 @@ public class Course extends DBObject implements Parcelable {
         dest.writeInt(durationInDays);
         dest.writeString(comments);
         dest.writeInt(passingGrade);
-        dest.writeLong(price);
         dest.writeTypedList(cycles);
         dest.writeString(imageUrl);
         dest.writeString(category);
@@ -431,13 +362,13 @@ public class Course extends DBObject implements Parcelable {
      **/
     private Course(Parcel in) {
         this.id = in.readLong();
+        this.courseID = in.readInt();
         this.courseCode = in.readString();
         this.name = in.readString();
         this.minimumPeople = in.readInt();
         this.maximumPeople = in.readInt();
         this.description = in.readString();
         this.prerequisites = in.readString();
-        this.targetPopulation = in.readString();
         this.professionalDomain = in.readString();
         this.syllabus = in.readString();
         this.dayTime = in.readString();
@@ -445,7 +376,6 @@ public class Course extends DBObject implements Parcelable {
         this.durationInDays = in.readInt();
         this.comments = in.readString();
         this.passingGrade = in.readInt();
-        this.price = in.readLong();
         in.readTypedList(cycles, Cycle.CREATOR);
         this.imageUrl = in.readString();
         this.category = in.readString();
@@ -467,89 +397,12 @@ public class Course extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, int objectId) throws Exception {
-        statement.clearBindings();
-        if (getCourseCode() != null && getName() != null && getCategory() != null) {
-            statement.bindLong(1, objectId);
-            statement.bindString(2, getCourseCode());
-            statement.bindString(3, getName());
-            statement.bindLong(4, getMinimumPeople());
-            statement.bindLong(5, getMaximumPeople());
-            if (description == null)
-                description = "";
-            statement.bindString(6, getDescription());
-            if (prerequisites == null)
-                prerequisites = "";
-            statement.bindString(7, getPrerequisites());
-            if (targetPopulation == null)
-                targetPopulation = "";
-            statement.bindString(8, getTargetPopulation());
-            if (professionalDomain == null)
-                professionalDomain = "";
-            statement.bindString(9, getProfessionalDomain());
-            if (syllabus == null)
-                syllabus = "";
-            statement.bindString(10, getSyllabus());
-            if (dayTime == null)
-                dayTime = "";
-            statement.bindString(11, getDayTime());
-            statement.bindLong(12, getDurationInHours());
-            statement.bindLong(13, getDurationInDays());
-            if (comments == null)
-                comments = "";
-            statement.bindString(14, getComments());
-            statement.bindLong(15, getPassingGrade());
-            statement.bindDouble(16, getPrice());
-            statement.bindString(17, getCyclesIdsString());
-            statement.bindLong(18, (getIsMooc() ? 1 : 0));
-            statement.bindLong(19, (getIsMeetup() ? 1 : 0));
-            if (category == null)
-                category = "";
-            statement.bindString(20, getCategory());
-            if (imageUrl == null)
-                imageUrl = "";
-            statement.bindString(21, imageUrl);
-
-            return statement;
-        } else {
-            return null;
-        }
-    }
-
-    private String getCyclesIdsString() throws Exception {
-        String ids = "";
-
-        if (cycles != null && cycles.size() > 0) {
-            for (Cycle cycle : cycles) {
-                if (ids.equals(""))
-                    ids = String.valueOf(cycle.getId());
-                else
-                    ids += ("," + String.valueOf(cycle.getId()));
-            }
-        }
-
-        return ids;
-    }
-
-    private String getRatingsIdsString() throws Exception {
-        String ids = "";
-
-        if (ratings != null && ratings.size() > 0) {
-            for (Rating rating : ratings) {
-                if (ids.equals(""))
-                    ids = String.valueOf(rating.getId());
-                else
-                    ids += ("," + String.valueOf(rating.getId()));
-            }
-        }
-
-        return ids;
-    }
+    // ************************* END OF PARCELABLE **************************** //
 
     public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
         String query = "select * from " + DBConstants.T_COURSE
-                + " where " + DBConstants.COL_COURSE_CODE + " IN " +
-                "(select distinct " + DBConstants.COL_COURSE_CODE + " from " + DBConstants.T_CYCLE;
+                + " where " + DBConstants.COL_COURSE_ID + " IN " +
+                "(select distinct " + DBConstants.COL_COURSE_ID + " from " + DBConstants.T_CYCLE;
 
         if (filterByNowTimestamp)
             query += " where " + DBConstants.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());
@@ -583,38 +436,22 @@ public class Course extends DBObject implements Parcelable {
 
     public String getInsertSql() {
         String sql = null;
+        String values = " VALUES (";
+        String pkColumn = "";
+
+        if (!isPrimaryKeyAutoIncrement()) {
+            pkColumn = DBConstants.COL_ID + ",";
+            values = values + id + ",";
+        }
 
         try {
-            sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
-                    DBConstants.COL_COURSE_CODE + "," +
-                    DBConstants.COL_NAME + "," +
-                    DBConstants.COL_MIN_PEOPLE + "," +
-                    DBConstants.COL_MAX_PEOPLE + "," +
-                    DBConstants.COL_DESCRIPTION + "," +
-                    DBConstants.COL_PREREQUISITES + "," +
-                    DBConstants.COL_TARGET_POPULATION + "," +
-                    DBConstants.COL_PROFESSIONAL_DOMAIN + "," +
-                    DBConstants.COL_SYLLABUS + "," +
-                    DBConstants.COL_DAYTIME + "," +
-                    DBConstants.COL_DURATION_IN_HOURS + "," +
-                    DBConstants.COL_DURATION_IN_DAYS + "," +
-                    DBConstants.COL_COMMENTS + "," +
-                    DBConstants.COL_PASSING_GRADE + "," +
-                    DBConstants.COL_PRICE + "," +
-                    DBConstants.COL_CYCLES + "," +
-                    DBConstants.COL_RATINGS + "," +
-                    DBConstants.COL_IS_MOOC + "," +
-                    DBConstants.COL_IS_MEETUP + "," +
-                    DBConstants.COL_CATEGORY + "," +
-                    DBConstants.COL_IMAGE_URL + "," +
-                    DBConstants.COL_IS_UP_TO_DATE + ")" +
-                    " VALUES (" + prepareStringForSql(courseCode) +
+            values = values + courseID +
+                    "," + prepareStringForSql(courseCode) +
                     "," + prepareStringForSql(name) +
                     "," + minimumPeople +
                     "," + maximumPeople +
                     "," + prepareStringForSql(description) +
                     "," + prepareStringForSql(prerequisites) +
-                    "," + prepareStringForSql(targetPopulation) +
                     "," + prepareStringForSql(professionalDomain) +
                     "," + prepareStringForSql(syllabus) +
                     "," + prepareStringForSql(dayTime) +
@@ -622,13 +459,32 @@ public class Course extends DBObject implements Parcelable {
                     "," + durationInDays +
                     "," + prepareStringForSql(comments) +
                     "," + passingGrade +
-                    "," + price +
-                    "," + prepareStringForSql(getCyclesIdsString()) +
-                    "," + prepareStringForSql(getRatingsIdsString()) +
                     "," + (isMooc ? 1 : 0) +
                     "," + (isMeetup ? 1 : 0) +
                     "," + prepareStringForSql(category) +
                     "," + prepareStringForSql(imageUrl) + ",1);";
+
+            sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
+                    pkColumn +
+                    DBConstants.COL_COURSE_ID + "," +
+                    DBConstants.COL_COURSE_CODE + "," +
+                    DBConstants.COL_NAME + "," +
+                    DBConstants.COL_MIN_PEOPLE + "," +
+                    DBConstants.COL_MAX_PEOPLE + "," +
+                    DBConstants.COL_DESCRIPTION + "," +
+                    DBConstants.COL_PREREQUISITES + "," +
+                    DBConstants.COL_PROFESSIONAL_DOMAIN + "," +
+                    DBConstants.COL_SYLLABUS + "," +
+                    DBConstants.COL_DAYTIME + "," +
+                    DBConstants.COL_DURATION_IN_HOURS + "," +
+                    DBConstants.COL_DURATION_IN_DAYS + "," +
+                    DBConstants.COL_COMMENTS + "," +
+                    DBConstants.COL_PASSING_GRADE + "," +
+                    DBConstants.COL_IS_MOOC + "," +
+                    DBConstants.COL_IS_MEETUP + "," +
+                    DBConstants.COL_CATEGORY + "," +
+                    DBConstants.COL_IMAGE_URL + "," +
+                    DBConstants.COL_IS_UP_TO_DATE + ")" + values;
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -638,16 +494,21 @@ public class Course extends DBObject implements Parcelable {
 
     public String getUpdateSql(long objectId) {
         String sql = null;
+        String pkUpdate = "";
+
+        if (!isPrimaryKeyAutoIncrement()) {
+            pkUpdate = DBConstants.COL_ID + " = " + id + ",";
+        }
 
         try {
-            sql = "UPDATE " + DBConstants.T_COURSE + " SET " +
+            sql = "UPDATE " + DBConstants.T_COURSE + " SET " + pkUpdate +
+                    DBConstants.COL_COURSE_ID + " = " + courseID + "," +
                     DBConstants.COL_COURSE_CODE + " = " + prepareStringForSql(courseCode) + "," +
                     DBConstants.COL_NAME + " = " + prepareStringForSql(name) + "," +
                     DBConstants.COL_MIN_PEOPLE + " = " + minimumPeople + "," +
                     DBConstants.COL_MAX_PEOPLE + " = " + maximumPeople + "," +
                     DBConstants.COL_DESCRIPTION + " = " + prepareStringForSql(description) + "," +
                     DBConstants.COL_PREREQUISITES + " = " + prepareStringForSql(prerequisites) + "," +
-                    DBConstants.COL_TARGET_POPULATION + " = " + prepareStringForSql(targetPopulation) + "," +
                     DBConstants.COL_PROFESSIONAL_DOMAIN + " = " + prepareStringForSql(professionalDomain) + "," +
                     DBConstants.COL_SYLLABUS + " = " + prepareStringForSql(syllabus) + "," +
                     DBConstants.COL_DAYTIME + " = " + prepareStringForSql(dayTime) + "," +
@@ -655,9 +516,6 @@ public class Course extends DBObject implements Parcelable {
                     DBConstants.COL_DURATION_IN_DAYS + " = " + durationInDays + "," +
                     DBConstants.COL_COMMENTS + " = " + prepareStringForSql(comments) + "," +
                     DBConstants.COL_PASSING_GRADE + " = " + passingGrade + "," +
-                    DBConstants.COL_PRICE + " = " + price + "," +
-                    DBConstants.COL_CYCLES + " = " + prepareStringForSql(getCyclesIdsString()) + "," +
-                    DBConstants.COL_RATINGS + " = " + prepareStringForSql(getRatingsIdsString()) + "," +
                     DBConstants.COL_IS_MOOC + " = " + (isMooc ? 1 : 0) + "," +
                     DBConstants.COL_IS_MEETUP + " = " + (isMeetup ? 1 : 0) + "," +
                     DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +

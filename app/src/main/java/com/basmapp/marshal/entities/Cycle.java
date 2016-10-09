@@ -8,10 +8,7 @@ import android.os.Parcelable;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.basmapp.marshal.util.DateHelper;
 import com.google.gson.annotations.Expose;
@@ -27,8 +24,8 @@ public class Cycle extends DBObject implements Parcelable {
 
     @Expose
     @SerializedName("CourseID")
-    @Column(name = DBConstants.COL_COURSE_CODE)
-    private String courseCode;
+    @Column(name = DBConstants.COL_COURSE_ID)
+    private int courseID;
 
     @Expose
     @SerializedName("Name")
@@ -59,73 +56,63 @@ public class Cycle extends DBObject implements Parcelable {
         super(context);
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_ID)
+    @Override
+    protected boolean isPrimaryKeyAutoIncrement() {
+        return true;
+    }
+
     public long getId() {
         return id;
     }
 
-    @PrimaryKeySetter
-    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COURSE_CODE)
-    public String getCourseCode() {
-        return courseCode;
+    public int getCourseID() {
+        return courseID;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COURSE_CODE, type = TYPE_STRING)
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_NAME)
     public String getName() {
         return name;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_NAME, type = TYPE_STRING)
     public void setName(String name) {
         this.name = name;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_MAX_PEOPLE)
     public int getMaximumPeople() {
         return maximumPeople;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_MAX_PEOPLE, type = TYPE_INT)
     public void setMaximumPeople(int maximumPeople) {
         this.maximumPeople = maximumPeople;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DESCRIPTION)
     public String getDescription() {
         return description;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DESCRIPTION, type = TYPE_STRING)
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_START_DATE)
     public Date getStartDate() {
         return startDate;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_START_DATE, type = TYPE_DATE)
     public void setStartDate(Date startDate) {
         this.startDate = startDate;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_END_DATE)
     public Date getEndDate() {
         return endDate;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_END_DATE, type = TYPE_DATE)
     public void setEndDate(Date endDate) {
         this.endDate = endDate;
     }
@@ -153,6 +140,7 @@ public class Cycle extends DBObject implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(id);
         parcel.writeString(name);
+        parcel.writeInt(courseID);
         parcel.writeInt(maximumPeople);
         parcel.writeString(description);
         parcel.writeString(DateHelper.dateToString(startDate));
@@ -167,6 +155,7 @@ public class Cycle extends DBObject implements Parcelable {
     private Cycle(Parcel in) {
         this.id = in.readLong();
         this.name = in.readString();
+        this.courseID = in.readInt();
         this.maximumPeople = in.readInt();
         this.description = in.readString();
         this.startDate = DateHelper.stringToDate(in.readString());
@@ -186,11 +175,11 @@ public class Cycle extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, String courseCode, long objectId) throws Exception {
+    public SQLiteStatement getStatement(SQLiteStatement statement, int courseId, long objectId) throws Exception {
         if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
-            statement.bindString(2, courseCode);
+            statement.bindLong(2, courseId);
 
             if (name == null)
                 name = "";

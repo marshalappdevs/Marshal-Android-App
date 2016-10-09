@@ -48,37 +48,39 @@ public class FcmIntentService extends FirebaseMessagingService {
 
         String type = (String) data.get("type");
 
-        switch (type) {
-            case "commands":
-                String[] commands = ((String)data.get("commands")).replace("\"","").replace("[","")
-                        .replace("]","").split(",");
-                if (commands != null) {
-                    executeCommands(commands);
-                }
-                break;
-            case "notification":
-                // Get Title
-                String title = (String) data.get("title");
-                if (title == null) title = getString(R.string.app_name);
-                // Get Content
-                String content = (String) data.get("content");
-                // Get PhotoUrl
-                String imageUrl = (String) data.get("imageUrl");
-
-                if (content != null) {
-                    if (imageUrl != null) {
-                        // Show Picture Notification
-                        new NotificationUtils.GeneratePictureStyleNotification(this, content,
-                                imageUrl, notifyPendingIntent);
-                    } else {
-                        // Show Basic Notification
-                        mNotificationUtils.notify(title, content, notifyPendingIntent);
+        if (type != null) {
+            switch (type) {
+                case "commands":
+                    String[] commands = ((String)data.get("commands")).replace("\"","").replace("[","")
+                            .replace("]","").split(",");
+                    if (commands != null) {
+                        executeCommands(commands);
                     }
-                }
+                    break;
+                case "notification":
+                    // Get Title
+                    String title = (String) data.get("title");
+                    if (title == null) title = getString(R.string.app_name);
+                    // Get Content
+                    String content = (String) data.get("content");
+                    // Get PhotoUrl
+                    String imageUrl = (String) data.get("imageUrl");
 
-                break;
-            default:
-                break;
+                    if (content != null) {
+                        if (imageUrl != null) {
+                            // Show Picture Notification
+                            new NotificationUtils.GeneratePictureStyleNotification(this, content,
+                                    imageUrl, notifyPendingIntent);
+                        } else {
+                            // Show Basic Notification
+                            mNotificationUtils.notify(title, content, notifyPendingIntent);
+                        }
+                    }
+
+                    break;
+                default:
+                    break;
+            }
         }
     }
 

@@ -4,27 +4,17 @@ import android.app.ProgressDialog;
 import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringDef;
-
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
-import com.basmapp.marshal.localdb.annotations.EntityArraySetter;
-import com.basmapp.marshal.localdb.annotations.EntitySetter;
 import com.basmapp.marshal.localdb.annotations.ForeignKeyEntity;
 import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
-import com.basmapp.marshal.localdb.annotations.Settings;
 import com.basmapp.marshal.localdb.annotations.TableName;
+import com.basmapp.marshal.localdb.entities.ColumnData;
+import com.basmapp.marshal.localdb.entities.FkData;
+import com.basmapp.marshal.localdb.entities.PkData;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.util.DateHelper;
-
-import java.lang.annotation.Annotation;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -33,45 +23,36 @@ import java.util.List;
 
 public abstract class DBObject {
 
-    // Database fields
-    protected static final String TYPE_INT = "int";
-    protected static final String TYPE_LONG = "long";
-    protected static final String TYPE_STRING = "string";
-    protected static final String TYPE_BOOLEAN = "boolean";
-    protected static final String TYPE_DATE = "date";
-    protected static final String TYPE_DOUBLE = "double";
-//    public static final String DATE_FORMAT = "dd-MM-yyyy HH:mm";
     private static final String SUCCESS_FLAG = "Done";
     private static final String ERROR_FLAG = "Error";
 
     private Context mContext;
-    private ArrayList<String> allColumnsList;
-    private ArrayList<Method> allGetters;
-    private ArrayList<Method> allSetters;
+
     private String tableName;
-    private PrimaryKey primaryKey;
-    private Method pkSetter;
-    private Field pkField;
-    private static boolean mIsPkAutoIncrement;
+    private PkData primaryKey;
+    private ArrayList<ColumnData> mColumns;
+    private ArrayList<FkData> mForeignKeys;
+    private ArrayList<FkData> mArrayForeignKeys;
 
     protected DBObject() {
     }
 
     public DBObject(Context context) {
         this.mContext = context;
-        getAnnotations();
-        getGettersAndSetters();
+        initialize();
     }
 
     public void Ctor(Context context) {
         this.mContext = context;
-        getAnnotations();
-        getGettersAndSetters();
+        initialize();
     }
 
-    public static boolean isPkAutoIncrement() {
-        return mIsPkAutoIncrement;
+    private void initialize() {
+        getFields();
+        tableName = getTableName(getClass());
     }
+
+    protected abstract boolean isPrimaryKeyAutoIncrement();
 
     protected String prepareStringForSql(String value) {
         if (value != null && !value.equals("")) {
@@ -81,11 +62,7 @@ public abstract class DBObject {
         }
     }
 
-//    private static SQLiteDatabase getDatabase(Context context) {
-//        return LocalDBHelper.getHelperInstance(context).getWritableDatabase();
-//    }
-
-    private static <T> String getTableName(Class<T> targetClass) {
+    private static String getTableName(Class<? extends DBObject> targetClass) {
         if (targetClass.isAnnotationPresent(TableName.class)) {
             return targetClass.getAnnotation(TableName.class).name();
         } else {
@@ -93,85 +70,72 @@ public abstract class DBObject {
         }
     }
 
-    private void getAnnotations() {
-        allColumnsList = new ArrayList<>();
-        allSetters = new ArrayList<>();
-        allGetters = new ArrayList<>();
+    private void getFields() {
+        Field[] declaredFields = getClass().getDeclaredFields();
 
-        if (this.getClass().isAnnotationPresent(TableName.class)) {
-            tableName = this.getClass().getAnnotation(TableName.class).name();
-        }
+        mColumns = new ArrayList<>();
+        mForeignKeys = new ArrayList<>();
+        mArrayForeignKeys = new ArrayList<>();
 
-        Field[] fields = this.getClass().getDeclaredFields();
-        Annotation[] currFieldAnnotations;
-        for (Field field : fields) {
-            currFieldAnnotations = field.getAnnotations();
-            for (Annotation annotation : currFieldAnnotations) {
-                if (annotation instanceof Column) {
-                    allColumnsList.add(((Column) annotation).name());
-                } else if (annotation instanceof PrimaryKey) {
-                    allColumnsList.add(((PrimaryKey) annotation).columnName());
-                    primaryKey = (PrimaryKey) annotation;
-                    mIsPkAutoIncrement = primaryKey.isAutoIncrement();
-                    pkField = field;
-                } else if (annotation instanceof ForeignKeyEntity) {
-                    allColumnsList.add(((ForeignKeyEntity) annotation).fkColumnName());
-                } else if (annotation instanceof ForeignKeyEntityArray) {
-                    allColumnsList.add(((ForeignKeyEntityArray) annotation).fkColumnName());
-                }
+        for (Field field : declaredFields) {
+            if (field.isAnnotationPresent(PrimaryKey.class)) {
+                primaryKey = new PkData(field, field.getAnnotation(PrimaryKey.class), getSetter(field));
+            } else if (field.isAnnotationPresent(Column.class)) {
+                mColumns.add(new ColumnData(field.getAnnotation(Column.class).name(), field, getSetter(field)));
+            } else if (field.isAnnotationPresent(ForeignKeyEntity.class)) {
+                ForeignKeyEntity annotation = field.getAnnotation(ForeignKeyEntity.class);
+                mForeignKeys.add(new FkData(field, annotation.valueColumnName(),
+                        annotation.fkColumnName(), annotation.entityClass(), getSetter(field)));
+            } else if (field.isAnnotationPresent(ForeignKeyEntityArray.class)) {
+                ForeignKeyEntityArray annotation = field.getAnnotation(ForeignKeyEntityArray.class);
+                mArrayForeignKeys.add(new FkData(field, annotation.valueColumnName()
+                        , annotation.fkColumnName(), annotation.entityClass(), getSetter(field)));
             }
         }
     }
 
-    private void getGettersAndSetters() {
-        for (Method method : this.getClass().getDeclaredMethods()) {
-            if (method.isAnnotationPresent(ColumnGetter.class)) {
-                allGetters.add(method);
-            } else if (method.isAnnotationPresent(ColumnSetter.class) ||
-                    method.isAnnotationPresent(EntitySetter.class) ||
-                    method.isAnnotationPresent(EntityArraySetter.class)) {
-                allSetters.add(method);
-
-                if (method.isAnnotationPresent(PrimaryKeySetter.class)) {
-                    pkSetter = method;
-                }
-            }
+    private Field getFieldByColumn(String valueColumn) {
+        for (ColumnData column : mColumns) {
+            if (column.getName().equals(valueColumn))
+                return column.getField();
         }
+        return null;
     }
 
-    private void setId(Object id) throws Exception {
+    private Method getSetter(Field field) {
+        String fieldName = field.getName();
+        String methodName = "set";
+
+        if (fieldName.length() > 1) {
+            methodName = methodName + fieldName.substring(0, 1).toUpperCase() + fieldName.substring(1);
+        } else {
+            methodName = methodName + fieldName.toUpperCase();
+        }
+
         try {
-//            for (Method setter : allSetters) {
-//                if (setter.isAnnotationPresent(PrimaryKeySetter.class)) {
-//                    setter.setAccessible(true);
-//                    setter.invoke(this, id);
-//                }
-//            }
+            return getClass().getDeclaredMethod(methodName, field.getType());
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 
-            pkSetter.setAccessible(true);
-            pkSetter.invoke(this, id);
+    private void setObjectId(Object id) throws Exception {
+        try {
+            Method setter = primaryKey.getSetter();
+            setter.setAccessible(true);
+            setter.invoke(this, id);
         } catch (Exception e) {
             throw e;
         }
     }
 
-    private Object getId() {
-//        for (Field field : this.getClass().getDeclaredFields()) {
-//            if (field.isAnnotationPresent(PrimaryKey.class)) {
-//                try {
-//                    field.setAccessible(true);
-//                    return field.get(this);
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        }
-//        return null;
-
-        pkField.setAccessible(true);
+    public Object getObjectId() {
         try {
-            return pkField.get(this);
-        } catch (IllegalAccessException e) {
+            Field field = getClass().getDeclaredField(primaryKey.getField().getName());
+            field.setAccessible(true);
+            return field.get(this);
+        } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
@@ -181,232 +145,123 @@ public abstract class DBObject {
         // Get all values into a ContentValues object
         ContentValues values = new ContentValues();
 
-        if (!isPkAutoIncrement()) {
-            Object id = getId();
+        if (!primaryKey.isAutoIncrement()) {
+            Object id = getObjectId();
             if (id instanceof String) {
-                values.put(primaryKey.columnName(), (String) id);
-            } if (id instanceof Integer) {
-                values.put(primaryKey.columnName(), (Integer) id);
+                values.put(primaryKey.getName(), (String) id);
+            }
+            if (id instanceof Integer) {
+                values.put(primaryKey.getName(), (Integer) id);
             } else if (id instanceof Long) {
-                values.put(primaryKey.columnName(), (Long) id);
+                values.put(primaryKey.getName(), (Long) id);
             }
         }
 
-        for (Field field : this.getClass().getDeclaredFields()) {
-            if (field.isAnnotationPresent(Column.class)) {
-                // Field has the annotation "@Column"
-                Column column = field.getAnnotation(Column.class);
-                try {
-                    field.setAccessible(true);
-                    Object value = field.get(this);
-                    if (value instanceof Integer) {
-                        values.put(column.name(), (Integer) value);
-                    } else if (value instanceof Long) {
-                        values.put(column.name(), (Long) value);
-                    } else if (value instanceof Double) {
-                        values.put(column.name(), (Double) value);
-                    } else if (value instanceof String) {
-                        values.put(column.name(), (String) value);
-                    } else if (value instanceof Boolean) {
-                        values.put(column.name(), (Boolean) value);
-                    } else if (value instanceof Date) {
-                        values.put(column.name(), (((Date) value)).getTime());
-                    }
-                } catch (Exception e) {
-                    throw e;
+        for (ColumnData column : mColumns) {
+            Field field = getClass().getDeclaredField(column.getField().getName());
+            try {
+                field.setAccessible(true);
+                Object value = field.get(this);
+                if (value instanceof Integer) {
+                    values.put(column.getName(), (Integer) value);
+                } else if (value instanceof Long) {
+                    values.put(column.getName(), (Long) value);
+                } else if (value instanceof Double) {
+                    values.put(column.getName(), (Double) value);
+                } else if (value instanceof String) {
+                    values.put(column.getName(), (String) value);
+                } else if (value instanceof Boolean) {
+                    values.put(column.getName(), (Boolean) value);
+                } else if (value instanceof Date) {
+                    values.put(column.getName(), (((Date) value)).getTime());
                 }
-            } else if (field.isAnnotationPresent(ForeignKeyEntity.class)) {
-                ForeignKeyEntity foreignKey = field.getAnnotation(ForeignKeyEntity.class);
-                try {
-                    field.setAccessible(true);
-                    Class<?> entityClass = field.getType();
-                    Object entity = entityClass.cast(field.get(this));
-                    if (entity != null) {
-                        Object fkValue = ((DBObject) entity).getId();
-
-                        if (fkValue instanceof Integer) {
-                            values.put(foreignKey.fkColumnName(), (Integer) fkValue);
-                        } else if (fkValue instanceof Long) {
-                            values.put(foreignKey.fkColumnName(), (Long) fkValue);
-                        } else if (fkValue instanceof String) {
-                            values.put(foreignKey.fkColumnName(), (String) fkValue);
-                        }
-                    }
-                } catch (Exception e) {
-                    throw e;
-                }
-            } else if (field.isAnnotationPresent(ForeignKeyEntityArray.class)) {
-                ForeignKeyEntityArray foreignKey = field.getAnnotation(ForeignKeyEntityArray.class);
-                try {
-                    field.setAccessible(true);
-                    ArrayList<? extends DBObject> objectsArrayList =
-                            (ArrayList<? extends DBObject>) field.get(this);
-                    if (objectsArrayList != null) {
-                        String fkValue = "";
-
-                        for (Object currObject : objectsArrayList) {
-
-                            Object entityId = ((DBObject) currObject).getId();
-
-                            if (entityId != null) {
-                                if (!fkValue.equals("")) {
-                                    fkValue = fkValue + "," + entityId.toString();
-                                } else fkValue = entityId.toString();
-                            }
-                        }
-                        values.put(foreignKey.fkColumnName(), fkValue);
-                    }
-                } catch (Exception e) {
-                    throw e;
-                }
+            } catch (Exception e) {
+                throw e;
             }
         }
 
         return values;
     }
 
-    private Method getSetterByColumnName(String columnName) throws Exception {
-        for (Method setter : allSetters) {
-            String currSetterColumnName = "";
-            if (setter.isAnnotationPresent(ColumnSetter.class)) {
-                ColumnSetter columnSetter = setter.getAnnotation(ColumnSetter.class);
-                currSetterColumnName = columnSetter.columnName();
-            } else if (setter.isAnnotationPresent(EntitySetter.class)) {
-                EntitySetter entitySetter = setter.getAnnotation(EntitySetter.class);
-                currSetterColumnName = entitySetter.fkColumnName();
-            }
-
-            if (columnName.equals(currSetterColumnName)) {
-                return setter;
-            }
-        }
-        throw new Exception("didn't found a setter for this column. Please contact the programmer");
-    }
-
-    public void setAttribute(Object setterOwner, String columnName, boolean isNullable, Object value, int validationType)
-            throws Exception {
-        Validator.setAttribute(setterOwner, getSetterByColumnName(columnName), columnName,
-                isNullable, value, validationType);
-    }
-
-//    public Date stringToDate(String string) throws Exception {
-//        if (string != null) {
-//            return DateHelper.stringToDate(string);
-//        } else {
-//            return null;
-//        }
-//    }
-
-//    public String dateToString(@NonNull Date date) {
-//        return DateHelper.dateToString(date);
-//    }
-
-    public Object cursorToObject(Cursor cursor, Context context) throws Exception {
+    protected Object cursorToObject(Cursor cursor) throws Exception {
         if (cursor.getCount() > 0) {
-//            for (String column:allColumnsList) {
+            if (primaryKey != null) {
+                Method setter = primaryKey.getSetter();
+                Class type = primaryKey.getField().getType();
+                setter.setAccessible(true);
 
-            for (Method setter : allSetters) {
-                if (setter.isAnnotationPresent(ColumnSetter.class)) {
-                    ColumnSetter columnSetter = setter.getAnnotation(ColumnSetter.class);
-//                        if (column.equals(columnSetter.columnName())) {
-                    try {
-                        setter.setAccessible(true);
-                        if (columnSetter.type().equals(TYPE_INT)) {
-                            setter.invoke(this, cursor.getInt(cursor.getColumnIndex(columnSetter.columnName())));
-                        } else if (columnSetter.type().equals(TYPE_LONG)) {
-                            setter.invoke(this, cursor.getLong(cursor.getColumnIndex(columnSetter.columnName())));
-                        } else if (columnSetter.type().equals(TYPE_DOUBLE)) {
-                            setter.invoke(this, (cursor.getDouble(cursor.getColumnIndex(columnSetter.columnName()))));
-                        } else if (columnSetter.type().equals(TYPE_BOOLEAN)) {
-                            setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(columnSetter.columnName()))) != 0);
-                        } else if (columnSetter.type().equals(TYPE_STRING)) {
-                            setter.invoke(this, cursor.getString(cursor.getColumnIndex(columnSetter.columnName())));
-                        } else if (columnSetter.type().equals(TYPE_DATE)) {
-                            setter.invoke(this,
-                                    new Date(cursor.getLong(cursor.getColumnIndex(columnSetter.columnName()))));
-
-                        }
-                    } catch (Exception e) {
-                        throw e;
-                    }
-
-//                            break;
-//                        }
-                } else if (setter.isAnnotationPresent(EntitySetter.class)) {
-                    EntitySetter entitySetter = setter.getAnnotation(EntitySetter.class);
-//                        if (column.equals(entitySetter.fkColumnName())) {
-                    try {
-                        Class<? extends DBObject> entityClass = entitySetter.entityClass();
-
-                        Object entityInstance = entityClass
-                                .getConstructor(Context.class)
-                                .newInstance(context);
-
-                        entityClass.cast(entityInstance)
-                                .getById(cursor.getLong(cursor
-                                                .getColumnIndex(entitySetter.fkColumnName())),
-                                        context);
-
-                        setter.setAccessible(true);
-                        setter.invoke(this, entityInstance);
-                    } catch (Exception e) {
-                        throw e;
-                    }
-
-//                            break;
-//                        }
-                } else if (setter.isAnnotationPresent(EntityArraySetter.class)) {
-                    EntityArraySetter entityArraySetter =
-                            setter.getAnnotation(EntityArraySetter.class);
-//                        if (column.equals(entityArraySetter.fkColumnName())) {
-                    try {
-                        ArrayList<Object> objectArray = new ArrayList<>();
-                        Class<? extends DBObject> entityClass = entityArraySetter.entityClass();
-
-                        String idsArray = cursor
-                                .getString(cursor
-                                        .getColumnIndex(entityArraySetter.fkColumnName()));
-
-                        if (idsArray != null && !idsArray.equals("")) {
-
-                            String[] ids = idsArray.split(",");
-
-                            for (String id : ids) {
-                                Object entityInstance = entityClass
-                                        .getConstructor(Context.class)
-                                        .newInstance(context);
-
-                                long idLong = Long.valueOf(id);
-
-                                entityClass.cast(entityInstance).getById(idLong, context);
-
-                                objectArray.add(entityInstance);
-                            }
-
-                            setter.setAccessible(true);
-                            setter.invoke(this, objectArray);
-                        }
-
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        throw e;
-                    }
-
-//                            break;
-//                        }
+                if (type == Integer.TYPE) {
+                    setter.invoke(this, cursor.getInt(cursor.getColumnIndex(primaryKey.getName())));
+                } else if (type == Long.TYPE) {
+                    setter.invoke(this, cursor.getLong(cursor.getColumnIndex(primaryKey.getName())));
+                } else if (type.getName().equals("java.lang.String")) {
+                    setter.invoke(this, cursor.getString(cursor.getColumnIndex(primaryKey.getName())));
                 }
             }
-//            }
+
+            for (ColumnData column : mColumns) {
+                Method setter = column.getSetter();
+                Class type = column.getField().getType();
+                setter.setAccessible(true);
+
+                setter.setAccessible(true);
+                if (type == Integer.TYPE) {
+                    setter.invoke(this, cursor.getInt(cursor.getColumnIndex(column.getName())));
+                } else if (type == Long.TYPE) {
+                    setter.invoke(this, cursor.getLong(cursor.getColumnIndex(column.getName())));
+                } else if (type == Double.TYPE) {
+                    setter.invoke(this, (cursor.getDouble(cursor.getColumnIndex(column.getName()))));
+                } else if (type == Boolean.TYPE) {
+                    setter.invoke(this, (cursor.getInt(cursor.getColumnIndex(column.getName()))) != 0);
+                } else if (type.getName().equals("java.lang.String")) {
+                    setter.invoke(this, cursor.getString(cursor.getColumnIndex(column.getName())));
+                } else if (type.getName().equals("java.util.Date")) {
+                    setter.invoke(this,
+                            new Date(cursor.getLong(cursor.getColumnIndex(column.getName()))));
+
+                }
+            }
+
+            for (FkData foreignKey : mForeignKeys) {
+                Object entityInstance;
+
+                Field filterValueField = getFieldByColumn(foreignKey.getValueColumn());
+                filterValueField.setAccessible(true);
+
+                entityInstance = findOne(foreignKey.getValueColumn(), filterValueField.get(this),
+                        mContext, foreignKey.getFkClass());
+
+                Method setter = foreignKey.getSetter();
+                setter.setAccessible(true);
+                setter.invoke(this, entityInstance);
+            }
+
+            for (FkData foreignKey : mArrayForeignKeys) {
+                ArrayList<Object> entityInstance;
+
+                Field filterValueField = getFieldByColumn(foreignKey.getValueColumn());
+                filterValueField.setAccessible(true);
+
+                entityInstance = (ArrayList<Object>) findAllByColumn(foreignKey.getValueColumn(), filterValueField.get(this),
+                        foreignKey.getName(), mContext, foreignKey.getFkClass());
+
+                Method setter = foreignKey.getSetter();
+                setter.setAccessible(true);
+                setter.invoke(this, entityInstance);
+            }
         }
 
         return this.getClass();
     }
 
+
+
     public void create() throws Exception {
         try {
             ContentValues values = getContentValues();
             long objectId = LocalDBHelper.getDatabaseWritableInstance(mContext).insertOrThrow(tableName, null, values);
-            setId(objectId);
+            setObjectId(objectId);
+            createOrUpdateForeignKeys();
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage() != null) {
@@ -418,9 +273,10 @@ public abstract class DBObject {
     public void save() throws Exception {
         try {
             ContentValues values = getContentValues();
-            Object id = getId();
+            Object id = getObjectId();
             if (id != null && id instanceof String) id = "'" + id + "'";
-            LocalDBHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.columnName() + " = " + id, null);
+            LocalDBHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.getName() + " = " + id, null);
+            createOrUpdateForeignKeys();
         } catch (Exception e) {
             e.printStackTrace();
             if (e.getMessage() != null) {
@@ -429,13 +285,53 @@ public abstract class DBObject {
         }
     }
 
+    private void createOrUpdateForeignKeys() throws Exception {
+        for (FkData foreignKey : mForeignKeys) {
+            Field field = getClass().getDeclaredField(foreignKey.getField().getName());
+            field.setAccessible(true);
+            Object fieldValue = field.get(this);
+
+            Object objectId = foreignKey.getFkClass().cast(fieldValue).getObjectId();
+
+            if (isNullOrZero(objectId)) {
+                foreignKey.getFkClass().cast(fieldValue).create();
+            } else {
+                foreignKey.getFkClass().cast(fieldValue).save();
+            }
+        }
+
+        for (FkData foreignKey : mArrayForeignKeys) {
+            Field field = getClass().getDeclaredField(foreignKey.getField().getName());
+            field.setAccessible(true);
+            ArrayList<? extends DBObject> objectsArrayList =
+                    (ArrayList<? extends DBObject>) field.get(this);
+
+            for (Object object : objectsArrayList) {
+                Object objectId = foreignKey.getFkClass().cast(object).getObjectId();
+
+                if (isNullOrZero(objectId)) {
+                    foreignKey.getFkClass().cast(object).create();
+                } else {
+                    foreignKey.getFkClass().cast(object).save();
+                }
+            }
+        }
+    }
+
+    private boolean isNullOrZero(Object object) {
+        return object == null ||
+                object instanceof Integer && (int)object == 0 ||
+                object instanceof Long && (long)object == 0 ||
+                object instanceof String && object.equals("");
+    }
+
     public void getById(long id, Context context) throws Exception {
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(tableName,
-                null, primaryKey.columnName() + " = " + id, null,
+                null, primaryKey.getName() + " = " + id, null,
                 null, null, null);
         cursor.moveToFirst();
         try {
-            cursorToObject(cursor, context);
+            cursorToObject(cursor);
         } catch (Exception e) {
             throw e;
         } finally {
@@ -445,9 +341,9 @@ public abstract class DBObject {
     }
 
     public void delete() throws Exception {
-        Object id = getId();
+        Object id = getObjectId();
         if (id != null && id instanceof String) id = "'" + id + "'";
-        LocalDBHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.columnName() + " = " + id, null);
+        LocalDBHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.getName() + " = " + id, null);
     }
 
     private static int count(Context context, Class<? extends DBObject> targetClass) throws Exception {
@@ -482,7 +378,7 @@ public abstract class DBObject {
         return average;
     }
 
-    public static List<Object> getAll(String orderByColumnName,
+    public static List<Object> findAll(String orderByColumnName,
                                       Context context,
                                       Class<? extends DBObject> targetClass) throws Exception {
 
@@ -497,7 +393,7 @@ public abstract class DBObject {
                 while (!cursor.isAfterLast()) {
                     Object currObject = targetClass.getConstructor(Context.class)
                             .newInstance(context);
-                    (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                    (targetClass.cast(currObject)).cursorToObject(cursor);
                     allObjects.add(currObject);
                     cursor.moveToNext();
                 }
@@ -515,9 +411,9 @@ public abstract class DBObject {
     }
 
     public static Object findOne(String filterColumnName,
-                                              Object filterValue,
-                                              Context context,
-                                              Class<? extends DBObject> targetClass) throws Exception {
+                                 Object filterValue,
+                                 Context context,
+                                 Class<? extends DBObject> targetClass) throws Exception {
         if (filterValue instanceof Boolean)
             filterValue = (boolean) filterValue ? 1 : 0;
         else if (filterValue instanceof String)
@@ -530,7 +426,7 @@ public abstract class DBObject {
 
         try {
             Object currObject = targetClass.getConstructor(Context.class).newInstance(context);
-            (targetClass.cast(currObject)).cursorToObject(cursor, context);
+            (targetClass.cast(currObject)).cursorToObject(cursor);
 
             cursor.close();
             return currObject;
@@ -540,7 +436,7 @@ public abstract class DBObject {
         }
     }
 
-    public static List<Object> getAllByColumn(String columnName,
+    public static List<Object> findAllByColumn(String columnName,
                                               Object value,
                                               String orderByColumnName,
                                               Context context,
@@ -559,7 +455,7 @@ public abstract class DBObject {
         try {
             while (!cursor.isAfterLast()) {
                 Object currObject = targetClass.getConstructor(Context.class).newInstance(context);
-                (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                (targetClass.cast(currObject)).cursorToObject(cursor);
                 allObjects.add(currObject);
                 cursor.moveToNext();
             }
@@ -599,7 +495,7 @@ public abstract class DBObject {
         try {
             while (!cursor.isAfterLast()) {
                 Object currObject = targetClass.getConstructor(Context.class).newInstance(context);
-                (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                (targetClass.cast(currObject)).cursorToObject(cursor);
                 allObjects.add(currObject);
                 cursor.moveToNext();
             }
@@ -873,7 +769,7 @@ public abstract class DBObject {
         }.execute();
     }
 
-    public static void getAllInBackground(final String orderByColumn,
+    public static void findAllInBackground(final String orderByColumn,
                                           final Class<? extends DBObject> targetClass,
                                           final Context context,
                                           final boolean showProgressBar,
@@ -898,7 +794,7 @@ public abstract class DBObject {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    data = getAll(orderByColumn, context, targetClass);
+                    data = findAll(orderByColumn, context, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
@@ -953,7 +849,7 @@ public abstract class DBObject {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    data = getAllByColumn(columnName, value, orderByColumnName, context, targetClass);
+                    data = findAllByColumn(columnName, value, orderByColumnName, context, targetClass);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
@@ -1039,7 +935,7 @@ public abstract class DBObject {
                                                  final Context context,
                                                  final boolean showProgressBar,
                                                  final String filterColumn,
-                                                 final String filterValue,
+                                                 final Object filterValue,
                                                  final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
@@ -1092,7 +988,7 @@ public abstract class DBObject {
                                                       final boolean showProgressBar,
                                                       final String avgColumn,
                                                       final String filterColumn,
-                                                      final String filterValue,
+                                                      final Object filterValue,
                                                       final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
@@ -1204,7 +1100,7 @@ public abstract class DBObject {
                 while (!cursor.isAfterLast()) {
                     Object currObject = targetClass.getConstructor(Context.class)
                             .newInstance(context);
-                    (targetClass.cast(currObject)).cursorToObject(cursor, context);
+                    (targetClass.cast(currObject)).cursorToObject(cursor);
                     allObjects.add(currObject);
                     cursor.moveToNext();
                 }

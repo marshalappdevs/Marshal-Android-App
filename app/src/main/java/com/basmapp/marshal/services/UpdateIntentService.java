@@ -183,6 +183,8 @@ public class UpdateIntentService extends IntentService {
         List<Course> newCourses = new ArrayList<>();
         List<MaterialItem> newMaterials;
         List<MalshabItem> newMalshabItems;
+
+        database.beginTransaction();
         try {
             newCourses = MarshalServiceProvider.getInstance(token).getAllCourses().execute().body();
             newMaterials = MarshalServiceProvider.getInstance(token).getAllMaterials().execute().body();
@@ -191,8 +193,6 @@ public class UpdateIntentService extends IntentService {
             List<Course> tempNewCourses = new ArrayList<>(newCourses);
             List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
             List<MalshabItem> tempNewMalshabItems = new ArrayList<>(newMalshabItems);
-
-            database.beginTransaction();
 
             // Clear database
             database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
@@ -208,7 +208,7 @@ public class UpdateIntentService extends IntentService {
             for (MaterialItem materialItem : tempNewMaterials) {
                 List<MaterialItem> dbResult = null;
                 try {
-                    dbResult = (List) MaterialItem.getAllByColumn(DBConstants.COL_URL, materialItem.getUrl(),
+                    dbResult = (List) MaterialItem.findAllByColumn(DBConstants.COL_URL, materialItem.getUrl(),
                             DBConstants.COL_ID, this, MaterialItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
@@ -241,7 +241,7 @@ public class UpdateIntentService extends IntentService {
             for (MalshabItem malshabItem : tempNewMalshabItems) {
                 List<MalshabItem> dbResult = null;
                 try {
-                    dbResult = (List) MalshabItem.getAllByColumn(DBConstants.COL_URL, malshabItem.getUrl(),
+                    dbResult = (List) MalshabItem.findAllByColumn(DBConstants.COL_URL, malshabItem.getUrl(),
                             DBConstants.COL_ID, this, MalshabItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
@@ -270,14 +270,15 @@ public class UpdateIntentService extends IntentService {
             int ratingId = 1;
 
             // Set all Courses to be NOT Up To Date
-            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_COURSE))
+            int coursesUpdated = database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_COURSE))
                     .executeUpdateDelete();
+            Log.i("UPDATE_SERVICE", "UPDATED : " + coursesUpdated);
 
             // Update
             for (Course course : tempNewCourses) {
                 List<Course> dbResult = null;
                 try {
-                    dbResult = (List) Course.getAllByColumn(DBConstants.COL_COURSE_CODE, course.getCourseCode(),
+                    dbResult = (List) Course.findAllByColumn(DBConstants.COL_COURSE_ID, course.getCourseID(),
                             DBConstants.COL_ID, this, Course.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
@@ -294,7 +295,7 @@ public class UpdateIntentService extends IntentService {
                                 Cycle cycle = course.getCycles().get(cycleIndex);
 
                                 SQLiteStatement currCycleStatement =
-                                        cycle.getStatement(cycleStatement, course.getCourseCode(), cycleId);
+                                        cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
                                 if (currCycleStatement != null) {
                                     long insertCycleId = currCycleStatement.executeInsert();
                                     if (insertCycleId == -1)
@@ -319,9 +320,9 @@ public class UpdateIntentService extends IntentService {
 
                             for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                                 Rating rating = course.getRatings().get(ratingIndex);
-                                rating.setCourseCode(course.getCourseCode());
+                                rating.setCourseID(course.getCourseID());
                                 SQLiteStatement currRatingStatement =
-                                        rating.getStatement(ratingStatement, ratingId, course.getCourseCode());
+                                        rating.getStatement(ratingStatement, ratingId, course.getCourseID());
                                 if (currRatingStatement != null) {
                                     long insertRatingId = currRatingStatement.executeInsert();
                                     if (insertRatingId == -1)
@@ -345,8 +346,9 @@ public class UpdateIntentService extends IntentService {
             }
 
             // Delete
-            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_COURSE))
+            int deletedCount = database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_COURSE))
                     .executeUpdateDelete();
+            Log.i("UPDATE_SERVICE", "DELETED : " + deletedCount);
 
             // Insert
             for (Course course : newCourses) {
@@ -363,7 +365,7 @@ public class UpdateIntentService extends IntentService {
                         Cycle cycle = course.getCycles().get(cycleIndex);
 
                         SQLiteStatement currCycleStatement =
-                                cycle.getStatement(cycleStatement, course.getCourseCode(), cycleId);
+                                cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
                         if (currCycleStatement != null) {
                             long insertCycleId = currCycleStatement.executeInsert();
                             if (insertCycleId == -1)
@@ -376,6 +378,7 @@ public class UpdateIntentService extends IntentService {
                         }
                     }
                 }
+
                 /////////////////////////// END CYCLES //////////////////////////////
                 //TODO: Take care to the course Ratings
                 /////////////////////////// RATINGS //////////////////////////////
@@ -388,9 +391,9 @@ public class UpdateIntentService extends IntentService {
 
                     for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                         Rating rating = course.getRatings().get(ratingIndex);
-                        rating.setCourseCode(course.getCourseCode());
+                        rating.setCourseID(course.getCourseID());
                         SQLiteStatement currRatingStatement =
-                                rating.getStatement(ratingStatement, ratingId, course.getCourseCode());
+                                rating.getStatement(ratingStatement, ratingId, course.getCourseID());
                         if (currRatingStatement != null) {
                             long insertRatingId = currRatingStatement.executeInsert();
                             if (insertRatingId == -1)
@@ -405,9 +408,8 @@ public class UpdateIntentService extends IntentService {
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
                 long id = database.compileStatement(course.getInsertSql()).executeInsert();
-//                Log.i("UPDATE", "COURSE_ITEM_ID : " + id);
+                Log.i("COURSE","id=" + id + " , name= " + course.getName());
             }
-
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
             ApplicationMarshal.setLastUpdatedNow(this);
             database.setTransactionSuccessful();
@@ -417,9 +419,7 @@ public class UpdateIntentService extends IntentService {
             e.printStackTrace();
             result = false;
         } finally {
-            if (database.inTransaction()) {
-                database.endTransaction();
-            }
+            database.endTransaction();
 
             Intent broadcastIntent = new Intent();
             broadcastIntent.setAction(ACTION_UPDATE_DATA);
@@ -432,7 +432,7 @@ public class UpdateIntentService extends IntentService {
             Log.i("UPDATE_SERVICE", "result=" + String.valueOf(result));
 
             // Notify new courses
-            if (!PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+            if (result && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
                 if (newCourses.size() > 0) {
                     notifyNewCourses(newCourses);
                 }
@@ -446,9 +446,10 @@ public class UpdateIntentService extends IntentService {
         PendingIntent pendingIntent = PendingIntent.getActivity(this, 0, new Intent(this,
                 MainActivity.class), PendingIntent.FLAG_UPDATE_CURRENT);
 
+        PendingIntent defaultPendingIntent = pendingIntent;
         try {
-            Course course = (Course) Course.findOne(DBConstants.COL_COURSE_CODE, newCourses.get(0).getCourseCode(),
-                    this, Course.class);
+            Course course = (Course) Course.findOne(DBConstants.COL_COURSE_ID,
+                    newCourses.get(0).getCourseID(), this, Course.class);
 
             Intent courseActivityIntent = new Intent(this, CourseActivity.class);
             courseActivityIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK
@@ -473,7 +474,7 @@ public class UpdateIntentService extends IntentService {
         if (courses.size() > 1) {
             String restCoursesMessage = "We have " + (courses.size()) + " new courses!\n" +
                     "Tap and take a look!";
-            new NotificationUtils(this).notify(restCoursesMessage, pendingIntent);
+            new NotificationUtils(this).notify(restCoursesMessage, defaultPendingIntent);
         }
     }
 

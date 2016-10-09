@@ -6,21 +6,21 @@ import android.database.sqlite.SQLiteStatement;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
-
-import java.sql.PreparedStatement;
 
 @TableName(name = DBConstants.T_MALSHAB_ITEM)
 public class MalshabItem extends DBObject {
 
     public MalshabItem(Context context) {
         super(context);
+    }
+
+    @Override
+    protected boolean isPrimaryKeyAutoIncrement() {
+        return true;
     }
 
     @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
@@ -44,53 +44,42 @@ public class MalshabItem extends DBObject {
     @Column(name = DBConstants.COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
-    @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
         return id;
     }
 
-    @PrimaryKeySetter
-    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_URL)
     public String getUrl() {
         return url;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_URL, type = TYPE_STRING)
     public void setUrl(String url) {
         this.url = url;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_TITLE)
     public String getTitle() {
         return title;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_TITLE, type = TYPE_STRING)
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
     public String getImageUrl() {
         return imageUrl;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IS_UP_TO_DATE)
     public boolean isUpToDate() {
         return isUpToDate;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IS_UP_TO_DATE, type = TYPE_BOOLEAN)
     public void setIsUpToDate(boolean isUpToDate) {
         this.isUpToDate = isUpToDate;
     }

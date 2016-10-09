@@ -8,10 +8,7 @@ import android.os.Parcelable;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -25,6 +22,11 @@ public class Rating extends DBObject implements Parcelable {
         super(context);
     }
 
+    @Override
+    protected boolean isPrimaryKeyAutoIncrement() {
+        return true;
+    }
+
     @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
     private long id;
 
@@ -33,10 +35,8 @@ public class Rating extends DBObject implements Parcelable {
     @SerializedName(value = "userMailAddress")
     String userMailAddress;
 
-    @Column(name = DBConstants.COL_COURSE_CODE)
-    @Expose
-    @SerializedName(value = "courseCode")
-    String courseCode;
+    @Column(name = DBConstants.COL_COURSE_ID)
+    int courseID;
 
     @Column(name = DBConstants.COL_RATING)
     @Expose
@@ -58,73 +58,58 @@ public class Rating extends DBObject implements Parcelable {
     @SerializedName(value = "lastModified")
     Date lastModified;
 
-    @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
         return id;
     }
 
-    @PrimaryKeySetter
-    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_USER_MAIL_ADDRESS)
     private String getUserMailAddress() {
         return userMailAddress;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_USER_MAIL_ADDRESS, type = TYPE_STRING)
     public void setUserMailAddress(String userMailAddress) {
         this.userMailAddress = userMailAddress;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COURSE_CODE)
-    public String getCourseCode() {
-        return courseCode;
+    public int getCourseID() {
+        return courseID;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COURSE_CODE, type = TYPE_STRING)
-    public void setCourseCode(String courseCode) {
-        this.courseCode = courseCode;
+    public void setCourseID(int courseID) {
+        this.courseID = courseID;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_RATING)
     public double getRating() {
         return rating;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_RATING, type = TYPE_DOUBLE)
     public void setRating(double rating) {
         this.rating = rating;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_COMMENT)
     public String getComment() {
         return comment;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_COMMENT, type = TYPE_STRING)
     public void setComment(String comment) {
         this.comment = comment;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_CREATED_AT)
     public Date getCreatedAt() {
         return createdAt;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_CREATED_AT, type = TYPE_DATE)
     public void setCreatedAt(Date createdAt) {
         this.createdAt = createdAt;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_LAST_MODIFIED)
     public Date getLastModified() {
         return lastModified;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_LAST_MODIFIED, type = TYPE_DATE)
     public void setLastModified(Date lastModified) {
         this.lastModified = lastModified;
     }
@@ -142,7 +127,7 @@ public class Rating extends DBObject implements Parcelable {
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeLong(id);
         parcel.writeString(userMailAddress);
-        parcel.writeString(courseCode);
+        parcel.writeInt(courseID);
         parcel.writeDouble(rating);
         parcel.writeString(comment);
         parcel.writeLong(createdAt.getTime());
@@ -157,7 +142,7 @@ public class Rating extends DBObject implements Parcelable {
     private Rating(Parcel in) {
         this.id = in.readLong();
         this.userMailAddress = in.readString();
-        this.courseCode = in.readString();
+        this.courseID = in.readInt();
         this.rating = in.readDouble();
         this.comment = in.readString();
         this.createdAt = new Date(in.readLong());
@@ -177,14 +162,14 @@ public class Rating extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId, String courseCode) throws Exception {
-        if (courseCode != null && !courseCode.equals("") &&
+    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId, int courseID) throws Exception {
+        if (courseID != 0 &&
                 getUserMailAddress() != null && !getUserMailAddress().equals("")
                 && getCreatedAt() != null && getLastModified() != null) {
             statement.clearBindings();
             statement.bindLong(1, objectId);
             statement.bindString(2, getUserMailAddress());
-            statement.bindString(3, courseCode);
+            statement.bindLong(3, courseID);
             statement.bindDouble(4, getRating());
             statement.bindLong(5, createdAt.getTime());
             statement.bindLong(6, lastModified.getTime());
@@ -200,7 +185,7 @@ public class Rating extends DBObject implements Parcelable {
     public String getUpdateSql(long objectId) {
         String sql = "UPDATE " + DBConstants.T_RATING + " SET " +
                 DBConstants.COL_USER_MAIL_ADDRESS + " = " + prepareStringForSql(userMailAddress) + "," +
-                DBConstants.COL_COURSE_CODE + " = " + prepareStringForSql(courseCode) + "," +
+                DBConstants.COL_COURSE_ID + " = " + courseID + "," +
                 DBConstants.COL_RATING + " = " + rating + "," +
                 DBConstants.COL_CREATED_AT + " = " + createdAt.getTime() + "," +
                 DBConstants.COL_LAST_MODIFIED + " = " + lastModified.getTime() + "," +
@@ -214,14 +199,14 @@ public class Rating extends DBObject implements Parcelable {
     public String getInsertSql() {
         String sql = "INSERT INTO " + DBConstants.T_RATING + "(" +
                 DBConstants.COL_USER_MAIL_ADDRESS + "," +
-                DBConstants.COL_COURSE_CODE + "," +
+                DBConstants.COL_COURSE_ID + "," +
                 DBConstants.COL_RATING + "," +
                 DBConstants.COL_CREATED_AT + "," +
                 DBConstants.COL_LAST_MODIFIED + "," +
                 DBConstants.COL_COMMENT + "," +
                 DBConstants.COL_IS_UP_TO_DATE + ")" +
                 " VALUES (" + prepareStringForSql(userMailAddress) + "," +
-                prepareStringForSql(courseCode) + "," + rating + "," + createdAt.getTime() +
+                courseID + "," + rating + "," + createdAt.getTime() +
                 "," + lastModified.getTime() + "," + prepareStringForSql(comment) + ",1);";
 
         return sql;

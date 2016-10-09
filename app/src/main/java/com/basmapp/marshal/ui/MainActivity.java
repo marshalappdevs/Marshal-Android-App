@@ -302,16 +302,24 @@ public class MainActivity extends BaseActivity
                 // Show out animation and dismiss button
                 animateNewUpdatesButton(View.INVISIBLE);
                 // Restart app fragments to show new data
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                if (currentFragment instanceof CoursesFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, new CoursesFragment()).commit();
-                }
-
                 mCourseFragment = new CoursesFragment();
                 mMaterialsFragment = new MaterialsFragment();
                 mMalshabFragment = new MalshabFragment();
                 mMeetupsFragment = new MeetupsFragment();
                 mSubscriptionsFragment = new SubscriptionsFragment();
+
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
+                if (currentFragment instanceof CoursesFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
+                } else if (currentFragment instanceof MaterialsFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+                } else if (currentFragment instanceof MalshabFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
+                } else if (currentFragment instanceof MeetupsFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
+                } else if (currentFragment instanceof SubscriptionsFragment) {
+                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
+                }
             }
         });
     }
@@ -550,7 +558,7 @@ public class MainActivity extends BaseActivity
                         else onReceive(context, intent);
                     }
                 });
-//                mNetworkSnackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
+                // mNetworkSnackbar.setActionTextColor(ContextCompat.getColor(getApplicationContext(), android.R.color.holo_orange_light));
                 mNetworkSnackbar.setDuration(10000);
                 mNetworkSnackbar.show();
 

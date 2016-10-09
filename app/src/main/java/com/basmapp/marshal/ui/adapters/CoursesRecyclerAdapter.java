@@ -109,7 +109,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         // Set course rating
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourses.get(position).getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {

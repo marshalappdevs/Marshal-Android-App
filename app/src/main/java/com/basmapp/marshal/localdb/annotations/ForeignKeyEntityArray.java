@@ -10,6 +10,7 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 @Target(ElementType.FIELD)
 public @interface ForeignKeyEntityArray {
+    String valueColumnName();
     String fkColumnName();
     Class<? extends DBObject> entityClass();
 }

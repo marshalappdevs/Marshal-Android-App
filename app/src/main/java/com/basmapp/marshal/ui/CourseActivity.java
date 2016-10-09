@@ -88,7 +88,6 @@ public class CourseActivity extends BaseActivity {
     private TextView mTextViewGeneralDescription;
     private TextView mTextViewSyllabus;
     private TextView mTextViewPrerequisites;
-    private TextView mTextViewTargetPopulation;
     private TextView mTextViewDayTime;
     private TextView mTextViewDaysDuration;
     private TextView mTextViewHoursDuration;
@@ -359,7 +358,6 @@ public class CourseActivity extends BaseActivity {
             mTextViewGeneralDescription = (TextView) findViewById(R.id.course_content_textView_description);
             mTextViewSyllabus = (TextView) findViewById(R.id.course_content_textView_syllabus);
             mTextViewPrerequisites = (TextView) findViewById(R.id.course_content_textView_prerequisites);
-            mTextViewTargetPopulation = (TextView) findViewById(R.id.course_content_textView_targetPopulation);
             mTextViewDayTime = (TextView) findViewById(R.id.course_content_textView_dayTime);
             mTextViewDaysDuration = (TextView) findViewById(R.id.course_content_textView_daysDuration);
             mTextViewHoursDuration = (TextView) findViewById(R.id.course_content_textView_hoursDuration);
@@ -537,8 +535,8 @@ public class CourseActivity extends BaseActivity {
     private void showUserRating() {
         if (MainActivity.sUserEmailAddress != null) {
             Rating.queryInBackground(Rating.class, CourseActivity.this, false,
-                    new String[]{DBConstants.COL_COURSE_CODE, DBConstants.COL_USER_MAIL_ADDRESS},
-                    new String[]{mCourse.getCourseCode(), HashUtil.SHA(MainActivity.sUserEmailAddress)},
+                    new String[]{DBConstants.COL_COURSE_ID, DBConstants.COL_USER_MAIL_ADDRESS},
+                    new String[]{String.valueOf(mCourse.getCourseID()), HashUtil.SHA(MainActivity.sUserEmailAddress)},
                     new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {
@@ -586,7 +584,7 @@ public class CourseActivity extends BaseActivity {
 
     private void showRatingsCount() {
         Rating.countByColumnInBackground(Rating.class, CourseActivity.this,
-                false, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(), new BackgroundTaskCallBack() {
+                false, DBConstants.COL_COURSE_ID, mCourse.getCourseID(), new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null && data.size() > 0) {
@@ -607,7 +605,7 @@ public class CourseActivity extends BaseActivity {
 
     private void showRatingAverage() {
         Rating.getAverageByColumnInBackground(Rating.class, CourseActivity.this, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourse.getCourseCode(),
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourse.getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -732,7 +730,7 @@ public class CourseActivity extends BaseActivity {
                         tempRating.setComment(input.getText().toString());
                         tempRating.setRating(mRatingBarUser.getRating());
                         tempRating.setUserMailAddress(emailHash);
-                        tempRating.setCourseCode(mCourse.getCourseCode());
+                        tempRating.setCourseID(mCourse.getCourseID());
                         tempRating.setCreatedAt(new Date());
                         tempRating.setLastModified(new Date());
                         new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_POST, tempRating, new BackgroundTaskCallBack() {
@@ -966,15 +964,6 @@ public class CourseActivity extends BaseActivity {
             isAnyDataExist = true;
         } else {
             findViewById(R.id.course_content_relativeLayout_prerequisites).setVisibility(View.GONE);
-        }
-
-        // Set course's Target population
-        if ((mCourse.getTargetPopulation() != null) &&
-                (!mCourse.getTargetPopulation().equals(""))) {
-            mTextViewTargetPopulation.setText(mCourse.getTargetPopulation());
-            isAnyDataExist = true;
-        } else {
-            findViewById(R.id.course_content_relativeLayout_targetPopulation).setVisibility(View.GONE);
         }
 
         // Set course's DayTime

@@ -20,7 +20,6 @@ public class DBConstants {
     public static final String COL_MIN_PEOPLE = "min_people";
     public static final String COL_MAX_PEOPLE = "max_people";
     public static final String COL_PREREQUISITES = "prerequisites";
-    public static final String COL_TARGET_POPULATION = "target_population";
     public static final String COL_PROFESSIONAL_DOMAIN = "professional_domain";
     public static final String COL_SYLLABUS = "syllabus";
     public static final String COL_DAYTIME = "daytime";
@@ -28,8 +27,6 @@ public class DBConstants {
     public static final String COL_DURATION_IN_DAYS = "duration_in_days";
     public static final String COL_COMMENTS = "comments";
     public static final String COL_PASSING_GRADE = "passing_grade";
-    public static final String COL_PRICE = "price";
-    public static final String COL_CYCLES = "cycles";
     public static final String COL_IS_MOOC = "is_mooc";
     public static final String COL_START_DATE = "start_date";
     public static final String COL_END_DATE = "end_date";
@@ -38,13 +35,13 @@ public class DBConstants {
     public static final String COL_RATING = "rating";
     public static final String COL_COMMENT = "comment";
     public static final String COL_COURSE_CODE = "course_code";
+    public static final String COL_COURSE_ID = "course_id";
     public static final String COL_LAST_MODIFIED = "last_modified";
     public static final String COL_CREATED_AT = "created_at";
     public static final String COL_CATEGORY = "category";
     public static final String COL_IS_MEETUP = "is_meetup";
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
-    public static final String COL_RATINGS = "ratings";
 
     // 'Create Table' commands
     static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE " + T_MALSHAB_ITEM + " (" +
@@ -67,7 +64,7 @@ public class DBConstants {
     static final String CREATE_T_RATING = "CREATE TABLE " + T_RATING + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
             COL_USER_MAIL_ADDRESS + " TEXT, " +
-            COL_COURSE_CODE + " TEXT, " +
+            COL_COURSE_ID + " INTEGER, " +
             COL_RATING + " REAL," +
             COL_CREATED_AT + " INTEGER," +
             COL_LAST_MODIFIED + " INTEGER," +
@@ -75,7 +72,7 @@ public class DBConstants {
 
     static final String CREATE_T_CYCLE = "CREATE TABLE " + T_CYCLE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
-            COL_COURSE_CODE + " TEXT, " +
+            COL_COURSE_ID + " INTEGER, " +
             COL_NAME + " TEXT, " +
             COL_MAX_PEOPLE + " INTEGER," +
             COL_DESCRIPTION + " TEXT," +
@@ -84,13 +81,13 @@ public class DBConstants {
 
     static final String CREATE_T_COURSE = "CREATE TABLE " + T_COURSE + " (" +
             COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_COURSE_ID + " INTEGER, " +
             COL_COURSE_CODE + " TEXT UNIQUE, " +
             COL_NAME + " TEXT UNIQUE, " +
             COL_MIN_PEOPLE + " INTEGER, " +
             COL_MAX_PEOPLE + " INTEGER, " +
             COL_DESCRIPTION + " TEXT, " +
             COL_PREREQUISITES + " TEXT, " +
-            COL_TARGET_POPULATION + " TEXT, " +
             COL_PROFESSIONAL_DOMAIN + " TEXT, " +
             COL_SYLLABUS + " TEXT, " +
             COL_DAYTIME + " TEXT, " +
@@ -98,9 +95,6 @@ public class DBConstants {
             COL_DURATION_IN_DAYS + " INTEGER, " +
             COL_COMMENTS + " TEXT, " +
             COL_PASSING_GRADE + " INTEGER, " +
-            COL_PRICE + " REAL, " +
-            COL_CYCLES + " TEXT, " +
-            COL_RATINGS + " TEXT, " +
             COL_IS_MOOC + " INTEGER, " +
             COL_IS_MEETUP + " INTEGER, " +
             COL_CATEGORY + " TEXT, " +

@@ -40,7 +40,7 @@ public class MalshabFragment extends Fragment {
 
         if (mMalshabItems == null) {
             if (MainActivity.sMalshabItems == null) {
-                MalshabItem.getAllInBackground(DBConstants.COL_TITLE, MalshabItem.class, getActivity(),
+                MalshabItem.findAllInBackground(DBConstants.COL_TITLE, MalshabItem.class, getActivity(),
                         true, new BackgroundTaskCallBack() {
                             @Override
                             public void onSuccess(String result, List<Object> data) {

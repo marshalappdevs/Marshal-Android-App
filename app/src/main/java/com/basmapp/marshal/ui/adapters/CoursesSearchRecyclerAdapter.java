@@ -143,7 +143,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         holder.starIcon.setVisibility(View.GONE);
 
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_CODE, mCourses.get(position).getCourseCode(),
+                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourses.get(position).getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {

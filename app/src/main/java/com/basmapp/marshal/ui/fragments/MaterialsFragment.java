@@ -87,7 +87,7 @@ public class MaterialsFragment extends Fragment {
             if (mMaterialsList == null) {
                 if (MainActivity.sMaterialItems == null) {
                     mProgressBar.setVisibility(View.VISIBLE);
-                    MaterialItem.getAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+                    MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
                             false, new BackgroundTaskCallBack() {
                                 @Override
                                 public void onSuccess(String result, List<Object> data) {

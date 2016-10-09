@@ -8,10 +8,7 @@ import android.os.Parcelable;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ColumnGetter;
-import com.basmapp.marshal.localdb.annotations.ColumnSetter;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.PrimaryKeySetter;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -57,78 +54,67 @@ public class MaterialItem extends DBObject implements Parcelable {
         super(context);
     }
 
+    @Override
+    protected boolean isPrimaryKeyAutoIncrement() {
+        return true;
+    }
+
     // Getters and Setters
-    @ColumnGetter(columnName = DBConstants.COL_ID)
     public long getId() {
         return id;
     }
 
-    @PrimaryKeySetter
-    @ColumnSetter(columnName = DBConstants.COL_ID, type = TYPE_LONG)
     public void setId(long id) {
         this.id = id;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_TAGS)
     public String getTags() {
         return tags;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_TAGS, type = TYPE_STRING)
     public void setTags(String tags) {
         this.tags = tags;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_URL)
     public String getUrl() {
         return url;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_URL, type = TYPE_STRING)
     public void setUrl(String url) {
         this.url = url;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_TITLE)
     public String getTitle() {
         return title;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_TITLE, type = TYPE_STRING)
     public void setTitle(String title) {
         this.title = title;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_DESCRIPTION)
     public String getDescription() {
         return description;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_DESCRIPTION, type = TYPE_STRING)
     public void setDescription(String description) {
         this.description = description;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_BASE_URL)
     public String getBaseUrl() {
         return baseUrl;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_BASE_URL, type = TYPE_STRING)
     public void setBaseUrl(String baseUrl) {
         this.baseUrl = baseUrl;
     }
 
-    @ColumnGetter(columnName = DBConstants.COL_IMAGE_URL)
     public String getImageUrl() {
         return imageUrl;
     }
 
-    @ColumnSetter(columnName = DBConstants.COL_IMAGE_URL, type = TYPE_STRING)
     public void setImageUrl(String imageUrl) {
         this.imageUrl = imageUrl;
     }
-
 
     public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
         if ((getUrl() != null && !getUrl().equals("")) &&
