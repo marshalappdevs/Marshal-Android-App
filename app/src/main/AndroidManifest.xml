@@ -103,7 +103,6 @@
         </activity>
         <activity
             android:name=".ui.CourseMaterialsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:parentActivityName=".ui.CourseActivity"
             android:theme="@style/AppTheme.Base.Blue">
             <meta-data
@@ -112,7 +111,6 @@
         </activity>
         <activity
             android:name=".ui.RatingsActivity"
-            android:configChanges="keyboard|keyboardHidden|orientation|screenSize"
             android:label="@string/all_reviews"
             android:parentActivityName=".ui.CourseActivity"
             android:theme="@style/AppTheme.Base.Blue">

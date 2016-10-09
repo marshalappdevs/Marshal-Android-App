@@ -1,11 +1,14 @@
 package com.basmapp.marshal.ui;
 
 import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.view.ViewTreeObserver;
 import android.widget.RatingBar;
 import android.widget.TextView;
 
@@ -24,6 +27,9 @@ public class RatingsActivity extends BaseActivity {
 
     private List<Rating> mRatings;
     private RecyclerView mRecycler;
+    private static final String KEY_SCROLL_X = "KEY_SCROLL_X";
+    private static final String KEY_SCROLL_Y = "KEY_SCROLL_Y";
+    private NestedScrollView mNestedScrollView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,6 +50,8 @@ public class RatingsActivity extends BaseActivity {
                 finish();
             }
         });
+
+        mNestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
 
         TextView mTextViewRatingAverage = (TextView) findViewById(R.id.activity_ratings_textView_average_value);
         TextView mTextViewRatingsAmount = (TextView) findViewById(R.id.course_content_textView_ratingsAmount);
@@ -71,6 +79,31 @@ public class RatingsActivity extends BaseActivity {
 
                     }
                 });
+    }
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+        outState.putInt(KEY_SCROLL_X, mNestedScrollView.getScrollX());
+        outState.putInt(KEY_SCROLL_Y, mNestedScrollView.getScrollY());
+        super.onSaveInstanceState(outState);
+    }
+
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        final int x = savedInstanceState.getInt(KEY_SCROLL_X);
+        final int y = savedInstanceState.getInt(KEY_SCROLL_Y);
+        mNestedScrollView.post(new Runnable() {
+            @Override
+            public void run() {
+                ViewTreeObserver viewTreeObserver = mNestedScrollView.getViewTreeObserver();
+                viewTreeObserver.addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
+                    public void onGlobalLayout() {
+                        mNestedScrollView.scrollTo(x, y);
+                    }
+                });
+            }
+        });
     }
 
     private void initializeRecycler() {
