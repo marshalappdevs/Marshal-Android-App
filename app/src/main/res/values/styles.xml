@@ -319,4 +319,9 @@
     <style name="AppTheme.Blue.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.Blue.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="RateReviewTheme" parent="@style/Theme.AppCompat.DayNight.Dialog">
+        <item name="windowNoTitle">true</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+    </style>
 </resources>

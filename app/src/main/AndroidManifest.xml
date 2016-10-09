@@ -101,6 +101,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
+        <!--<activity-->
+        <!--android:name=".ui.RateReviewActivity"-->
+        <!--android:label="@string/review_dialog_title"-->
+        <!--android:theme="@style/RateReviewTheme"-->
+        <!--android:windowSoftInputMode="adjustPan|stateUnchanged" />-->
         <activity
             android:name=".ui.CourseMaterialsActivity"
             android:parentActivityName=".ui.CourseActivity"
