@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ProgressBar;
@@ -44,11 +45,12 @@ public class MaterialsFragment extends Fragment {
     private MenuItem mSearchMenuItem;
     private boolean mIsRunForCourse;
     private String mCourseCode;
+    private View mRootView;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
+        mRootView = inflater.inflate(R.layout.fragment_materials, container, false);
 
         setHasOptionsMenu(true);
 
@@ -57,12 +59,24 @@ public class MaterialsFragment extends Fragment {
             toolbar.setTitle(R.string.navigation_drawer_materials);
         }
 
-        mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
+        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.materials_progressBar);
+        mRecycler = (RecyclerView) mRootView.findViewById(R.id.materials_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
+        mNoResults = (TextView) mRootView.findViewById(R.id.materials_no_results);
+
+        // Hide keyboard while scrolling
+        mRecycler.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Hide only if there are results
+                if (mFilteredMaterialsList != null && !mFilteredMaterialsList.isEmpty() && mSearchView != null) {
+                    mSearchView.clearFocus();
+                }
+                return false;
+            }
+        });
 
         if (getArguments() != null) {
             mIsRunForCourse = getArguments().getBoolean(Constants.EXTRA_IS_RUN_FOR_COURSE);
@@ -125,7 +139,7 @@ public class MaterialsFragment extends Fragment {
             }
         }
 
-        return rootView;
+        return mRootView;
     }
 
     private void showData() {

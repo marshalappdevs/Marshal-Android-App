@@ -132,6 +132,17 @@ public class SubscriptionsFragment extends Fragment {
                     }
                 });
 
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -152,16 +163,13 @@ public class SubscriptionsFragment extends Fragment {
         intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
         intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
         getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
-
-        return rootView;
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
     }
-
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {

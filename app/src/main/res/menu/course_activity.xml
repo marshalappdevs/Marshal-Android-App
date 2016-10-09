@@ -6,8 +6,8 @@
 
     <item
         android:id="@+id/subscribe_to_course"
+        android:icon="@drawable/ic_wishlist_add"
         android:orderInCategory="100"
         android:title="@string/subscribe"
-        android:icon="@drawable/ic_wishlist_add"
         app:showAsAction="ifRoom|collapseActionView" />
 </menu>

@@ -353,30 +353,32 @@ public class CoursesFragment extends Fragment {
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.highlights_banner_fullbleed_item, container, false);
 
-            TextView title = (TextView) rootView.findViewById(R.id.li_title);
-            title.setText(mViewPagerCourses.get(mPosition).getName());
+            if (mViewPagerCourses != null && mViewPagerCourses.size() != 0) {
+                TextView title = (TextView) rootView.findViewById(R.id.li_title);
+                title.setText(mViewPagerCourses.get(mPosition).getName());
 
-            TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
-            Cycle firstCycle = mViewPagerCourses.get(mPosition).getFirstCycle();
-            String cycleDates = String.format(getString(R.string.course_cycle_format),
-                    DateHelper.dateToString(firstCycle.getStartDate()),
-                    DateHelper.dateToString(firstCycle.getEndDate()));
-            subtitle.setText(cycleDates);
+                TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
+                Cycle firstCycle = mViewPagerCourses.get(mPosition).getFirstCycle();
+                String cycleDates = String.format(getString(R.string.course_cycle_format),
+                        DateHelper.dateToString(firstCycle.getStartDate()),
+                        DateHelper.dateToString(firstCycle.getEndDate()));
+                subtitle.setText(cycleDates);
 
-            ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
-            Glide.with(getActivity())
-                    .load(mViewPagerCourses.get(mPosition).getImageUrl())
-                    .diskCacheStrategy(DiskCacheStrategy.SOURCE)
-                    .into(image);
+                ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
+                Glide.with(getActivity())
+                        .load(mViewPagerCourses.get(mPosition).getImageUrl())
+                        .diskCacheStrategy(DiskCacheStrategy.SOURCE)
+                        .into(image);
 
-            rootView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(getActivity(), CourseActivity.class);
-                    intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get(mPosition));
-                    getActivity().startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
-                }
-            });
+                rootView.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent intent = new Intent(getActivity(), CourseActivity.class);
+                        intent.putExtra(Constants.EXTRA_COURSE, mViewPagerCourses.get(mPosition));
+                        getActivity().startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY);
+                    }
+                });
+            }
 
             return rootView;
         }

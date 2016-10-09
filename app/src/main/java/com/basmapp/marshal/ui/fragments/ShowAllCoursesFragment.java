@@ -84,18 +84,29 @@ public class ShowAllCoursesFragment extends Fragment {
                 mRecyclerView.setAdapter(mAdapter);
             }
         }
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 mAdapter.notifyDataSetChanged();
             }
         };
-
         getActivity().registerReceiver(mAdaptersBroadcastReceiver,
                 new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
-
-        return rootView;
     }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
 
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
@@ -111,7 +122,6 @@ public class ShowAllCoursesFragment extends Fragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
         MainActivity.mDrawerToggle.setDrawerIndicatorEnabled(true);
         if (mToolbar != null) {
             mToolbar.setTitle(R.string.navigation_drawer_courses);

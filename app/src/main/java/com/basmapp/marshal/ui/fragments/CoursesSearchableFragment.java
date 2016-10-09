@@ -69,6 +69,7 @@ public class CoursesSearchableFragment extends Fragment {
     private ArrayList<Course> mCoursesList;
     private ArrayList<Course> mFilteredCourseList;
 
+    private Dialog mFilterDialog;
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
@@ -105,7 +106,6 @@ public class CoursesSearchableFragment extends Fragment {
 
         mSearchQuery = getArguments().getString(Constants.EXTRA_SEARCH_QUERY);
         mCoursesList = getArguments().getParcelableArrayList(Constants.EXTRA_ALL_COURSES);
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -120,6 +120,29 @@ public class CoursesSearchableFragment extends Fragment {
 
         getActivity().setTitle(R.string.search_title);
 
+        return rootView;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Hide tap target
+        if (mFilterPrompt != null) {
+            mFilterPrompt.finish();
+            mFilterPrompt = null;
+        }
+        // Dismiss filter dialog if shown
+        if (mFilterDialog != null) {
+            if (mFilterDialog.isShowing()) {
+                mFilterDialog.dismiss();
+            }
+        }
+        getActivity().setTitle(R.string.navigation_drawer_courses);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -134,26 +157,20 @@ public class CoursesSearchableFragment extends Fragment {
                 mAdapter.notifyDataSetChanged();
             }
         };
-
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
         intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
         getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
-
-        return rootView;
+        // Lock drawer
+        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     @Override
-    public void onDestroyView() {
-        super.onDestroyView();
+    public void onPause() {
+        super.onPause();
         getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
-        // Release navigation view lock
+        // Unlock drawer
         mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
-        // Hide tap target
-        if (mFilterPrompt != null) {
-            mFilterPrompt.finish();
-            mFilterPrompt = null;
-        }
     }
 
     @Override
@@ -277,13 +294,13 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     public void showFilterByDateDialog() {
-        final Dialog dialog = new Dialog(getActivity());
-        dialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
+        mFilterDialog = new Dialog(getActivity());
+        mFilterDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
-        dialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
+        mFilterDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
         LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
         View dateRangeView = layoutInflater.inflate(R.layout.date_range_picker, null);
-        dialog.setContentView(dateRangeView);
+        mFilterDialog.setContentView(dateRangeView);
         TabHost tabHost = (TabHost) dateRangeView.findViewById(R.id.tabHost);
 
         DatePicker startDate = (DatePicker) dateRangeView.findViewById(R.id.start_date_picker);
@@ -352,7 +369,7 @@ public class CoursesSearchableFragment extends Fragment {
                     filterByDatesRange(sStartDate, sEndDate);
                     mTempStartDate = null;
                     mTempEndDate = null;
-                    dialog.dismiss();
+                    mFilterDialog.dismiss();
                 }
             }
         });
@@ -371,7 +388,7 @@ public class CoursesSearchableFragment extends Fragment {
                 }
                 mTempStartDate = null;
                 mTempEndDate = null;
-                dialog.dismiss();
+                mFilterDialog.dismiss();
             }
         });
 
@@ -387,7 +404,7 @@ public class CoursesSearchableFragment extends Fragment {
 
         tabHost.addTab(startDatePage);
         tabHost.addTab(endDatePage);
-        dialog.show();
+        mFilterDialog.show();
     }
 
     private void filterByDatesRange(String sStartDate, String sEndDate) {
