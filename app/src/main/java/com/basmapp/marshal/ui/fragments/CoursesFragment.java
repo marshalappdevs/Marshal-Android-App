@@ -39,6 +39,7 @@ import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
+import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.DateHelper;
 import com.bumptech.glide.Glide;
@@ -259,7 +260,7 @@ public class CoursesFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (mViewPager == null) {
             mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
-        } else if (getResources().getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL) {
+        } else if (LocaleUtils.isRtl(getResources())) {
             mViewPager.setDirection(AutoScrollViewPager.LEFT);
         } else {
             mViewPager.setDirection(AutoScrollViewPager.RIGHT);
@@ -314,7 +315,7 @@ public class CoursesFragment extends Fragment {
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);
         mInkPageIndicator.setViewPager(mViewPager);
-        mViewPager.setInterval(5000);
+        mViewPager.setInterval(8000);
         mViewPager.startAutoScroll();
         mViewPager.setVisibility(View.VISIBLE);
         mInkPageIndicator.setVisibility(View.VISIBLE);
