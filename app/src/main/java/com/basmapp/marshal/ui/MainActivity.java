@@ -502,8 +502,8 @@ public class MainActivity extends BaseActivity
     protected void onDestroy() {
         super.onDestroy();
         Log.i("LIFE_CYCLE", "onDestroy");
-        // Set viewpager page to start when app is closed
-        sLastCoursesViewPagerIndex = 4;
+        // Set viewpager page to start when app is closed (4 if RTL, 0 if LTR)
+        sLastCoursesViewPagerIndex = LocaleUtils.isRtl(getResources()) ? 4 : 0;
         // Close db if exist when app is closed
         LocalDBHelper.closeIfExist();
     }
@@ -973,7 +973,7 @@ public class MainActivity extends BaseActivity
             setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
-            if (LocaleUtils.isRtl()) {
+            if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_open_enter_rtl,
                         R.anim.activity_open_exit);
             } else {
@@ -982,7 +982,7 @@ public class MainActivity extends BaseActivity
             }
         } else if (id == R.id.nav_contact_us) {
             startActivity(new Intent(this, DescribeProblemActivity.class));
-            if (LocaleUtils.isRtl()) {
+            if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_open_enter_rtl,
                         R.anim.activity_open_exit);
             } else {
@@ -991,7 +991,7 @@ public class MainActivity extends BaseActivity
             }
         } else if (id == R.id.nav_about) {
             startActivity(new Intent(this, AboutActivity.class));
-            if (LocaleUtils.isRtl()) {
+            if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_open_enter_rtl,
                         R.anim.activity_open_exit);
             } else {

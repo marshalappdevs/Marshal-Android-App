@@ -20,11 +20,13 @@
     <dimen name="tap_target_menu_max_width">350dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
     <dimen name="activity_margin_half">8dp</dimen>
+    <dimen name="highlight_banner_item_card_height">190dp</dimen>
     <dimen name="highlight_banner_item_height">200dp</dimen>
     <dimen name="highlights_gradient_overlay_height">86dp</dimen>
-    <dimen name="highlight_banner_wide_item_height">280dp</dimen>
-    <dimen name="highlight_banner_wide_item_height_v2">256dp</dimen>
-    <dimen name="highlight_wide_gradient_overlay_height">120dp</dimen>
+    <dimen name="highlights_card_gradient_overlay_height_16_9">64dp</dimen>
+    <dimen name="highlights_view_pager_horizontal_padding">36dp</dimen>
+    <dimen name="highlights_view_pager_vertical_padding">14dp</dimen>
+    <dimen name="highlights_view_pager_page_margin">14dp</dimen>
     <dimen name="medium_thumbnail_padding">2.1999817dp</dimen>
     <dimen name="launchscreens_basmah_logo_bottom">48dp</dimen>
     <dimen name="launchscreens_product_logo_bottom">16dp</dimen>

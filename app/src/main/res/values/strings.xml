@@ -161,6 +161,7 @@
 (%2$s)"</string>
     <string name="clock_wrong_title">Date is inaccurate</string>
     <string name="adjust_date">Adjust date</string>
+    <string name="card_highlights_index" translatable="false">%1$s/%2$s</string>
 
     <!--About-->
     <string name="about_version">Version %1$s (%2$s)</string>

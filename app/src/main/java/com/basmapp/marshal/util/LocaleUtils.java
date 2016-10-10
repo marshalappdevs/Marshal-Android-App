@@ -3,8 +3,10 @@ package com.basmapp.marshal.util;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.content.res.Resources;
 import android.preference.PreferenceManager;
 import android.view.ContextThemeWrapper;
+import android.view.View;
 
 import java.util.Locale;
 
@@ -38,8 +40,7 @@ public class LocaleUtils {
         }
     }
 
-    public static boolean isRtl() {
-        return Character.getDirectionality(Locale.getDefault().getDisplayName().charAt(0)) ==
-                        Character.DIRECTIONALITY_RIGHT_TO_LEFT;
+    public static boolean isRtl(Resources resources) {
+        return resources.getConfiguration().getLayoutDirection() == View.LAYOUT_DIRECTION_RTL;
     }
 }

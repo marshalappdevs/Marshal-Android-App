@@ -5,7 +5,6 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
-import android.content.res.Configuration;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
@@ -249,7 +248,7 @@ public class DescribeProblemActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         if (isFinishing()) {
-            if (LocaleUtils.isRtl()) {
+            if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_close_enter,
                         R.anim.activity_close_exit_rtl);
             } else {

@@ -127,7 +127,7 @@ public class AboutActivity extends BaseActivity {
     protected void onPause() {
         super.onPause();
         if (isFinishing()) {
-            if (LocaleUtils.isRtl()) {
+            if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_close_enter,
                         R.anim.activity_close_exit_rtl);
             } else {
