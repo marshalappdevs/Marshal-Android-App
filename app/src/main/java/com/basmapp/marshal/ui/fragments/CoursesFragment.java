@@ -602,10 +602,6 @@ public class CoursesFragment extends Fragment {
         }
         mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
-            searchItem.expandActionView();
-            mSearchView.setQuery(mPreviousQuery, false);
-        }
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -653,5 +649,9 @@ public class CoursesFragment extends Fragment {
                 searchItem.collapseActionView();
             }
         });
+        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
+            searchItem.expandActionView();
+            mSearchView.setQuery(mPreviousQuery, false);
+        }
     }
 }
