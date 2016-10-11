@@ -10,6 +10,7 @@ import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.AttributeSet;
 import android.view.MotionEvent;
+import android.view.View;
 
 public class AutoScrollViewPager extends ViewPager {
 
@@ -27,6 +28,8 @@ public class AutoScrollViewPager extends ViewPager {
 
     public static final int SCROLL_WHAT = 0;
 
+    private PageTransformer pageTransformer;
+
     public AutoScrollViewPager(Context paramContext) {
         super(paramContext);
         init();
@@ -36,6 +39,40 @@ public class AutoScrollViewPager extends ViewPager {
         super(paramContext, paramAttributeSet);
         init();
     }
+
+    // Fix for PageTransform to work on ViewPager with padding //
+
+    @Override
+    public void setPageTransformer(boolean reverseDrawingOrder, ViewPager.PageTransformer transformer) {
+        this.pageTransformer = transformer;
+    }
+
+    @Override
+    protected void onPageScrolled(int position, float offset, int offsetPixels) {
+        super.onPageScrolled(position, offset, offsetPixels);
+        fixedPageScrolled();
+    }
+
+    protected void fixedPageScrolled() {
+
+        int clientWidth = getMeasuredWidth() - getPaddingLeft() - getPaddingRight();
+
+        if (pageTransformer != null) {
+            final int scrollX = getScrollX();
+            final int childCount = getChildCount();
+            for (int i = 0; i < childCount; i++) {
+                final View child = getChildAt(i);
+                final ViewPager.LayoutParams lp = (ViewPager.LayoutParams) child.getLayoutParams();
+
+                if (lp.isDecor) continue;
+                // Note the getPaddingLeft() that now exists
+                final float transformPos = (float) (child.getLeft() - getPaddingLeft() - scrollX) / clientWidth;
+                pageTransformer.transformPage(child, transformPos);
+            }
+        }
+    }
+
+    // Fix for PageTransform to work on ViewPager with padding //
 
     private void init() {
         handler = new MyHandler(this);
