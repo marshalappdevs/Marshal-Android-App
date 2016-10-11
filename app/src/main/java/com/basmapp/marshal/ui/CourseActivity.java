@@ -259,8 +259,6 @@ public class CourseActivity extends BaseActivity {
                                                 if (tappedTarget) {
                                                     mFabPrompt.finish();
                                                     mFabPrompt = null;
-                                                    mSharedPreferences.edit().putBoolean(
-                                                            Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                                                 }
                                             }
 
@@ -270,6 +268,7 @@ public class CourseActivity extends BaseActivity {
                                             }
                                         })
                                         .show();
+                                mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                             }
                         }
 
@@ -305,8 +304,6 @@ public class CourseActivity extends BaseActivity {
                                         if (tappedTarget) {
                                             mFabPrompt.finish();
                                             mFabPrompt = null;
-                                            mSharedPreferences.edit().putBoolean(
-                                                    Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                                         }
                                     }
 
@@ -316,6 +313,7 @@ public class CourseActivity extends BaseActivity {
                                     }
                                 })
                                 .show();
+                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                     }
                 } else {
                     if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
@@ -334,8 +332,6 @@ public class CourseActivity extends BaseActivity {
                                         if (tappedTarget) {
                                             mFabPrompt.finish();
                                             mFabPrompt = null;
-                                            mSharedPreferences.edit().putBoolean(
-                                                    Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                                         }
                                     }
 
@@ -345,6 +341,7 @@ public class CourseActivity extends BaseActivity {
                                     }
                                 })
                                 .show();
+                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
                     }
                 }
             }

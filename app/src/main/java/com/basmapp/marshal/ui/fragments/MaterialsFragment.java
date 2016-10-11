@@ -193,14 +193,13 @@ public class MaterialsFragment extends Fragment {
             mSearchMenuItem = menu.findItem(R.id.course_materials_searchView);
         } else {
             mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
-        }
-
-        // Disable search if error screen shown
-        if (getActivity().findViewById(R.id.placeholder_error)
-                .getVisibility() == View.VISIBLE) {
-            mSearchMenuItem.setEnabled(false);
-        } else {
-            mSearchMenuItem.setEnabled(true);
+            // Disable search if error screen shown
+            if (getActivity().findViewById(R.id.placeholder_error)
+                    .getVisibility() == View.VISIBLE) {
+                mSearchMenuItem.setEnabled(false);
+            } else {
+                mSearchMenuItem.setEnabled(true);
+            }
         }
 
         mSearchView = (SearchView) mSearchMenuItem.getActionView();

@@ -66,7 +66,7 @@ public class RatingsActivity extends BaseActivity {
         mTextViewRatingsAmount.setText(getIntent().getStringExtra(Constants.EXTRA_RATING_AMOUNT));
         mRatingBar.setRating(getIntent().getFloatExtra(Constants.EXTRA_RATING_BAR_STARS, 0));
 
-        Rating.getByColumnInBackground(true, DBConstants.COL_COURSE_CODE, course.getCourseCode(),
+        Rating.getByColumnInBackground(true, DBConstants.COL_COURSE_ID, course.getCourseID(),
                 DBConstants.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
