@@ -2,7 +2,6 @@ package com.basmapp.marshal.ui.fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.View;
@@ -32,9 +31,6 @@ public class MalshabFragment extends Fragment {
         final View rootView = inflater.inflate(R.layout.fragment_malshab, container, false);
 
         setHasOptionsMenu(true);
-
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.navigation_drawer_malshab);
 
         mGridView = (GridView) rootView.findViewById(R.id.gridview);
 

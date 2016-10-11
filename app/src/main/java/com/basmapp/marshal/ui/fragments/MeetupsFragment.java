@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -37,6 +36,8 @@ public class MeetupsFragment extends Fragment {
     private ArrayList<Course> mFilteredMeetupsList;
     private ArrayList<Course> mMeetupsList;
     private String mFilterText;
+    private static final String MEETUPS_PREVIOUS_QUERY = "MEETUPS_PREVIOUS_QUERY";
+    private String mPreviousQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -44,9 +45,6 @@ public class MeetupsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_meetups, container, false);
 
         setHasOptionsMenu(true);
-
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.navigation_drawer_meetups);
 
         mNoResults = (TextView) rootView.findViewById(R.id.meetup_no_results);
 
@@ -105,8 +103,19 @@ public class MeetupsFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save SearchView query
+        outState.putString(MEETUPS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore previous SearchView query
+            mPreviousQuery = savedInstanceState.getString(MEETUPS_PREVIOUS_QUERY);
+        }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
@@ -118,6 +127,15 @@ public class MeetupsFragment extends Fragment {
 
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+
+        // Disable search if error screen shown
+        if (getActivity().findViewById(R.id.placeholder_error)
+                .getVisibility() == View.VISIBLE) {
+            searchItem.setEnabled(false);
+        } else {
+            searchItem.setEnabled(true);
+        }
+
         mSearchView = (SearchView) searchItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
 
@@ -149,6 +167,12 @@ public class MeetupsFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
+        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
+            MenuItemCompat.expandActionView(searchItem);
+            mSearchView.setQuery(mPreviousQuery, true);
+            filter(mPreviousQuery);
+            mSearchView.clearFocus();
+        }
     }
 
     private void filter(String filterText) {

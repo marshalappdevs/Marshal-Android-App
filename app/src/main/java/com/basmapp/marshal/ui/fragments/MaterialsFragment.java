@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -45,26 +44,22 @@ public class MaterialsFragment extends Fragment {
     private MenuItem mSearchMenuItem;
     private boolean mIsRunForCourse;
     private String mCourseCode;
-    private View mRootView;
+    private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
+    private String mPreviousQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        mRootView = inflater.inflate(R.layout.fragment_materials, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_materials, container, false);
 
         setHasOptionsMenu(true);
 
-        if (getArguments() == null) {
-            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            toolbar.setTitle(R.string.navigation_drawer_materials);
-        }
-
-        mProgressBar = (ProgressBar) mRootView.findViewById(R.id.materials_progressBar);
-        mRecycler = (RecyclerView) mRootView.findViewById(R.id.materials_recyclerView);
+        mProgressBar = (ProgressBar) rootView.findViewById(R.id.materials_progressBar);
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.materials_recyclerView);
         mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
-        mNoResults = (TextView) mRootView.findViewById(R.id.materials_no_results);
+        mNoResults = (TextView) rootView.findViewById(R.id.materials_no_results);
 
         // Hide keyboard while scrolling
         mRecycler.setOnTouchListener(new View.OnTouchListener() {
@@ -139,7 +134,7 @@ public class MaterialsFragment extends Fragment {
             }
         }
 
-        return mRootView;
+        return rootView;
     }
 
     private void showData() {
@@ -165,8 +160,19 @@ public class MaterialsFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save SearchView query
+        outState.putString(MATERIALS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore previous SearchView query
+            mPreviousQuery = savedInstanceState.getString(MATERIALS_PREVIOUS_QUERY);
+        }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
@@ -187,6 +193,14 @@ public class MaterialsFragment extends Fragment {
             mSearchMenuItem = menu.findItem(R.id.course_materials_searchView);
         } else {
             mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
+        }
+
+        // Disable search if error screen shown
+        if (getActivity().findViewById(R.id.placeholder_error)
+                .getVisibility() == View.VISIBLE) {
+            mSearchMenuItem.setEnabled(false);
+        } else {
+            mSearchMenuItem.setEnabled(true);
         }
 
         mSearchView = (SearchView) mSearchMenuItem.getActionView();
@@ -221,6 +235,11 @@ public class MaterialsFragment extends Fragment {
 
         if (mMaterialsList != null) {
             showData();
+        }
+        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
+            search(mPreviousQuery);
+            filter(mPreviousQuery);
+            mSearchView.clearFocus();
         }
     }
 

@@ -18,7 +18,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -27,6 +26,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 
 import com.basmapp.marshal.Constants;
@@ -36,6 +36,7 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
+import com.basmapp.marshal.ui.ShowAllCoursesActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
@@ -91,6 +92,12 @@ public class CoursesFragment extends Fragment {
 
     private SearchView mSearchView;
 
+    private static final String COURSES_SCROLL_X = "COURSES_SCROLL_X";
+    private static final String COURSES_SCROLL_Y = "COURSES_SCROLL_Y";
+    private ScrollView mScrollView;
+    private static final String COURSES_PREVIOUS_QUERY = "COURSES_PREVIOUS_QUERY";
+    private String mPreviousQuery;
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -104,8 +111,7 @@ public class CoursesFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.navigation_drawer_courses);
+        mScrollView = (ScrollView) mRootView.findViewById(R.id.fragment_courses_scrollView);
 
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
@@ -182,6 +188,7 @@ public class CoursesFragment extends Fragment {
 
         } else {
             showImagesViewPager();
+            filterData();
             showData();
 //             initializeTutorial();
         }
@@ -234,6 +241,43 @@ public class CoursesFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save ScrollView position
+        outState.putInt(COURSES_SCROLL_X, mScrollView.getScrollX());
+        outState.putInt(COURSES_SCROLL_Y, mScrollView.getScrollY());
+
+        // Save SearchView query
+        outState.putString(COURSES_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCoursesList);
+        outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
+    }
+
+    public void onActivityCreated(Bundle savedInstanceState) {
+        super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore ScrollView position
+            final int x = savedInstanceState.getInt(COURSES_SCROLL_X);
+            final int y = savedInstanceState.getInt(COURSES_SCROLL_Y);
+            mScrollView.post(new Runnable() {
+                @Override
+                public void run() {
+                    mScrollView.scrollTo(x, y);
+                }
+            });
+            // Restore previous SearchView query
+            mPreviousQuery = savedInstanceState.getString(COURSES_PREVIOUS_QUERY);
+        }
+        if (mViewPager == null) {
+            mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+        } else if (LocaleUtils.isRtl(getResources())) {
+            mViewPager.setDirection(AutoScrollViewPager.LEFT);
+        } else {
+            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
+        }
+    }
+
+    @Override
     public void onPause() {
         super.onPause();
         MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
@@ -254,17 +298,6 @@ public class CoursesFragment extends Fragment {
         if (mRecyclerAdapterSoftware != null) mRecyclerAdapterSoftware.notifyDataSetChanged();
         if (mRecyclerAdapterTools != null) mRecyclerAdapterTools.notifyDataSetChanged();
         if (mRecyclerAdapterSystem != null) mRecyclerAdapterSystem.notifyDataSetChanged();
-    }
-
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (mViewPager == null) {
-            mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
-        } else if (LocaleUtils.isRtl(getResources())) {
-            mViewPager.setDirection(AutoScrollViewPager.LEFT);
-        } else {
-            mViewPager.setDirection(AutoScrollViewPager.RIGHT);
-        }
     }
 
     private void filterData() {
@@ -415,13 +448,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSoftware.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mSoftwareCourses);
-                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
-                showAllCoursesFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        add(R.id.content_frame, showAllCoursesFragment).commit();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mSoftwareCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_software));
+                startActivity(intent);
             }
         });
         mRecyclerSoftware = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_software_recyclerView);
@@ -447,13 +477,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllCyber.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCyberCourses);
-                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
-                showAllCoursesFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        add(R.id.content_frame, showAllCoursesFragment).commit();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mCyberCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_cyber));
+                startActivity(intent);
             }
         });
         mRecyclerCyber = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_cyber_recyclerView);
@@ -479,13 +506,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllIT.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mITCourses);
-                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
-                showAllCoursesFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        add(R.id.content_frame, showAllCoursesFragment).commit();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mITCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_it));
+                startActivity(intent);
             }
         });
         mRecyclerIT = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_it_recyclerView);
@@ -511,13 +535,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllTools.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mToolsCourses);
-                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
-                showAllCoursesFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        add(R.id.content_frame, showAllCoursesFragment).commit();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mToolsCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_tools));
+                startActivity(intent);
             }
         });
         mRecyclerTools = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_tools_recyclerView);
@@ -543,13 +564,10 @@ public class CoursesFragment extends Fragment {
         mBtnShowAllSystem.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Fragment showAllCoursesFragment = new ShowAllCoursesFragment();
-                Bundle args = new Bundle();
-                args.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mSystemCourses);
-                args.putString(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
-                showAllCoursesFragment.setArguments(args);
-                getActivity().getSupportFragmentManager().beginTransaction().
-                        add(R.id.content_frame, showAllCoursesFragment).commit();
+                Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mSystemCourses);
+                intent.putExtra(Constants.EXTRA_COURSE_TYPE, getResources().getString(R.string.course_type_system));
+                startActivity(intent);
             }
         });
         mRecyclerSystem = (RecyclerView) mRootView.findViewById(R.id.fragment_courses_system_recyclerView);
@@ -575,8 +593,19 @@ public class CoursesFragment extends Fragment {
 
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        // Disable search if error screen shown
+        if (getActivity().findViewById(R.id.placeholder_error)
+                .getVisibility() == View.VISIBLE) {
+            searchItem.setEnabled(false);
+        } else {
+            searchItem.setEnabled(true);
+        }
         mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
+            searchItem.expandActionView();
+            mSearchView.setQuery(mPreviousQuery, false);
+        }
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -624,12 +653,5 @@ public class CoursesFragment extends Fragment {
                 searchItem.collapseActionView();
             }
         });
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        super.onSaveInstanceState(outState);
-        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCoursesList);
-        outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }
 }

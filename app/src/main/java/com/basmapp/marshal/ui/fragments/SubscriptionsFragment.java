@@ -11,7 +11,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -54,9 +53,6 @@ public class SubscriptionsFragment extends Fragment {
         View rootView = inflater.inflate(R.layout.fragment_subscriptions, container, false);
 
         setHasOptionsMenu(true);
-
-        Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.navigation_drawer_subscriptions);
 
         mNoResults = (TextView) rootView.findViewById(R.id.fragment_subscriptions_search_no_results);
         mNoSubscriptions = (LinearLayout) rootView.findViewById(R.id.fragment_subscriptions_no_subscriptions);

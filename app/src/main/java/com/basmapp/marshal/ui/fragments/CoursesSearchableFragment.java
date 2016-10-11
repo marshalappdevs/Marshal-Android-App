@@ -80,6 +80,8 @@ public class CoursesSearchableFragment extends Fragment {
     private BroadcastReceiver mAdaptersBroadcastReceiver;
     private SimpleDateFormat mSimpleDateFormat;
 
+    private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
+
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
         bundle.putString(Constants.EXTRA_SEARCH_QUERY, query);
@@ -174,8 +176,19 @@ public class CoursesSearchableFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save SearchView query
+        outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore previous SearchView query
+            mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
+        }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);

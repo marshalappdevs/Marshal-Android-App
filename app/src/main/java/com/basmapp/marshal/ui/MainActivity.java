@@ -136,12 +136,16 @@ public class MainActivity extends BaseActivity
 
     public static boolean needRecreate = false;
 
+    private static final String MENU_ITEM = "menu_item";
+    private int menuItemId;
+    private static final String ITEM_TITLE = "item_title";
+    private CharSequence itemTitle;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         Log.i("LIFE_CYCLE", "onCreate");
         super.onCreate(savedInstanceState);
 
-//        checkPlayServicesAvailability();
         checkFcmRegistrationState();
 
         // enable on final release to disable screenshots and more
@@ -164,9 +168,16 @@ public class MainActivity extends BaseActivity
 
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
-        // Set course fragment as main fragment
-        onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
-        mNavigationView.setCheckedItem(R.id.nav_courses);
+
+        if (savedInstanceState != null) {
+//            onNavigationItemSelected(mNavigationView.getMenu().findItem(savedInstanceState.getInt(MENU_ITEM)));
+//            mNavigationView.setCheckedItem(savedInstanceState.getInt(MENU_ITEM));
+            setTitle(savedInstanceState.getCharSequence(ITEM_TITLE));
+        } else {
+            // No data saved, select the default item (courses)
+            onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
+            mNavigationView.setCheckedItem(R.id.nav_courses);
+        }
 
         initializeUpdateProgressBar();
 
@@ -274,6 +285,20 @@ public class MainActivity extends BaseActivity
             });
             dialogBuilder.show();
         }
+    }
+
+    @Override
+    protected void onSaveInstanceState(@NonNull Bundle outState) {
+        super.onSaveInstanceState(outState);
+        outState.putInt(MENU_ITEM, menuItemId);
+        outState.putCharSequence(ITEM_TITLE, itemTitle);
+    }
+
+    @Override
+    protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        this.menuItemId = savedInstanceState.getInt(MENU_ITEM);
+        this.itemTitle = savedInstanceState.getCharSequence(ITEM_TITLE);
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -954,23 +979,19 @@ public class MainActivity extends BaseActivity
                 mSubscriptionsFragment = new SubscriptionsFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
-            setTitle(item.getTitle());
         } else if (id == R.id.nav_materials) {
             if (mMaterialsFragment == null) {
                 mMaterialsFragment = new MaterialsFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
-            setTitle(item.getTitle());
         } else if (id == R.id.nav_meetups) {
             if (mMeetupsFragment == null)
                 mMeetupsFragment = new MeetupsFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
-            setTitle(item.getTitle());
         } else if (id == R.id.nav_malshab) {
             if (mMalshabFragment == null)
                 mMalshabFragment = new MalshabFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
-            setTitle(item.getTitle());
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             if (LocaleUtils.isRtl(getResources())) {
@@ -998,6 +1019,12 @@ public class MainActivity extends BaseActivity
                 overridePendingTransition(R.anim.activity_open_enter,
                         R.anim.activity_open_exit);
             }
+        }
+        // Set title only to fragments
+        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_about) {
+            setTitle(item.getTitle());
+            menuItemId = item.getItemId();
+            itemTitle = item.getTitle();
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;
