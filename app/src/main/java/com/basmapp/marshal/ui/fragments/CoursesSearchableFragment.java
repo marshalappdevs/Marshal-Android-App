@@ -213,17 +213,16 @@ public class CoursesSearchableFragment extends Fragment {
                             if (tappedTarget) {
                                 mFilterPrompt.finish();
                                 mFilterPrompt = null;
+                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
+                                        .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
                             }
                         }
 
                         @Override
                         public void onHidePromptComplete() {
-
                         }
                     })
                     .show();
-            PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                    .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
         }
     }
 

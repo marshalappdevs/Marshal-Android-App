@@ -3,9 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/toolbar"
     android:layout_width="match_parent"
-    android:layout_height="@dimen/toolbar_height"
+    android:layout_height="?attr/actionBarSize"
     android:background="?attr/colorPrimary"
-    android:minHeight="@dimen/toolbar_height"
     app:popupTheme="@style/AppTheme.PopupOverlay"
-    app:titleTextAppearance="@style/TextAppearance.Toolbar.Title"
     app:titleTextColor="@android:color/white" />
