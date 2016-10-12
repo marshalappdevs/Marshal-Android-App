@@ -234,115 +234,43 @@ public class CourseActivity extends BaseActivity {
                         }
                     }
                 });
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                    getWindow().getSharedElementEnterTransition().addListener(new Transition.TransitionListener() {
-                        @Override
-                        public void onTransitionStart(Transition transition) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        && mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true)) {
+                    getWindow().getSharedElementEnterTransition().addListener(
+                            new Transition.TransitionListener() {
+                                @Override
+                                public void onTransitionStart(Transition transition) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onTransitionEnd(Transition transition) {
-                            if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                                mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                        .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                        .setPrimaryText(R.string.cycle_fab_tip_title)
-                                        .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                        .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                        .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                        .setAutoDismiss(false)
-                                        .setAutoFinish(false)
-                                        .setCaptureTouchEventOutsidePrompt(true)
-                                        .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                                            @Override
-                                            public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                                if (tappedTarget) {
-                                                    mFabPrompt.finish();
-                                                    mFabPrompt = null;
-                                                }
-                                            }
+                                @Override
+                                public void onTransitionEnd(Transition transition) {
+                                    showFabTargetPrompt();
+                                    // After animation end, change boolean back to false
+                                    mSharedPreferences.edit().putBoolean(
+                                            Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false).apply();
+                                }
 
-                                            @Override
-                                            public void onHidePromptComplete() {
+                                @Override
+                                public void onTransitionCancel(Transition transition) {
 
-                                            }
-                                        })
-                                        .show();
-                                mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
-                            }
-                        }
+                                }
 
-                        @Override
-                        public void onTransitionCancel(Transition transition) {
+                                @Override
+                                public void onTransitionPause(Transition transition) {
 
-                        }
+                                }
 
-                        @Override
-                        public void onTransitionPause(Transition transition) {
+                                @Override
+                                public void onTransitionResume(Transition transition) {
 
-                        }
-
-                        @Override
-                        public void onTransitionResume(Transition transition) {
-
-                        }
-                    });
-                    // Target android version higher than lollipop but activity wasn't started as shared element
-                    if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                        mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                .setPrimaryText(R.string.cycle_fab_tip_title)
-                                .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                .setAutoDismiss(false)
-                                .setAutoFinish(false)
-                                .setCaptureTouchEventOutsidePrompt(true)
-                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                                    @Override
-                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                        if (tappedTarget) {
-                                            mFabPrompt.finish();
-                                            mFabPrompt = null;
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onHidePromptComplete() {
-
-                                    }
-                                })
-                                .show();
-                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
-                    }
-                } else {
-                    if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
-                        mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
-                                .setTarget(findViewById(R.id.course_activity_fab_cycles))
-                                .setPrimaryText(R.string.cycle_fab_tip_title)
-                                .setSecondaryText(R.string.cycle_fab_tip_subtitle)
-                                .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
-                                .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                                .setAutoDismiss(false)
-                                .setAutoFinish(false)
-                                .setCaptureTouchEventOutsidePrompt(true)
-                                .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                                    @Override
-                                    public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                                        if (tappedTarget) {
-                                            mFabPrompt.finish();
-                                            mFabPrompt = null;
-                                        }
-                                    }
-
-                                    @Override
-                                    public void onHidePromptComplete() {
-
-                                    }
-                                })
-                                .show();
-                        mSharedPreferences.edit().putBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
-                    }
+                                }
+                            });
+                }
+                // Target android version lower than lollipop or activity didn't start as shared element
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+                        || !mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false)) {
+                    showFabTargetPrompt();
                 }
             }
 
@@ -529,6 +457,38 @@ public class CourseActivity extends BaseActivity {
     private void setRatingViewsVisibility(int visibility) {
         if (mRatingsFrame != null) {
             mRatingsFrame.setVisibility(visibility);
+        }
+    }
+
+    private void showFabTargetPrompt() {
+        if (mSharedPreferences.getBoolean(Constants.SHOW_CYCLE_FAB_TAP_TARGET, true)) {
+            mFabPrompt = new MaterialTapTargetPrompt.Builder(CourseActivity.this)
+                    .setTarget(findViewById(R.id.course_activity_fab_cycles))
+                    .setPrimaryText(R.string.cycle_fab_tip_title)
+                    .setSecondaryText(R.string.cycle_fab_tip_subtitle)
+                    .setBackgroundColour(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary))
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                    .setAutoDismiss(false)
+                    .setAutoFinish(false)
+                    .setCaptureTouchEventOutsidePrompt(true)
+                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                        @Override
+                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                            if (tappedTarget) {
+                                mFabPrompt.finish();
+                                mFabPrompt = null;
+                                // Storing a value so that this prompt is never shown again
+                                mSharedPreferences.edit().putBoolean(
+                                        Constants.SHOW_CYCLE_FAB_TAP_TARGET, false).apply();
+                            }
+                        }
+
+                        @Override
+                        public void onHidePromptComplete() {
+
+                        }
+                    })
+                    .show();
         }
     }
 

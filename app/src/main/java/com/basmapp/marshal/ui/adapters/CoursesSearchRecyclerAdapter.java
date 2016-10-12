@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
@@ -82,6 +83,8 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                 }
                 pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), mContext.getString(R.string.transition_header_image)));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
+                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
+                sharedPreferences.edit().putBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true).apply();
                 ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY, options.toBundle());
             }
         });
