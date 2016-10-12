@@ -73,14 +73,16 @@ public class CoursesSearchableFragment extends Fragment {
     private String mFilterText;
     private String mSearchQuery;
     private TextView mNoResults;
-    private String mTempStartDate;
-    private String mTempEndDate;
+    private String mStartDate;
+    private String mEndDate;
     private boolean isEmptyResult = false;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
     private SimpleDateFormat mSimpleDateFormat;
 
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
+    private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
+    private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
 
     public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
         Bundle bundle = new Bundle();
@@ -180,6 +182,11 @@ public class CoursesSearchableFragment extends Fragment {
         super.onSaveInstanceState(outState);
         // Save SearchView query
         outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        // Save filtered dates if available
+        if (mStartDate != null && mEndDate != null) {
+            outState.putString(FILTER_PREVIOUS_START_DATE, mStartDate);
+            outState.putString(FILTER_PREVIOUS_END_DATE, mEndDate);
+        }
     }
 
     @Override
@@ -188,6 +195,9 @@ public class CoursesSearchableFragment extends Fragment {
         if (savedInstanceState != null) {
             // Restore previous SearchView query
             mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
+            // Restore previous filter dates
+            mStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
+            mEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
         }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
@@ -303,6 +313,10 @@ public class CoursesSearchableFragment extends Fragment {
                 });
         MenuItemCompat.expandActionView(searchItem);
         mSearchView.setQuery(mSearchQuery, true);
+        // Show filtered search if dates are available (from saved instance for example)
+        if (mStartDate != null && mEndDate != null) {
+            filterByDatesRange(mStartDate, mEndDate);
+        }
     }
 
     public void showFilterByDateDialog() {
@@ -331,7 +345,7 @@ public class CoursesSearchableFragment extends Fragment {
 //         Set end date a month later from now
         Calendar now = Calendar.getInstance();
         now.add(Calendar.MONTH, 1);
-        mTempEndDate = (mSimpleDateFormat.format(now.getTime()));
+        mEndDate = (mSimpleDateFormat.format(now.getTime()));
         endDate.updateDate(endDate.getYear(), endDate.getMonth() + 1, endDate.getDayOfMonth());
         endDate.setMinDate(System.currentTimeMillis() - 1000);
         endDate.init(
@@ -341,11 +355,11 @@ public class CoursesSearchableFragment extends Fragment {
                     public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                         Calendar calendar = Calendar.getInstance();
                         calendar.set(year, monthOfYear, dayOfMonth);
-                        mTempEndDate = (mSimpleDateFormat.format(calendar.getTime()));
+                        mEndDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
 
-        mTempStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+        mStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
         startDate.setMinDate(System.currentTimeMillis() - 1000);
         startDate.init(
                 startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),
@@ -365,7 +379,7 @@ public class CoursesSearchableFragment extends Fragment {
                         // Set twice to workaround this issue https://goo.gl/PV17la
                         endDate.setMinDate(0);
                         endDate.setMinDate(calendar.getTimeInMillis());
-                        mTempStartDate = (mSimpleDateFormat.format(calendar.getTime()));
+                        mStartDate = (mSimpleDateFormat.format(calendar.getTime()));
                     }
                 });
 
@@ -375,12 +389,8 @@ public class CoursesSearchableFragment extends Fragment {
         filter.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (mTempStartDate != null && mTempEndDate != null) {
-                    String sStartDate = mTempStartDate;
-                    String sEndDate = mTempEndDate;
-                    filterByDatesRange(sStartDate, sEndDate);
-                    mTempStartDate = null;
-                    mTempEndDate = null;
+                if (mStartDate != null && mEndDate != null) {
+                    filterByDatesRange(mStartDate, mEndDate);
                     mFilterDialog.dismiss();
                 }
             }
@@ -398,8 +408,8 @@ public class CoursesSearchableFragment extends Fragment {
                 if (mFilteredCourseList != null) {
                     showResults(query, mFilteredCourseList, true);
                 }
-                mTempStartDate = null;
-                mTempEndDate = null;
+                mStartDate = null;
+                mEndDate = null;
                 mFilterDialog.dismiss();
             }
         });
@@ -477,7 +487,7 @@ public class CoursesSearchableFragment extends Fragment {
         if (listToShow.isEmpty()) {
             String searchResult;
             if (filter) {
-                searchResult = String.format(getString(R.string.no_results_for_filter), mTempStartDate, mTempEndDate);
+                searchResult = String.format(getString(R.string.no_results_for_filter), mStartDate, mEndDate);
             } else {
                 searchResult = String.format(getString(R.string.no_results_for_query), query);
                 isEmptyResult = true;
