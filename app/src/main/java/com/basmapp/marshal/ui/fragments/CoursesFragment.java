@@ -92,6 +92,8 @@ public class CoursesFragment extends Fragment {
 
     private SearchView mSearchView;
 
+    private LinearLayout sErrorScreen;
+
     private static final String COURSES_SCROLL_X = "COURSES_SCROLL_X";
     private static final String COURSES_SCROLL_Y = "COURSES_SCROLL_Y";
     private ScrollView mScrollView;
@@ -277,6 +279,7 @@ public class CoursesFragment extends Fragment {
         } else {
             mViewPager.setDirection(AutoScrollViewPager.RIGHT);
         }
+        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -596,11 +599,12 @@ public class CoursesFragment extends Fragment {
         // Setup search button
         final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
         // Disable search if error screen shown
-        if (getActivity().findViewById(R.id.placeholder_error)
-                .getVisibility() == View.VISIBLE) {
-            searchItem.setEnabled(false);
-        } else {
-            searchItem.setEnabled(true);
+        if (sErrorScreen != null) {
+            if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                searchItem.setEnabled(false);
+            } else {
+                searchItem.setEnabled(true);
+            }
         }
         mSearchView = (SearchView) searchItem.getActionView();
         SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);

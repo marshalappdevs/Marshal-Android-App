@@ -13,6 +13,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.basmapp.marshal.R;
@@ -38,6 +39,7 @@ public class MeetupsFragment extends Fragment {
     private String mFilterText;
     private static final String MEETUPS_PREVIOUS_QUERY = "MEETUPS_PREVIOUS_QUERY";
     private String mPreviousQuery;
+    private LinearLayout sErrorScreen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -122,6 +124,7 @@ public class MeetupsFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
+        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -131,11 +134,12 @@ public class MeetupsFragment extends Fragment {
         MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
 
         // Disable search if error screen shown
-        if (getActivity().findViewById(R.id.placeholder_error)
-                .getVisibility() == View.VISIBLE) {
-            searchItem.setEnabled(false);
-        } else {
-            searchItem.setEnabled(true);
+        if (sErrorScreen != null) {
+            if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                searchItem.setEnabled(false);
+            } else {
+                searchItem.setEnabled(true);
+            }
         }
 
         mSearchView = (SearchView) searchItem.getActionView();

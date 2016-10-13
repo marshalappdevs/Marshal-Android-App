@@ -16,6 +16,7 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -46,6 +47,7 @@ public class MaterialsFragment extends Fragment {
     private String mCourseCode;
     private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
     private String mPreviousQuery;
+    private LinearLayout sErrorScreen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -179,6 +181,7 @@ public class MaterialsFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
+        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -196,11 +199,12 @@ public class MaterialsFragment extends Fragment {
         } else {
             mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
             // Disable search if error screen shown
-            if (getActivity().findViewById(R.id.placeholder_error)
-                    .getVisibility() == View.VISIBLE) {
-                mSearchMenuItem.setEnabled(false);
-            } else {
-                mSearchMenuItem.setEnabled(true);
+            if (sErrorScreen != null) {
+                if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                    mSearchMenuItem.setEnabled(false);
+                } else {
+                    mSearchMenuItem.setEnabled(true);
+                }
             }
         }
 
