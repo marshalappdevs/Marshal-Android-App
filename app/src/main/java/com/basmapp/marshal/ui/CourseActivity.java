@@ -34,6 +34,7 @@ import android.widget.RatingBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
@@ -56,12 +57,14 @@ import com.bumptech.glide.Priority;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.BitmapImageViewTarget;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 import java.util.Objects;
+
 import retrofit2.Response;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
@@ -406,7 +409,9 @@ public class CourseActivity extends BaseActivity {
                         tempRating.setCreatedAt(new Date());
                         tempRating.setLastModified(new Date());
 
-                        startReviewActivity(false, tempRating);
+                        if (!ReviewActivity.active) {
+                            startReviewActivity(false, tempRating);
+                        }
                     } else {
                         if (ratingBar.getRating() != 0) {
                             Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();

@@ -52,6 +52,7 @@ public class ReviewActivity extends AppCompatActivity {
     private TextView mItemTitleTextView;
 
     boolean blockComment = true;
+    public static boolean active = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +68,18 @@ public class ReviewActivity extends AppCompatActivity {
         mContentColor = getIntent().getIntExtra(Constants.EXTRA_CONTENT_COLOR, -1);
 
         showReviewCommentDialog();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        active = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        active = false;
     }
 
     @Override
