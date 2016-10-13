@@ -162,8 +162,10 @@ public class MaterialsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Save SearchView query
-        outState.putString(MATERIALS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        // Save SearchView query if possible
+        if (mSearchView != null) {
+            outState.putString(MATERIALS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        }
     }
 
     @Override

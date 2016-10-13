@@ -105,8 +105,10 @@ public class MeetupsFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Save SearchView query
-        outState.putString(MEETUPS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        // Save SearchView query if possible
+        if (mSearchView != null) {
+            outState.putString(MEETUPS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        }
     }
 
     @Override

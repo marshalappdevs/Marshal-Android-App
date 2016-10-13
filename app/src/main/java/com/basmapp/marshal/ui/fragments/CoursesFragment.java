@@ -247,8 +247,10 @@ public class CoursesFragment extends Fragment {
         outState.putInt(COURSES_SCROLL_X, mScrollView.getScrollX());
         outState.putInt(COURSES_SCROLL_Y, mScrollView.getScrollY());
 
-        // Save SearchView query
-        outState.putString(COURSES_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        // Save SearchView query if possible
+        if (mSearchView != null) {
+            outState.putString(COURSES_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        }
         outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCoursesList);
         outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }

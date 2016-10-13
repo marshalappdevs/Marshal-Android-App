@@ -180,8 +180,10 @@ public class CoursesSearchableFragment extends Fragment {
     @Override
     public void onSaveInstanceState(Bundle outState) {
         super.onSaveInstanceState(outState);
-        // Save SearchView query
-        outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        // Save SearchView query if possible
+        if (mSearchView != null) {
+            outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        }
         // Save filtered dates if available
         if (mStartDate != null && mEndDate != null) {
             outState.putString(FILTER_PREVIOUS_START_DATE, mStartDate);
