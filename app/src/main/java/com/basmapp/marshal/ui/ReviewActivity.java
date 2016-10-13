@@ -9,29 +9,27 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
-import android.widget.Toast;
-import com.basmapp.marshal.BaseActivity;
+
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.HashUtil;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.MarshalServiceProvider;
+import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
+
 import java.util.Date;
-import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -53,8 +51,11 @@ public class ReviewActivity extends AppCompatActivity {
     private EditText mInputEditText;
     private TextView mItemTitleTextView;
 
+    boolean blockComment = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+//        ThemeUtils.updateAccent(this);
         LocaleUtils.updateLocale(this);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.rate_review_dialog);
@@ -82,7 +83,9 @@ public class ReviewActivity extends AppCompatActivity {
 
     private void showReviewCommentDialog() {
         // Components Initialization
-        ImageView mProfileImageView = (ImageView) findViewById(R.id.review_header_user_profile_image);
+        View userHeaderBackground = (findViewById(R.id.review_user_header_background));
+        userHeaderBackground.setBackgroundColor(mContentColor);
+        ImageView profileImageView = (ImageView) findViewById(R.id.review_header_user_profile_image);
         TextView reviewBy = (TextView) findViewById(R.id.review_header_review_by);
         mInputEditText = (EditText) findViewById(R.id.review_review_comment);
         mRatingBar = (RatingBar) findViewById(R.id.review_ratingBar_user);
@@ -90,9 +93,9 @@ public class ReviewActivity extends AppCompatActivity {
         Button positiveButton = (Button) findViewById(R.id.review_positive_button);
         TextInputLayout inputLayout = (TextInputLayout) findViewById(R.id.review_inputLayout);
         mItemTitleTextView = (TextView) findViewById(R.id.review_item_title);
+        mItemTitleTextView.setTextColor(ThemeUtils.getThemeColor(this, R.attr.colorAccent));
 
         mRatingBar.setRating((float) mUserRating.getRating());
-        mItemTitleTextView.setTextColor(mContentColor);
 
         // Variables Initialization
         String userName = String.format(getString(R.string.review_by), MainActivity.sUserName);
@@ -105,30 +108,33 @@ public class ReviewActivity extends AppCompatActivity {
                     .load(uri)
                     .transform(new CircleTransform(this))
                     .placeholder(R.drawable.ic_profile_none)
-                    .into(mProfileImageView);
+                    .into(profileImageView);
         }
 
         // Show Comments Dialog on editText's click
-        mInputEditText.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                // Comment Dialog initialization
-                AlertDialog.Builder commentDialogBuilder = new AlertDialog.Builder(ReviewActivity.this);
-                commentDialogBuilder.setTitle("תגובות");
-                commentDialogBuilder.setItems(R.array.review_comments, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        dialogInterface.dismiss();
+        if (blockComment) {
+            mInputEditText.setFocusable(false);
+            mInputEditText.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    // Comment Dialog initialization
+                    AlertDialog.Builder commentDialogBuilder = new AlertDialog.Builder(ReviewActivity.this);
+                    commentDialogBuilder.setTitle("תגובות");
+                    commentDialogBuilder.setItems(R.array.review_comments, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialogInterface, int i) {
+                            dialogInterface.dismiss();
 
-                        // Set the chosen comment value to the editText
-                        mInputEditText.setText(getResources().getStringArray(R.array.review_comments)[i]);
-                    }
-                });
+                            // Set the chosen comment value to the editText
+                            mInputEditText.setText(getResources().getStringArray(R.array.review_comments)[i]);
+                        }
+                    });
 
-                // Show the comments dialog
-                commentDialogBuilder.show();
-            }
-        });
+                    // Show the comments dialog
+                    commentDialogBuilder.show();
+                }
+            });
+        }
 
         showRatingText((int) mRatingBar.getRating());
 

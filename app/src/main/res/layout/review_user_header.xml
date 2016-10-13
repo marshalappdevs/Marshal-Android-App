@@ -4,13 +4,12 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <ImageView
+    <View
+        android:id="@+id/review_user_header_background"
         android:layout_width="match_parent"
         android:layout_height="64dp"
         android:layout_marginTop="32dp"
-        android:contentDescription="@null"
-        android:scaleType="centerCrop"
-        android:src="@drawable/bg_banner_dialog" />
+        android:background="?colorPrimary" />
 
     <ImageView
         android:id="@+id/review_header_user_profile_image"

@@ -27,7 +27,6 @@
         android:paddingRight="16dp"
         android:paddingTop="8dp"
         android:textAppearance="?android:textAppearanceSmall"
-        android:textColor="@color/nav_color"
         android:visibility="visible" />
 
     <android.support.design.widget.TextInputLayout
@@ -48,16 +47,15 @@
             android:hint="@string/review_dialog_body_hint"
             android:inputType="textAutoCorrect|textCapSentences|textMultiLine"
             android:maxLength="512"
-            android:minLines="3"
-            android:focusable="false"/>
+            android:minLines="3" />
 
     </android.support.design.widget.TextInputLayout>
 
     <!--<Spinner-->
-        <!--android:id="@+id/review_comments_spinner"-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_marginEnd="16dp"-->
-        <!--android:layout_marginStart="32dp"-->
-        <!--android:visibility="gone" />-->
+    <!--android:id="@+id/review_comments_spinner"-->
+    <!--android:layout_width="match_parent"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_marginEnd="16dp"-->
+    <!--android:layout_marginStart="32dp"-->
+    <!--android:visibility="gone" />-->
 </LinearLayout>

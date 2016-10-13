@@ -3,13 +3,14 @@
     android:id="@+id/rate_review_container"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
+    android:maxWidth="420dp"
+    android:minWidth="420dp"
     android:orientation="vertical"
-    android:layout_margin="8dp"
     android:paddingEnd="8dp"
     android:paddingStart="8dp"
     android:paddingTop="0dp">
 
-    <include layout="@layout/review_google_plus_header" />
+    <include layout="@layout/review_user_header" />
 
     <include layout="@layout/rate_review_dialog_content" />
 
