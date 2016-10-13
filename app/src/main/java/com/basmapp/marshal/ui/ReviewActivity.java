@@ -29,7 +29,9 @@ import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 public class ReviewActivity extends AppCompatActivity {
 
@@ -51,7 +53,7 @@ public class ReviewActivity extends AppCompatActivity {
     private EditText mInputEditText;
     private TextView mItemTitleTextView;
 
-    boolean blockComment = true;
+    boolean blockComments = true;
     public static boolean active = false;
 
     @Override
@@ -125,26 +127,39 @@ public class ReviewActivity extends AppCompatActivity {
         }
 
         // Show Comments Dialog on editText's click
-        if (blockComment) {
+        if (blockComments) {
+            final List<String> mComposedComment = new ArrayList<>();
             mInputEditText.setFocusable(false);
             mInputEditText.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
+                    // Delete previous composed comment
+                    mComposedComment.clear();
                     // Comment Dialog initialization
-                    AlertDialog.Builder commentDialogBuilder = new AlertDialog.Builder(ReviewActivity.this);
-                    commentDialogBuilder.setTitle("תגובות");
-                    commentDialogBuilder.setItems(R.array.review_comments, new DialogInterface.OnClickListener() {
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReviewActivity.this);
+                    alertDialog.setTitle(getString(R.string.compose_new_comment));
+                    alertDialog.setMultiChoiceItems(R.array.review_comments, null, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.dismiss();
-
-                            // Set the chosen comment value to the editText
-                            mInputEditText.setText(getResources().getStringArray(R.array.review_comments)[i]);
+                        public void onClick(DialogInterface dialog, int which, boolean isChecked) {
+                            String selectedComments = getResources().getStringArray(R.array.review_comments)[which];
+                            if (isChecked) {
+                                mComposedComment.add(selectedComments);
+                            } else if (mComposedComment.contains(selectedComments)) {
+                                // Remove comment when unchecked
+                                mComposedComment.remove(selectedComments);
+                            }
                         }
                     });
-
+                    alertDialog.setPositiveButton(getString(R.string.ok), new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            dialog.dismiss();
+                            mInputEditText.setText(String.format(getString(R.string.composed_comment),
+                                    android.text.TextUtils.join(", ", mComposedComment)));
+                        }
+                    });
                     // Show the comments dialog
-                    commentDialogBuilder.show();
+                    alertDialog.show();
                 }
             });
         }
@@ -233,7 +248,7 @@ public class ReviewActivity extends AppCompatActivity {
                         tempRating.setComment(mInputEditText.getText().toString());
                         tempRating.setLastModified(new Date());
                         tempRating.setUserMailAddress(mUserRating.getUserMailAddress());
-                        
+
                         new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_DELETE, tempRating).execute();
                     } else {
                         setResult(RESULT_DELETE_FAILED);
