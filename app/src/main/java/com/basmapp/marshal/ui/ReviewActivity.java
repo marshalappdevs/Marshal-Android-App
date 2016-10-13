@@ -190,10 +190,14 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     if (mUserRating != null) {
-                        Rating tempRating = mUserRating;
+                        Rating tempRating = new Rating(ReviewActivity.this);
+                        tempRating.setId(mUserRating.getId());
+                        tempRating.setCourseID(mUserRating.getCourseID());
+                        tempRating.setCreatedAt(mUserRating.getCreatedAt());
                         tempRating.setRating(mRatingBar.getRating());
                         tempRating.setComment(mInputEditText.getText().toString());
                         tempRating.setLastModified(new Date());
+                        tempRating.setUserMailAddress(mUserRating.getUserMailAddress());
 
                         new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_PUT, tempRating).execute();
                     } else {
@@ -208,7 +212,16 @@ public class ReviewActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (mUserRating != null) {
-                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_DELETE, mUserRating).execute();
+                        Rating tempRating = new Rating(ReviewActivity.this);
+                        tempRating.setId(mUserRating.getId());
+                        tempRating.setCourseID(mUserRating.getCourseID());
+                        tempRating.setCreatedAt(mUserRating.getCreatedAt());
+                        tempRating.setRating(mUserRating.getRating());
+                        tempRating.setComment(mInputEditText.getText().toString());
+                        tempRating.setLastModified(new Date());
+                        tempRating.setUserMailAddress(mUserRating.getUserMailAddress());
+                        
+                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_DELETE, tempRating).execute();
                     } else {
                         setResult(RESULT_DELETE_FAILED);
                         finish();
@@ -288,7 +301,7 @@ public class ReviewActivity extends AppCompatActivity {
                         case REQUEST_TYPE_DELETE:
                             if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mCourse.getCourseCode(),
                                     mUserRating).execute().isSuccessful()) {
-                                mUserRating.delete();
+                                tempRating.delete();
                                 return true;
                             } else {
                                 return false;
