@@ -127,9 +127,9 @@ public class MainActivity extends BaseActivity
     public static ArrayList<MaterialItem> sMaterialItems;
     public static ArrayList<MalshabItem> sMalshabItems;
 
-    public static String sUserEmailAddress;
-    public static String sUserName;
-    public static Uri sUserProfileImage;
+    public static String sUserEmailAddress = "ido.movieditor@gmail.com";
+    public static String sUserName = "Ido Amram";
+    public static Uri sUserProfileImage = Uri.parse("https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg");
 
     private FrameLayout sNewUpdatesButton;
     private LinearLayout sErrorScreen;

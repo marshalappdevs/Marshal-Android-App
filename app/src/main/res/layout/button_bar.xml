@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/button_bar"
+    android:id="@+id/review_button_bar"
     style="?attr/buttonBarStyle"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
@@ -13,14 +13,14 @@
     android:paddingTop="8dp">
 
     <Button
-        android:id="@+id/negative_button"
+        android:id="@+id/review_negative_button"
         style="?attr/buttonBarNegativeButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/cancel" />
 
     <Button
-        android:id="@+id/positive_button"
+        android:id="@+id/review_positive_button"
         style="?attr/buttonBarPositiveButtonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

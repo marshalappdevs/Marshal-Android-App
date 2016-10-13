@@ -18,7 +18,7 @@
             android:orientation="vertical" />
 
         <include
-            android:id="@+id/review_editor"
+            android:id="@+id/review_review_editor"
             layout="@layout/rate_review_editor"
             android:layout_width="match_parent"
             android:layout_height="wrap_content" />

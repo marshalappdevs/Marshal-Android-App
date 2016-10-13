@@ -37,7 +37,7 @@ public class Constants {
     public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";
 
     // Extras Keys
-    public static final String EXTRA_COURSE = "course_extra";
+    public static final String EXTRA_COURSE = "extra_course";
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
     public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final String EXTRA_COURSES_LIST = "extra_courses_list";
@@ -53,6 +53,10 @@ public class Constants {
     public static final String EXTRA_RATING_BAR_STARS = "extra_rating_bar_stars";
     public static final String EXTRA_FCM_CHANNELS = "extra_fcm_channels";
     public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
+    public static final String EXTRA_USER_RATING = "extra_rating";
+    public static final String EXTRA_CONTENT_COLOR = "extra_content_color";
+    public static final String EXTRA_REVIEW_TEXT = "extra_review_text";
+    public static final String EXTRA_IS_EDIT_MODE = "extra_is_edit_mode";
 
     // Fragment Tags
     public static final String FRAGMENT_PRIMARY_COLOR_PICKER = "primary_color_picker";

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/user_review_header"
+    android:id="@+id/review_header_user_review_header"
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
@@ -13,7 +13,7 @@
         android:src="@drawable/bg_banner_dialog" />
 
     <ImageView
-        android:id="@+id/user_profile_image"
+        android:id="@+id/review_header_user_profile_image"
         android:layout_width="64dp"
         android:layout_height="64dp"
         android:layout_centerHorizontal="true"
@@ -22,10 +22,10 @@
         android:src="@drawable/ic_profile_none" />
 
     <TextView
-        android:id="@+id/review_by"
+        android:id="@+id/review_header_review_by"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/user_profile_image"
+        android:layout_below="@+id/review_header_user_profile_image"
         android:layout_centerHorizontal="true"
         android:gravity="center_horizontal"
         android:paddingLeft="16dp"
