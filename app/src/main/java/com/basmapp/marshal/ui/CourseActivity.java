@@ -604,7 +604,9 @@ public class CourseActivity extends BaseActivity {
         if (resultCode == ReviewActivity.RESULT_CANCELED) {
             mRatingBarUser.setRating(0);
         } else if (resultCode == ReviewActivity.RESULT_POST_SUCCESS) {
-            mUserRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
+            Rating tempRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
+            mUserRating.setComment(tempRating.getComment());
+            mUserRating.setRating(tempRating.getRating());
 
             // Showing user review
             mTextViewReviewHint.setVisibility(View.GONE);
@@ -631,7 +633,10 @@ public class CourseActivity extends BaseActivity {
             showRatingChanges();
             Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
         } else if (resultCode == ReviewActivity.RESULT_PUT_SUCCESS) {
-            mUserRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
+            Rating tempRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
+            mUserRating.setComment(tempRating.getComment());
+            mUserRating.setRating(tempRating.getRating());
+
             mTextViewReviewText.setVisibility(View.VISIBLE);
             showRatingChanges();
         } else if (resultCode == ReviewActivity.RESULT_DELETE_SUCCESS) {

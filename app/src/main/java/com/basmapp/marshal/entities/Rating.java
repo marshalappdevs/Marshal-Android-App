@@ -66,7 +66,7 @@ public class Rating extends DBObject implements Parcelable {
         this.id = id;
     }
 
-    private String getUserMailAddress() {
+    public String getUserMailAddress() {
         return userMailAddress;
     }
 
