@@ -345,9 +345,14 @@
     <string name="composed_comment" translatable="false">%1$s.</string>
     <string name="review_comment1">Relevant material</string>
     <string name="review_comment2">Good lecturer</string>
-    <string name="review_comment3">Useful and helpful</string>
-    <string name="review_comment4">Straightforward</string>
-    <string name="review_comment5">Logistic improvements needed</string>
+    <string name="review_comment3">Very detailed</string>
+    <string name="review_comment4">Professional</string>
+    <string name="review_comment5">Straightforward</string>
+    <string name="review_comment6">Fun</string>
+    <string name="review_comment7">Logistic improvements needed</string>
+    <string name="review_comment8">Outdated</string>
+    <string name="review_comment9">Too easy</string>
+    <string name="review_comment10">Can be better</string>
 
     <!-- Review comments -->
     <string-array name="review_comments">
@@ -356,5 +361,10 @@
         <item>@string/review_comment3</item>
         <item>@string/review_comment4</item>
         <item>@string/review_comment5</item>
+        <item>@string/review_comment6</item>
+        <item>@string/review_comment7</item>
+        <item>@string/review_comment8</item>
+        <item>@string/review_comment9</item>
+        <item>@string/review_comment10</item>
     </string-array>
 </resources>
