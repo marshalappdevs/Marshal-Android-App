@@ -181,16 +181,6 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        if (mFilterPrompt != null) {
-            mFilterPrompt.finish();
-            mFilterPrompt = null;
-        } else {
-            super.onBackPressed();
-        }
-    }
-
-    @Override
     public boolean onCreateOptionsMenu(Menu options) {
         getMenuInflater().inflate(R.menu.activity_search, options);
 
@@ -226,8 +216,13 @@ public class SearchActivity extends BaseActivity {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        finish();
-                        return true; // Return true to collapse action view
+                        if (mFilterPrompt != null) {
+                            mFilterPrompt.finish();
+                            mFilterPrompt = null;
+                        } else {
+                            finish();
+                        }
+                        return false; // Return false to prevent collapse action view
                     }
 
                     @Override
