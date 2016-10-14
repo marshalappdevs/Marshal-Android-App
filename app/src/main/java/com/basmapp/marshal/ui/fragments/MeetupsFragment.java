@@ -131,7 +131,7 @@ public class MeetupsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup search button
-        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        MenuItem searchItem = menu.findItem(R.id.m_search);
 
         // Disable search if error screen shown
         if (sErrorScreen != null) {

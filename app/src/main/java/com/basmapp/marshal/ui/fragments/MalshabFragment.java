@@ -81,6 +81,6 @@ public class MalshabFragment extends Fragment {
 
     @Override
     public void onPrepareOptionsMenu(Menu menu) {
-        menu.findItem(R.id.menu_main_searchView).setVisible(false);
+        menu.findItem(R.id.m_search).setVisible(false);
     }
 }

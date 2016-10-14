@@ -197,7 +197,7 @@ public class MaterialsFragment extends Fragment {
 //            inflater.inflate(R.menu.course_materials, menu);
             mSearchMenuItem = menu.findItem(R.id.course_materials_searchView);
         } else {
-            mSearchMenuItem = menu.findItem(R.id.menu_main_searchView);
+            mSearchMenuItem = menu.findItem(R.id.m_search);
             // Disable search if error screen shown
             if (sErrorScreen != null) {
                 if (sErrorScreen.getVisibility() == View.VISIBLE) {

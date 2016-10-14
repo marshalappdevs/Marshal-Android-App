@@ -127,9 +127,9 @@ public class MainActivity extends BaseActivity
     public static ArrayList<MaterialItem> sMaterialItems;
     public static ArrayList<MalshabItem> sMalshabItems;
 
-    public static String sUserEmailAddress = "ido.movieditor@gmail.com";
-    public static String sUserName = "Ido Amram";
-    public static Uri sUserProfileImage = Uri.parse("https://x1.xingassets.com/assets/frontend_minified/img/users/nobody_m.original.jpg");
+    public static String sUserEmailAddress;
+    public static String sUserName;
+    public static Uri sUserProfileImage;
 
     private FrameLayout sNewUpdatesButton;
     private LinearLayout sErrorScreen;
@@ -841,7 +841,7 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
-        mSearchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchItem = menu.findItem(R.id.m_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
 
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
@@ -955,7 +955,7 @@ public class MainActivity extends BaseActivity
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.menu_main_searchView) {
+        if (id == R.id.m_search) {
             return true;
         }
         return super.onOptionsItemSelected(item);

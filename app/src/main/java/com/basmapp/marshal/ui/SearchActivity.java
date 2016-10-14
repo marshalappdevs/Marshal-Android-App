@@ -1,20 +1,20 @@
-package com.basmapp.marshal.ui.fragments;
+package com.basmapp.marshal.ui;
 
 import android.app.Dialog;
-import android.app.SearchManager;
 import android.content.BroadcastReceiver;
-import android.content.Context;
-import android.content.Intent;
 import android.content.IntentFilter;
 import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
+
+import android.app.SearchManager;
+import android.content.Context;
+import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.provider.SearchRecentSuggestions;
-import android.support.v4.app.Fragment;
+import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -24,11 +24,9 @@ import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
-import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -37,14 +35,15 @@ import android.widget.TabHost;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
-import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.DateHelper;
+import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.ThemeUtils;
 
 import java.text.SimpleDateFormat;
@@ -54,7 +53,8 @@ import java.util.Locale;
 
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
-public class CoursesSearchableFragment extends Fragment {
+
+public class SearchActivity extends BaseActivity {
 
     static {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
@@ -62,8 +62,6 @@ public class CoursesSearchableFragment extends Fragment {
 
     private SearchView mSearchView;
     private RecyclerView mRecycler;
-    private DrawerLayout mDrawerLayout;
-    private LinearLayoutManager mLayoutManager;
     private CoursesSearchRecyclerAdapter mAdapter;
 
     private ArrayList<Course> mCoursesList;
@@ -84,32 +82,35 @@ public class CoursesSearchableFragment extends Fragment {
     private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
     private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
 
-    public static CoursesSearchableFragment newInstance(String query, ArrayList<Course> courses) {
-        Bundle bundle = new Bundle();
-        bundle.putString(Constants.EXTRA_SEARCH_QUERY, query);
-        bundle.putParcelableArrayList(Constants.EXTRA_ALL_COURSES, courses);
-        CoursesSearchableFragment coursesSearchableFragment = new CoursesSearchableFragment();
-        coursesSearchableFragment.setArguments(bundle);
-        return coursesSearchableFragment;
-    }
-
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_courses_search, container, false);
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
 
-        setHasOptionsMenu(true);
+        setContentView(R.layout.activity_search);
 
-        mDrawerLayout = (DrawerLayout) getActivity().findViewById(R.id.drawer_layout);
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_courses_search_recyclerView);
-        mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecycler.setLayoutManager(mLayoutManager);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.search_title);
+        setSupportActionBar(toolbar);
+
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                finish();
+            }
+        });
+
+        mRecycler = (RecyclerView) findViewById(R.id.search_activity_recyclerView);
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        mRecycler.setLayoutManager(linearLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
-        mNoResults = (TextView) rootView.findViewById(R.id.fragment_courses_search_no_results);
+        mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
 
-        mSearchQuery = getArguments().getString(Constants.EXTRA_SEARCH_QUERY);
-        mCoursesList = getArguments().getParcelableArrayList(Constants.EXTRA_ALL_COURSES);
+        mSearchQuery = getIntent().getStringExtra(Constants.EXTRA_SEARCH_QUERY);
+        mCoursesList = getIntent().getParcelableArrayListExtra(Constants.EXTRA_ALL_COURSES);
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -117,36 +118,11 @@ public class CoursesSearchableFragment extends Fragment {
             mFilteredCourseList = new ArrayList<>();
 
         if (mAdapter == null)
-            mAdapter = new CoursesSearchRecyclerAdapter(getActivity(), mFilteredCourseList);
+            mAdapter = new CoursesSearchRecyclerAdapter(this, mFilteredCourseList);
 
         if (mRecycler.getAdapter() == null)
             mRecycler.setAdapter(mAdapter);
 
-        getActivity().setTitle(R.string.search_title);
-
-        return rootView;
-    }
-
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Hide tap target
-        if (mFilterPrompt != null) {
-            mFilterPrompt.finish();
-            mFilterPrompt = null;
-        }
-        // Dismiss filter dialog if shown
-        if (mFilterDialog != null) {
-            if (mFilterDialog.isShowing()) {
-                mFilterDialog.dismiss();
-            }
-        }
-        getActivity().setTitle(R.string.navigation_drawer_courses);
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
@@ -164,17 +140,9 @@ public class CoursesSearchableFragment extends Fragment {
         IntentFilter intentFilter = new IntentFilter();
         intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
         intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
-        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
-        // Lock drawer
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
-    }
+        registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
-    @Override
-    public void onPause() {
-        super.onPause();
-        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
-        // Unlock drawer
-        mDrawerLayout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
+//        handleIntent(getIntent());
     }
 
     @Override
@@ -191,77 +159,43 @@ public class CoursesSearchableFragment extends Fragment {
         }
     }
 
-    @Override
-    public void onActivityCreated(Bundle savedInstanceState) {
-        super.onActivityCreated(savedInstanceState);
-        if (savedInstanceState != null) {
-            // Restore previous SearchView query
-            mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
-            // Restore previous filter dates
-            mStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
-            mEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
-        }
-        setHasOptionsMenu(true);
-        if (mAdapter != null && mRecycler != null) {
-            mRecycler.setAdapter(mAdapter);
-        }
-        if (PreferenceManager.getDefaultSharedPreferences(getActivity()).getBoolean(Constants.SHOW_FILTER_TAP_TARGET, true)) {
-            Toolbar toolbar = (Toolbar) getActivity().findViewById(R.id.toolbar);
-            mFilterPrompt = new MaterialTapTargetPrompt.Builder(getActivity())
-                    .setTarget(toolbar.getChildAt(0))
-                    .setPrimaryText(R.string.filter_tip_title)
-                    .setSecondaryText(R.string.filter_tip_subtitle)
-                    .setBackgroundColour(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
-                    .setIcon(R.drawable.ic_filter_vert)
-                    .setIconDrawableColourFilter(ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary))
-                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
-                    .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
-                    .setAutoDismiss(false)
-                    .setAutoFinish(false)
-                    .setCaptureTouchEventOutsidePrompt(true)
-                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
-                        @Override
-                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
-                            if (tappedTarget) {
-                                mFilterPrompt.finish();
-                                mFilterPrompt = null;
-                                PreferenceManager.getDefaultSharedPreferences(getActivity()).edit()
-                                        .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
-                            }
-                        }
 
-                        @Override
-                        public void onHidePromptComplete() {
-                        }
-                    })
-                    .show();
+    @Override
+    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
+        super.onRestoreInstanceState(savedInstanceState);
+        // Restore previous SearchView query
+        mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
+        // Restore previous filter dates
+        mStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
+        mEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        unregisterReceiver(mAdaptersBroadcastReceiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFilterPrompt != null) {
+            mFilterPrompt.finish();
+            mFilterPrompt = null;
+        } else {
+            super.onBackPressed();
         }
     }
 
     @Override
-    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+    public boolean onCreateOptionsMenu(Menu options) {
+        getMenuInflater().inflate(R.menu.activity_search, options);
 
-        // Setup filter button
-        menu.findItem(R.id.menu_main_filter).setVisible(true);
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        MenuItem searchItem = options.findItem(R.id.m_search);
+        MenuItemCompat.expandActionView(searchItem);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        MenuItem filterItem = menu.findItem(R.id.menu_main_filter);
-        filterItem.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
-            @Override
-            public boolean onMenuItemClick(MenuItem menuItem) {
-                if (!isEmptyResult) {
-                    showFilterByDateDialog();
-                } else {
-                    Toast.makeText(getActivity(), R.string.filter_not_available, Toast.LENGTH_SHORT).show();
-                }
-                return false;
-            }
-        });
-
-        // Setup search button
-        MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
-        mSearchView = (SearchView) searchItem.getActionView();
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
             @Override
@@ -289,7 +223,7 @@ public class CoursesSearchableFragment extends Fragment {
                 mFilterText = query;
                 filter(query);
                 mSearchView.clearFocus();
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
+                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(SearchActivity.this,
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
                 return true;
@@ -304,7 +238,7 @@ public class CoursesSearchableFragment extends Fragment {
                 new MenuItemCompat.OnActionExpandListener() {
                     @Override
                     public boolean onMenuItemActionCollapse(MenuItem item) {
-                        getActivity().onBackPressed();
+                        finish();
                         return true; // Return true to collapse action view
                     }
 
@@ -313,20 +247,88 @@ public class CoursesSearchableFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
-        MenuItemCompat.expandActionView(searchItem);
         mSearchView.setQuery(mSearchQuery, true);
         // Show filtered search if dates are available (from saved instance for example)
         if (mStartDate != null && mEndDate != null) {
             filterByDatesRange(mStartDate, mEndDate);
         }
+
+        // Show target prompt for filter
+        showFilterTargetPrompt();
+
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.m_filter:
+                if (!isEmptyResult) {
+                    showFilterByDateDialog();
+                } else {
+                    Toast.makeText(this, R.string.filter_not_available,
+                            Toast.LENGTH_SHORT).show();
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+//    @Override
+//    protected void onNewIntent(Intent intent) {
+//        setIntent(intent);
+//        handleIntent(intent);
+//    }
+//
+//    private void handleIntent(Intent intent) {
+//        if (ACTION_SEARCH.equals(intent.getAction())) {
+//            if (mSearchView != null) {
+//                mSearchView.setQuery(intent.getStringExtra(QUERY), true);
+//            }
+//        }
+//    }
+
+    private void showFilterTargetPrompt() {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.SHOW_FILTER_TAP_TARGET, true)) {
+            Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+            mFilterPrompt = new MaterialTapTargetPrompt.Builder(this)
+                    .setTarget(toolbar.getChildAt(0))
+                    .setPrimaryText(R.string.filter_tip_title)
+                    .setSecondaryText(R.string.filter_tip_subtitle)
+                    .setBackgroundColour(ThemeUtils.getThemeColor(this, R.attr.colorPrimary))
+                    .setIcon(R.drawable.ic_filter_vert)
+                    .setIconDrawableColourFilter(ThemeUtils.getThemeColor(this, R.attr.colorPrimary))
+                    .setAnimationInterpolator(new FastOutSlowInInterpolator())
+                    .setMaxTextWidth(R.dimen.tap_target_menu_max_width)
+                    .setAutoDismiss(false)
+                    .setAutoFinish(false)
+                    .setCaptureTouchEventOutsidePrompt(true)
+                    .setOnHidePromptListener(new MaterialTapTargetPrompt.OnHidePromptListener() {
+                        @Override
+                        public void onHidePrompt(MotionEvent event, boolean tappedTarget) {
+                            if (tappedTarget) {
+                                mFilterPrompt.finish();
+                                mFilterPrompt = null;
+                                PreferenceManager.getDefaultSharedPreferences(SearchActivity.this).edit()
+                                        .putBoolean(Constants.SHOW_FILTER_TAP_TARGET, false).apply();
+                            }
+                        }
+
+                        @Override
+                        public void onHidePromptComplete() {
+                        }
+                    })
+                    .show();
+        }
     }
 
     public void showFilterByDateDialog() {
-        mFilterDialog = new Dialog(getActivity());
+        mFilterDialog = new Dialog(this);
         mFilterDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
                 WindowManager.LayoutParams.WRAP_CONTENT);
         mFilterDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+        LayoutInflater layoutInflater = LayoutInflater.from(this);
         View dateRangeView = layoutInflater.inflate(R.layout.date_range_picker, null);
         mFilterDialog.setContentView(dateRangeView);
         TabHost tabHost = (TabHost) dateRangeView.findViewById(R.id.tabHost);
@@ -489,9 +491,11 @@ public class CoursesSearchableFragment extends Fragment {
         if (listToShow.isEmpty()) {
             String searchResult;
             if (filter) {
-                searchResult = String.format(getString(R.string.no_results_for_filter), mStartDate, mEndDate);
+                searchResult = String.format(getString(
+                        R.string.no_results_for_filter), mStartDate, mEndDate);
             } else {
-                searchResult = String.format(getString(R.string.no_results_for_query), query);
+                searchResult = String.format(getString(
+                        R.string.no_results_for_query), query);
                 isEmptyResult = true;
             }
             mNoResults.setText(searchResult);

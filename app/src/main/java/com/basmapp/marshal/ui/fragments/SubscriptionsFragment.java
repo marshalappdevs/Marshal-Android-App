@@ -181,7 +181,7 @@ public class SubscriptionsFragment extends Fragment {
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
 
         // Setup search button
-        mSearchItem = menu.findItem(R.id.menu_main_searchView);
+        mSearchItem = menu.findItem(R.id.m_search);
         mSearchView = (SearchView) mSearchItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
 

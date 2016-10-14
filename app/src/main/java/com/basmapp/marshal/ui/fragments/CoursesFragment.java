@@ -13,6 +13,7 @@ import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -36,6 +37,7 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
+import com.basmapp.marshal.ui.SearchActivity;
 import com.basmapp.marshal.ui.ShowAllCoursesActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
@@ -595,9 +597,9 @@ public class CoursesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-
         // Setup search button
-        final MenuItem searchItem = menu.findItem(R.id.menu_main_searchView);
+        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        final MenuItem searchItem = menu.findItem(R.id.m_search);
         // Disable search if error screen shown
         if (sErrorScreen != null) {
             if (sErrorScreen.getVisibility() == View.VISIBLE) {
@@ -606,8 +608,7 @@ public class CoursesFragment extends Fragment {
                 searchItem.setEnabled(true);
             }
         }
-        mSearchView = (SearchView) searchItem.getActionView();
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
         mSearchView.setIconifiedByDefault(true);
         mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -616,9 +617,10 @@ public class CoursesFragment extends Fragment {
                 mSearchView.clearFocus();
                 Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
                 String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_ALL_COURSES, mCoursesList);
+                intent.putExtra(Constants.EXTRA_SEARCH_QUERY, query);
+                startActivity(intent);
                 return true;
             }
 
@@ -636,10 +638,10 @@ public class CoursesFragment extends Fragment {
                 SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
                         SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
                 suggestions.saveRecentQuery(query, null);
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-//                if (query.equals("*")) query = "";
-                fragmentManager.beginTransaction().replace(R.id.content_frame,
-                        CoursesSearchableFragment.newInstance(query, mCoursesList)).commit();
+                Intent intent = new Intent(getActivity(), SearchActivity.class);
+                intent.putParcelableArrayListExtra(Constants.EXTRA_ALL_COURSES, mCoursesList);
+                intent.putExtra(Constants.EXTRA_SEARCH_QUERY, query);
+                startActivity(intent);
                 return true;
             }
 
