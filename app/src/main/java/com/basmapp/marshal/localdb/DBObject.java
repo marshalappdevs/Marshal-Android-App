@@ -254,8 +254,6 @@ public abstract class DBObject {
         return this.getClass();
     }
 
-
-
     public void create() throws Exception {
         try {
             ContentValues values = getContentValues();
@@ -291,6 +289,7 @@ public abstract class DBObject {
             field.setAccessible(true);
             Object fieldValue = field.get(this);
 
+            foreignKey.getFkClass().cast(fieldValue).Ctor(mContext);
             Object objectId = foreignKey.getFkClass().cast(fieldValue).getObjectId();
 
             if (isNullOrZero(objectId)) {
@@ -307,6 +306,7 @@ public abstract class DBObject {
                     (ArrayList<? extends DBObject>) field.get(this);
 
             for (Object object : objectsArrayList) {
+                foreignKey.getFkClass().cast(object).Ctor(mContext);
                 Object objectId = foreignKey.getFkClass().cast(object).getObjectId();
 
                 if (isNullOrZero(objectId)) {

@@ -22,6 +22,18 @@ public class Rating extends DBObject implements Parcelable {
         super(context);
     }
 
+    public Rating(Context context, Rating rating) {
+        super(context);
+
+        setId(rating.getId());
+        setComment(rating.getComment());
+        setRating(rating.getRating());
+        setCreatedAt(rating.getCreatedAt());
+        setUserMailAddress(rating.getUserMailAddress());
+        setLastModified(rating.getLastModified());
+        setCourseID(rating.getCourseID());
+    }
+
     @Override
     protected boolean isPrimaryKeyAutoIncrement() {
         return true;

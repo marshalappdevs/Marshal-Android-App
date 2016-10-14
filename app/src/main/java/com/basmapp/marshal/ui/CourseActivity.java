@@ -610,8 +610,7 @@ public class CourseActivity extends BaseActivity {
             mRatingBarUser.setRating(0);
         } else if (resultCode == ReviewActivity.RESULT_POST_SUCCESS) {
             Rating tempRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
-            mUserRating.setComment(tempRating.getComment());
-            mUserRating.setRating(tempRating.getRating());
+            mUserRating = new Rating(CourseActivity.this, tempRating);
 
             // Showing user review
             mTextViewReviewHint.setVisibility(View.GONE);
