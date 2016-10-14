@@ -47,7 +47,6 @@ public class MaterialsFragment extends Fragment {
     private String mCourseCode;
     private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
     private String mPreviousQuery;
-    private LinearLayout sErrorScreen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -181,7 +180,6 @@ public class MaterialsFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
-        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -191,21 +189,12 @@ public class MaterialsFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-//        inflater.inflate(R.menu.main, menu);
+
         // Setup search button
         if (mIsRunForCourse) {
-//            inflater.inflate(R.menu.course_materials, menu);
             mSearchMenuItem = menu.findItem(R.id.course_materials_searchView);
         } else {
             mSearchMenuItem = menu.findItem(R.id.m_search);
-            // Disable search if error screen shown
-            if (sErrorScreen != null) {
-                if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                    mSearchMenuItem.setEnabled(false);
-                } else {
-                    mSearchMenuItem.setEnabled(true);
-                }
-            }
         }
 
         mSearchView = (SearchView) mSearchMenuItem.getActionView();

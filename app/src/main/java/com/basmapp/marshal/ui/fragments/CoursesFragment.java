@@ -6,10 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.provider.SearchRecentSuggestions;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
@@ -37,13 +35,11 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
-import com.basmapp.marshal.ui.SearchActivity;
 import com.basmapp.marshal.ui.ShowAllCoursesActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.widget.AutoScrollViewPager;
 import com.basmapp.marshal.ui.widget.InkPageIndicator;
 import com.basmapp.marshal.util.LocaleUtils;
-import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.DateHelper;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
@@ -93,8 +89,7 @@ public class CoursesFragment extends Fragment {
     private View mRootView;
 
     private SearchView mSearchView;
-
-    private LinearLayout sErrorScreen;
+    private MenuItem mSearchItem;
 
     private static final String COURSES_SCROLL_X = "COURSES_SCROLL_X";
     private static final String COURSES_SCROLL_Y = "COURSES_SCROLL_Y";
@@ -275,13 +270,13 @@ public class CoursesFragment extends Fragment {
             mPreviousQuery = savedInstanceState.getString(COURSES_PREVIOUS_QUERY);
         }
         if (mViewPager == null) {
-            mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
+            mViewPager = (AutoScrollViewPager)
+                    mRootView.findViewById(R.id.main_catalog_view_pager);
         } else if (LocaleUtils.isRtl(getResources())) {
             mViewPager.setDirection(AutoScrollViewPager.LEFT);
         } else {
             mViewPager.setDirection(AutoScrollViewPager.RIGHT);
         }
-        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -597,68 +592,23 @@ public class CoursesFragment extends Fragment {
 
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
-        // Setup search button
-        SearchManager searchManager = (SearchManager) getActivity().getSystemService(Context.SEARCH_SERVICE);
-        final MenuItem searchItem = menu.findItem(R.id.m_search);
-        // Disable search if error screen shown
-        if (sErrorScreen != null) {
-            if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                searchItem.setEnabled(false);
-            } else {
-                searchItem.setEnabled(true);
-            }
-        }
-        mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getActivity().getComponentName()));
-        mSearchView.setIconifiedByDefault(true);
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionClick(int position) {
-                mSearchView.clearFocus();
-                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                String query = cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_ALL_COURSES, mCoursesList);
-                intent.putExtra(Constants.EXTRA_SEARCH_QUERY, query);
-                startActivity(intent);
-                return true;
-            }
+        SearchManager searchManager = (SearchManager)
+                getActivity().getSystemService(Context.SEARCH_SERVICE);
+        mSearchItem = menu.findItem(R.id.m_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(
+                getActivity().getComponentName()));
 
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-        });
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mSearchView.clearFocus();
-                // remove trailing and leading space
-                query = query.trim();
-                SearchRecentSuggestions suggestions = new SearchRecentSuggestions(getActivity(),
-                        SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-                suggestions.saveRecentQuery(query, null);
-                Intent intent = new Intent(getActivity(), SearchActivity.class);
-                intent.putParcelableArrayListExtra(Constants.EXTRA_ALL_COURSES, mCoursesList);
-                intent.putExtra(Constants.EXTRA_SEARCH_QUERY, query);
-                startActivity(intent);
-                return true;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return true;
-            }
-        });
-//        // Collapse search view and close keyboard together
+        // Collapse search view and close keyboard together
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
             public void onFocusChange(View view, boolean b) {
-                searchItem.collapseActionView();
+                mSearchItem.collapseActionView();
             }
         });
+
         if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
-            searchItem.expandActionView();
+            mSearchItem.expandActionView();
             mSearchView.setQuery(mPreviousQuery, false);
         }
     }

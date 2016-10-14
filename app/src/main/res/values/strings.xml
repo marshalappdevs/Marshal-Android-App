@@ -7,7 +7,7 @@
     <string name="activity_course">Course Details</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="navigation_drawer_courses">Continuing Education</string>
+    <string name="navigation_drawer_courses">Courses</string>
     <string name="navigation_drawer_subscriptions">Subscriptions</string>
     <string name="navigation_drawer_materials">Study Materials</string>
     <string name="navigation_drawer_meetups">Meetups</string>

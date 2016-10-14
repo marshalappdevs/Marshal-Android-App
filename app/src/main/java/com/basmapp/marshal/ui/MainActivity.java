@@ -25,7 +25,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
@@ -97,7 +96,6 @@ public class MainActivity extends BaseActivity
     public DrawerLayout mDrawerLayout;
     public static ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
-    private SearchView mSearchView;
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView;
@@ -390,21 +388,6 @@ public class MainActivity extends BaseActivity
         mUpdateProgressDialog.setMessage(getString(R.string.refresh_checking_for_updates));
         mUpdateProgressDialog.setProgress(0);
     }
-
-//    // TODO: 11/04/2016 replace search fragment with search activity and handle it there, right now MainActivity set to singleTop
-//    @Override
-//    protected void onNewIntent(Intent intent) {
-//        // Get voice search query and pass it to CoursesSearchableFragment
-//        if (Intent.ACTION_SEARCH.equals(intent.getAction())) {
-//            String query = intent.getStringExtra(SearchManager.QUERY);
-//            if(!isFinishing()) {
-//                FragmentManager fragmentManager = getSupportFragmentManager();
-//                fragmentManager.beginTransaction().replace(R.id.content_frame,
-//                        CoursesSearchableFragment.newInstance(query, CoursesFragment.mCoursesList))
-//                        .commitAllowingStateLoss();
-//            }
-//        }
-//    }
 
     private void showFirstRun() {
         // Change shared preference value to false so next startup will not be called as first
@@ -841,25 +824,18 @@ public class MainActivity extends BaseActivity
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.main, menu);
+
         mSearchItem = menu.findItem(R.id.m_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
 
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                // Text has changed, apply filtering?
-                return true;
+        // Disable search if error screen shown
+        if (sErrorScreen != null) {
+            if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                mSearchItem.setEnabled(false);
+            } else {
+                mSearchItem.setEnabled(true);
             }
+        }
 
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                // Perform the final search
-                mSearchView.clearFocus();
-                String searchResult = String.format(getString(R.string.search_result), query);
-                Toast.makeText(getApplicationContext(), searchResult, Toast.LENGTH_LONG).show();
-                return true;
-            }
-        });
         return true;
     }
 

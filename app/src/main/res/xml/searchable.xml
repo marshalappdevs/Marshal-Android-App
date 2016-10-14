@@ -4,4 +4,5 @@
     android:includeInGlobalSearch="true"
     android:label="@string/search_title"
     android:searchSuggestAuthority="com.basmapp.marshal.SuggestionProvider"
-    android:searchSuggestSelection=" ?" />
+    android:searchSuggestSelection=" ?"
+    android:voiceSearchMode="showVoiceSearchButton|launchRecognizer" />

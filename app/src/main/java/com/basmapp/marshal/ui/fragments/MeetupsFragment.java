@@ -39,7 +39,6 @@ public class MeetupsFragment extends Fragment {
     private String mFilterText;
     private static final String MEETUPS_PREVIOUS_QUERY = "MEETUPS_PREVIOUS_QUERY";
     private String mPreviousQuery;
-    private LinearLayout sErrorScreen;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -124,7 +123,6 @@ public class MeetupsFragment extends Fragment {
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
         }
-        sErrorScreen = (LinearLayout) getActivity().findViewById(R.id.placeholder_error);
     }
 
     @Override
@@ -132,15 +130,6 @@ public class MeetupsFragment extends Fragment {
 
         // Setup search button
         MenuItem searchItem = menu.findItem(R.id.m_search);
-
-        // Disable search if error screen shown
-        if (sErrorScreen != null) {
-            if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                searchItem.setEnabled(false);
-            } else {
-                searchItem.setEnabled(true);
-            }
-        }
 
         mSearchView = (SearchView) searchItem.getActionView();
         mSearchView.setIconifiedByDefault(true);
