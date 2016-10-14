@@ -99,8 +99,6 @@ public class MainActivity extends BaseActivity
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView;
-    private FrameLayout mNavHeaderFrame;
-    private ImageView mCoverImageView;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
@@ -184,16 +182,15 @@ public class MainActivity extends BaseActivity
         // Initialize navigation view header items
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
-        mCoverImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.cover_photo);
         mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
-        mNavHeaderFrame = (FrameLayout) mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container);
-        mNavHeaderFrame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                // Login to Google account on navigation view header press
-                navHeaderClicked();
-            }
-        });
+        mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
+                .setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        // Login to Google account on navigation view header press
+                        navHeaderClicked();
+                    }
+                });
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -658,26 +655,6 @@ public class MainActivity extends BaseActivity
                                 givenName.length() == 2 ? givenName : givenName.substring(0, 1)));
                     }
                 }
-
-                // Use Google plus API to get user cover photo if exists
-//                Plus.PeopleApi.load(mGoogleApiClient, acct.getId()).setResultCallback(new ResultCallback<People.LoadPeopleResult>() {
-//                    @Override
-//                    public void onResult(@NonNull People.LoadPeopleResult peopleData) {
-//                        if (peopleData.getStatus().isSuccess()) {
-//                            PersonBuffer personBuffer = peopleData.getPersonBuffer();
-//                            if (personBuffer != null && personBuffer.getCount() > 0) {
-//                                Person person = personBuffer.get(0);
-//                                personBuffer.release();
-//                                if (person.getCover() != null) {
-//                                    Glide.with(MainActivity.this)
-//                                            .load(person.getCover().getCoverPhoto().getUrl())
-//                                            .placeholder(R.drawable.bg_default_profile_art)
-//                                            .into(mCoverImageView);
-//                                }
-//                            } // else Log.e(TAG, "Plus response was empty! Failed to load profile.");
-//                        } // else Log.e(TAG, "Failed to load plus proflie, error " + loadPeopleResult.getStatus().getStatusCode());
-//                    }
-//                });
             }
         } else {
             // Signed out, show unauthenticated UI.
@@ -939,7 +916,7 @@ public class MainActivity extends BaseActivity
 
     @SuppressWarnings("StatementWithEmptyBody")
     @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
+    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
         int id = item.getItemId();
         FragmentManager fragmentManager = getSupportFragmentManager();
