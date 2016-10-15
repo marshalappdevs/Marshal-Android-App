@@ -253,7 +253,7 @@ public class SearchActivity extends BaseActivity {
                 mSearchView.clearFocus();
             }
             filter(mSearchQuery);
-            SuggestionProvider.save(this, mSearchQuery);
+            SuggestionProvider.save(this, mSearchQuery.trim());
         }
     }
 
