@@ -62,6 +62,7 @@ public class SearchActivity extends BaseActivity {
         AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
+    private Toolbar mToolbar;
     private SearchView mSearchView;
     private RecyclerView mRecycler;
     private CoursesSearchRecyclerAdapter mAdapter;
@@ -82,8 +83,8 @@ public class SearchActivity extends BaseActivity {
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
     private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
     private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
-    private String mSavedStartDate;
-    private String mSavedEndDate;
+    private String mPreviousStartDate;
+    private String mPreviousEndDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,14 +92,14 @@ public class SearchActivity extends BaseActivity {
 
         setContentView(R.layout.activity_search);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        toolbar.setTitle(R.string.search_title);
-        setSupportActionBar(toolbar);
+        mToolbar = (Toolbar) findViewById(R.id.toolbar);
+        mToolbar.setTitle(R.string.search_title);
+        setSupportActionBar(mToolbar);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
@@ -155,9 +156,9 @@ public class SearchActivity extends BaseActivity {
             outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
         // Save filtered dates if available
-        if (mSavedStartDate != null && mSavedEndDate != null) {
-            outState.putString(FILTER_PREVIOUS_START_DATE, mSavedStartDate);
-            outState.putString(FILTER_PREVIOUS_END_DATE, mSavedEndDate);
+        if (mPreviousStartDate != null && mPreviousEndDate != null) {
+            outState.putString(FILTER_PREVIOUS_START_DATE, mPreviousStartDate);
+            outState.putString(FILTER_PREVIOUS_END_DATE, mPreviousEndDate);
         }
     }
 
@@ -168,8 +169,8 @@ public class SearchActivity extends BaseActivity {
         // Restore previous SearchView query
         mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
         // Restore previous filter dates
-        mStartDate = mSavedStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
-        mEndDate = mSavedEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
+        mStartDate = mPreviousStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
+        mEndDate = mPreviousEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
     }
 
     @Override
@@ -248,6 +249,9 @@ public class SearchActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         if (ACTION_SEARCH.equals(intent.getAction())) {
             mSearchQuery = intent.getStringExtra(QUERY);
+            if (mToolbar != null) {
+                mToolbar.setTitle(mSearchQuery);
+            }
             if (mSearchView != null) {
                 mSearchView.setQuery(mSearchQuery, false);
                 mSearchView.clearFocus();
@@ -364,8 +368,8 @@ public class SearchActivity extends BaseActivity {
                 if (mStartDate != null && mEndDate != null) {
                     filterByDatesRange(mStartDate, mEndDate);
                     // Save filter dates only after submit
-                    mSavedStartDate = mStartDate;
-                    mSavedEndDate = mEndDate;
+                    mPreviousStartDate = mStartDate;
+                    mPreviousEndDate = mEndDate;
                     mFilterDialog.dismiss();
                 }
             }
@@ -384,7 +388,7 @@ public class SearchActivity extends BaseActivity {
                     showResults(query, mFilteredCourseList, true);
                 }
                 mFilterDialog.dismiss();
-                mStartDate = mSavedStartDate = mEndDate = mSavedEndDate = null;
+                mStartDate = mPreviousStartDate = mEndDate = mPreviousEndDate = null;
             }
         });
 
@@ -438,23 +442,21 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    private void filter(String filterText) {
-        if (filterText == null) {
-            mFilteredCourseList = new ArrayList<>(mCoursesList);
-        } else if (filterText.equals("*")) {
+    private void filter(String query) {
+        if (query == null || query.equals("*")) {
             mFilteredCourseList = new ArrayList<>(mCoursesList);
         } else {
             mFilteredCourseList = new ArrayList<>();
             for (Course item : mCoursesList) {
-                if (item.getName().toLowerCase().contains(filterText.toLowerCase().trim()) ||
-                        item.getDescription().toLowerCase().contains(filterText.toLowerCase().trim()) ||
-                        item.getSyllabus().toLowerCase().contains(filterText.toLowerCase().trim()) ||
-                        isHasCycle(item, filterText.toLowerCase().trim())) {
+                if (item.getName().toLowerCase().contains(query.toLowerCase().trim()) ||
+                        item.getDescription().toLowerCase().contains(query.toLowerCase().trim()) ||
+                        item.getSyllabus().toLowerCase().contains(query.toLowerCase().trim()) ||
+                        isHasCycle(item, query.toLowerCase().trim())) {
                     mFilteredCourseList.add(item);
                 }
             }
         }
-        showResults(filterText, mFilteredCourseList, false);
+        showResults(query, mFilteredCourseList, false);
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
