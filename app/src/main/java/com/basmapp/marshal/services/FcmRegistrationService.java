@@ -31,8 +31,7 @@ import retrofit2.Response;
  */
 public class FcmRegistrationService extends IntentService {
 
-    public static final String ACTION_REGISTER_NEW = "com.basmapp.marshal.services.action.FCM_REGISTER_NEW";
-    public static final String ACTION_REGISTER_EXIST = "com.basmapp.marshal.services.action.FCM_REGISTER_EXIST";
+    public static final String ACTION_REGISTER_OR_UPDATE = "com.basmapp.marshal.services.action.FCM_REGISTER_OR_UPDATE";
     public static final String ACTION_UPDATE_CHANNELS = "com.basmapp.marshal.services.action.FCM_UPDATE_CHANNELS";
 
     private static final Set<String> DEFAULT_CHANNELS_SET = new HashSet<>();
@@ -66,13 +65,9 @@ public class FcmRegistrationService extends IntentService {
                                 .getStringSet(Constants.PREF_FCM_CHANNELS, DEFAULT_CHANNELS_SET);
                         fcmRegistration.setChannels(new ArrayList<>(channels));
 
-                        if (ACTION_REGISTER_NEW.equals(action)) {
+                        if (ACTION_REGISTER_OR_UPDATE.equals(action)) {
                             Response<FcmRegistration> response =
                                     MarshalServiceProvider.getInstance(apiToken).fcmRegisterNewDevice(fcmRegistration).execute();
-                            publishResult(response.isSuccessful(), false);
-                        } else if (ACTION_REGISTER_EXIST.equals(action)) {
-                            Response<FcmRegistration> response =
-                                    MarshalServiceProvider.getInstance(apiToken).fcmRegisterExistDevice(fcmRegistration).execute();
                             publishResult(response.isSuccessful(), false);
                         } else if (ACTION_UPDATE_CHANNELS.equals(action)) {
                             Set<String> newChannels = null;
@@ -86,7 +81,7 @@ public class FcmRegistrationService extends IntentService {
                             if (newChannels != null) {
                                 fcmRegistration.setChannels(new ArrayList<>(newChannels));
                                 Response<FcmRegistration> response =
-                                        MarshalServiceProvider.getInstance(apiToken).fcmRegisterExistDevice(fcmRegistration).execute();
+                                        MarshalServiceProvider.getInstance(apiToken).fcmRegisterNewDevice(fcmRegistration).execute();
                                 if (response.isSuccessful()) {
                                     PreferenceManager.getDefaultSharedPreferences(this).edit()
                                             .putStringSet(Constants.PREF_FCM_CHANNELS, newChannels).apply();
