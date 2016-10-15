@@ -409,9 +409,7 @@ public class CourseActivity extends BaseActivity {
                         tempRating.setCreatedAt(new Date());
                         tempRating.setLastModified(new Date());
 
-                        if (!ReviewActivity.active) {
-                            startReviewActivity(false, tempRating);
-                        }
+                        startReviewActivity(false, tempRating);
                     } else {
                         if (ratingBar.getRating() != 0) {
                             Toast.makeText(CourseActivity.this, R.string.please_log_in, Toast.LENGTH_SHORT).show();
@@ -597,6 +595,7 @@ public class CourseActivity extends BaseActivity {
 
     private void startReviewActivity(boolean isEditMode, Rating rating) {
         Intent intent = new Intent(CourseActivity.this, ReviewActivity.class);
+        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra(Constants.EXTRA_COURSE, mCourse);
         intent.putExtra(Constants.EXTRA_CONTENT_COLOR, contentColor);
         intent.putExtra(Constants.EXTRA_USER_RATING, rating);
