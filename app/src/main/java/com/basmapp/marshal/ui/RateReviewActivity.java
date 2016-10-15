@@ -33,7 +33,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class ReviewActivity extends AppCompatActivity {
+public class RateReviewActivity extends AppCompatActivity {
 
     public static final int RESULT_POST_SUCCESS = 111;
     public static final int RESULT_PUT_SUCCESS = 121;
@@ -123,7 +123,7 @@ public class ReviewActivity extends AppCompatActivity {
                     // Delete previous composed comment
                     mComposedComment.clear();
                     // Comment Dialog initialization
-                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(ReviewActivity.this);
+                    AlertDialog.Builder alertDialog = new AlertDialog.Builder(RateReviewActivity.this);
                     alertDialog.setTitle(getString(R.string.compose_new_comment));
                     alertDialog.setMultiChoiceItems(R.array.review_comments, null, new DialogInterface.OnMultiChoiceClickListener() {
                         @Override
@@ -176,7 +176,7 @@ public class ReviewActivity extends AppCompatActivity {
                     try {
                         emailHash = HashUtil.SHA(MainActivity.sUserEmailAddress);
 
-                        tempRating = new Rating(ReviewActivity.this);
+                        tempRating = new Rating(RateReviewActivity.this);
                         tempRating.setComment(mInputEditText.getText().toString());
                         tempRating.setRating(mRatingBar.getRating());
                         tempRating.setUserMailAddress(emailHash);
@@ -205,7 +205,7 @@ public class ReviewActivity extends AppCompatActivity {
                 public void onClick(View v) {
 
                     if (mUserRating != null) {
-                        Rating tempRating = new Rating(ReviewActivity.this);
+                        Rating tempRating = new Rating(RateReviewActivity.this);
                         tempRating.setId(mUserRating.getId());
                         tempRating.setCourseID(mUserRating.getCourseID());
                         tempRating.setCreatedAt(mUserRating.getCreatedAt());
@@ -227,7 +227,7 @@ public class ReviewActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     if (mUserRating != null) {
-                        Rating tempRating = new Rating(ReviewActivity.this);
+                        Rating tempRating = new Rating(RateReviewActivity.this);
                         tempRating.setId(mUserRating.getId());
                         tempRating.setCourseID(mUserRating.getCourseID());
                         tempRating.setCreatedAt(mUserRating.getCreatedAt());

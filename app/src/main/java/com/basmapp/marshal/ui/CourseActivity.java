@@ -594,7 +594,7 @@ public class CourseActivity extends BaseActivity {
     }
 
     private void startReviewActivity(boolean isEditMode, Rating rating) {
-        Intent intent = new Intent(CourseActivity.this, ReviewActivity.class);
+        Intent intent = new Intent(CourseActivity.this, RateReviewActivity.class);
         intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
         intent.putExtra(Constants.EXTRA_COURSE, mCourse);
         intent.putExtra(Constants.EXTRA_CONTENT_COLOR, contentColor);
@@ -605,9 +605,9 @@ public class CourseActivity extends BaseActivity {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == ReviewActivity.RESULT_CANCELED) {
+        if (resultCode == RateReviewActivity.RESULT_CANCELED) {
             mRatingBarUser.setRating(0);
-        } else if (resultCode == ReviewActivity.RESULT_POST_SUCCESS) {
+        } else if (resultCode == RateReviewActivity.RESULT_POST_SUCCESS) {
             Rating tempRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
             mUserRating = new Rating(CourseActivity.this, tempRating);
 
@@ -635,24 +635,24 @@ public class CourseActivity extends BaseActivity {
             mTextViewReviewText.setText(mUserRating.getComment());
             showRatingChanges();
             Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
-        } else if (resultCode == ReviewActivity.RESULT_PUT_SUCCESS) {
+        } else if (resultCode == RateReviewActivity.RESULT_PUT_SUCCESS) {
             Rating tempRating = data.getParcelableExtra(Constants.EXTRA_USER_RATING);
             mUserRating.setComment(tempRating.getComment());
             mUserRating.setRating(tempRating.getRating());
 
             mTextViewReviewText.setVisibility(View.VISIBLE);
             showRatingChanges();
-        } else if (resultCode == ReviewActivity.RESULT_DELETE_SUCCESS) {
+        } else if (resultCode == RateReviewActivity.RESULT_DELETE_SUCCESS) {
             initializeRatingViews();
             showRatingChanges();
-        } else if (resultCode == ReviewActivity.RESULT_POST_FAILED) {
+        } else if (resultCode == RateReviewActivity.RESULT_POST_FAILED) {
             mRatingBarUser.setOnRatingBarChangeListener(null);
             mRatingBarUser.setRating(0);
             mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
             Toast.makeText(CourseActivity.this, R.string.review_create_error, Toast.LENGTH_LONG).show();
-        } else if (resultCode == ReviewActivity.RESULT_PUT_FAILED) {
+        } else if (resultCode == RateReviewActivity.RESULT_PUT_FAILED) {
             Toast.makeText(CourseActivity.this, R.string.review_save_retry, Toast.LENGTH_LONG).show();
-        } else if (resultCode == ReviewActivity.RESULT_DELETE_FAILED) {
+        } else if (resultCode == RateReviewActivity.RESULT_DELETE_FAILED) {
             Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
         }
 

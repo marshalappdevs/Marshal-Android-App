@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
     android:layout_margin="32dp"
-    tools:context="com.basmapp.marshal.ui.ReviewActivity"
+    tools:context="com.basmapp.marshal.ui.RateReviewActivity"
     android:background="@color/amber_accent_color">
 
 

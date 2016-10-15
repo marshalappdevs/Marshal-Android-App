@@ -3,7 +3,6 @@ package com.basmapp.marshal.ui;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
-import android.database.Cursor;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -11,7 +10,6 @@ import android.app.SearchManager;
 import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
-import android.provider.SearchRecentSuggestions;
 import android.support.annotation.NonNull;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
@@ -190,27 +188,6 @@ public class SearchActivity extends BaseActivity {
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
 
-        // Workaround to set query on suggestion click
-        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
-            @Override
-            public boolean onSuggestionClick(int position) {
-                String suggestion = getSuggestion(position);
-                mSearchView.setQuery(suggestion, true);
-                mSearchView.clearFocus();
-                return true;
-            }
-
-            private String getSuggestion(int position) {
-                Cursor cursor = (Cursor) mSearchView.getSuggestionsAdapter().getItem(position);
-                return cursor.getString(cursor.getColumnIndex(SearchManager.SUGGEST_COLUMN_TEXT_1));
-            }
-
-            @Override
-            public boolean onSuggestionSelect(int position) {
-                return false;
-            }
-        });
-
         // Close activity when collapsing SearchView
         MenuItemCompat.setOnActionExpandListener(searchItem,
                 new MenuItemCompat.OnActionExpandListener() {
@@ -276,9 +253,7 @@ public class SearchActivity extends BaseActivity {
                 mSearchView.clearFocus();
             }
             filter(mSearchQuery);
-            SearchRecentSuggestions suggestions = new SearchRecentSuggestions(SearchActivity.this,
-                    SuggestionProvider.AUTHORITY, SuggestionProvider.MODE);
-            suggestions.saveRecentQuery(intent.getStringExtra(QUERY), null);
+            SuggestionProvider.save(this, mSearchQuery);
         }
     }
 

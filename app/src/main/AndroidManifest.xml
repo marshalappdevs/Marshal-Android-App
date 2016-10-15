@@ -118,7 +118,7 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
-            android:name=".ui.ReviewActivity"
+            android:name=".ui.RateReviewActivity"
             android:label="@string/review_dialog_title"
             android:theme="@style/RateReviewTheme"
             android:windowSoftInputMode="adjustPan|stateUnchanged" />
