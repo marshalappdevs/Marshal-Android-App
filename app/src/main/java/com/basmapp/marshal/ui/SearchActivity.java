@@ -11,6 +11,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatDelegate;
@@ -25,8 +26,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TabHost;
@@ -73,12 +74,11 @@ public class SearchActivity extends BaseActivity {
     private Dialog mFilterDialog;
     private String mSearchQuery;
     private TextView mNoResults;
-    private String mStartDate;
-    private String mEndDate;
+    private static String mStartDate;
+    private static String mEndDate;
     private boolean isEmptyResult = false;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
-    private SimpleDateFormat mSimpleDateFormat;
 
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
     private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
@@ -230,7 +230,8 @@ public class SearchActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.m_filter:
                 if (!isEmptyResult) {
-                    showFilterByDateDialog();
+                    new FilterByDateDialogFragment().show(getSupportFragmentManager(),
+                            Constants.DIALOG_FRAGMENT_FILTER_BY_DATE);
                 } else {
                     Toast.makeText(this, R.string.filter_not_available,
                             Toast.LENGTH_SHORT).show();
@@ -297,116 +298,133 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    public void showFilterByDateDialog() {
-        mFilterDialog = new Dialog(this);
-        mFilterDialog.getWindow().setLayout(WindowManager.LayoutParams.MATCH_PARENT,
-                WindowManager.LayoutParams.WRAP_CONTENT);
-        mFilterDialog.getWindow().requestFeature(Window.FEATURE_NO_TITLE);
-        LayoutInflater layoutInflater = LayoutInflater.from(this);
-        View dateRangeView = layoutInflater.inflate(R.layout.date_range_picker, null);
-        mFilterDialog.setContentView(dateRangeView);
-        TabHost tabHost = (TabHost) dateRangeView.findViewById(R.id.tabHost);
+    public static class FilterByDateDialogFragment extends DialogFragment {
+        private SimpleDateFormat mSimpleDateFormat;
 
-        DatePicker startDate = (DatePicker) dateRangeView.findViewById(R.id.start_date_picker);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            //noinspection deprecation
-            startDate.setCalendarViewShown(false);
-        }
-        final DatePicker endDate = (DatePicker) dateRangeView.findViewById(R.id.end_date_picker);
-        if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-            //noinspection deprecation
-            endDate.setCalendarViewShown(false);
-        }
+        @Override
+        public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                                 Bundle savedInstanceState) {
+            // Inflate the layout to use as dialog or embedded fragment
+            View rootView = inflater.inflate(R.layout.date_range_picker, container, false);
 
-        mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
+            TabHost tabHost = (TabHost) rootView.findViewById(R.id.tabHost);
+
+            DatePicker startDate = (DatePicker) rootView.findViewById(R.id.start_date_picker);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                //noinspection deprecation
+                startDate.setCalendarViewShown(false);
+            }
+            final DatePicker endDate = (DatePicker) rootView.findViewById(R.id.end_date_picker);
+            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
+                //noinspection deprecation
+                endDate.setCalendarViewShown(false);
+            }
+
+            mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
 //         Set end date a month later from now
-        Calendar now = Calendar.getInstance();
-        now.add(Calendar.MONTH, 1);
-        mEndDate = (mSimpleDateFormat.format(now.getTime()));
-        endDate.updateDate(endDate.getYear(), endDate.getMonth() + 1, endDate.getDayOfMonth());
-        endDate.setMinDate(System.currentTimeMillis() - 1000);
-        endDate.init(
-                endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
-                new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        mEndDate = (mSimpleDateFormat.format(calendar.getTime()));
-                    }
-                });
+            Calendar now = Calendar.getInstance();
+            now.add(Calendar.MONTH, 1);
+            mEndDate = (mSimpleDateFormat.format(now.getTime()));
+            endDate.updateDate(endDate.getYear(), endDate.getMonth() + 1, endDate.getDayOfMonth());
+            endDate.setMinDate(System.currentTimeMillis() - 1000);
+            endDate.init(
+                    endDate.getYear(), endDate.getMonth(), endDate.getDayOfMonth(),
+                    new DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            mEndDate = (mSimpleDateFormat.format(calendar.getTime()));
+                        }
+                    });
 
-        mStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
-        startDate.setMinDate(System.currentTimeMillis() - 1000);
-        startDate.init(
-                startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),
-                new DatePicker.OnDateChangedListener() {
-                    @Override
-                    public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
-                        Calendar calendar = Calendar.getInstance();
-                        calendar.set(year, monthOfYear, dayOfMonth);
-                        calendar.set(Calendar.HOUR_OF_DAY,
-                                calendar.getMinimum(Calendar.HOUR_OF_DAY));
-                        calendar.set(Calendar.MINUTE,
-                                calendar.getMinimum(Calendar.MINUTE));
-                        calendar.set(Calendar.SECOND,
-                                calendar.getMinimum(Calendar.SECOND));
-                        calendar.set(Calendar.MILLISECOND,
-                                calendar.getMinimum(Calendar.MILLISECOND));
-                        // Set twice to workaround this issue https://goo.gl/PV17la
-                        endDate.setMinDate(0);
-                        endDate.setMinDate(calendar.getTimeInMillis());
-                        mStartDate = (mSimpleDateFormat.format(calendar.getTime()));
-                    }
-                });
+            mStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+            startDate.setMinDate(System.currentTimeMillis() - 1000);
+            startDate.init(
+                    startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),
+                    new DatePicker.OnDateChangedListener() {
+                        @Override
+                        public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
+                            Calendar calendar = Calendar.getInstance();
+                            calendar.set(year, monthOfYear, dayOfMonth);
+                            calendar.set(Calendar.HOUR_OF_DAY,
+                                    calendar.getMinimum(Calendar.HOUR_OF_DAY));
+                            calendar.set(Calendar.MINUTE,
+                                    calendar.getMinimum(Calendar.MINUTE));
+                            calendar.set(Calendar.SECOND,
+                                    calendar.getMinimum(Calendar.SECOND));
+                            calendar.set(Calendar.MILLISECOND,
+                                    calendar.getMinimum(Calendar.MILLISECOND));
+                            // Set twice to workaround this issue https://goo.gl/PV17la
+                            endDate.setMinDate(0);
+                            endDate.setMinDate(calendar.getTimeInMillis());
+                            mStartDate = (mSimpleDateFormat.format(calendar.getTime()));
+                        }
+                    });
 
-        Button filter = (Button) dateRangeView.findViewById(R.id.filter);
-        Button clear = (Button) dateRangeView.findViewById(R.id.clear);
+            Button filter = (Button) rootView.findViewById(R.id.filter);
+            Button clear = (Button) rootView.findViewById(R.id.clear);
 
-        filter.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                if (mStartDate != null && mEndDate != null) {
-                    filterByDatesRange(mStartDate, mEndDate);
-                    // Save filter dates only after submit
-                    mPreviousStartDate = mStartDate;
-                    mPreviousEndDate = mEndDate;
-                    mFilterDialog.dismiss();
+            filter.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((SearchActivity) getActivity()).doPositiveClick();
+                    getDialog().dismiss();
                 }
-            }
-        });
+            });
 
-        clear.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                String query;
-                if (mSearchView.getQuery() != null) {
-                    query = mSearchView.getQuery().toString();
-                } else {
-                    query = "";
+            clear.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    ((SearchActivity) getActivity()).doNegativeClick();
+                    getDialog().dismiss();
                 }
-                if (mFilteredCourseList != null) {
-                    showResults(query, mFilteredCourseList, true);
-                }
-                mFilterDialog.dismiss();
-                mStartDate = mPreviousStartDate = mEndDate = mPreviousEndDate = null;
-            }
-        });
+            });
 
-        tabHost.findViewById(R.id.tabHost);
-        tabHost.setup();
-        TabHost.TabSpec startDatePage = tabHost.newTabSpec("start");
-        startDatePage.setContent(R.id.start_date_group);
-        startDatePage.setIndicator(getString(R.string.start_date));
+            tabHost.findViewById(R.id.tabHost);
+            tabHost.setup();
+            TabHost.TabSpec startDatePage = tabHost.newTabSpec("start");
+            startDatePage.setContent(R.id.start_date_group);
+            startDatePage.setIndicator(getString(R.string.start_date));
 
-        TabHost.TabSpec endDatePage = tabHost.newTabSpec("end");
-        endDatePage.setContent(R.id.end_date_group);
-        endDatePage.setIndicator(getString(R.string.end_date));
+            TabHost.TabSpec endDatePage = tabHost.newTabSpec("end");
+            endDatePage.setContent(R.id.end_date_group);
+            endDatePage.setIndicator(getString(R.string.end_date));
 
-        tabHost.addTab(startDatePage);
-        tabHost.addTab(endDatePage);
-        mFilterDialog.show();
+            tabHost.addTab(startDatePage);
+            tabHost.addTab(endDatePage);
+
+            return rootView;
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            Dialog dialog = super.onCreateDialog(savedInstanceState);
+            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+            return dialog;
+        }
+    }
+
+
+    public void doPositiveClick() {
+        // Do stuff here.
+        if (mStartDate != null && mEndDate != null) {
+            filterByDatesRange(mStartDate, mEndDate);
+            // Save filter dates only after submit
+            mPreviousStartDate = mStartDate;
+            mPreviousEndDate = mEndDate;
+        }
+    }
+
+    public void doNegativeClick() {
+        // Do stuff here.
+        String query = mSearchView.getQuery() == null ? "" : mSearchView.getQuery().toString();
+        if (mFilteredCourseList != null) {
+            showResults(query, mFilteredCourseList, true);
+        }
+        mStartDate = mPreviousStartDate = mEndDate = mPreviousEndDate = null;
     }
 
     private void filterByDatesRange(String sStartDate, String sEndDate) {
