@@ -46,7 +46,7 @@ public class SubscriptionsFragment extends Fragment {
     private ArrayList<Course> mSubscriptionsList;
     private String mFilterText;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
-    private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
+    private static final String SUBSCRIPTIONS_PREVIOUS_QUERY = "SUBSCRIPTIONS_PREVIOUS_QUERY";
     private String mPreviousQuery;
 
     @Override
@@ -174,7 +174,7 @@ public class SubscriptionsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         // Save SearchView query if possible
         if (mSearchView != null) {
-            outState.putString(MATERIALS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+            outState.putString(SUBSCRIPTIONS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
     }
 
@@ -183,7 +183,7 @@ public class SubscriptionsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             // Restore previous SearchView query
-            mPreviousQuery = savedInstanceState.getString(MATERIALS_PREVIOUS_QUERY);
+            mPreviousQuery = savedInstanceState.getString(SUBSCRIPTIONS_PREVIOUS_QUERY);
         }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
