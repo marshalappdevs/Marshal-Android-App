@@ -373,7 +373,7 @@ public class MainActivity extends BaseActivity
     private void checkFcmRegistrationState() {
         if (!FcmRegistrationService.isDeviceRegistered(this)) {
             Intent intent = new Intent(this, FcmRegistrationService.class);
-            intent.setAction(FcmRegistrationService.ACTION_REGISTER_NEW);
+            intent.setAction(FcmRegistrationService.ACTION_REGISTER_OR_UPDATE);
             startService(intent);
         }
     }

@@ -18,7 +18,7 @@ public class FcmIDListenerService extends FirebaseInstanceIdService {
     public void onTokenRefresh() {
         FcmRegistrationService.setDeviceRegistrationState(this, false);
         Intent intent = new Intent(this, FcmRegistrationService.class);
-        intent.setAction(FcmRegistrationService.ACTION_REGISTER_EXIST);
+        intent.setAction(FcmRegistrationService.ACTION_REGISTER_OR_UPDATE);
         startService(intent);
     }
 
