@@ -71,7 +71,6 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<Course> mCoursesList;
     private ArrayList<Course> mFilteredCourseList;
 
-    private Dialog mFilterDialog;
     private String mSearchQuery;
     private TextView mNoResults;
     private static String mStartDate;
@@ -83,8 +82,10 @@ public class SearchActivity extends BaseActivity {
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
     private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
     private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
-    private String mPreviousStartDate;
-    private String mPreviousEndDate;
+    private static final String FILTER_PREVIOUS_START_DATE_FINAL = "FILTER_PREVIOUS_START_DATE_FINAL";
+    private static final String FILTER_PREVIOUS_END_DATE_FINAL = "FILTER_PREVIOUS_END_DATE_FINAL";
+    private String mFinalStartDate;
+    private String mFinalEndDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -156,9 +157,14 @@ public class SearchActivity extends BaseActivity {
             outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
         // Save filtered dates if available
-        if (mPreviousStartDate != null && mPreviousEndDate != null) {
-            outState.putString(FILTER_PREVIOUS_START_DATE, mPreviousStartDate);
-            outState.putString(FILTER_PREVIOUS_END_DATE, mPreviousEndDate);
+        if (mStartDate != null && mEndDate != null) {
+            outState.putString(FILTER_PREVIOUS_START_DATE, mStartDate);
+            outState.putString(FILTER_PREVIOUS_END_DATE, mEndDate);
+        }
+        // Save final filtered dates if available
+        if (mFinalStartDate != null && mFinalEndDate != null) {
+            outState.putString(FILTER_PREVIOUS_START_DATE_FINAL, mFinalStartDate);
+            outState.putString(FILTER_PREVIOUS_END_DATE_FINAL, mFinalEndDate);
         }
     }
 
@@ -169,8 +175,11 @@ public class SearchActivity extends BaseActivity {
         // Restore previous SearchView query
         mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
         // Restore previous filter dates
-        mStartDate = mPreviousStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
-        mEndDate = mPreviousEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
+        mStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
+        mEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
+        // Restore previous final filter dates
+        mFinalStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE_FINAL);
+        mFinalEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE_FINAL);
     }
 
     @Override
@@ -215,8 +224,8 @@ public class SearchActivity extends BaseActivity {
         mSearchView.clearFocus();
 
         // Show filtered search if dates are available (from saved instance for example)
-        if (mStartDate != null && mEndDate != null) {
-            filterByDatesRange(mStartDate, mEndDate);
+        if (mFinalStartDate != null && mFinalEndDate != null) {
+            filterByDatesRange(mFinalStartDate, mFinalEndDate);
         }
 
         // Show target prompt for filter
@@ -412,9 +421,9 @@ public class SearchActivity extends BaseActivity {
         // Do stuff here.
         if (mStartDate != null && mEndDate != null) {
             filterByDatesRange(mStartDate, mEndDate);
-            // Save filter dates only after submit
-            mPreviousStartDate = mStartDate;
-            mPreviousEndDate = mEndDate;
+            // Save final filter dates only after submit
+            mFinalStartDate = mStartDate;
+            mFinalEndDate = mEndDate;
         }
     }
 
@@ -424,7 +433,7 @@ public class SearchActivity extends BaseActivity {
         if (mFilteredCourseList != null) {
             showResults(query, mFilteredCourseList, true);
         }
-        mStartDate = mPreviousStartDate = mEndDate = mPreviousEndDate = null;
+        mStartDate = mFinalStartDate = mEndDate = mFinalEndDate = null;
     }
 
     private void filterByDatesRange(String sStartDate, String sEndDate) {
