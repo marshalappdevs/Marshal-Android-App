@@ -285,6 +285,11 @@ public class CoursesFragment extends Fragment {
         MainActivity.sLastCoursesViewPagerIndex = mViewPager.getCurrentItem();
         // stop auto scroll when onPause
         mViewPager.stopAutoScroll();
+        // Collapse search view after exiting fragment if there is no query
+        if (mSearchView != null && mSearchView.getQuery().toString().isEmpty()) {
+            if (mSearchItem != null)
+                mSearchItem.collapseActionView();
+        }
     }
 
     @Override
@@ -599,6 +604,20 @@ public class CoursesFragment extends Fragment {
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(
                 getActivity().getComponentName()));
         mSearchView.setQueryRefinementEnabled(true);
+
+        // Collapse search view after text submit
+        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+            @Override
+            public boolean onQueryTextSubmit(String query) {
+                mSearchItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onQueryTextChange(String newText) {
+                return false;
+            }
+        });
 
         // Collapse search view and close keyboard together
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {

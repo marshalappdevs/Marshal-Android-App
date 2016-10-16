@@ -263,7 +263,8 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void showFilterTargetPrompt() {
-        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.SHOW_FILTER_TAP_TARGET, true)) {
+        if (PreferenceManager.getDefaultSharedPreferences(this).getBoolean(
+                Constants.SHOW_FILTER_TAP_TARGET, true) && !isEmptyResult) {
             Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
             mFilterPrompt = new MaterialTapTargetPrompt.Builder(this)
                     .setTarget(toolbar.getChildAt(0))
