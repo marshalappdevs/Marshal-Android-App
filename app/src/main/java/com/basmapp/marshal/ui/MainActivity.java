@@ -318,28 +318,10 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 releaseAllDataLists();
-
                 // Show out animation and dismiss button
                 animateNewUpdatesButton(View.INVISIBLE);
-                // Restart app fragments to show new data
-                mCourseFragment = new CoursesFragment();
-                mMaterialsFragment = new MaterialsFragment();
-                mMalshabFragment = new MalshabFragment();
-                mMeetupsFragment = new MeetupsFragment();
-                mSubscriptionsFragment = new SubscriptionsFragment();
-
-                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.content_frame);
-                if (currentFragment instanceof CoursesFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
-                } else if (currentFragment instanceof MaterialsFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
-                } else if (currentFragment instanceof MalshabFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
-                } else if (currentFragment instanceof MeetupsFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
-                } else if (currentFragment instanceof SubscriptionsFragment) {
-                    getSupportFragmentManager().beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
-                }
+                // Recreate activity to show new data
+                recreate();
             }
         });
     }
@@ -926,7 +908,6 @@ public class MainActivity extends BaseActivity
                 mCourseFragment = new CoursesFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
-            setTitle(item.getTitle());
 //            setBadge(item.getItemId());
         } else if (id == R.id.nav_subscriptions) {
             if (mSubscriptionsFragment == null) {
