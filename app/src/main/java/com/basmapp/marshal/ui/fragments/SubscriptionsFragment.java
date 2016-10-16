@@ -46,6 +46,8 @@ public class SubscriptionsFragment extends Fragment {
     private ArrayList<Course> mSubscriptionsList;
     private String mFilterText;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
+    private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
+    private String mPreviousQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -168,8 +170,21 @@ public class SubscriptionsFragment extends Fragment {
     }
 
     @Override
+    public void onSaveInstanceState(Bundle outState) {
+        super.onSaveInstanceState(outState);
+        // Save SearchView query if possible
+        if (mSearchView != null) {
+            outState.putString(MATERIALS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+        }
+    }
+
+    @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        if (savedInstanceState != null) {
+            // Restore previous SearchView query
+            mPreviousQuery = savedInstanceState.getString(MATERIALS_PREVIOUS_QUERY);
+        }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {
             mRecycler.setAdapter(mAdapter);
@@ -213,6 +228,11 @@ public class SubscriptionsFragment extends Fragment {
                         return true; // Return true to expand action view
                     }
                 });
+        if (mPreviousQuery != null && !mPreviousQuery.isEmpty()) {
+            search(mPreviousQuery);
+            filter(mPreviousQuery);
+            mSearchView.clearFocus();
+        }
     }
 
     private void filter(String filterText) {
@@ -232,6 +252,13 @@ public class SubscriptionsFragment extends Fragment {
             }
         }
         showResults(filterText, mFilteredCourseList, false);
+    }
+
+    public void search(String query) {
+        if (mSearchView != null && mSearchItem != null) {
+            MenuItemCompat.expandActionView(mSearchItem);
+            mSearchView.setQuery(query, true);
+        }
     }
 
     private void showResults(String query, ArrayList<Course> listToShow, boolean filter) {
