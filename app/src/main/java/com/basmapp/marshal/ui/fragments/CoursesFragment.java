@@ -598,6 +598,7 @@ public class CoursesFragment extends Fragment {
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(
                 getActivity().getComponentName()));
+        mSearchView.setQueryRefinementEnabled(true);
 
         // Collapse search view and close keyboard together
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {

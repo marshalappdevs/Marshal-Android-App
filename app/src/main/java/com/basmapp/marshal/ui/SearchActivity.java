@@ -188,6 +188,7 @@ public class SearchActivity extends BaseActivity {
         MenuItemCompat.expandActionView(searchItem);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setQueryRefinementEnabled(true);
 
         // Close activity when collapsing SearchView
         MenuItemCompat.setOnActionExpandListener(searchItem,
