@@ -54,29 +54,28 @@
 
             <LinearLayout
                 android:id="@+id/button_bar"
+                style="?attr/buttonBarStyle"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal">
+                android:gravity="end"
+                android:orientation="horizontal"
+                android:paddingBottom="8dp"
+                android:paddingEnd="12dp"
+                android:paddingStart="12dp"
+                android:paddingTop="8dp">
 
                 <Button
                     android:id="@+id/clear"
                     style="?attr/buttonBarNegativeButtonStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:lines="1"
                     android:text="@string/action_clear" />
 
                 <Button
                     android:id="@+id/filter"
                     style="?attr/buttonBarPositiveButtonStyle"
-                    android:layout_width="0dp"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:gravity="center"
-                    android:lines="1"
                     android:text="@string/action_filter" />
             </LinearLayout>
         </LinearLayout>
