@@ -20,6 +20,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
+import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
@@ -651,7 +652,6 @@ public class MainActivity extends BaseActivity
 
     private void signOut() {
         // SignOut from Google account *without* revoking app permission to SignIn
-//        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
         Auth.GoogleSignInApi.signOut(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -665,7 +665,6 @@ public class MainActivity extends BaseActivity
 
     private void revokeAccess() {
         // SignOut from Google account and revoke app permission to SignIn
-//        Plus.AccountApi.clearDefaultAccount(mGoogleApiClient);
         Auth.GoogleSignInApi.revokeAccess(mGoogleApiClient).setResultCallback(
                 new ResultCallback<Status>() {
                     @Override
@@ -753,31 +752,45 @@ public class MainActivity extends BaseActivity
         if (signedIn && mGoogleApiClient.isConnected()) {
             // Google account is connected, show logout alert dialog
             mDrawerLayout.closeDrawer(GravityCompat.START);
-            new AlertDialog.Builder(this)
-                    .setMessage(R.string.sign_out_confirm)
-                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                            signOut();
-                            sUserEmailAddress = null;
-                            sUserName = null;
-                            sUserProfileImage = null;
-                            recreate();
-                        }
-                    })
-                    .setNegativeButton(R.string.no, new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            dialog.dismiss();
-                        }
-                    })
-                    .show();
+            new GoogleSignOutDialog().show(getSupportFragmentManager(),
+                    Constants.DIALOG_FRAGMENT_GOOGLE_SIGN_OUT);
         } else {
             // Google account is disconnected, initialize Google SignIn
             mDrawerLayout.closeDrawer(GravityCompat.START);
             signIn();
         }
+    }
+
+    public static class GoogleSignOutDialog extends DialogFragment {
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            return new AlertDialog.Builder(getActivity())
+                    .setMessage(R.string.sign_out_confirm)
+                    .setPositiveButton(R.string.yes,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    getDialog().dismiss();
+                                    ((MainActivity) getActivity()).doSignOut();
+                                }
+                            }
+                    )
+                    .setNegativeButton(R.string.no,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    getDialog().dismiss();
+                                }
+                            }
+                    )
+                    .create();
+        }
+    }
+
+    public void doSignOut() {
+        signOut();
+        sUserEmailAddress = sUserName = null;
+        sUserProfileImage = null;
+        recreate();
     }
 
     @Override

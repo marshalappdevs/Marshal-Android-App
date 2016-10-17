@@ -378,16 +378,16 @@ public class SearchActivity extends BaseActivity {
             filter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((SearchActivity) getActivity()).filter();
                     getDialog().dismiss();
+                    ((SearchActivity) getActivity()).filter();
                 }
             });
 
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((SearchActivity) getActivity()).clear();
                     getDialog().dismiss();
+                    ((SearchActivity) getActivity()).clear();
                 }
             });
 
