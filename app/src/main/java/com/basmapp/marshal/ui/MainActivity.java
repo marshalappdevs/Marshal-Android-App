@@ -213,6 +213,12 @@ public class MainActivity extends BaseActivity
                 if (mSearchItem != null)
                     mSearchItem.collapseActionView();
             }
+
+            /** Called when a drawer's position changes. */
+            @Override
+            public void onDrawerSlide(View drawerView, float slideOffset) {
+                super.onDrawerSlide(drawerView, 0); // this disables the hamburger animation
+            }
         };
 
         mDrawerLayout.addDrawerListener(mDrawerToggle);

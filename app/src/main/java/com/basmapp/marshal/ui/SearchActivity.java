@@ -73,8 +73,7 @@ public class SearchActivity extends BaseActivity {
 
     private String mSearchQuery;
     private TextView mNoResults;
-    private static String mStartDate;
-    private static String mEndDate;
+    private static String mStartDate, mEndDate;
     private boolean isEmptyResult = false;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
@@ -84,8 +83,7 @@ public class SearchActivity extends BaseActivity {
     private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
     private static final String FILTER_PREVIOUS_START_DATE_FINAL = "FILTER_PREVIOUS_START_DATE_FINAL";
     private static final String FILTER_PREVIOUS_END_DATE_FINAL = "FILTER_PREVIOUS_END_DATE_FINAL";
-    private String mFinalStartDate;
-    private String mFinalEndDate;
+    private String mFinalStartDate, mFinalEndDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
