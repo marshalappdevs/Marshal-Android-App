@@ -378,7 +378,7 @@ public class SearchActivity extends BaseActivity {
             filter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((SearchActivity) getActivity()).doPositiveClick();
+                    ((SearchActivity) getActivity()).filter();
                     getDialog().dismiss();
                 }
             });
@@ -386,7 +386,7 @@ public class SearchActivity extends BaseActivity {
             clear.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    ((SearchActivity) getActivity()).doNegativeClick();
+                    ((SearchActivity) getActivity()).clear();
                     getDialog().dismiss();
                 }
             });
@@ -417,8 +417,7 @@ public class SearchActivity extends BaseActivity {
     }
 
 
-    public void doPositiveClick() {
-        // Do stuff here.
+    public void filter() {
         if (mStartDate != null && mEndDate != null) {
             filterByDatesRange(mStartDate, mEndDate);
             // Save final filter dates only after submit
@@ -427,8 +426,7 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    public void doNegativeClick() {
-        // Do stuff here.
+    public void clear() {
         String query = mSearchView.getQuery() == null ? "" : mSearchView.getQuery().toString();
         if (mFilteredCourseList != null) {
             showResults(query, mFilteredCourseList, true);
