@@ -59,7 +59,8 @@
             android:name=".ui.SearchActivity"
             android:label="@string/search_title"
             android:launchMode="singleTop"
-            android:parentActivityName=".ui.MainActivity">
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
@@ -73,7 +74,7 @@
         <activity
             android:name=".ui.ShowAllCoursesActivity"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.Base.Blue">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
@@ -82,7 +83,7 @@
             android:name=".ui.SettingsActivity"
             android:label="@string/navigation_drawer_settings"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.Base.Blue">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.APPLICATION_PREFERENCES" />
 
@@ -97,7 +98,7 @@
             android:name=".ui.DescribeProblemActivity"
             android:label="@string/mail_subject"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.Base.Blue"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar"
             android:windowSoftInputMode="adjustResize|stateHidden">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -107,7 +108,7 @@
             android:name=".ui.AboutActivity"
             android:label="@string/navigation_drawer_about"
             android:parentActivityName=".ui.MainActivity"
-            android:theme="@style/AppTheme.Base.Blue">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
@@ -129,7 +130,7 @@
         <activity
             android:name=".ui.CourseMaterialsActivity"
             android:parentActivityName=".ui.CourseActivity"
-            android:theme="@style/AppTheme.Base.Blue">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.CourseActivity" />
@@ -138,7 +139,7 @@
             android:name=".ui.RatingsActivity"
             android:label="@string/all_reviews"
             android:parentActivityName=".ui.CourseActivity"
-            android:theme="@style/AppTheme.Base.Blue">
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.CourseActivity" />

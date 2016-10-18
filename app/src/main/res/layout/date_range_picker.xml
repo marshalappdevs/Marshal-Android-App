@@ -26,29 +26,43 @@
                 android:layout_height="0dp"
                 android:layout_weight="1">
 
-                <LinearLayout
-                    android:id="@+id/start_date_group"
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:overScrollMode="never">
 
-                    <DatePicker
-                        android:id="@+id/start_date_picker"
+                    <LinearLayout
+                        android:id="@+id/start_date_group"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                <LinearLayout
-                    android:id="@+id/end_date_group"
+                        <DatePicker
+                            android:id="@+id/start_date_picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </ScrollView>
+
+                <ScrollView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:orientation="vertical">
+                    android:overScrollMode="never">
 
-                    <DatePicker
-                        android:id="@+id/end_date_picker"
+                    <LinearLayout
+                        android:id="@+id/end_date_group"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
-                </LinearLayout>
+                        android:layout_height="wrap_content"
+                        android:gravity="center"
+                        android:orientation="vertical">
+
+                        <DatePicker
+                            android:id="@+id/end_date_picker"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content" />
+                    </LinearLayout>
+                </ScrollView>
 
             </FrameLayout>
 

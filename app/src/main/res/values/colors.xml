@@ -131,4 +131,5 @@
     <color name="bottom_sheet_background">@android:color/white</color>
     <color name="fab_icon_color">#FFFFFF</color>
     <color name="background_material_color">#FAFAFA</color>
+    <color name="drawer_tint_color_dark">#ff757575</color>
 </resources>
