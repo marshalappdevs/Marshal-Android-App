@@ -2,8 +2,8 @@ package com.basmapp.marshal.ui;
 
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
+import android.content.DialogInterface;
 import android.content.IntentFilter;
-import android.os.Build;
 import android.os.Bundle;
 
 import android.app.SearchManager;
@@ -14,6 +14,7 @@ import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,9 +27,6 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewGroup;
-import android.view.Window;
-import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.TabHost;
 import android.widget.TextView;
@@ -308,24 +306,16 @@ public class SearchActivity extends BaseActivity {
     public static class FilterByDateDialogFragment extends DialogFragment {
         private SimpleDateFormat mSimpleDateFormat;
 
+        @NonNull
         @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            // Inflate the layout to use as dialog or embedded fragment
-            View rootView = inflater.inflate(R.layout.date_range_picker, container, false);
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View rootView = layoutInflater.inflate(R.layout.date_range_picker, null);
 
             TabHost tabHost = (TabHost) rootView.findViewById(R.id.tabHost);
 
             DatePicker startDate = (DatePicker) rootView.findViewById(R.id.start_date_picker);
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                //noinspection deprecation
-                startDate.setCalendarViewShown(false);
-            }
             final DatePicker endDate = (DatePicker) rootView.findViewById(R.id.end_date_picker);
-            if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.KITKAT) {
-                //noinspection deprecation
-                endDate.setCalendarViewShown(false);
-            }
 
             mSimpleDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
@@ -370,25 +360,6 @@ public class SearchActivity extends BaseActivity {
                         }
                     });
 
-            Button filter = (Button) rootView.findViewById(R.id.filter);
-            Button clear = (Button) rootView.findViewById(R.id.clear);
-
-            filter.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getDialog().dismiss();
-                    ((SearchActivity) getActivity()).filter();
-                }
-            });
-
-            clear.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    getDialog().dismiss();
-                    ((SearchActivity) getActivity()).clear();
-                }
-            });
-
             tabHost.findViewById(R.id.tabHost);
             tabHost.setup();
             TabHost.TabSpec startDatePage = tabHost.newTabSpec("start");
@@ -402,15 +373,25 @@ public class SearchActivity extends BaseActivity {
             tabHost.addTab(startDatePage);
             tabHost.addTab(endDatePage);
 
-            return rootView;
-        }
-
-        @NonNull
-        @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            Dialog dialog = super.onCreateDialog(savedInstanceState);
-            dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-            return dialog;
+            return new AlertDialog.Builder(getActivity())
+                    .setView(rootView)
+                    .setPositiveButton(R.string.action_filter,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    getDialog().dismiss();
+                                    ((SearchActivity) getActivity()).filter();
+                                }
+                            }
+                    )
+                    .setNegativeButton(R.string.action_clear,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int whichButton) {
+                                    getDialog().dismiss();
+                                    ((SearchActivity) getActivity()).clear();
+                                }
+                            }
+                    )
+                    .create();
         }
     }
 

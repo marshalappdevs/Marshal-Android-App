@@ -101,6 +101,7 @@
     <string name="review_feedback_posted_error">"Couldn't rate comment."</string>
     <string name="no_reviews_error">This course has not been rated yet.</string>
     <string name="edit_review">Edit</string>
+    <string name="rating_and_reviews">Rating and reviews</string>
     <string name="new_updates">New Updates</string>
     <string name="update_error">Something went wrong while trying to update data. Try again later.</string>
     <string name="update_retry">Retry</string>

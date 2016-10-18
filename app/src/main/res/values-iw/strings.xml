@@ -97,6 +97,7 @@
     <string name="review_feedback_posted_error">לא ניתן היה לדרג את התגובה.</string>
     <string name="no_reviews_error">קורס זה עדיין לא דורג.</string>
     <string name="edit_review">ערוך</string>
+    <string name="rating_and_reviews">דירוגים וביקורות</string>
     <string name="new_updates">עדכונים חדשים</string>
     <string name="update_error">משהו השתבש בעת ניסיון לעדכן את הנתונים. נסה שוב מאוחר יותר.</string>
      

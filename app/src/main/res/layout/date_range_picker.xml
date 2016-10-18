@@ -31,7 +31,7 @@
                     android:layout_height="wrap_content"
                     android:overScrollMode="never">
 
-                    <LinearLayout
+                <LinearLayout
                         android:id="@+id/start_date_group"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
@@ -40,8 +40,11 @@
 
                         <DatePicker
                             android:id="@+id/start_date_picker"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:spinnersShown="true"
+                            android:calendarViewShown="false" />
                     </LinearLayout>
                 </ScrollView>
 
@@ -59,39 +62,16 @@
 
                         <DatePicker
                             android:id="@+id/end_date_picker"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content" />
+                            android:layout_gravity="center_horizontal"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:spinnersShown="true"
+                            android:calendarViewShown="false" />
                     </LinearLayout>
                 </ScrollView>
 
             </FrameLayout>
 
-            <LinearLayout
-                android:id="@+id/button_bar"
-                style="?attr/buttonBarStyle"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="end"
-                android:orientation="horizontal"
-                android:paddingBottom="8dp"
-                android:paddingEnd="12dp"
-                android:paddingStart="12dp"
-                android:paddingTop="8dp">
-
-                <Button
-                    android:id="@+id/clear"
-                    style="?attr/buttonBarNegativeButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_clear" />
-
-                <Button
-                    android:id="@+id/filter"
-                    style="?attr/buttonBarPositiveButtonStyle"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/action_filter" />
-            </LinearLayout>
         </LinearLayout>
     </TabHost>
 
