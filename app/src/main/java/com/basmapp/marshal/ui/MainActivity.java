@@ -100,6 +100,7 @@ public class MainActivity extends BaseActivity
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView;
+    private ImageView mProfileSpinner;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
@@ -184,12 +185,33 @@ public class MainActivity extends BaseActivity
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
         mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        mProfileSpinner = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
         mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Login to Google account on navigation view header press
-                        navHeaderClicked();
+                        // Show account options in navigation view
+                        if (mProfileSpinner.getRotation() == 0) {
+                            mProfileSpinner.setRotation(180);
+                            // Hide regular menu
+                            mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
+                            mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
+                            if (signedIn && mGoogleApiClient.isConnected()) {
+                                // Google account is signed in, show sign out option
+                                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(true);
+                                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(false);
+                            } else {
+                                // Google account is not available, show sign in option
+                                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(false);
+                                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(true);
+                            }
+                        } else {
+                            // Show regular menu again
+                            mProfileSpinner.setRotation(0);
+                            mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
+                            mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
+                            mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+                        }
                     }
                 });
 
@@ -205,12 +227,17 @@ public class MainActivity extends BaseActivity
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
+                // Make sure to show regular menu when closed
+                mProfileSpinner.setRotation(0);
+                mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
+                mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
+                mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
-                if (mSearchItem != null)
+                if (mSearchItem != null && mSearchItem.isActionViewExpanded())
                     mSearchItem.collapseActionView();
             }
 
@@ -482,6 +509,11 @@ public class MainActivity extends BaseActivity
         // Cancel no network Snackbar
         if (mNetworkSnackbar != null)
             mNetworkSnackbar.dismiss();
+        // Show regular menu again, workaround for this: goo.gl/o2mKHK
+        mProfileSpinner.setRotation(0);
+        mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
+        mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
+        mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
     }
 
     @Override
@@ -754,19 +786,6 @@ public class MainActivity extends BaseActivity
         return output;
     }
 
-    public void navHeaderClicked() {
-        if (signedIn && mGoogleApiClient.isConnected()) {
-            // Google account is connected, show logout alert dialog
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            new GoogleSignOutDialog().show(getSupportFragmentManager(),
-                    Constants.DIALOG_FRAGMENT_GOOGLE_SIGN_OUT);
-        } else {
-            // Google account is disconnected, initialize Google SignIn
-            mDrawerLayout.closeDrawer(GravityCompat.START);
-            signIn();
-        }
-    }
-
     public static class GoogleSignOutDialog extends DialogFragment {
         @NonNull
         @Override
@@ -973,9 +992,15 @@ public class MainActivity extends BaseActivity
                 overridePendingTransition(R.anim.activity_open_enter,
                         R.anim.activity_open_exit);
             }
+        } else if (id == R.id.account_sign_out) {
+            new GoogleSignOutDialog().show(getSupportFragmentManager(),
+                    Constants.DIALOG_FRAGMENT_GOOGLE_SIGN_OUT);
+        } else if (id == R.id.account_add) {
+            signIn();
         }
         // Set title only to fragments
-        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_about) {
+        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_about
+                && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
             menuItemId = item.getItemId();
             itemTitle = item.getTitle();

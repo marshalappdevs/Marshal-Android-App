@@ -17,6 +17,8 @@
     <string name="navigation_drawer_about">אודות האפליקציה</string>
     <string name="navigation_drawer_profile_sign_in">היכנס</string>
     <string name="navigation_drawer_profile_stranger">שלום אורח!</string>
+    <string name="navigation_drawer_sign_out">צא</string>
+    <string name="navigation_drawer_add_account">הוסף חשבון</string>
     <string name="offline_snackbar_network_unavailable">אין חיבור לאינטרנט</string>
     <string name="offline_snackbar_retry">נסה שוב</string>
     <string name="permission_contacts_access_for_gplus">כדי להציג פרטי פרופיל מחשבון Google+ שלך, התר למרש\"ל גישה אל אנשי הקשר.</string>

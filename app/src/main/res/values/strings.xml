@@ -18,6 +18,8 @@
     <string name="navigation_drawer_about">About Application</string>
     <string name="navigation_drawer_profile_sign_in">Sign in</string>
     <string name="navigation_drawer_profile_stranger">Hey stranger!</string>
+    <string name="navigation_drawer_sign_out">Sign Out</string>
+    <string name="navigation_drawer_add_account">Add account</string>
     <string name="offline_snackbar_network_unavailable">No internet connection</string>
     <string name="offline_snackbar_retry">Retry</string>
     <string name="permission_contacts_access_for_gplus">To show profile details from your Google+ account, allow Marshal access your contacts.</string>
