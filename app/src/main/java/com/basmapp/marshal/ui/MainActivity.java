@@ -192,25 +192,9 @@ public class MainActivity extends BaseActivity
                     public void onClick(View v) {
                         // Show account options in navigation view
                         if (mProfileSpinner.getRotation() == 0) {
-                            mProfileSpinner.setRotation(180);
-                            // Hide regular menu
-                            mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
-                            mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
-                            if (signedIn && mGoogleApiClient.isConnected()) {
-                                // Google account is signed in, show sign out option
-                                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(true);
-                                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(false);
-                            } else {
-                                // Google account is not available, show sign in option
-                                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(false);
-                                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(true);
-                            }
+                            drawerProfileInfoView(true);
                         } else {
-                            // Show regular menu again
-                            mProfileSpinner.setRotation(0);
-                            mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
-                            mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
-                            mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+                            drawerProfileInfoView(false);
                         }
                     }
                 });
@@ -228,10 +212,7 @@ public class MainActivity extends BaseActivity
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
                 // Make sure to show regular menu when closed
-                mProfileSpinner.setRotation(0);
-                mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
-                mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
-                mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+                drawerProfileInfoView(false);
             }
 
             /** Called when a drawer has settled in a completely open state. */
@@ -358,6 +339,30 @@ public class MainActivity extends BaseActivity
                 recreate();
             }
         });
+    }
+
+    private void drawerProfileInfoView (boolean show) {
+        if (show) {
+            mProfileSpinner.setRotation(180);
+            // Hide regular menu
+            mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
+            if (signedIn && mGoogleApiClient.isConnected()) {
+                // Google account is signed in, show sign out option
+                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(true);
+                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(false);
+            } else {
+                // Google account is not available, show sign in option
+                mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(false);
+                mNavigationView.getMenu().findItem(R.id.account_add).setVisible(true);
+            }
+        } else {
+            // Show regular menu
+            mProfileSpinner.setRotation(0);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+        }
     }
 
     private void animateNewUpdatesButton(final int visibility) {
@@ -510,10 +515,7 @@ public class MainActivity extends BaseActivity
         if (mNetworkSnackbar != null)
             mNetworkSnackbar.dismiss();
         // Show regular menu again, workaround for this: goo.gl/o2mKHK
-        mProfileSpinner.setRotation(0);
-        mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
-        mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
-        mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+        drawerProfileInfoView(false);
     }
 
     @Override
