@@ -483,11 +483,6 @@ public class MainActivity extends BaseActivity
         super.onResume();
         Log.i("LIFE_CYCLE", "onResume");
 
-        // Restore profile menu if needed, workaround for this: goo.gl/o2mKHK
-        if (isNavigationProfileShowing) {
-            drawerProfileInfoView(true);
-        }
-
         // Initialize shared preference if it's null
         if (mSharedPreferences == null)
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -531,7 +526,6 @@ public class MainActivity extends BaseActivity
         // Show regular menu, workaround for this: goo.gl/o2mKHK
         if (isNavigationProfileShowing) {
             drawerProfileInfoView(false);
-            isNavigationProfileShowing = true;
         }
     }
 
