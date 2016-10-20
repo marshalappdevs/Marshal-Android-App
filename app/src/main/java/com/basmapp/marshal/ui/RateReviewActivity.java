@@ -55,6 +55,8 @@ public class RateReviewActivity extends AppCompatActivity {
 
     boolean blockComments = true;
 
+    static boolean isRunning = false;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 //        ThemeUtils.updateAccent(this);
@@ -69,6 +71,18 @@ public class RateReviewActivity extends AppCompatActivity {
         mContentColor = getIntent().getIntExtra(Constants.EXTRA_CONTENT_COLOR, -1);
 
         showReviewCommentDialog();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        isRunning = true;
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        isRunning = false;
     }
 
     @Override

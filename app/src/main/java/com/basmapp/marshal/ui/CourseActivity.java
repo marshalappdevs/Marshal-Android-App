@@ -594,13 +594,14 @@ public class CourseActivity extends BaseActivity {
     }
 
     private void startReviewActivity(boolean isEditMode, Rating rating) {
-        Intent intent = new Intent(CourseActivity.this, RateReviewActivity.class);
-        intent.addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
-        intent.putExtra(Constants.EXTRA_COURSE, mCourse);
-        intent.putExtra(Constants.EXTRA_CONTENT_COLOR, contentColor);
-        intent.putExtra(Constants.EXTRA_USER_RATING, rating);
-        intent.putExtra(Constants.EXTRA_IS_EDIT_MODE, isEditMode);
-        startActivityForResult(intent, RC_REVIEW_ACTIVITY);
+        if (!RateReviewActivity.isRunning) {
+            Intent intent = new Intent(CourseActivity.this, RateReviewActivity.class);
+            intent.putExtra(Constants.EXTRA_COURSE, mCourse);
+            intent.putExtra(Constants.EXTRA_CONTENT_COLOR, contentColor);
+            intent.putExtra(Constants.EXTRA_USER_RATING, rating);
+            intent.putExtra(Constants.EXTRA_IS_EDIT_MODE, isEditMode);
+            startActivityForResult(intent, RC_REVIEW_ACTIVITY);
+        }
     }
 
     @Override

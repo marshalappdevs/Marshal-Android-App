@@ -25,6 +25,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
 import android.text.format.DateFormat;
@@ -100,7 +101,7 @@ public class MainActivity extends BaseActivity
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView;
-    private ImageView mProfileSpinner;
+    private ImageView mAccountSwitcherArrow;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
@@ -185,13 +186,13 @@ public class MainActivity extends BaseActivity
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
         mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
-        mProfileSpinner = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
+        mAccountSwitcherArrow = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
         mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         // Show account options in navigation view
-                        if (mProfileSpinner.getRotation() == 0) {
+                        if (mAccountSwitcherArrow.getRotation() == 0) {
                             drawerProfileInfoView(true);
                         } else {
                             drawerProfileInfoView(false);
@@ -343,8 +344,9 @@ public class MainActivity extends BaseActivity
 
     private void drawerProfileInfoView (boolean show) {
         if (show) {
-            mProfileSpinner.setRotation(180);
-            // Hide regular menu
+            // Show account menu
+            mAccountSwitcherArrow.clearAnimation();
+            ViewCompat.animate(mAccountSwitcherArrow).rotation(180).start();
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
             if (signedIn && mGoogleApiClient.isConnected()) {
@@ -352,13 +354,14 @@ public class MainActivity extends BaseActivity
                 mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(true);
                 mNavigationView.getMenu().findItem(R.id.account_add).setVisible(false);
             } else {
-                // Google account is not available, show sign in option
+                // Google account is not connected, show sign in option
                 mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(false);
                 mNavigationView.getMenu().findItem(R.id.account_add).setVisible(true);
             }
         } else {
             // Show regular menu
-            mProfileSpinner.setRotation(0);
+            mAccountSwitcherArrow.clearAnimation();
+            ViewCompat.animate(mAccountSwitcherArrow).rotation(0).start();
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
             mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
