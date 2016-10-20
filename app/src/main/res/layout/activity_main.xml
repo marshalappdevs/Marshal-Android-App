@@ -26,7 +26,7 @@
         android:layout_gravity="start"
         android:fitsSystemWindows="true"
         app:headerLayout="@layout/nav_header_main"
-        app:menu="@menu/activity_main_drawer" />
+        app:menu="@menu/drawer_menu" />
 
     <!--Set custom navigation view highlight color-->
     <!--app:itemIconTint="@color/navigation_icon_color"-->
