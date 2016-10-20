@@ -101,7 +101,7 @@ public class MainActivity extends BaseActivity
     private SharedPreferences mSharedPreferences;
     private TextView mNameTextView, mEmailTextView;
     private ImageView mProfileImageView;
-    private ImageView mAccountSwitcherArrow;
+    private ImageView mExpandAccountBoxIndicator;
     private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
@@ -135,10 +135,13 @@ public class MainActivity extends BaseActivity
 
     public static boolean needRecreate = false;
 
+
     private static final String MENU_ITEM = "menu_item";
     private int menuItemId;
     private static final String ITEM_TITLE = "item_title";
     private CharSequence itemTitle;
+    private static final String NAV_STATE = "navigation_state";
+    protected boolean isNavigationProfileShowing = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -186,16 +189,15 @@ public class MainActivity extends BaseActivity
         mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
         mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
-        mAccountSwitcherArrow = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
+        mExpandAccountBoxIndicator = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
         mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
                 .setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        // Show account options in navigation view
-                        if (mAccountSwitcherArrow.getRotation() == 0) {
-                            drawerProfileInfoView(true);
-                        } else {
+                        if (isNavigationProfileShowing) {
                             drawerProfileInfoView(false);
+                        } else {
+                            drawerProfileInfoView(true);
                         }
                     }
                 });
@@ -303,6 +305,7 @@ public class MainActivity extends BaseActivity
         super.onSaveInstanceState(outState);
         outState.putInt(MENU_ITEM, menuItemId);
         outState.putCharSequence(ITEM_TITLE, itemTitle);
+        outState.putBoolean(NAV_STATE, isNavigationProfileShowing);
     }
 
     @Override
@@ -310,6 +313,7 @@ public class MainActivity extends BaseActivity
         super.onRestoreInstanceState(savedInstanceState);
         this.menuItemId = savedInstanceState.getInt(MENU_ITEM);
         this.itemTitle = savedInstanceState.getCharSequence(ITEM_TITLE);
+        this.isNavigationProfileShowing = savedInstanceState.getBoolean(NAV_STATE, false);
     }
 
     private void setErrorScreenVisibility(int visibility) {
@@ -342,11 +346,11 @@ public class MainActivity extends BaseActivity
         });
     }
 
-    private void drawerProfileInfoView (boolean show) {
+    private void drawerProfileInfoView(boolean show) {
         if (show) {
             // Show account menu
-            mAccountSwitcherArrow.clearAnimation();
-            ViewCompat.animate(mAccountSwitcherArrow).rotation(180).start();
+            mExpandAccountBoxIndicator.clearAnimation();
+            ViewCompat.animate(mExpandAccountBoxIndicator).rotation(180).start();
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
             if (signedIn && mGoogleApiClient.isConnected()) {
@@ -358,13 +362,15 @@ public class MainActivity extends BaseActivity
                 mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(false);
                 mNavigationView.getMenu().findItem(R.id.account_add).setVisible(true);
             }
+            isNavigationProfileShowing = true;
         } else {
             // Show regular menu
-            mAccountSwitcherArrow.clearAnimation();
-            ViewCompat.animate(mAccountSwitcherArrow).rotation(0).start();
+            mExpandAccountBoxIndicator.clearAnimation();
+            ViewCompat.animate(mExpandAccountBoxIndicator).rotation(0).start();
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
             mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+            isNavigationProfileShowing = false;
         }
     }
 
@@ -477,6 +483,11 @@ public class MainActivity extends BaseActivity
         super.onResume();
         Log.i("LIFE_CYCLE", "onResume");
 
+        // Restore profile menu if needed, workaround for this: goo.gl/o2mKHK
+        if (isNavigationProfileShowing) {
+            drawerProfileInfoView(true);
+        }
+
         // Initialize shared preference if it's null
         if (mSharedPreferences == null)
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -517,8 +528,11 @@ public class MainActivity extends BaseActivity
         // Cancel no network Snackbar
         if (mNetworkSnackbar != null)
             mNetworkSnackbar.dismiss();
-        // Show regular menu again, workaround for this: goo.gl/o2mKHK
-        drawerProfileInfoView(false);
+        // Show regular menu, workaround for this: goo.gl/o2mKHK
+        if (isNavigationProfileShowing) {
+            drawerProfileInfoView(false);
+            isNavigationProfileShowing = true;
+        }
     }
 
     @Override
