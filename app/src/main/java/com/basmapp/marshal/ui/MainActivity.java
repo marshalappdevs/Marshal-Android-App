@@ -91,18 +91,17 @@ public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
     private static final int RC_SIGN_IN = 9001;
     public static final int RC_COURSE_ACTIVITY = 8000;
+    private boolean signedIn = false;
 
     private GoogleApiClient mGoogleApiClient;
-    //    private ProgressDialog mProgressDialog;
     private Toolbar mToolbar;
     public DrawerLayout mDrawerLayout;
     public static ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SharedPreferences mSharedPreferences;
-    private TextView mNameTextView, mEmailTextView;
-    private ImageView mProfileImageView;
+    private TextView mDisplayName, mAccountName;
+    private ImageView mProfileAvatarImage;
     private ImageView mExpandAccountBoxIndicator;
-    private boolean signedIn = false;
     private MenuItem mSearchItem;
     private Snackbar mNetworkSnackbar;
 
@@ -113,7 +112,7 @@ public class MainActivity extends BaseActivity
     private MeetupsFragment mMeetupsFragment;
     private SubscriptionsFragment mSubscriptionsFragment;
 
-    private UpdateBroadcastReceiver updateReceiver;
+    private UpdateBroadcastReceiver mUpdateBroadcastReceiver;
 
     private ProgressDialog mUpdateProgressDialog;
 
@@ -134,7 +133,6 @@ public class MainActivity extends BaseActivity
     private LinearLayout sErrorScreen;
 
     public static boolean needRecreate = false;
-
 
     private static final String MENU_ITEM = "menu_item";
     private int menuItemId;
@@ -186,9 +184,9 @@ public class MainActivity extends BaseActivity
         initializeNewUpdatesButton();
 
         // Initialize navigation view header items
-        mNameTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
-        mEmailTextView = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
-        mProfileImageView = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        mDisplayName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
+        mAccountName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
+        mProfileAvatarImage = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
         mExpandAccountBoxIndicator = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
         mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
                 .setOnClickListener(new View.OnClickListener() {
@@ -214,13 +212,16 @@ public class MainActivity extends BaseActivity
             /** Called when a drawer has settled in a completely closed state. */
             public void onDrawerClosed(View view) {
                 super.onDrawerClosed(view);
-                // Make sure to show regular menu when closed
-                drawerProfileInfoView(false);
+                // Revert to regular menu
+                if (isNavigationProfileShowing) {
+                    drawerProfileInfoView(false);
+                }
             }
 
             /** Called when a drawer has settled in a completely open state. */
             public void onDrawerOpened(View drawerView) {
                 super.onDrawerOpened(drawerView);
+                // Close SearchView if opened
                 if (mSearchItem != null && mSearchItem.isActionViewExpanded())
                     mSearchItem.collapseActionView();
             }
@@ -228,7 +229,8 @@ public class MainActivity extends BaseActivity
             /** Called when a drawer's position changes. */
             @Override
             public void onDrawerSlide(View drawerView, float slideOffset) {
-                super.onDrawerSlide(drawerView, 0); // this disables the hamburger animation
+                // Disable hamburger slide animation
+                super.onDrawerSlide(drawerView, 0);
             }
         };
 
@@ -258,7 +260,7 @@ public class MainActivity extends BaseActivity
         });
 
         // Broadcast receiver to update app data from server
-        updateReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
+        mUpdateBroadcastReceiver = new UpdateBroadcastReceiver(MainActivity.this, new UpdateServiceListener() {
             @Override
             public void onFinish(boolean result) {
 
@@ -377,10 +379,10 @@ public class MainActivity extends BaseActivity
     private void animateNewUpdatesButton(final int visibility) {
         Animation animation;
         if (visibility == View.VISIBLE) {
-            // show in animation on visible
+            // Show in animation on visible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_in);
         } else {
-            // show out animation on invisible
+            // Show out animation on invisible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_out);
         }
         sNewUpdatesButton.startAnimation(animation);
@@ -535,7 +537,7 @@ public class MainActivity extends BaseActivity
         Log.i("LIFE_CYCLE", "onStop");
         // Unregister update data from server broadcast and check internet connection broadcast
         unregisterReceiver(broadcastReceiver);
-        unregisterReceiver(updateReceiver);
+        unregisterReceiver(mUpdateBroadcastReceiver);
     }
 
     @Override
@@ -575,7 +577,7 @@ public class MainActivity extends BaseActivity
         filter.addAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
         filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA);
         filter.addAction(UpdateIntentService.ACTION_UPDATE_DATA_PROGRESS_CHANGED);
-        registerReceiver(updateReceiver, filter);
+        registerReceiver(mUpdateBroadcastReceiver, filter);
     }
 
     private boolean isConnected() {
@@ -667,8 +669,8 @@ public class MainActivity extends BaseActivity
             // If Google SignIn account doesn't return null, get account data
             if (acct != null) {
                 // Set account name and email address
-                mNameTextView.setText(acct.getDisplayName());
-                mEmailTextView.setText(acct.getEmail());
+                mDisplayName.setText(acct.getDisplayName());
+                mAccountName.setText(acct.getEmail());
                 // Save account data in static strings and uri to make account data accessible from other activities
                 MainActivity.sUserEmailAddress = acct.getEmail();
                 MainActivity.sUserName = acct.getDisplayName();
@@ -680,11 +682,11 @@ public class MainActivity extends BaseActivity
                             .load(uri)
                             .placeholder(R.drawable.ic_default_avatar)
                             .transform(new CircleTransform(this))
-                            .into(mProfileImageView);
+                            .into(mProfileAvatarImage);
                 } else {
                     String givenName = acct.getGivenName();
                     if (givenName != null) {
-                        mProfileImageView.setImageBitmap(generateNameAvatar(
+                        mProfileAvatarImage.setImageBitmap(generateNameAvatar(
                                 ThemeUtils.getThemeColor(this, R.attr.colorPrimaryDark), (float) dp2px(64),
                                 givenName.length() == 2 ? givenName : givenName.substring(0, 1)));
                     }

@@ -75,9 +75,7 @@
         android:layout_height="56dp"
         android:layout_gravity="bottom"
         android:layout_marginBottom="8dp"
-        android:clickable="true"
-        android:focusable="true"
-        android:foreground="?android:attr/selectableItemBackground"
+        android:background="?android:attr/selectableItemBackground"
         android:paddingEnd="16dp"
         android:paddingStart="16dp"
         android:theme="@style/ThemeOverlay.AppCompat.Dark">
