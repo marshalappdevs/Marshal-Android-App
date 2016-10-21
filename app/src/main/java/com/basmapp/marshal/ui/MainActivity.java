@@ -627,14 +627,12 @@ public class MainActivity extends BaseActivity
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestEmail()
-//                .requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .build();
         // Build a GoogleApiClient with access to the Google Sign-In API and the
         // options specified by gso.
         mGoogleApiClient = new GoogleApiClient.Builder(this)
                 .enableAutoManage(this /* FragmentActivity */, this /* OnConnectionFailedListener */)
                 .addApi(Auth.GOOGLE_SIGN_IN_API, gso)
-//                .addApi(Plus.API)
                 .build();
         // Customize sign-in button. The sign-in button can be displayed in
         // multiple sizes and color schemes. It can also be contextually
@@ -671,10 +669,10 @@ public class MainActivity extends BaseActivity
                 // Set account name and email address
                 mDisplayName.setText(acct.getDisplayName());
                 mAccountName.setText(acct.getEmail());
-                // Save account data in static strings and uri to make account data accessible from other activities
-                MainActivity.sUserEmailAddress = acct.getEmail();
-                MainActivity.sUserName = acct.getDisplayName();
-                MainActivity.sUserProfileImage = acct.getPhotoUrl();
+                // Save account data in static member to make account data accessible from other activities
+                sUserEmailAddress = acct.getEmail();
+                sUserName = acct.getDisplayName();
+                sUserProfileImage = acct.getPhotoUrl();
                 // Set account profile picture if exists
                 Uri uri = acct.getPhotoUrl();
                 if (uri != null) {
