@@ -1,9 +1,11 @@
 package com.basmapp.marshal.ui;
 
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
+import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.app.SearchManager;
@@ -37,6 +39,7 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.ui.fragments.CoursesFragment;
@@ -111,6 +114,54 @@ public class SearchActivity extends BaseActivity {
         mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
 
         mCoursesList = CoursesFragment.mCoursesList;
+
+        if (mCoursesList == null) {
+
+            mCoursesList = new ArrayList<>();
+
+            new AsyncTask<Void, Void, Boolean>() {
+
+                ProgressDialog progressDialog;
+
+                @Override
+                protected void onPreExecute() {
+                    super.onPreExecute();
+                    progressDialog = new ProgressDialog(SearchActivity.this);
+                    progressDialog.setMessage(getResources().getString(R.string.loading));
+                    progressDialog.setCancelable(false);
+                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog.show();
+                }
+
+                @Override
+                @SuppressWarnings("unchecked")
+                protected Boolean doInBackground(Void... voids) {
+                    try {
+                        if (MainActivity.sAllCourses == null) {
+                            mCoursesList = (ArrayList) Course.findAllByColumn(DBConstants.COL_IS_MEETUP,
+                                    false, DBConstants.COL_NAME, SearchActivity.this, Course.class);
+                            MainActivity.sAllCourses = mCoursesList;
+                        } else {
+                            mCoursesList = MainActivity.sAllCourses;
+                        }
+                        return mCoursesList.size() > 0;
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                        return false;
+                    }
+                }
+
+                @Override
+                protected void onPostExecute(Boolean result) {
+                    super.onPostExecute(result);
+                    if (result) {
+                        mFilteredCourseList = new ArrayList<>(mCoursesList);
+                        filter("");
+                    }
+                    progressDialog.dismiss();
+                }
+            }.execute();
+        }
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
