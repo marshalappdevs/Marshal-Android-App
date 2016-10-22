@@ -187,6 +187,12 @@ public class MainActivity extends BaseActivity
         mDisplayName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.display_name);
         mAccountName = (TextView) mNavigationView.getHeaderView(0).findViewById(R.id.account_name);
         mProfileAvatarImage = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.avatar);
+        mProfileAvatarImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Log.d(Constants.LOG_TAG, "Avatar Clicked");
+            }
+        });
         mExpandAccountBoxIndicator = (ImageView) mNavigationView.getHeaderView(0).findViewById(R.id.toggle_account_list_button);
         mNavigationView.getHeaderView(0).findViewById(R.id.account_info_container)
                 .setOnClickListener(new View.OnClickListener() {

@@ -333,6 +333,11 @@
         <item>@string/fcm_channel_tools</item>
     </string-array>
 
+    <!-- Strings related to app shortcuts -->
+    <string name="shortcut_search_short_label">@string/search_title</string>
+    <string name="shortcut_search_long_label">@string/search_title</string>
+    <string name="shortcut_search_disabled">Search not available</string>
+
     <string name="color_picker_default_title">Select a Color</string>
     <!-- Content description for a color square. -->
     <string name="color_swatch_description">Color <xliff:g example="14" id="color_index">%1$d</xliff:g></string>

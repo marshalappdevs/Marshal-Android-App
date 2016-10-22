@@ -3,10 +3,8 @@ package com.basmapp.marshal.ui.adapters;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.SystemClock;
-import android.preference.PreferenceManager;
 import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.util.Pair;
 import android.support.v7.widget.CardView;
@@ -91,9 +89,6 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 pairs.add(Pair.create(view.findViewById(R.id.course_cardview_image), mContext.getString(R.string.transition_header_image)));
                 // create the transition animation
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
-                // write shared preferences value to know if activity started as shared element transition
-                SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
-                sharedPreferences.edit().putBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true).apply();
                 // start the new activity
                 ((Activity) mContext).startActivityForResult(intent, MainActivity.RC_COURSE_ACTIVITY, options.toBundle());
             }

@@ -1,5 +1,6 @@
 package com.basmapp.marshal.ui;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -230,8 +231,7 @@ public class CourseActivity extends BaseActivity {
                         }
                     }
                 });
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
-                        && mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true)) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && hasSharedElementTransition()) {
                     getWindow().getSharedElementEnterTransition().addListener(
                             new Transition.TransitionListener() {
                                 @Override
@@ -242,9 +242,6 @@ public class CourseActivity extends BaseActivity {
                                 @Override
                                 public void onTransitionEnd(Transition transition) {
                                     showFabTargetPrompt();
-                                    // After animation end, change boolean back to false
-                                    mSharedPreferences.edit().putBoolean(
-                                            Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false).apply();
                                 }
 
                                 @Override
@@ -264,8 +261,7 @@ public class CourseActivity extends BaseActivity {
                             });
                 }
                 // Target android version lower than lollipop or activity didn't start as shared element
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
-                        || !mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false)) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !hasSharedElementTransition()) {
                     showFabTargetPrompt();
                 }
             }
@@ -449,6 +445,12 @@ public class CourseActivity extends BaseActivity {
                 mNestedScrollView.scrollTo(x, y);
             }
         });
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private boolean hasSharedElementTransition() {
+        Transition transition = getWindow().getSharedElementEnterTransition();
+        return (transition != null && !transition.getTargets().isEmpty());
     }
 
     private void orderCyclesByAscending() {

@@ -260,6 +260,10 @@
     <string name="color_swatch_description" msgid="2883438431173736180">"צבע <xliff:g id="COLOR_INDEX">%1$d</xliff:g>"</string>
     <string name="color_swatch_description_selected" msgid="5020921249944943124">"צבע <xliff:g id="COLOR_INDEX">%1$d</xliff:g> נבחר"</string>
 
+    <!-- Strings related to app shortcuts -->
+    <string name="shortcut_search_short_label">@string/search_title</string>
+    <string name="shortcut_search_long_label">@string/search_title</string>
+    <string name="shortcut_search_disabled">החיפוש אינו זמין</string>
 
     <string name="compose_new_comment">חבר תגובה חדשה</string>
     <string name="review_comment1">חומר רלוונטי</string>

@@ -1,0 +1,16 @@
+<shortcuts xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <shortcut
+        android:enabled="false"
+        android:icon="@drawable/ic_shortcut_search"
+        android:shortcutDisabledMessage="@string/shortcut_search_disabled"
+        android:shortcutId="search"
+        android:shortcutLongLabel="@string/shortcut_search_long_label"
+        android:shortcutShortLabel="@string/shortcut_search_short_label">
+        <intent
+            android:action="android.intent.action.VIEW"
+            android:targetClass="com.basmapp.marshal.ui.SearchActivity"
+            android:targetPackage="com.basmapp.marshal" />
+    </shortcut>
+
+</shortcuts>
