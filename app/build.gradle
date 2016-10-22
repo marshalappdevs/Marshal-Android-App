@@ -4,9 +4,9 @@ android {
     signingConfigs {
         basmapp_keystore_release {
             storeFile file('basmapp_keystore_release.jks')
-            storePassword 'turugsu'
-            keyAlias 'basmapp_keystore_release'
-            keyPassword 'gsuutur'
+            storePassword basmapp_releasekey_storePassword
+            keyAlias basmapp_releasekey_keyAlias
+            keyPassword basmapp_releasekey_keyPassword
         }
     }
     compileSdkVersion 25
