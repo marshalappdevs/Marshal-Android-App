@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layer-list xmlns:android="http://schemas.android.com/apk/res/android"
+    android:opacity="opaque">
+    <item android:drawable="?android:colorBackground" />
+    <item
+        android:id="@+id/launchscreens_product_logo"
+        android:bottom="@dimen/launchscreens_product_logo_bottom">
+        <bitmap
+            android:gravity="center"
+            android:src="@drawable/product_logo_144dp" />
+    </item>
+    <item
+        android:id="@+id/launchscreens_logo_text"
+        android:bottom="@dimen/launchscreens_basmah_logo_bottom">
+        <bitmap
+            android:gravity="bottom|center"
+            android:src="@drawable/basmah_logo_dark20_color_132x44" />
+    </item>
+</layer-list>
