@@ -1,4 +1,4 @@
 <ripple
     xmlns:android="http://schemas.android.com/apk/res/android"
-    android:color="#33FFFFFF"
+    android:color="#80f0f0f0"
     android:radius="32dp" /> <!-- avatar size / 2 -->

@@ -37,7 +37,7 @@ android {
     }
 }
 
-ext.servicesLibVersion = '9.6.1'
+ext.servicesLibVersion = '9.8.00'
 ext.supportLibVersion = '25.0.0'
 
 dependencies {
