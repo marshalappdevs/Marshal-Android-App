@@ -3,14 +3,14 @@ apply plugin: 'com.android.application'
 android {
     signingConfigs {
         basmapp_keystore_release {
-            keyAlias 'basmapp_keystore_release'
-            keyPassword 'turugsu'
             storeFile file('basmapp_keystore_release.jks')
-            storePassword 'gsuutur'
+            storePassword basmapp_releasekey_storePassword
+            keyAlias basmapp_releasekey_keyAlias
+            keyPassword basmapp_releasekey_keyPassword
         }
     }
     compileSdkVersion 25
-    buildToolsVersion "24.0.3"
+    buildToolsVersion "25.0.0"
     defaultConfig {
         applicationId "com.basmapp.marshal"
         minSdkVersion 19
@@ -26,11 +26,13 @@ android {
             shrinkResources false
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.basmapp_keystore_release
         }
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.basmapp_keystore_release
         }
     }
 }
