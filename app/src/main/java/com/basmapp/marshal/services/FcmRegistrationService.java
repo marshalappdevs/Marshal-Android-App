@@ -64,7 +64,6 @@ public class FcmRegistrationService extends IntentService {
                         Set<String> channels = PreferenceManager.getDefaultSharedPreferences(this)
                                 .getStringSet(Constants.PREF_FCM_CHANNELS, DEFAULT_CHANNELS_SET);
                         fcmRegistration.setChannels(new ArrayList<>(channels));
-
                         if (ACTION_REGISTER_OR_UPDATE.equals(action)) {
                             Response<FcmRegistration> response =
                                     MarshalServiceProvider.getInstance(apiToken).fcmRegisterNewDevice(fcmRegistration).execute();

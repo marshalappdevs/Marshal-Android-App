@@ -35,14 +35,14 @@ public interface IMarshalService {
 //    @GET(MarshalServiceProvider.GET_ALL_RATINGS + "/{courseCode}")
 //    Call<List<Rating>> getCourseRatings(@Path("courseCode") String courseCode);
 
-    @POST(MarshalServiceProvider.POST_RATING + "{courseCode}")
-    Call<Rating> postRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
+    @POST(MarshalServiceProvider.POST_RATING + "{courseObjectId}")
+    Call<Rating> postRating(@Path("courseObjectId") String courseObjectId, @Body Rating ratingObject);
 
-    @PUT(MarshalServiceProvider.PUT_RATING + "{courseCode}")
-    Call<Rating> updateRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
+    @PUT(MarshalServiceProvider.PUT_RATING + "{courseObjectId}")
+    Call<Rating> updateRating(@Path("courseObjectId") String courseObjectId, @Body Rating ratingObject);
 
-    @HTTP(method = "DELETE", path = MarshalServiceProvider.DELETE_RATING + "{courseCode}", hasBody = true)
-    Call<Rating> deleteRating(@Path("courseCode") String courseCode, @Body Rating ratingObject);
+    @HTTP(method = "DELETE", path = MarshalServiceProvider.DELETE_RATING + "{courseObjectId}", hasBody = true)
+    Call<Rating> deleteRating(@Path("courseObjectId") String courseObjectId, @Body Rating ratingObject);
 
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
     Call<List<MalshabItem>> getAllMalshabItems();
@@ -57,11 +57,11 @@ public interface IMarshalService {
 //    @DELETE(MarshalServiceProvider.DELETE_FCM_UNREGISTER_DEVICE + "{hardwareId}")
 //    Call<Rating> deleteFcmRegistration(@Path("hardwareId") String hardwareId);
 
-    @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
-    Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
+    @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{course_id}")
+    Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
 
-    @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{courseCode}")
-    Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("courseCode") String courseCode);
+    @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{course_id}")
+    Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
 
 //    @GET(MarshalServiceProvider.GET_FCM_REGISTRATION)
 //    Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);

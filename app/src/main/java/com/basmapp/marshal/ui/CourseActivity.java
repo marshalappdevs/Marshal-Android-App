@@ -914,10 +914,10 @@ public class CourseActivity extends BaseActivity {
                 Response serverResponse;
                 if (taskType == TASK_TYPE_SUBSCRIBE) {
                     serverResponse = MarshalServiceProvider.getInstance(AuthUtil.getApiToken())
-                            .subsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseCode()).execute();
+                            .subsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseID()).execute();
                 } else if (taskType == TASK_TYPE_UNSUBSCRIBE) {
                     serverResponse = MarshalServiceProvider.getInstance(AuthUtil.getApiToken())
-                            .unsubsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseCode()).execute();
+                            .unsubsribeCourse(AuthUtil.getHardwareId(getContentResolver()), mCourse.getCourseID()).execute();
                 } else return false;
 
                 // Save the subscription locally IF successfully saved in the server

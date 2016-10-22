@@ -314,7 +314,7 @@ public class RateReviewActivity extends AppCompatActivity {
                     switch (requestType) {
                         case REQUEST_TYPE_POST:
                             if (MarshalServiceProvider.getInstance(apiToken).
-                                    postRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
+                                    postRating(mCourse.getId(), tempRating).execute().isSuccessful()) {
                                 tempRating.create();
                                 return true;
                             } else {
@@ -323,7 +323,7 @@ public class RateReviewActivity extends AppCompatActivity {
 
                         case REQUEST_TYPE_PUT:
                             if (MarshalServiceProvider.getInstance(apiToken).
-                                    updateRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
+                                    updateRating(mCourse.getId(), tempRating).execute().isSuccessful()) {
                                 tempRating.save();
                                 return true;
                             } else {
@@ -331,7 +331,7 @@ public class RateReviewActivity extends AppCompatActivity {
                             }
 
                         case REQUEST_TYPE_DELETE:
-                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mCourse.getCourseCode(),
+                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mCourse.getId(),
                                     mUserRating).execute().isSuccessful()) {
                                 tempRating.delete();
                                 return true;
