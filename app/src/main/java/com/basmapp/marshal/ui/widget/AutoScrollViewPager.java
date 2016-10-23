@@ -125,8 +125,6 @@ public class AutoScrollViewPager extends ViewPager {
             startAutoScroll();
         }
 
-        getParent().requestDisallowInterceptTouchEvent(true);
-
         return super.dispatchTouchEvent(ev);
     }
 
@@ -134,7 +132,7 @@ public class AutoScrollViewPager extends ViewPager {
 
         private final WeakReference<AutoScrollViewPager> autoScrollViewPager;
 
-        public MyHandler(AutoScrollViewPager autoScrollViewPager) {
+        MyHandler(AutoScrollViewPager autoScrollViewPager) {
             this.autoScrollViewPager = new WeakReference<>(autoScrollViewPager);
         }
 

@@ -355,7 +355,7 @@ public class CoursesFragment extends Fragment {
         mViewPager.setCurrentItem(MainActivity.sLastCoursesViewPagerIndex);
         mInkPageIndicator = (InkPageIndicator) mRootView.findViewById(R.id.page_indicator);
         mInkPageIndicator.setViewPager(mViewPager);
-        mViewPager.setInterval(8000);
+        mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();
         mViewPager.setVisibility(View.VISIBLE);
         mInkPageIndicator.setVisibility(View.VISIBLE);

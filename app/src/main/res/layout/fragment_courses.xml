@@ -22,6 +22,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="@dimen/highlight_banner_item_height"
                 android:layout_gravity="top"
+                android:clipChildren="false"
+                android:clipToPadding="true"
                 android:visibility="gone" />
 
             <com.basmapp.marshal.ui.widget.InkPageIndicator
