@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.annotation.TargetApi;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -109,7 +108,6 @@ public class CourseActivity extends BaseActivity {
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
     private Button mBtnReadAllReviews;
-    private ImageView mProfileImageView;
     private ImageView mReviewProfileImageView;
 
     private int contentColor = -1;
@@ -231,7 +229,8 @@ public class CourseActivity extends BaseActivity {
                         }
                     }
                 });
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && hasSharedElementTransition()) {
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
+                        && mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true)) {
                     getWindow().getSharedElementEnterTransition().addListener(
                             new Transition.TransitionListener() {
                                 @Override
@@ -242,6 +241,9 @@ public class CourseActivity extends BaseActivity {
                                 @Override
                                 public void onTransitionEnd(Transition transition) {
                                     showFabTargetPrompt();
+                                    // After animation end, change boolean back to false
+                                    mSharedPreferences.edit().putBoolean(
+                                            Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false).apply();
                                 }
 
                                 @Override
@@ -261,7 +263,8 @@ public class CourseActivity extends BaseActivity {
                             });
                 }
                 // Target android version lower than lollipop or activity didn't start as shared element
-                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP || !hasSharedElementTransition()) {
+                if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
+                        || !mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false)) {
                     showFabTargetPrompt();
                 }
             }
@@ -395,8 +398,6 @@ public class CourseActivity extends BaseActivity {
                 @Override
                 public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
                     if (MainActivity.sUserEmailAddress != null && ratingBar.getRating() != 0) {
-//                        showReviewCommentDialog(false);
-
                         Rating tempRating = new Rating(CourseActivity.this);
                         tempRating.setUserMailAddress("");
                         tempRating.setCourseID(0);
@@ -419,7 +420,6 @@ public class CourseActivity extends BaseActivity {
             mActionContainer.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-//                    showReviewCommentDialog(true);
                     startReviewActivity(true, mUserRating);
                 }
             });
@@ -445,12 +445,6 @@ public class CourseActivity extends BaseActivity {
                 mNestedScrollView.scrollTo(x, y);
             }
         });
-    }
-
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private boolean hasSharedElementTransition() {
-        Transition transition = getWindow().getSharedElementEnterTransition();
-        return (transition != null && !transition.getTargets().isEmpty());
     }
 
     private void orderCyclesByAscending() {
@@ -672,14 +666,6 @@ public class CourseActivity extends BaseActivity {
         sendBroadcast(intent);
     }
 
-    private void setLightStatusBar(@NonNull View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags |= View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-        }
-    }
-
     private void initializeRatingViews() {
         mTextViewReviewHint.setVisibility(View.VISIBLE);
         mReviewItemContainer.setVisibility(View.GONE);
@@ -687,14 +673,6 @@ public class CourseActivity extends BaseActivity {
         mRatingBarUser.setRating(0);
         mRatingBarUser.setIsIndicator(false);
         mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-    }
-
-    private void clearLightStatusBar(@NonNull View view) {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            int flags = view.getSystemUiVisibility();
-            flags &= ~View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR;
-            view.setSystemUiVisibility(flags);
-        }
     }
 
     private void initializeTextViews() {
@@ -973,364 +951,4 @@ public class CourseActivity extends BaseActivity {
             }
         }
     }
-//    private class SendRatingRequest extends AsyncTask<Void, Void, Boolean> {
-//
-//        static final int REQUEST_TYPE_POST = 10;
-//        static final int REQUEST_TYPE_PUT = 11;
-//        static final int REQUEST_TYPE_DELETE = 12;
-//
-//        private int requestType = 0;
-//        private Rating tempRating;
-//        private BackgroundTaskCallBack callBack;
-//
-//        SendRatingRequest(int requestType, Rating rating) {
-//            this.requestType = requestType;
-//            this.tempRating = rating;
-//        }
-//
-//        SendRatingRequest(int requestType, Rating rating, BackgroundTaskCallBack callBack) {
-//            this.requestType = requestType;
-//            this.tempRating = rating;
-//            this.callBack = callBack;
-//        }
-//
-//        @Override
-//        protected Boolean doInBackground(Void... voids) {
-//            if (requestType != 0) {
-//                try {
-//                    String apiToken = AuthUtil.getApiToken();
-//                    switch (requestType) {
-//                        case REQUEST_TYPE_POST:
-//                            if (MarshalServiceProvider.getInstance(apiToken).
-//                                    postRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
-//                                tempRating.create();
-//                                return true;
-//                            } else {
-//                                return false;
-//                            }
-//
-//                        case REQUEST_TYPE_PUT:
-//                            if (MarshalServiceProvider.getInstance(apiToken).
-//                                    updateRating(mCourse.getCourseCode(), tempRating).execute().isSuccessful()) {
-//                                tempRating.save();
-//                                return true;
-//                            } else {
-//                                return false;
-//                            }
-//
-//                        case REQUEST_TYPE_DELETE:
-//                            if (MarshalServiceProvider.getInstance(apiToken).deleteRating(mCourse.getCourseCode(),
-//                                    mUserRating).execute().isSuccessful()) {
-//                                mUserRating.delete();
-//                                return true;
-//                            } else {
-//                                return false;
-//                            }
-//
-//                        default:
-//                            return false;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                    return false;
-//                }
-//            } else {
-//                return false;
-//            }
-//        }
-//
-//        @Override
-//        protected void onPostExecute(Boolean result) {
-//            super.onPostExecute(result);
-//            if (result) {
-//                try {
-//                    switch (requestType) {
-//                        case REQUEST_TYPE_POST:
-//                            mUserRating = tempRating;
-//                            callBack.onSuccess("", null);
-//                            break;
-//                        case REQUEST_TYPE_PUT:
-//                            mUserRating = tempRating;
-//                            mTextViewReviewText.setVisibility(View.VISIBLE);
-//                            showRatingChanges();
-//                            break;
-//                        case REQUEST_TYPE_DELETE:
-//                            // Simulate removing user review
-//                            initializeRatingViews();
-//                            showRatingChanges();
-//                            break;
-//                        default:
-//                            break;
-//                    }
-//                } catch (Exception e) {
-//                    e.printStackTrace();
-//                }
-//            } else {
-//                switch (requestType) {
-//                    case REQUEST_TYPE_POST:
-//                        mRatingBarUser.setOnRatingBarChangeListener(null);
-//                        mRatingBarUser.setRating(0);
-//                        mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-//                        Toast.makeText(CourseActivity.this, R.string.review_create_error, Toast.LENGTH_LONG).show();
-//                        break;
-//                    case REQUEST_TYPE_PUT:
-//                        Toast.makeText(CourseActivity.this, R.string.review_save_retry, Toast.LENGTH_LONG).show();
-//                        break;
-//                    case REQUEST_TYPE_DELETE:
-//                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
-//                        break;
-//                    default:
-//                        break;
-//                }
-//            }
-//        }
-//
-//        void showRatingChanges() {
-//            showRatingAverage();
-//            showRatingsCount();
-//            showUserRating();
-//
-//            // Send broadcast for update the rating on the CardView
-//            Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-//            sendBroadcast(intent);
-//        }
-//    }
-
-    //    private void showReviewCommentDialog(boolean isEditMode) {
-//
-//        final AlertDialog alertDialog = new AlertDialog.Builder(this, R.style.Rating_DialogAlert).create();
-//        LayoutInflater layoutInflater = LayoutInflater.from(this);
-//        final View dialogView = layoutInflater.inflate(R.layout.rate_review_dialog, null);
-//        alertDialog.setView(dialogView);
-//
-//        mProfileImageView = (ImageView) dialogView.findViewById(R.id.user_profile_image);
-//        TextView reviewBy = (TextView) dialogView.findViewById(R.id.review_by);
-//        String userName = String.format(getString(R.string.review_by), MainActivity.sUserName);
-//        reviewBy.setText(userName);
-//
-//        Uri uri = MainActivity.sUserProfileImage;
-//        if (uri != null) {
-//            Glide.with(this)
-//                    .load(uri)
-//                    .transform(new CircleTransform(this))
-//                    .placeholder(R.drawable.ic_profile_none)
-//                    .into(mProfileImageView);
-//        }
-//
-//        final RatingBar ratingBar = (RatingBar) dialogView.findViewById(R.id.course_content_ratingBar_user);
-//
-//        final EditText input = (EditText) dialogView.findViewById(R.id.review_comment);
-////        input.setOnClickListener(new View.OnClickListener() {
-////            @Override
-////            public void onClick(View view) {
-////                final AlertDialog.Builder commentDialogBuilder = new AlertDialog.Builder(CourseActivity.this);
-////                commentDialogBuilder.setTitle("תגובות");
-////                commentDialogBuilder.setItems(R.array.review_comments, new DialogInterface.OnClickListener() {
-////                    @Override
-////                    public void onClick(DialogInterface dialogInterface, int i) {
-////                        dialogInterface.dismiss();
-////                        input.setText(getResources().getStringArray(R.array.review_comments)[i]);
-////                    }
-////                });
-////                commentDialogBuilder.show();
-////            }
-////        });
-////        final Spinner commentsSpinner = (Spinner) dialogView.findViewById(R.id.review_comments_spinner);
-////        ArrayAdapter<CharSequence> commentsSpinnerAdapter = ArrayAdapter.createFromResource(this,
-////                R.array.review_comments, android.R.layout.simple_spinner_item);
-////        commentsSpinnerAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
-////        commentsSpinner.setAdapter(commentsSpinnerAdapter);
-////        commentsSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
-////            @Override
-////            public void onItemSelected(AdapterView<?> adapterView, View view, int position, long id) {
-////                input.setText((String)adapterView.getItemAtPosition(position));
-////            }
-////
-////            @Override
-////            public void onNothingSelected(AdapterView<?> adapterView) {
-////
-////            }
-////        });
-//        final Button negativeButton = (Button) dialogView.findViewById(R.id.negative_button);
-//        final Button positiveButton = (Button) dialogView.findViewById(R.id.positive_button);
-//
-//        TextInputLayout inputLayout = (TextInputLayout) dialogView.findViewById(R.id.inputLayout);
-//
-//        final TextView textView = (TextView) dialogView.findViewById(R.id.item_title);
-//        textView.setTextColor(contentColor);
-//
-//        if (mRatingBarUser.getRating() == 1) {
-//            textView.setText(getString(R.string.review_dialog_poor));
-//        }
-//        if (mRatingBarUser.getRating() == 2) {
-//            textView.setText(getString(R.string.review_dialog_below_average));
-//        }
-//        if (mRatingBarUser.getRating() == 3) {
-//            textView.setText(getString(R.string.review_dialog_average));
-//        }
-//        if (mRatingBarUser.getRating() == 4) {
-//            textView.setText(getString(R.string.review_dialog_above_average));
-//        }
-//        if (mRatingBarUser.getRating() == 5) {
-//            textView.setText(getString(R.string.review_dialog_excellent));
-//        }
-//
-//        if (!isEditMode) {
-//            inputLayout.setError(getString(R.string.public_reviews_message)); // show error
-//            negativeButton.setVisibility(View.GONE);
-//            positiveButton.setText(getString(R.string.structured_review_question_submit));
-//
-//            alertDialog.setOnCancelListener(new DialogInterface.OnCancelListener() {
-//                @Override
-//                public void onCancel(DialogInterface dialog) {
-//                    mRatingBarUser.setRating(0);
-//                }
-//            });
-//
-//            positiveButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    String emailHash;
-//                    Rating tempRating;
-//
-//                    try {
-//                        emailHash = HashUtil.SHA(MainActivity.sUserEmailAddress);
-//                        tempRating = new Rating(CourseActivity.this);
-//                        tempRating.setComment(input.getText().toString());
-//                        tempRating.setRating(mRatingBarUser.getRating());
-//                        tempRating.setUserMailAddress(emailHash);
-//                        tempRating.setCourseID(mCourse.getCourseID());
-//                        tempRating.setCreatedAt(new Date());
-//                        tempRating.setLastModified(new Date());
-//                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_POST, tempRating, new BackgroundTaskCallBack() {
-//                            @Override
-//                            public void onSuccess(String result, List<Object> data) {
-//                                // Simulate showing user review
-//                                mTextViewReviewHint.setVisibility(View.GONE);
-//                                mRatingBarUser.setVisibility(View.GONE);
-//                                mReviewItemContainer.setVisibility(View.VISIBLE);
-//                                mReviewAuthor.setText(MainActivity.sUserName);
-//                                Uri uri = MainActivity.sUserProfileImage;
-//                                if (uri != null) {
-//                                    Glide.with(CourseActivity.this)
-//                                            .load(uri)
-//                                            .placeholder(R.drawable.ic_profile_none)
-//                                            .into(mReviewProfileImageView);
-//                                }
-//                                mTextViewReviewEdited.setVisibility(View.GONE);
-//
-//                                mReviewRating.setRating(mRatingBarUser.getRating());
-//                                try {
-//                                    mTextViewReviewDate.setVisibility(View.VISIBLE);
-//                                    mTextViewReviewDate.setText(DateHelper.dateToString(mUserRating.getLastModified()));
-//                                } catch (Exception e) {
-//                                    e.printStackTrace();
-//                                }
-//                                mTextViewReviewText.setText(input.getText().toString());
-//
-//                                showRatingAverage();
-//                                showRatingsCount();
-//                                showUserRating();
-//
-//                                // Send broadcast for update the rating on the CardView
-//                                Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-//                                sendBroadcast(intent);
-//
-//                                Toast.makeText(CourseActivity.this, R.string.review_feedback_posted, Toast.LENGTH_LONG).show();
-//                            }
-//
-//                            @Override
-//                            public void onError(String error) {
-//
-//                            }
-//                        }).execute();
-//                    } catch (Exception e) {
-//                        e.printStackTrace();
-//                    }
-//
-//                    alertDialog.dismiss();
-//                }
-//            });
-//        } else {
-//            negativeButton.setVisibility(View.VISIBLE);
-//            negativeButton.setText(getString(R.string.delete_review));
-//            positiveButton.setVisibility(View.VISIBLE);
-//            positiveButton.setText(getString(R.string.save_review));
-//
-//            ratingBar.setVisibility(View.VISIBLE);
-//            ratingBar.setRating(mReviewRating.getRating());
-//            input.setText(mTextViewReviewText.getText().toString());
-//
-//            if (mReviewRating.getRating() == 1) {
-//                textView.setText(getString(R.string.review_dialog_poor));
-//            }
-//            if (mReviewRating.getRating() == 2) {
-//                textView.setText(getString(R.string.review_dialog_below_average));
-//            }
-//            if (mReviewRating.getRating() == 3) {
-//                textView.setText(getString(R.string.review_dialog_average));
-//            }
-//            if (mReviewRating.getRating() == 4) {
-//                textView.setText(getString(R.string.review_dialog_above_average));
-//            }
-//            if (mReviewRating.getRating() == 5) {
-//                textView.setText(getString(R.string.review_dialog_excellent));
-//            }
-//
-//            ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
-//                @Override
-//                public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
-//                    if (ratingBar.getRating() == 0) {
-//                        ratingBar.setRating(1);
-//                    }
-//                    if (ratingBar.getRating() == 1) {
-//                        textView.setText(getString(R.string.review_dialog_poor));
-//                    }
-//                    if (ratingBar.getRating() == 2) {
-//                        textView.setText(getString(R.string.review_dialog_below_average));
-//                    }
-//                    if (ratingBar.getRating() == 3) {
-//                        textView.setText(getString(R.string.review_dialog_average));
-//                    }
-//                    if (ratingBar.getRating() == 4) {
-//                        textView.setText(getString(R.string.review_dialog_above_average));
-//                    }
-//                    if (ratingBar.getRating() == 5) {
-//                        textView.setText(getString(R.string.review_dialog_excellent));
-//                    }
-//                }
-//            });
-//
-//            positiveButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//
-//                    if (mUserRating != null) {
-//                        Rating tempRating = mUserRating;
-//                        tempRating.setRating(ratingBar.getRating());
-//                        tempRating.setComment(input.getText().toString());
-//                        tempRating.setLastModified(new Date());
-//                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_PUT, tempRating).execute();
-//                    } else {
-//                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
-//                    }
-//                    alertDialog.dismiss();
-//                }
-//            });
-//
-//            negativeButton.setOnClickListener(new View.OnClickListener() {
-//                @Override
-//                public void onClick(View v) {
-//                    if (mUserRating != null) {
-//                        new SendRatingRequest(SendRatingRequest.REQUEST_TYPE_DELETE, mUserRating).execute();
-//                    } else {
-//                        Toast.makeText(CourseActivity.this, R.string.review_delete_retry, Toast.LENGTH_LONG).show();
-//                    }
-//                    alertDialog.dismiss();
-//                }
-//            });
-//        }
-//        alertDialog.show();
-//    }
 }
