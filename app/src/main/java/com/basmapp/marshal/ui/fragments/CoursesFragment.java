@@ -181,7 +181,10 @@ public class CoursesFragment extends Fragment {
 //                         initializeTutorial();
                     }
 
-                    progressDialog.dismiss();
+                    if (getActivity() != null && !getActivity().isFinishing()
+                            && !getActivity().isDestroyed()) {
+                        progressDialog.dismiss();
+                    }
                 }
             }.execute();
 

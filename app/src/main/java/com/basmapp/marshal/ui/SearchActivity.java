@@ -158,7 +158,10 @@ public class SearchActivity extends BaseActivity {
                         mFilteredCourseList = new ArrayList<>(mCoursesList);
                         filter("");
                     }
-                    progressDialog.dismiss();
+
+                    if (!isFinishing() && !isDestroyed()) {
+                        progressDialog.dismiss();
+                    }
                 }
             }.execute();
         }
