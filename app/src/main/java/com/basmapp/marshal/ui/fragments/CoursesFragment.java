@@ -619,6 +619,20 @@ public class CoursesFragment extends Fragment {
             }
         });
 
+        // Collapse search view after clicking suggestion
+        mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
+            @Override
+            public boolean onSuggestionClick(int position) {
+                mSearchItem.collapseActionView();
+                return false;
+            }
+
+            @Override
+            public boolean onSuggestionSelect(int position) {
+                return false;
+            }
+        });
+
         // Collapse search view and close keyboard together
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
