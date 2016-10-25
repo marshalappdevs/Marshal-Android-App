@@ -85,15 +85,15 @@
         android:layout_height="wrap_content"
         android:layout_weight="0.6">
 
-        <View
-            android:layout_width="match_parent"
-            android:layout_height="72dp"
-            android:background="@drawable/ctl_overlay" />
-
         <include
             layout="@layout/content_course"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="72dp"
+            android:background="@drawable/ctl_overlay" />
     </FrameLayout>
 
 </LinearLayout>
