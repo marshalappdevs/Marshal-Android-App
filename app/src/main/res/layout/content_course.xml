@@ -9,7 +9,7 @@
     android:background="?android:colorBackground"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:context="com.basmapp.marshal.ui.CourseActivity"
-    tools:showIn="@layout/activity_course">
+    tools:showIn="@layout/activity_course_test">
 
     <LinearLayout
         android:layout_width="match_parent"
