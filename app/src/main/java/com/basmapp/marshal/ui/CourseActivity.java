@@ -9,13 +9,11 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.annotation.NonNull;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
-import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -122,9 +120,6 @@ public class CourseActivity extends BaseActivity {
 
     private MaterialTapTargetPrompt mFabPrompt;
     private ArrayList<Cycle> mCycles;
-    private NestedScrollView mNestedScrollView;
-    private static final String KEY_SCROLL_X = "KEY_SCROLL_X";
-    private static final String KEY_SCROLL_Y = "KEY_SCROLL_Y";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,8 +162,6 @@ public class CourseActivity extends BaseActivity {
                 supportFinishAfterTransition();
             }
         });
-
-        mNestedScrollView = (NestedScrollView) findViewById(R.id.nestedScrollView);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         // hide toolbar expanded title
@@ -451,27 +444,6 @@ public class CourseActivity extends BaseActivity {
         } else {
             supportFinishAfterTransition();
         }
-    }
-
-    @Override
-    public void onSaveInstanceState(Bundle outState) {
-        outState.putInt(KEY_SCROLL_X, mNestedScrollView.getScrollX());
-        outState.putInt(KEY_SCROLL_Y, mNestedScrollView.getScrollY());
-        super.onSaveInstanceState(outState);
-    }
-
-
-    @Override
-    public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
-        super.onRestoreInstanceState(savedInstanceState);
-        final int x = savedInstanceState.getInt(KEY_SCROLL_X);
-        final int y = savedInstanceState.getInt(KEY_SCROLL_Y);
-        mNestedScrollView.post(new Runnable() {
-            @Override
-            public void run() {
-                mNestedScrollView.scrollTo(x, y);
-            }
-        });
     }
 
     private void orderCyclesByAscending() {
