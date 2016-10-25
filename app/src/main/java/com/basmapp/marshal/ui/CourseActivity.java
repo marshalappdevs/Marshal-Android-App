@@ -21,8 +21,10 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
+import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
@@ -426,6 +428,32 @@ public class CourseActivity extends BaseActivity {
         }
     }
 
+    public void supportFinishAfterTransition() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            mHeader.setTransitionName(null);
+            TransitionSet transitionSet = new TransitionSet();
+            Transition slideUp = new Slide(48);
+            slideUp.excludeTarget(findViewById(R.id.frame_footer), true);
+//                slideUp.addTarget(findViewById(R.id.frame_header));
+            transitionSet.addTransition(slideUp);
+            Transition slideDown = new Slide(80);
+            slideDown.addTarget(findViewById(R.id.frame_footer));
+            transitionSet.addTransition(slideDown);
+            getWindow().setReturnTransition(transitionSet);
+        }
+        super.supportFinishAfterTransition();
+    }
+
+    @Override
+    public void onBackPressed() {
+        if (mFabPrompt != null) {
+            mFabPrompt.finish();
+            mFabPrompt = null;
+        } else {
+            supportFinishAfterTransition();
+        }
+    }
+
     @Override
     public void onSaveInstanceState(Bundle outState) {
         outState.putInt(KEY_SCROLL_X, mNestedScrollView.getScrollX());
@@ -787,16 +815,6 @@ public class CourseActivity extends BaseActivity {
         }
         if (!isAnyDataExist) {
             findViewById(R.id.course_content_textView_noDetailsMessage).setVisibility(View.VISIBLE);
-        }
-    }
-
-    @Override
-    public void onBackPressed() {
-        if (mFabPrompt != null) {
-            mFabPrompt.finish();
-            mFabPrompt = null;
-        } else {
-            super.onBackPressed();
         }
     }
 

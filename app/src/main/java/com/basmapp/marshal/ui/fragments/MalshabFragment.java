@@ -32,7 +32,7 @@ public class MalshabFragment extends Fragment {
 
         setHasOptionsMenu(true);
 
-        mGridView = (GridView) rootView.findViewById(R.id.gridview);
+        mGridView = (GridView) rootView.findViewById(R.id.malshab_gridView);
 
         if (mMalshabItems == null) {
             if (MainActivity.sMalshabItems == null) {

@@ -32,4 +32,5 @@
     <dimen name="launchscreens_product_logo_bottom">16dp</dimen>
     <dimen name="wrong_clock_icon_size">130dp</dimen>
     <dimen name="screenshot_height">144dp</dimen>
+    <dimen name="sub_situation_list_view_padding">8dp</dimen>
 </resources>
