@@ -78,12 +78,6 @@ public class ShowAllCoursesActivity extends BaseActivity {
     }
 
     @Override
-    protected void onResume() {
-        super.onResume();
-        overridePendingTransition(R.anim.slide_in_bottom, R.anim.slide_in_bottom);
-    }
-
-    @Override
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mAdaptersBroadcastReceiver);

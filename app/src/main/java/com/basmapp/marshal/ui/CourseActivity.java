@@ -423,9 +423,10 @@ public class CourseActivity extends BaseActivity {
 
     public void supportFinishAfterTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            mHeader.setTransitionName(null);
+//            mHeader.setTransitionName(null);
             TransitionSet transitionSet = new TransitionSet();
             Transition slide = new Slide(48);
+            slide.excludeTarget(mHeader, true);
             slide.excludeTarget(findViewById(R.id.nestedScrollView), true);
             transitionSet.addTransition(slide);
             slide = new Slide(80);
