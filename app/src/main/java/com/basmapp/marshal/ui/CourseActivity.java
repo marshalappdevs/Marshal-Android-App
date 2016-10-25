@@ -432,13 +432,12 @@ public class CourseActivity extends BaseActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             mHeader.setTransitionName(null);
             TransitionSet transitionSet = new TransitionSet();
-            Transition slideUp = new Slide(48);
-            slideUp.excludeTarget(findViewById(R.id.frame_footer), true);
-//                slideUp.addTarget(findViewById(R.id.frame_header));
-            transitionSet.addTransition(slideUp);
-            Transition slideDown = new Slide(80);
-            slideDown.addTarget(findViewById(R.id.frame_footer));
-            transitionSet.addTransition(slideDown);
+            Transition slide = new Slide(48);
+            slide.excludeTarget(findViewById(R.id.nestedScrollView), true);
+            transitionSet.addTransition(slide);
+            slide = new Slide(80);
+            slide.addTarget(findViewById(R.id.nestedScrollView));
+            transitionSet.addTransition(slide);
             getWindow().setReturnTransition(transitionSet);
         }
         super.supportFinishAfterTransition();

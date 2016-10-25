@@ -83,8 +83,7 @@
         android:id="@+id/frame_footer"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_weight="0.6"
-        android:background="?android:colorBackground">
+        android:layout_weight="0.6">
 
         <View
             android:layout_width="match_parent"

@@ -64,14 +64,6 @@
         app:layout_anchorGravity="bottom|end"
         app:srcCompat="@drawable/ic_course_fab_cycle" />
 
-    <FrameLayout
-        android:id="@+id/frame_footer"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="?android:colorBackground"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
-
-        <include layout="@layout/content_course" />
-    </FrameLayout>
+    <include layout="@layout/content_course" />
 
 </android.support.design.widget.CoordinatorLayout>
