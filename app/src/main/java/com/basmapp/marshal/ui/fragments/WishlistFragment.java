@@ -24,11 +24,14 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -82,53 +85,42 @@ public class WishlistFragment extends Fragment {
 //            filter("");
 //        }
 
-        Course.getByColumnInBackground(true, DBConstants.COL_IS_USER_SUBSCRIBE, true, DBConstants.COL_ID,
-                getActivity(), Course.class, new BackgroundTaskCallBack() {
-                    @Override
-                    public void onSuccess(String result, List<Object> data) {
-                        if (data != null && data.size() > 0) {
-                            try {
-                                mSubscriptionsList = new ArrayList<>((ArrayList) data);
-                                MainActivity.sMyCourses = mSubscriptionsList;
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                                mSubscriptionsList = new ArrayList<>();
-                            }
+        ContentProvider.getInstance().getSubscribedCourses(getContext(), new ContentProviderCallBack() {
+            @Override
+            public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                mSubscriptionsList = (ArrayList<Course>) data;
+                if (mSubscriptionsList.isEmpty()) {
+                    if (mSearchItem != null)
+                        mSearchItem.setVisible(false);
+                    if (sErrorScreen != null)
+                        if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                            mEmptyWishlist.setVisibility(View.GONE);
                         } else {
-                            mSubscriptionsList = new ArrayList<>();
-                        }
-                        if (mSubscriptionsList.isEmpty()) {
-                            if (mSearchItem != null)
-                                mSearchItem.setVisible(false);
-                            if (sErrorScreen != null)
-                                if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                                    mEmptyWishlist.setVisibility(View.GONE);
-                                } else {
-                                    mEmptyWishlist.setVisibility(View.VISIBLE);
-                                }
-                        } else if (!mSubscriptionsList.isEmpty()) {
-                            if (mSearchItem != null)
-                                mSearchItem.setVisible(true);
-                            mEmptyWishlist.setVisibility(View.GONE);
-                        }
-                        filter("");
-                    }
-
-                    @Override
-                    public void onError(String error) {
-                        mSubscriptionsList = new ArrayList<>();
-                        if (mSubscriptionsList.isEmpty()) {
-                            if (mSearchItem != null)
-                                mSearchItem.setVisible(false);
                             mEmptyWishlist.setVisibility(View.VISIBLE);
-                        } else if (!mSubscriptionsList.isEmpty()) {
-                            if (mSearchItem != null)
-                                mSearchItem.setVisible(true);
-                            mEmptyWishlist.setVisibility(View.GONE);
                         }
-                        filter("");
-                    }
-                });
+                } else if (!mSubscriptionsList.isEmpty()) {
+                    if (mSearchItem != null)
+                        mSearchItem.setVisible(true);
+                    mEmptyWishlist.setVisibility(View.GONE);
+                }
+                filter("");
+            }
+
+            @Override
+            public void onError(Exception e) {
+                mSubscriptionsList = new ArrayList<>();
+                if (mSubscriptionsList.isEmpty()) {
+                    if (mSearchItem != null)
+                        mSearchItem.setVisible(false);
+                    mEmptyWishlist.setVisibility(View.VISIBLE);
+                } else if (!mSubscriptionsList.isEmpty()) {
+                    if (mSearchItem != null)
+                        mSearchItem.setVisible(true);
+                    mEmptyWishlist.setVisibility(View.GONE);
+                }
+                filter("");
+            }
+        });
 
         return rootView;
     }
@@ -141,32 +133,32 @@ public class WishlistFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
-            @Override
-            public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
-                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
-                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
-                    if (course != null && course.getCategory() != null &&
-                            coursePositionInList != -1) {
-                        mFilteredCourseList.remove(coursePositionInList);
-                        mAdapter.removeItem(coursePositionInList);
-                    }
-                }
-                mAdapter.notifyDataSetChanged();
-            }
-        };
-
-        IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
-        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
+//        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+//            @Override
+//            public void onReceive(Context context, Intent intent) {
+//                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
+//                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
+//                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
+//                    if (course != null && course.getCategory() != null &&
+//                            coursePositionInList != -1) {
+//                        mFilteredCourseList.remove(coursePositionInList);
+//                        mAdapter.removeItem(coursePositionInList);
+//                    }
+//                }
+//                mAdapter.notifyDataSetChanged();
+//            }
+//        };
+//
+//        IntentFilter intentFilter = new IntentFilter();
+//        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+//        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+//        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
     }
 
     @Override
     public void onPause() {
         super.onPause();
-        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+//        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
     }
 
     @Override

@@ -16,6 +16,7 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
 
@@ -37,7 +38,7 @@ public class ShowAllCoursesActivity extends BaseActivity {
 
         setContentView(R.layout.activity_show_all_courses);
 
-        mCoursesType = getIntent().getStringExtra(Constants.EXTRA_COURSE_TYPE);
+        mCoursesType = getIntent().getStringExtra(Constants.EXTRA_COURSE_CATEGORY);
         mCourses = getIntent().getParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -71,11 +72,19 @@ public class ShowAllCoursesActivity extends BaseActivity {
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                mAdapter.notifyDataSetChanged();
+//                mAdapter.notifyDataSetChanged();
+                if (intent.getAction().equals(ContentProvider.Actions.COURSE_RATING_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    int itemPosition = ContentProvider.Utils.getCoursePositionInList(mCourses, course);
+
+                    if (itemPosition > -1)
+                        mAdapter.notifyItemChanged(itemPosition);
+                }
             }
         };
 
-        registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
+//        registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED));
+        registerReceiver(mAdaptersBroadcastReceiver, new IntentFilter(ContentProvider.Actions.COURSE_RATING_UPDATED));
     }
 
     @Override

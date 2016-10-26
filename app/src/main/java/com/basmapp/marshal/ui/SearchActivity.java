@@ -39,10 +39,13 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.ui.fragments.CoursesFragment;
+import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.ThemeUtils;
@@ -113,57 +116,23 @@ public class SearchActivity extends BaseActivity {
 
         mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
 
-        mCoursesList = CoursesFragment.mCoursesList;
+//        mCoursesList = CoursesFragment.mCoursesList;
 
         if (mCoursesList == null) {
 
-            mCoursesList = new ArrayList<>();
-
-            new AsyncTask<Void, Void, Boolean>() {
-
-                ProgressDialog progressDialog;
-
+            ContentProvider.getInstance().getCourses(getApplicationContext(), new ContentProviderCallBack() {
                 @Override
-                protected void onPreExecute() {
-                    super.onPreExecute();
-                    progressDialog = new ProgressDialog(SearchActivity.this);
-                    progressDialog.setMessage(getResources().getString(R.string.loading));
-                    progressDialog.setCancelable(false);
-                    progressDialog.setCanceledOnTouchOutside(false);
-                    progressDialog.show();
+                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                    mCoursesList = (ArrayList<Course>) data;
+                    mFilteredCourseList = (ArrayList<Course>) data;
+                    filter("");
                 }
 
                 @Override
-                @SuppressWarnings("unchecked")
-                protected Boolean doInBackground(Void... voids) {
-                    try {
-                        if (MainActivity.sAllCourses == null) {
-                            mCoursesList = (ArrayList) Course.findAllByColumn(DBConstants.COL_IS_MEETUP,
-                                    false, DBConstants.COL_NAME, SearchActivity.this, Course.class);
-                            MainActivity.sAllCourses = mCoursesList;
-                        } else {
-                            mCoursesList = MainActivity.sAllCourses;
-                        }
-                        return mCoursesList.size() > 0;
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                        return false;
-                    }
+                public void onError(Exception e) {
+                    e.printStackTrace();
                 }
-
-                @Override
-                protected void onPostExecute(Boolean result) {
-                    super.onPostExecute(result);
-                    if (result) {
-                        mFilteredCourseList = new ArrayList<>(mCoursesList);
-                        filter("");
-                    }
-
-                    if (!isFinishing() && !isDestroyed()) {
-                        progressDialog.dismiss();
-                    }
-                }
-            }.execute();
+            });
         }
 
         if (mCoursesList != null)
@@ -180,20 +149,20 @@ public class SearchActivity extends BaseActivity {
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
-                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
-                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
-                    if (course != null && course.getCategory() != null &&
-                            coursePositionInList != -1) {
-                        mCoursesList.set(coursePositionInList, course);
-                    }
+//                mAdapter.notifyDataSetChanged();
+                if (intent.getAction().equals(ContentProvider.Actions.COURSE_RATING_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    int itemPosition = ContentProvider.Utils.getCoursePositionInList(mCoursesList, course);
+
+                    if (itemPosition > -1)
+                        mAdapter.notifyItemChanged(itemPosition);
                 }
-                mAdapter.notifyDataSetChanged();
             }
         };
         IntentFilter intentFilter = new IntentFilter();
-        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+//        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+//        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+        intentFilter.addAction(ContentProvider.Actions.COURSE_RATING_UPDATED);
         registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
         handleIntent(getIntent());

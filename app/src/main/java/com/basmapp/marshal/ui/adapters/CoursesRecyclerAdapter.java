@@ -42,7 +42,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
     public static final int LAYOUT_TYPE_LIST = 1;
     public static final int LAYOUT_TYPE_GRID = 2;
-    public static final String ACTION_ITEM_DATA_CHANGED = "com.basmapp.marshal.ACTION_courses_adapter_item_data_changed";
+//    public static final String ACTION_ITEM_DATA_CHANGED = "com.basmapp.marshal.ACTION_courses_adapter_item_data_changed";
 
     private Context mContext;
     private ArrayList<Course> mCourses;
@@ -61,7 +61,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
     }
 
     @Override
-    public void onBindViewHolder(final CourseVH holder, final int position) {
+    public void onBindViewHolder(final CourseVH holder, int position) {
 
         // Set card onClickListener
         final long[] mLastClickTime = {0};
@@ -74,7 +74,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
                 mLastClickTime[0] = SystemClock.elapsedRealtime();
                 Intent intent = new Intent(mContext, CourseActivity.class);
                 intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
-                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
+                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(holder.getAdapterPosition())));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 // get status bar and navigation bar views and add them as shared elements
                 // to prevent glitches

@@ -49,6 +49,7 @@ import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.DateHelper;
@@ -674,8 +675,9 @@ public class CourseActivity extends BaseActivity {
         showUserRating();
 
         // Send broadcast for update the rating on the CardView
-        Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-        sendBroadcast(intent);
+//        Intent intent = new Intent(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
+//        sendBroadcast(intent);
+        ContentProvider.getInstance().notifyCourseRatingUpdated(getApplicationContext(), mCourse);
     }
 
     private void initializeRatingViews() {
@@ -929,11 +931,11 @@ public class CourseActivity extends BaseActivity {
                     if (wishlistIcon != null)
                         wishlistIcon.setImageResource(R.drawable.ic_loyalty_add);
                 }
-                Intent intent = new Intent(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
-                intent.putExtra(Constants.EXTRA_COURSE, mCourse);
-                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST,
-                        getIntent().getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1));
-                sendBroadcast(intent);
+//                Intent intent = new Intent(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+//                intent.putExtra(Constants.EXTRA_COURSE, mCourse);
+//                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST,
+//                        getIntent().getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1));
+//                sendBroadcast(intent);
             } else {
                 if (taskType == TASK_TYPE_SUBSCRIBE) {
                     Toast.makeText(CourseActivity.this, String.format(

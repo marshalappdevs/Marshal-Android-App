@@ -387,7 +387,7 @@ public abstract class DBObject {
         List<Object> allObjects = new ArrayList<>();
 
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
-                null, null, null, null, null, orderByColumnName + " ASC");
+                null, null, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
@@ -450,7 +450,7 @@ public abstract class DBObject {
         else if (value instanceof String)
             value = "'" + value + "'";
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
-                null, columnName + " = " + value, null, null, null, orderByColumnName + " ASC");
+                null, columnName + " = " + value, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
 
@@ -824,7 +824,7 @@ public abstract class DBObject {
         }.execute();
     }
 
-    public static void getByColumnInBackground(final boolean showProgressBar,
+    public static void findByColumnInBackground(final boolean showProgressBar,
                                                final String columnName,
                                                final Object value,
                                                final String orderByColumnName,

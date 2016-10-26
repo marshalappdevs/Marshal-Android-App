@@ -63,13 +63,18 @@
             android:dependency="notifications_new_message" />
 
         <MultiSelectListPreference
-            android:defaultValue="@array/fcm_channels_values_defaults"
             android:dependency="notifications_new_message"
             android:key="fcm_channels"
             android:title="@string/pref_fcm_channels_title"
-            android:summary="@string/pref_fcm_channels_summary"
-            android:entries="@array/fcm_channels_entries"
-            android:entryValues="@array/fcm_channels_values" />
+            android:summary="@string/pref_fcm_channels_summary" />
+        <!--<MultiSelectListPreference-->
+            <!--android:defaultValue="@array/fcm_channels_values_defaults"-->
+            <!--android:dependency="notifications_new_message"-->
+            <!--android:key="fcm_channels"-->
+            <!--android:title="@string/pref_fcm_channels_title"-->
+            <!--android:summary="@string/pref_fcm_channels_summary"-->
+            <!--android:entries="@array/fcm_channels_entries"-->
+            <!--android:entryValues="@array/fcm_channels_values" />-->
 
     </PreferenceCategory>
     <PreferenceCategory android:title="@string/pref_advanced_category">

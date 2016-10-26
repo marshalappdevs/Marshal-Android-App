@@ -8,6 +8,7 @@ import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.basmapp.marshal.services.UpdateIntentService;
+import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.LocaleUtils;
 
 import java.util.Date;
@@ -21,6 +22,7 @@ public class ApplicationMarshal extends Application {
         LocaleUtils.updateLocale(this);
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
+//        ContentProvider.getInstance().initAllData(getApplicationContext());
     }
 
     @Override

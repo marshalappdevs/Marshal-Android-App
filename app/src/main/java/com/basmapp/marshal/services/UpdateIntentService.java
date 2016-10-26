@@ -29,6 +29,7 @@ import com.basmapp.marshal.util.MarshalServiceProvider;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -107,6 +108,16 @@ public class UpdateIntentService extends IntentService {
             token = AuthUtil.getApiToken();
             Settings settings = MarshalServiceProvider.getInstance(token).getSettings().execute().body();
 
+            // Fetch channels
+            Set<String> channels = new HashSet<>(settings.getChannels());
+            PreferenceManager.getDefaultSharedPreferences(this).edit()
+                    .putStringSet(Constants.PREF_FCM_CHANNELS_ENTRIES, channels).apply();
+
+            // Fetch categories
+            Set<String> categories = new HashSet<>(settings.getCategories());
+            PreferenceManager.getDefaultSharedPreferences(this).edit().
+                    putStringSet(Constants.PREF_CATEGORIES, categories).apply();
+
             long appLastUpdateTimeStamp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext())
                     .getLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0);
 
@@ -124,6 +135,24 @@ public class UpdateIntentService extends IntentService {
                 PreferenceManager.getDefaultSharedPreferences(this)
                         .edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
             }
+
+//            Set<String> categoriesValues = new HashSet<>();
+//            Set<String> categoriesEnglish = new HashSet<>();
+//            Set<String> categoriesHebrew = new HashSet<>();
+//
+//            for (Category category : settings.getCategories()) {
+//                categoriesValues.add(category.getValue());
+//                categoriesEnglish.add(category.getEnglish());
+//                categoriesHebrew.add(category.getHebrew());
+//            }
+
+//            PreferenceManager.getDefaultSharedPreferences(this).edit().
+//                    putStringSet(Constants.PREF_CATEGORIES_VALUES, categoriesValues).apply();
+//            PreferenceManager.getDefaultSharedPreferences(this).edit().
+//                    putStringSet(Constants.PREF_CATEGORIES_ENGLISH, categoriesEnglish).apply();
+//            PreferenceManager.getDefaultSharedPreferences(this).edit().
+//                    putStringSet(Constants.PREF_CATEGORIES_HEBREW, categoriesHebrew).apply();
+
         } catch (Exception e) {
             e.printStackTrace();
             sendCheckForUpdateResult(false);

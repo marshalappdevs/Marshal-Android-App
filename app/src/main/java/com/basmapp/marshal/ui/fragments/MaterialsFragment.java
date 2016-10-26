@@ -23,11 +23,14 @@ import android.widget.TextView;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MaterialItem;
+import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.interfaces.OnHashTagClickListener;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.MaterialsRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -81,46 +84,58 @@ public class MaterialsFragment extends Fragment {
 
         if (!mIsRunForCourse) {
             if (mMaterialsList == null) {
-                if (MainActivity.sMaterialItems == null) {
-                    mProgressBar.setVisibility(View.VISIBLE);
-                    MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-                            false, new BackgroundTaskCallBack() {
-                                @Override
-                                public void onSuccess(String result, List<Object> data) {
-                                    if (data != null) {
-                                        try {
-                                            mMaterialsList = (ArrayList) data;
-                                            MainActivity.sMaterialItems = mMaterialsList;
-                                        } catch (Exception e) {
-                                            e.printStackTrace();
-                                            mMaterialsList = new ArrayList<>();
-                                        }
-                                    } else {
-                                        mMaterialsList = new ArrayList<>();
-                                    }
-                                    mProgressBar.setVisibility(View.GONE);
-                                    showData();
-                                }
+                ContentProvider.getInstance().getMaterialItems(getContext(), new ContentProviderCallBack() {
+                    @Override
+                    public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                        mMaterialsList = (ArrayList<MaterialItem>) data;
+                        setProgressBarVisibility(View.GONE);
+                        showData();
+                    }
 
-                                @Override
-                                public void onError(String error) {
-                                    if (error != null) {
-                                        Log.e("GET MATERIALS ", " ERROR:\n" + error);
-                                    } else {
-                                        Log.e("GET MATERIALS ", " ERROR");
-                                    }
-                                    mProgressBar.setVisibility(View.GONE);
-                                }
-                            });
-                } else {
-                    mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
-                    showData();
-                }
-            } else {
-                showData();
+                    @Override
+                    public void onError(Exception e) {
+                        setProgressBarVisibility(View.GONE);
+                    }
+                });
+//                if (MainActivity.sMaterialItems == null) {
+//                    mProgressBar.setVisibility(View.VISIBLE);
+//                    MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
+//                            false, new BackgroundTaskCallBack() {
+//                                @Override
+//                                public void onSuccess(String result, List<Object> data) {
+//                                    if (data != null) {
+//                                        try {
+//                                            mMaterialsList = (ArrayList) data;
+//                                            MainActivity.sMaterialItems = mMaterialsList;
+//                                        } catch (Exception e) {
+//                                            e.printStackTrace();
+//                                            mMaterialsList = new ArrayList<>();
+//                                        }
+//                                    } else {
+//                                        mMaterialsList = new ArrayList<>();
+//                                    }
+//                                    mProgressBar.setVisibility(View.GONE);
+//                                    showData();
+//                                }
+//
+//                                @Override
+//                                public void onError(String error) {
+//                                    if (error != null) {
+//                                        Log.e("GET MATERIALS ", " ERROR:\n" + error);
+//                                    } else {
+//                                        Log.e("GET MATERIALS ", " ERROR");
+//                                    }
+//                                    mProgressBar.setVisibility(View.GONE);
+//                                }
+//                            });
+//                } else {
+//                    mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
+//                    showData();
+//                }
+//            } else {
+//                showData();
             }
         } else {
-
             mProgressBar.setVisibility(View.VISIBLE);
 
             if (getArguments() != null) {
@@ -136,6 +151,10 @@ public class MaterialsFragment extends Fragment {
         }
 
         return rootView;
+    }
+
+    private void setProgressBarVisibility(int visibility) {
+        mProgressBar.setVisibility(visibility);
     }
 
     private void showData() {

@@ -4,8 +4,8 @@ public class Constants {
     public static final String LOG_TAG = "Marshal";
 
     // Actions
-    public static final String ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED =
-            "com.basmapp.marshal.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED";
+//    public static final String ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED =
+//            "com.basmapp.marshal.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED";
 
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
@@ -32,6 +32,11 @@ public class Constants {
     public static final String PREF_NOTIFY_NEW_MESSAGE = "notify_new_message";
     public static final String PREF_NOTIFICATIONS_NEW_RINGTONE = "notifications_new_message_ringtone";
     public static final String PREF_COURSE_ACTIVITY_STARTED_SHARED = "course_activity_started_shared";
+    public static final String PREF_CATEGORIES = "pref_categories";
+    public static final String PREF_CATEGORIES_VALUES = "pref_categories_values";
+    public static final String PREF_CATEGORIES_ENGLISH = "pref_categories_english";
+    public static final String PREF_CATEGORIES_HEBREW = "pref_categories_hebrew";
+    public static final String PREF_FCM_CHANNELS_ENTRIES = "pref_fcm_channels_entries";
 
     public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
     public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";
@@ -41,7 +46,7 @@ public class Constants {
     public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
     public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final String EXTRA_COURSES_LIST = "extra_courses_list";
-    public static final String EXTRA_COURSE_TYPE = "course_type";
+    public static final String EXTRA_COURSE_CATEGORY = "course_category";
     public static final String EXTRA_SEARCH_QUERY = "search_query";
     public static final String EXTRA_ALL_COURSES = "all_courses";
     public static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";

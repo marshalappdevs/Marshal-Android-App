@@ -36,6 +36,7 @@ import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerDialog;
 import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -178,6 +179,14 @@ public class SettingsActivity extends BaseActivity {
 
             prefFcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_FCM_CHANNELS);
             prefFcmChannels.setOnPreferenceChangeListener(this);
+            Set<String> channels =
+                    prefFcmChannels.getSharedPreferences()
+                            .getStringSet(Constants.PREF_FCM_CHANNELS_ENTRIES, new HashSet<String>());
+            CharSequence[] channelsCharSequences =
+                    new ArrayList<>(channels).toArray(new CharSequence[channels.size()]);
+            prefFcmChannels.setEntryValues(channelsCharSequences);
+            prefFcmChannels.setEntries(channelsCharSequences);
+            prefFcmChannels.setDefaultValue(channelsCharSequences);
             updateFcmChannelsPrefSummary();
 
             Preference prefClearTapTargets = findPreference(Constants.PREF_CLEAR_TAP_TARGETS);

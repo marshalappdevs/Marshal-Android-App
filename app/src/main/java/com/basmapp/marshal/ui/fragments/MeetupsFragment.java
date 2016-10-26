@@ -19,10 +19,13 @@ import android.widget.TextView;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -66,36 +69,48 @@ public class MeetupsFragment extends Fragment {
             mRecycler.setAdapter(mAdapter);
 
         if (mMeetupsList == null) {
-            if (MainActivity.sMeetups == null) {
-                Course.getByColumnInBackground(true, DBConstants.COL_IS_MEETUP, true, DBConstants.COL_ID,
-                        getActivity(), Course.class, new BackgroundTaskCallBack() {
-                            @Override
-                            public void onSuccess(String result, List<Object> data) {
-                                if (data != null && data.size() > 0) {
-                                    try {
-                                        mMeetupsList = new ArrayList<>((ArrayList) data);
-                                        MainActivity.sMeetups = mMeetupsList;
-                                    } catch (Exception e) {
-                                        e.printStackTrace();
-                                        mMeetupsList = new ArrayList<>();
-                                    }
-                                } else {
-                                    mMeetupsList = new ArrayList<>();
-                                }
+            ContentProvider.getInstance().getMeetups(getContext(), new ContentProviderCallBack() {
+                @Override
+                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                    mMeetupsList = (ArrayList<Course>) data;
+                    filter("");
+                }
 
-                                filter("");
-                            }
-
-                            @Override
-                            public void onError(String error) {
-                                mMeetupsList = new ArrayList<>();
-                                filter("");
-                            }
-                        });
-            } else {
-                mMeetupsList = new ArrayList<>(MainActivity.sMeetups);
-                filter("");
-            }
+                @Override
+                public void onError(Exception e) {
+                    mMeetupsList = new ArrayList<>();
+                    filter("");
+                }
+            });
+//            if (MainActivity.sMeetups == null) {
+//                Course.findByColumnInBackground(true, DBConstants.COL_IS_MEETUP, true, null,
+//                        getActivity(), Course.class, new BackgroundTaskCallBack() {
+//                            @Override
+//                            public void onSuccess(String result, List<Object> data) {
+//                                if (data != null && data.size() > 0) {
+//                                    try {
+//                                        mMeetupsList = new ArrayList<>((ArrayList) data);
+//                                        MainActivity.sMeetups = mMeetupsList;
+//                                    } catch (Exception e) {
+//                                        e.printStackTrace();
+//                                        mMeetupsList = new ArrayList<>();
+//                                    }
+//                                } else {
+//                                    mMeetupsList = new ArrayList<>();
+//                                }
+//
+//                                filter("");
+//                            }
+//
+//                            @Override
+//                            public void onError(String error) {
+//                                mMeetupsList = new ArrayList<>();
+//                                filter("");
+//                            }
+//                        });
+//            } else {
+//                mMeetupsList = new ArrayList<>(MainActivity.sMeetups);
+//                filter("");
         } else {
             filter("");
         }
