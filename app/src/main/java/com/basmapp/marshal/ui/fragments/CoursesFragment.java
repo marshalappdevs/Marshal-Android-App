@@ -201,6 +201,9 @@ public class CoursesFragment extends Fragment {
                     if (position > -1) {
                         mCategoryHoldersMap.get(course.getCategory()).notifyItemChanged(position);
                     }
+                } else if (intent.getAction().equals(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    mCategoryHoldersMap.get(course.getCategory()).changeCourseSubscriptionState(course);
                 }
             }
         };
@@ -523,6 +526,12 @@ public class CoursesFragment extends Fragment {
 
         void notifyItemChanged(int position) {
             mRecyclerAdapter.notifyItemChanged(position);
+        }
+
+        void changeCourseSubscriptionState(Course course) {
+            int position = ContentProvider.Utils.getCoursePositionInList(mCourses, course);
+            mCourses.get(position).setIsUserSubscribe(course.getIsUserSubscribe());
+            notifyItemChanged(position);
         }
     }
 }

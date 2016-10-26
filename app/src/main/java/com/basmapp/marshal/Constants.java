@@ -3,10 +3,6 @@ package com.basmapp.marshal;
 public class Constants {
     public static final String LOG_TAG = "Marshal";
 
-    // Actions
-//    public static final String ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED =
-//            "com.basmapp.marshal.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED";
-
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
     public static final String PREF_IS_FIRST_RUN = "pref_is_first_run";

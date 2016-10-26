@@ -79,6 +79,10 @@ public class ShowAllCoursesActivity extends BaseActivity {
 
                     if (itemPosition > -1)
                         mAdapter.notifyItemChanged(itemPosition);
+                } else if (intent.getAction().equals(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    mCourses.get(ContentProvider.Utils.getCoursePositionInList(mCourses,
+                            course)).setIsUserSubscribe(course.getIsUserSubscribe());
                 }
             }
         };

@@ -78,12 +78,41 @@ public class WishlistFragment extends Fragment {
         if (mRecycler.getAdapter() == null)
             mRecycler.setAdapter(mAdapter);
 
-//        if (MainActivity.sMyCourses == null) {
-//
-//        } else {
-//            mSubscriptionsList = new ArrayList<>(MainActivity.sMyCourses);
-//            filter("");
-//        }
+        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
+            @Override
+            public void onReceive(Context context, Intent intent) {
+                if (intent.getAction().equals(ContentProvider.Actions.COURSE_RATING_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    int itemPosition = ContentProvider.Utils.getCoursePositionInList(mSubscriptionsList, course);
+
+                    if (itemPosition > -1)
+                        mAdapter.notifyItemChanged(itemPosition);
+                }
+//                else if (intent.getAction().equals(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED)) {
+//                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+//                    if (course.getIsUserSubscribe()) {
+//                        mSubscriptionsList.add(course);
+//                        mAdapter.notifyItemInserted(mSubscriptionsList.size() - 1);
+//                    } else {
+//                        int itemPosition = ContentProvider.Utils.getCoursePositionInList(mSubscriptionsList, course);
+//                        if (itemPosition > -1)
+//                            mSubscriptionsList.remove(itemPosition);
+//                            mAdapter.notifyItemRemoved(itemPosition);
+//                    }
+//                }
+            }
+        };
+
+        return rootView;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        IntentFilter intentFilter = new IntentFilter();
+        intentFilter.addAction(ContentProvider.Actions.COURSE_RATING_UPDATED);
+        intentFilter.addAction(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED);
+        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
         ContentProvider.getInstance().getSubscribedCourses(getContext(), new ContentProviderCallBack() {
             @Override
@@ -121,44 +150,12 @@ public class WishlistFragment extends Fragment {
                 filter("");
             }
         });
-
-        return rootView;
     }
 
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-    }
-
-    @Override
-    public void onResume() {
-        super.onResume();
-//        mAdaptersBroadcastReceiver = new BroadcastReceiver() {
-//            @Override
-//            public void onReceive(Context context, Intent intent) {
-//                if (intent.getAction().equals(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED)) {
-//                    int coursePositionInList = intent.getIntExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, -1);
-//                    Course course = intent.getParcelableExtra(Constants.EXTRA_COURSE);
-//                    if (course != null && course.getCategory() != null &&
-//                            coursePositionInList != -1) {
-//                        mFilteredCourseList.remove(coursePositionInList);
-//                        mAdapter.removeItem(coursePositionInList);
-//                    }
-//                }
-//                mAdapter.notifyDataSetChanged();
-//            }
-//        };
-//
-//        IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-//        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
-//        getActivity().registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
-    }
-
-    @Override
-    public void onPause() {
-        super.onPause();
-//        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
+        getActivity().unregisterReceiver(mAdaptersBroadcastReceiver);
     }
 
     @Override

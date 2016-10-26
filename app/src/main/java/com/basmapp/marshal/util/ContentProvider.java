@@ -3,6 +3,7 @@ package com.basmapp.marshal.util;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 
 import com.basmapp.marshal.Constants;
@@ -11,6 +12,7 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBConstants;
+import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 
 import java.util.ArrayList;
@@ -301,6 +303,27 @@ public class ContentProvider {
 
     public void notifyCourseRatingUpdated(Context context, Course course) {
         Intent intent = new Intent(Actions.COURSE_RATING_UPDATED);
+        intent.putExtra(Extras.COURSE, course);
+        sendBroadcast(context, intent);
+    }
+
+    public void notifyCourseSubscriptionUpdated(Context context, final Course course) {
+
+        initSubscribedCourses(context, null);
+
+        new AsyncTask<Void, Void, Void>() {
+            @Override
+            protected Void doInBackground(Void... voids) {
+                sCoursesListsMap.get(course.getCategory()).get(Utils.getCoursePositionInList(
+                        sCoursesListsMap.get(course.getCategory()), course)).setIsUserSubscribe(course.getIsUserSubscribe());
+
+                if (sCourses != null) sCourses.get(Utils.getCoursePositionInList(
+                        sCoursesListsMap.get(course.getCategory()), course)).setIsUserSubscribe(course.getIsUserSubscribe());
+                return null;
+            }
+        }.execute();
+
+        Intent intent = new Intent(Actions.COURSE_SUBSCRIPTION_UPDATED);
         intent.putExtra(Extras.COURSE, course);
         sendBroadcast(context, intent);
     }

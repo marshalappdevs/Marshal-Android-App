@@ -118,22 +118,26 @@ public class SearchActivity extends BaseActivity {
 
 //        mCoursesList = CoursesFragment.mCoursesList;
 
-        if (mCoursesList == null) {
+//        if (mCoursesList == null) {
+//
+//            ContentProvider.getInstance().getCourses(getApplicationContext(), new ContentProviderCallBack() {
+//                @Override
+//                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+//                    mCoursesList = (ArrayList<Course>) data;
+//                    mFilteredCourseList = (ArrayList<Course>) data;
+//                    filter("");
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        }
 
-            ContentProvider.getInstance().getCourses(getApplicationContext(), new ContentProviderCallBack() {
-                @Override
-                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-                    mCoursesList = (ArrayList<Course>) data;
-                    mFilteredCourseList = (ArrayList<Course>) data;
-                    filter("");
-                }
-
-                @Override
-                public void onError(Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        }
+//        if (mCoursesList == null) {
+//            fetchData("");
+//        }
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -149,19 +153,21 @@ public class SearchActivity extends BaseActivity {
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
-//                mAdapter.notifyDataSetChanged();
                 if (intent.getAction().equals(ContentProvider.Actions.COURSE_RATING_UPDATED)) {
                     Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
                     int itemPosition = ContentProvider.Utils.getCoursePositionInList(mCoursesList, course);
 
                     if (itemPosition > -1)
                         mAdapter.notifyItemChanged(itemPosition);
+                } else if (intent.getAction().equals(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED)) {
+                    Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
+                    mCoursesList.get(ContentProvider.Utils.getCoursePositionInList(mCoursesList,
+                            course)).setIsUserSubscribe(course.getIsUserSubscribe());
                 }
             }
         };
         IntentFilter intentFilter = new IntentFilter();
-//        intentFilter.addAction(CoursesRecyclerAdapter.ACTION_ITEM_DATA_CHANGED);
-//        intentFilter.addAction(Constants.ACTION_COURSE_SUBSCRIPTION_STATE_CHANGED);
+        intentFilter.addAction(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED);
         intentFilter.addAction(ContentProvider.Actions.COURSE_RATING_UPDATED);
         registerReceiver(mAdaptersBroadcastReceiver, intentFilter);
 
@@ -286,9 +292,29 @@ public class SearchActivity extends BaseActivity {
                 mSearchView.setQuery(mSearchQuery, false);
                 mSearchView.clearFocus();
             }
-            filter(mSearchQuery);
+
+            if (mCoursesList == null) fetchData(mSearchQuery);
+            else filter(mSearchQuery);
+//            fetchData(mSearchQuery);
+//            filter(mSearchQuery);
             SuggestionProvider.save(this, mSearchQuery.trim());
         }
+    }
+
+    private void fetchData(final String query) {
+        ContentProvider.getInstance().getCourses(getApplicationContext(), new ContentProviderCallBack() {
+            @Override
+            public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                mCoursesList = (ArrayList<Course>) data;
+                mFilteredCourseList = (ArrayList<Course>) data;
+                filter(query);
+            }
+
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     private void showFilterTargetPrompt() {
