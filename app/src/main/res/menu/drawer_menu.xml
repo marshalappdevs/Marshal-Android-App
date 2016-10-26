@@ -11,9 +11,9 @@
             android:title="@string/navigation_drawer_courses"
             app:actionViewClass="android.widget.TextView" />
         <item
-            android:id="@+id/nav_subscriptions"
-            android:icon="@drawable/ic_drawer_subscriptions"
-            android:title="@string/navigation_drawer_subscriptions" />
+            android:id="@+id/nav_wishlist"
+            android:icon="@drawable/ic_drawer_loyalty"
+            android:title="@string/navigation_drawer_wishlist" />
         <item
             android:id="@+id/nav_materials"
             android:icon="@drawable/ic_drawer_library"

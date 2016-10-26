@@ -5,14 +5,14 @@
     android:layout_height="match_parent">
 
     <android.support.v7.widget.RecyclerView
-        android:id="@+id/fragment_subscriptions_search_recyclerView"
+        android:id="@+id/fragment_wishlist_search_recyclerView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:clipToPadding="false"
         android:paddingTop="4dp" />
 
     <LinearLayout
-        android:id="@+id/fragment_subscriptions_no_subscriptions"
+        android:id="@+id/empty_wishlist_linearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
@@ -38,14 +38,14 @@
             android:drawablePadding="10dp"
             android:fontFamily="sans-serif-light"
             android:gravity="center"
-            android:text="@string/no_subscriptions"
+            android:text="@string/my_wishlist_empty"
             android:textColor="?android:textColorSecondary"
             android:textSize="18sp"
             android:visibility="visible" />
     </LinearLayout>
 
     <TextView
-        android:id="@+id/fragment_subscriptions_search_no_results"
+        android:id="@+id/fragment_wishlist_no_search_results"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"

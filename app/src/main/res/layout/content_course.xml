@@ -581,7 +581,7 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/subscribe_button"
+                android:id="@+id/wishlist_button"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
@@ -599,7 +599,7 @@
                     android:gravity="center">
 
                     <ImageView
-                        android:id="@+id/subscribe_button_icon"
+                        android:id="@+id/wishlist_button_icon"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
@@ -609,10 +609,10 @@
                 </FrameLayout>
 
                 <TextView
-                    android:id="@+id/subscribe_button_text"
+                    android:id="@+id/wishlist_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/subscribe"
+                    android:text="@string/details_secondary_action_wishlist"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -648,7 +648,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/course_share"
+                    android:text="@string/details_secondary_action_share"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
             </LinearLayout>
@@ -684,7 +684,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/course_related_content"
+                    android:text="@string/details_secondary_action_materials"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
             </LinearLayout>

@@ -34,11 +34,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class SubscriptionsFragment extends Fragment {
+public class WishlistFragment extends Fragment {
 
     private RecyclerView mRecycler;
     private TextView mNoResults;
-    private LinearLayout mNoSubscriptions, sErrorScreen;
+    private LinearLayout mEmptyWishlist, sErrorScreen;
     private SearchView mSearchView;
     private MenuItem mSearchItem;
     private CoursesSearchRecyclerAdapter mAdapter;
@@ -46,21 +46,21 @@ public class SubscriptionsFragment extends Fragment {
     private ArrayList<Course> mSubscriptionsList;
     private String mFilterText;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
-    private static final String SUBSCRIPTIONS_PREVIOUS_QUERY = "SUBSCRIPTIONS_PREVIOUS_QUERY";
+    private static final String WISHLIST_PREVIOUS_QUERY = "WISHLIST_PREVIOUS_QUERY";
     private String mPreviousQuery;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_subscriptions, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_wishlist, container, false);
 
         setHasOptionsMenu(true);
 
-        mNoResults = (TextView) rootView.findViewById(R.id.fragment_subscriptions_search_no_results);
-        mNoSubscriptions = (LinearLayout) rootView.findViewById(R.id.fragment_subscriptions_no_subscriptions);
+        mNoResults = (TextView) rootView.findViewById(R.id.fragment_wishlist_no_search_results);
+        mEmptyWishlist = (LinearLayout) rootView.findViewById(R.id.empty_wishlist_linearLayout);
 
         // Initialize RecyclerView
-        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_subscriptions_search_recyclerView);
+        mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_wishlist_search_recyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
         mRecycler.setLayoutManager(mLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
@@ -102,14 +102,14 @@ public class SubscriptionsFragment extends Fragment {
                                 mSearchItem.setVisible(false);
                             if (sErrorScreen != null)
                                 if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                                    mNoSubscriptions.setVisibility(View.GONE);
+                                    mEmptyWishlist.setVisibility(View.GONE);
                                 } else {
-                                    mNoSubscriptions.setVisibility(View.VISIBLE);
+                                    mEmptyWishlist.setVisibility(View.VISIBLE);
                                 }
                         } else if (!mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(true);
-                            mNoSubscriptions.setVisibility(View.GONE);
+                            mEmptyWishlist.setVisibility(View.GONE);
                         }
                         filter("");
                     }
@@ -120,11 +120,11 @@ public class SubscriptionsFragment extends Fragment {
                         if (mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(false);
-                            mNoSubscriptions.setVisibility(View.VISIBLE);
+                            mEmptyWishlist.setVisibility(View.VISIBLE);
                         } else if (!mSubscriptionsList.isEmpty()) {
                             if (mSearchItem != null)
                                 mSearchItem.setVisible(true);
-                            mNoSubscriptions.setVisibility(View.GONE);
+                            mEmptyWishlist.setVisibility(View.GONE);
                         }
                         filter("");
                     }
@@ -174,7 +174,7 @@ public class SubscriptionsFragment extends Fragment {
         super.onSaveInstanceState(outState);
         // Save SearchView query if possible
         if (mSearchView != null) {
-            outState.putString(SUBSCRIPTIONS_PREVIOUS_QUERY, mSearchView.getQuery().toString());
+            outState.putString(WISHLIST_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
     }
 
@@ -183,7 +183,7 @@ public class SubscriptionsFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         if (savedInstanceState != null) {
             // Restore previous SearchView query
-            mPreviousQuery = savedInstanceState.getString(SUBSCRIPTIONS_PREVIOUS_QUERY);
+            mPreviousQuery = savedInstanceState.getString(WISHLIST_PREVIOUS_QUERY);
         }
         setHasOptionsMenu(true);
         if (mAdapter != null && mRecycler != null) {

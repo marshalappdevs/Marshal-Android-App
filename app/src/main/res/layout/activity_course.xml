@@ -39,7 +39,7 @@
             <View
                 android:id="@+id/header_image_top_overlay"
                 android:layout_width="match_parent"
-                android:layout_height="72dp"
+                android:layout_height="@dimen/ctl_overlay_height"
                 android:background="@drawable/ctl_overlay"
                 android:fitsSystemWindows="true" />
 

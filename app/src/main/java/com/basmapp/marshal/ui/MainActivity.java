@@ -67,7 +67,7 @@ import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
-import com.basmapp.marshal.ui.fragments.SubscriptionsFragment;
+import com.basmapp.marshal.ui.fragments.WishlistFragment;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
@@ -110,7 +110,7 @@ public class MainActivity extends BaseActivity
     private MaterialsFragment mMaterialsFragment;
     private MalshabFragment mMalshabFragment;
     private MeetupsFragment mMeetupsFragment;
-    private SubscriptionsFragment mSubscriptionsFragment;
+    private WishlistFragment mWishlistFragment;
 
     private UpdateBroadcastReceiver mUpdateBroadcastReceiver;
 
@@ -422,7 +422,7 @@ public class MainActivity extends BaseActivity
         mMaterialsFragment = null;
         mMalshabFragment = null;
         mMeetupsFragment = null;
-        mSubscriptionsFragment = null;
+        mWishlistFragment = null;
 
         setErrorScreenVisibility(View.GONE);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -956,11 +956,11 @@ public class MainActivity extends BaseActivity
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
 //            setBadge(item.getItemId());
-        } else if (id == R.id.nav_subscriptions) {
-            if (mSubscriptionsFragment == null) {
-                mSubscriptionsFragment = new SubscriptionsFragment();
+        } else if (id == R.id.nav_wishlist) {
+            if (mWishlistFragment == null) {
+                mWishlistFragment = new WishlistFragment();
             }
-            fragmentManager.beginTransaction().replace(R.id.content_frame, mSubscriptionsFragment).commit();
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mWishlistFragment).commit();
         } else if (id == R.id.nav_materials) {
             if (mMaterialsFragment == null) {
                 mMaterialsFragment = new MaterialsFragment();
