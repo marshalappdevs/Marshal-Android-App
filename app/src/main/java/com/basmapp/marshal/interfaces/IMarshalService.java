@@ -58,10 +58,10 @@ public interface IMarshalService {
 //    Call<Rating> deleteFcmRegistration(@Path("hardwareId") String hardwareId);
 
     @POST(MarshalServiceProvider.POST_SUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{course_id}")
-    Call<Void> subsribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
+    Call<Void> subscribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
 
     @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{course_id}")
-    Call<Void> unsubsribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
+    Call<Void> unsubscribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
 
 //    @GET(MarshalServiceProvider.GET_FCM_REGISTRATION)
 //    Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
