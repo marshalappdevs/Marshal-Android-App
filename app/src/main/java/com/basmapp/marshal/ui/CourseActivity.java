@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui;
 
-import android.animation.ObjectAnimator;
 import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -447,8 +446,8 @@ public class CourseActivity extends BaseActivity {
             transitionSet.addTransition(slide);
             transitionSet.setDuration(400);
             getWindow().setReturnTransition(transitionSet);
-            ObjectAnimator.ofFloat(mAppBarLayout, "alpha", new float[]{
-                    mAppBarLayout.getAlpha(), 0}).setDuration(400).start();
+//            ObjectAnimator.ofFloat(mAppBarLayout, "alpha", new float[]{
+//                    mAppBarLayout.getAlpha(), 0}).setDuration(400).start();
         }
         super.supportFinishAfterTransition();
     }
