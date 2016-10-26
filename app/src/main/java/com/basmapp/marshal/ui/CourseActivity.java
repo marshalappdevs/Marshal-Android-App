@@ -1,5 +1,7 @@
 package com.basmapp.marshal.ui;
 
+import android.animation.ObjectAnimator;
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -74,8 +76,9 @@ public class CourseActivity extends BaseActivity {
 
     private static final int RC_REVIEW_ACTIVITY = 123;
 
+    private AppBarLayout mAppBarLayout;
+    private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar mToolbar;
-    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     private Course mCourse;
     private Rating mUserRating;
@@ -123,8 +126,6 @@ public class CourseActivity extends BaseActivity {
     private MaterialTapTargetPrompt mFabPrompt;
     private ArrayList<Cycle> mCycles;
 
-    private AppBarLayout mAppBarLayout;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -169,9 +170,9 @@ public class CourseActivity extends BaseActivity {
             }
         });
 
-        collapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        mCollapsingToolbarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         // hide toolbar expanded title
-        collapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
+        mCollapsingToolbarLayout.setExpandedTitleColor(ContextCompat.getColor(getApplicationContext(), android.R.color.transparent));
 
         //Initialize Cycles FAB
         mFabCycles = (FloatingActionButton) findViewById(R.id.course_activity_fab_cycles);
@@ -234,6 +235,7 @@ public class CourseActivity extends BaseActivity {
                         && mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true)) {
                     getWindow().getSharedElementEnterTransition().addListener(
                             new Transition.TransitionListener() {
+                                @SuppressLint("NewApi")
                                 @Override
                                 public void onTransitionStart(Transition transition) {
                                     int measuredWidth = mAppBarLayout.getMeasuredWidth();
@@ -278,7 +280,7 @@ public class CourseActivity extends BaseActivity {
             onSecondaryActionsClick();
 
             // Set the course title
-            collapsingToolbarLayout.setTitle(mCourse.getName());
+            mCollapsingToolbarLayout.setTitle(mCourse.getName());
 
             mTextViewCourseName = (TextView) findViewById(R.id.course_content_textView_courseName);
             mTextViewCourseCategory = (TextView) findViewById(R.id.course_content_textView_courseCategory);
@@ -311,8 +313,8 @@ public class CourseActivity extends BaseActivity {
                                 public void onGenerated(Palette palette) {
                                     contentColor = palette.getMutedColor(ThemeUtils.getThemeColor(CourseActivity.this, R.attr.colorPrimary));
                                     scrimColor = ContextCompat.getColor(getApplicationContext(), R.color.black_trans80);
-                                    collapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
-                                    collapsingToolbarLayout.setContentScrimColor(contentColor);
+                                    mCollapsingToolbarLayout.setStatusBarScrimColor(scrimColor);
+                                    mCollapsingToolbarLayout.setContentScrimColor(contentColor);
                                 }
                             });
                         }
@@ -445,6 +447,8 @@ public class CourseActivity extends BaseActivity {
             transitionSet.addTransition(slide);
             transitionSet.setDuration(400);
             getWindow().setReturnTransition(transitionSet);
+            ObjectAnimator.ofFloat(mAppBarLayout, "alpha", new float[]{
+                    mAppBarLayout.getAlpha(), 0}).setDuration(400).start();
         }
         super.supportFinishAfterTransition();
     }
