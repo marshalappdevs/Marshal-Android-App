@@ -58,7 +58,8 @@ public class ShowAllCoursesActivity extends BaseActivity {
         if (mCourses != null) {
             if (mCourses.size() > 0) {
                 mRecyclerView = (RecyclerView) findViewById(R.id.showAllCourses_recyclerView);
-                mGridLayoutManager = new GridLayoutManager(ShowAllCoursesActivity.this, 3);
+                mGridLayoutManager = new GridLayoutManager(ShowAllCoursesActivity.this,
+                        getResources().getInteger(R.integer.course_card_columns));
                 mRecyclerView.setLayoutManager(mGridLayoutManager);
                 mRecyclerView.setItemAnimator(new DefaultItemAnimator());
                 mRecyclerView.setHasFixedSize(true);
