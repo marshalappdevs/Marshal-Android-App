@@ -178,9 +178,9 @@ public class CourseActivity extends BaseActivity {
         // Set wishlist menu item
         mWishlistIcon = (ImageView) findViewById(R.id.wishlist_button_icon);
         if (mCourse.getIsUserSubscribe()) {
-            mWishlistIcon.setImageResource(R.drawable.ic_wishlist_added);
+            mWishlistIcon.setImageResource(R.drawable.ic_loyalty_added);
         } else {
-            mWishlistIcon.setImageResource(R.drawable.ic_wishlist_add);
+            mWishlistIcon.setImageResource(R.drawable.ic_loyalty_add);
         }
 
         if (mCourse != null) {
