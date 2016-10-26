@@ -52,6 +52,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class CoursesFragment extends Fragment {
@@ -500,22 +501,17 @@ public class CoursesFragment extends Fragment {
 
         private String getCategoryLocaleTitle(String category) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            String language = sharedPreferences.getString(Constants.PREF_LANGUAGE, null);
             Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, null);
-
-            if (language != null) {
-                for (String categoryValues : categories) {
-                    String[] values = categoryValues.split(";");
-                    if (values[0].equals(category)) {
-                        if (language.equals("en")) {
-                            return values[1];
-                        } else if (language.equals("iw")) {
-                            return values[2];
-                        }
+            for (String categoryValues : categories) {
+                String[] values = categoryValues.split(";");
+                if (values[0].equals(category)) {
+                    if (Locale.getDefault().toString().toLowerCase().equals("en")) {
+                        return values[1];
+                    } else if (Locale.getDefault().toString().toLowerCase().equals("iw")) {
+                        return values[2];
                     }
                 }
             }
-
             return category;
         }
 
