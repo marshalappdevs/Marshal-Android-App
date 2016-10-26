@@ -9,6 +9,7 @@ import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -26,6 +27,7 @@ import android.transition.TransitionSet;
 import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -121,6 +123,8 @@ public class CourseActivity extends BaseActivity {
     private MaterialTapTargetPrompt mFabPrompt;
     private ArrayList<Cycle> mCycles;
 
+    private AppBarLayout mAppBarLayout;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -150,6 +154,8 @@ public class CourseActivity extends BaseActivity {
 
         mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
         mCourse.Ctor(this);
+
+        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -230,7 +236,12 @@ public class CourseActivity extends BaseActivity {
                             new Transition.TransitionListener() {
                                 @Override
                                 public void onTransitionStart(Transition transition) {
-
+                                    int measuredWidth = mAppBarLayout.getMeasuredWidth();
+                                    int measuredHeight = mAppBarLayout.getMeasuredHeight();
+                                    ViewAnimationUtils.createCircularReveal(
+                                            mAppBarLayout, measuredWidth / 2, measuredHeight / 2, 0.0f,
+                                            ((float) Math.sqrt((double) (((float) (measuredWidth * measuredWidth))
+                                                    + ((float) (measuredWidth * measuredHeight))))) * 0.5f).setDuration(400).start();
                                 }
 
                                 @Override
@@ -432,6 +443,7 @@ public class CourseActivity extends BaseActivity {
             slide = new Slide(80);
             slide.addTarget(findViewById(R.id.nestedScrollView));
             transitionSet.addTransition(slide);
+            transitionSet.setDuration(400);
             getWindow().setReturnTransition(transitionSet);
         }
         super.supportFinishAfterTransition();
