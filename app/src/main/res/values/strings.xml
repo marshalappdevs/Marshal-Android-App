@@ -138,7 +138,7 @@
     <string name="wishlist_removing">Removing from wishlist…</string>
     <string name="wishlist_add_error">%1$s could not be added to wishlist</string>
     <string name="wishlist_remove_error">%1$s could not be removed from wishlist</string>
-    <string name="course_follow_success">Added successfully</string>
+    <string name="course_wishlist_success">%1$s has been added to your wishlist.</string>
     <string name="my_wishlist_empty">There are no courses in your wishlist. To add courses, tap the bookmark in the bottom menu of the course details.</string>
     <string name="are_you_sure">Are you sure?</string>
     <string name="permission_storage_rationale">Storage permission is required to show media picker</string>
