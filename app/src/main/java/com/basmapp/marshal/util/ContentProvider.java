@@ -104,7 +104,8 @@ public class ContentProvider {
 
     // Init data methods
     private void initCourses(Context context, final ContentProviderCallBack callback) {
-        Course.findAllInBackground(null, Course.class, context, false, new BackgroundTaskCallBack() {
+        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, false, null,
+                context, Course.class, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
                 if (data != null) {

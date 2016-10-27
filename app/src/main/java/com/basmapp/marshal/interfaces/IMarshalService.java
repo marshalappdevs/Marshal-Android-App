@@ -21,19 +21,11 @@ import retrofit2.http.PUT;
 import retrofit2.http.Path;
 
 public interface IMarshalService {
-    // TODO
     @GET(MarshalServiceProvider.GET_ALL_COURSES)
     Call<List<Course>> getAllCourses();
 
-    // TODO
     @GET(MarshalServiceProvider.GET_ALL_MATERIALS)
     Call<List<MaterialItem>> getAllMaterials();
-
-//    @GET(MarshalServiceProvider.GET_ALL_RATINGS)
-//    Call<List<Rating>> getAllRatings();
-
-//    @GET(MarshalServiceProvider.GET_ALL_RATINGS + "/{courseCode}")
-//    Call<List<Rating>> getCourseRatings(@Path("courseCode") String courseCode);
 
     @POST(MarshalServiceProvider.POST_RATING + "{courseObjectId}")
     Call<Rating> postRating(@Path("courseObjectId") String courseObjectId, @Body Rating ratingObject);
@@ -62,9 +54,6 @@ public interface IMarshalService {
 
     @DELETE(MarshalServiceProvider.DELETE_UNSUBSCRIBE_COURSE + "{hardwareId}" + "\\" + "{course_id}")
     Call<Void> unsubscribeCourse(@Path("hardwareId") String hardwareId, @Path("course_id") int courseID);
-
-//    @GET(MarshalServiceProvider.GET_FCM_REGISTRATION)
-//    Call<FcmRegistration> getRegistration(@Path("hardwareId") String hardwareId);
 
     // ******** Settings ********//
     @GET(MarshalServiceProvider.GET_SETTINGS)

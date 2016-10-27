@@ -11,6 +11,7 @@ import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
+import android.support.v4.util.Pair;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -58,6 +59,7 @@ public class CoursesFragment extends Fragment {
     private static ArrayList<Course> mViewPagerCourses;
 
     private HashMap<String, CategoryHolder> mCategoryHoldersMap;
+    private ArrayList<Pair<String, Integer>> mCategoryHoldersIndexes = new ArrayList<>();
 
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
@@ -433,7 +435,23 @@ public class CoursesFragment extends Fragment {
 
         private void addToMainContainer() {
             initUI();
-            mMainContainer.addView(mContainer);
+            int index = getCategoryIndex();
+            if (((mMainContainer.getChildCount() - 1) - index) >= 0) {
+                mMainContainer.addView(mContainer, index + 1);
+            } else {
+                mMainContainer.addView(mContainer);
+            }
+        }
+
+        private int getCategoryIndex() {
+            int index = 0;
+            Set<String> categoriesSet = ContentProvider.getInstance().getCoursesCategories(getContext());
+            for (String category : categoriesSet) {
+                if(mCategory.equals(category.split(";")[0]))
+                    return Integer.parseInt(category.split(";")[3]) - 1;
+                index ++;
+            }
+            return index;
         }
 
         void notifyItemChanged(int position) {

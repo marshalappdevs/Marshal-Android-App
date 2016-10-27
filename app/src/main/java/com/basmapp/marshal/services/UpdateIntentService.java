@@ -439,6 +439,7 @@ public class UpdateIntentService extends IntentService {
                 long id = database.compileStatement(course.getInsertSql()).executeInsert();
                 Log.i("COURSE","id=" + id + " , name= " + course.getName());
             }
+
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
             ApplicationMarshal.setLastUpdatedNow(this);
             database.setTransactionSuccessful();

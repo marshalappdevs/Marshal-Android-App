@@ -1,0 +1,59 @@
+{
+  "project_info": {
+    "project_number": "614661175229",
+    "firebase_url": "https://elite-academy-139915.firebaseio.com",
+    "project_id": "elite-academy-139915",
+    "storage_bucket": "elite-academy-139915.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:614661175229:android:e1b06e3a714ddb5a",
+        "android_client_info": {
+          "package_name": "com.basmapp.marshal"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "614661175229-hvap0slckjh956pcbk62bo1ob8v8h34u.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.basmapp.marshal",
+            "certificate_hash": "9DDB73CD22797EDCD3EAF4A2247DB468CA7CFE6F"
+          }
+        },
+        {
+          "client_id": "614661175229-vnl2tsdvfsf91a2ot0vpab4f9qs6rup1.apps.googleusercontent.com",
+          "client_type": 3
+        },
+        {
+          "client_id": "614661175229-78obloa3ifkl10tcl140j4042vooh748.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDiJ6Qzw2nRljYrdL_ntRl-5NfY6D4ZeBE"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "614661175229-vnl2tsdvfsf91a2ot0vpab4f9qs6rup1.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
