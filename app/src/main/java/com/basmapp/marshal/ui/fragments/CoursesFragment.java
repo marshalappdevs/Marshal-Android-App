@@ -57,8 +57,8 @@ import java.util.Set;
 
 public class CoursesFragment extends Fragment {
 
-    public static HashMap<String, ArrayList<Course>> mCoursesListsMap = null;
-    private static ArrayList<Course> mViewPagerCourses = null;
+
+    private static ArrayList<Course> mViewPagerCourses;
 
     private HashMap<String, CategoryHolder> mCategoryHoldersMap;
 
@@ -88,7 +88,6 @@ public class CoursesFragment extends Fragment {
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
         mMainContainer = (LinearLayout) mRootView.findViewById(R.id.fragment_courses_main_container);
 
-        mCoursesListsMap = null;
         mCategoryHoldersMap = new HashMap<>();
 
         setHasOptionsMenu(true);
@@ -109,111 +108,23 @@ public class CoursesFragment extends Fragment {
                 e.printStackTrace();
             }
         });
-//        if (mViewPagerCourses == null) {
-//            ContentProvider.getInstance().getViewPagerCourses(getContext(), new ContentProviderCallBack() {
-//                @Override
-//                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-//                    mViewPagerCourses = (ArrayList<Course>) data;
-//                    showImagesViewPager();
-//                }
-//
-//                @Override
-//                public void onError(Exception e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        } else {
-//            showImagesViewPager();
-//        }
 
         Set<String> categories = ContentProvider.getInstance().getCoursesCategories(getContext());
 
         if (categories != null) {
-            if (mCoursesListsMap == null) {
-                for (String category : categories) {
-                    ContentProvider.getInstance().getCoursesListByCategory(getContext(), category.split(";")[0],
-                            new ContentProviderCallBack() {
-                                @Override
-                                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-                                    ArrayList<Course> courses = (ArrayList<Course>) data;
-                                    mCategoryHoldersMap.put((String) extra,
-                                            new CategoryHolder((String) extra, courses));
-                                }
-
-                                @Override
-                                public void onError(Exception e) {
-                                    e.printStackTrace();
-                                }
-                            });
-                }
-            }
-            else {
-                for (String category : categories) {
-                    String categoryValue = category.split(";")[0];
-                    mCategoryHoldersMap.put(categoryValue,
-                            new CategoryHolder(categoryValue, mCoursesListsMap.get(categoryValue)));
-                }
+            for (String category : categories) {
+                String categoryValue = category.split(";")[0];
+                mCategoryHoldersMap.put(categoryValue,
+                        new CategoryHolder(categoryValue));
             }
         }
-
-//        if (mCoursesListsMap == null || mViewPagerCourses == null) {
-//
-//            ContentProvider.getInstance().getViewPagerCourses(getContext(), new ContentProviderCallBack() {
-//                @Override
-//                public void onDataReady(ArrayList<? extends DBObject> data) {
-//                    mViewPagerCourses = (ArrayList<Course>) data;
-//                    showImagesViewPager();
-//                }
-//
-//                @Override
-//                public void onError(Exception e) {
-//
-//                }
-//            });
-//
-//            ContentProvider.getInstance().getCourses(getContext(), new ContentProviderCallBack() {
-//                @Override
-//                public void onDataReady(ArrayList<? extends DBObject> data) {
-//                    mCoursesList = (ArrayList<Course>) data;
-//
-//                    new AsyncTask<Void, Void, Void>() {
-//                        @Override
-//                        protected Void doInBackground(Void... voids) {
-//                            filterData();
-//                            return null;
-//                        }
-//
-//                        @Override
-//                        protected void onPostExecute(Void aVoid) {
-//                            showData();
-//                            super.onPostExecute(aVoid);
-//                        }
-//                    }.execute();
-//                }
-//
-//                @Override
-//                public void onError(Exception e) {
-//
-//                }
-//            });
-//        } else {
-//            showImagesViewPager();
-//            filterData();
-//            showData();
-////             initializeTutorial();
-//        }
 
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
             public void onReceive(Context context, Intent intent) {
                 if (intent.getAction().equals(ContentProvider.Actions.COURSE_RATING_UPDATED)) {
                     Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
-                    int position = ContentProvider.Utils
-                            .getCoursePositionInList(mCoursesListsMap.get(course.getCategory()) ,course);
-
-                    if (position > -1) {
-                        mCategoryHoldersMap.get(course.getCategory()).notifyItemChanged(position);
-                    }
+                    mCategoryHoldersMap.get(course.getCategory()).notifyItemChanged(course);
                 } else if (intent.getAction().equals(ContentProvider.Actions.COURSE_SUBSCRIPTION_UPDATED)) {
                     Course course = intent.getParcelableExtra(ContentProvider.Extras.COURSE);
                     mCategoryHoldersMap.get(course.getCategory()).changeCourseSubscriptionState(course);
@@ -245,7 +156,6 @@ public class CoursesFragment extends Fragment {
         if (mSearchView != null) {
             outState.putString(COURSES_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
-//        outState.putParcelableArrayList(Constants.EXTRA_COURSES_LIST, mCoursesList);
         outState.putInt(Constants.EXTRA_LAST_VIEWPAGER_POSITION, mViewPager.getCurrentItem());
     }
 
@@ -455,28 +365,25 @@ public class CoursesFragment extends Fragment {
 
         private String mCategory;
 
-        CategoryHolder (String category, ArrayList<Course> courses) {
+        CategoryHolder (String category) {
             this.mCategory = category;
-            this.mCourses = courses;
             initAndShow();
         }
 
         private void initAndShow() {
-            if (mCourses == null) {
-                ContentProvider.getInstance().getCoursesListByCategory(getContext(), mCategory,
-                        new ContentProviderCallBack() {
-                            @Override
-                            public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-                                mCourses = (ArrayList<Course>) data;
-                                addToMainContainer();
-                            }
+            ContentProvider.getInstance().getCoursesListByCategory(getContext(), mCategory,
+                    new ContentProviderCallBack() {
+                        @Override
+                        public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                            mCourses = (ArrayList<Course>) data;
+                            addToMainContainer();
+                        }
 
-                            @Override
-                            public void onError(Exception e) {
-                                e.printStackTrace();
-                            }
-                        });
-            } else addToMainContainer();
+                        @Override
+                        public void onError(Exception e) {
+                            e.printStackTrace();
+                        }
+                    });
         }
 
         private void initUI() {
@@ -534,6 +441,11 @@ public class CoursesFragment extends Fragment {
 
         void notifyItemChanged(int position) {
             mRecyclerAdapter.notifyItemChanged(position);
+        }
+
+        void notifyItemChanged(Course course) {
+            int position = ContentProvider.Utils.getCoursePositionInList(mCourses, course);
+            notifyItemChanged(position);
         }
 
         void changeCourseSubscriptionState(Course course) {

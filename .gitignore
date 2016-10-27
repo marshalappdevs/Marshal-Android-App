@@ -6,3 +6,7 @@
 /build
 /captures
 /gradle.properties
+/app/app-release.apk
+/app/basmapp_keystore_debug.jks
+/app/basmapp_keystore_release.jks
+/app/google-services.json
