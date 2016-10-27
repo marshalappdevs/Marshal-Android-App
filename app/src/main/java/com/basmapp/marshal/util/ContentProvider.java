@@ -280,7 +280,7 @@ public class ContentProvider {
     }
 
     public void getViewPagerCourses(Context context, ContentProviderCallBack callBack) {
-        if (sViewPagerCourses != null) callBack.onDataReady(sViewPagerCourses, null);
+        if (sViewPagerCourses != null && sViewPagerCourses.size() > 0) callBack.onDataReady(sViewPagerCourses, null);
         else initViewPagerCourses(context, callBack);
     }
 

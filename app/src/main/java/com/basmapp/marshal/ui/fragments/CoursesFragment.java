@@ -97,22 +97,34 @@ public class CoursesFragment extends Fragment {
 
         mViewPager = (AutoScrollViewPager) mRootView.findViewById(R.id.main_catalog_view_pager);
 
-        if (mViewPagerCourses == null) {
-            ContentProvider.getInstance().getViewPagerCourses(getContext(), new ContentProviderCallBack() {
-                @Override
-                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-                    mViewPagerCourses = (ArrayList<Course>) data;
-                    showImagesViewPager();
-                }
+        ContentProvider.getInstance().getViewPagerCourses(getContext(), new ContentProviderCallBack() {
+            @Override
+            public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                mViewPagerCourses = (ArrayList<Course>) data;
+                showImagesViewPager();
+            }
 
-                @Override
-                public void onError(Exception e) {
-                    e.printStackTrace();
-                }
-            });
-        } else {
-            showImagesViewPager();
-        }
+            @Override
+            public void onError(Exception e) {
+                e.printStackTrace();
+            }
+        });
+//        if (mViewPagerCourses == null) {
+//            ContentProvider.getInstance().getViewPagerCourses(getContext(), new ContentProviderCallBack() {
+//                @Override
+//                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+//                    mViewPagerCourses = (ArrayList<Course>) data;
+//                    showImagesViewPager();
+//                }
+//
+//                @Override
+//                public void onError(Exception e) {
+//                    e.printStackTrace();
+//                }
+//            });
+//        } else {
+//            showImagesViewPager();
+//        }
 
         Set<String> categories = ContentProvider.getInstance().getCoursesCategories(getContext());
 
