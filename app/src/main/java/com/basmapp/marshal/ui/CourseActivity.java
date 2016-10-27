@@ -47,7 +47,6 @@ import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.ThemeUtils;
@@ -55,6 +54,7 @@ import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.HashUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
+import com.basmapp.marshal.util.TransitionUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.Priority;
@@ -157,10 +157,28 @@ public class CourseActivity extends BaseActivity {
 
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            if (getWindow().getSharedElementEnterTransition() != null) {
+                getWindow().getSharedElementEnterTransition().addListener(new TransitionUtils.TransitionListenerAdapter() {
+                    @SuppressLint("NewApi")
+                    @Override
+                    public void onTransitionStart(Transition transition) {
+                        int measuredWidth = mAppBarLayout.getMeasuredWidth();
+                        int measuredHeight = mAppBarLayout.getMeasuredHeight();
+                        ViewAnimationUtils.createCircularReveal(
+                                mAppBarLayout, measuredWidth / 2, measuredHeight / 2, 0.0f,
+                                ((float) Math.sqrt((double) (((float) (measuredWidth * measuredWidth))
+                                        + ((float) (measuredWidth * measuredHeight))))) * 0.5f).setDuration(400).start();
+                    }
+                });
+            }
+        }
+
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -229,42 +247,19 @@ public class CourseActivity extends BaseActivity {
                 });
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP
                         && mSharedPreferences.getBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true)) {
-                    getWindow().getSharedElementEnterTransition().addListener(
-                            new Transition.TransitionListener() {
-                                @SuppressLint("NewApi")
-                                @Override
-                                public void onTransitionStart(Transition transition) {
-                                    int measuredWidth = mAppBarLayout.getMeasuredWidth();
-                                    int measuredHeight = mAppBarLayout.getMeasuredHeight();
-                                    ViewAnimationUtils.createCircularReveal(
-                                            mAppBarLayout, measuredWidth / 2, measuredHeight / 2, 0.0f,
-                                            ((float) Math.sqrt((double) (((float) (measuredWidth * measuredWidth))
-                                                    + ((float) (measuredWidth * measuredHeight))))) * 0.5f).setDuration(400).start();
-                                }
-
-                                @Override
-                                public void onTransitionEnd(Transition transition) {
-                                    showFabTargetPrompt();
-                                    // After animation end, change boolean back to false
-                                    mSharedPreferences.edit().putBoolean(
-                                            Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false).apply();
-                                }
-
-                                @Override
-                                public void onTransitionCancel(Transition transition) {
-
-                                }
-
-                                @Override
-                                public void onTransitionPause(Transition transition) {
-
-                                }
-
-                                @Override
-                                public void onTransitionResume(Transition transition) {
-
-                                }
-                            });
+                    if (getWindow().getSharedElementEnterTransition() != null) {
+                        getWindow().getSharedElementEnterTransition().addListener(new TransitionUtils.TransitionListenerAdapter() {
+                            @SuppressLint("NewApi")
+                            @Override
+                            public void onTransitionEnd(Transition transition) {
+                                getWindow().getSharedElementEnterTransition().removeListener(this);
+                                showFabTargetPrompt();
+                                // After animation end, change boolean back to false
+                                mSharedPreferences.edit().putBoolean(
+                                        Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, false).apply();
+                            }
+                        });
+                    }
                 }
                 // Target android version lower than lollipop or activity didn't start as shared element
                 if (Build.VERSION.SDK_INT <= Build.VERSION_CODES.LOLLIPOP
