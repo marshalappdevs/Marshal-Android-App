@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.v4.app.Fragment;
@@ -25,7 +24,6 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -56,7 +54,6 @@ import java.util.Locale;
 import java.util.Set;
 
 public class CoursesFragment extends Fragment {
-
 
     private static ArrayList<Course> mViewPagerCourses;
 
@@ -365,7 +362,7 @@ public class CoursesFragment extends Fragment {
 
         private String mCategory;
 
-        CategoryHolder (String category) {
+        CategoryHolder(String category) {
             this.mCategory = category;
             initAndShow();
         }
@@ -420,7 +417,7 @@ public class CoursesFragment extends Fragment {
 
         private String getCategoryLocaleTitle(String category) {
             SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, null);
+            Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, new HashSet<String>());
             for (String categoryValues : categories) {
                 String[] values = categoryValues.split(";");
                 if (values[0].equals(category)) {
@@ -434,7 +431,7 @@ public class CoursesFragment extends Fragment {
             return category;
         }
 
-        private void addToMainContainer(){
+        private void addToMainContainer() {
             initUI();
             mMainContainer.addView(mContainer);
         }
