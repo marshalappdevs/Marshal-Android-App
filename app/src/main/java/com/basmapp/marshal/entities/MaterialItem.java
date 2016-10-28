@@ -150,7 +150,7 @@ public class MaterialItem extends DBObject implements Parcelable {
         String query;
 
         query = "SELECT * FROM " + DBConstants.T_MATERIAL_ITEM + " WHERE " + DBConstants.COL_TAGS +
-                " = " + courseID + ";";
+                " LIKE '%" + String.valueOf(courseID) + "%';";
 
         return query;
     }
