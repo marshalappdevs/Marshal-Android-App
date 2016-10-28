@@ -1,14 +1,15 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical" android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
 
     <LinearLayout
         android:id="@+id/course_category_see_all"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:background="?attr/selectableItemBackground"
-        android:clickable="true"
+        android:focusable="true"
         android:minHeight="48dp"
         android:visibility="gone">
 
@@ -24,6 +25,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
+                android:ellipsize="marquee"
+                android:fontFamily="sans-serif-medium"
+                android:maxLines="1"
                 android:textColor="?android:textColorPrimary"
                 android:textSize="20sp" />
         </FrameLayout>
@@ -34,6 +38,7 @@
             android:layout_gravity="center_vertical"
             android:layout_marginEnd="@dimen/activity_horizontal_margin"
             android:layout_marginStart="@dimen/activity_horizontal_margin"
+            android:fontFamily="sans-serif-medium"
             android:text="@string/see_all"
             android:textAppearance="@style/TextAppearance.Button"
             android:textColor="?colorAccent" />

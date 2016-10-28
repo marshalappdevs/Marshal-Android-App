@@ -216,7 +216,7 @@ public class Course extends DBObject implements Parcelable {
     }
 
     public String getSyllabus() {
-        return withFixedBulletPoint(syllabus);
+        return getFixedString(syllabus);
     }
 
     public void setSyllabus(String syllabus) {
@@ -248,7 +248,7 @@ public class Course extends DBObject implements Parcelable {
     }
 
     public String getComments() {
-        return withFixedBulletPoint(comments);
+        return getFixedString(comments);
     }
 
     public void setComments(String comments) {
@@ -319,8 +319,8 @@ public class Course extends DBObject implements Parcelable {
         this.isUserSubscribe = isUserSubscribe;
     }
 
-    private String withFixedBulletPoint(String string) {
-        String[] lines = string.split(System.getProperty("line.separator"));
+    private String getFixedString(String string) {
+        String[] lines = string.split("\n");
         StringBuilder stringBuilder = new StringBuilder();
         for (String line : lines) {
             stringBuilder.append(line.replaceFirst("\\?", "•")).append("\n");
