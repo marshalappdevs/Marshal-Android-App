@@ -137,7 +137,7 @@
     <string name="wishlist_add_error">לא ניתן היה להוסיף את %1$s לרשימת המשאלות</string>
     <string name="wishlist_remove_error">לא ניתן היה להסיר את %1$s מרשימת המשאלות</string>
     <string name="course_wishlist_success">%1$s נוסף לרשימת המשאלות שלך.</string>
-    <string name="my_wishlist_empty">אין קורסים ברשימת המשאלות שלך. כדי להוסיף קורסים, הקש על הסימנייה בתפריט התחתון של פרטי הקורס.</string>
+    <string name="my_wishlist_empty">אין קורסים ברשימת המשאלות שלך. כדי להוסיף קורסים, הקש על התווית בתפריט התחתון של פרטי הקורס.</string>
     <string name="are_you_sure">האם אתה בטוח?</string>
     <string name="permission_storage_rationale">גישה לאחסון נדרשת כדי להציג את בוחר המידה</string>
     <string name="screenshot_removed">צילום מסך הוסר</string>

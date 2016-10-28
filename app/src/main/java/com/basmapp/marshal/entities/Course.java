@@ -1,10 +1,8 @@
 package com.basmapp.marshal.entities;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
-import android.widget.ImageView;
 
 import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
@@ -12,7 +10,6 @@ import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
 import com.basmapp.marshal.localdb.annotations.TableName;
-import com.bumptech.glide.Glide;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
@@ -219,7 +216,7 @@ public class Course extends DBObject implements Parcelable {
     }
 
     public String getSyllabus() {
-        return syllabus;
+        return withFixedBulletPoint(syllabus);
     }
 
     public void setSyllabus(String syllabus) {
@@ -251,7 +248,7 @@ public class Course extends DBObject implements Parcelable {
     }
 
     public String getComments() {
-        return comments;
+        return withFixedBulletPoint(comments);
     }
 
     public void setComments(String comments) {
@@ -320,6 +317,15 @@ public class Course extends DBObject implements Parcelable {
 
     public void setIsUserSubscribe(boolean isUserSubscribe) {
         this.isUserSubscribe = isUserSubscribe;
+    }
+
+    private String withFixedBulletPoint(String string) {
+        String[] lines = string.split(System.getProperty("line.separator"));
+        StringBuilder stringBuilder = new StringBuilder();
+        for (String line : lines) {
+            stringBuilder.append(line.replaceFirst("\\?", "•")).append("\n");
+        }
+        return stringBuilder.toString();
     }
 
     ///////////////////// Parcelable methods //////////////////////
