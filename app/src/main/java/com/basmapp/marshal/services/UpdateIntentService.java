@@ -9,7 +9,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.preference.PreferenceManager;
 import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
-
 import com.basmapp.marshal.ApplicationMarshal;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
@@ -26,7 +25,6 @@ import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
-
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashSet;

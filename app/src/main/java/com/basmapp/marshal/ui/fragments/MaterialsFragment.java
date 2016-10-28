@@ -47,7 +47,7 @@ public class MaterialsFragment extends Fragment {
     private TextView mNoResults;
     private MenuItem mSearchMenuItem;
     private boolean mIsRunForCourse;
-    private String mCourseCode;
+    private int mCourseID;
     private static final String MATERIALS_PREVIOUS_QUERY = "MATERIALS_PREVIOUS_QUERY";
     private String mPreviousQuery;
 
@@ -79,7 +79,7 @@ public class MaterialsFragment extends Fragment {
 
         if (getArguments() != null) {
             mIsRunForCourse = getArguments().getBoolean(Constants.EXTRA_IS_RUN_FOR_COURSE);
-            mCourseCode = getArguments().getString(Constants.EXTRA_COURSE_CODE);
+//            mCourseID = getArguments().getInt(Constants.EXTRA_COURSE_ID);
         }
 
         if (!mIsRunForCourse) {
@@ -97,52 +97,15 @@ public class MaterialsFragment extends Fragment {
                         setProgressBarVisibility(View.GONE);
                     }
                 });
-//                if (MainActivity.sMaterialItems == null) {
-//                    mProgressBar.setVisibility(View.VISIBLE);
-//                    MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, getActivity(),
-//                            false, new BackgroundTaskCallBack() {
-//                                @Override
-//                                public void onSuccess(String result, List<Object> data) {
-//                                    if (data != null) {
-//                                        try {
-//                                            mMaterialsList = (ArrayList) data;
-//                                            MainActivity.sMaterialItems = mMaterialsList;
-//                                        } catch (Exception e) {
-//                                            e.printStackTrace();
-//                                            mMaterialsList = new ArrayList<>();
-//                                        }
-//                                    } else {
-//                                        mMaterialsList = new ArrayList<>();
-//                                    }
-//                                    mProgressBar.setVisibility(View.GONE);
-//                                    showData();
-//                                }
-//
-//                                @Override
-//                                public void onError(String error) {
-//                                    if (error != null) {
-//                                        Log.e("GET MATERIALS ", " ERROR:\n" + error);
-//                                    } else {
-//                                        Log.e("GET MATERIALS ", " ERROR");
-//                                    }
-//                                    mProgressBar.setVisibility(View.GONE);
-//                                }
-//                            });
-//                } else {
-//                    mMaterialsList = new ArrayList<>(MainActivity.sMaterialItems);
-//                    showData();
-//                }
-//            } else {
-//                showData();
             }
         } else {
             mProgressBar.setVisibility(View.VISIBLE);
 
             if (getArguments() != null) {
-                mCourseCode = getArguments().getString(Constants.EXTRA_COURSE_CODE);
+                mCourseID = getArguments().getInt(Constants.EXTRA_COURSE_ID);
                 mMaterialsList = getArguments().getParcelableArrayList(Constants.EXTRA_COURSE_MATERIALS_LIST);
 
-                if (mCourseCode != null && mMaterialsList != null) {
+                if (mCourseID != 0 && mMaterialsList != null) {
                     showData();
                 }
 
@@ -171,12 +134,6 @@ public class MaterialsFragment extends Fragment {
 
         mAdapter = new MaterialsRecyclerAdapter(getActivity(), mFilteredMaterialsList, onHashTagClickListener);
         mRecycler.setAdapter(mAdapter);
-
-//        if(mIsRunForCourse) {
-//            if (mCourseCode != null && !(mCourseCode.equals(""))) {
-//                search(mCourseCode);
-//            }
-//        }
     }
 
     @Override
@@ -307,10 +264,10 @@ public class MaterialsFragment extends Fragment {
 //        return materialsFragment;
 //    }
 
-    public static MaterialsFragment newInstanceForCourse(String courseCode, ArrayList<MaterialItem> materials) {
+    public static MaterialsFragment newInstanceForCourse(int courseID, ArrayList<MaterialItem> materials) {
         MaterialsFragment materialsFragment = new MaterialsFragment();
         Bundle bundle = new Bundle();
-        bundle.putString(Constants.EXTRA_COURSE_CODE, courseCode);
+        bundle.putInt(Constants.EXTRA_COURSE_ID, courseID);
         bundle.putParcelableArrayList(Constants.EXTRA_COURSE_MATERIALS_LIST, materials);
         bundle.putBoolean(Constants.EXTRA_IS_RUN_FOR_COURSE, true);
         materialsFragment.setArguments(bundle);

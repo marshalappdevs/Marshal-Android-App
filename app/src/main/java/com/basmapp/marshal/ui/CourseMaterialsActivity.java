@@ -45,7 +45,7 @@ public class CourseMaterialsActivity extends BaseActivity {
 
         if (course.getCourseCode() != null && materials != null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.course_materials_container,
-                    MaterialsFragment.newInstanceForCourse(course.getCourseCode(), materials), null).commit();
+                    MaterialsFragment.newInstanceForCourse(course.getCourseID(), materials), null).commit();
         }
     }
 

@@ -146,11 +146,11 @@ public class MaterialItem extends DBObject implements Parcelable {
         }
     }
 
-    public static String getSelectCourseMaterialsQuery(String courseCode) {
+    public static String getSelectCourseMaterialsQuery(int courseID) {
         String query;
 
         query = "SELECT * FROM " + DBConstants.T_MATERIAL_ITEM + " WHERE " + DBConstants.COL_TAGS +
-                " LIKE '%" + courseCode + "%';";
+                " = " + courseID + ";";
 
         return query;
     }

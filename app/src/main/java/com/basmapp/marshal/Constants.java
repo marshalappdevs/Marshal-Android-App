@@ -39,7 +39,7 @@ public class Constants {
 
     // Extras Keys
     public static final String EXTRA_COURSE = "extra_course";
-    public static final String EXTRA_COURSE_CODE = "EXTRA_COURSE_CODE";
+    public static final String EXTRA_COURSE_ID = "EXTRA_COURSE_ID";
     public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final String EXTRA_COURSES_LIST = "extra_courses_list";
     public static final String EXTRA_COURSE_CATEGORY = "course_category";

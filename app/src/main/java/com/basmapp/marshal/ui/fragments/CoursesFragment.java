@@ -59,7 +59,7 @@ public class CoursesFragment extends Fragment {
     private static ArrayList<Course> mViewPagerCourses;
 
     private HashMap<String, CategoryHolder> mCategoryHoldersMap;
-    private ArrayList<Pair<String, Integer>> mCategoryHoldersIndexes = new ArrayList<>();
+    private ArrayList<Integer> mCategoryHoldersIndexes;
 
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
@@ -108,6 +108,7 @@ public class CoursesFragment extends Fragment {
             }
         });
 
+        mCategoryHoldersIndexes = new ArrayList<>();
         Set<String> categories = ContentProvider.getInstance().getCoursesCategories(getContext());
 
         if (categories != null) {
@@ -435,12 +436,19 @@ public class CoursesFragment extends Fragment {
 
         private void addToMainContainer() {
             initUI();
-            int index = getCategoryIndex();
-            if (((mMainContainer.getChildCount() - 1) - index) >= 0) {
-                mMainContainer.addView(mContainer, index + 1);
-            } else {
-                mMainContainer.addView(mContainer);
+            int categoryIndex = getCategoryIndex();
+            int insertIndex = getInsertIndex(categoryIndex);
+            mMainContainer.addView(mContainer, insertIndex);
+            mCategoryHoldersIndexes.add(categoryIndex);
+        }
+
+        private int getInsertIndex(int categoryNumberToInsert) {
+            int index = 1;
+            for(Integer currCategoryOrder : mCategoryHoldersIndexes) {
+                if (categoryNumberToInsert > currCategoryOrder)
+                    index ++;
             }
+            return index;
         }
 
         private int getCategoryIndex() {

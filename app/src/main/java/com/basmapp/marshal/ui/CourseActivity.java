@@ -814,7 +814,7 @@ public class CourseActivity extends BaseActivity {
         mMaterialsButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseCode()),
+                MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseID()),
                         CourseActivity.this, MaterialItem.class, true, new BackgroundTaskCallBack() {
                             @Override
                             public void onSuccess(String result, List<Object> data) {
