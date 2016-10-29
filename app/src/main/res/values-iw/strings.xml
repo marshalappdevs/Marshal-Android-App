@@ -159,6 +159,15 @@
     <string name="clock_wrong_title">התאריך לא מדויק</string>
     <string name="adjust_date">הגדר תאריך</string>
 
+    <!--Navigation view titles-->
+    <string-array name="nav_titles">
+        <item>@string/navigation_drawer_courses</item>
+        <item>@string/navigation_drawer_wishlist</item>
+        <item>@string/navigation_drawer_materials</item>
+        <item>@string/navigation_drawer_meetups</item>
+        <item>@string/navigation_drawer_malshab</item>
+    </string-array>
+
     <!--About-->
     <string name="about_version">גרסה %1$s (%2$s)</string>
     <string name="about_contributors_heading">מפתחים ותורמים</string>

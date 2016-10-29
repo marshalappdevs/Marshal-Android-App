@@ -128,10 +128,8 @@ public class MainActivity extends BaseActivity
 
     public static boolean needRecreate = false;
 
-    private static final String MENU_ITEM = "menu_item";
-    private int menuItemId;
-    private static final String ITEM_TITLE = "item_title";
-    private CharSequence itemTitle;
+    private static final String MENU_ITEM_NUMBER = "menu_item";
+    private int menuItemNumber;
     private static final String NAV_STATE = "navigation_state";
     private boolean mAccountMenuExpanded = false;
 
@@ -164,9 +162,8 @@ public class MainActivity extends BaseActivity
         mNavigationView.setNavigationItemSelectedListener(this);
 
         if (savedInstanceState != null) {
-//            onNavigationItemSelected(mNavigationView.getMenu().findItem(savedInstanceState.getInt(MENU_ITEM)));
-//            mNavigationView.setCheckedItem(savedInstanceState.getInt(MENU_ITEM));
-            setTitle(savedInstanceState.getCharSequence(ITEM_TITLE));
+            String[] navigationTitles = getResources().getStringArray(R.array.nav_titles);
+            setTitle(navigationTitles[savedInstanceState.getInt(MENU_ITEM_NUMBER)]);
         } else {
             // No data saved, select the default item (courses)
             onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -301,16 +298,14 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onSaveInstanceState(@NonNull Bundle outState) {
         super.onSaveInstanceState(outState);
-        outState.putInt(MENU_ITEM, menuItemId);
-        outState.putCharSequence(ITEM_TITLE, itemTitle);
+        outState.putInt(MENU_ITEM_NUMBER, menuItemNumber);
         outState.putBoolean(NAV_STATE, mAccountMenuExpanded);
     }
 
     @Override
     protected void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
-        this.menuItemId = savedInstanceState.getInt(MENU_ITEM);
-        this.itemTitle = savedInstanceState.getCharSequence(ITEM_TITLE);
+        this.menuItemNumber = savedInstanceState.getInt(MENU_ITEM_NUMBER);
         this.mAccountMenuExpanded = savedInstanceState.getBoolean(NAV_STATE, false);
     }
 
@@ -949,25 +944,30 @@ public class MainActivity extends BaseActivity
                 mCourseFragment = new CoursesFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mCourseFragment).commit();
+            menuItemNumber = 0;
 //            setBadge(item.getItemId());
         } else if (id == R.id.nav_wishlist) {
             if (mWishlistFragment == null) {
                 mWishlistFragment = new WishlistFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mWishlistFragment).commit();
+            menuItemNumber = 1;
         } else if (id == R.id.nav_materials) {
             if (mMaterialsFragment == null) {
                 mMaterialsFragment = new MaterialsFragment();
             }
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMaterialsFragment).commit();
+            menuItemNumber = 2;
         } else if (id == R.id.nav_meetups) {
             if (mMeetupsFragment == null)
                 mMeetupsFragment = new MeetupsFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMeetupsFragment).commit();
+            menuItemNumber = 3;
         } else if (id == R.id.nav_malshab) {
             if (mMalshabFragment == null)
                 mMalshabFragment = new MalshabFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
+            menuItemNumber = 4;
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             if (LocaleUtils.isRtl(getResources())) {
@@ -1005,8 +1005,6 @@ public class MainActivity extends BaseActivity
         if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_about
                 && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
-            menuItemId = item.getItemId();
-            itemTitle = item.getTitle();
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);
         return true;

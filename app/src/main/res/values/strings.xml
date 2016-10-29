@@ -163,6 +163,15 @@
     <string name="adjust_date">Adjust date</string>
     <string name="card_highlights_index" translatable="false">%1$s/%2$s</string>
 
+    <!--Navigation view titles-->
+    <string-array name="nav_titles">
+        <item>@string/navigation_drawer_courses</item>
+        <item>@string/navigation_drawer_wishlist</item>
+        <item>@string/navigation_drawer_materials</item>
+        <item>@string/navigation_drawer_meetups</item>
+        <item>@string/navigation_drawer_malshab</item>
+    </string-array>
+
     <!--About-->
     <string name="about_version">Version %1$s (%2$s)</string>
     <string name="about_contributors_heading">Developers &amp; Contributors</string>

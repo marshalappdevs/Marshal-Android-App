@@ -15,6 +15,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -75,10 +76,8 @@ public class DescribeProblemActivity extends BaseActivity {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if (description.getText().length() == 0) {
-                    Toast.makeText(DescribeProblemActivity.this, R.string.describe_problem_description, Toast.LENGTH_LONG).show();
-                } else if (description.getText().length() >= 10) {
-
+                int length = description.getText().toString().trim().getBytes().length;
+                if (length > 10) {
                     Calendar now = Calendar.getInstance();
                     // Create debug info text file and set file name to current date and time
                     String filename = String.format(Locale.getDefault(),
@@ -135,8 +134,16 @@ public class DescribeProblemActivity extends BaseActivity {
                         startActivity(chooserIntent);
                         finish();
                     }
+                } else if (length == 0) {
+                    Toast makeText = Toast.makeText(DescribeProblemActivity.this,
+                            R.string.describe_problem_description, Toast.LENGTH_LONG);
+                    makeText.setGravity(Gravity.CENTER, 0, 0);
+                    makeText.show();
                 } else {
-                    Toast.makeText(DescribeProblemActivity.this, R.string.describe_problem_description_further, Toast.LENGTH_LONG).show();
+                    Toast makeText = Toast.makeText(DescribeProblemActivity.this,
+                            R.string.describe_problem_description_further, Toast.LENGTH_LONG);
+                    makeText.setGravity(Gravity.CENTER, 0, 0);
+                    makeText.show();
                 }
             }
         });
@@ -165,6 +172,7 @@ public class DescribeProblemActivity extends BaseActivity {
     public class screenshotClickListener implements View.OnClickListener, View.OnLongClickListener {
 
         int position;
+
         screenshotClickListener(int position) {
             this.position = position;
         }

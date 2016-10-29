@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/custom_view"
+    android:layout_width="wrap_content"
+    android:layout_height="?actionBarSize"
+    android:orientation="horizontal">
+
+    <ImageView
+        android:layout_width="1.0dip"
+        android:layout_height="fill_parent"
+        android:layout_marginBottom="8.0dip"
+        android:layout_marginTop="8.0dip"
+        android:background="#66ffffff" />
+
+    <LinearLayout
+        android:id="@+id/action_done"
+        style="@style/Widget.AppCompat.ActionButton"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:focusable="true"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:padding="4dp"
+            app:srcCompat="@drawable/ic_done" />
+
+        <TextView
+            android:id="@+id/action_done_text"
+            style="@style/TextAppearance.AppCompat.Widget.ActionBar.Menu"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="none"
+            android:maxLines="1"
+            android:orientation="horizontal"
+            android:padding="4dp"
+            android:text="@string/next"
+            android:textColor="@android:color/white" />
+    </LinearLayout>
+</LinearLayout>
