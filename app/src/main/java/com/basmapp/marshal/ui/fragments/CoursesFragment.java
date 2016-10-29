@@ -444,9 +444,9 @@ public class CoursesFragment extends Fragment {
 
         private int getInsertIndex(int categoryNumberToInsert) {
             int index = 1;
-            for(Integer currCategoryOrder : mCategoryHoldersIndexes) {
+            for (Integer currCategoryOrder : mCategoryHoldersIndexes) {
                 if (categoryNumberToInsert > currCategoryOrder)
-                    index ++;
+                    index++;
             }
             return index;
         }
@@ -455,9 +455,9 @@ public class CoursesFragment extends Fragment {
             int index = 0;
             Set<String> categoriesSet = ContentProvider.getInstance().getCoursesCategories(getContext());
             for (String category : categoriesSet) {
-                if(mCategory.equals(category.split(";")[0]))
+                if (mCategory.equals(category.split(";")[0]))
                     return Integer.parseInt(category.split(";")[3]) - 1;
-                index ++;
+                index++;
             }
             return index;
         }

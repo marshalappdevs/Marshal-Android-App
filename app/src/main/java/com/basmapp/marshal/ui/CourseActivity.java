@@ -428,6 +428,7 @@ public class CourseActivity extends BaseActivity {
     public void supportFinishAfterTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
 //            mHeader.setTransitionName(null);
+            mToolbar.setVisibility(View.GONE);
             mFabCycles.setVisibility(View.GONE);
             TransitionSet transitionSet = new TransitionSet();
             Transition slide = new Slide(48);
