@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
+import android.util.Log;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
@@ -71,8 +72,32 @@ public class ContentProvider {
     }
 
     private void initCourseListByCategory(final Context context, final String category, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_CATEGORY, category, null,
-                context, Course.class, new BackgroundTaskCallBack() {
+//        Course.findByColumnInBackground(false, DBConstants.COL_CATEGORY, category, DBConstants.COL_NAME,
+//                context, Course.class, new BackgroundTaskCallBack() {
+//                    @Override
+//                    public void onSuccess(String result, List<Object> data) {
+//                        if (data != null) {
+//                            ArrayList<Course> coursesResult = (ArrayList)data;
+//                            sCoursesListsMap.put(category,coursesResult);
+//                            if (callback != null) {
+//                                callback.onDataReady(coursesResult, category);
+//                            }
+//                        } else {
+//                            if (callback != null)
+//                                callback.onError(new Exception("data is null"));
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onError(String error) {
+//                        if (error == null) error = "Query error";
+//                        callback.onError(new Exception(error));
+//                    }
+//                });
+        Log.i("CATEGORY_QUERY", category);
+        Course.queryInBackground(Course.class, context, false,
+                new String[]{DBConstants.COL_CATEGORY, DBConstants.COL_IS_MEETUP},
+                new String[]{category, "0"}, DBConstants.COL_NAME, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null) {
@@ -104,7 +129,7 @@ public class ContentProvider {
 
     // Init data methods
     private void initCourses(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, false, null,
+        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, false, DBConstants.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
@@ -128,7 +153,7 @@ public class ContentProvider {
     }
 
     private void initMeetups(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, true, null,
+        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, true, DBConstants.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
@@ -152,7 +177,7 @@ public class ContentProvider {
     }
 
     private void initMaterialItems(Context context, final ContentProviderCallBack callback) {
-        MaterialItem.findAllInBackground(null, MaterialItem.class, context, false,
+        MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, context, false,
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -176,7 +201,8 @@ public class ContentProvider {
     }
 
     private void initMalshabItems(Context context, final ContentProviderCallBack callback) {
-        MalshabItem.findAllInBackground(null, MalshabItem.class, context, false, new BackgroundTaskCallBack() {
+        MalshabItem.findAllInBackground(DBConstants.COL_ORDER, MalshabItem.class, context,
+                false, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
                 if (data != null) {
@@ -199,8 +225,8 @@ public class ContentProvider {
     }
 
     private void initSubscribedCourses(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_USER_SUBSCRIBE, true, null,
-                context, Course.class, new BackgroundTaskCallBack() {
+        Course.findByColumnInBackground(false, DBConstants.COL_IS_USER_SUBSCRIBE, true,
+                DBConstants.COL_NAME, context, Course.class, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null) {
@@ -286,6 +312,8 @@ public class ContentProvider {
     }
 
     public void releaseAllData() {
+        coursesCategories = null;
+        sCoursesListsMap = new HashMap<>();
         sCourses = null;
         sViewPagerCourses = null;
         sMeetups = null;

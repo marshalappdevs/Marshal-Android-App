@@ -68,6 +68,7 @@ import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
 import com.basmapp.marshal.ui.fragments.WishlistFragment;
+import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.glide.CircleTransform;
@@ -117,13 +118,6 @@ public class MainActivity extends BaseActivity
     private ProgressDialog mUpdateProgressDialog;
 
     public static int sLastCoursesViewPagerIndex = 4;
-
-    public static ArrayList<Course> sAllCourses;
-    public static ArrayList<Course> sViewPagerCourses;
-    public static ArrayList<Course> sMeetups;
-    public static ArrayList<Course> sMyCourses;
-    public static ArrayList<MaterialItem> sMaterialItems;
-    public static ArrayList<MalshabItem> sMalshabItems;
 
     public static String sUserEmailAddress;
     public static String sUserName;
@@ -236,9 +230,12 @@ public class MainActivity extends BaseActivity
         mDrawerToggle.syncState();
 
         if (mSharedPreferences != null) {
-            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+            if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
+                    mSharedPreferences.getInt(Constants.PREF_DATABASE_VERSION,
+                            LocalDBHelper.DATABASE_VERSION) < LocalDBHelper.DATABASE_VERSION) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
+                mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true).apply();
             }
         }
 
@@ -266,7 +263,8 @@ public class MainActivity extends BaseActivity
                     mUpdateProgressDialog.dismiss();
                 }
 
-                if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {
+                if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
+                        mSharedPreferences.getBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true)) {
                     if (result) {
                         // First app startup and update data succeed, restart app fragments
                         showFirstRun();
@@ -416,6 +414,7 @@ public class MainActivity extends BaseActivity
     private void showFirstRun() {
         // Change shared preference value to false so next startup will not be called as first
         mSharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, false).apply();
+        mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, false).apply();
         // Restart app fragments, set course fragment as default and dismiss error screen
         releaseAllDataLists();
         mCourseFragment = null;
@@ -430,12 +429,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void releaseAllDataLists() {
-        sAllCourses = null;
-        sViewPagerCourses = null;
-        sMeetups = null;
-        sMyCourses = null;
-        sMaterialItems = null;
-        sMalshabItems = null;
+        ContentProvider.getInstance().releaseAllData();
     }
 
     @Override

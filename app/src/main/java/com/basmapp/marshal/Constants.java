@@ -33,6 +33,8 @@ public class Constants {
     public static final String PREF_CATEGORIES_ENGLISH = "pref_categories_english";
     public static final String PREF_CATEGORIES_HEBREW = "pref_categories_hebrew";
     public static final String PREF_FCM_CHANNELS_ENTRIES = "pref_fcm_channels_entries";
+    public static final String PREF_DATABASE_VERSION = "pref_database_version";
+    public static final String PREF_RESTART_UI_AFTER_UPDATE = "pref_restart_ui_after_update";
 
     public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
     public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";

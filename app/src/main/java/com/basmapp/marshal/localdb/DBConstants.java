@@ -42,6 +42,7 @@ public class DBConstants {
     public static final String COL_IS_MEETUP = "is_meetup";
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
+    public static final String COL_ORDER = "col_order";
 
     // 'Create Table' commands
     static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE " + T_MALSHAB_ITEM + " (" +
@@ -49,6 +50,7 @@ public class DBConstants {
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_IMAGE_URL + " TEXT, " +
+            COL_ORDER + " INTEGER, " +
             COL_IS_UP_TO_DATE + " INTEGER);";
 
     static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE " + T_MATERIAL_ITEM + " (" +

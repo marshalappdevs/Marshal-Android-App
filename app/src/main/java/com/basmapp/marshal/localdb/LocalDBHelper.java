@@ -1,6 +1,7 @@
 package com.basmapp.marshal.localdb;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
@@ -12,7 +13,7 @@ import com.basmapp.marshal.Constants;
 public class LocalDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "marshal_local_db";
-    private static final int DATABASE_VERSION = 1;
+    public static final int DATABASE_VERSION = 2;
 
     public static LocalDBHelper helperInstance;
     private static SQLiteDatabase databaseInstance;
@@ -68,8 +69,11 @@ public class LocalDBHelper extends SQLiteOpenHelper {
 
     private void initializePreferences() {
         try {
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Constants.PREF_IS_FIRST_RUN, true).apply();
-            PreferenceManager.getDefaultSharedPreferences(context).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false).apply();
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+            sharedPreferences.edit().putBoolean(Constants.PREF_IS_FIRST_RUN, true).apply();
+            sharedPreferences.edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false).apply();
+            sharedPreferences.edit().putLong(Constants.PREF_LAST_UPDATE_TIMESTAMP, 0).apply();
+            sharedPreferences.edit().putInt(Constants.PREF_DATABASE_VERSION, DATABASE_VERSION).apply();
         } catch (Exception e) {
             e.printStackTrace();
         }

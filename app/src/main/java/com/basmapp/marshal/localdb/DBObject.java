@@ -473,7 +473,8 @@ public abstract class DBObject {
     public static List<Object> query(Context context,
                                      Class<? extends DBObject> targetClass,
                                      String[] whereColumns,
-                                     String[] whereArgs) throws Exception {
+                                     String[] whereArgs,
+                                     String orderByColumn) throws Exception {
 
         List<Object> allObjects = new ArrayList<>();
         String whereColumnsWithQuestionMark = null;
@@ -490,7 +491,7 @@ public abstract class DBObject {
         }
 
         Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass), null,
-                whereColumnsWithQuestionMark, whereArgs, null, null, null);
+                whereColumnsWithQuestionMark, whereArgs, null, null, orderByColumn);
 
         cursor.moveToFirst();
 
@@ -884,6 +885,7 @@ public abstract class DBObject {
                                          final boolean showProgressBar,
                                          final String[] whereColumns,
                                          final String[] whereArgs,
+                                         final String orderByColumn,
                                          final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
@@ -905,7 +907,7 @@ public abstract class DBObject {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    data = query(context, targetClass, whereColumns, whereArgs);
+                    data = query(context, targetClass, whereColumns, whereArgs, orderByColumn);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {

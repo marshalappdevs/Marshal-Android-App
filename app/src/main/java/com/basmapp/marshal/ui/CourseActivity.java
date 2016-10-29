@@ -507,7 +507,7 @@ public class CourseActivity extends BaseActivity {
         if (MainActivity.sUserEmailAddress != null) {
             Rating.queryInBackground(Rating.class, CourseActivity.this, false,
                     new String[]{DBConstants.COL_COURSE_ID, DBConstants.COL_USER_MAIL_ADDRESS},
-                    new String[]{String.valueOf(mCourse.getCourseID()), HashUtil.SHA(MainActivity.sUserEmailAddress)},
+                    new String[]{String.valueOf(mCourse.getCourseID()), HashUtil.SHA(MainActivity.sUserEmailAddress)}, null,
                     new BackgroundTaskCallBack() {
                         @Override
                         public void onSuccess(String result, List<Object> data) {

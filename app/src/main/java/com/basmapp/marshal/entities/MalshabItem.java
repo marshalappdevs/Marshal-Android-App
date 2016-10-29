@@ -41,6 +41,11 @@ public class MalshabItem extends DBObject {
     @SerializedName("imageUrl")
     private String imageUrl;
 
+    @Column(name = DBConstants.COL_ORDER)
+    @Expose
+    @SerializedName("order")
+    private int order;
+
     @Column(name = DBConstants.COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
@@ -68,6 +73,14 @@ public class MalshabItem extends DBObject {
         this.title = title;
     }
 
+    public int getOrder() {
+        return order;
+    }
+
+    public void setOrder(int order) {
+        this.order = order;
+    }
+
     public String getImageUrl() {
         return imageUrl;
     }
@@ -89,6 +102,7 @@ public class MalshabItem extends DBObject {
                 DBConstants.COL_URL + " = " + prepareStringForSql(url) + "," +
                 DBConstants.COL_TITLE + " = " + prepareStringForSql(title) + "," +
                 DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
+                DBConstants.COL_ORDER + " = " + order + "," +
                 DBConstants.COL_IS_UP_TO_DATE + " = 1" +
                 " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
 
@@ -100,10 +114,12 @@ public class MalshabItem extends DBObject {
                 DBConstants.COL_URL + "," +
                 DBConstants.COL_TITLE + "," +
                 DBConstants.COL_IMAGE_URL + "," +
+                DBConstants.COL_ORDER + "," +
                 DBConstants.COL_IS_UP_TO_DATE + ")" +
                 " VALUES (" + prepareStringForSql(url) +
                 "," + prepareStringForSql(title) +
-                "," + prepareStringForSql(imageUrl) + ",1);";
+                "," + prepareStringForSql(imageUrl) +
+                "," + order + ",1);";
 
         return sql;
     }
@@ -118,6 +134,8 @@ public class MalshabItem extends DBObject {
             if (imageUrl == null)
                 imageUrl = "";
             statement.bindString(4, getImageUrl());
+
+            statement.bindLong(5, order);
 
             return statement;
         } else {
