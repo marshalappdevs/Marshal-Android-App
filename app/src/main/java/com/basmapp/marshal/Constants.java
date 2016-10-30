@@ -1,7 +1,6 @@
 package com.basmapp.marshal;
 
 public class Constants {
-    public static final String LOG_TAG = "Marshal";
 
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
@@ -29,9 +28,6 @@ public class Constants {
     public static final String PREF_NOTIFICATIONS_NEW_RINGTONE = "notifications_new_message_ringtone";
     public static final String PREF_COURSE_ACTIVITY_STARTED_SHARED = "course_activity_started_shared";
     public static final String PREF_CATEGORIES = "pref_categories";
-    public static final String PREF_CATEGORIES_VALUES = "pref_categories_values";
-    public static final String PREF_CATEGORIES_ENGLISH = "pref_categories_english";
-    public static final String PREF_CATEGORIES_HEBREW = "pref_categories_hebrew";
     public static final String PREF_FCM_CHANNELS_ENTRIES = "pref_fcm_channels_entries";
     public static final String PREF_DATABASE_VERSION = "pref_database_version";
     public static final String PREF_RESTART_UI_AFTER_UPDATE = "pref_restart_ui_after_update";
@@ -42,11 +38,8 @@ public class Constants {
     // Extras Keys
     public static final String EXTRA_COURSE = "extra_course";
     public static final String EXTRA_COURSE_ID = "EXTRA_COURSE_ID";
-    public static final String EXTRA_COURSE_NAME = "EXTRA_COURSE_NAME";
     public static final String EXTRA_COURSES_LIST = "extra_courses_list";
     public static final String EXTRA_COURSE_CATEGORY = "course_category";
-    public static final String EXTRA_SEARCH_QUERY = "search_query";
-    public static final String EXTRA_ALL_COURSES = "all_courses";
     public static final String EXTRA_LAST_VIEWPAGER_POSITION = "extra_last_viewpager_position";
     public static final String EXTRA_PROGRESS_PERCENT = "progress_percent";
     public static final String EXTRA_COURSE_MATERIALS_LIST = "EXTRA_COURSE_MATERIALS_LIST";
@@ -58,7 +51,6 @@ public class Constants {
     public static final String EXTRA_COURSE_POSITION_IN_LIST = "extra_course_position_in_list";
     public static final String EXTRA_USER_RATING = "extra_rating";
     public static final String EXTRA_CONTENT_COLOR = "extra_content_color";
-    public static final String EXTRA_REVIEW_TEXT = "extra_review_text";
     public static final String EXTRA_IS_EDIT_MODE = "extra_is_edit_mode";
 
     // Fragment Tags

@@ -72,29 +72,6 @@ public class ContentProvider {
     }
 
     private void initCourseListByCategory(final Context context, final String category, final ContentProviderCallBack callback) {
-//        Course.findByColumnInBackground(false, DBConstants.COL_CATEGORY, category, DBConstants.COL_NAME,
-//                context, Course.class, new BackgroundTaskCallBack() {
-//                    @Override
-//                    public void onSuccess(String result, List<Object> data) {
-//                        if (data != null) {
-//                            ArrayList<Course> coursesResult = (ArrayList)data;
-//                            sCoursesListsMap.put(category,coursesResult);
-//                            if (callback != null) {
-//                                callback.onDataReady(coursesResult, category);
-//                            }
-//                        } else {
-//                            if (callback != null)
-//                                callback.onError(new Exception("data is null"));
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onError(String error) {
-//                        if (error == null) error = "Query error";
-//                        callback.onError(new Exception(error));
-//                    }
-//                });
-        Log.i("CATEGORY_QUERY", category);
         Course.queryInBackground(Course.class, context, false,
                 new String[]{DBConstants.COL_CATEGORY, DBConstants.COL_IS_MEETUP},
                 new String[]{category, "0"}, DBConstants.COL_NAME, new BackgroundTaskCallBack() {

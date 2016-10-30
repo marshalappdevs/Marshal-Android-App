@@ -2,28 +2,19 @@ package com.basmapp.marshal.util;
 
 import android.content.ContentResolver;
 import android.provider.Settings;
-import android.util.Log;
+import com.basmapp.marshal.BuildConfig;
+import java.util.Date;
+import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.SignatureAlgorithm;
 
-import com.basmapp.marshal.entities.AuthRequest;
-
-import retrofit2.Response;
-
-/**
- * Created by Ido on 8/24/2016.
- */
 public class AuthUtil {
     public static String getApiToken() throws Exception {
-        String token;
-        AuthRequest authRequest = new AuthRequest();
-        Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
-        if (authResponse.isSuccessful()) {
-            token = authResponse.body();
-            Log.i("AUTH", token);
-            return token;
-        } else {
-            Log.e("AUTH", " RESPONSE ERROR");
-            throw new Exception("RESPONSE ERROR");
-        }
+        String testToken = Jwts.builder()
+                .setSubject("hila")
+                .signWith(SignatureAlgorithm.HS256, BuildConfig.AUTH_KEY.getBytes())
+                .setExpiration(new Date(new Date().getTime() + 10000))
+                .compact();
+        return testToken;
     }
 
     public static String getHardwareId(ContentResolver contentResolver) {

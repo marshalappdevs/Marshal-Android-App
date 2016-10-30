@@ -47,8 +47,6 @@ public class UpdateIntentService extends IntentService {
     public static final String RESULT_CHECK_FOR_UPDATE = "result_check_for_update";
     public static final String RESULT_UPDATE_DATA = "result_update_data";
 
-    private static final String LOG_TAG = "UPDATE_SERVICE";
-
     public static boolean isRunning = false;
 
     private static String token = null;
@@ -134,47 +132,11 @@ public class UpdateIntentService extends IntentService {
                         .edit().putBoolean(Constants.PREF_MUST_UPDATE, true).apply();
             }
 
-//            Set<String> categoriesValues = new HashSet<>();
-//            Set<String> categoriesEnglish = new HashSet<>();
-//            Set<String> categoriesHebrew = new HashSet<>();
-//
-//            for (Category category : settings.getCategories()) {
-//                categoriesValues.add(category.getValue());
-//                categoriesEnglish.add(category.getEnglish());
-//                categoriesHebrew.add(category.getHebrew());
-//            }
-
-//            PreferenceManager.getDefaultSharedPreferences(this).edit().
-//                    putStringSet(Constants.PREF_CATEGORIES_VALUES, categoriesValues).apply();
-//            PreferenceManager.getDefaultSharedPreferences(this).edit().
-//                    putStringSet(Constants.PREF_CATEGORIES_ENGLISH, categoriesEnglish).apply();
-//            PreferenceManager.getDefaultSharedPreferences(this).edit().
-//                    putStringSet(Constants.PREF_CATEGORIES_HEBREW, categoriesHebrew).apply();
-
         } catch (Exception e) {
             e.printStackTrace();
             sendCheckForUpdateResult(false);
         }
     }
-
-//    private boolean authenticate() {
-//        AuthRequest authRequest = new AuthRequest();
-//        try {
-//            Response<String> authResponse = MarshalServiceProvider.getInstance(null).auth(authRequest).execute();
-//            if (authResponse.isSuccessful()) {
-//                token = authResponse.body();
-//                Log.i("AUTH", token);
-//                return true;
-//            } else {
-//                Log.e("AUTH", " RESPONSE ERROR");
-//                return false;
-//            }
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//            Log.e("AUTH", " FAILED");
-//            return false;
-//        }
-//    }
 
     /**
      * Handle action Baz in the provided background thread with the provided

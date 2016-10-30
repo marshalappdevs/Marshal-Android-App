@@ -1,6 +1,5 @@
 package com.basmapp.marshal.interfaces;
 
-import com.basmapp.marshal.entities.AuthRequest;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.FcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
@@ -58,8 +57,4 @@ public interface IMarshalService {
     // ******** Settings ********//
     @GET(MarshalServiceProvider.GET_SETTINGS)
     Call<Settings> getSettings();
-
-    // ******** Auth ***********//
-    @POST(MarshalServiceProvider.AUTH)
-    Call<String> auth(@Body AuthRequest authRequest);
 }
