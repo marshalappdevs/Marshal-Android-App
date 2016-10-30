@@ -22,6 +22,9 @@
 -dontwarn okio.**
 -dontwarn retrofit2.**
 -dontwarn rx.**
+-dontwarn javax.xml.**
+-dontwarn org.bouncycastle.jce.**
+-dontwarn com.fasterxml.jackson.databind.**
 
 -keep class com.basmapp.marshal.entities.**  { *; }
 -keep class android.support.v7.widget.SearchView { *; }
@@ -37,6 +40,15 @@
 -keep interface com.squareup.okhttp.** { *; }
 -keep class in.uncod.android.bypass.** { *; }
 -keep class retrofit2.** { *; }
+
+-keep class com.fasterxml.jackson.annotation.** { *; }
+-keep class com.fasterxml.jackson.databind.ObjectMapper {
+    public <methods>;
+    protected <methods>;
+}
+-keep class com.fasterxml.jackson.databind.ObjectWriter {
+    public ** writeValueAsString(**);
+}
 
 -keepattributes *Annotation*,Signature,Exceptions
 
