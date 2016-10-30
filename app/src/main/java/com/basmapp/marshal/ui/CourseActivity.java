@@ -158,22 +158,22 @@ public class CourseActivity extends BaseActivity {
 
         mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            if (getWindow().getSharedElementEnterTransition() != null) {
-                getWindow().getSharedElementEnterTransition().addListener(new TransitionUtils.TransitionListenerAdapter() {
-                    @SuppressLint("NewApi")
-                    @Override
-                    public void onTransitionStart(Transition transition) {
-                        int measuredWidth = mAppBarLayout.getMeasuredWidth();
-                        int measuredHeight = mAppBarLayout.getMeasuredHeight();
-                        ViewAnimationUtils.createCircularReveal(
-                                mAppBarLayout, measuredWidth / 2, measuredHeight / 2, 0.0f,
-                                ((float) Math.sqrt((double) (((float) (measuredWidth * measuredWidth))
-                                        + ((float) (measuredWidth * measuredHeight))))) * 0.5f).setDuration(400).start();
-                    }
-                });
-            }
-        }
+//        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+//            if (getWindow().getSharedElementEnterTransition() != null) {
+//                getWindow().getSharedElementEnterTransition().addListener(new TransitionUtils.TransitionListenerAdapter() {
+//                    @SuppressLint("NewApi")
+//                    @Override
+//                    public void onTransitionStart(Transition transition) {
+//                        int measuredWidth = mAppBarLayout.getMeasuredWidth();
+//                        int measuredHeight = mAppBarLayout.getMeasuredHeight();
+//                        ViewAnimationUtils.createCircularReveal(
+//                                mAppBarLayout, measuredWidth / 2, measuredHeight / 2, 0.0f,
+//                                ((float) Math.sqrt((double) (((float) (measuredWidth * measuredWidth))
+//                                        + ((float) (measuredWidth * measuredHeight))))) * 0.5f).setDuration(400).start();
+//                    }
+//                });
+//            }
+//        }
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
