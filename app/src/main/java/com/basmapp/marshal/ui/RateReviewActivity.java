@@ -34,6 +34,9 @@ import java.util.Date;
 import java.util.List;
 
 public class RateReviewActivity extends AppCompatActivity {
+    public RateReviewActivity() {
+        LocaleUtils.updateConfig(this);
+    }
 
     public static final int RESULT_POST_SUCCESS = 111;
     public static final int RESULT_PUT_SUCCESS = 121;
