@@ -33,6 +33,7 @@ import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -287,7 +288,17 @@ public class DescribeProblemActivity extends BaseActivity {
         if (density == 0.75) densityName = "ldpi";
         debugInfo += "\n Screen Density: " + density + " (" + densityName + ")";
         debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
+        debugInfo += "\n Distribution: " + (verifyInstallerId() ? "play" : "apk");
         return debugInfo;
+    }
+
+    boolean verifyInstallerId() {
+        // A list with valid installers package name
+        List<String> validInstallers = new ArrayList<>(Arrays.asList("com.android.vending", "com.google.android.feedback"));
+        // The package name of the app that has installed your app
+        final String installer = getPackageManager().getInstallerPackageName(getPackageName());
+        // true if your app has been downloaded from Play Store
+        return installer != null && validInstallers.contains(installer);
     }
 
     private void requestStoragePermission() {
