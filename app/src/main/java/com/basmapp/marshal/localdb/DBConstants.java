@@ -43,6 +43,7 @@ public class DBConstants {
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
     public static final String COL_ORDER = "col_order";
+    public static final String COL_GOOGLE_FORM_URL = "col_google_form_url";
 
     // 'Create Table' commands
     static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE " + T_MALSHAB_ITEM + " (" +
@@ -101,6 +102,7 @@ public class DBConstants {
             COL_IS_MEETUP + " INTEGER, " +
             COL_CATEGORY + " TEXT, " +
             COL_IMAGE_URL + " TEXT," +
+            COL_GOOGLE_FORM_URL + " TEXT," +
             COL_IS_USER_SUBSCRIBE + " INTEGER, " +
             COL_IS_UP_TO_DATE + " INTEGER);";
 

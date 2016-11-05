@@ -281,6 +281,7 @@
     <string name="review_comment8">לא מעודכן</string>
     <string name="review_comment9">קל מידי</string>
     <string name="review_comment10">יכול להיות יותר טוב</string>
+    <string name="details_secondary_action_google_form">משוב</string>
 
     <!-- Review comments -->
     <string-array name="review_comments">

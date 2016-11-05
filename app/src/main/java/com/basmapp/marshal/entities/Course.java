@@ -117,6 +117,11 @@ public class Course extends DBObject implements Parcelable {
     private String imageUrl;
 
     @Expose
+    @SerializedName("GoogleFormUrl")
+    @Column(name = DBConstants.COL_GOOGLE_FORM_URL)
+    private String googleFormUrl;
+
+    @Expose
     @SerializedName("IsMooc")
     @Column(name = DBConstants.COL_IS_MOOC)
     private boolean isMooc;
@@ -287,6 +292,14 @@ public class Course extends DBObject implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
+    public String getGoogleFormUrl() {
+        return googleFormUrl;
+    }
+
+    public void setGoogleFormUrl(String googleFormUrl) {
+        this.googleFormUrl = googleFormUrl;
+    }
+
     public Boolean getIsMooc() {
         return isMooc;
     }
@@ -357,6 +370,7 @@ public class Course extends DBObject implements Parcelable {
         dest.writeInt(passingGrade);
         dest.writeTypedList(cycles);
         dest.writeString(imageUrl);
+        dest.writeString(googleFormUrl);
         dest.writeString(category);
         dest.writeInt((isMooc) ? 1 : 0);
         dest.writeInt((isMeetup) ? 1 : 0);
@@ -386,6 +400,7 @@ public class Course extends DBObject implements Parcelable {
         this.passingGrade = in.readInt();
         in.readTypedList(cycles, Cycle.CREATOR);
         this.imageUrl = in.readString();
+        this.googleFormUrl = in.readString();
         this.category = in.readString();
         this.isMooc = (in.readInt() != 0);
         this.isMeetup = (in.readInt() != 0);
@@ -470,7 +485,8 @@ public class Course extends DBObject implements Parcelable {
                     "," + (isMooc ? 1 : 0) +
                     "," + (isMeetup ? 1 : 0) +
                     "," + prepareStringForSql(category) +
-                    "," + prepareStringForSql(imageUrl) + ",1);";
+                    "," + prepareStringForSql(imageUrl) +
+                    "," + prepareStringForSql(googleFormUrl) + ",1);";
 
             sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
                     pkColumn +
@@ -492,6 +508,7 @@ public class Course extends DBObject implements Parcelable {
                     DBConstants.COL_IS_MEETUP + "," +
                     DBConstants.COL_CATEGORY + "," +
                     DBConstants.COL_IMAGE_URL + "," +
+                    DBConstants.COL_GOOGLE_FORM_URL + "," +
                     DBConstants.COL_IS_UP_TO_DATE + ")" + values;
         } catch (Exception e) {
             e.printStackTrace();
@@ -528,6 +545,7 @@ public class Course extends DBObject implements Parcelable {
                     DBConstants.COL_IS_MEETUP + " = " + (isMeetup ? 1 : 0) + "," +
                     DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +
                     DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
+                    DBConstants.COL_GOOGLE_FORM_URL + " = " + prepareStringForSql(googleFormUrl) + "," +
                     DBConstants.COL_IS_UP_TO_DATE + " = 1" +
                     " WHERE " + DBConstants.COL_ID + " = '" + objectId + "';";
         } catch (Exception e) {

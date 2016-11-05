@@ -11,6 +11,7 @@ import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import com.basmapp.marshal.BaseActivity;
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 
 
@@ -37,12 +38,12 @@ public class WebViewActivity extends BaseActivity {
             }
         });
 
-        CharSequence title = getIntent().getCharSequenceExtra("extra_title");
+        CharSequence title = getIntent().getCharSequenceExtra(Constants.EXTRA_TITLE);
         if (title != null) {
-            setTitle(title);
+            setTitle(getString(R.string.details_secondary_action_google_form) + ": " +title);
         }
 
-        String url = getIntent().getStringExtra("extra_url");
+        String url = getIntent().getStringExtra(Constants.EXTRA_URL);
         if (url == null) {
             finish();
             return;

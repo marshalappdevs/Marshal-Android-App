@@ -1,15 +1,18 @@
 package com.basmapp.marshal.ui;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
+import android.support.customtabs.CustomTabsIntent;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -112,6 +115,7 @@ public class CourseActivity extends BaseActivity {
     private ImageView mWishlistIcon;
     private LinearLayout mMaterialsButton;
     private LinearLayout mShareButton;
+    private LinearLayout mFeedbackButton;
     private Button mBtnReadAllReviews;
     private ImageView mReviewProfileImageView;
 
@@ -817,6 +821,27 @@ public class CourseActivity extends BaseActivity {
                 new ShareCourseImageTask(CourseActivity.this, mCourse).execute();
             }
         });
+        mFeedbackButton = (LinearLayout) findViewById(R.id.course_activity_google_form_button);
+
+        if (mCourse.getGoogleFormUrl() != null && !mCourse.getGoogleFormUrl().equals("")) {
+            mFeedbackButton.setVisibility(View.VISIBLE);
+            mFeedbackButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(CourseActivity.this, WebViewActivity.class);
+                    intent.putExtra(Constants.EXTRA_TITLE, mCourse.getName());
+                    intent.putExtra(Constants.EXTRA_URL, mCourse.getGoogleFormUrl());
+                    startActivity(intent);
+//                    new CustomTabsIntent.Builder()
+//                            .setToolbarColor(contentColor)
+//                            .setShowTitle(true)
+//                            .addDefaultShareMenuItem()
+//                            .setCloseButtonIcon(BitmapFactory.decodeResource(CourseActivity.this.getResources(), R.drawable.ic_arrow_back_wht))
+//                            .build()
+//                            .launchUrl(CourseActivity.this, Uri.parse(mCourse.getGoogleFormUrl()));
+                }
+            });
+        }
     }
 
     private class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
