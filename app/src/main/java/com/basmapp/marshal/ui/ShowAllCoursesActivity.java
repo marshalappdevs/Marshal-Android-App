@@ -43,11 +43,13 @@ public class ShowAllCoursesActivity extends BaseActivity {
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
 
-        if (mCoursesType != null && mToolbar != null) mToolbar.setTitle(mCoursesType);
+        if (mCoursesType != null && mToolbar != null)
+            mToolbar.setTitle(mCoursesType);
 
         setSupportActionBar(mToolbar);
 
-        if (getSupportActionBar() != null) getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        if (getSupportActionBar() != null)
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override

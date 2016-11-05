@@ -151,6 +151,11 @@
         </activity>
 
         <activity
+            android:name=".ui.WebViewActivity"
+            android:screenOrientation="portrait"
+            android:theme="@style/Theme.AppCompat.DayNight.DarkActionBar" />
+
+        <activity
             android:name=".ui.RatingsActivity"
             android:label="@string/all_reviews"
             android:parentActivityName=".ui.CourseActivity"
