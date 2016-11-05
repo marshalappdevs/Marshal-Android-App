@@ -612,6 +612,7 @@
                     android:id="@+id/wishlist_button_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@string/details_secondary_action_wishlist"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
@@ -648,6 +649,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@string/details_secondary_action_share"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
@@ -684,6 +686,7 @@
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@string/details_secondary_action_materials"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
@@ -714,13 +717,14 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:contentDescription="@null"
-                        app:srcCompat="@drawable/ic_google_forms_24dp" />
+                        app:srcCompat="@drawable/ic_feedback" />
 
                 </FrameLayout>
 
                 <TextView
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:gravity="center"
                     android:text="@string/details_secondary_action_google_form"
                     android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />

@@ -52,8 +52,8 @@ public class Constants {
     public static final String EXTRA_USER_RATING = "extra_rating";
     public static final String EXTRA_CONTENT_COLOR = "extra_content_color";
     public static final String EXTRA_IS_EDIT_MODE = "extra_is_edit_mode";
-    public static final String EXTRA_URL = "extra_url";
-    public static final String EXTRA_TITLE = "extra_title";
+    public static final String EXTRA_FORM_URL = "extra_form_url";
+    public static final String EXTRA_FORM_TITLE = "extra_form_title";
 
     // Fragment Tags
     public static final String FRAGMENT_PRIMARY_COLOR_PICKER = "primary_color_picker";

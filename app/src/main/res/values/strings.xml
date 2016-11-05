@@ -56,6 +56,7 @@
     <string name="details_secondary_action_wishlist">Wishlist</string>
     <string name="details_secondary_action_share">Share</string>
     <string name="details_secondary_action_materials">Materials</string>
+    <string name="details_secondary_action_google_form">Feedback</string>
     <string name="share_with">Share with</string>
     <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from Google Play: \n\n%2$s</string>
     <string name="course_choose_cycle">Choose cycle</string>
@@ -366,7 +367,6 @@
     <string name="review_comment8">Outdated</string>
     <string name="review_comment9">Too easy</string>
     <string name="review_comment10">Can be better</string>
-    <string name="details_secondary_action_google_form">Feedback</string>
 
     <!-- Review comments -->
     <string-array name="review_comments">

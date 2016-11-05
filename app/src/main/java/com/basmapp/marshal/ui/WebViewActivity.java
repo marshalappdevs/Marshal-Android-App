@@ -22,7 +22,7 @@ public class WebViewActivity extends BaseActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.web_view_layout);
+        setContentView(R.layout.activity_web_view);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
 
@@ -38,12 +38,12 @@ public class WebViewActivity extends BaseActivity {
             }
         });
 
-        CharSequence title = getIntent().getCharSequenceExtra(Constants.EXTRA_TITLE);
+        CharSequence title = getIntent().getCharSequenceExtra(Constants.EXTRA_FORM_TITLE);
         if (title != null) {
-            setTitle(getString(R.string.details_secondary_action_google_form) + ": " +title);
+            setTitle(getString(R.string.details_secondary_action_google_form) + ": " + title);
         }
 
-        String url = getIntent().getStringExtra(Constants.EXTRA_URL);
+        String url = getIntent().getStringExtra(Constants.EXTRA_FORM_URL);
         if (url == null) {
             finish();
             return;
@@ -72,8 +72,8 @@ public class WebViewActivity extends BaseActivity {
 
     public static Intent intent(@NonNull Context context, @NonNull String str, CharSequence charSequence) {
         Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra("extra_url", str);
-        intent.putExtra("extra_title", charSequence);
+        intent.putExtra(Constants.EXTRA_FORM_URL, str);
+        intent.putExtra(Constants.EXTRA_FORM_TITLE, charSequence);
         return intent;
     }
 }

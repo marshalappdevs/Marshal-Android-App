@@ -829,8 +829,8 @@ public class CourseActivity extends BaseActivity {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(CourseActivity.this, WebViewActivity.class);
-                    intent.putExtra(Constants.EXTRA_TITLE, mCourse.getName());
-                    intent.putExtra(Constants.EXTRA_URL, mCourse.getGoogleFormUrl());
+                    intent.putExtra(Constants.EXTRA_FORM_TITLE, mCourse.getName());
+                    intent.putExtra(Constants.EXTRA_FORM_URL, mCourse.getGoogleFormUrl());
                     startActivity(intent);
 //                    new CustomTabsIntent.Builder()
 //                            .setToolbarColor(contentColor)
