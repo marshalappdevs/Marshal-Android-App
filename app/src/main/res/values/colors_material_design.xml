@@ -26,7 +26,7 @@
 
     <!-- Text -->
     <!-- 100% -->
-    <color name="material_dark_primary_text">#FFFFFFFF</color>
+    <color name="material_dark_primary_text">#FFFFFF</color>
     <!-- 70% -->
     <color name="material_dark_secondary_text">#B3FFFFFF</color>
     <!-- 50% -->
@@ -35,7 +35,7 @@
     <color name="material_dark_dividers">#1FFFFFFF</color>
     <!-- Icons -->
     <!-- 100% -->
-    <color name="material_dark_active_icon">#FFFFFFFF</color>
+    <color name="material_dark_active_icon">#FFFFFF</color>
     <!-- 30% -->
     <color name="material_dark_inactive_icon">#4D000000</color>
     <!-- Themes -->
