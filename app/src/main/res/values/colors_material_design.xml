@@ -4,7 +4,7 @@
     <!-- Google's Material Design colors from
     https://www.google.com/design/spec/style/color.html#color-color-palette -->
 
-    <!-- Text and background colors -->
+    <!-- Text -->
     <!-- 87% -->
     <color name="material_light_primary_text">#DE000000</color>
     <!-- 54% -->
@@ -24,7 +24,7 @@
     <color name="material_light_background">@color/quantum_grey_50</color>
     <color name="material_light_cards_and_dialogs">@color/quantum_white_100</color>
 
-    <!-- Text and background colors -->
+    <!-- Text -->
     <!-- 100% -->
     <color name="material_dark_primary_text">#FFFFFFFF</color>
     <!-- 70% -->
