@@ -1,13 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <color name="primary_text_color">@color/material_dark_primary_text</color>
+    <color name="primary_text_color_inverse">@color/material_light_secondary_text</color>
+    <color name="secondary_text_color">@color/material_dark_secondary_text</color>
+    <color name="secondary_text_color_inverse">@color/material_light_secondary_text</color>
+    <color name="disabled_color">@color/material_dark_disabled</color>
+    <color name="divider_color">@color/material_dark_dividers</color>
+    <color name="active_icon_color">@color/material_dark_active_icon</color>
+    <color name="inactive_icon_color">@color/material_dark_inactive_icon</color>
+    <color name="cards_and_dialogs_color">@color/material_dark_cards_and_dialogs</color>
+    <color name="bottom_sheet_color">@color/material_dark_cards_and_dialogs</color>
+    <color name="background_color">@color/material_dark_background</color>
     <color name="url_color">#AAFFFFFF</color>
     <color name="star_color">#EFEFEF</color>
     <color name="user_color">#80FFFFFF</color>
-    <color name="divider_color">#1FFFFFFF</color>
-    <color name="primary_android_color">#FFFFFFFF</color> <!-- 100% white -->
-    <color name="primary_android_color_inverse">#DE000000</color> <!-- 87% black -->
-    <color name="secondary_android_color">#B3FFFFFF</color> <!-- 70% white -->
-    <color name="secondary_android_color_inverse">#8A000000</color> <!-- 54% black -->
     <color name="placeholder_background">#324248</color>
     <color name="materials_card_background">#08FFFFFF</color>
     <color name="hash_tags_background">#10FFFFFF</color>
@@ -15,7 +21,5 @@
     <color name="description_background">#424242</color>
     <color name="page_indicator">#80333333</color>
     <color name="page_indicator_selected">#333333</color>
-    <color name="bottom_sheet_background">@color/material_grey_800</color>
     <color name="fab_icon_color">#8A000000</color>
-    <color name="background_material_color">#303030</color>
 </resources>
