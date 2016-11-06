@@ -223,45 +223,45 @@ public class SettingsActivity extends BaseActivity {
         public void onActivityCreated(Bundle savedInstanceState) {
             super.onActivityCreated(savedInstanceState);
             PRIMARY_COLORS = new int[]{
-                    ContextCompat.getColor(getActivity(), R.color.red_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.pink_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.purple_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.deep_purple_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.indigo_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.blue_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.light_blue_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.cyan_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.teal_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.green_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.light_green_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.lime_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.yellow_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.amber_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.orange_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.deep_orange_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.brown_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.grey_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.blue_grey_primary_color),
-                    ContextCompat.getColor(getActivity(), R.color.black_primary_color)
+                    ContextCompat.getColor(getActivity(), R.color.red_primary),
+                    ContextCompat.getColor(getActivity(), R.color.pink_primary),
+                    ContextCompat.getColor(getActivity(), R.color.purple_primary),
+                    ContextCompat.getColor(getActivity(), R.color.deep_purple_primary),
+                    ContextCompat.getColor(getActivity(), R.color.indigo_primary),
+                    ContextCompat.getColor(getActivity(), R.color.blue_primary),
+                    ContextCompat.getColor(getActivity(), R.color.light_blue_primary),
+                    ContextCompat.getColor(getActivity(), R.color.cyan_primary),
+                    ContextCompat.getColor(getActivity(), R.color.teal_primary),
+                    ContextCompat.getColor(getActivity(), R.color.green_primary),
+                    ContextCompat.getColor(getActivity(), R.color.light_green_primary),
+                    ContextCompat.getColor(getActivity(), R.color.lime_primary),
+                    ContextCompat.getColor(getActivity(), R.color.yellow_primary),
+                    ContextCompat.getColor(getActivity(), R.color.amber_primary),
+                    ContextCompat.getColor(getActivity(), R.color.orange_primary),
+                    ContextCompat.getColor(getActivity(), R.color.deep_orange_primary),
+                    ContextCompat.getColor(getActivity(), R.color.brown_primary),
+                    ContextCompat.getColor(getActivity(), R.color.grey_primary),
+                    ContextCompat.getColor(getActivity(), R.color.blue_grey_primary),
+                    ContextCompat.getColor(getActivity(), R.color.black_primary)
             };
 
             ACCENT_COLORS = new int[]{
-                    ContextCompat.getColor(getActivity(), R.color.red_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.pink_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.purple_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.deep_purple_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.indigo_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.blue_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.light_blue_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.cyan_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.teal_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.green_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.light_green_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.lime_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.yellow_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.amber_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.orange_accent_color),
-                    ContextCompat.getColor(getActivity(), R.color.deep_orange_accent_color),
+                    ContextCompat.getColor(getActivity(), R.color.red_accent),
+                    ContextCompat.getColor(getActivity(), R.color.pink_accent),
+                    ContextCompat.getColor(getActivity(), R.color.purple_accent),
+                    ContextCompat.getColor(getActivity(), R.color.deep_purple_accent),
+                    ContextCompat.getColor(getActivity(), R.color.indigo_accent),
+                    ContextCompat.getColor(getActivity(), R.color.blue_accent),
+                    ContextCompat.getColor(getActivity(), R.color.light_blue_accent),
+                    ContextCompat.getColor(getActivity(), R.color.cyan_accent),
+                    ContextCompat.getColor(getActivity(), R.color.teal_accent),
+                    ContextCompat.getColor(getActivity(), R.color.green_accent),
+                    ContextCompat.getColor(getActivity(), R.color.light_green_accent),
+                    ContextCompat.getColor(getActivity(), R.color.lime_accent),
+                    ContextCompat.getColor(getActivity(), R.color.yellow_accent),
+                    ContextCompat.getColor(getActivity(), R.color.amber_accent),
+                    ContextCompat.getColor(getActivity(), R.color.orange_accent),
+                    ContextCompat.getColor(getActivity(), R.color.deep_orange_accent),
             };
 
             findPreference(Constants.PREF_PRIMARY_COLOR).setSummary(primaryColorName());
@@ -491,9 +491,9 @@ public class SettingsActivity extends BaseActivity {
                             dialog.dismiss();
                             PreferenceManager.getDefaultSharedPreferences(getActivity().getApplicationContext()).edit()
                                     .putInt(Constants.PREF_PRIMARY_COLOR_CODE, ContextCompat.getColor(getActivity()
-                                            .getApplicationContext(), R.color.blue_primary_color))
+                                            .getApplicationContext(), R.color.blue_primary))
                                     .putInt(Constants.PREF_ACCENT_COLOR_CODE, ContextCompat.getColor(getActivity()
-                                            .getApplicationContext(), R.color.red_accent_color))
+                                            .getApplicationContext(), R.color.red_accent))
                                     .putString(Constants.PREF_THEME, "light")
                                     .apply();
                         }

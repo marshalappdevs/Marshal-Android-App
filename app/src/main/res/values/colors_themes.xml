@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Red -->
+    <color name="red_primary">@color/quantum_red_500</color>
+    <color name="red_primary_dark">@color/quantum_red_700</color>
+    <color name="red_primary_light">@color/quantum_red_300</color>
+    <color name="red_accent">@color/quantum_red_A200</color>
+
+    <!-- Pink -->
+    <color name="pink_primary">@color/quantum_pink_500</color>
+    <color name="pink_primary_dark">@color/quantum_pink_700</color>
+    <color name="pink_primary_light">@color/quantum_pink_300</color>
+    <color name="pink_accent">@color/quantum_pink_A200</color>
+
+    <!-- Purple -->
+    <color name="purple_primary">@color/quantum_purple_500</color>
+    <color name="purple_primary_dark">@color/quantum_purple_700</color>
+    <color name="purple_primary_light">@color/quantum_purple_300</color>
+    <color name="purple_accent">@color/quantum_purple_A200</color>
+
+    <!-- Deep Purple -->
+    <color name="deep_purple_primary">@color/quantum_deep_purple_500</color>
+    <color name="deep_purple_primary_dark">@color/quantum_deep_purple_700</color>
+    <color name="deep_purple_primary_light">@color/quantum_deep_purple_300</color>
+    <color name="deep_purple_accent">@color/quantum_deep_purple_A200</color>
+
+    <!-- Indigo -->
+    <color name="indigo_primary">@color/quantum_indigo_500</color>
+    <color name="indigo_primary_dark">@color/quantum_indigo_700</color>
+    <color name="indigo_primary_light">@color/quantum_indigo_300</color>
+    <color name="indigo_accent">@color/quantum_indigo_A200</color>
+
+    <!-- Blue -->
+    <color name="blue_primary">@color/quantum_blue_500</color>
+    <color name="blue_primary_dark">@color/quantum_blue_700</color>
+    <color name="blue_primary_light">@color/quantum_blue_300</color>
+    <color name="blue_accent">@color/quantum_blue_A200</color>
+
+    <!-- Light Blue -->
+    <color name="light_blue_primary">@color/quantum_light_blue_500</color>
+    <color name="light_blue_primary_dark">@color/quantum_light_blue_700</color>
+    <color name="light_blue_primary_light">@color/quantum_light_blue_300</color>
+    <color name="light_blue_accent">@color/quantum_light_blue_A200</color>
+
+    <!-- Cyan -->
+    <color name="cyan_primary">@color/quantum_cyan_500</color>
+    <color name="cyan_primary_dark">@color/quantum_cyan_700</color>
+    <color name="cyan_primary_light">@color/quantum_cyan_300</color>
+    <color name="cyan_accent">@color/quantum_cyan_A200</color>
+
+    <!-- Teal -->
+    <color name="teal_primary">@color/quantum_teal_500</color>
+    <color name="teal_primary_dark">@color/quantum_teal_700</color>
+    <color name="teal_primary_light">@color/quantum_teal_300</color>
+    <color name="teal_accent">@color/quantum_teal_A200</color>
+
+    <!-- Green -->
+    <color name="green_primary">@color/quantum_green_500</color>
+    <color name="green_primary_dark">@color/quantum_green_700</color>
+    <color name="green_primary_light">@color/quantum_green_300</color>
+    <color name="green_accent">@color/quantum_green_A200</color>
+
+    <!-- Light Green -->
+    <color name="light_green_primary">@color/quantum_light_green_500</color>
+    <color name="light_green_primary_dark">@color/quantum_light_green_700</color>
+    <color name="light_green_primary_light">@color/quantum_light_green_300</color>
+    <color name="light_green_accent">@color/quantum_light_green_A200</color>
+
+    <!-- Lime -->
+    <color name="lime_primary">@color/quantum_lime_500</color>
+    <color name="lime_primary_dark">@color/quantum_lime_700</color>
+    <color name="lime_primary_light">@color/quantum_lime_300</color>
+    <color name="lime_accent">@color/quantum_lime_A200</color>
+
+    <!-- Yellow -->
+    <color name="yellow_primary">@color/quantum_yellow_500</color>
+    <color name="yellow_primary_dark">@color/quantum_yellow_700</color>
+    <color name="yellow_primary_light">@color/quantum_yellow_300</color>
+    <color name="yellow_accent">@color/quantum_yellow_A200</color>
+
+    <!-- Amber -->
+    <color name="amber_primary">@color/quantum_amber_500</color>
+    <color name="amber_primary_dark">@color/quantum_amber_700</color>
+    <color name="amber_primary_light">@color/quantum_amber_300</color>
+    <color name="amber_accent">@color/quantum_amber_A200</color>
+
+    <!-- Orange -->
+    <color name="orange_primary">@color/quantum_orange_500</color>
+    <color name="orange_primary_dark">@color/quantum_orange_700</color>
+    <color name="orange_primary_light">@color/quantum_orange_300</color>
+    <color name="orange_accent">@color/quantum_orange_A200</color>
+
+    <!-- Deep Orange -->
+    <color name="deep_orange_primary">@color/quantum_deep_orange_500</color>
+    <color name="deep_orange_primary_dark">@color/quantum_deep_orange_700</color>
+    <color name="deep_orange_primary_light">@color/quantum_deep_orange_300</color>
+    <color name="deep_orange_accent">@color/quantum_deep_orange_A200</color>
+
+    <!-- Brown -->
+    <color name="brown_primary">@color/quantum_brown_500</color>
+    <color name="brown_primary_dark">@color/quantum_brown_700</color>
+    <color name="brown_primary_light">@color/quantum_brown_300</color>
+
+    <!-- Grey -->
+    <color name="grey_primary">@color/quantum_grey_500</color>
+    <color name="grey_primary_dark">@color/quantum_grey_700</color>
+    <color name="grey_primary_light">@color/quantum_grey_300</color>
+
+    <!-- Blue Grey -->
+    <color name="blue_grey_primary">@color/quantum_blue_grey_500</color>
+    <color name="blue_grey_primary_dark">@color/quantum_blue_grey_700</color>
+    <color name="blue_grey_primary_light">@color/quantum_blue_grey_300</color>
+
+    <!-- Black -->
+    <color name="black_primary">@color/quantum_black_100</color>
+    <color name="black_primary_dark">@color/quantum_black_100</color>
+    <color name="black_primary_light">@color/quantum_black_100</color>
+</resources>

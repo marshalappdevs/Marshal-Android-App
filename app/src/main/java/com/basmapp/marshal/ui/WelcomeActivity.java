@@ -56,9 +56,9 @@ public class WelcomeActivity extends BaseActivity {
         inkPageIndicator.setViewPager(mViewPager);
         mViewPager.setCurrentItem(page);
 
-        final int color1 = ContextCompat.getColor(this, R.color.cyan_primary_color);
-        final int color2 = ContextCompat.getColor(this, R.color.green_primary_color);
-        final int color3 = ContextCompat.getColor(this, R.color.teal_primary_color);
+        final int color1 = ContextCompat.getColor(this, R.color.cyan_primary);
+        final int color2 = ContextCompat.getColor(this, R.color.green_primary);
+        final int color3 = ContextCompat.getColor(this, R.color.teal_primary);
 
         final int[] colorList = new int[]{color1, color2, color3};
 

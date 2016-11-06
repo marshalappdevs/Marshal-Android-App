@@ -22,7 +22,7 @@
     </item>
     <item>
         <shape>
-            <solid android:color="@color/red_accent_color" />
+            <solid android:color="@color/red_accent" />
         </shape>
     </item>
 </layer-list>
