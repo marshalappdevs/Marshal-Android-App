@@ -21,5 +21,4 @@
     <color name="description_background">#424242</color>
     <color name="page_indicator">#80333333</color>
     <color name="page_indicator_selected">#333333</color>
-    <color name="fab_icon_color">#8A000000</color>
 </resources>

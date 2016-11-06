@@ -15,6 +15,8 @@
     <color name="cards_and_dialogs_color">@color/material_light_cards_and_dialogs</color>
     <color name="bottom_sheet_color">@color/material_light_cards_and_dialogs</color>
     <color name="background_color">@color/material_light_background</color>
+    <color name="error_color">@color/quantum_red_A700</color>
+    <color name="fab_icon_color">@color/primary_text_color_inverse</color>
     <color name="black_trans80">#33000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="url_color">#AA000000</color>
@@ -27,12 +29,10 @@
     <color name="hash_tags_background">#10000000</color>
     <color name="link_color">#347BFF</color>
     <color name="description_background">#FFFFFF</color>
-    <color name="error_color">#D50000</color>
     <color name="navigation_view_cover_overlay_shade">#38000000</color>
     <color name="status_bar_overlay">#33000000</color>
     <color name="page_indicator">#80FFFFFF</color>
     <color name="page_indicator_selected">#FFFFFF</color>
     <color name="highlight_banner_card_treatment_bg">#364852</color>
-    <color name="fab_icon_color">#FFFFFF</color>
     <color name="drawer_tint_color_dark">#ff757575</color>
 </resources>
