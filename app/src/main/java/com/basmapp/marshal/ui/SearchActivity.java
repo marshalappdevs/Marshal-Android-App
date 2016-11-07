@@ -1,11 +1,9 @@
 package com.basmapp.marshal.ui;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.IntentFilter;
-import android.os.AsyncTask;
 import android.os.Bundle;
 
 import android.app.SearchManager;
@@ -40,11 +38,8 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
-import com.basmapp.marshal.ui.fragments.CoursesFragment;
 import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.SuggestionProvider;
@@ -77,7 +72,7 @@ public class SearchActivity extends BaseActivity {
 
     private String mSearchQuery;
     private TextView mNoResults;
-    private static String mStartDate, mEndDate;
+    private static String sStartDate, sEndDate;
     private boolean isEmptyResult = false;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
@@ -115,29 +110,6 @@ public class SearchActivity extends BaseActivity {
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
-
-//        mCoursesList = CoursesFragment.mCoursesList;
-
-//        if (mCoursesList == null) {
-//
-//            ContentProvider.getInstance().getCourses(getApplicationContext(), new ContentProviderCallBack() {
-//                @Override
-//                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
-//                    mCoursesList = (ArrayList<Course>) data;
-//                    mFilteredCourseList = (ArrayList<Course>) data;
-//                    filter("");
-//                }
-//
-//                @Override
-//                public void onError(Exception e) {
-//                    e.printStackTrace();
-//                }
-//            });
-//        }
-
-//        if (mCoursesList == null) {
-//            fetchData("");
-//        }
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -182,9 +154,9 @@ public class SearchActivity extends BaseActivity {
             outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
         // Save filtered dates if available
-        if (mStartDate != null && mEndDate != null) {
-            outState.putString(FILTER_PREVIOUS_START_DATE, mStartDate);
-            outState.putString(FILTER_PREVIOUS_END_DATE, mEndDate);
+        if (sStartDate != null && sEndDate != null) {
+            outState.putString(FILTER_PREVIOUS_START_DATE, sStartDate);
+            outState.putString(FILTER_PREVIOUS_END_DATE, sEndDate);
         }
         // Save final filtered dates if available
         if (mFinalStartDate != null && mFinalEndDate != null) {
@@ -200,8 +172,8 @@ public class SearchActivity extends BaseActivity {
         // Restore previous SearchView query
         mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
         // Restore previous filter dates
-        mStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
-        mEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
+        sStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE);
+        sEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE);
         // Restore previous final filter dates
         mFinalStartDate = savedInstanceState.getString(FILTER_PREVIOUS_START_DATE_FINAL);
         mFinalEndDate = savedInstanceState.getString(FILTER_PREVIOUS_END_DATE_FINAL);
@@ -293,10 +265,11 @@ public class SearchActivity extends BaseActivity {
                 mSearchView.clearFocus();
             }
 
-            if (mCoursesList == null) fetchData(mSearchQuery);
-            else filter(mSearchQuery);
-//            fetchData(mSearchQuery);
-//            filter(mSearchQuery);
+            if (mCoursesList == null) {
+                fetchData(mSearchQuery);
+            } else {
+                filter(mSearchQuery);
+            }
             SuggestionProvider.save(this, mSearchQuery.trim());
         }
     }
@@ -371,7 +344,7 @@ public class SearchActivity extends BaseActivity {
 //         Set end date a month later from now
             Calendar now = Calendar.getInstance();
             now.add(Calendar.MONTH, 1);
-            mEndDate = (mSimpleDateFormat.format(now.getTime()));
+            sEndDate = (mSimpleDateFormat.format(now.getTime()));
             endDate.updateDate(endDate.getYear(), endDate.getMonth() + 1, endDate.getDayOfMonth());
             endDate.setMinDate(System.currentTimeMillis() - 1000);
             endDate.init(
@@ -381,11 +354,11 @@ public class SearchActivity extends BaseActivity {
                         public void onDateChanged(DatePicker datePicker, int year, int monthOfYear, int dayOfMonth) {
                             Calendar calendar = Calendar.getInstance();
                             calendar.set(year, monthOfYear, dayOfMonth);
-                            mEndDate = (mSimpleDateFormat.format(calendar.getTime()));
+                            sEndDate = (mSimpleDateFormat.format(calendar.getTime()));
                         }
                     });
 
-            mStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
+            sStartDate = (mSimpleDateFormat.format(Calendar.getInstance().getTime()));
             startDate.setMinDate(System.currentTimeMillis() - 1000);
             startDate.init(
                     startDate.getYear(), startDate.getMonth(), startDate.getDayOfMonth(),
@@ -405,7 +378,7 @@ public class SearchActivity extends BaseActivity {
                             // Set twice to workaround this issue https://goo.gl/PV17la
                             endDate.setMinDate(0);
                             endDate.setMinDate(calendar.getTimeInMillis());
-                            mStartDate = (mSimpleDateFormat.format(calendar.getTime()));
+                            sStartDate = (mSimpleDateFormat.format(calendar.getTime()));
                         }
                     });
 
@@ -446,11 +419,11 @@ public class SearchActivity extends BaseActivity {
 
 
     public void filter() {
-        if (mStartDate != null && mEndDate != null) {
-            filterByDatesRange(mStartDate, mEndDate);
+        if (sStartDate != null && sEndDate != null) {
+            filterByDatesRange(sStartDate, sEndDate);
             // Save final filter dates only after submit
-            mFinalStartDate = mStartDate;
-            mFinalEndDate = mEndDate;
+            mFinalStartDate = sStartDate;
+            mFinalEndDate = sEndDate;
         }
     }
 
@@ -459,17 +432,17 @@ public class SearchActivity extends BaseActivity {
         if (mFilteredCourseList != null) {
             showResults(query, mFilteredCourseList, true);
         }
-        mStartDate = mFinalStartDate = mEndDate = mFinalEndDate = null;
+        sStartDate = mFinalStartDate = sEndDate = mFinalEndDate = null;
     }
 
-    private void filterByDatesRange(String sStartDate, String sEndDate) {
+    private void filterByDatesRange(String startDate, String endDate) {
 
         ArrayList<Course> currentFilteredList = new ArrayList<>();
 
         try {
             if (mFilteredCourseList != null && mFilteredCourseList.size() > 0) {
-                long rangeStartTime = DateHelper.stringToDate(sStartDate).getTime();
-                long rangeEndTime = DateHelper.stringToDate(sEndDate).getTime();
+                long rangeStartTime = DateHelper.stringToDate(startDate).getTime();
+                long rangeEndTime = DateHelper.stringToDate(endDate).getTime();
 
                 for (Course course : mFilteredCourseList) {
                     if (course.getCycles() != null) {
@@ -493,7 +466,7 @@ public class SearchActivity extends BaseActivity {
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
-            showResults(sStartDate + sEndDate, currentFilteredList, true);
+            showResults(startDate + endDate, currentFilteredList, true);
         }
     }
 
@@ -519,7 +492,7 @@ public class SearchActivity extends BaseActivity {
             String searchResult;
             if (filter) {
                 searchResult = String.format(getString(
-                        R.string.no_results_for_filter), mStartDate, mEndDate);
+                        R.string.no_results_for_filter), sStartDate, sEndDate);
             } else {
                 searchResult = String.format(getString(
                         R.string.no_results_for_query), query);

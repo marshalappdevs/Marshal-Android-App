@@ -1,19 +1,15 @@
 package com.basmapp.marshal.ui;
 
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
-import android.support.customtabs.CustomTabsIntent;
-import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.BottomSheetDialog;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -24,15 +20,11 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.transition.Slide;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
-import android.transition.TransitionSet;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
-import android.view.ViewAnimationUtils;
 import android.view.ViewTreeObserver;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -80,7 +72,6 @@ public class CourseActivity extends BaseActivity {
 
     private static final int RC_REVIEW_ACTIVITY = 123;
 
-    private AppBarLayout mAppBarLayout;
     private CollapsingToolbarLayout mCollapsingToolbarLayout;
     private Toolbar mToolbar;
 
@@ -110,12 +101,8 @@ public class CourseActivity extends BaseActivity {
     private RatingBar mRatingBarAverage;
     private RatingBar mRatingBarUser;
     private RelativeLayout mReviewItemContainer;
-    private LinearLayout mActionContainer;
-    private LinearLayout mWishlistButton;
+    private LinearLayout mReviewEditButton;
     private ImageView mWishlistIcon;
-    private LinearLayout mMaterialsButton;
-    private LinearLayout mShareButton;
-    private LinearLayout mFeedbackButton;
     private Button mBtnReadAllReviews;
     private ImageView mReviewProfileImageView;
 
@@ -159,8 +146,6 @@ public class CourseActivity extends BaseActivity {
 
         mCourse = getIntent().getParcelableExtra(Constants.EXTRA_COURSE);
         mCourse.Ctor(this);
-
-        mAppBarLayout = (AppBarLayout) findViewById(R.id.app_bar);
 
         mToolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(mToolbar);
@@ -302,64 +287,48 @@ public class CourseActivity extends BaseActivity {
         }
 
         mReviewItemContainer = (RelativeLayout)
-
                 findViewById(R.id.review_item_container);
 
-        mActionContainer = (LinearLayout)
-
+        mReviewEditButton = (LinearLayout)
                 findViewById(R.id.review_item_action_container);
 
         mReviewRating = (RatingBar)
-
                 findViewById(R.id.review_item_review_rating);
 
         mRatingBarAverage = (RatingBar)
-
                 findViewById(R.id.summary_rating_bar);
 
         mRatingBarUser = (RatingBar)
-
                 findViewById(R.id.course_content_ratingBar_user);
 
         mTextViewReviewHint = (TextView)
-
                 findViewById(R.id.review_hint);
 
         mTextViewReviewDate = (TextView)
-
                 findViewById(R.id.review_item_review_date);
 
         mTextViewReviewText = (TextView)
-
                 findViewById(R.id.review_item_review_text);
 
         mTextViewReviewEdited = (TextView)
-
                 findViewById(R.id.review_item_review_edited);
 
         mTextViewRatingsAmount = (TextView)
-
                 findViewById(R.id.course_content_textView_ratingsAmount);
 
         mTextViewRatingAverage = (TextView)
-
                 findViewById(R.id.course_content_textView_average_value);
 
         mReviewAuthor = (TextView)
-
                 findViewById(R.id.review_item_author);
 
         mBtnReadAllReviews = (Button)
-
                 findViewById(R.id.course_content_button_readAllReviews);
 
         mRatingsFrame = (LinearLayout)
-
                 findViewById(R.id.course_content_ratingsFrame);
 
-        if (mCourse != null)
-
-        {
+        if (mCourse != null) {
             setRatingViewsVisibility(View.VISIBLE);
             showRatingAverage();
             showRatingsCount();
@@ -404,7 +373,7 @@ public class CourseActivity extends BaseActivity {
             };
 
             mRatingBarUser.setOnRatingBarChangeListener(mRatingBarUserOnChangeListener);
-            mActionContainer.setOnClickListener(new View.OnClickListener() {
+            mReviewEditButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     startReviewActivity(true, mUserRating);
@@ -767,8 +736,7 @@ public class CourseActivity extends BaseActivity {
 
     public void onSecondaryActionsClick() {
 
-        mWishlistButton = (LinearLayout) findViewById(R.id.wishlist_button);
-        mWishlistButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.wishlist_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mCourse.getIsUserSubscribe()) {
@@ -778,8 +746,7 @@ public class CourseActivity extends BaseActivity {
                 }
             }
         });
-        mMaterialsButton = (LinearLayout) findViewById(R.id.materials_button);
-        mMaterialsButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.materials_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialItem.rawQueryInBackground(MaterialItem.getSelectCourseMaterialsQuery(mCourse.getCourseID()),
@@ -814,18 +781,16 @@ public class CourseActivity extends BaseActivity {
                         });
             }
         });
-        mShareButton = (LinearLayout) findViewById(R.id.share_button);
-        mShareButton.setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.share_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 new ShareCourseImageTask(CourseActivity.this, mCourse).execute();
             }
         });
-        mFeedbackButton = (LinearLayout) findViewById(R.id.course_activity_google_form_button);
 
         if (mCourse.getGoogleFormUrl() != null && !mCourse.getGoogleFormUrl().equals("")) {
-            mFeedbackButton.setVisibility(View.VISIBLE);
-            mFeedbackButton.setOnClickListener(new View.OnClickListener() {
+            findViewById(R.id.course_activity_google_form_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.course_activity_google_form_button).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Intent intent = new Intent(CourseActivity.this, WebViewActivity.class);
