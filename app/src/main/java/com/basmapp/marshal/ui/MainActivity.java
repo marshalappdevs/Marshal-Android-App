@@ -155,9 +155,6 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        // TODO: compare device date to server
-//        showWrongClockDialog();
-
         mNavigationView = (NavigationView) findViewById(R.id.nav_view);
         mNavigationView.setNavigationItemSelectedListener(this);
 
@@ -842,43 +839,6 @@ public class MainActivity extends BaseActivity
             updateServiceIntent.setAction(UpdateIntentService.ACTION_CHECK_FOR_UPDATE);
             startService(updateServiceIntent);
         }
-    }
-
-    public void showWrongClockDialog() {
-        Dialog dialog = new Dialog(this, WindowManager.LayoutParams.MATCH_PARENT);
-        dialog.setContentView(R.layout.clock_wrong);
-        dialog.getWindow().setFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS,
-                WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-
-        Button adjustDate = (Button) dialog.findViewById(R.id.close);
-        adjustDate.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                finishAffinity();
-            }
-        });
-
-        String date = DateFormat.getDateFormat(getApplicationContext()).format(new Date());
-        String time = DateFormat.getTimeFormat(getApplicationContext()).format(new Date());
-
-        TextView wrongDate = (TextView) dialog.findViewById(R.id.clock_wrong_date);
-        wrongDate.setText(String.format(getString(R.string.clock_wrong_report_current_date_time),
-                date + ", " + time, (TimeZone.getDefault().getDisplayName())));
-
-        dialog.setOnKeyListener(new Dialog.OnKeyListener() {
-            @Override
-            public boolean onKey(DialogInterface arg0, int keyCode,
-                                 KeyEvent event) {
-                if (keyCode == KeyEvent.KEYCODE_BACK && event.getAction() == KeyEvent.ACTION_DOWN) {
-                    startActivity(new Intent(android.provider.Settings.ACTION_DATE_SETTINGS));
-                    finishAffinity();
-                }
-                return true;
-            }
-        });
-
-        dialog.show();
     }
 
     public static int getPrimaryColorCode(Context context) {
