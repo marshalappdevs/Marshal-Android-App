@@ -13,7 +13,7 @@ import com.basmapp.marshal.Constants;
 public class LocalDBHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "marshal_local_db";
-    public static final int DATABASE_VERSION = 2;
+    public static final int DATABASE_VERSION = 3;
 
     public static LocalDBHelper helperInstance;
     private static SQLiteDatabase databaseInstance;

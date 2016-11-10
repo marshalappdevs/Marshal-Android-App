@@ -48,7 +48,7 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
 
     @Override
     public long getItemId(int i) {
-        return mMalshabItems.get(i).getId();
+        return 0;
     }
 
     @Override

@@ -139,6 +139,9 @@ public class Course extends DBObject implements Parcelable {
     @Column(name = DBConstants.COL_IS_USER_SUBSCRIBE)
     private boolean isUserSubscribe;
 
+    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    private boolean isUpToDate;
+
     public Course(Context context) {
         super(context);
     }
@@ -332,6 +335,14 @@ public class Course extends DBObject implements Parcelable {
         this.isUserSubscribe = isUserSubscribe;
     }
 
+    public boolean getIsUpToDate() {
+        return isUpToDate;
+    }
+
+    public void setIsUpToDate(boolean isUpToDate) {
+        this.isUpToDate = isUpToDate;
+    }
+
     private String getFixedString(String string) {
         String[] lines = string.split("\n");
         StringBuilder stringBuilder = new StringBuilder();
@@ -375,6 +386,7 @@ public class Course extends DBObject implements Parcelable {
         dest.writeInt((isMooc) ? 1 : 0);
         dest.writeInt((isMeetup) ? 1 : 0);
         dest.writeInt((isUserSubscribe) ? 1 : 0);
+        dest.writeInt((isUpToDate) ? 1 : 0);
     }
 
     /**
@@ -405,6 +417,7 @@ public class Course extends DBObject implements Parcelable {
         this.isMooc = (in.readInt() != 0);
         this.isMeetup = (in.readInt() != 0);
         this.isUserSubscribe = (in.readInt() != 0);
+        this.isUpToDate = (in.readInt() != 0);
     }
 
     public static final Parcelable.Creator<Course> CREATOR = new Parcelable.Creator<Course>() {
@@ -455,103 +468,5 @@ public class Course extends DBObject implements Parcelable {
         } else {
             return null;
         }
-    }
-
-    public String getInsertSql() {
-        String sql = null;
-        String values = " VALUES (";
-        String pkColumn = "";
-
-        if (!isPrimaryKeyAutoIncrement()) {
-            pkColumn = DBConstants.COL_ID + ",";
-            values = values + "'" + id + "',";
-        }
-
-        try {
-            values = values + courseID +
-                    "," + prepareStringForSql(courseCode) +
-                    "," + prepareStringForSql(name) +
-                    "," + minimumPeople +
-                    "," + maximumPeople +
-                    "," + prepareStringForSql(description) +
-                    "," + prepareStringForSql(prerequisites) +
-                    "," + prepareStringForSql(professionalDomain) +
-                    "," + prepareStringForSql(syllabus) +
-                    "," + prepareStringForSql(dayTime) +
-                    "," + durationInHours +
-                    "," + durationInDays +
-                    "," + prepareStringForSql(comments) +
-                    "," + passingGrade +
-                    "," + (isMooc ? 1 : 0) +
-                    "," + (isMeetup ? 1 : 0) +
-                    "," + prepareStringForSql(category) +
-                    "," + prepareStringForSql(imageUrl) +
-                    "," + prepareStringForSql(googleFormUrl) + ",1);";
-
-            sql = "INSERT INTO " + DBConstants.T_COURSE + "(" +
-                    pkColumn +
-                    DBConstants.COL_COURSE_ID + "," +
-                    DBConstants.COL_COURSE_CODE + "," +
-                    DBConstants.COL_NAME + "," +
-                    DBConstants.COL_MIN_PEOPLE + "," +
-                    DBConstants.COL_MAX_PEOPLE + "," +
-                    DBConstants.COL_DESCRIPTION + "," +
-                    DBConstants.COL_PREREQUISITES + "," +
-                    DBConstants.COL_PROFESSIONAL_DOMAIN + "," +
-                    DBConstants.COL_SYLLABUS + "," +
-                    DBConstants.COL_DAYTIME + "," +
-                    DBConstants.COL_DURATION_IN_HOURS + "," +
-                    DBConstants.COL_DURATION_IN_DAYS + "," +
-                    DBConstants.COL_COMMENTS + "," +
-                    DBConstants.COL_PASSING_GRADE + "," +
-                    DBConstants.COL_IS_MOOC + "," +
-                    DBConstants.COL_IS_MEETUP + "," +
-                    DBConstants.COL_CATEGORY + "," +
-                    DBConstants.COL_IMAGE_URL + "," +
-                    DBConstants.COL_GOOGLE_FORM_URL + "," +
-                    DBConstants.COL_IS_UP_TO_DATE + ")" + values;
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sql;
-    }
-
-    public String getUpdateSql(Object objectId) {
-        String sql = null;
-        String pkUpdate = "";
-
-        if (!isPrimaryKeyAutoIncrement()) {
-            pkUpdate = DBConstants.COL_ID + " = '" + id + "',";
-        }
-
-        try {
-            sql = "UPDATE " + DBConstants.T_COURSE + " SET " + pkUpdate +
-                    DBConstants.COL_COURSE_ID + " = " + courseID + "," +
-                    DBConstants.COL_COURSE_CODE + " = " + prepareStringForSql(courseCode) + "," +
-                    DBConstants.COL_NAME + " = " + prepareStringForSql(name) + "," +
-                    DBConstants.COL_MIN_PEOPLE + " = " + minimumPeople + "," +
-                    DBConstants.COL_MAX_PEOPLE + " = " + maximumPeople + "," +
-                    DBConstants.COL_DESCRIPTION + " = " + prepareStringForSql(description) + "," +
-                    DBConstants.COL_PREREQUISITES + " = " + prepareStringForSql(prerequisites) + "," +
-                    DBConstants.COL_PROFESSIONAL_DOMAIN + " = " + prepareStringForSql(professionalDomain) + "," +
-                    DBConstants.COL_SYLLABUS + " = " + prepareStringForSql(syllabus) + "," +
-                    DBConstants.COL_DAYTIME + " = " + prepareStringForSql(dayTime) + "," +
-                    DBConstants.COL_DURATION_IN_HOURS + " = " + durationInHours + "," +
-                    DBConstants.COL_DURATION_IN_DAYS + " = " + durationInDays + "," +
-                    DBConstants.COL_COMMENTS + " = " + prepareStringForSql(comments) + "," +
-                    DBConstants.COL_PASSING_GRADE + " = " + passingGrade + "," +
-                    DBConstants.COL_IS_MOOC + " = " + (isMooc ? 1 : 0) + "," +
-                    DBConstants.COL_IS_MEETUP + " = " + (isMeetup ? 1 : 0) + "," +
-                    DBConstants.COL_CATEGORY + " = " + prepareStringForSql(category) + "," +
-                    DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
-                    DBConstants.COL_GOOGLE_FORM_URL + " = " + prepareStringForSql(googleFormUrl) + "," +
-                    DBConstants.COL_IS_UP_TO_DATE + " = 1" +
-                    " WHERE " + DBConstants.COL_ID + " = '" + objectId + "';";
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-
-        return sql;
     }
 }

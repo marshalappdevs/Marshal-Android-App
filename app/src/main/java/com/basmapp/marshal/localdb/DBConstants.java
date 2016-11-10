@@ -47,7 +47,7 @@ public class DBConstants {
 
     // 'Create Table' commands
     static final String CREATE_T_MALSHAB_ITEM = "CREATE TABLE " + T_MALSHAB_ITEM + " (" +
-            COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_ID + " TEXT PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_IMAGE_URL + " TEXT, " +
@@ -55,7 +55,7 @@ public class DBConstants {
             COL_IS_UP_TO_DATE + " INTEGER);";
 
     static final String CREATE_T_MATERIAL_ITEM = "CREATE TABLE " + T_MATERIAL_ITEM + " (" +
-            COL_ID + " INTEGER PRIMARY KEY, " +
+            COL_ID + " TEXT PRIMARY KEY, " +
             COL_URL + " TEXT UNIQUE, " +
             COL_TITLE + " TEXT, " +
             COL_DESCRIPTION + " TEXT," +

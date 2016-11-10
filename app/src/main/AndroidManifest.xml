@@ -41,7 +41,6 @@
             android:launchMode="singleTop"
             android:theme="@style/WelcomeTheme"
             android:windowNoTitle="true" />
-
         <activity
             android:name=".ui.MainActivity"
             android:exported="true"
@@ -61,7 +60,6 @@
                 android:name="android.app.default_searchable"
                 android:value=".ui.SearchActivity" />
         </activity>
-
         <activity
             android:name=".ui.SearchActivity"
             android:label="@string/search_title"
@@ -71,14 +69,15 @@
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
+
             <intent-filter>
                 <action android:name="android.intent.action.SEARCH" />
             </intent-filter>
+
             <meta-data
                 android:name="android.app.searchable"
                 android:resource="@xml/searchable" />
         </activity>
-
         <activity
             android:name=".ui.ShowAllCoursesActivity"
             android:parentActivityName=".ui.MainActivity"
@@ -87,7 +86,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/navigation_drawer_settings"
@@ -103,7 +101,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.DescribeProblemActivity"
             android:label="@string/mail_subject"
@@ -114,7 +111,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.AboutActivity"
             android:label="@string/navigation_drawer_about"
@@ -124,7 +120,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.CourseActivity"
             android:label="@string/activity_course"
@@ -134,13 +129,11 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.MainActivity" />
         </activity>
-
         <activity
             android:name=".ui.RateReviewActivity"
             android:label="@string/review_dialog_title"
             android:theme="@style/RateReviewTheme"
             android:windowSoftInputMode="adjustPan|stateUnchanged" />
-
         <activity
             android:name=".ui.CourseMaterialsActivity"
             android:parentActivityName=".ui.CourseActivity"
@@ -149,7 +142,6 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".ui.CourseActivity" />
         </activity>
-
         <activity
             android:name=".ui.WebViewActivity"
             android:screenOrientation="portrait"
@@ -175,17 +167,14 @@
                 <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
-
         <service android:name=".services.FcmIDListenerService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
         </service>
-
         <service
             android:name=".services.UpdateIntentService"
             android:exported="false" />
-
         <service
             android:name=".services.FcmRegistrationService"
             android:exported="false" />

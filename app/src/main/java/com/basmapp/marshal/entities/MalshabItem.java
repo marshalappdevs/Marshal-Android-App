@@ -20,11 +20,13 @@ public class MalshabItem extends DBObject {
 
     @Override
     protected boolean isPrimaryKeyAutoIncrement() {
-        return true;
+        return false;
     }
 
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
-    private long id;
+    @Expose
+    @SerializedName("_id")
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    private String id;
 
     @Column(name = DBConstants.COL_URL)
     @Expose
@@ -49,11 +51,11 @@ public class MalshabItem extends DBObject {
     @Column(name = DBConstants.COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -89,74 +91,11 @@ public class MalshabItem extends DBObject {
         this.imageUrl = imageUrl;
     }
 
-    public boolean isUpToDate() {
+    public boolean getIsUpToDate() {
         return isUpToDate;
     }
 
     public void setIsUpToDate(boolean isUpToDate) {
         this.isUpToDate = isUpToDate;
-    }
-
-    public String getUpdateSql(long objectId) {
-        String sql = "UPDATE " + DBConstants.T_MALSHAB_ITEM + " SET " +
-                DBConstants.COL_URL + " = " + prepareStringForSql(url) + "," +
-                DBConstants.COL_TITLE + " = " + prepareStringForSql(title) + "," +
-                DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
-                DBConstants.COL_ORDER + " = " + order + "," +
-                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
-                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
-
-        return sql;
-    }
-
-    public String getInsertSql() {
-        String sql = "INSERT INTO " + DBConstants.T_MALSHAB_ITEM + "(" +
-                DBConstants.COL_URL + "," +
-                DBConstants.COL_TITLE + "," +
-                DBConstants.COL_IMAGE_URL + "," +
-                DBConstants.COL_ORDER + "," +
-                DBConstants.COL_IS_UP_TO_DATE + ")" +
-                " VALUES (" + prepareStringForSql(url) +
-                "," + prepareStringForSql(title) +
-                "," + prepareStringForSql(imageUrl) +
-                "," + order + ",1);";
-
-        return sql;
-    }
-
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
-        if (getUrl() != null && !getUrl().equals("") && getTitle() != null && !getTitle().equals("")) {
-            statement.clearBindings();
-            statement.bindLong(1, objectId);
-            statement.bindString(2, getUrl());
-            statement.bindString(3, getTitle());
-
-            if (imageUrl == null)
-                imageUrl = "";
-            statement.bindString(4, getImageUrl());
-
-            statement.bindLong(5, order);
-
-            return statement;
-        } else {
-            return null;
-        }
-    }
-
-    public boolean compare(MalshabItem malshabItem) {
-        boolean result = false;
-
-        if (url != null && malshabItem.getUrl() != null &&
-                !url.equals(malshabItem.getUrl())) {
-            result = true;
-        } else if (title != null && malshabItem.getTitle() != null &&
-                !title.equals(malshabItem.getTitle())) {
-            result = true;
-        } else if (imageUrl != null && malshabItem.getImageUrl() != null &&
-                !imageUrl.equals(malshabItem.getImageUrl())) {
-            result = true;
-        }
-
-        return result;
     }
 }

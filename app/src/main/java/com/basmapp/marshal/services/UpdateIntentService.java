@@ -201,8 +201,9 @@ public class UpdateIntentService extends IntentService {
                             DBConstants.COL_ID, this, MaterialItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
-                        database.compileStatement(materialItem.getUpdateSql(dbResult.get(0).getId())).execute();
                         newMaterials.remove(materialItem);
+                        materialItem.setIsUpToDate(true);
+                        database.compileStatement(materialItem.getUpdateCommand(this)).execute();
                     }
                 } catch (Exception e) {
                     Log.e("UPDATE", "FAILED TO UPDATE MATERIAL_ITEM");
@@ -216,8 +217,7 @@ public class UpdateIntentService extends IntentService {
 
             // Insert
             for (MaterialItem materialItem : newMaterials) {
-                long id = database.compileStatement(materialItem.getInsertSql()).executeInsert();
-//                Log.i("UPDATE", "MATERIAL_ITEM_ID : " + id);
+                database.compileStatement(materialItem.getInsertCommand(this)).executeInsert();
             }
 
             //////////////////////// Insert MalshabItems /////////////////////////////////
@@ -234,8 +234,9 @@ public class UpdateIntentService extends IntentService {
                             DBConstants.COL_ID, this, MalshabItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
-                        database.compileStatement(malshabItem.getUpdateSql(dbResult.get(0).getId())).execute();
                         newMalshabItems.remove(malshabItem);
+                        malshabItem.setIsUpToDate(true);
+                        database.compileStatement(malshabItem.getUpdateCommand(this)).execute();
                     }
                 } catch (Exception e) {
                     Log.e("UPDATE", "FAILED TO UPDATE MALSHAB_ITEM");
@@ -249,8 +250,7 @@ public class UpdateIntentService extends IntentService {
 
             // Insert
             for (MalshabItem malshabItem : newMalshabItems) {
-                long id = database.compileStatement(malshabItem.getInsertSql()).executeInsert();
-//                Log.i("UPDATE", "MALSHAB_ITEM_ID : " + id);
+                database.compileStatement(malshabItem.getInsertCommand(this)).executeInsert();
             }
 
             //////////////////////// Insert Courses  /////////////////////////////////
@@ -325,7 +325,8 @@ public class UpdateIntentService extends IntentService {
                             }
                         }
                         /////////////////////////// END RATINGS //////////////////////////////
-                        database.compileStatement(course.getUpdateSql(dbResult.get(0).getId())).execute();
+                        course.setIsUpToDate(true);
+                        database.compileStatement(course.getUpdateCommand(this)).execute();
                         newCourses.remove(course);
                     }
                 } catch (Exception e) {
@@ -396,7 +397,7 @@ public class UpdateIntentService extends IntentService {
                     }
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
-                long id = database.compileStatement(course.getInsertSql()).executeInsert();
+                long id = database.compileStatement(course.getInsertCommand(this)).executeInsert();
                 Log.i("COURSE","id=" + id + " , name= " + course.getName());
             }
 

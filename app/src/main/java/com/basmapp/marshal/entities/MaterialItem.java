@@ -16,8 +16,10 @@ import com.google.gson.annotations.SerializedName;
 @TableName(name = DBConstants.T_MATERIAL_ITEM)
 public class MaterialItem extends DBObject implements Parcelable {
 
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
-    private long id;
+    @Expose
+    @SerializedName("_id")
+    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    private String id;
 
     @Expose
     @SerializedName("url")
@@ -49,6 +51,9 @@ public class MaterialItem extends DBObject implements Parcelable {
     @Column(name = DBConstants.COL_IMAGE_URL)
     private String imageUrl;
 
+    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    private boolean isUpToDate;
+
     // Constructors
     public MaterialItem(Context context) {
         super(context);
@@ -56,15 +61,15 @@ public class MaterialItem extends DBObject implements Parcelable {
 
     @Override
     protected boolean isPrimaryKeyAutoIncrement() {
-        return true;
+        return false;
     }
 
     // Getters and Setters
-    public long getId() {
+    public String getId() {
         return id;
     }
 
-    public void setId(long id) {
+    public void setId(String id) {
         this.id = id;
     }
 
@@ -116,34 +121,12 @@ public class MaterialItem extends DBObject implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, long objectId) throws Exception {
-        if ((getUrl() != null && !getUrl().equals("")) &&
-                (getTitle() != null && !getTitle().equals(""))) {
-            statement.clearBindings();
-            statement.bindLong(1, objectId);
-            statement.bindString(2, getUrl());
-            statement.bindString(3, getTitle());
+    public boolean getIsUpToDate() {
+        return isUpToDate;
+    }
 
-            if (description == null)
-                description = "";
-            statement.bindString(4, description);
-
-            if (baseUrl == null)
-                baseUrl = "";
-            statement.bindString(5, baseUrl);
-
-            if (tags == null)
-                tags = "";
-            statement.bindString(6, tags);
-
-            if (imageUrl == null)
-                imageUrl = "";
-            statement.bindString(7, imageUrl);
-
-            return statement;
-        } else {
-            return null;
-        }
+    public void setIsUpToDate(boolean isUpToDate) {
+        this.isUpToDate = isUpToDate;
     }
 
     public static String getSelectCourseMaterialsQuery(int courseID) {
@@ -167,13 +150,14 @@ public class MaterialItem extends DBObject implements Parcelable {
      **/
     @Override
     public void writeToParcel(Parcel dest, int i) {
-        dest.writeLong(id);
+        dest.writeString(id);
         dest.writeString(url);
         dest.writeString(tags);
         dest.writeString(title);
         dest.writeString(description);
         dest.writeString(baseUrl);
         dest.writeString(imageUrl);
+        dest.writeInt(isUpToDate ? 1 : 0);
     }
 
     /**
@@ -182,13 +166,14 @@ public class MaterialItem extends DBObject implements Parcelable {
      * the object CREATOR
      **/
     private MaterialItem(Parcel in) {
-        this.id = in.readLong();
+        this.id = in.readString();
         this.url = in.readString();
         this.tags = in.readString();
         this.title = in.readString();
         this.description = in.readString();
         this.baseUrl = in.readString();
         this.imageUrl = in.readString();
+        this.isUpToDate = in.readInt() != 0;
     }
 
     public static final Parcelable.Creator<MaterialItem> CREATOR = new Parcelable.Creator<MaterialItem>() {
@@ -203,34 +188,4 @@ public class MaterialItem extends DBObject implements Parcelable {
             return new MaterialItem[size];
         }
     };
-
-    public String getUpdateSql(long objectId) {
-        String sql = "UPDATE " + DBConstants.T_MATERIAL_ITEM + " SET " +
-                DBConstants.COL_URL + " = " + prepareStringForSql(url) + "," +
-                DBConstants.COL_TITLE + " = " + prepareStringForSql(title) + "," +
-                DBConstants.COL_DESCRIPTION + " = " + prepareStringForSql(description) + "," +
-                DBConstants.COL_BASE_URL + " = " + prepareStringForSql(baseUrl) + "," +
-                DBConstants.COL_TAGS + " = " + prepareStringForSql(tags) + "," +
-                DBConstants.COL_IMAGE_URL + " = " + prepareStringForSql(imageUrl) + "," +
-                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
-                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
-
-        return sql;
-    }
-
-    public String getInsertSql() {
-        String sql = "INSERT INTO " + DBConstants.T_MATERIAL_ITEM + "(" +
-                DBConstants.COL_URL + "," +
-                DBConstants.COL_TITLE + "," +
-                DBConstants.COL_DESCRIPTION + "," +
-                DBConstants.COL_BASE_URL + "," +
-                DBConstants.COL_TAGS + "," +
-                DBConstants.COL_IMAGE_URL + "," +
-                DBConstants.COL_IS_UP_TO_DATE + ")" +
-                " VALUES (" + prepareStringForSql(url) + "," + prepareStringForSql(title) + "," +
-                prepareStringForSql(description) + "," + prepareStringForSql(baseUrl)
-                + "," + prepareStringForSql(tags) + "," + prepareStringForSql(imageUrl) + ",1);";
-
-        return sql;
-    }
 }
