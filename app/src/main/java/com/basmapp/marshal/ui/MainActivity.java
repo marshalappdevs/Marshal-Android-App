@@ -660,7 +660,7 @@ public class MainActivity extends BaseActivity
                 if (uri != null) {
                     Glide.with(this)
                             .load(uri)
-//                            .placeholder(R.drawable.ic_default_avatar)
+                            .placeholder(R.drawable.avatar_placeholder)
                             .transform(new CircleTransform(this))
                             .into(mProfileAvatarImage);
                 } else {
