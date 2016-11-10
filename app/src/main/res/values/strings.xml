@@ -338,6 +338,7 @@
         <item>@string/fcm_channel_system</item>
         <item>@string/fcm_channel_tools</item>
     </string-array>
+    <string-array name="empty_array" translatable="false" />
 
     <!-- Strings related to app shortcuts -->
     <string name="shortcut_search_short_label">@string/search_title</string>
