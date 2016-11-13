@@ -1128,4 +1128,83 @@ public abstract class DBObject {
         progressDialog.setCanceledOnTouchOutside(false);
         return progressDialog;
     }
+
+    public String getInsertCommand(Context context) {
+        Ctor(context);
+
+        String command;
+        String columns = "";
+        String values = "";
+
+        if (!isPrimaryKeyAutoIncrement()) {
+            columns = primaryKey.getName();
+            values = String.valueOf(getValueFromField(primaryKey.getField(), true));
+        }
+
+        for(ColumnData columnData : mColumns) {
+            if (values.equals("")) {
+                columns = columnData.getName();
+                Object value = getValueFromField(columnData.getField(), true);
+                values = String.valueOf(value);
+            } else {
+                columns = columns + "," + columnData.getName();
+                Object value = getValueFromField(columnData.getField(), true);
+                values = values + "," + String.valueOf(value);
+            }
+        }
+
+        command = "INSERT INTO " + getTableName(this.getClass()) + "(" + columns + ") VALUES (" +
+        values + ");";
+
+        return command;
+    }
+
+    public String getUpdateCommand(Context context) {
+        Ctor(context);
+
+        String command;
+        String values = "";
+        String pkClause;
+        String whereClause;
+
+        pkClause = primaryKey.getName() + " = " + String.valueOf(getValueFromField(primaryKey.getField(), true));
+
+        if (!isPrimaryKeyAutoIncrement()) {
+            values = pkClause;
+        }
+
+        for(ColumnData columnData : mColumns) {
+            if (values.equals("")) {
+                values = columnData.getName() + " = " +
+                        String.valueOf(getValueFromField(columnData.getField(), true));
+            } else {
+                values = values + "," + columnData.getName() + " = " +
+                        String.valueOf(getValueFromField(columnData.getField(), true));
+            }
+        }
+
+        whereClause = " WHERE " + pkClause;
+        command = "UPDATE " + getTableName(getClass()) + " SET " + values + whereClause + ";";
+        return command;
+    }
+
+    private Object getValueFromField(Field field, boolean prepareStringForCommand) {
+        field.setAccessible(true);
+        try {
+            Object value = field.get(this);
+            if (value != null) {
+                if (value instanceof String && prepareStringForCommand) {
+                    value = prepareStringForSql((String) value);
+                } else if (value instanceof Boolean) {
+                    value = ((boolean)value ? 1 : 0);
+                } else if (value instanceof Date) {
+                    value = ((Date) value).getTime();
+                }
+            }
+            return value;
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+    }
 }

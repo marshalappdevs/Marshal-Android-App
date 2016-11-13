@@ -259,27 +259,27 @@ public class ContentProvider {
     }
 
     public void getCourses(Context context, ContentProviderCallBack callBack) {
-        if (sCourses != null) callBack.onDataReady(sCourses, null);
+        if (sCourses != null && sCourses.size() > 0) callBack.onDataReady(sCourses, null);
         else initCourses(context, callBack);
     }
 
     public void getMeetups(Context context, ContentProviderCallBack callBack) {
-        if (sMeetups != null) callBack.onDataReady(sMeetups, null);
+        if (sMeetups != null && sMeetups.size() > 0) callBack.onDataReady(sMeetups, null);
         else initMeetups(context, callBack);
     }
 
     public void getMaterialItems(Context context, ContentProviderCallBack callBack) {
-        if (sMaterialItems != null) callBack.onDataReady(sMaterialItems, null);
+        if (sMaterialItems != null && sMalshabItems.size() > 0) callBack.onDataReady(sMaterialItems, null);
         else initMaterialItems(context, callBack);
     }
 
     public void getMalshabItems(Context context, ContentProviderCallBack callBack) {
-        if (sMalshabItems != null) callBack.onDataReady(sMalshabItems, null);
+        if (sMalshabItems != null && sMalshabItems.size() > 0) callBack.onDataReady(sMalshabItems, null);
         else initMalshabItems(context, callBack);
     }
 
     public void getSubscribedCourses(Context context, ContentProviderCallBack callBack) {
-        if (sSubscribedCourses != null) callBack.onDataReady(sSubscribedCourses, null);
+        if (sSubscribedCourses != null && sSubscribedCourses.size() > 0) callBack.onDataReady(sSubscribedCourses, null);
         else initSubscribedCourses(context, callBack);
     }
 
