@@ -217,7 +217,12 @@ public class SearchActivity extends BaseActivity {
                 });
 
         // Make sure that query will be set to SearchView
-        mSearchView.setQuery(mSearchQuery, false);
+        mSearchView.post(new Runnable() {
+            @Override
+            public void run() {
+                mSearchView.setQuery(mSearchQuery, false);
+            }
+        });
         mSearchView.clearFocus();
 
         // Show filtered search if dates are available (from saved instance for example)
