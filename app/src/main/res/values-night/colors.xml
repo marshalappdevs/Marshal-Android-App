@@ -11,6 +11,7 @@
     <color name="cards_and_dialogs_color">@color/material_dark_cards_and_dialogs</color>
     <color name="bottom_sheet_color">@color/material_dark_cards_and_dialogs</color>
     <color name="background_color">@color/material_dark_background</color>
+    <color name="search_plate_hint_text_color">@color/material_dark_hint_text</color>
     <color name="url_color">#AAFFFFFF</color>
     <color name="star_color">#EFEFEF</color>
     <color name="user_color">#80FFFFFF</color>

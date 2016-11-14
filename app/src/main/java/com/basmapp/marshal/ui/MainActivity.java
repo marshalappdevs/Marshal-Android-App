@@ -97,7 +97,7 @@ public class MainActivity extends BaseActivity
     private GoogleApiClient mGoogleApiClient;
     private Toolbar mToolbar;
     public DrawerLayout mDrawerLayout;
-    public static ActionBarDrawerToggle mDrawerToggle;
+    public ActionBarDrawerToggle mDrawerToggle;
     private NavigationView mNavigationView;
     private SharedPreferences mSharedPreferences;
     private TextView mDisplayName, mAccountName;

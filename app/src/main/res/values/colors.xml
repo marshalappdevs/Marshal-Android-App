@@ -16,6 +16,7 @@
     <color name="bottom_sheet_color">@color/material_light_cards_and_dialogs</color>
     <color name="background_color">@color/material_light_background</color>
     <color name="error_color">@color/quantum_red_A700</color>
+    <color name="search_plate_hint_text_color">@color/material_light_hint_text</color>
     <color name="fab_icon_color">@color/primary_text_color_inverse</color>
     <color name="black_trans80">#33000000</color>
     <color name="light_gray">#DDDDDD</color>

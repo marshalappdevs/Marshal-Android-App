@@ -344,12 +344,16 @@ public class Course extends DBObject implements Parcelable {
     }
 
     private String getFixedString(String string) {
-        String[] lines = string.split("\n");
-        StringBuilder stringBuilder = new StringBuilder();
-        for (String line : lines) {
-            stringBuilder.append(line.replaceFirst("\\?", "•")).append("\n");
+        if (string != null) {
+            String[] lines = string.split("\n");
+            StringBuilder stringBuilder = new StringBuilder();
+            for (String line : lines) {
+                stringBuilder.append(line.replaceFirst("\\?", "•")).append("\n");
+            }
+            return stringBuilder.toString();
+        } else {
+            return null;
         }
-        return stringBuilder.toString();
     }
 
     ///////////////////// Parcelable methods //////////////////////

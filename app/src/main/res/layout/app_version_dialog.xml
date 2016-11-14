@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layoutDirection="ltr"
+    android:orientation="horizontal"
+    android:paddingBottom="20dp"
+    android:paddingEnd="24dp"
+    android:paddingStart="24dp"
+    android:paddingTop="24dp">
+
+    <ImageView
+        android:id="@+id/application_logo"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:contentDescription="@null"
+        android:scaleType="fitXY"
+        android:src="@mipmap/ic_launcher" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:paddingStart="14dp">
+
+        <TextView
+            android:id="@+id/application_title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:text="@string/app_name"
+            android:textColor="#CC000000"
+            android:textSize="20sp" />
+
+        <TextView
+            android:id="@+id/application_version"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:ellipsize="end"
+            android:textColor="#99000000"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/application_copyright"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:ellipsize="end"
+            android:maxLines="1"
+            android:text="@string/basmapp_copyright"
+            android:textColor="#CC000000"
+            android:textSize="12sp" />
+    </LinearLayout>
+</LinearLayout>
