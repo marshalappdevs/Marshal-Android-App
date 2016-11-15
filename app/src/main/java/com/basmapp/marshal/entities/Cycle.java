@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
@@ -16,49 +15,54 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-@TableName(name = DBConstants.T_CYCLE)
+@TableName(name = Cycle.TABLE_NAME)
 public class Cycle extends DBObject implements Parcelable {
 
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
+    public static final String TABLE_NAME = "t_cycle";
+
+    public static final String COL_ID = "id";
+    public static final String COL_COURSE_ID = "course_id";
+    public static final String COL_NAME = "name";
+    public static final String COL_MAX_PEOPLE = "max_people";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_START_DATE = "start_date";
+    public static final String COL_END_DATE = "end_date";
+
+    @PrimaryKey(columnName = COL_ID, isAutoIncrement = true)
     private long id;
 
     @Expose
     @SerializedName("CourseID")
-    @Column(name = DBConstants.COL_COURSE_ID)
+    @Column(name = COL_COURSE_ID)
     private int courseID;
 
     @Expose
     @SerializedName("Name")
-    @Column(name = DBConstants.COL_NAME)
+    @Column(name = COL_NAME)
     private String name;
 
     @Expose
     @SerializedName("MaximumPeople")
-    @Column(name = DBConstants.COL_MAX_PEOPLE)
+    @Column(name = COL_MAX_PEOPLE)
     private int maximumPeople;
 
     @Expose
     @SerializedName("Description")
-    @Column(name = DBConstants.COL_DESCRIPTION)
+    @Column(name = COL_DESCRIPTION)
     private String description;
 
     @Expose
     @SerializedName("StartDate")
-    @Column(name = DBConstants.COL_START_DATE)
+    @Column(name = COL_START_DATE)
     private Date startDate;
 
     @Expose
     @SerializedName("EndDate")
-    @Column(name = DBConstants.COL_END_DATE)
+    @Column(name = COL_END_DATE)
     private Date endDate;
 
     public Cycle(Context context) {
         super(context);
-    }
-
-    @Override
-    protected boolean isPrimaryKeyAutoIncrement() {
-        return true;
     }
 
     public long getId() {

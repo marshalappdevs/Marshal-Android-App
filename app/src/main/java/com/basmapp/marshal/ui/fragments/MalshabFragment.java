@@ -11,15 +11,11 @@ import android.widget.GridView;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.MalshabCoursesAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MalshabFragment extends Fragment {
 

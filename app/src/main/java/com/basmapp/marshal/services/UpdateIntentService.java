@@ -18,8 +18,8 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
-import com.basmapp.marshal.localdb.DBConstants;
-import com.basmapp.marshal.localdb.LocalDBHelper;
+import com.basmapp.marshal.localdb.SQLiteHelper;
+import com.basmapp.marshal.localdb.entities.Condition;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
@@ -167,7 +167,7 @@ public class UpdateIntentService extends IntentService {
 
         isRunning = true;
         boolean result = false;
-        SQLiteDatabase database = LocalDBHelper.getDatabaseWritableInstance(this);
+        SQLiteDatabase database = SQLiteHelper.getDatabaseWritableInstance(this);
 
         List<Course> newCourses = new ArrayList<>();
         List<MaterialItem> newMaterials;
@@ -183,27 +183,33 @@ public class UpdateIntentService extends IntentService {
             List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
             List<MalshabItem> tempNewMalshabItems = new ArrayList<>(newMalshabItems);
 
+            Condition conditionSetNotUpToDate = new Condition();
+            conditionSetNotUpToDate.setOperator(Condition.Operator.EQUAL);
+            conditionSetNotUpToDate.setValue(false);
+
             // Clear database
-            database.execSQL("DELETE FROM " + DBConstants.T_CYCLE);
-            database.execSQL("DELETE FROM " + DBConstants.T_RATING);
+            database.execSQL("DELETE FROM " + Cycle.TABLE_NAME);
+            database.execSQL("DELETE FROM " + Rating.TABLE_NAME);
 
             //////////////////////// Insert Materials /////////////////////////////////
 
             // Set all objects to be NOT Up To Date
-            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_MATERIAL_ITEM))
+            conditionSetNotUpToDate.setColumn(MaterialItem.COL_IS_UP_TO_DATE);
+            database.compileStatement(MaterialItem.getUpdateCommand(MaterialItem.TABLE_NAME,
+                    new Condition[]{conditionSetNotUpToDate}, null))
                     .executeUpdateDelete();
 
             // Update
             for (MaterialItem materialItem : tempNewMaterials) {
                 List<MaterialItem> dbResult = null;
                 try {
-                    dbResult = (List) MaterialItem.findAllByColumn(DBConstants.COL_URL, materialItem.getUrl(),
-                            DBConstants.COL_ID, this, MaterialItem.class);
+                    dbResult = (List) MaterialItem.findAllByColumn(MaterialItem.COL_URL, materialItem.getUrl(),
+                            MaterialItem.COL_ID, this, MaterialItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
                         newMaterials.remove(materialItem);
                         materialItem.setIsUpToDate(true);
-                        database.compileStatement(materialItem.getUpdateCommand(this)).execute();
+                        database.compileStatement(materialItem.getUpdateCommand(this, null, null)).execute();
                     }
                 } catch (Exception e) {
                     Log.e("UPDATE", "FAILED TO UPDATE MATERIAL_ITEM");
@@ -212,7 +218,8 @@ public class UpdateIntentService extends IntentService {
             }
 
             // Delete
-            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_MATERIAL_ITEM))
+            database.compileStatement(MaterialItem.getDeleteCommand(MaterialItem.TABLE_NAME,
+                    new Condition[]{new Condition(MaterialItem.COL_IS_UP_TO_DATE, false, Condition.Operator.EQUAL)}))
                     .executeUpdateDelete();
 
             // Insert
@@ -223,29 +230,31 @@ public class UpdateIntentService extends IntentService {
             //////////////////////// Insert MalshabItems /////////////////////////////////
 
             // Set all objects to be NOT Up To Date
-            database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_MALSHAB_ITEM))
+            conditionSetNotUpToDate.setColumn(MalshabItem.COL_IS_UP_TO_DATE);
+            database.compileStatement(MalshabItem.getUpdateCommand(MalshabItem.TABLE_NAME,
+                    new Condition[]{conditionSetNotUpToDate}, null))
                     .executeUpdateDelete();
 
             // Update
             for (MalshabItem malshabItem : tempNewMalshabItems) {
                 List<MalshabItem> dbResult = null;
                 try {
-                    dbResult = (List) MalshabItem.findAllByColumn(DBConstants.COL_URL, malshabItem.getUrl(),
-                            DBConstants.COL_ID, this, MalshabItem.class);
+                    dbResult = (List) MalshabItem.findAllByColumn(MalshabItem.COL_URL, malshabItem.getUrl(),
+                            MalshabItem.COL_ID, this, MalshabItem.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
                         newMalshabItems.remove(malshabItem);
                         malshabItem.setIsUpToDate(true);
-                        database.compileStatement(malshabItem.getUpdateCommand(this)).execute();
+                        database.compileStatement(malshabItem.getUpdateCommand(this, null, null)).execute();
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE", "FAILED TO UPDATE MALSHAB_ITEM");
                     e.printStackTrace();
                 }
             }
 
             // Delete
-            database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_MALSHAB_ITEM))
+            database.compileStatement(MalshabItem.getDeleteCommand(MalshabItem.TABLE_NAME,
+                    new Condition[]{new Condition(MalshabItem.COL_IS_UP_TO_DATE, false, Condition.Operator.EQUAL)}))
                     .executeUpdateDelete();
 
             // Insert
@@ -259,23 +268,24 @@ public class UpdateIntentService extends IntentService {
             int ratingId = 1;
 
             // Set all Courses to be NOT Up To Date
-            int coursesUpdated = database.compileStatement(DBConstants.getSetAllItemsNotUpToDateStatement(DBConstants.T_COURSE))
+            conditionSetNotUpToDate.setColumn(Course.COL_IS_UP_TO_DATE);
+            database.compileStatement(Course.getUpdateCommand(Course.TABLE_NAME,
+                    new Condition[]{conditionSetNotUpToDate}, null))
                     .executeUpdateDelete();
-            Log.i("UPDATE_SERVICE", "UPDATED : " + coursesUpdated);
 
             // Update
             for (Course course : tempNewCourses) {
                 List<Course> dbResult = null;
                 try {
-                    dbResult = (List) Course.findAllByColumn(DBConstants.COL_COURSE_ID, course.getCourseID(),
-                            DBConstants.COL_ID, this, Course.class);
+                    dbResult = (List) Course.findAllByColumn(Course.COL_COURSE_ID, course.getCourseID(),
+                            Course.COL_ID, this, Course.class);
 
                     if (dbResult != null && dbResult.size() > 0) {
                         //TODO: Take care to the course Cycles
                         /////////////////////////// CYCLES //////////////////////////////
                         if (course.getCycles() != null && course.getCycles().size() > 0) {
                             //////////////////////// Insert Course Cycles  /////////////////////////////////
-                            String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                            String cycleSql = "INSERT INTO " + Cycle.TABLE_NAME + " VALUES " +
                                     "(?,?,?,?,?,?,?);";
 
                             SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
@@ -302,7 +312,7 @@ public class UpdateIntentService extends IntentService {
                         /////////////////////////// RATINGS //////////////////////////////
                         if (course.getRatings() != null && course.getRatings().size() > 0) {
                             //////////////////////// Insert Course Ratings  /////////////////////////////////
-                            String ratingSql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
+                            String ratingSql = "INSERT INTO " + Rating.TABLE_NAME + " VALUES " +
                                     "(?,?,?,?,?,?,?);";
 
                             SQLiteStatement ratingStatement = database.compileStatement(ratingSql);
@@ -326,7 +336,7 @@ public class UpdateIntentService extends IntentService {
                         }
                         /////////////////////////// END RATINGS //////////////////////////////
                         course.setIsUpToDate(true);
-                        database.compileStatement(course.getUpdateCommand(this)).execute();
+                        database.compileStatement(course.getUpdateCommand(this, null, null)).execute();
                         newCourses.remove(course);
                     }
                 } catch (Exception e) {
@@ -336,9 +346,9 @@ public class UpdateIntentService extends IntentService {
             }
 
             // Delete
-            int deletedCount = database.compileStatement(DBConstants.getDeleteNotUpToDateStatement(DBConstants.T_COURSE))
+            database.compileStatement(Course.getDeleteCommand(Course.TABLE_NAME,
+                    new Condition[]{new Condition(Course.COL_IS_UP_TO_DATE, false, Condition.Operator.EQUAL)}))
                     .executeUpdateDelete();
-            Log.i("UPDATE_SERVICE", "DELETED : " + deletedCount);
 
             // Insert
             for (Course course : newCourses) {
@@ -346,7 +356,7 @@ public class UpdateIntentService extends IntentService {
                 /////////////////////////// CYCLES //////////////////////////////
                 if (course.getCycles() != null && course.getCycles().size() > 0) {
                     //////////////////////// Insert Course Cycles  /////////////////////////////////
-                    String cycleSql = "INSERT INTO " + DBConstants.T_CYCLE + " VALUES " +
+                    String cycleSql = "INSERT INTO " + Cycle.TABLE_NAME + " VALUES " +
                             "(?,?,?,?,?,?,?);";
 
                     SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
@@ -374,7 +384,7 @@ public class UpdateIntentService extends IntentService {
                 /////////////////////////// RATINGS //////////////////////////////
                 if (course.getRatings() != null && course.getRatings().size() > 0) {
                     //////////////////////// Insert Course Ratings  /////////////////////////////////
-                    String ratingSql = "INSERT INTO " + DBConstants.T_RATING + " VALUES " +
+                    String ratingSql = "INSERT INTO " + Rating.TABLE_NAME + " VALUES " +
                             "(?,?,?,?,?,?,?);";
 
                     SQLiteStatement ratingStatement = database.compileStatement(ratingSql);
@@ -439,7 +449,7 @@ public class UpdateIntentService extends IntentService {
 
         PendingIntent defaultPendingIntent = pendingIntent;
         try {
-            Course course = (Course) Course.findOne(DBConstants.COL_COURSE_ID,
+            Course course = (Course) Course.findOne(Course.COL_COURSE_ID,
                     newCourses.get(0).getCourseID(), this, Course.class);
 
             Intent courseActivityIntent = new Intent(this, CourseActivity.class);

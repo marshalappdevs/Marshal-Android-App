@@ -17,7 +17,6 @@ import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.RatingsRecyclerAdapter;
 
@@ -67,8 +66,8 @@ public class RatingsActivity extends BaseActivity {
         mTextViewRatingsAmount.setText(getIntent().getStringExtra(Constants.EXTRA_RATING_AMOUNT));
         mRatingBar.setRating(getIntent().getFloatExtra(Constants.EXTRA_RATING_BAR_STARS, 0));
 
-        Rating.findByColumnInBackground(true, DBConstants.COL_COURSE_ID, course.getCourseID(),
-                DBConstants.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
+        Rating.findByColumnInBackground(true, Rating.COL_COURSE_ID, course.getCourseID(),
+                Rating.COL_LAST_MODIFIED, RatingsActivity.this, Rating.class, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         mRatings = (List) data;

@@ -2,23 +2,18 @@ package com.basmapp.marshal.util;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.pm.PackageInfo;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBConstants;
-import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,8 +68,8 @@ public class ContentProvider {
 
     private void initCourseListByCategory(final Context context, final String category, final ContentProviderCallBack callback) {
         Course.queryInBackground(Course.class, context, false,
-                new String[]{DBConstants.COL_CATEGORY, DBConstants.COL_IS_MEETUP},
-                new String[]{category, "0"}, DBConstants.COL_NAME, new BackgroundTaskCallBack() {
+                new String[]{Course.COL_CATEGORY, Course.COL_IS_MEETUP},
+                new String[]{category, "0"}, Course.COL_NAME, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null) {
@@ -106,7 +101,7 @@ public class ContentProvider {
 
     // Init data methods
     private void initCourses(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, false, DBConstants.COL_NAME,
+        Course.findByColumnInBackground(false, Course.COL_IS_MEETUP, false, Course.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
@@ -130,7 +125,7 @@ public class ContentProvider {
     }
 
     private void initMeetups(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_MEETUP, true, DBConstants.COL_NAME,
+        Course.findByColumnInBackground(false, Course.COL_IS_MEETUP, true, Course.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
@@ -154,7 +149,7 @@ public class ContentProvider {
     }
 
     private void initMaterialItems(Context context, final ContentProviderCallBack callback) {
-        MaterialItem.findAllInBackground(DBConstants.COL_TITLE, MaterialItem.class, context, false,
+        MaterialItem.findAllInBackground(MaterialItem.COL_TITLE, MaterialItem.class, context, false,
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -178,7 +173,7 @@ public class ContentProvider {
     }
 
     private void initMalshabItems(Context context, final ContentProviderCallBack callback) {
-        MalshabItem.findAllInBackground(DBConstants.COL_ORDER, MalshabItem.class, context,
+        MalshabItem.findAllInBackground(MalshabItem.COL_ORDER, MalshabItem.class, context,
                 false, new BackgroundTaskCallBack() {
             @Override
             public void onSuccess(String result, List<Object> data) {
@@ -202,8 +197,8 @@ public class ContentProvider {
     }
 
     private void initSubscribedCourses(Context context, final ContentProviderCallBack callback) {
-        Course.findByColumnInBackground(false, DBConstants.COL_IS_USER_SUBSCRIBE, true,
-                DBConstants.COL_NAME, context, Course.class, new BackgroundTaskCallBack() {
+        Course.findByColumnInBackground(false, Course.COL_IS_USER_SUBSCRIBE, true,
+                Course.COL_NAME, context, Course.class, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null) {

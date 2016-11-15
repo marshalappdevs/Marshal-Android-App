@@ -2,32 +2,36 @@ package com.basmapp.marshal.localdb;
 
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.basmapp.marshal.Constants;
+import com.basmapp.marshal.entities.Course;
+import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.entities.MalshabItem;
+import com.basmapp.marshal.entities.MaterialItem;
+import com.basmapp.marshal.entities.Rating;
 
-public class LocalDBHelper extends SQLiteOpenHelper {
+public class SQLiteHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "marshal_local_db";
-    public static final int DATABASE_VERSION = 3;
+    public static final int DATABASE_VERSION = 4;
 
-    public static LocalDBHelper helperInstance;
+    public static SQLiteHelper helperInstance;
     private static SQLiteDatabase databaseInstance;
 
     private Context context;
 
-    private LocalDBHelper(Context context) {
+    private SQLiteHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
-    static LocalDBHelper getHelperInstance(Context context) {
+    static SQLiteHelper getHelperInstance(Context context) {
         if (helperInstance == null)
-            helperInstance = new LocalDBHelper(context.getApplicationContext());
+            helperInstance = new SQLiteHelper(context.getApplicationContext());
 
         return helperInstance;
     }
@@ -48,22 +52,14 @@ public class LocalDBHelper extends SQLiteOpenHelper {
     @Override
     public void onCreate(SQLiteDatabase db) {
         try {
-            db.execSQL(DBConstants.CREATE_T_MATERIAL_ITEM);
-            Log.i(DATABASE_NAME, "t_material_item created");
-            db.execSQL(DBConstants.CREATE_T_CYCLE);
-            Log.i(DATABASE_NAME, "t_cycle created");
-            db.execSQL(DBConstants.CREATE_T_COURSE);
-            Log.i(DATABASE_NAME, "t_course created");
-            db.execSQL(DBConstants.CREATE_T_RATING);
-            Log.i(DATABASE_NAME, "t_rating created");
-            db.execSQL(DBConstants.CREATE_T_MALSHAB_ITEM);
-            Log.i(DATABASE_NAME, "t_malshab_item created");
-
-            Log.i(DATABASE_NAME, "database created");
-
+            db.execSQL(new MaterialItem(context).getCreateTableCommand());
+            db.execSQL(new Cycle(context).getCreateTableCommand());
+            db.execSQL(new Course(context).getCreateTableCommand());
+            db.execSQL(new Rating(context).getCreateTableCommand());
+            db.execSQL(new MalshabItem(context).getCreateTableCommand());
             initializePreferences();
-        } catch (SQLException e) {
-            Log.e(DATABASE_NAME, e.getMessage());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
@@ -81,15 +77,14 @@ public class LocalDBHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(LocalDBHelper.class.getName(),
+        Log.i(SQLiteHelper.class.getName(),
                 "Upgrading database from version " + oldVersion + " to "
                         + newVersion + ", which will destroy all old data");
-        db.execSQL(DBConstants.DROP_T_MATERIAL_ITEM);
-        db.execSQL(DBConstants.DROP_T_COURSE);
-        db.execSQL(DBConstants.DROP_T_CYCLE);
-        db.execSQL(DBConstants.DROP_T_RATING);
-        db.execSQL(DBConstants.DROP_T_MALSHAB_ITEM);
-
+        db.execSQL(MaterialItem.getDropTableIfExistCommand(MaterialItem.class));
+        db.execSQL(Course.getDropTableIfExistCommand(Course.class));
+        db.execSQL(Cycle.getDropTableIfExistCommand(Cycle.class));
+        db.execSQL(Rating.getDropTableIfExistCommand(Rating.class));
+        db.execSQL(MalshabItem.getDropTableIfExistCommand(MalshabItem.class));
         onCreate(db);
     }
 }

@@ -20,22 +20,16 @@ import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.ui.MainActivity;
-import com.basmapp.marshal.ui.adapters.CoursesRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.List;
 
 public class WishlistFragment extends Fragment {
 

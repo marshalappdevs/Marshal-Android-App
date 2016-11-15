@@ -4,7 +4,6 @@ import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
@@ -16,139 +15,153 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.Date;
 
-@TableName(name = DBConstants.T_COURSE)
+@TableName(name = Course.TABLE_NAME)
 public class Course extends DBObject implements Parcelable {
 
-    public static final String CATEGORY_SOFTWARE = "software";
-    public static final String CATEGORY_CYBER = "cyber";
-    public static final String CATEGORY_IT = "it";
-    public static final String CATEGORY_TOOLS = "tools";
-    public static final String CATEGORY_SYSTEM = "system";
+    public static final String TABLE_NAME = "t_course";
+
+    public static final String COL_GOOGLE_FORM_URL = "col_google_form_url";
+    public static final String COL_IS_MEETUP = "is_meetup";
+    public static final String COL_CATEGORY = "category";
+    public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
+    public static final String COL_ID = "id";
+    public static final String COL_COURSE_ID = "course_id";
+    public static final String COL_COURSE_CODE = "course_code";
+    public static final String COL_NAME = "name";
+    public static final String COL_MIN_PEOPLE = "min_people";
+    public static final String COL_MAX_PEOPLE = "max_people";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_PREREQUISITES = "prerequisites";
+    public static final String COL_PROFESSIONAL_DOMAIN = "professional_domain";
+    public static final String COL_SYLLABUS = "syllabus";
+    public static final String COL_DAYTIME = "daytime";
+    public static final String COL_DURATION_IN_HOURS = "duration_in_hours";
+    public static final String COL_DURATION_IN_DAYS = "duration_in_days";
+    public static final String COL_COMMENTS = "comments";
+    public static final String COL_PASSING_GRADE = "passing_grade";
+    public static final String COL_IMAGE_URL = "image_url";
+    public static final String COL_IS_MOOC = "is_mooc";
+    public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
 
     // TODO RETROFIT SerializedName
     @Expose
     @SerializedName("_id")
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    @PrimaryKey(columnName = COL_ID)
     private String id;
 
     @Expose
     @SerializedName("ID")
-    @Column(name = DBConstants.COL_COURSE_ID)
+    @Column(name = COL_COURSE_ID, options = {OPTION_UNIQUE})
     private int courseID;
 
     @Expose
     @SerializedName("CourseCode")
-    @Column(name = DBConstants.COL_COURSE_CODE)
+    @Column(name = COL_COURSE_CODE, options = {OPTION_UNIQUE})
     private String courseCode;
 
     @Expose
     @SerializedName("Name")
-    @Column(name = DBConstants.COL_NAME)
+    @Column(name = COL_NAME, options = {OPTION_UNIQUE})
     private String name;
 
     @Expose
     @SerializedName("MinimumPeople")
-    @Column(name = DBConstants.COL_MIN_PEOPLE)
+    @Column(name = COL_MIN_PEOPLE)
     private int minimumPeople;
 
     @Expose
     @SerializedName("MaximumPeople")
-    @Column(name = DBConstants.COL_MAX_PEOPLE)
+    @Column(name = COL_MAX_PEOPLE)
     private int maximumPeople;
 
     @Expose
     @SerializedName("Description")
-    @Column(name = DBConstants.COL_DESCRIPTION)
+    @Column(name = COL_DESCRIPTION)
     private String description;
 
-    @Column(name = DBConstants.COL_PREREQUISITES)
+    @Column(name = COL_PREREQUISITES)
     private String prerequisites;
 
     @Expose
     @SerializedName("ProfessionalDomain")
-    @Column(name = DBConstants.COL_PROFESSIONAL_DOMAIN)
+    @Column(name = COL_PROFESSIONAL_DOMAIN)
     private String professionalDomain;
 
     @Expose
     @SerializedName("Syllabus")
-    @Column(name = DBConstants.COL_SYLLABUS)
+    @Column(name = COL_SYLLABUS)
     private String syllabus;
 
     @Expose
     @SerializedName("DayTime")
-    @Column(name = DBConstants.COL_DAYTIME)
+    @Column(name = COL_DAYTIME)
     private String dayTime;
 
     @Expose
     @SerializedName("DurationInHours")
-    @Column(name = DBConstants.COL_DURATION_IN_HOURS)
+    @Column(name = COL_DURATION_IN_HOURS)
     private int durationInHours;
 
     @Expose
     @SerializedName("DurationInDays")
-    @Column(name = DBConstants.COL_DURATION_IN_DAYS)
+    @Column(name = COL_DURATION_IN_DAYS)
     private int durationInDays;
 
     @Expose
     @SerializedName("Comments")
-    @Column(name = DBConstants.COL_COMMENTS)
+    @Column(name = COL_COMMENTS)
     private String comments;
 
     @Expose
     @SerializedName("PassingGrade")
-    @Column(name = DBConstants.COL_PASSING_GRADE)
+    @Column(name = COL_PASSING_GRADE)
     private int passingGrade;
 
     @Expose
     @SerializedName("cycleList")
-    @ForeignKeyEntityArray(valueColumnName = DBConstants.COL_COURSE_ID,
-            fkColumnName = DBConstants.COL_COURSE_ID, entityClass = Cycle.class)
+    @ForeignKeyEntityArray(valueColumnName = COL_COURSE_ID,
+            fkColumnName = Cycle.COL_COURSE_ID, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
     @Expose
     @SerializedName("Ratings")
-    @ForeignKeyEntityArray(valueColumnName = DBConstants.COL_COURSE_ID,
-            fkColumnName = DBConstants.COL_COURSE_ID, entityClass = Rating.class)
+    @ForeignKeyEntityArray(valueColumnName = COL_COURSE_ID,
+            fkColumnName = Cycle.COL_COURSE_ID, entityClass = Rating.class)
     private ArrayList<Rating> ratings = new ArrayList<>();
 
     @Expose
     @SerializedName("PictureUrl")
-    @Column(name = DBConstants.COL_IMAGE_URL)
+    @Column(name = COL_IMAGE_URL)
     private String imageUrl;
 
     @Expose
     @SerializedName("GoogleFormUrl")
-    @Column(name = DBConstants.COL_GOOGLE_FORM_URL)
+    @Column(name = COL_GOOGLE_FORM_URL)
     private String googleFormUrl;
 
     @Expose
     @SerializedName("IsMooc")
-    @Column(name = DBConstants.COL_IS_MOOC)
+    @Column(name = COL_IS_MOOC)
     private boolean isMooc;
 
     @Expose
     @SerializedName("IsMeetup")
-    @Column(name = DBConstants.COL_IS_MEETUP)
+    @Column(name = COL_IS_MEETUP)
     private boolean isMeetup;
 
     @Expose
     @SerializedName("Category")
-    @Column(name = DBConstants.COL_CATEGORY)
+    @Column(name = COL_CATEGORY)
     private String category;
 
-    @Column(name = DBConstants.COL_IS_USER_SUBSCRIBE)
+    @Column(name = COL_IS_USER_SUBSCRIBE)
     private boolean isUserSubscribe;
 
-    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    @Column(name = COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
     public Course(Context context) {
         super(context);
-    }
-
-    @Override
-    protected boolean isPrimaryKeyAutoIncrement() {
-        return false;
     }
 
     public String getId() {
@@ -440,14 +453,14 @@ public class Course extends DBObject implements Parcelable {
     // ************************* END OF PARCELABLE **************************** //
 
     public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
-        String query = "select * from " + DBConstants.T_COURSE
-                + " where " + DBConstants.COL_COURSE_ID + " IN " +
-                "(select distinct " + DBConstants.COL_COURSE_ID + " from " + DBConstants.T_CYCLE;
+        String query = "select * from " + TABLE_NAME
+                + " where " + COL_COURSE_ID + " IN " +
+                "(select distinct " + COL_COURSE_ID + " from " + Cycle.TABLE_NAME;
 
         if (filterByNowTimestamp)
-            query += " where " + DBConstants.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());
+            query += " where " + Cycle.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());
 
-        query += " order by " + DBConstants.COL_START_DATE + " ASC limit " + String.valueOf(count) + ");\n";
+        query += " order by " + Cycle.COL_START_DATE + " ASC limit " + String.valueOf(count) + ");\n";
 
         return query;
     }

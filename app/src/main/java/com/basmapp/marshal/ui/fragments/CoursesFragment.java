@@ -389,14 +389,14 @@ public class CoursesFragment extends Fragment {
         private void initUI() {
             mContainer = (LinearLayout) LayoutInflater.from(getActivity()).inflate(R.layout.course_category_template, null);
             mCategoryTextView = (TextView) mContainer.findViewById(R.id.course_category_categoryTextView);
-            mCategoryTextView.setText(getCategoryLocaleTitle(mCategory));
+            mCategoryTextView.setText(LocaleUtils.getCategoryLocaleTitle(mCategory, getContext()));
             mBtnShowAll = (LinearLayout) mContainer.findViewById(R.id.course_category_see_all);
             mBtnShowAll.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     Intent intent = new Intent(getActivity(), ShowAllCoursesActivity.class);
                     intent.putParcelableArrayListExtra(Constants.EXTRA_COURSES_LIST, mCourses);
-                    intent.putExtra(Constants.EXTRA_COURSE_CATEGORY, getCategoryLocaleTitle(mCategory));
+                    intent.putExtra(Constants.EXTRA_COURSE_CATEGORY, LocaleUtils.getCategoryLocaleTitle(mCategory, getContext()));
                     startActivity(intent);
                 }
             });
@@ -418,21 +418,21 @@ public class CoursesFragment extends Fragment {
             }
         }
 
-        private String getCategoryLocaleTitle(String category) {
-            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-            Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, new HashSet<String>());
-            for (String categoryValues : categories) {
-                String[] values = categoryValues.split(";");
-                if (values[0].equals(category)) {
-                    if (Locale.getDefault().toString().toLowerCase().equals("en")) {
-                        return values[1];
-                    } else if (Locale.getDefault().toString().toLowerCase().equals("iw")) {
-                        return values[2];
-                    }
-                }
-            }
-            return category;
-        }
+//        private String getCategoryLocaleTitle(String category) {
+//            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
+//            Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, new HashSet<String>());
+//            for (String categoryValues : categories) {
+//                String[] values = categoryValues.split(";");
+//                if (values[0].equals(category)) {
+//                    if (Locale.getDefault().toString().toLowerCase().equals("en")) {
+//                        return values[1];
+//                    } else if (Locale.getDefault().toString().toLowerCase().equals("iw")) {
+//                        return values[2];
+//                    }
+//                }
+//            }
+//            return category;
+//        }
 
         private void addToMainContainer() {
             initUI();

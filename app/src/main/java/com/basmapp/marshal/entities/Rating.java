@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
@@ -15,8 +14,18 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-@TableName(name = DBConstants.T_RATING)
+@TableName(name = Rating.TABLE_NAME)
 public class Rating extends DBObject implements Parcelable {
+
+    public static final String TABLE_NAME = "t_rating";
+
+    public static final String COL_ID = "id";
+    public static final String COL_USER_MAIL_ADDRESS = "user_mail_address";
+    public static final String COL_COURSE_ID = "course_id";
+    public static final String COL_RATING = "rating";
+    public static final String COL_COMMENT = "comment";
+    public static final String COL_CREATED_AT = "created_at";
+    public static final String COL_LAST_MODIFIED = "last_modified";
 
     public Rating(Context context) {
         super(context);
@@ -34,38 +43,33 @@ public class Rating extends DBObject implements Parcelable {
         setCourseID(rating.getCourseID());
     }
 
-    @Override
-    protected boolean isPrimaryKeyAutoIncrement() {
-        return true;
-    }
-
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = true)
+    @PrimaryKey(columnName = COL_ID, isAutoIncrement = true)
     private long id;
 
-    @Column(name = DBConstants.COL_USER_MAIL_ADDRESS)
+    @Column(name = COL_USER_MAIL_ADDRESS)
     @Expose
     @SerializedName(value = "userMailAddress")
     String userMailAddress;
 
-    @Column(name = DBConstants.COL_COURSE_ID)
+    @Column(name = COL_COURSE_ID)
     int courseID;
 
-    @Column(name = DBConstants.COL_RATING)
+    @Column(name = COL_RATING)
     @Expose
     @SerializedName(value = "rating")
     double rating;
 
-    @Column(name = DBConstants.COL_COMMENT)
+    @Column(name = COL_COMMENT)
     @Expose
     @SerializedName(value = "comment")
     String comment;
 
-    @Column(name = DBConstants.COL_CREATED_AT)
+    @Column(name = COL_CREATED_AT)
     @Expose
     @SerializedName(value = "createdAt")
     Date createdAt;
 
-    @Column(name = DBConstants.COL_LAST_MODIFIED)
+    @Column(name = COL_LAST_MODIFIED)
     @Expose
     @SerializedName(value = "lastModified")
     Date lastModified;
@@ -192,35 +196,5 @@ public class Rating extends DBObject implements Parcelable {
         } else {
             return null;
         }
-    }
-
-    public String getUpdateSql(long objectId) {
-        String sql = "UPDATE " + DBConstants.T_RATING + " SET " +
-                DBConstants.COL_USER_MAIL_ADDRESS + " = " + prepareStringForSql(userMailAddress) + "," +
-                DBConstants.COL_COURSE_ID + " = " + courseID + "," +
-                DBConstants.COL_RATING + " = " + rating + "," +
-                DBConstants.COL_CREATED_AT + " = " + createdAt.getTime() + "," +
-                DBConstants.COL_LAST_MODIFIED + " = " + lastModified.getTime() + "," +
-                DBConstants.COL_COMMENT + " = " + prepareStringForSql(comment) + "," +
-                DBConstants.COL_IS_UP_TO_DATE + " = 1" +
-                " WHERE " + DBConstants.COL_ID + " = " + objectId + ";";
-
-        return sql;
-    }
-
-    public String getInsertSql() {
-        String sql = "INSERT INTO " + DBConstants.T_RATING + "(" +
-                DBConstants.COL_USER_MAIL_ADDRESS + "," +
-                DBConstants.COL_COURSE_ID + "," +
-                DBConstants.COL_RATING + "," +
-                DBConstants.COL_CREATED_AT + "," +
-                DBConstants.COL_LAST_MODIFIED + "," +
-                DBConstants.COL_COMMENT + "," +
-                DBConstants.COL_IS_UP_TO_DATE + ")" +
-                " VALUES (" + prepareStringForSql(userMailAddress) + "," +
-                courseID + "," + rating + "," + createdAt.getTime() +
-                "," + lastModified.getTime() + "," + prepareStringForSql(comment) + ",1);";
-
-        return sql;
     }
 }

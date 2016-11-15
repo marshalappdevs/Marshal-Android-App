@@ -10,7 +10,7 @@ public class PkData extends ColumnData {
     private boolean isAutoIncrement;
 
     public PkData(Field field, PrimaryKey annotation, Method setter) {
-        super(annotation.columnName() , field, setter);
+        super(field, setter, annotation);
         this.isAutoIncrement = annotation.isAutoIncrement();
     }
 

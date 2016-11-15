@@ -28,12 +28,10 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
 import android.text.TextUtils;
-import android.text.format.DateFormat;
 import android.util.DisplayMetrics;
 import android.util.Log;
 import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.KeyEvent;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -42,7 +40,6 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.WindowManager;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
@@ -55,11 +52,8 @@ import android.widget.Toast;
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.entities.Course;
-import com.basmapp.marshal.entities.MalshabItem;
-import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
-import com.basmapp.marshal.localdb.LocalDBHelper;
+import com.basmapp.marshal.localdb.SQLiteHelper;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.services.UpdateIntentService;
@@ -83,10 +77,6 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
-
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.TimeZone;
 
 public class MainActivity extends BaseActivity
         implements NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.OnConnectionFailedListener {
@@ -226,7 +216,7 @@ public class MainActivity extends BaseActivity
         if (mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
                     mSharedPreferences.getInt(Constants.PREF_DATABASE_VERSION,
-                            LocalDBHelper.DATABASE_VERSION) < LocalDBHelper.DATABASE_VERSION) {
+                            SQLiteHelper.DATABASE_VERSION) < SQLiteHelper.DATABASE_VERSION) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
                 mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true).apply();
@@ -529,7 +519,7 @@ public class MainActivity extends BaseActivity
         // Set viewpager page to start when app is closed (4 if RTL, 0 if LTR)
         sLastCoursesViewPagerIndex = LocaleUtils.isRtl(getResources()) ? 4 : 0;
         // Close db if exist when app is closed
-        LocalDBHelper.closeIfExist();
+        SQLiteHelper.closeIfExist();
     }
 
 

@@ -41,10 +41,10 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
+import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.ThemeUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.DateHelper;
@@ -63,7 +63,6 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
-import java.util.Objects;
 
 import retrofit2.Response;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
@@ -443,7 +442,7 @@ public class CourseActivity extends BaseActivity {
     private void showUserRating() {
         if (MainActivity.sUserEmailAddress != null) {
             Rating.queryInBackground(Rating.class, CourseActivity.this, false,
-                    new String[]{DBConstants.COL_COURSE_ID, DBConstants.COL_USER_MAIL_ADDRESS},
+                    new String[]{Rating.COL_COURSE_ID, Rating.COL_USER_MAIL_ADDRESS},
                     new String[]{String.valueOf(mCourse.getCourseID()), HashUtil.SHA(MainActivity.sUserEmailAddress)}, null,
                     new BackgroundTaskCallBack() {
                         @Override
@@ -492,7 +491,7 @@ public class CourseActivity extends BaseActivity {
 
     private void showRatingsCount() {
         Rating.countByColumnInBackground(Rating.class, CourseActivity.this,
-                false, DBConstants.COL_COURSE_ID, mCourse.getCourseID(), new BackgroundTaskCallBack() {
+                false, Rating.COL_COURSE_ID, mCourse.getCourseID(), new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null && data.size() > 0) {
@@ -513,7 +512,7 @@ public class CourseActivity extends BaseActivity {
 
     private void showRatingAverage() {
         Rating.getAverageByColumnInBackground(Rating.class, CourseActivity.this, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourse.getCourseID(),
+                Rating.COL_RATING, Rating.COL_COURSE_ID, mCourse.getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -639,26 +638,35 @@ public class CourseActivity extends BaseActivity {
         }
 
         // Set course's Category
-        if ((mCourse.getCategory() != null)) {
-            if (Objects.equals(mCourse.getCategory(), "software"))
-                mTextViewCourseCategory.setText(getString(R.string.course_type_software));
-            if (Objects.equals(mCourse.getCategory(), "cyber"))
-                mTextViewCourseCategory.setText(getString(R.string.course_type_cyber));
-            if (Objects.equals(mCourse.getCategory(), "it"))
-                mTextViewCourseCategory.setText(getString(R.string.course_type_it));
-            if (Objects.equals(mCourse.getCategory(), "tools"))
-                mTextViewCourseCategory.setText(getString(R.string.course_type_tools));
-            if (Objects.equals(mCourse.getCategory(), "system"))
-                mTextViewCourseCategory.setText(getString(R.string.course_type_system));
-            if (mCourse.getIsMooc()) {
-                mTextViewCourseMooc.setVisibility(View.VISIBLE);
-            } else {
-                mTextViewCourseMooc.setVisibility(View.GONE);
-            }
-            isAnyDataExist = true;
+        //TODO: switch to generic implementation
+        if (mCourse.getCategory() != null) {
+            String categoryLocaleTitle = LocaleUtils.getCategoryLocaleTitle(mCourse.getCategory(), this);
+            if (categoryLocaleTitle != null)
+                mTextViewCourseCategory.setText(categoryLocaleTitle);
         } else {
             findViewById(R.id.course_content_relativeLayout_category).setVisibility(View.GONE);
         }
+
+//        if ((mCourse.getCategory() != null)) {
+//            if (Objects.equals(mCourse.getCategory(), "software"))
+//                mTextViewCourseCategory.setText(getString(R.string.course_type_software));
+//            if (Objects.equals(mCourse.getCategory(), "cyber"))
+//                mTextViewCourseCategory.setText(getString(R.string.course_type_cyber));
+//            if (Objects.equals(mCourse.getCategory(), "it"))
+//                mTextViewCourseCategory.setText(getString(R.string.course_type_it));
+//            if (Objects.equals(mCourse.getCategory(), "tools"))
+//                mTextViewCourseCategory.setText(getString(R.string.course_type_tools));
+//            if (Objects.equals(mCourse.getCategory(), "system"))
+//                mTextViewCourseCategory.setText(getString(R.string.course_type_system));
+//            if (mCourse.getIsMooc()) {
+//                mTextViewCourseMooc.setVisibility(View.VISIBLE);
+//            } else {
+//                mTextViewCourseMooc.setVisibility(View.GONE);
+//            }
+//            isAnyDataExist = true;
+//        } else {
+//
+//        }
 
         // Set course's Code
         if ((mCourse.getCourseCode() != null) &&

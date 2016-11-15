@@ -1,11 +1,9 @@
 package com.basmapp.marshal.entities;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
@@ -13,55 +11,61 @@ import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@TableName(name = DBConstants.T_MATERIAL_ITEM)
+@TableName(name = MaterialItem.TABLE_NAME)
 public class MaterialItem extends DBObject implements Parcelable {
+
+    public static final String TABLE_NAME = "t_material_item";
+
+    public static final String COL_ID = "id";
+    public static final String COL_URL = "url";
+    public static final String COL_TAGS = "tags";
+    public static final String COL_TITLE = "title";
+    public static final String COL_DESCRIPTION = "description";
+    public static final String COL_BASE_URL = "base_url";
+    public static final String COL_IMAGE_URL = "image_url";
+    public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
 
     @Expose
     @SerializedName("_id")
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    @PrimaryKey(columnName = COL_ID)
     private String id;
 
     @Expose
     @SerializedName("url")
-    @Column(name = DBConstants.COL_URL)
+    @Column(name = COL_URL , options = {OPTION_UNIQUE})
     private String url;
 
     @Expose
     @SerializedName("hashTags")
-    @Column(name = DBConstants.COL_TAGS)
+    @Column(name = COL_TAGS)
     private String tags;
 
     @Expose
     @SerializedName("title")
-    @Column(name = DBConstants.COL_TITLE)
+    @Column(name = COL_TITLE)
     private String title;
 
     @Expose
     @SerializedName("description")
-    @Column(name = DBConstants.COL_DESCRIPTION)
+    @Column(name = COL_DESCRIPTION)
     private String description;
 
     @Expose
     @SerializedName("baseUrl")
-    @Column(name = DBConstants.COL_BASE_URL)
+    @Column(name = COL_BASE_URL)
     private String baseUrl;
 
     @Expose
     @SerializedName("imageUrl")
-    @Column(name = DBConstants.COL_IMAGE_URL)
+    @Column(name = COL_IMAGE_URL)
     private String imageUrl;
 
-    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    @Column(name = COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
     // Constructors
     public MaterialItem(Context context) {
         super(context);
-    }
-
-    @Override
-    protected boolean isPrimaryKeyAutoIncrement() {
-        return false;
     }
 
     // Getters and Setters
@@ -132,7 +136,7 @@ public class MaterialItem extends DBObject implements Parcelable {
     public static String getSelectCourseMaterialsQuery(int courseID) {
         String query;
 
-        query = "SELECT * FROM " + DBConstants.T_MATERIAL_ITEM + " WHERE " + DBConstants.COL_TAGS +
+        query = "SELECT * FROM " + TABLE_NAME + " WHERE " + COL_TAGS +
                 " LIKE '%" + String.valueOf(courseID) + "%';";
 
         return query;

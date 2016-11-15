@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -16,7 +15,6 @@ import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -25,15 +23,11 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.interfaces.OnHashTagClickListener;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
-import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class MaterialsFragment extends Fragment {
     private SearchView mSearchView;

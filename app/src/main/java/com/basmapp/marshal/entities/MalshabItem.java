@@ -1,9 +1,7 @@
 package com.basmapp.marshal.entities;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteStatement;
 
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
@@ -11,44 +9,48 @@ import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@TableName(name = DBConstants.T_MALSHAB_ITEM)
+@TableName(name = MalshabItem.TABLE_NAME)
 public class MalshabItem extends DBObject {
+
+    public static final String TABLE_NAME = "t_malshab_item";
+
+    public static final String COL_ID = "id";
+    public static final String COL_URL = "url";
+    public static final String COL_TITLE = "title";
+    public static final String COL_IMAGE_URL = "image_url";
+    public static final String COL_ORDER = "item_order";
+    public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
 
     public MalshabItem(Context context) {
         super(context);
     }
 
-    @Override
-    protected boolean isPrimaryKeyAutoIncrement() {
-        return false;
-    }
-
     @Expose
     @SerializedName("_id")
-    @PrimaryKey(columnName = DBConstants.COL_ID, isAutoIncrement = false)
+    @PrimaryKey(columnName = COL_ID)
     private String id;
 
-    @Column(name = DBConstants.COL_URL)
+    @Column(name = COL_URL, options = {OPTION_UNIQUE})
     @Expose
     @SerializedName("url")
     private String url;
 
-    @Column(name = DBConstants.COL_TITLE)
+    @Column(name = COL_TITLE)
     @Expose
     @SerializedName("title")
     private String title;
 
-    @Column(name = DBConstants.COL_IMAGE_URL)
+    @Column(name = COL_IMAGE_URL)
     @Expose
     @SerializedName("imageUrl")
     private String imageUrl;
 
-    @Column(name = DBConstants.COL_ORDER)
+    @Column(name = COL_ORDER)
     @Expose
     @SerializedName("order")
     private int order;
 
-    @Column(name = DBConstants.COL_IS_UP_TO_DATE)
+    @Column(name = COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
 
     public String getId() {

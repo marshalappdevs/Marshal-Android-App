@@ -13,4 +13,5 @@ public @interface ForeignKeyEntity {
     String valueColumnName();
     String fkColumnName();
     Class<? extends DBObject> entityClass();
+    String[] options() default {};
 }

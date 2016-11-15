@@ -23,11 +23,11 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.DateHelper;
+import com.basmapp.marshal.util.LocaleUtils;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
@@ -146,7 +146,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         holder.starIcon.setVisibility(View.GONE);
 
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourses.get(position).getCourseID(),
+                Rating.COL_RATING, Rating.COL_COURSE_ID, mCourses.get(position).getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
@@ -191,26 +191,31 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
 
         if (category != null) {
             holder.courseCategory.setVisibility(View.VISIBLE);
-
-            switch (category) {
-                case Course.CATEGORY_SOFTWARE:
-                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_software));
-                    break;
-                case Course.CATEGORY_CYBER:
-                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_cyber));
-                    break;
-                case Course.CATEGORY_IT:
-                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_it));
-                    break;
-                case Course.CATEGORY_SYSTEM:
-                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_system));
-                    break;
-                case Course.CATEGORY_TOOLS:
-                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_tools));
-                    break;
-                default:
-                    holder.courseCategory.setVisibility(View.GONE);
-            }
+            //TODO: Switch to the generic implement
+            String categoryLocaleTitle = LocaleUtils.getCategoryLocaleTitle(category, mContext);
+            if (categoryLocaleTitle != null)
+                holder.courseCategory.setText(categoryLocaleTitle);
+            else
+                holder.courseCategory.setVisibility(View.GONE);
+//            switch (category) {
+//                case Course.CATEGORY_SOFTWARE:
+//                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_software));
+//                    break;
+//                case Course.CATEGORY_CYBER:
+//                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_cyber));
+//                    break;
+//                case Course.CATEGORY_IT:
+//                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_it));
+//                    break;
+//                case Course.CATEGORY_SYSTEM:
+//                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_system));
+//                    break;
+//                case Course.CATEGORY_TOOLS:
+//                    holder.courseCategory.setText(mContext.getResources().getString(R.string.course_type_tools));
+//                    break;
+//                default:
+//                    holder.courseCategory.setVisibility(View.GONE);
+//            }
         } else {
             holder.courseCategory.setVisibility(View.GONE);
         }

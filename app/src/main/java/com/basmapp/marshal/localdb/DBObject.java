@@ -14,6 +14,7 @@ import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
 import com.basmapp.marshal.localdb.annotations.TableName;
 import com.basmapp.marshal.localdb.entities.ColumnData;
+import com.basmapp.marshal.localdb.entities.Condition;
 import com.basmapp.marshal.localdb.entities.FkData;
 import com.basmapp.marshal.localdb.entities.PkData;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
@@ -24,6 +25,9 @@ import java.util.Date;
 import java.util.List;
 
 public abstract class DBObject {
+
+    protected static final String OPTION_AUTOINCREAMENT = "AUTOINCREMENT";
+    protected static final String OPTION_UNIQUE = "UNIQUE";
 
     private static final String SUCCESS_FLAG = "Done";
     private static final String ERROR_FLAG = "Error";
@@ -54,9 +58,7 @@ public abstract class DBObject {
         tableName = getTableName(getClass());
     }
 
-    protected abstract boolean isPrimaryKeyAutoIncrement();
-
-    protected String prepareStringForSql(String value) {
+    protected static String prepareStringForSql(String value) {
         if (value != null && !value.equals("")) {
             return "'" + value.replace("'", "''") + "'";
         } else {
@@ -64,9 +66,27 @@ public abstract class DBObject {
         }
     }
 
-    private static String getTableName(Class<? extends DBObject> targetClass) {
+    protected static Object prepareValueForSql(Object value) {
+        if (value instanceof String)
+            return prepareStringForSql(String.valueOf(value));
+        else if (value instanceof Boolean)
+            return (boolean)value ? 1 : 0;
+        else if (value instanceof Date)
+            return  ((Date) value).getTime();
+        else return null;
+    }
+
+    public static String getTableName(Class<? extends DBObject> targetClass) {
         if (targetClass.isAnnotationPresent(TableName.class)) {
             return targetClass.getAnnotation(TableName.class).name();
+        } else {
+            return null;
+        }
+    }
+
+    public String getTableName() {
+        if (getClass().isAnnotationPresent(TableName.class)) {
+            return getClass().getAnnotation(TableName.class).name();
         } else {
             return null;
         }
@@ -83,15 +103,11 @@ public abstract class DBObject {
             if (field.isAnnotationPresent(PrimaryKey.class)) {
                 primaryKey = new PkData(field, field.getAnnotation(PrimaryKey.class), getSetter(field));
             } else if (field.isAnnotationPresent(Column.class)) {
-                mColumns.add(new ColumnData(field.getAnnotation(Column.class).name(), field, getSetter(field)));
+                mColumns.add(new ColumnData(field, getSetter(field), field.getAnnotation(Column.class)));
             } else if (field.isAnnotationPresent(ForeignKeyEntity.class)) {
-                ForeignKeyEntity annotation = field.getAnnotation(ForeignKeyEntity.class);
-                mForeignKeys.add(new FkData(field, annotation.valueColumnName(),
-                        annotation.fkColumnName(), annotation.entityClass(), getSetter(field)));
+                mForeignKeys.add(new FkData(field, field.getAnnotation(ForeignKeyEntity.class), getSetter(field)));
             } else if (field.isAnnotationPresent(ForeignKeyEntityArray.class)) {
-                ForeignKeyEntityArray annotation = field.getAnnotation(ForeignKeyEntityArray.class);
-                mArrayForeignKeys.add(new FkData(field, annotation.valueColumnName()
-                        , annotation.fkColumnName(), annotation.entityClass(), getSetter(field)));
+                mArrayForeignKeys.add(new FkData(field, field.getAnnotation(ForeignKeyEntityArray.class), getSetter(field)));
             }
         }
     }
@@ -259,7 +275,7 @@ public abstract class DBObject {
     public void create() throws Exception {
         try {
             ContentValues values = getContentValues();
-            long objectId = LocalDBHelper.getDatabaseWritableInstance(mContext).insertOrThrow(tableName, null, values);
+            long objectId = SQLiteHelper.getDatabaseWritableInstance(mContext).insertOrThrow(tableName, null, values);
             setObjectId(objectId);
             createOrUpdateForeignKeys();
         } catch (Exception e) {
@@ -275,7 +291,7 @@ public abstract class DBObject {
             ContentValues values = getContentValues();
             Object id = getObjectId();
             if (id != null && id instanceof String) id = "'" + id + "'";
-            LocalDBHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.getName() + " = " + id, null);
+            SQLiteHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.getName() + " = " + id, null);
             createOrUpdateForeignKeys();
         } catch (Exception e) {
             e.printStackTrace();
@@ -328,7 +344,7 @@ public abstract class DBObject {
     }
 
     public void getById(long id, Context context) throws Exception {
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(tableName,
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(tableName,
                 null, primaryKey.getName() + " = " + id, null,
                 null, null, null);
         cursor.moveToFirst();
@@ -345,12 +361,12 @@ public abstract class DBObject {
     public void delete() throws Exception {
         Object id = getObjectId();
         if (id != null && id instanceof String) id = "'" + id + "'";
-        LocalDBHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.getName() + " = " + id, null);
+        SQLiteHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.getName() + " = " + id, null);
     }
 
     private static int count(Context context, Class<? extends DBObject> targetClass) throws Exception {
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass);
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
         int count = cursor.getInt(0);
         cursor.close();
         return count;
@@ -361,7 +377,7 @@ public abstract class DBObject {
         if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
@@ -373,7 +389,7 @@ public abstract class DBObject {
         if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT AVG(" + avgColumn + ") FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
         cursor.moveToFirst();
         float average = cursor.getFloat(0);
         cursor.close();
@@ -386,7 +402,7 @@ public abstract class DBObject {
 
         List<Object> allObjects = new ArrayList<>();
 
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, null, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
@@ -421,7 +437,7 @@ public abstract class DBObject {
         else if (filterValue instanceof String)
             filterValue = "'" + filterValue + "'";
 
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, filterColumnName + " = " + filterValue, null, null, null, null);
 
         cursor.moveToFirst();
@@ -449,7 +465,7 @@ public abstract class DBObject {
             value = (boolean) value ? 1 : 0;
         else if (value instanceof String)
             value = "'" + value + "'";
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
@@ -490,7 +506,7 @@ public abstract class DBObject {
             }
         }
 
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass), null,
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass), null,
                 whereColumnsWithQuestionMark, whereArgs, null, null, orderByColumn);
 
         cursor.moveToFirst();
@@ -1096,7 +1112,7 @@ public abstract class DBObject {
     public static List<Object> rawQuery(Context context, String query, Class<? extends DBObject> targetClass) throws Exception {
         List<Object> allObjects = new ArrayList<>();
 
-        Cursor cursor = LocalDBHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
 
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {
@@ -1136,7 +1152,7 @@ public abstract class DBObject {
         String columns = "";
         String values = "";
 
-        if (!isPrimaryKeyAutoIncrement()) {
+        if (!primaryKey.isAutoIncrement()) {
             columns = primaryKey.getName();
             values = String.valueOf(getValueFromField(primaryKey.getField(), true));
         }
@@ -1159,7 +1175,9 @@ public abstract class DBObject {
         return command;
     }
 
-    public String getUpdateCommand(Context context) {
+    public String getUpdateCommand(Context context,
+                                   Condition[] setConditions,
+                                   Condition[] whereConditions) {
         Ctor(context);
 
         String command;
@@ -1169,21 +1187,44 @@ public abstract class DBObject {
 
         pkClause = primaryKey.getName() + " = " + String.valueOf(getValueFromField(primaryKey.getField(), true));
 
-        if (!isPrimaryKeyAutoIncrement()) {
+        if (!primaryKey.isAutoIncrement()) {
             values = pkClause;
         }
 
-        for(ColumnData columnData : mColumns) {
-            if (values.equals("")) {
-                values = columnData.getName() + " = " +
-                        String.valueOf(getValueFromField(columnData.getField(), true));
-            } else {
-                values = values + "," + columnData.getName() + " = " +
-                        String.valueOf(getValueFromField(columnData.getField(), true));
+        if (setConditions == null || setConditions.length == 0) {
+            for(ColumnData columnData : mColumns) {
+                if (values.equals("")) {
+                    values = columnData.getName() + " = " +
+                            String.valueOf(getValueFromField(columnData.getField(), true));
+                } else {
+                    values = values + "," + columnData.getName() + " = " +
+                            String.valueOf(getValueFromField(columnData.getField(), true));
+                }
+            }
+        } else {
+            int index = 0;
+            for (Condition condition : setConditions) {
+                if (index > 0)
+                    values = values + ",";
+                values = values + condition.getColumn() + condition.getOperator().toString()
+                        + prepareValueForSql(condition.getValue());
+                index++;
             }
         }
 
-        whereClause = " WHERE " + pkClause;
+        if (whereConditions == null || whereConditions.length == 0) {
+            whereClause = " WHERE " + pkClause;
+        } else {
+            whereClause = " WHERE ";
+            int index = 0;
+            for (Condition condition : whereConditions) {
+                if (index > 0)
+                    whereClause = whereClause + ",";
+                whereClause = whereClause + condition.getColumn() + condition.getOperator().toString()
+                        + prepareValueForSql(condition.getValue());
+                index++;
+            }
+        }
         command = "UPDATE " + getTableName(getClass()) + " SET " + values + whereClause + ";";
         return command;
     }
@@ -1206,5 +1247,92 @@ public abstract class DBObject {
             e.printStackTrace();
             return null;
         }
+    }
+
+    public String getCreateTableCommand() throws Exception {
+        String command;
+
+        command = "CREATE TABLE " + getTableName(getClass()) + "(";
+        command = command + primaryKey.getName() + " " + getColumnSQLiteType(primaryKey.getField()) +
+                " PRIMARY KEY " + primaryKey.getOptionsString();
+
+        String columns = "";
+        for (ColumnData column : mColumns) {
+            columns = columns + ",";
+            columns = columns + column.getName() + " " + getColumnSQLiteType(column.getField()) +
+            " " + column.getOptionsString();
+        }
+
+        command = command + columns + ");";
+
+        Log.i("CRAETE TABLE", command);
+        return command;
+    }
+
+    private String getColumnSQLiteType(Field field) throws Exception {
+        if (String.class.isAssignableFrom(field.getType()))
+            return "TEXT";
+        else if (int.class.isAssignableFrom(field.getType()) ||
+                long.class.isAssignableFrom(field.getType()) ||
+                boolean.class.isAssignableFrom(field.getType()) ||
+                Date.class.isAssignableFrom(field.getType()))
+            return "INTEGER";
+        else if (double.class.isAssignableFrom(field.getType()))
+            return "REAL";
+        else throw new Exception("Incompatible field type");
+    }
+
+    public static String getDropTableIfExistCommand(Class<? extends DBObject> cClass) {
+        return "DROP TABLE IF EXISTS " + getTableName(cClass) + ";";
+    }
+
+    public static String getDeleteCommand(String tableName, Condition[] whereConditions) {
+        String command = "DELETE FROM " + tableName;
+
+        if (whereConditions != null && whereConditions.length > 0) {
+            command = command + " WHERE ";
+            int index = 0;
+            for (Condition condition : whereConditions) {
+                if (index > 0)
+                    command = command + ",";
+                command = command + condition.getColumn() + condition.getOperator().toString() +
+                        prepareValueForSql(condition.getValue());
+                index++;
+            }
+            command = command + ";";
+        }
+        return command;
+    }
+
+    public static String getUpdateCommand(String tableName,
+                                          Condition[] setConditions,
+                                          Condition[] whereConditions) {
+        String command = null;
+        if (setConditions != null && setConditions.length > 0) {
+            command = "UPDATE " + tableName;
+            command = command + " SET ";
+            int index = 0;
+            for (Condition condition : setConditions) {
+                if (index > 0)
+                    command = command + ",";
+                command = command + condition.getColumn() + condition.getOperator().toString()
+                        + prepareValueForSql(condition.getValue());
+                index++;
+            }
+
+            if (whereConditions != null && whereConditions.length > 0) {
+                command = command + " WHERE ";
+                index = 0;
+                for (Condition condition : whereConditions) {
+                    if (index > 0)
+                        command = command + ",";
+                    command = command + condition.getColumn() + condition.getOperator().toString()
+                            + prepareValueForSql(condition.getValue());
+                    index++;
+                }
+            }
+            command = command + ";";
+        }
+        return command;
     }
 }

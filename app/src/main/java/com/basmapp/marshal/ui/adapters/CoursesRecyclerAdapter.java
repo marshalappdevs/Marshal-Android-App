@@ -27,7 +27,6 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.DBConstants;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
@@ -114,7 +113,7 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
 
         // Set course rating
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
-                DBConstants.COL_RATING, DBConstants.COL_COURSE_ID, mCourses.get(position).getCourseID(),
+                Rating.COL_RATING, Rating.COL_COURSE_ID, mCourses.get(position).getCourseID(),
                 new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
