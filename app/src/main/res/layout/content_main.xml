@@ -23,11 +23,11 @@
 
     <include
         android:id="@+id/new_updates_button"
-        layout="@layout/new_updates_banner"
+        layout="@layout/new_updates_chip"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="8dp"
         android:clickable="true"
         android:visibility="gone" />
 

@@ -113,8 +113,7 @@ public class MainActivity extends BaseActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
-    private FrameLayout sNewUpdatesButton;
-    private LinearLayout sErrorScreen;
+    private LinearLayout sErrorScreen, sNewUpdatesButton;
 
     public static boolean needRecreate = false;
 
@@ -313,7 +312,7 @@ public class MainActivity extends BaseActivity
     }
 
     private void initializeNewUpdatesButton() {
-        sNewUpdatesButton = (FrameLayout) findViewById(R.id.new_updates_button);
+        sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
         sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
