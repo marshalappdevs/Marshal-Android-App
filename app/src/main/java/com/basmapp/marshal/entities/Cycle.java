@@ -21,7 +21,7 @@ public class Cycle extends DBObject implements Parcelable {
     public static final String TABLE_NAME = "t_cycle";
 
     public static final String COL_ID = "id";
-    public static final String COL_COURSE_ID = "course_id";
+    public static final String COL_COURSE_ID = Course.COL_COURSE_ID;
     public static final String COL_NAME = "name";
     public static final String COL_MAX_PEOPLE = "max_people";
     public static final String COL_DESCRIPTION = "description";

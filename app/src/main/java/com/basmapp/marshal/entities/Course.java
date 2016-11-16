@@ -455,7 +455,7 @@ public class Course extends DBObject implements Parcelable {
     public static String getClosestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
         String query = "select * from " + TABLE_NAME
                 + " where " + COL_COURSE_ID + " IN " +
-                "(select distinct " + COL_COURSE_ID + " from " + Cycle.TABLE_NAME;
+                "(select distinct " + Cycle.COL_COURSE_ID + " from " + Cycle.TABLE_NAME;
 
         if (filterByNowTimestamp)
             query += " where " + Cycle.COL_START_DATE + " >= " + String.valueOf(new Date().getTime());

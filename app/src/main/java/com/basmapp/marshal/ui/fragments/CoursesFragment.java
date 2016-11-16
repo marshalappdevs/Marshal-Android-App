@@ -258,10 +258,13 @@ public class CoursesFragment extends Fragment {
 
                 TextView subtitle = (TextView) rootView.findViewById(R.id.li_subtitle);
                 Cycle firstCycle = mViewPagerCourses.get(mPosition).getFirstCycle();
-                String cycleDates = String.format(getString(R.string.course_cycle_format),
-                        DateHelper.dateToString(firstCycle.getStartDate()),
-                        DateHelper.dateToString(firstCycle.getEndDate()));
-                subtitle.setText(cycleDates);
+                if (firstCycle != null && firstCycle.getStartDate() != null &&
+                        firstCycle.getEndDate() != null) {
+                    String cycleDates = String.format(getString(R.string.course_cycle_format),
+                            DateHelper.dateToString(firstCycle.getStartDate()),
+                            DateHelper.dateToString(firstCycle.getEndDate()));
+                    subtitle.setText(cycleDates);
+                } else subtitle.setVisibility(View.GONE);
 
                 ImageView image = (ImageView) rootView.findViewById(R.id.li_thumbnail);
                 Glide.with(getActivity())

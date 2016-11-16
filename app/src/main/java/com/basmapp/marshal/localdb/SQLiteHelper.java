@@ -19,7 +19,7 @@ public class SQLiteHelper extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "marshal_local_db";
     public static final int DATABASE_VERSION = 4;
 
-    public static SQLiteHelper helperInstance;
+    private static SQLiteHelper helperInstance;
     private static SQLiteDatabase databaseInstance;
 
     private Context context;

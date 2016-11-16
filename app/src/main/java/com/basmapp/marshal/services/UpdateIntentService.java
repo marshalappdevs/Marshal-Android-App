@@ -285,18 +285,12 @@ public class UpdateIntentService extends IntentService {
                         /////////////////////////// CYCLES //////////////////////////////
                         if (course.getCycles() != null && course.getCycles().size() > 0) {
                             //////////////////////// Insert Course Cycles  /////////////////////////////////
-                            String cycleSql = "INSERT INTO " + Cycle.TABLE_NAME + " VALUES " +
-                                    "(?,?,?,?,?,?,?);";
-
-                            SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
-
                             for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
                                 Cycle cycle = course.getCycles().get(cycleIndex);
-
-                                SQLiteStatement currCycleStatement =
-                                        cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
-                                if (currCycleStatement != null) {
-                                    long insertCycleId = currCycleStatement.executeInsert();
+                                cycle.setCourseID(course.getCourseID());
+                                if (cycle.getStartDate() != null && cycle.getEndDate() != null &&
+                                        (cycle.getStartDate().compareTo(new Date()) > 0)) {
+                                    long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
                                     if (insertCycleId == -1)
                                         throw new Exception("Failed to insert cycle");
                                     cycle.setId(insertCycleId);
@@ -312,18 +306,13 @@ public class UpdateIntentService extends IntentService {
                         /////////////////////////// RATINGS //////////////////////////////
                         if (course.getRatings() != null && course.getRatings().size() > 0) {
                             //////////////////////// Insert Course Ratings  /////////////////////////////////
-                            String ratingSql = "INSERT INTO " + Rating.TABLE_NAME + " VALUES " +
-                                    "(?,?,?,?,?,?,?);";
-
-                            SQLiteStatement ratingStatement = database.compileStatement(ratingSql);
-
                             for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                                 Rating rating = course.getRatings().get(ratingIndex);
                                 rating.setCourseID(course.getCourseID());
-                                SQLiteStatement currRatingStatement =
-                                        rating.getStatement(ratingStatement, ratingId, course.getCourseID());
-                                if (currRatingStatement != null) {
-                                    long insertRatingId = currRatingStatement.executeInsert();
+                                if (rating.getCourseID() != 0 &&
+                                        rating.getUserMailAddress() != null && !rating.getUserMailAddress().equals("")
+                                        && rating.getCreatedAt() != null && rating.getLastModified() != null) {
+                                    long insertRatingId = database.compileStatement(rating.getInsertCommand(this)).executeInsert();
                                     if (insertRatingId == -1)
                                         throw new Exception("Failed to insert rating");
                                     rating.setId(insertRatingId);
@@ -356,18 +345,12 @@ public class UpdateIntentService extends IntentService {
                 /////////////////////////// CYCLES //////////////////////////////
                 if (course.getCycles() != null && course.getCycles().size() > 0) {
                     //////////////////////// Insert Course Cycles  /////////////////////////////////
-                    String cycleSql = "INSERT INTO " + Cycle.TABLE_NAME + " VALUES " +
-                            "(?,?,?,?,?,?,?);";
-
-                    SQLiteStatement cycleStatement = database.compileStatement(cycleSql);
-
                     for (int cycleIndex = 0; cycleIndex < course.getCycles().size(); cycleIndex++) {
                         Cycle cycle = course.getCycles().get(cycleIndex);
-
-                        SQLiteStatement currCycleStatement =
-                                cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
-                        if (currCycleStatement != null) {
-                            long insertCycleId = currCycleStatement.executeInsert();
+                        cycle.setCourseID(course.getCourseID());
+                        if (cycle.getStartDate() != null && cycle.getEndDate() != null &&
+                                (cycle.getStartDate().compareTo(new Date()) > 0)) {
+                            long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
                             if (insertCycleId == -1)
                                 throw new Exception("Failed to insert cycle");
                             cycle.setId(insertCycleId);
@@ -376,6 +359,18 @@ public class UpdateIntentService extends IntentService {
                             course.getCycles().remove(cycleIndex);
                             cycleIndex--;
                         }
+//                                SQLiteStatement currCycleStatement =
+//                                        cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
+//                                if (currCycleStatement != null) {
+//                                    long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
+//                                    if (insertCycleId == -1)
+//                                        throw new Exception("Failed to insert cycle");
+//                                    cycle.setId(insertCycleId);
+//                                    cycleId++;
+//                                } else {
+//                                    course.getCycles().remove(cycleIndex);
+//                                    cycleIndex--;
+//                                }
                     }
                 }
 
@@ -384,18 +379,13 @@ public class UpdateIntentService extends IntentService {
                 /////////////////////////// RATINGS //////////////////////////////
                 if (course.getRatings() != null && course.getRatings().size() > 0) {
                     //////////////////////// Insert Course Ratings  /////////////////////////////////
-                    String ratingSql = "INSERT INTO " + Rating.TABLE_NAME + " VALUES " +
-                            "(?,?,?,?,?,?,?);";
-
-                    SQLiteStatement ratingStatement = database.compileStatement(ratingSql);
-
                     for (int ratingIndex = 0; ratingIndex < course.getRatings().size(); ratingIndex++) {
                         Rating rating = course.getRatings().get(ratingIndex);
                         rating.setCourseID(course.getCourseID());
-                        SQLiteStatement currRatingStatement =
-                                rating.getStatement(ratingStatement, ratingId, course.getCourseID());
-                        if (currRatingStatement != null) {
-                            long insertRatingId = currRatingStatement.executeInsert();
+                        if (rating.getCourseID() != 0 &&
+                                rating.getUserMailAddress() != null && !rating.getUserMailAddress().equals("")
+                                && rating.getCreatedAt() != null && rating.getLastModified() != null) {
+                            long insertRatingId = database.compileStatement(rating.getInsertCommand(this)).executeInsert();
                             if (insertRatingId == -1)
                                 throw new Exception("Failed to insert rating");
                             rating.setId(insertRatingId);
@@ -404,6 +394,17 @@ public class UpdateIntentService extends IntentService {
                             course.getRatings().remove(ratingIndex);
                             ratingIndex--;
                         }
+//                        if (currRatingStatement != null) {
+//                            long insertRatingId = database.compileStatement(rating.getInsertCommand(this)).executeInsert();
+////                            long insertRatingId = currRatingStatement.executeInsert();
+//                            if (insertRatingId == -1)
+//                                throw new Exception("Failed to insert rating");
+//                            rating.setId(insertRatingId);
+//                            ratingId++;
+//                        } else {
+//                            course.getRatings().remove(ratingIndex);
+//                            ratingIndex--;
+//                        }
                     }
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
