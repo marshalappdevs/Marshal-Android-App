@@ -45,6 +45,7 @@
     <color name="material_dark_appbar">@color/quantum_grey_900</color>
     <color name="material_dark_background">@color/quantum_grey_850</color>
     <color name="material_dark_cards_and_dialogs">@color/quantum_grey_800</color>
+    <color name="material_button_light">#D6D7D7</color>
 
     <!-- Red -->
     <color name="quantum_red_50">#FFEBEE</color>
