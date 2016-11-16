@@ -452,7 +452,7 @@ public class Course extends DBObject implements Parcelable {
 
     // ************************* END OF PARCELABLE **************************** //
 
-    public static String getCloestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
+    public static String getClosestCoursesSqlQuery(int count, boolean filterByNowTimestamp) {
         String query = "select * from " + TABLE_NAME
                 + " where " + COL_COURSE_ID + " IN " +
                 "(select distinct " + COL_COURSE_ID + " from " + Cycle.TABLE_NAME;

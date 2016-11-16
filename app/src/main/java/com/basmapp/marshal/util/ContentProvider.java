@@ -221,7 +221,7 @@ public class ContentProvider {
     }
 
     private void initViewPagerCourses(Context context, final ContentProviderCallBack callback) {
-        Course.rawQueryInBackground(Course.getCloestCoursesSqlQuery(5, true), context,
+        Course.rawQueryInBackground(Course.getClosestCoursesSqlQuery(5, true), context,
                 Course.class, false, new BackgroundTaskCallBack() {
                     @Override
                     public void onSuccess(String result, List<Object> data) {

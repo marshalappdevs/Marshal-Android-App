@@ -296,7 +296,7 @@ public class CoursesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return mViewPagerCourses.size();
+            return 5;
         }
     }
 
