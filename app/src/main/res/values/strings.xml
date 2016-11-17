@@ -59,7 +59,6 @@
     <string name="details_secondary_action_google_form">Feedback</string>
     <string name="details_secondary_action_google_translate">Translate</string>
     <string name="google_translate_not_installed">Google Translate is needed to perform this action</string>
-    <string name="google_translate_no_description">Description does not exist</string>
     <string name="share_with">Share with</string>
     <string name="share_course_text">Interesting course from Marshal for Android: \n\n%1$s \n\nDownload the app today from Google Play: \n\n%2$s</string>
     <string name="course_choose_cycle">Choose cycle</string>
