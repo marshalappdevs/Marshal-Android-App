@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.preference.PreferenceManager;
-import android.util.Log;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;

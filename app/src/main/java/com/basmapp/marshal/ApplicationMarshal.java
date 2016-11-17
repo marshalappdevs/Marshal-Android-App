@@ -8,7 +8,6 @@ import android.content.pm.Signature;
 import android.content.res.Configuration;
 import android.preference.PreferenceManager;
 import android.util.Base64;
-import android.util.Log;
 
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.util.LocaleUtils;

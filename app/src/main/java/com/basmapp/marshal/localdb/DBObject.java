@@ -5,7 +5,6 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.os.AsyncTask;
-import android.util.Log;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.localdb.annotations.Column;

@@ -3,9 +3,7 @@ package com.basmapp.marshal.ui.utils;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
-import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Color;
@@ -17,7 +15,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.ThemeUtils;
 
 import java.io.IOException;

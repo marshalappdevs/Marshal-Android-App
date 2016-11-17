@@ -4,14 +4,10 @@ import android.app.PendingIntent;
 import android.content.Intent;
 import android.content.SharedPreferences;
 
-import android.net.Uri;
 import android.preference.PreferenceManager;
-import android.support.v4.app.TaskStackBuilder;
-import android.util.Log;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.ui.utils.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
