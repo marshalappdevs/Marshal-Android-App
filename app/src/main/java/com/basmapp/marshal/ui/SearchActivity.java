@@ -186,11 +186,11 @@ public class SearchActivity extends BaseActivity {
     }
 
     @Override
-    public boolean onCreateOptionsMenu(Menu options) {
-        getMenuInflater().inflate(R.menu.activity_search, options);
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.activity_search, menu);
 
         SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
-        MenuItem searchItem = options.findItem(R.id.m_search);
+        MenuItem searchItem = menu.findItem(R.id.m_search);
         MenuItemCompat.expandActionView(searchItem);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));

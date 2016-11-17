@@ -16,8 +16,9 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -39,17 +40,12 @@ import java.util.List;
 import java.util.Locale;
 
 public class DescribeProblemActivity extends BaseActivity {
-    Toolbar mToolbar;
-
     private static final int REQUEST_STORAGE = 0;
-
     private ImageView[] screenshots = new ImageView[3];
-
     private Uri[] uris = new Uri[3];
-
     private int PICK_IMAGE_REQUEST;
-
     private ArrayList<Uri> attachments = new ArrayList<>();
+    private EditText mDescription;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,97 +53,21 @@ public class DescribeProblemActivity extends BaseActivity {
 
         setContentView(R.layout.activity_describe_problem);
 
-        mToolbar = (Toolbar) findViewById(R.id.toolbar);
-        mToolbar.setTitle(R.string.mail_subject);
-        setSupportActionBar(mToolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar.setTitle(R.string.mail_subject);
+        setSupportActionBar(toolbar);
 
         if (getSupportActionBar() != null)
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        mToolbar.setNavigationOnClickListener(new View.OnClickListener() {
+        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 finish();
             }
         });
 
-        final EditText description = (EditText) findViewById(R.id.describe_problem_description);
-
-        Button next = (Button) findViewById(R.id.describe_problem_help);
-        next.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                int length = description.getText().toString().trim().getBytes().length;
-                if (length > 10) {
-                    Calendar now = Calendar.getInstance();
-                    // Create debug info text file and set file name to current date and time
-                    String filename = String.format(Locale.getDefault(),
-                            "marshal_%02d%02d%04d_%02d%02d%02d.log",
-                            now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
-                            now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
-                            now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
-                    File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt");
-                    try {
-                        FileWriter writer = new FileWriter(tempFile);
-                        writer.write(debugInfo());
-                        writer.close();
-                        attachments.add(Uri.fromFile(tempFile));
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }
-
-                    List<Intent> intentShareList = new ArrayList<>();
-                    Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-                    shareIntent.setType("text/plain");
-                    List<ResolveInfo> resolveInfoList = getPackageManager().queryIntentActivities(shareIntent, 0);
-
-                    for (ResolveInfo resInfo : resolveInfoList) {
-                        String packageName = resInfo.activityInfo.packageName;
-
-                        if (packageName.contains("gm") ||
-                                packageName.contains("email") ||
-                                packageName.contains("fsck.k9") ||
-                                packageName.contains("maildroid") ||
-                                packageName.contains("hotmail") ||
-                                packageName.contains("android.mail") ||
-                                packageName.contains("com.baydin.boomerang") ||
-                                packageName.contains("yandex.mail") ||
-                                packageName.contains("com.google.android.apps.inbox") ||
-                                packageName.contains("com.microsoft.office.outlook") ||
-                                packageName.contains("com.asus.email")) {
-
-                            Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
-                            emailIntent.setType("plain/text");
-                            emailIntent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
-                            emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com"});
-                            emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
-                            emailIntent.putExtra(Intent.EXTRA_TEXT, description.getText());
-                            emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments);
-                            intentShareList.add(emailIntent);
-                        }
-                    }
-                    if (intentShareList.isEmpty()) {
-                        Toast.makeText(DescribeProblemActivity.this, R.string.no_supported_mail_apps, Toast.LENGTH_LONG).show();
-//                        finish();
-                    } else {
-                        Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
-                        chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentShareList.toArray(new Parcelable[intentShareList.size()]));
-                        startActivity(chooserIntent);
-                        finish();
-                    }
-                } else if (length == 0) {
-                    Toast makeText = Toast.makeText(DescribeProblemActivity.this,
-                            R.string.describe_problem_description, Toast.LENGTH_LONG);
-                    makeText.setGravity(Gravity.CENTER, 0, 0);
-                    makeText.show();
-                } else {
-                    Toast makeText = Toast.makeText(DescribeProblemActivity.this,
-                            R.string.describe_problem_description_further, Toast.LENGTH_LONG);
-                    makeText.setGravity(Gravity.CENTER, 0, 0);
-                    makeText.show();
-                }
-            }
-        });
+        mDescription = (EditText) findViewById(R.id.describe_problem_description);
 
         for (int i = 0; i < screenshots.length; i++) {
             screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
@@ -169,6 +89,103 @@ public class DescribeProblemActivity extends BaseActivity {
             }
         }
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.contact_us, menu);
+        final MenuItem next = menu.findItem(R.id.next);
+        next.getActionView().setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                onOptionsItemSelected(next);
+            }
+        });
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.next:
+                sendEmail();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    private void sendEmail() {
+        int length = mDescription.getText().toString().trim().getBytes().length;
+        if (length > 10) {
+            Calendar now = Calendar.getInstance();
+            // Create debug info text file and set file name to current date and time
+            String filename = String.format(Locale.getDefault(),
+                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
+                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
+                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
+                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt");
+            try {
+                FileWriter writer = new FileWriter(tempFile);
+                writer.write(debugInfo());
+                writer.close();
+                attachments.add(Uri.fromFile(tempFile));
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+
+            List<Intent> intentShareList = new ArrayList<>();
+            Intent shareIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+            shareIntent.setType("text/plain");
+            List<ResolveInfo> resolveInfoList = getPackageManager().queryIntentActivities(shareIntent, 0);
+
+            for (ResolveInfo resInfo : resolveInfoList) {
+                String packageName = resInfo.activityInfo.packageName;
+
+                if (packageName.contains("gm") ||
+                        packageName.contains("email") ||
+                        packageName.contains("fsck.k9") ||
+                        packageName.contains("maildroid") ||
+                        packageName.contains("hotmail") ||
+                        packageName.contains("android.mail") ||
+                        packageName.contains("com.baydin.boomerang") ||
+                        packageName.contains("yandex.mail") ||
+                        packageName.contains("com.google.android.apps.inbox") ||
+                        packageName.contains("com.microsoft.office.outlook") ||
+                        packageName.contains("com.asus.email")) {
+
+                    Intent emailIntent = new Intent(android.content.Intent.ACTION_SEND_MULTIPLE);
+                    emailIntent.setType("plain/text");
+                    emailIntent.setComponent(new ComponentName(packageName, resInfo.activityInfo.name));
+                    emailIntent.putExtra(Intent.EXTRA_EMAIL, new String[]{"marshaldevs@gmail.com"});
+                    emailIntent.putExtra(Intent.EXTRA_SUBJECT, getString(R.string.mail_subject));
+                    emailIntent.putExtra(Intent.EXTRA_TEXT, mDescription.getText());
+                    emailIntent.putParcelableArrayListExtra(Intent.EXTRA_STREAM, attachments);
+                    intentShareList.add(emailIntent);
+                }
+            }
+            if (intentShareList.isEmpty()) {
+                Toast.makeText(DescribeProblemActivity.this, R.string.no_supported_mail_apps, Toast.LENGTH_LONG).show();
+//                        finish();
+            } else {
+                Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
+                chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentShareList.toArray(new Parcelable[intentShareList.size()]));
+                startActivity(chooserIntent);
+                finish();
+            }
+        } else if (length == 0) {
+            Toast makeText = Toast.makeText(DescribeProblemActivity.this,
+                    R.string.describe_problem_description, Toast.LENGTH_LONG);
+            makeText.setGravity(Gravity.CENTER, 0, 0);
+            makeText.show();
+        } else {
+            Toast makeText = Toast.makeText(DescribeProblemActivity.this,
+                    R.string.describe_problem_description_further, Toast.LENGTH_LONG);
+            makeText.setGravity(Gravity.CENTER, 0, 0);
+            makeText.show();
+        }
+    }
+
 
     public class screenshotClickListener implements View.OnClickListener, View.OnLongClickListener {
 
