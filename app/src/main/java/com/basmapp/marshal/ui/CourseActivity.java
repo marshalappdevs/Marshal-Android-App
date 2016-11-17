@@ -1,6 +1,8 @@
 package com.basmapp.marshal.ui;
 
 import android.annotation.SuppressLint;
+import android.content.ActivityNotFoundException;
+import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -63,6 +65,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import retrofit2.Response;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
@@ -814,6 +817,39 @@ public class CourseActivity extends BaseActivity {
 //                            .launchUrl(CourseActivity.this, Uri.parse(mCourse.getGoogleFormUrl()));
                 }
             });
+        }
+
+        if (Locale.getDefault().toString().toLowerCase().equals("en")) {
+            findViewById(R.id.course_activity_google_translate_button).setVisibility(View.VISIBLE);
+            findViewById(R.id.course_activity_google_translate_button).setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    try {
+                        Intent intent = new Intent();
+                        intent.setAction(Intent.ACTION_SEND);
+                        if ((mCourse.getDescription() != null) &&
+                                (!mCourse.getDescription().equals(""))) {
+                            intent.putExtra(Intent.EXTRA_TEXT, mCourse.getDescription());
+                        } else {
+                            Toast.makeText(CourseActivity.this, R.string.google_translate_no_description, Toast.LENGTH_SHORT).show();
+                        }
+                        intent.putExtra("key_text_output", "");
+                        intent.putExtra("key_language_from", "iw");
+                        intent.putExtra("key_language_to", "en");
+                        intent.putExtra("key_suggest_translation", "");
+                        intent.putExtra("key_from_floating_window", false);
+                        intent.setComponent(new ComponentName("com.google.android.apps.translate",
+                                "com.google.android.apps.translate.TranslateActivity"));
+                        startActivity(intent);
+                    } catch (ActivityNotFoundException e) {
+                        Toast.makeText(CourseActivity.this, R.string.google_translate_not_installed, Toast.LENGTH_SHORT).show();
+                        startActivity(new Intent(Intent.ACTION_VIEW)
+                                .setData(Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.translate")));
+                    }
+                }
+            });
+        } else {
+            findViewById(R.id.course_activity_google_translate_button).setVisibility(View.GONE);
         }
     }
 

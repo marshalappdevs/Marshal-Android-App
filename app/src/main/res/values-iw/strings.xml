@@ -56,6 +56,9 @@
     <string name="details_secondary_action_share">שתף</string>
     <string name="details_secondary_action_materials">חומרים</string>
     <string name="details_secondary_action_google_form">משוב</string>
+    <string name="details_secondary_action_google_translate">תרגם</string>
+    <string name="google_translate_not_installed">Google Translate נדרש על מנת לבצע פעולה זו</string>
+    <string name="google_translate_no_description">תיאור כללי לא קיים</string>
     <string name="share_with">שתף עם</string>
     <string name="share_course_text">קורס מעניין ממרש\"ל לאנדרואיד: \n\n%1$s \n\nהורידו את האפליקציה עוד היום מ-Google Play: \n\n%2$s</string>
     <string name="course_choose_cycle">בחר מחזור</string>
