@@ -820,7 +820,6 @@ public class CourseActivity extends BaseActivity {
         }
 
         if (mTextViewGeneralDescription != null && !mTextViewGeneralDescription.getText().equals("")) {
-//            Toast.makeText(this, mTextViewGeneralDescription.getTextDirection(), Toast.LENGTH_LONG).show();
             Bidi bidi = new Bidi(mTextViewGeneralDescription.getText().toString(),
                     Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
             if (Locale.getDefault().toString().toLowerCase().equals("en") && bidi.getBaseLevel() == 1) {
@@ -843,13 +842,9 @@ public class CourseActivity extends BaseActivity {
             public void onClick(View v) {
                 Bidi bidi = new Bidi(mTextViewGeneralDescription.getText().toString(),
                         Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
-                if (bidi.getBaseLevel() == 0) {
-                    // ltr
-                    callGoogleTranslate(mTextViewGeneralDescription.getText().toString(), "en", "iw");
-                } else {
-                    // rtl
-                    callGoogleTranslate(mTextViewGeneralDescription.getText().toString(), "iw", "en");
-                }
+                callGoogleTranslate(mTextViewGeneralDescription.getText().toString(),
+                        (bidi.getBaseLevel() == 0) ? "en" : "iw",
+                        (bidi.getBaseLevel() == 0) ? "iw" : "en");
             }
         });
     }
