@@ -39,7 +39,7 @@ class ShareCourseImageTask extends AsyncTask<Void, Void, File> {
                     .downloadOnly(500, 500)
                     .get();
         } catch (Exception ex) {
-            Log.w("SHARE", "Sharing " + url + " failed", ex);
+            ex.printStackTrace();
             return null;
         }
     }

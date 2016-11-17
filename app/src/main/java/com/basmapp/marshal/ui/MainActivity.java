@@ -124,7 +124,6 @@ public class MainActivity extends BaseActivity
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        Log.i("LIFE_CYCLE", "onCreate");
         super.onCreate(savedInstanceState);
 
         checkFcmRegistrationState();
@@ -416,8 +415,6 @@ public class MainActivity extends BaseActivity
     @Override
     public void onStart() {
         super.onStart();
-        Log.i("LIFE_CYCLE", "onStart");
-
         if (needRecreate) {
             needRecreate = false;
 //            getSupportFragmentManager().beginTransaction()
@@ -453,8 +450,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onResume() {
         super.onResume();
-        Log.i("LIFE_CYCLE", "onResume");
-
         // Initialize shared preference if it's null
         if (mSharedPreferences == null)
             mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
@@ -491,7 +486,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onPause() {
         super.onPause();
-        Log.i("LIFE_CYCLE", "onPause");
         // Cancel no network Snackbar
         if (mNetworkSnackbar != null)
             mNetworkSnackbar.dismiss();
@@ -505,7 +499,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onStop() {
         super.onStop();
-        Log.i("LIFE_CYCLE", "onStop");
         // Unregister update data from server broadcast and check internet connection broadcast
         unregisterReceiver(broadcastReceiver);
         unregisterReceiver(mUpdateBroadcastReceiver);
@@ -514,7 +507,6 @@ public class MainActivity extends BaseActivity
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        Log.i("LIFE_CYCLE", "onDestroy");
         // Set viewpager page to start when app is closed (4 if RTL, 0 if LTR)
         sLastCoursesViewPagerIndex = LocaleUtils.isRtl(getResources()) ? 4 : 0;
         // Close db if exist when app is closed
@@ -523,16 +515,6 @@ public class MainActivity extends BaseActivity
 
 
     private boolean isUpdateIntentServiceRunning() {
-//        ActivityManager manager = (ActivityManager) getSystemService(ACTIVITY_SERVICE);
-//        for (ActivityManager.RunningServiceInfo service : manager.getRunningServices(Integer.MAX_VALUE)) {
-//            if ("com.basmapp.marshal.UpdateIntentService".equals(service.service.getClassName())) {
-//                Log.i("IS_SERVICE_RUNNING", " --- true");
-//                return true;
-//            }
-//        }
-//        Log.i("IS_SERVICE_RUNNING", " --- false");
-//        return false;
-
         return UpdateIntentService.isRunning;
     }
 

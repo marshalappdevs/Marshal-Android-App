@@ -91,16 +91,13 @@ public class FcmRegistrationService extends IntentService {
                             } else publishResult(false, true);
                         }
                     } else {
-                        Log.e("FCM_REGISTRATION -- ", "NULL TOKEN");
                         if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                     }
                 } else {
-                    Log.e("FCM_REGISTRATION -- ", "NULL HARDWARE_ID");
                     if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
                 }
             } catch (Exception e) {
                 e.printStackTrace();
-                Log.e("FCM_REGISTRATION -- ", "failed");
                 if (action.equals(ACTION_UPDATE_CHANNELS)) publishResult(false, true);
             }
         } else {
@@ -123,18 +120,6 @@ public class FcmRegistrationService extends IntentService {
             sendBroadcast(intent);
         }
     }
-
-//    private void publishResponse(Response<FcmRegistration> response, boolean showResultToUser) {
-//        if (response.isSuccessful()) {
-//            Log.d("FCM_RESPONSE -- ","success");
-//            FcmRegistrationService.setDeviceRegistrationState(this, true);
-//        } else {
-//            Log.d("FCM_RESPONSE -- ","failed");
-//            FcmRegistrationService.setDeviceRegistrationState(this, false);
-//        }
-//
-//        if (showResultToUser) publishResultToUI(response.isSuccessful());
-//    }
 
     public static boolean isDeviceRegistered(Context context) {
         boolean state = false;

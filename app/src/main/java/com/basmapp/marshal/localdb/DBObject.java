@@ -343,9 +343,9 @@ public abstract class DBObject {
                 object instanceof String && object.equals("");
     }
 
-    public void getById(long id, Context context) throws Exception {
+    public void findById(Object id, Context context) throws Exception {
         Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(tableName,
-                null, primaryKey.getName() + " = " + id, null,
+                null, primaryKey.getName() + " = " + prepareValueForSql(id), null,
                 null, null, null);
         cursor.moveToFirst();
         try {
@@ -681,7 +681,7 @@ public abstract class DBObject {
         }.execute();
     }
 
-    public void getByIdInBackground(final Context context,
+    public void findByIdInBackground(final Context context,
                                     final boolean showProgressBar,
                                     final long objectId,
                                     final BackgroundTaskCallBack callBack) {
@@ -705,7 +705,7 @@ public abstract class DBObject {
             @Override
             protected String doInBackground(Void... voids) {
                 try {
-                    getById(objectId, context);
+                    findById(objectId, context);
                     return SUCCESS_FLAG;
                 } catch (Exception e) {
                     if (e.getMessage() != null) {
@@ -1264,8 +1264,6 @@ public abstract class DBObject {
         }
 
         command = command + columns + ");";
-
-        Log.i("CRAETE TABLE", command);
         return command;
     }
 

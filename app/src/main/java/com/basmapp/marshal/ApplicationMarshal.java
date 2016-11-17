@@ -23,7 +23,6 @@ public class ApplicationMarshal extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        Log.i("LIFE_CYCLE", "Application - onCreate");
         LocaleUtils.updateLocale(this);
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
         UpdateIntentService.startCheckForUpdate(getApplicationContext());

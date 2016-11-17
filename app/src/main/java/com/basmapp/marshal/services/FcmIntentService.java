@@ -26,7 +26,6 @@ public class FcmIntentService extends FirebaseMessagingService {
     @Override
     public void onMessageReceived(RemoteMessage message) {
         super.onMessageReceived(message);
-        Log.i("FCM", "onMessageReceived from:" + message.getFrom());
         Map data = message.getData();
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
 

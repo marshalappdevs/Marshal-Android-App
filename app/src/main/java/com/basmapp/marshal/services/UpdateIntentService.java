@@ -63,7 +63,6 @@ public class UpdateIntentService extends IntentService {
      */
     // TODO: Customize helper method
     public static void startCheckForUpdate(Context context) {
-        Log.i("LIFE_CYCLE", "UpdateService - startCheckForUpdate");
         isRunning = true;
         Intent intent = new Intent(context, UpdateIntentService.class);
         intent.setAction(ACTION_CHECK_FOR_UPDATE);
@@ -212,7 +211,6 @@ public class UpdateIntentService extends IntentService {
                         database.compileStatement(materialItem.getUpdateCommand(this, null, null)).execute();
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE", "FAILED TO UPDATE MATERIAL_ITEM");
                     e.printStackTrace();
                 }
             }
@@ -329,7 +327,6 @@ public class UpdateIntentService extends IntentService {
                         newCourses.remove(course);
                     }
                 } catch (Exception e) {
-                    Log.e("UPDATE", "FAILED TO UPDATE COURSE_ITEM");
                     e.printStackTrace();
                 }
             }
@@ -409,7 +406,6 @@ public class UpdateIntentService extends IntentService {
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
                 long id = database.compileStatement(course.getInsertCommand(this)).executeInsert();
-                Log.i("COURSE","id=" + id + " , name= " + course.getName());
             }
 
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
@@ -430,8 +426,6 @@ public class UpdateIntentService extends IntentService {
             sendBroadcast(broadcastIntent);
 
             isRunning = false;
-
-            Log.i("UPDATE_SERVICE", "result=" + String.valueOf(result));
 
             // Notify new courses
             if (result && !PreferenceManager.getDefaultSharedPreferences(this).getBoolean(Constants.PREF_IS_FIRST_RUN, true)) {

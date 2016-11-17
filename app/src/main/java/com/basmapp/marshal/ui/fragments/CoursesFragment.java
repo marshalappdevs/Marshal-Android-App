@@ -82,8 +82,6 @@ public class CoursesFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
-        Log.i("COURSES_FRAG", "onCreateView");
         mRootView = inflater.inflate(R.layout.fragment_courses, container, false);
         mMainContainer = (LinearLayout) mRootView.findViewById(R.id.fragment_courses_main_container);
 

@@ -29,6 +29,11 @@ public class SQLiteHelper extends SQLiteOpenHelper {
         this.context = context;
     }
 
+    public SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+        super(context, name, factory, version);
+        this.context = context;
+    }
+
     static SQLiteHelper getHelperInstance(Context context) {
         if (helperInstance == null)
             helperInstance = new SQLiteHelper(context.getApplicationContext());
@@ -77,9 +82,6 @@ public class SQLiteHelper extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        Log.i(SQLiteHelper.class.getName(),
-                "Upgrading database from version " + oldVersion + " to "
-                        + newVersion + ", which will destroy all old data");
         db.execSQL(MaterialItem.getDropTableIfExistCommand(MaterialItem.class));
         db.execSQL(Course.getDropTableIfExistCommand(Course.class));
         db.execSQL(Cycle.getDropTableIfExistCommand(Cycle.class));

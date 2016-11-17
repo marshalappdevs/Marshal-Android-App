@@ -71,9 +71,6 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     @Override
     public void onBindViewHolder(final MaterialVH holder, int position) {
-
-        Log.i("FILTER: ON BIND --> ", String.valueOf(position) + " : " + mIsDataFiltered);
-
         final long[] mLastClickTime = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
             @Override
