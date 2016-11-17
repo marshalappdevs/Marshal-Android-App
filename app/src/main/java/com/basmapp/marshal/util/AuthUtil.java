@@ -2,8 +2,11 @@ package com.basmapp.marshal.util;
 
 import android.content.ContentResolver;
 import android.provider.Settings;
+
 import com.basmapp.marshal.BuildConfig;
+
 import java.util.Date;
+
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 

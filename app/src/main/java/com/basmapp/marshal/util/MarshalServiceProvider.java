@@ -24,27 +24,27 @@ import retrofit2.converter.gson.GsonConverterFactory;
 public class MarshalServiceProvider {
 
     private static final String API_BASE_URL = "http://marshalweb.azurewebsites.net/api/";
-    public static final String GET_ALL_COURSES                      = API_BASE_URL + "courses";
-    public static final String GET_ALL_MATERIALS                    = API_BASE_URL + "materials";
-    public static final String POST_RATING                          = API_BASE_URL + "courses/ratings/";
-    public static final String PUT_RATING                           = API_BASE_URL + "courses/ratings/";
-    public static final String DELETE_RATING                        = API_BASE_URL + "courses/ratings/";
-    public static final String POST_FCM_REGISTER_NEW_DEVICE         = API_BASE_URL + "fcm/register/";
-    public static final String GET_SETTINGS                         = API_BASE_URL + "settings/";
-    public static final String GET_ALL_MALSHAB_ITEMS                = API_BASE_URL + "malshabitems/";
+    public static final String GET_ALL_COURSES = API_BASE_URL + "courses";
+    public static final String GET_ALL_MATERIALS = API_BASE_URL + "materials";
+    public static final String POST_RATING = API_BASE_URL + "courses/ratings/";
+    public static final String PUT_RATING = API_BASE_URL + "courses/ratings/";
+    public static final String DELETE_RATING = API_BASE_URL + "courses/ratings/";
+    public static final String POST_FCM_REGISTER_NEW_DEVICE = API_BASE_URL + "fcm/register/";
+    public static final String GET_SETTINGS = API_BASE_URL + "settings/";
+    public static final String GET_ALL_MALSHAB_ITEMS = API_BASE_URL + "malshabitems/";
     public static final String POST_SUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
     public static final String DELETE_UNSUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
 
     private static OkHttpClient.Builder httpClient = new OkHttpClient.Builder();
 
     private static Retrofit.Builder builder = new Retrofit.Builder()
-                    .baseUrl(API_BASE_URL)
-                    .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
-                            .registerTypeAdapter(Date.class, new JsonDateSerializer())
-                            .registerTypeAdapter(Date.class, new JsonDateDeserializer())
-                            .excludeFieldsWithoutExposeAnnotation()
-                            .setLenient()
-                            .create()));
+            .baseUrl(API_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create(new GsonBuilder()
+                    .registerTypeAdapter(Date.class, new JsonDateSerializer())
+                    .registerTypeAdapter(Date.class, new JsonDateDeserializer())
+                    .excludeFieldsWithoutExposeAnnotation()
+                    .setLenient()
+                    .create()));
 
     public static IMarshalService getInstance(final String authToken) {
         if (authToken != null) {
@@ -79,7 +79,7 @@ public class MarshalServiceProvider {
 
     public static class JsonDateSerializer implements JsonSerializer<Date> {
         public JsonElement serialize(Date src, Type typeOfSrc, JsonSerializationContext context) {
-            return new JsonPrimitive("/Date("+ src.getTime() + ")/");
+            return new JsonPrimitive("/Date(" + src.getTime() + ")/");
         }
     }
 }

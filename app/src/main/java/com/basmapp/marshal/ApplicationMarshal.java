@@ -50,10 +50,9 @@ public class ApplicationMarshal extends Application {
     // Check if package manager signature equals to basmapp_keystore_release signature,
     // protect app from being signed and installed with different key
     public static boolean isValidSignature(Context context) {
-        int flag = PackageManager.GET_SIGNATURES;
         try {
             Signature[] signatures = context.getPackageManager()
-                    .getPackageInfo(context.getPackageName(), flag).signatures;
+                    .getPackageInfo(context.getPackageName(), PackageManager.GET_SIGNATURES).signatures;
             for (Signature signature : signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());

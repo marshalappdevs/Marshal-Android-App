@@ -22,7 +22,7 @@ public class ContentProvider {
     private static ContentProvider mInstance = new ContentProvider();
 
     private Set<String> coursesCategories;
-    private HashMap<String,ArrayList<Course>> sCoursesListsMap = new HashMap<>();
+    private HashMap<String, ArrayList<Course>> sCoursesListsMap = new HashMap<>();
     private ArrayList<Course> sCourses;
     private ArrayList<Course> sViewPagerCourses;
     private ArrayList<Course> sMeetups;
@@ -42,6 +42,7 @@ public class ContentProvider {
 
         return coursesCategories;
     }
+
     public void initAllData(Context context) {
 
         // Get All Courses ---> sCourses
@@ -73,8 +74,8 @@ public class ContentProvider {
                     @Override
                     public void onSuccess(String result, List<Object> data) {
                         if (data != null) {
-                            ArrayList<Course> coursesResult = (ArrayList)data;
-                            sCoursesListsMap.put(category,coursesResult);
+                            ArrayList<Course> coursesResult = (ArrayList) data;
+                            sCoursesListsMap.put(category, coursesResult);
                             if (callback != null) {
                                 callback.onDataReady(coursesResult, category);
                             }
@@ -103,49 +104,49 @@ public class ContentProvider {
     private void initCourses(Context context, final ContentProviderCallBack callback) {
         Course.findByColumnInBackground(false, Course.COL_IS_MEETUP, false, Course.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
-            @Override
-            public void onSuccess(String result, List<Object> data) {
-                if (data != null) {
-                    sCourses = (ArrayList) data;
-                    if (callback != null) {
-                        callback.onDataReady(sCourses, null);
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null) {
+                            sCourses = (ArrayList) data;
+                            if (callback != null) {
+                                callback.onDataReady(sCourses, null);
+                            }
+                        } else {
+                            if (callback != null)
+                                callback.onError(new Exception("data is null"));
+                        }
                     }
-                } else {
-                    if (callback != null)
-                        callback.onError(new Exception("data is null"));
-                }
-            }
 
-            @Override
-            public void onError(String error) {
-                if (error == null) error = "Query error";
-                callback.onError(new Exception(error));
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        if (error == null) error = "Query error";
+                        callback.onError(new Exception(error));
+                    }
+                });
     }
 
     private void initMeetups(Context context, final ContentProviderCallBack callback) {
         Course.findByColumnInBackground(false, Course.COL_IS_MEETUP, true, Course.COL_NAME,
                 context, Course.class, new BackgroundTaskCallBack() {
-            @Override
-            public void onSuccess(String result, List<Object> data) {
-                if (data != null) {
-                    sMeetups = (ArrayList) data;
-                    if (callback != null) {
-                        callback.onDataReady(sMeetups, null);
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null) {
+                            sMeetups = (ArrayList) data;
+                            if (callback != null) {
+                                callback.onDataReady(sMeetups, null);
+                            }
+                        } else {
+                            if (callback != null)
+                                callback.onError(new Exception("data is null"));
+                        }
                     }
-                } else {
-                    if (callback != null)
-                        callback.onError(new Exception("data is null"));
-                }
-            }
 
-            @Override
-            public void onError(String error) {
-                if (error == null) error = "Query error";
-                callback.onError(new Exception(error));
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        if (error == null) error = "Query error";
+                        callback.onError(new Exception(error));
+                    }
+                });
     }
 
     private void initMaterialItems(Context context, final ContentProviderCallBack callback) {
@@ -175,25 +176,25 @@ public class ContentProvider {
     private void initMalshabItems(Context context, final ContentProviderCallBack callback) {
         MalshabItem.findAllInBackground(MalshabItem.COL_ORDER, MalshabItem.class, context,
                 false, new BackgroundTaskCallBack() {
-            @Override
-            public void onSuccess(String result, List<Object> data) {
-                if (data != null) {
-                    sMalshabItems = (ArrayList) data;
-                    if (callback != null) {
-                        callback.onDataReady(sMalshabItems, null);
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null) {
+                            sMalshabItems = (ArrayList) data;
+                            if (callback != null) {
+                                callback.onDataReady(sMalshabItems, null);
+                            }
+                        } else {
+                            if (callback != null)
+                                callback.onError(new Exception("data is null"));
+                        }
                     }
-                } else {
-                    if (callback != null)
-                        callback.onError(new Exception("data is null"));
-                }
-            }
 
-            @Override
-            public void onError(String error) {
-                if (error == null) error = "Query error";
-                callback.onError(new Exception(error));
-            }
-        });
+                    @Override
+                    public void onError(String error) {
+                        if (error == null) error = "Query error";
+                        callback.onError(new Exception(error));
+                    }
+                });
     }
 
     private void initSubscribedCourses(Context context, final ContentProviderCallBack callback) {
@@ -264,22 +265,26 @@ public class ContentProvider {
     }
 
     public void getMaterialItems(Context context, ContentProviderCallBack callBack) {
-        if (sMaterialItems != null && sMalshabItems.size() > 0) callBack.onDataReady(sMaterialItems, null);
+        if (sMaterialItems != null && sMalshabItems.size() > 0)
+            callBack.onDataReady(sMaterialItems, null);
         else initMaterialItems(context, callBack);
     }
 
     public void getMalshabItems(Context context, ContentProviderCallBack callBack) {
-        if (sMalshabItems != null && sMalshabItems.size() > 0) callBack.onDataReady(sMalshabItems, null);
+        if (sMalshabItems != null && sMalshabItems.size() > 0)
+            callBack.onDataReady(sMalshabItems, null);
         else initMalshabItems(context, callBack);
     }
 
     public void getSubscribedCourses(Context context, ContentProviderCallBack callBack) {
-        if (sSubscribedCourses != null && sSubscribedCourses.size() > 0) callBack.onDataReady(sSubscribedCourses, null);
+        if (sSubscribedCourses != null && sSubscribedCourses.size() > 0)
+            callBack.onDataReady(sSubscribedCourses, null);
         else initSubscribedCourses(context, callBack);
     }
 
     public void getViewPagerCourses(Context context, ContentProviderCallBack callBack) {
-        if (sViewPagerCourses != null && sViewPagerCourses.size() > 0) callBack.onDataReady(sViewPagerCourses, null);
+        if (sViewPagerCourses != null && sViewPagerCourses.size() > 0)
+            callBack.onDataReady(sViewPagerCourses, null);
         else initViewPagerCourses(context, callBack);
     }
 

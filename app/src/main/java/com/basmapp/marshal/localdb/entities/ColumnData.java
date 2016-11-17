@@ -79,7 +79,7 @@ public class ColumnData {
         if (options != null && options.length > 0) {
             String optionsString = "";
 
-            for(String option : options) {
+            for (String option : options) {
                 if (!optionsString.equals(""))
                     optionsString = optionsString + ",";
                 optionsString = optionsString + option;

@@ -22,7 +22,8 @@ public class Condition {
     private Object value;
     private Operator operator;
 
-    public Condition() {}
+    public Condition() {
+    }
 
     public Condition(String column, Object value, Operator operator) {
         this.column = column;

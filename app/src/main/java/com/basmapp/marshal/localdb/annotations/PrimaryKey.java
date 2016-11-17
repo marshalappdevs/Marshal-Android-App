@@ -9,6 +9,8 @@ import java.lang.annotation.Target;
 @Target(ElementType.FIELD)
 public @interface PrimaryKey {
     String columnName();
+
     boolean isAutoIncrement() default false;
+
     String[] options() default {};
 }

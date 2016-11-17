@@ -17,6 +17,7 @@ import com.basmapp.marshal.localdb.entities.Condition;
 import com.basmapp.marshal.localdb.entities.FkData;
 import com.basmapp.marshal.localdb.entities.PkData;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -69,9 +70,9 @@ public abstract class DBObject {
         if (value instanceof String)
             return prepareStringForSql(String.valueOf(value));
         else if (value instanceof Boolean)
-            return (boolean)value ? 1 : 0;
+            return (boolean) value ? 1 : 0;
         else if (value instanceof Date)
-            return  ((Date) value).getTime();
+            return ((Date) value).getTime();
         else return null;
     }
 
@@ -337,8 +338,8 @@ public abstract class DBObject {
 
     private boolean isNullOrZero(Object object) {
         return object == null ||
-                object instanceof Integer && (int)object == 0 ||
-                object instanceof Long && (long)object == 0 ||
+                object instanceof Integer && (int) object == 0 ||
+                object instanceof Long && (long) object == 0 ||
                 object instanceof String && object.equals("");
     }
 
@@ -396,8 +397,8 @@ public abstract class DBObject {
     }
 
     public static List<Object> findAll(String orderByColumnName,
-                                      Context context,
-                                      Class<? extends DBObject> targetClass) throws Exception {
+                                       Context context,
+                                       Class<? extends DBObject> targetClass) throws Exception {
 
         List<Object> allObjects = new ArrayList<>();
 
@@ -454,10 +455,10 @@ public abstract class DBObject {
     }
 
     public static List<Object> findAllByColumn(String columnName,
-                                              Object value,
-                                              String orderByColumnName,
-                                              Context context,
-                                              Class<? extends DBObject> targetClass) throws Exception {
+                                               Object value,
+                                               String orderByColumnName,
+                                               Context context,
+                                               Class<? extends DBObject> targetClass) throws Exception {
         List<Object> allObjects = new ArrayList<>();
 
         if (value instanceof Boolean)
@@ -681,9 +682,9 @@ public abstract class DBObject {
     }
 
     public void findByIdInBackground(final Context context,
-                                    final boolean showProgressBar,
-                                    final long objectId,
-                                    final BackgroundTaskCallBack callBack) {
+                                     final boolean showProgressBar,
+                                     final long objectId,
+                                     final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
 
@@ -788,10 +789,10 @@ public abstract class DBObject {
     }
 
     public static void findAllInBackground(final String orderByColumn,
-                                          final Class<? extends DBObject> targetClass,
-                                          final Context context,
-                                          final boolean showProgressBar,
-                                          final BackgroundTaskCallBack callBack) {
+                                           final Class<? extends DBObject> targetClass,
+                                           final Context context,
+                                           final boolean showProgressBar,
+                                           final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
 
@@ -841,12 +842,12 @@ public abstract class DBObject {
     }
 
     public static void findByColumnInBackground(final boolean showProgressBar,
-                                               final String columnName,
-                                               final Object value,
-                                               final String orderByColumnName,
-                                               final Context context,
-                                               final Class<? extends DBObject> targetClass,
-                                               final BackgroundTaskCallBack callBack) {
+                                                final String columnName,
+                                                final Object value,
+                                                final String orderByColumnName,
+                                                final Context context,
+                                                final Class<? extends DBObject> targetClass,
+                                                final BackgroundTaskCallBack callBack) {
 
         new AsyncTask<Void, Void, String>() {
 
@@ -1156,7 +1157,7 @@ public abstract class DBObject {
             values = String.valueOf(getValueFromField(primaryKey.getField(), true));
         }
 
-        for(ColumnData columnData : mColumns) {
+        for (ColumnData columnData : mColumns) {
             if (values.equals("")) {
                 columns = columnData.getName();
                 Object value = getValueFromField(columnData.getField(), true);
@@ -1169,7 +1170,7 @@ public abstract class DBObject {
         }
 
         command = "INSERT INTO " + getTableName(this.getClass()) + "(" + columns + ") VALUES (" +
-        values + ");";
+                values + ");";
 
         return command;
     }
@@ -1191,7 +1192,7 @@ public abstract class DBObject {
         }
 
         if (setConditions == null || setConditions.length == 0) {
-            for(ColumnData columnData : mColumns) {
+            for (ColumnData columnData : mColumns) {
                 if (values.equals("")) {
                     values = columnData.getName() + " = " +
                             String.valueOf(getValueFromField(columnData.getField(), true));
@@ -1236,7 +1237,7 @@ public abstract class DBObject {
                 if (value instanceof String && prepareStringForCommand) {
                     value = prepareStringForSql((String) value);
                 } else if (value instanceof Boolean) {
-                    value = ((boolean)value ? 1 : 0);
+                    value = ((boolean) value ? 1 : 0);
                 } else if (value instanceof Date) {
                     value = ((Date) value).getTime();
                 }
@@ -1259,7 +1260,7 @@ public abstract class DBObject {
         for (ColumnData column : mColumns) {
             columns = columns + ",";
             columns = columns + column.getName() + " " + getColumnSQLiteType(column.getField()) +
-            " " + column.getOptionsString();
+                    " " + column.getOptionsString();
         }
 
         command = command + columns + ");";

@@ -46,8 +46,8 @@ public class FcmIntentService extends FirebaseMessagingService {
         if (type != null) {
             switch (type) {
                 case "commands":
-                    String[] commands = ((String)data.get("commands")).replace("\"","").replace("[","")
-                            .replace("]","").split(",");
+                    String[] commands = ((String) data.get("commands")).replace("\"", "").replace("[", "")
+                            .replace("]", "").split(",");
                     if (commands != null) {
                         executeCommands(commands);
                     }

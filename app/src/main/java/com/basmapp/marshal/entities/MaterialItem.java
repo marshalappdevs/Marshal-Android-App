@@ -32,7 +32,7 @@ public class MaterialItem extends DBObject implements Parcelable {
 
     @Expose
     @SerializedName("url")
-    @Column(name = COL_URL , options = {OPTION_UNIQUE})
+    @Column(name = COL_URL, options = {OPTION_UNIQUE})
     private String url;
 
     @Expose

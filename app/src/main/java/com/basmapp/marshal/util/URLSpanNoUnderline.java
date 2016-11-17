@@ -8,7 +8,8 @@ public class URLSpanNoUnderline extends URLSpan {
         super(url);
     }
 
-    @Override public void updateDrawState(TextPaint paint) {
+    @Override
+    public void updateDrawState(TextPaint paint) {
         super.updateDrawState(paint);
         paint.setUnderlineText(false);
     }

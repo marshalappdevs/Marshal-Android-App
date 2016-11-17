@@ -1,4 +1,5 @@
 package com.basmapp.marshal.util;
+
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -9,7 +10,7 @@ public class DateHelper {
 
     public static final String DATE_FORMAT = "dd/MM/yy";
 
-    public static Date stringToDate(String string){
+    public static Date stringToDate(String string) {
         if (string != null) {
             DateFormat format = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
             try {
@@ -34,7 +35,7 @@ public class DateHelper {
         } else return "";
     }
 
-    public static String getTimeStringFromDate(Date date){
+    public static String getTimeStringFromDate(Date date) {
         if (date != null) {
             DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
             String fullDateTime[] = dateFormat.format(date).split(" ");
@@ -42,7 +43,7 @@ public class DateHelper {
         } else return "";
     }
 
-    public static String getDateStringFromDate(Date date){
+    public static String getDateStringFromDate(Date date) {
         if (date != null) {
             DateFormat dateFormat = new SimpleDateFormat(DATE_FORMAT, Locale.getDefault());
             String fullDateTime[] = dateFormat.format(date).split(" ");
