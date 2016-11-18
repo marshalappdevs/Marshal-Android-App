@@ -52,7 +52,7 @@ import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
-import com.basmapp.marshal.localdb.SQLiteHelper;
+import com.basmapp.marshal.localdb.DatabaseHelper;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.services.UpdateIntentService;
@@ -213,7 +213,7 @@ public class MainActivity extends BaseActivity
         if (mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
                     mSharedPreferences.getInt(Constants.PREF_DATABASE_VERSION,
-                            SQLiteHelper.DATABASE_VERSION) < SQLiteHelper.DATABASE_VERSION) {
+                            DatabaseHelper.DATABASE_VERSION) < DatabaseHelper.DATABASE_VERSION) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
                 mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true).apply();
@@ -509,7 +509,7 @@ public class MainActivity extends BaseActivity
         // Set viewpager page to start when app is closed (4 if RTL, 0 if LTR)
         sLastCoursesViewPagerIndex = LocaleUtils.isRtl(getResources()) ? 4 : 0;
         // Close db if exist when app is closed
-        SQLiteHelper.closeIfExist();
+        DatabaseHelper.closeIfExist();
     }
 
 
