@@ -1,8 +1,6 @@
 package com.basmapp.marshal.ui;
 
 import android.annotation.SuppressLint;
-import android.content.ActivityNotFoundException;
-import android.content.ComponentName;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -840,33 +838,15 @@ public class CourseActivity extends BaseActivity {
         findViewById(R.id.course_activity_google_translate_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Bidi bidi = new Bidi(mTextViewGeneralDescription.getText().toString(),
-                        Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
-                callGoogleTranslate(mTextViewGeneralDescription.getText().toString(),
-                        (bidi.getBaseLevel() == 0) ? /* ltr */ "en" :  /* rtl */ "iw",
-                        (bidi.getBaseLevel() == 0) ?  /* ltr */ "iw" : /* rtl */ "en");
+                String text_input = mTextViewGeneralDescription.getText().toString();
+                Bidi bidi = new Bidi(text_input, Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
+                String language_from = (bidi.getBaseLevel() == 0) ? /* ltr */ "en" :  /* rtl */ "iw";
+                String language_to = (bidi.getBaseLevel() == 0) ?  /* ltr */ "iw" : /* rtl */ "en";
+                startActivity(new Intent(Intent.ACTION_VIEW,
+                        Uri.parse("https://translate.google.com/m/translate#"
+                                + language_from + "/" + language_to + "/" + text_input)));
             }
         });
-    }
-
-    private void callGoogleTranslate(String text, String fromLang, String toLang) {
-        try {
-            Intent intent = new Intent();
-            intent.setAction(Intent.ACTION_SEND);
-            intent.putExtra(Intent.EXTRA_TEXT, text);
-            intent.putExtra("key_text_input", text);
-            intent.putExtra("key_text_output", "");
-            intent.putExtra("key_language_from", fromLang);
-            intent.putExtra("key_language_to", toLang);
-            intent.putExtra("key_suggest_translation", "");
-            intent.putExtra("key_from_floating_window", false);
-            intent.setComponent(new ComponentName("com.google.android.apps.translate",
-                    "com.google.android.apps.translate.TranslateActivity"));
-            startActivity(intent);
-        } catch (ActivityNotFoundException e) {
-            Toast.makeText(CourseActivity.this, R.string.google_translate_not_installed, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.translate")));
-        }
     }
 
     private class SubscribeTask extends AsyncTask<Void, Void, Boolean> {
