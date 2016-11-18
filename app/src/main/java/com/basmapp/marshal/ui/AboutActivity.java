@@ -52,7 +52,7 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.logo_container).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.about_logo_image).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mTapCount == 7) {

@@ -18,6 +18,7 @@
     <color name="error_color">@color/quantum_red_A700</color>
     <color name="search_plate_hint_text_color">@color/material_light_hint_text</color>
     <color name="fab_icon_color">@color/primary_text_color_inverse</color>
+    <color name="ripple_color">@color/material_ripple_light</color>
     <color name="black_trans80">#33000000</color>
     <color name="light_gray">#DDDDDD</color>
     <color name="url_color">#AA000000</color>

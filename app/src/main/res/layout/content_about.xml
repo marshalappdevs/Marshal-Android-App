@@ -15,21 +15,13 @@
         android:orientation="vertical"
         android:padding="16dp">
 
-        <FrameLayout
-            android:id="@+id/logo_container"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
-            android:background="?attr/selectableItemBackgroundBorderless"
-            android:padding="8dp">
-
-            <ImageView
-                android:id="@+id/about_logo_image"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:contentDescription="@null"
-                android:src="@mipmap/ic_launcher" />
-        </FrameLayout>
+        <ImageView
+            android:id="@+id/about_logo_image"
+            android:layout_width="72dp"
+            android:layout_height="72dp"
+            android:foreground="@drawable/app_icon_ripple"
+            android:contentDescription="@null"
+            android:src="@mipmap/ic_launcher" />
 
         <LinearLayout
             android:layout_width="match_parent"

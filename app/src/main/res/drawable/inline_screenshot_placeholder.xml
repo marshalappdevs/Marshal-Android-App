@@ -1,11 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
-<layer-list xmlns:android="http://schemas.android.com/apk/res/android">
+<selector xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:state_pressed="true">
+        <shape>
+            <solid android:color="@color/ripple_color" />
+            <stroke android:width="0.2dp" android:color="@color/light_gray" />
+        </shape>
+    </item>
     <item>
         <shape android:shape="rectangle">
             <solid android:color="@color/placeholder_background" />
-            <stroke
-                android:width="0.2dp"
-                android:color="@color/light_gray" />
+            <stroke android:width="0.2dp" android:color="@color/light_gray" />
         </shape>
     </item>
-</layer-list>
+</selector>
+

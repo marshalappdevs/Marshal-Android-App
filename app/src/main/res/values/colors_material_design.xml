@@ -19,11 +19,14 @@
     <color name="material_light_active_icon">#8A000000</color>
     <!-- 26% -->
     <color name="material_light_inactive_icon">#42000000</color>
+    <!-- 12% -->
+    <color name="material_ripple_light">#1F000000</color>
     <!-- Themes -->
     <color name="material_light_status_bar">@color/quantum_grey_300</color>
     <color name="material_light_appbar">@color/quantum_grey_100</color>
     <color name="material_light_background">@color/quantum_grey_50</color>
     <color name="material_light_cards_and_dialogs">@color/quantum_white_100</color>
+    <color name="material_button_dark">#5A595B</color>
 
     <!-- Text -->
     <!-- 100% -->
@@ -40,6 +43,8 @@
     <color name="material_dark_active_icon">#FFFFFF</color>
     <!-- 30% -->
     <color name="material_dark_inactive_icon">#4D000000</color>
+    <!-- 20% -->
+    <color name="material_ripple_dark">#33FFFFFF</color>
     <!-- Themes -->
     <color name="material_dark_status_bar">@color/quantum_black_100</color>
     <color name="material_dark_appbar">@color/quantum_grey_900</color>
