@@ -50,6 +50,8 @@
     public ** writeValueAsString(**);
 }
 
+-keepnames class com.fasterxml.jackson.** { *; }
+
 -keepattributes *Annotation*,Signature,Exceptions
 
 -keepclasseswithmembers class * {

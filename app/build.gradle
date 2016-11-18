@@ -46,7 +46,7 @@ android {
 }
 
 ext.servicesLibVersion = '9.8.0'
-ext.supportLibVersion = '25.0.0'
+ext.supportLibVersion = '25.0.1'
 
 dependencies {
     compile fileTree(include: ['*.jar'], dir: 'libs')
