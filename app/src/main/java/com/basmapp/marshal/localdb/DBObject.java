@@ -275,7 +275,7 @@ public abstract class DBObject {
     public void create() throws Exception {
         try {
             ContentValues values = getContentValues();
-            long objectId = SQLiteHelper.getDatabaseWritableInstance(mContext).insertOrThrow(tableName, null, values);
+            long objectId = DatabaseHelper.getWritableDatabaseInstance(mContext).insertOrThrow(tableName, null, values);
             setObjectId(objectId);
             createOrUpdateForeignKeys();
         } catch (Exception e) {
@@ -291,7 +291,7 @@ public abstract class DBObject {
             ContentValues values = getContentValues();
             Object id = getObjectId();
             if (id != null && id instanceof String) id = "'" + id + "'";
-            SQLiteHelper.getDatabaseWritableInstance(mContext).update(tableName, values, primaryKey.getName() + " = " + id, null);
+            DatabaseHelper.getWritableDatabaseInstance(mContext).update(tableName, values, primaryKey.getName() + " = " + id, null);
             createOrUpdateForeignKeys();
         } catch (Exception e) {
             e.printStackTrace();
@@ -344,7 +344,7 @@ public abstract class DBObject {
     }
 
     public void findById(Object id, Context context) throws Exception {
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(tableName,
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).query(tableName,
                 null, primaryKey.getName() + " = " + prepareValueForSql(id), null,
                 null, null, null);
         cursor.moveToFirst();
@@ -361,12 +361,12 @@ public abstract class DBObject {
     public void delete() throws Exception {
         Object id = getObjectId();
         if (id != null && id instanceof String) id = "'" + id + "'";
-        SQLiteHelper.getDatabaseWritableInstance(mContext).delete(tableName, primaryKey.getName() + " = " + id, null);
+        DatabaseHelper.getWritableDatabaseInstance(mContext).delete(tableName, primaryKey.getName() + " = " + id, null);
     }
 
     private static int count(Context context, Class<? extends DBObject> targetClass) throws Exception {
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass);
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).rawQuery(query, null);
         int count = cursor.getInt(0);
         cursor.close();
         return count;
@@ -377,7 +377,7 @@ public abstract class DBObject {
         if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT COUNT(*) FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).rawQuery(query, null);
         cursor.moveToFirst();
         int count = cursor.getInt(0);
         cursor.close();
@@ -389,7 +389,7 @@ public abstract class DBObject {
         if (filterValue instanceof String) filterValue = "'" + filterValue + "'";
         String query = "SELECT AVG(" + avgColumn + ") FROM " + getTableName(targetClass) +
                 " WHERE " + filterColumn + "=" + filterValue;
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).rawQuery(query, null);
         cursor.moveToFirst();
         float average = cursor.getFloat(0);
         cursor.close();
@@ -402,7 +402,7 @@ public abstract class DBObject {
 
         List<Object> allObjects = new ArrayList<>();
 
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).query(getTableName(targetClass),
                 null, null, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
@@ -437,7 +437,7 @@ public abstract class DBObject {
         else if (filterValue instanceof String)
             filterValue = "'" + filterValue + "'";
 
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).query(getTableName(targetClass),
                 null, filterColumnName + " = " + filterValue, null, null, null, null);
 
         cursor.moveToFirst();
@@ -465,7 +465,7 @@ public abstract class DBObject {
             value = (boolean) value ? 1 : 0;
         else if (value instanceof String)
             value = "'" + value + "'";
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass),
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).query(getTableName(targetClass),
                 null, columnName + " = " + value, null, null, null, orderByColumnName);
 
         cursor.moveToFirst();
@@ -506,7 +506,7 @@ public abstract class DBObject {
             }
         }
 
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).query(getTableName(targetClass), null,
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).query(getTableName(targetClass), null,
                 whereColumnsWithQuestionMark, whereArgs, null, null, orderByColumn);
 
         cursor.moveToFirst();
@@ -1112,7 +1112,7 @@ public abstract class DBObject {
     public static List<Object> rawQuery(Context context, String query, Class<? extends DBObject> targetClass) throws Exception {
         List<Object> allObjects = new ArrayList<>();
 
-        Cursor cursor = SQLiteHelper.getDatabaseWritableInstance(context).rawQuery(query, null);
+        Cursor cursor = DatabaseHelper.getWritableDatabaseInstance(context).rawQuery(query, null);
 
         cursor.moveToFirst();
         if (cursor.getCount() > 0) {

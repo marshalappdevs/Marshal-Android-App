@@ -18,7 +18,7 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
-import com.basmapp.marshal.localdb.SQLiteHelper;
+import com.basmapp.marshal.localdb.DatabaseHelper;
 import com.basmapp.marshal.localdb.entities.Condition;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
@@ -167,7 +167,7 @@ public class UpdateIntentService extends IntentService {
 
         isRunning = true;
         boolean result = false;
-        SQLiteDatabase database = SQLiteHelper.getDatabaseWritableInstance(this);
+        SQLiteDatabase database = DatabaseHelper.getWritableDatabaseInstance(this);
 
         List<Course> newCourses = new ArrayList<>();
         List<MaterialItem> newMaterials;

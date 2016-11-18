@@ -13,34 +13,34 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 
-public class SQLiteHelper extends SQLiteOpenHelper {
+public class DatabaseHelper extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "marshal_local_db";
-    public static final int DATABASE_VERSION = 4;
+    public static final int DATABASE_VERSION = 5;
 
-    private static SQLiteHelper helperInstance;
+    private static DatabaseHelper helperInstance;
     private static SQLiteDatabase databaseInstance;
 
     private Context context;
 
-    private SQLiteHelper(Context context) {
+    private DatabaseHelper(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
-    public SQLiteHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
+    public DatabaseHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
         this.context = context;
     }
 
-    static SQLiteHelper getHelperInstance(Context context) {
+    static DatabaseHelper getHelperInstance(Context context) {
         if (helperInstance == null)
-            helperInstance = new SQLiteHelper(context.getApplicationContext());
+            helperInstance = new DatabaseHelper(context.getApplicationContext());
 
         return helperInstance;
     }
 
-    public static SQLiteDatabase getDatabaseWritableInstance(Context context) {
+    public static SQLiteDatabase getWritableDatabaseInstance(Context context) {
         if (databaseInstance == null || (!databaseInstance.isOpen())) {
             databaseInstance = getHelperInstance(context).getWritableDatabase();
         }
