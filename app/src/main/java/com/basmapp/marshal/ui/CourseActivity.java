@@ -843,8 +843,8 @@ public class CourseActivity extends BaseActivity {
                 Bidi bidi = new Bidi(mTextViewGeneralDescription.getText().toString(),
                         Bidi.DIRECTION_DEFAULT_LEFT_TO_RIGHT);
                 callGoogleTranslate(mTextViewGeneralDescription.getText().toString(),
-                        (bidi.getBaseLevel() == 0) ? "en" : "iw",
-                        (bidi.getBaseLevel() == 0) ? "iw" : "en");
+                        (bidi.getBaseLevel() == 0) ? /* ltr */ "en" :  /* rtl */ "iw",
+                        (bidi.getBaseLevel() == 0) ?  /* ltr */ "iw" : /* rtl */ "en");
             }
         });
     }
@@ -865,8 +865,7 @@ public class CourseActivity extends BaseActivity {
             startActivity(intent);
         } catch (ActivityNotFoundException e) {
             Toast.makeText(CourseActivity.this, R.string.google_translate_not_installed, Toast.LENGTH_SHORT).show();
-            startActivity(new Intent(Intent.ACTION_VIEW)
-                    .setData(Uri.parse("https://play.google.com/store/apps/details?id=com.google.android.apps.translate")));
+            startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse("market://details?id=com.google.android.apps.translate")));
         }
     }
 
