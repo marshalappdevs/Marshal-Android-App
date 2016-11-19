@@ -62,8 +62,7 @@ public class AboutActivity extends BaseActivity {
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AboutActivity.this);
                     boolean debugMode = sharedPreferences.getBoolean(Constants.PREF_DEBUG_MODE, false);
                     sharedPreferences.edit().putBoolean(Constants.PREF_DEBUG_MODE, !debugMode).apply();
-                    Toast.makeText(AboutActivity.this, sharedPreferences.getBoolean(Constants.PREF_DEBUG_MODE, false)
-                            ? "Debug mode." : "Release mode.", Toast.LENGTH_LONG).show();
+                    Toast.makeText(AboutActivity.this, !debugMode ? "Debug mode." : "Release mode.", Toast.LENGTH_LONG).show();
 //                    Toast.makeText(AboutActivity.this, "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
                 }
