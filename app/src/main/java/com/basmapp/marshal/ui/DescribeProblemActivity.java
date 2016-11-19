@@ -19,6 +19,7 @@ import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -46,6 +47,7 @@ public class DescribeProblemActivity extends BaseActivity {
     private int PICK_IMAGE_REQUEST;
     private ArrayList<Uri> attachments = new ArrayList<>();
     private EditText mDescription;
+    private CheckBox mLogsCheckBox;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -68,6 +70,7 @@ public class DescribeProblemActivity extends BaseActivity {
         });
 
         mDescription = (EditText) findViewById(R.id.describe_problem_description);
+        mLogsCheckBox = (CheckBox) findViewById(R.id.describe_problem_include_logs);
 
         for (int i = 0; i < screenshots.length; i++) {
             screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
@@ -117,21 +120,24 @@ public class DescribeProblemActivity extends BaseActivity {
     private void sendEmail() {
         int length = mDescription.getText().toString().trim().getBytes().length;
         if (length > 10) {
-            Calendar now = Calendar.getInstance();
-            // Create debug info text file and set file name to current date and time
-            String filename = String.format(Locale.getDefault(),
-                    "marshal_%02d%02d%04d_%02d%02d%02d.log",
-                    now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
-                    now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
-                    now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
-            File tempFile = new File(getBaseContext().getExternalCacheDir() + File.separator + filename + ".txt");
-            try {
-                FileWriter writer = new FileWriter(tempFile);
-                writer.write(debugInfo());
-                writer.close();
-                attachments.add(Uri.fromFile(tempFile));
-            } catch (IOException e) {
-                e.printStackTrace();
+            if (mLogsCheckBox.isChecked()) {
+                // Create debug info text file and set file name to current date and time
+                Calendar now = Calendar.getInstance();
+                String filename = String.format(Locale.getDefault(),
+                        "marshal_%02d%02d%04d_%02d%02d%02d.log",
+                        now.get(Calendar.DAY_OF_MONTH), now.get(Calendar.MONTH) + 1,
+                        now.get(Calendar.YEAR), now.get(Calendar.HOUR_OF_DAY),
+                        now.get(Calendar.MINUTE), now.get(Calendar.SECOND));
+                File tempFile = new File(getBaseContext().getExternalCacheDir()
+                        + File.separator + filename + ".txt");
+                try {
+                    FileWriter writer = new FileWriter(tempFile);
+                    writer.write(debugInfo());
+                    writer.close();
+                    attachments.add(Uri.fromFile(tempFile));
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
 
             List<Intent> intentShareList = new ArrayList<>();

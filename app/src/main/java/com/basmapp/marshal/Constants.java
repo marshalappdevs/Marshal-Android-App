@@ -2,7 +2,8 @@ package com.basmapp.marshal;
 
 public class Constants {
 
-    public static boolean DebugMode = false;
+    public static final String LOG_TAG = "BasmApp";
+    public static boolean DEBUG_MODE = false;
 
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";

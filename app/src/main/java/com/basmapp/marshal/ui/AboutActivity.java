@@ -57,8 +57,8 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (mTapCount == 7) {
-                    Constants.DebugMode = !Constants.DebugMode;
-                    Toast.makeText(AboutActivity.this, Constants.DebugMode ? "Debug mode." : "Release mode.",
+                    Constants.DEBUG_MODE = !Constants.DEBUG_MODE;
+                    Toast.makeText(AboutActivity.this, Constants.DEBUG_MODE ? "Debug mode." : "Release mode.",
                             Toast.LENGTH_LONG).show();
 //                    Toast.makeText(AboutActivity.this, "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
