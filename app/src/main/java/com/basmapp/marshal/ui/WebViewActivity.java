@@ -38,12 +38,12 @@ public class WebViewActivity extends BaseActivity {
             }
         });
 
-        CharSequence title = getIntent().getCharSequenceExtra(Constants.EXTRA_FORM_TITLE);
+        CharSequence title = getIntent().getCharSequenceExtra(Constants.EXTRA_WEB_VIEW_TITLE);
         if (title != null) {
-            setTitle(getString(R.string.details_secondary_action_google_form) + ": " + title);
+            setTitle(title);
         }
 
-        String url = getIntent().getStringExtra(Constants.EXTRA_FORM_URL);
+        String url = getIntent().getStringExtra(Constants.EXTRA_WEB_VIEW_URL);
         if (url == null) {
             finish();
             return;
@@ -72,8 +72,8 @@ public class WebViewActivity extends BaseActivity {
 
     public static Intent intent(@NonNull Context context, @NonNull String str, CharSequence charSequence) {
         Intent intent = new Intent(context, WebViewActivity.class);
-        intent.putExtra(Constants.EXTRA_FORM_URL, str);
-        intent.putExtra(Constants.EXTRA_FORM_TITLE, charSequence);
+        intent.putExtra(Constants.EXTRA_WEB_VIEW_URL, str);
+        intent.putExtra(Constants.EXTRA_WEB_VIEW_TITLE, charSequence);
         return intent;
     }
 }

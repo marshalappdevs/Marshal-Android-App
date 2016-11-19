@@ -72,6 +72,17 @@ public class DescribeProblemActivity extends BaseActivity {
         mDescription = (EditText) findViewById(R.id.describe_problem_description);
         mLogsCheckBox = (CheckBox) findViewById(R.id.describe_problem_include_logs);
 
+//        Button faq = (Button) findViewById(R.id.describe_problem_help);
+//        faq.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Intent intent = new Intent(DescribeProblemActivity.this, WebViewActivity.class);
+//                intent.putExtra(Constants.EXTRA_WEB_VIEW_TITLE, getString(R.string.faq));
+//                intent.putExtra(Constants.EXTRA_WEB_VIEW_URL, "file:///android_asset/frequently_asked_questions.html");
+//                startActivity(intent);
+//            }
+//        });
+
         for (int i = 0; i < screenshots.length; i++) {
             screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
             screenshots[i].setOnClickListener(new screenshotClickListener(i));

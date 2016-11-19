@@ -129,7 +129,8 @@
     <string name="describe_problem_description">בבקשה תאר/י את הבעיה שנתקלת בה</string>
     <string name="describe_problem_description_further">אנא תאר את הבעיה בפירוט.</string>
     <string name="describe_problem_include_logs">הוסף יומני ניפוי באגים</string>
-    <string name="faq">כבר קראת את השאלות הנפוצות?</string>
+    <string name="describe_problem_faq">כבר קראת את השאלות הנפוצות?</string>
+    <string name="faq">שאלות נפוצות</string>
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>

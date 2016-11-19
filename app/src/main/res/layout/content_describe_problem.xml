@@ -51,7 +51,7 @@
                     android:layout_gravity="center"
                     android:layout_marginBottom="16dp"
                     android:layout_marginTop="4dp"
-                    android:text="@string/faq"
+                    android:text="@string/describe_problem_faq"
                     android:textStyle="bold"
                     android:visibility="gone" />
             </LinearLayout>

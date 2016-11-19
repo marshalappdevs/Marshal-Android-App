@@ -3,7 +3,6 @@ package com.basmapp.marshal;
 public class Constants {
 
     public static final String LOG_TAG = "BasmApp";
-    public static boolean DEBUG_MODE = false;
 
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
@@ -34,6 +33,7 @@ public class Constants {
     public static final String PREF_FCM_CHANNELS_ENTRIES = "pref_fcm_channels_entries";
     public static final String PREF_DATABASE_VERSION = "pref_database_version";
     public static final String PREF_RESTART_UI_AFTER_UPDATE = "pref_restart_ui_after_update";
+    public static final String PREF_DEBUG_MODE = "pref_debug_mode";
 
     public static final String SHOW_FILTER_TAP_TARGET = "show_filter_tap_target";
     public static final String SHOW_CYCLE_FAB_TAP_TARGET = "show_cycle_fab_tap_target";
@@ -55,8 +55,8 @@ public class Constants {
     public static final String EXTRA_USER_RATING = "extra_rating";
     public static final String EXTRA_CONTENT_COLOR = "extra_content_color";
     public static final String EXTRA_IS_EDIT_MODE = "extra_is_edit_mode";
-    public static final String EXTRA_FORM_URL = "extra_form_url";
-    public static final String EXTRA_FORM_TITLE = "extra_form_title";
+    public static final String EXTRA_WEB_VIEW_URL = "extra_web_view_url";
+    public static final String EXTRA_WEB_VIEW_TITLE = "extra_web_view_title";
 
     // Fragment Tags
     public static final String FRAGMENT_PRIMARY_COLOR_PICKER = "primary_color_picker";

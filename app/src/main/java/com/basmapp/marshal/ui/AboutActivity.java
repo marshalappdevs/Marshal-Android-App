@@ -1,9 +1,11 @@
 package com.basmapp.marshal.ui;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
@@ -57,9 +59,11 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (mTapCount == 7) {
-                    Constants.DEBUG_MODE = !Constants.DEBUG_MODE;
-                    Toast.makeText(AboutActivity.this, Constants.DEBUG_MODE ? "Debug mode." : "Release mode.",
-                            Toast.LENGTH_LONG).show();
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AboutActivity.this);
+                    boolean debugMode = sharedPreferences.getBoolean(Constants.PREF_DEBUG_MODE, false);
+                    sharedPreferences.edit().putBoolean(Constants.PREF_DEBUG_MODE, !debugMode).apply();
+                    Toast.makeText(AboutActivity.this, sharedPreferences.getBoolean(Constants.PREF_DEBUG_MODE, false)
+                            ? "Debug mode." : "Release mode.", Toast.LENGTH_LONG).show();
 //                    Toast.makeText(AboutActivity.this, "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
                 }
