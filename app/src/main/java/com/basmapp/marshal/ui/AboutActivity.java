@@ -5,7 +5,6 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.Snackbar;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -17,9 +16,11 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
+import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.util.LocaleUtils;
 import com.basmapp.marshal.util.URLSpanNoUnderline;
@@ -56,10 +57,10 @@ public class AboutActivity extends BaseActivity {
             @Override
             public void onClick(View view) {
                 if (mTapCount == 7) {
-                    Snackbar snackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), "Easter Egg!!! " + ("\ud83d\udc83"), Snackbar.LENGTH_LONG);
-                    TextView textView = (TextView) snackbar.getView().findViewById(android.support.design.R.id.snackbar_text);
-                    textView.setTextAlignment(View.TEXT_ALIGNMENT_CENTER);
-                    snackbar.show();
+                    Constants.DebugMode = !Constants.DebugMode;
+                    Toast.makeText(AboutActivity.this, Constants.DebugMode ? "Debug mode." : "Release mode.",
+                            Toast.LENGTH_LONG).show();
+//                    Toast.makeText(AboutActivity.this, "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
                 }
                 mTapCount++;

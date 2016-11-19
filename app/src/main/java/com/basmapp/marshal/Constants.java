@@ -2,6 +2,8 @@ package com.basmapp.marshal;
 
 public class Constants {
 
+    public static boolean DebugMode = false;
+
     // Preferences Keys
     public static final String PREF_SHOW_WARM_WELCOME = "pref_show_warm_welcome";
     public static final String PREF_IS_FIRST_RUN = "pref_is_first_run";
