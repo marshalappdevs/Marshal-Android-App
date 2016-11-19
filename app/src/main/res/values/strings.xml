@@ -130,7 +130,7 @@
     <string name="describe_problem_screenshots">Add screenshots (optional):</string>
     <string name="describe_problem_description">Please describe your problem</string>
     <string name="describe_problem_description_further">Please further describe your problem.</string>
-    <string name="describe_problem_include_logs">Include logs</string>
+    <string name="describe_problem_include_logs">Include debug logs</string>
     <string name="faq">Have you read our FAQ yet?</string>
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
