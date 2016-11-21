@@ -1,0 +1,24 @@
+<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/course_searchable_cardView"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:clickable="true"
+    android:focusable="true"
+    android:foreground="?attr/selectableItemBackground"
+    android:paddingBottom="0dp"
+    android:paddingEnd="0dp"
+    android:paddingStart="0dp"
+    android:paddingTop="8dp"
+    app:cardCornerRadius="0dp"
+    app:cardElevation="0dp">
+
+    <include layout="@layout/card_wide_content" />
+
+    <View
+        android:id="@+id/li_separator"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/divider_color" />
+</android.support.v7.widget.CardView>

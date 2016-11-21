@@ -1,4 +1,4 @@
-package com.basmapp.marshal.ui.utils;
+package com.basmapp.marshal.util;
 
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -15,7 +15,6 @@ import android.support.v4.app.NotificationCompat;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.util.ThemeUtils;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -24,21 +23,20 @@ import java.net.URL;
 
 public class NotificationUtils {
 
-    SharedPreferences mSharedPreferences;
-    Context mContext;
+    private SharedPreferences mSharedPreferences;
+    private Context mContext;
 
     public NotificationUtils(Context context) {
         this.mContext = context;
         this.mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
     }
 
-    public int getLightColor() {
-        int lightColor = Color.parseColor(mSharedPreferences
+    private int getLightColor() {
+        return Color.parseColor(mSharedPreferences
                 .getString(Constants.PREF_NOTIFICATIONS_COLOR, "#FFFFFF"));
-        return lightColor;
     }
 
-    public long[] getVibrate() {
+    private long[] getVibrate() {
         long[] vibrate = new long[]{0};
         if (mSharedPreferences.getBoolean(Constants.PREF_NOTIFICATIONS_NEW_MESSAGE_VIBRATE, false)) {
             vibrate = new long[]{0, 1000};
@@ -47,7 +45,7 @@ public class NotificationUtils {
         return vibrate;
     }
 
-    public Uri getRingtoneUri() {
+    private Uri getRingtoneUri() {
         String ringtonePref = mSharedPreferences.getString(Constants.PREF_NOTIFICATIONS_NEW_RINGTONE, null);
         Uri ringtoneUri;
         if (ringtonePref != null) {

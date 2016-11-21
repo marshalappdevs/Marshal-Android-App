@@ -9,7 +9,7 @@ import android.preference.PreferenceManager;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.ui.MainActivity;
-import com.basmapp.marshal.ui.utils.NotificationUtils;
+import com.basmapp.marshal.util.NotificationUtils;
 import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.messaging.RemoteMessage;
 

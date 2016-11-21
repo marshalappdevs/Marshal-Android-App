@@ -81,7 +81,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     if (navigationBar != null)
                         pairs.add(Pair.create(navigationBar, Window.NAVIGATION_BAR_BACKGROUND_TRANSITION_NAME));
                 }
-                pairs.add(Pair.create(view.findViewById(R.id.course_searchable_imageView), mContext.getString(R.string.transition_header_image)));
+                pairs.add(Pair.create(view.findViewById(R.id.course_wide_thumbnail), mContext.getString(R.string.transition_header_image)));
                 ActivityOptionsCompat options = ActivityOptionsCompat.makeSceneTransitionAnimation((Activity) mContext, pairs.toArray(new Pair[pairs.size()]));
                 SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(mContext);
                 sharedPreferences.edit().putBoolean(Constants.PREF_COURSE_ACTIVITY_STARTED_SHARED, true).apply();
@@ -142,8 +142,8 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         }
 
         // Set course rating
-        holder.courseRating.setVisibility(View.GONE);
-        holder.starIcon.setVisibility(View.GONE);
+        holder.courseRatingText.setVisibility(View.GONE);
+        holder.courseRatingIcon.setVisibility(View.GONE);
 
         Rating.getAverageByColumnInBackground(Rating.class, mContext, false,
                 Rating.COL_RATING, Rating.COL_COURSE_ID, mCourses.get(position).getCourseID(),
@@ -152,12 +152,12 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                     public void onSuccess(String result, List<Object> data) {
                         try {
                             if ((Float) data.get(0) > 0) {
-                                holder.starIcon.setVisibility(View.VISIBLE);
-                                holder.courseRating.setVisibility(View.VISIBLE);
-                                holder.courseRating.setText(String.valueOf(data.get(0)).substring(0, 3));
+                                holder.courseRatingIcon.setVisibility(View.VISIBLE);
+                                holder.courseRatingText.setVisibility(View.VISIBLE);
+                                holder.courseRatingText.setText(String.valueOf(data.get(0)).substring(0, 3));
                             } else {
-                                holder.courseRating.setVisibility(View.GONE);
-                                holder.starIcon.setVisibility(View.GONE);
+                                holder.courseRatingText.setVisibility(View.GONE);
+                                holder.courseRatingIcon.setVisibility(View.GONE);
                             }
 
                         } catch (Exception e) {
@@ -311,21 +311,21 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
         TextView moocFlag;
         TextView courseName;
         TextView courseStartDateTime;
-        TextView courseRating;
+        TextView courseRatingText;
         TextView courseCategory;
-        ImageView starIcon;
+        ImageView courseRatingIcon;
 
         CourseVH(View itemView) {
             super(itemView);
 
             cardView = (CardView) itemView.findViewById(R.id.course_searchable_cardView);
-            courseImage = (ImageView) itemView.findViewById(R.id.course_searchable_imageView);
-            moocFlag = (TextView) itemView.findViewById(R.id.mooc_flag);
-            courseName = (TextView) itemView.findViewById(R.id.course_searchable_title);
-            courseStartDateTime = (TextView) itemView.findViewById(R.id.course_searchable_subTitle);
-            courseRating = (TextView) itemView.findViewById(R.id.course_searchable_rating);
-            starIcon = (ImageView) itemView.findViewById(R.id.course_searchable_ratingIcon);
-            courseCategory = (TextView) itemView.findViewById(R.id.course_searchable_category);
+            courseImage = (ImageView) itemView.findViewById(R.id.course_wide_thumbnail);
+            moocFlag = (TextView) itemView.findViewById(R.id.course_wide_mooc_badge);
+            courseName = (TextView) itemView.findViewById(R.id.course_wide_title);
+            courseStartDateTime = (TextView) itemView.findViewById(R.id.course_wide_subtitle);
+            courseRatingText = (TextView) itemView.findViewById(R.id.course_wide_rating_text);
+            courseRatingIcon = (ImageView) itemView.findViewById(R.id.course_wide_rating_icon);
+            courseCategory = (TextView) itemView.findViewById(R.id.course_wide_category);
         }
     }
 }

@@ -14,7 +14,8 @@
     <color name="search_plate_hint_text_color">@color/material_dark_hint_text</color>
     <color name="ripple_color">@color/material_ripple_dark</color>
     <color name="url_color">#AAFFFFFF</color>
-    <color name="star_color">#EFEFEF</color>
+    <color name="star_color">#BDBDBD</color>
+    <color name="star_bg_color">#70BDBDBD</color>
     <color name="user_color">#80FFFFFF</color>
     <color name="placeholder_background">#324248</color>
     <color name="materials_card_background">#08FFFFFF</color>
