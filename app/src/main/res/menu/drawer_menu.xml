@@ -37,8 +37,12 @@
             android:title="@string/navigation_drawer_settings" />
         <item
             android:id="@+id/nav_contact_us"
+            android:icon="@drawable/ic_drawer_contact_us"
+            android:title="@string/navigation_drawer_contact_us" />
+        <item
+            android:id="@+id/nav_describe_problem"
             android:icon="@drawable/ic_drawer_email"
-            android:title="@string/mail_subject" />
+            android:title="@string/navigation_drawer_describe_problem" />
         <item
             android:id="@+id/nav_about"
             android:icon="@drawable/ic_drawer_info"

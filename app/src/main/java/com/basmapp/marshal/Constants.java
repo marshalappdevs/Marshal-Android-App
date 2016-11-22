@@ -64,4 +64,5 @@ public class Constants {
     public static final String DIALOG_FRAGMENT_REVERT_THEME = "revert_theme_confirmation_dialog";
     public static final String DIALOG_FRAGMENT_FILTER_BY_DATE = "filter_search_by_date_dialog";
     public static final String DIALOG_FRAGMENT_GOOGLE_SIGN_OUT = "sign_out_google_account_dialog";
+    public static final String DIALOG_FRAGMENT_CONTACT_US = "contact_us_dialog";
 }

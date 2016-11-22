@@ -15,6 +15,7 @@
     <string name="navigation_drawer_malshab">Security Service Candidates</string>
     <string name="navigation_drawer_settings">Settings</string>
     <string name="navigation_drawer_contact_us">Contact Us</string>
+    <string name="navigation_drawer_describe_problem">@string/mail_subject</string>
     <string name="navigation_drawer_about">About Application</string>
     <string name="navigation_drawer_profile_sign_in">Sign in</string>
     <string name="navigation_drawer_profile_stranger">Hey stranger!</string>
@@ -159,14 +160,10 @@
     <string name="welcome_malshab_title">Information for security service candidates</string>
     <string name="welcome_malshab_subtitle">Read about the basic trainings that Basmach offers</string>
     <string name="regrettable_lack_of_easter_egg" translatable="false">¯\\_(ツ)_/¯</string>
-    <string name="clock_wrong">Your phone date is inaccurate! Adjust your clock and try again.</string>
-    <string name="clock_wrong_report_current_date_time">"Your phone date and time is:
-%1$s
-(%2$s)"</string>
-    <string name="clock_wrong_title">Date is inaccurate</string>
-    <string name="adjust_date">Adjust date</string>
     <string name="card_highlights_index" translatable="false">%1$s/%2$s</string>
     <string name="basmapp_copyright" translatable="false">©2016 Basmach</string>
+    <string name="no_hashtags">No Hashtags</string>
+    <string name="hours_of_operation">Hours of operation: %1$s</string>
 
     <!--Navigation view titles-->
     <string-array name="nav_titles">

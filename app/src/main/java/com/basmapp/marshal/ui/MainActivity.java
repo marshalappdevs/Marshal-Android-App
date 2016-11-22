@@ -31,6 +31,7 @@ import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -848,6 +849,38 @@ public class MainActivity extends BaseActivity
         return badge;
     }
 
+    public static class ContactUsDialog extends DialogFragment {
+        static ContactUsDialog newInstance() {
+            return new ContactUsDialog();
+        }
+
+        @Override
+        public void onCreate(Bundle savedInstanceState) {
+            super.onCreate(savedInstanceState);
+            setStyle(STYLE_NO_TITLE, 0);
+        }
+
+        @NonNull
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            LayoutInflater layoutInflater = LayoutInflater.from(getActivity());
+            View rootView = layoutInflater.inflate(R.layout.contact_us_dialog, null);
+            View tv = rootView.findViewById(R.id.contact_us_hours_of_operation);
+            ((TextView) tv).setText(String.format(getString(R.string.hours_of_operation), "08:30-16:00"));
+            final TextView number = (TextView) rootView.findViewById(R.id.contact_us_phone_number);
+            number.setText("03-6756020");
+            number.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(
+                            "tel:" + number.getText().toString().trim())));
+                    getDialog().dismiss();
+                }
+            });
+            return new AlertDialog.Builder(getActivity()).setView(rootView).create();
+        }
+    }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
@@ -908,6 +941,9 @@ public class MainActivity extends BaseActivity
                         R.anim.activity_open_exit);
             }
         } else if (id == R.id.nav_contact_us) {
+            new ContactUsDialog().show(getSupportFragmentManager(),
+                    Constants.DIALOG_FRAGMENT_CONTACT_US);
+        } else if (id == R.id.nav_describe_problem) {
             startActivity(new Intent(this, DescribeProblemActivity.class));
             if (LocaleUtils.isRtl(getResources())) {
                 overridePendingTransition(R.anim.activity_open_enter_rtl,
@@ -932,8 +968,8 @@ public class MainActivity extends BaseActivity
             signIn();
         }
         // Set title only to fragments
-        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_about
-                && id != R.id.account_sign_out && id != R.id.account_add) {
+        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.describe_problem_description
+                && id != R.id.nav_about && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
         }
         if (mDrawerLayout != null) mDrawerLayout.closeDrawer(GravityCompat.START);

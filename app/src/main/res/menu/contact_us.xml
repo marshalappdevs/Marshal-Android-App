@@ -4,6 +4,6 @@
     <item
         android:id="@+id/next"
         android:title=""
-        app:actionLayout="@layout/actionbar_text_button"
+        app:actionLayout="@layout/actionbar_next_button"
         app:showAsAction="always" />
 </menu>
