@@ -133,7 +133,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    Toast.makeText(mContext, "No tags", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(mContext, R.string.no_hashtags, Toast.LENGTH_SHORT).show();
                     return true;
                 }
             });

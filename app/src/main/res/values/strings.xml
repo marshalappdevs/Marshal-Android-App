@@ -162,7 +162,7 @@
     <string name="regrettable_lack_of_easter_egg" translatable="false">¯\\_(ツ)_/¯</string>
     <string name="card_highlights_index" translatable="false">%1$s/%2$s</string>
     <string name="basmapp_copyright" translatable="false">©2016 Basmach</string>
-    <string name="no_hashtags">No Hashtags</string>
+    <string name="no_hashtags">No hashtags</string>
     <string name="hours_of_operation">Hours of operation: %1$s</string>
 
     <!--Navigation view titles-->
