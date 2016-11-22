@@ -968,7 +968,7 @@ public class MainActivity extends BaseActivity
             signIn();
         }
         // Set title only to fragments
-        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.describe_problem_description
+        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_describe_problem
                 && id != R.id.nav_about && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
         }
