@@ -135,6 +135,7 @@
     <string name="describe_problem_include_logs">Include logs</string>
     <string name="describe_problem_faq">Have you read our FAQ yet?</string>
     <string name="faq">Frequently Asked Questions</string>
+    <string name="faq_helpful_question">Was this helpful?</string>
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>

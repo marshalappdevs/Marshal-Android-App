@@ -44,6 +44,8 @@ public class FaqActivity extends BaseActivity {
                         answerExpanded ? View.VISIBLE : View.GONE);
                 findViewById(R.id.faq_answer_image).setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
+//                findViewById(R.id.faq_form).setVisibility(
+//                        answerExpanded ? View.VISIBLE : View.GONE);
             }
         });
     }

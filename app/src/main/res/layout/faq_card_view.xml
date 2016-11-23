@@ -72,10 +72,52 @@
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
             android:contentDescription="@null"
-            android:duplicateParentState="true"
             android:scaleType="centerCrop"
             android:visibility="gone"
             app:srcCompat="@drawable/bg_default_profile_art" />
+
+        <LinearLayout
+            android:id="@+id/faq_form"
+            style="?android:buttonBarStyle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center"
+            android:layoutDirection="locale"
+            android:orientation="horizontal"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="2"
+                android:gravity="center_vertical"
+                android:text="@string/faq_helpful_question"
+                android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                android:textColor="?android:textColorSecondary"
+                android:textSize="16sp" />
+
+            <Button
+                android:id="@+id/faq_helpful_positive"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:text="@string/yes" />
+
+            <Button
+                android:id="@+id/faq_helpful_negative"
+                style="@style/Widget.AppCompat.Button.Borderless"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:lines="1"
+                android:text="@string/no" />
+        </LinearLayout>
     </LinearLayout>
 
 </android.support.v7.widget.CardView>
