@@ -930,7 +930,14 @@ public class MainActivity extends BaseActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
             menuItemNumber = 4;
         } else if (id == R.id.nav_faq) {
-            Toast.makeText(MainActivity.this, R.string.navigation_drawer_faq, Toast.LENGTH_LONG).show();
+            startActivity(new Intent(this, FaqActivity.class));
+            if (LocaleUtils.isRtl(getResources())) {
+                overridePendingTransition(R.anim.activity_open_enter_rtl,
+                        R.anim.activity_open_exit);
+            } else {
+                overridePendingTransition(R.anim.activity_open_enter,
+                        R.anim.activity_open_exit);
+            }
         } else if (id == R.id.nav_contact_us) {
             new ContactUsDialog().show(getSupportFragmentManager(),
                     Constants.DIALOG_FRAGMENT_CONTACT_US);
