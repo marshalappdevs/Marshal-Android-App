@@ -332,6 +332,7 @@ public class MainActivity extends BaseActivity
             // Show account menu
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, false);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, false);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
             if (signedIn && mGoogleApiClient.isConnected()) {
                 // Google account is signed in, show sign out option
                 mNavigationView.getMenu().findItem(R.id.account_sign_out).setVisible(true);
@@ -345,7 +346,8 @@ public class MainActivity extends BaseActivity
             // Show regular menu
             mNavigationView.getMenu().setGroupVisible(R.id.grp1, true);
             mNavigationView.getMenu().setGroupVisible(R.id.grp2, true);
-            mNavigationView.getMenu().setGroupVisible(R.id.grp3, false);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp3, true);
+            mNavigationView.getMenu().setGroupVisible(R.id.grp4, false);
         }
     }
 
@@ -850,10 +852,6 @@ public class MainActivity extends BaseActivity
     }
 
     public static class ContactUsDialog extends DialogFragment {
-        static ContactUsDialog newInstance() {
-            return new ContactUsDialog();
-        }
-
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
@@ -867,13 +865,13 @@ public class MainActivity extends BaseActivity
             View rootView = layoutInflater.inflate(R.layout.contact_us_dialog, null);
             View tv = rootView.findViewById(R.id.contact_us_hours_of_operation);
             ((TextView) tv).setText(String.format(getString(R.string.hours_of_operation), "08:30-16:00"));
-            final TextView number = (TextView) rootView.findViewById(R.id.contact_us_phone_number);
-            number.setText("03-6756020");
-            number.setOnClickListener(new View.OnClickListener() {
+            final String number = "03-6756020";
+            ((TextView) rootView.findViewById(R.id.contact_us_phone_number)).setText(number);
+            rootView.findViewById(R.id.contact_us_layout).setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(
-                            "tel:" + number.getText().toString().trim())));
+                            "tel:" + number.trim())));
                     getDialog().dismiss();
                 }
             });
@@ -931,6 +929,11 @@ public class MainActivity extends BaseActivity
                 mMalshabFragment = new MalshabFragment();
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
             menuItemNumber = 4;
+        } else if (id == R.id.nav_faq) {
+            Toast.makeText(MainActivity.this, R.string.navigation_drawer_faq, Toast.LENGTH_LONG).show();
+        } else if (id == R.id.nav_contact_us) {
+            new ContactUsDialog().show(getSupportFragmentManager(),
+                    Constants.DIALOG_FRAGMENT_CONTACT_US);
         } else if (id == R.id.nav_settings) {
             startActivity(new Intent(this, SettingsActivity.class));
             if (LocaleUtils.isRtl(getResources())) {
@@ -940,9 +943,6 @@ public class MainActivity extends BaseActivity
                 overridePendingTransition(R.anim.activity_open_enter,
                         R.anim.activity_open_exit);
             }
-        } else if (id == R.id.nav_contact_us) {
-            new ContactUsDialog().show(getSupportFragmentManager(),
-                    Constants.DIALOG_FRAGMENT_CONTACT_US);
         } else if (id == R.id.nav_describe_problem) {
             startActivity(new Intent(this, DescribeProblemActivity.class));
             if (LocaleUtils.isRtl(getResources())) {
@@ -968,7 +968,7 @@ public class MainActivity extends BaseActivity
             signIn();
         }
         // Set title only to fragments
-        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_describe_problem
+        if (id != R.id.nav_settings && id != R.id.nav_faq && id != R.id.nav_contact_us && id != R.id.nav_describe_problem
                 && id != R.id.nav_about && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
         }

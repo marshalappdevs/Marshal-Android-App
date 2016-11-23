@@ -14,6 +14,7 @@
     <string name="navigation_drawer_malshab">מידע למלש\"ב</string>
     <string name="navigation_drawer_settings">הגדרות</string>
     <string name="navigation_drawer_contact_us">צור קשר</string>
+    <string name="navigation_drawer_faq">שאלות נפוצות</string>
     <string name="navigation_drawer_describe_problem">@string/mail_subject</string>
     <string name="navigation_drawer_about">אודות האפליקציה</string>
     <string name="navigation_drawer_profile_sign_in">היכנס</string>

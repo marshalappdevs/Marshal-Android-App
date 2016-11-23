@@ -32,13 +32,20 @@
 
     <group android:id="@+id/grp2">
         <item
-            android:id="@+id/nav_settings"
-            android:icon="@drawable/ic_drawer_settings"
-            android:title="@string/navigation_drawer_settings" />
+            android:id="@+id/nav_faq"
+            android:icon="@drawable/ic_drawer_faq"
+            android:title="@string/navigation_drawer_faq" />
         <item
             android:id="@+id/nav_contact_us"
             android:icon="@drawable/ic_drawer_contact_us"
             android:title="@string/navigation_drawer_contact_us" />
+    </group>
+
+    <group android:id="@+id/grp3">
+        <item
+            android:id="@+id/nav_settings"
+            android:icon="@drawable/ic_drawer_settings"
+            android:title="@string/navigation_drawer_settings" />
         <item
             android:id="@+id/nav_describe_problem"
             android:icon="@drawable/ic_drawer_email"
@@ -50,7 +57,7 @@
     </group>
 
     <group
-        android:id="@+id/grp3"
+        android:id="@+id/grp4"
         android:checkableBehavior="none"
         android:visible="false">
         <item
