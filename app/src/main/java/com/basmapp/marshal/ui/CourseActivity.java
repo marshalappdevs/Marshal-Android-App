@@ -644,6 +644,11 @@ public class CourseActivity extends BaseActivity {
             String categoryLocaleTitle = LocaleUtils.getCategoryLocaleTitle(mCourse.getCategory(), this);
             if (categoryLocaleTitle != null)
                 mTextViewCourseCategory.setText(categoryLocaleTitle);
+            if (mCourse.getIsMooc()) {
+                mTextViewCourseMooc.setVisibility(View.VISIBLE);
+            } else {
+                mTextViewCourseMooc.setVisibility(View.GONE);
+            }
         } else {
             findViewById(R.id.course_content_relativeLayout_category).setVisibility(View.GONE);
         }
