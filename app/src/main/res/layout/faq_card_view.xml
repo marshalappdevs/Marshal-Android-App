@@ -18,6 +18,7 @@
         android:orientation="vertical">
 
         <LinearLayout
+            android:id="@+id/faq_question_container"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:minHeight="72dp"
@@ -39,7 +40,7 @@
                 android:visibility="visible" />
 
             <ImageButton
-                android:id="@+id/faq_expand_answer"
+                android:id="@+id/faq_expand_arrow"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_vertical"

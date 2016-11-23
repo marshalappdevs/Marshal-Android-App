@@ -34,11 +34,11 @@ public class FaqActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.faq_card).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.faq_question_container).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 answerExpanded = !answerExpanded;
-                ViewCompat.animate(findViewById(R.id.faq_expand_answer)).rotation(
+                ViewCompat.animate(findViewById(R.id.faq_expand_arrow)).rotation(
                         answerExpanded ? 180 : 0).start();
                 findViewById(R.id.faq_answer_text).setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
