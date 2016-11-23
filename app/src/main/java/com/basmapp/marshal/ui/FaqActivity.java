@@ -34,15 +34,15 @@ public class FaqActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.faq_expand_answer).setOnClickListener(new View.OnClickListener() {
+        findViewById(R.id.faq_card).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 answerExpanded = !answerExpanded;
                 ViewCompat.animate(findViewById(R.id.faq_expand_answer)).rotation(
                         answerExpanded ? 180 : 0).start();
-                findViewById(R.id.faq_answer).setVisibility(
+                findViewById(R.id.faq_answer_text).setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
-                findViewById(R.id.faq_image).setVisibility(
+                findViewById(R.id.faq_answer_image).setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
             }
         });
