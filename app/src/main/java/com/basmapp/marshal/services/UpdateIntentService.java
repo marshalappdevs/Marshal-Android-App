@@ -14,6 +14,7 @@ import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -172,16 +173,19 @@ public class UpdateIntentService extends IntentService {
         List<Course> newCourses = new ArrayList<>();
         List<MaterialItem> newMaterials;
         List<MalshabItem> newMalshabItems;
+        List<FaqItem> newFaqItems;
 
         database.beginTransaction();
         try {
             newCourses = MarshalServiceProvider.getInstance(token).getAllCourses().execute().body();
             newMaterials = MarshalServiceProvider.getInstance(token).getAllMaterials().execute().body();
             newMalshabItems = MarshalServiceProvider.getInstance(token).getAllMalshabItems().execute().body();
+            newFaqItems = MarshalServiceProvider.getInstance(token).getAllFaqItems().execute().body();
 
             List<Course> tempNewCourses = new ArrayList<>(newCourses);
             List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
             List<MalshabItem> tempNewMalshabItems = new ArrayList<>(newMalshabItems);
+            List<FaqItem> tempNewFaqItems = new ArrayList<>(newFaqItems);
 
             Condition conditionSetNotUpToDate = new Condition();
             conditionSetNotUpToDate.setOperator(Condition.Operator.EQUAL);
@@ -190,6 +194,40 @@ public class UpdateIntentService extends IntentService {
             // Clear database
             database.execSQL("DELETE FROM " + Cycle.TABLE_NAME);
             database.execSQL("DELETE FROM " + Rating.TABLE_NAME);
+
+            //////////////////////// Insert FAQ /////////////////////////////////
+
+            // Set all objects to be NOT Up To Date
+            conditionSetNotUpToDate.setColumn(FaqItem.COL_IS_UP_TO_DATE);
+            database.compileStatement(FaqItem.getUpdateCommand(FaqItem.TABLE_NAME,
+                    new Condition[]{conditionSetNotUpToDate}, null))
+                    .executeUpdateDelete();
+
+            // Update
+            for (FaqItem faqItem : tempNewFaqItems) {
+                List<FaqItem> dbResult = null;
+                try {
+                    dbResult = (List) FaqItem.findOne(FaqItem.COL_QUESTION, faqItem.getQuestion(), this, FaqItem.class);
+
+                    if (dbResult != null && dbResult.size() > 0) {
+                        newFaqItems.remove(faqItem);
+                        faqItem.setIsUpToDate(true);
+                        database.compileStatement(faqItem.getUpdateCommand(this, null, null)).execute();
+                    }
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+            // Delete
+            database.compileStatement(FaqItem.getDeleteCommand(FaqItem.TABLE_NAME,
+                    new Condition[]{new Condition(FaqItem.COL_IS_UP_TO_DATE, false, Condition.Operator.EQUAL)}))
+                    .executeUpdateDelete();
+
+            // Insert
+            for (FaqItem faqItem : newFaqItems) {
+                database.compileStatement(faqItem.getInsertCommand(this)).executeInsert();
+            }
 
             //////////////////////// Insert Materials /////////////////////////////////
 

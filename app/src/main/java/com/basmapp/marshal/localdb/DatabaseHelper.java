@@ -9,6 +9,7 @@ import android.preference.PreferenceManager;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
+import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
@@ -61,6 +62,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
             db.execSQL(new Course(context).getCreateTableCommand());
             db.execSQL(new Rating(context).getCreateTableCommand());
             db.execSQL(new MalshabItem(context).getCreateTableCommand());
+            db.execSQL(new FaqItem(context).getCreateTableCommand());
             initializePreferences();
         } catch (Exception e) {
             e.printStackTrace();
@@ -86,6 +88,7 @@ public class DatabaseHelper extends SQLiteOpenHelper {
         db.execSQL(Cycle.getDropTableIfExistCommand(Cycle.class));
         db.execSQL(Rating.getDropTableIfExistCommand(Rating.class));
         db.execSQL(MalshabItem.getDropTableIfExistCommand(MalshabItem.class));
+        db.execSQL(FaqItem.getDropTableIfExistCommand(FaqItem.class));
         onCreate(db);
     }
 }

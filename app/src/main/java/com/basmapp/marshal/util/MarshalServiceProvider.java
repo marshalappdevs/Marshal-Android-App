@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MarshalServiceProvider {
 
-    private static final String API_BASE_URL = "http://marshalweb.azurewebsites.net/api/";
+    private static final String API_BASE_URL = "http://marshalbeta.azurewebsites.net/api/";
     public static final String GET_ALL_COURSES = API_BASE_URL + "courses";
     public static final String GET_ALL_MATERIALS = API_BASE_URL + "materials";
     public static final String POST_RATING = API_BASE_URL + "courses/ratings/";
@@ -32,6 +32,7 @@ public class MarshalServiceProvider {
     public static final String POST_FCM_REGISTER_NEW_DEVICE = API_BASE_URL + "fcm/register/";
     public static final String GET_SETTINGS = API_BASE_URL + "settings/";
     public static final String GET_ALL_MALSHAB_ITEMS = API_BASE_URL + "malshabitems/";
+    public static final String GET_ALL_FAQ_ITEMS = API_BASE_URL + "faq/";
     public static final String POST_SUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
     public static final String DELETE_UNSUBSCRIBE_COURSE = API_BASE_URL + "fcm/subscription/course/";
 

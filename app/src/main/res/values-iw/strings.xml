@@ -134,6 +134,7 @@
     <string name="describe_problem_faq">כבר קראת את השאלות הנפוצות?</string>
     <string name="faq">שאלות נפוצות</string>
     <string name="faq_helpful_question">האם זה היה מועיל?</string>
+    <string name="faq_helpful_complete_toast">תודה על המשוב.</string>
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>

@@ -207,8 +207,10 @@ public class CoursesFragment extends Fragment {
         mInkPageIndicator.setViewPager(mViewPager);
         mViewPager.setInterval(5000);
         mViewPager.startAutoScroll();
-        mViewPager.setVisibility(View.VISIBLE);
-        mInkPageIndicator.setVisibility(View.VISIBLE);
+        if (mViewPagerCourses != null && mViewPagerCourses.size() != 0) {
+            mViewPager.setVisibility(View.VISIBLE);
+            mInkPageIndicator.setVisibility(View.VISIBLE);
+        }
     }
 
     private class Transformer implements ViewPager.PageTransformer {
@@ -291,7 +293,7 @@ public class CoursesFragment extends Fragment {
 
         @Override
         public int getCount() {
-            return 5;
+            return mViewPagerCourses.size();
         }
     }
 

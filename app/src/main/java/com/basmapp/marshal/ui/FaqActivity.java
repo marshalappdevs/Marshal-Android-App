@@ -1,18 +1,30 @@
 package com.basmapp.marshal.ui;
 
 import android.os.Bundle;
-import android.support.v4.view.ViewCompat;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
-import android.widget.ImageButton;
-import android.widget.ScrollView;
+import android.widget.ProgressBar;
 
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.R;
+import com.basmapp.marshal.entities.FaqItem;
+import com.basmapp.marshal.interfaces.ContentProviderCallBack;
+import com.basmapp.marshal.localdb.DBObject;
+import com.basmapp.marshal.ui.adapters.FaqRecyclerAdapter;
+import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.LocaleUtils;
 
+import java.util.ArrayList;
+
 public class FaqActivity extends BaseActivity {
-    private boolean answerExpanded = false;
+    private ProgressBar mProgressBar;
+    private RecyclerView mRecycler;
+    private LinearLayoutManager mLayoutManager;
+    private FaqRecyclerAdapter mAdapter;
+    private ArrayList<FaqItem> mFaqList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,20 +46,40 @@ public class FaqActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.faq_question_container).setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                answerExpanded = !answerExpanded;
-                ViewCompat.animate(findViewById(R.id.faq_expand_arrow)).rotation(
-                        answerExpanded ? 180 : 0).start();
-                findViewById(R.id.faq_answer_text).setVisibility(
-                        answerExpanded ? View.VISIBLE : View.GONE);
-                findViewById(R.id.faq_answer_image).setVisibility(
-                        answerExpanded ? View.VISIBLE : View.GONE);
-//                findViewById(R.id.faq_form).setVisibility(
-//                        answerExpanded ? View.VISIBLE : View.GONE);
-            }
-        });
+        mProgressBar = (ProgressBar) findViewById(R.id.faq_progressBar);
+        mRecycler = (RecyclerView) findViewById(R.id.faq_recyclerView);
+        mLayoutManager = new LinearLayoutManager(this);
+        mRecycler.setLayoutManager(mLayoutManager);
+        mRecycler.setItemAnimator(new DefaultItemAnimator());
+        if (mAdapter != null && mRecycler != null) {
+            mRecycler.setAdapter(mAdapter);
+        }
+
+        if (mFaqList == null) {
+            ContentProvider.getInstance().getFaqItems(this, new ContentProviderCallBack() {
+                @Override
+                public void onDataReady(ArrayList<? extends DBObject> data, Object extra) {
+                    mFaqList = (ArrayList<FaqItem>) data;
+                    setProgressBarVisibility(View.GONE);
+                    showData();
+                }
+
+                @Override
+                public void onError(Exception e) {
+                    setProgressBarVisibility(View.GONE);
+                }
+            });
+        }
+    }
+
+    private void setProgressBarVisibility(int visibility) {
+        mProgressBar.setVisibility(visibility);
+    }
+
+    private void showData() {
+        if (mAdapter == null)
+            mAdapter = new FaqRecyclerAdapter(this, mFaqList);
+        mRecycler.setAdapter(mAdapter);
     }
 
     @Override

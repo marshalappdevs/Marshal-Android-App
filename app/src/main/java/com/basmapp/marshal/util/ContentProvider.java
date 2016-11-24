@@ -7,6 +7,7 @@ import android.preference.PreferenceManager;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.entities.Course;
+import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
@@ -29,6 +30,7 @@ public class ContentProvider {
     private ArrayList<Course> sSubscribedCourses;
     private ArrayList<MaterialItem> sMaterialItems;
     private ArrayList<MalshabItem> sMalshabItems;
+    private ArrayList<FaqItem> sFaqItems;
 
     public static ContentProvider getInstance() {
         return mInstance;
@@ -65,6 +67,9 @@ public class ContentProvider {
 
         // Get All MalshabItems ---> sMalshabItems
         initMalshabItems(context, null);
+
+        // Get All FaqItems ---> sFaqItems
+        initFaqItems(context, null);
     }
 
     private void initCourseListByCategory(final Context context, final String category, final ContentProviderCallBack callback) {
@@ -245,6 +250,30 @@ public class ContentProvider {
                 });
     }
 
+    private void initFaqItems(Context context, final ContentProviderCallBack callback) {
+        FaqItem.findAllInBackground(FaqItem.COL_ORDER, FaqItem.class, context, false,
+                new BackgroundTaskCallBack() {
+                    @Override
+                    public void onSuccess(String result, List<Object> data) {
+                        if (data != null) {
+                            sFaqItems = (ArrayList) data;
+                            if (callback != null) {
+                                callback.onDataReady(sFaqItems, null);
+                            }
+                        } else {
+                            if (callback != null)
+                                callback.onError(new Exception("data is null"));
+                        }
+                    }
+
+                    @Override
+                    public void onError(String error) {
+                        if (error == null) error = "Query error";
+                        callback.onError(new Exception(error));
+                    }
+                });
+    }
+
     // Get data methods
     public void getCoursesListByCategory(Context context, String category, ContentProviderCallBack callback) {
         if (sCoursesListsMap.get(category) != null) {
@@ -288,6 +317,12 @@ public class ContentProvider {
         else initViewPagerCourses(context, callBack);
     }
 
+    public void getFaqItems(Context context, ContentProviderCallBack callBack) {
+        if (sFaqItems != null && sFaqItems.size() > 0)
+            callBack.onDataReady(sFaqItems, null);
+        else initFaqItems(context, callBack);
+    }
+
     public void releaseAllData() {
         coursesCategories = null;
         sCoursesListsMap = new HashMap<>();
@@ -297,6 +332,7 @@ public class ContentProvider {
         sSubscribedCourses = null;
         sMaterialItems = null;
         sMalshabItems = null;
+        sFaqItems = null;
     }
 
     public void sendBroadcast(Context context, String action) {

@@ -25,6 +25,19 @@
             android:orientation="horizontal">
 
             <TextView
+                android:id="@+id/faq_index_number"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_marginEnd="8dp"
+                android:layout_marginStart="8dp"
+                android:ellipsize="marquee"
+                android:gravity="center_vertical"
+                android:lineSpacingExtra="0sp"
+                android:textAppearance="@style/TextAppearance.AppCompat.Medium"
+                android:textColor="?android:textColorSecondary"
+                android:visibility="gone" />
+
+            <TextView
                 android:id="@+id/faq_question"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
@@ -34,7 +47,6 @@
                 android:layout_marginStart="8dp"
                 android:layout_marginTop="8dp"
                 android:layout_weight="1.0"
-                android:text="איך אני מגיע לבסמ״ח?"
                 android:textAppearance="@style/TextAppearance.AppCompat.Medium"
                 android:textColor="?android:textColorPrimary"
                 android:visibility="visible" />
@@ -62,9 +74,9 @@
             android:layout_marginBottom="8dp"
             android:layout_marginEnd="8dp"
             android:layout_marginStart="8dp"
-            android:text="מכוון ת׳וויז לדרך בן גוריון 100"
             android:textAppearance="@style/TextAppearance.AppCompat.Small"
             android:textColor="?android:textColorPrimary"
+            android:textSize="16sp"
             android:visibility="gone" />
 
         <ImageView
@@ -74,8 +86,7 @@
             android:adjustViewBounds="true"
             android:contentDescription="@null"
             android:scaleType="centerCrop"
-            android:visibility="gone"
-            app:srcCompat="@drawable/bg_default_profile_art" />
+            android:visibility="gone" />
 
         <LinearLayout
             android:id="@+id/faq_form"
@@ -120,5 +131,11 @@
                 android:text="@string/no" />
         </LinearLayout>
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/faq_progressBar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center" />
 
 </android.support.v7.widget.CardView>

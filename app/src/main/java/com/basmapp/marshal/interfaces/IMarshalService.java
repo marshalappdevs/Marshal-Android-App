@@ -1,6 +1,7 @@
 package com.basmapp.marshal.interfaces;
 
 import com.basmapp.marshal.entities.Course;
+import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.entities.FcmRegistration;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
@@ -37,6 +38,9 @@ public interface IMarshalService {
 
     @GET(MarshalServiceProvider.GET_ALL_MALSHAB_ITEMS)
     Call<List<MalshabItem>> getAllMalshabItems();
+
+    @GET(MarshalServiceProvider.GET_ALL_FAQ_ITEMS)
+    Call<List<FaqItem>> getAllFaqItems();
 
     //******** FCM ********//
     @POST(MarshalServiceProvider.POST_FCM_REGISTER_NEW_DEVICE)
