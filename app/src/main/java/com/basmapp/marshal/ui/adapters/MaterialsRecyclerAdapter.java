@@ -64,7 +64,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     @Override
     public MaterialVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_cardview, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_cardview, parent, false);
         return new MaterialVH(view);
     }
 

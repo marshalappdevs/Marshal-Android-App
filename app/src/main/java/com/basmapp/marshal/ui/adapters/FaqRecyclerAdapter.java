@@ -52,7 +52,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 
     @Override
     public FaqVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.faq_card_view, null);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.faq_card_view, parent, false);
         return new FaqVH(view);
     }
 
