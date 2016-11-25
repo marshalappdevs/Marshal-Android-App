@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <!-- Base application theme. -->
     <style name="AppTheme.Base.Red" parent="Theme.AppCompat.DayNight.NoActionBar">
@@ -315,6 +315,7 @@
     </style>
 
     <style name="CourseFilterDialogTheme" parent="@android:style/Theme.Dialog">
+        <item name="android:colorControlHighlight" tools:targetApi="lollipop">@color/material_ripple_dark</item>
         <item name="android:windowBackground">?colorPrimary</item>
         <item name="android:windowNoTitle">true</item>
         <item name="android:windowIsTranslucent">true</item>
