@@ -74,14 +74,14 @@ public class SearchActivity extends BaseActivity {
     private String mSearchQuery;
     private TextView mNoResults;
     private boolean isEmptyResult = false;
-    private static long sStartDate, sEndDate = 0;
     private SimpleDateFormat mFilterDateFormat;
     private MaterialTapTargetPrompt mFilterPrompt;
     private BroadcastReceiver mAdaptersBroadcastReceiver;
 
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
-    private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
-    private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
+    private static final String FILTER_PREVIOUS_START_DATE_FINAL = "FILTER_PREVIOUS_START_DATE_FINAL";
+    private static final String FILTER_PREVIOUS_END_DATE_FINAL = "FILTER_PREVIOUS_END_DATE_FINAL";
+    private long mFinalStartDate, mFinalEndDate;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,20 +154,21 @@ public class SearchActivity extends BaseActivity {
         if (mSearchView != null) {
             outState.putString(SEARCH_PREVIOUS_QUERY, mSearchView.getQuery().toString());
         }
-        // Save filtered dates if available
-        if (sStartDate != 0) outState.putLong(FILTER_PREVIOUS_START_DATE, sStartDate);
-        if (sEndDate != 0) outState.putLong(FILTER_PREVIOUS_END_DATE, sEndDate);
+        // Save final filtered dates if available
+        if (mFinalStartDate != 0)
+            outState.putLong(FILTER_PREVIOUS_START_DATE_FINAL, mFinalStartDate);
+        if (mFinalEndDate != 0)
+            outState.putLong(FILTER_PREVIOUS_END_DATE_FINAL, mFinalEndDate);
     }
-
 
     @Override
     public void onRestoreInstanceState(@NonNull Bundle savedInstanceState) {
         super.onRestoreInstanceState(savedInstanceState);
         // Restore previous SearchView query
         mSearchQuery = savedInstanceState.getString(SEARCH_PREVIOUS_QUERY);
-        // Restore previous filter dates
-        sStartDate = savedInstanceState.getLong(FILTER_PREVIOUS_START_DATE);
-        sEndDate = savedInstanceState.getLong(FILTER_PREVIOUS_END_DATE);
+        // Restore previous final filter dates
+        mFinalStartDate = savedInstanceState.getLong(FILTER_PREVIOUS_START_DATE_FINAL);
+        mFinalEndDate = savedInstanceState.getLong(FILTER_PREVIOUS_END_DATE_FINAL);
     }
 
     @Override
@@ -217,8 +218,8 @@ public class SearchActivity extends BaseActivity {
         mSearchView.clearFocus();
 
         // Show filtered search if dates are available (from saved instance for example)
-        if (sStartDate != 0 && sEndDate != 0) {
-            filterByDatesRange(sStartDate, sEndDate);
+        if (mFinalStartDate != 0 && mFinalEndDate != 0) {
+            filterByDatesRange(mFinalStartDate, mFinalEndDate);
         }
 
         // Show target prompt for filter
@@ -232,8 +233,8 @@ public class SearchActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.m_filter:
                 if (!isEmptyResult) {
-                    new CourseFilterDialog().show(getSupportFragmentManager(),
-                            Constants.DIALOG_FRAGMENT_FILTER_BY_DATE);
+                    CourseFilterDialog courseFilterDialog = CourseFilterDialog.newInstance(mFinalStartDate, mFinalEndDate);
+                    courseFilterDialog.show(getSupportFragmentManager(), Constants.DIALOG_FRAGMENT_FILTER_BY_DATE);
                 } else {
                     Toast.makeText(this, R.string.filter_not_available,
                             Toast.LENGTH_SHORT).show();
@@ -325,11 +326,51 @@ public class SearchActivity extends BaseActivity {
         private Calendar mCalendar;
         private TextView mStartDatePicker, mEndDatePicker;
         private SimpleDateFormat mFilterDateFormat;
+        private long mStartDate, mEndDate = 0;
+        private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
+        private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
+
+        static CourseFilterDialog newInstance(long startDate, long endDate) {
+            CourseFilterDialog courseFilterDialog = new CourseFilterDialog();
+            // Get filter dates as an argument
+            Bundle args = new Bundle();
+            args.putLong("start_date", startDate);
+            args.putLong("end_date", endDate);
+            courseFilterDialog.setArguments(args);
+            return courseFilterDialog;
+        }
 
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
             setStyle(STYLE_NO_TITLE, R.style.CourseFilterDialogTheme);
+            mStartDate = getArguments().getLong("start_date");
+            mEndDate = getArguments().getLong("end_date");
+        }
+
+        @Override
+        public void onSaveInstanceState(Bundle outState) {
+            super.onSaveInstanceState(outState);
+            // Save filtered dates if available
+            if (mStartDate != 0) outState.putLong(FILTER_PREVIOUS_START_DATE, mStartDate);
+            if (mEndDate != 0) outState.putLong(FILTER_PREVIOUS_END_DATE, mEndDate);
+        }
+
+        @Override
+        public void onActivityCreated(Bundle savedInstanceState) {
+            super.onActivityCreated(savedInstanceState);
+            if (savedInstanceState != null) {
+                // Restore previous filter dates
+                mStartDate = savedInstanceState.getLong(FILTER_PREVIOUS_START_DATE);
+                mEndDate = savedInstanceState.getLong(FILTER_PREVIOUS_END_DATE);
+            }
+            // Set TextViews again after date is restored
+            if (mStartDate != 0 && mStartDatePicker != null) {
+                mStartDatePicker.setText(mFilterDateFormat.format(mStartDate));
+            }
+            if (mEndDate != 0 && mEndDatePicker != null) {
+                mEndDatePicker.setText(mFilterDateFormat.format(mEndDate));
+            }
         }
 
         @Override
@@ -343,14 +384,6 @@ public class SearchActivity extends BaseActivity {
 
             mStartDatePicker = (TextView) rootView.findViewById(R.id.start_date_picker);
             mEndDatePicker = (TextView) rootView.findViewById(R.id.end_date_picker);
-
-            if (sStartDate != 0) {
-                mStartDatePicker.setText(mFilterDateFormat.format(sStartDate));
-            }
-
-            if (sEndDate != 0) {
-                mEndDatePicker.setText(mFilterDateFormat.format(sEndDate));
-            }
 
             // Dismiss dialog button
             ImageButton dismiss = (ImageButton) rootView.findViewById(R.id.course_filter_dismiss);
@@ -367,19 +400,19 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     // Check if start date is not empty
-                    if (sStartDate == 0) {
+                    if (mStartDate == 0) {
                         Toast.makeText(getActivity(), R.string.course_filter_start_date_empty, Toast.LENGTH_SHORT).show();
                     }
 
                     // Check if end date is not empty
-                    if (sEndDate == 0) {
+                    if (mEndDate == 0) {
                         Toast.makeText(getActivity(), R.string.course_filter_end_date_empty, Toast.LENGTH_SHORT).show();
                     }
 
                     // Apply search only if two dates are picked
-                    if (sStartDate != 0 && sEndDate != 0) {
+                    if (mStartDate != 0 && mEndDate != 0) {
                         getDialog().dismiss();
-                        ((SearchActivity) getActivity()).applyFilter();
+                        ((SearchActivity) getActivity()).applyFilter(mStartDate, mEndDate);
                     }
                 }
             });
@@ -390,6 +423,7 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     getDialog().dismiss();
+                    mStartDate = mEndDate = 0;
                     ((SearchActivity) getActivity()).resetFilter();
                 }
             });
@@ -407,7 +441,7 @@ public class SearchActivity extends BaseActivity {
                     // Update TextView
                     mStartDatePicker.setText(mFilterDateFormat.format(mCalendar.getTime()));
                     // Save start date long
-                    sStartDate = mCalendar.getTimeInMillis();
+                    mStartDate = mCalendar.getTimeInMillis();
                 }
             };
 
@@ -423,16 +457,16 @@ public class SearchActivity extends BaseActivity {
                             // Set minimum date to now
                             datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
                             // If start date already chosen, open dialog with this date
-                            if (sStartDate != 0) {
+                            if (mStartDate != 0) {
                                 Calendar calendar = Calendar.getInstance();
-                                calendar.setTimeInMillis(sStartDate);
+                                calendar.setTimeInMillis(mStartDate);
                                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR),
                                         calendar.get(Calendar.MONTH),
                                         calendar.get(Calendar.DAY_OF_MONTH));
                             }
                             // Set maximum date to end date if already chosen
-                            if (sEndDate != 0) {
-                                datePickerDialog.getDatePicker().setMaxDate(sEndDate);
+                            if (mEndDate != 0) {
+                                datePickerDialog.getDatePicker().setMaxDate(mEndDate);
                             }
                             datePickerDialog.show();
                         }
@@ -448,7 +482,7 @@ public class SearchActivity extends BaseActivity {
                     // Update TextView
                     mEndDatePicker.setText(mFilterDateFormat.format(mCalendar.getTime()));
                     // Save end date long
-                    sEndDate = mCalendar.getTimeInMillis();
+                    mEndDate = mCalendar.getTimeInMillis();
                 }
             };
 
@@ -460,16 +494,16 @@ public class SearchActivity extends BaseActivity {
                             DatePickerDialog datePickerDialog = new DatePickerDialog(getActivity(), endDatePickerDialog, mCalendar
                                     .get(Calendar.YEAR), mCalendar.get(Calendar.MONTH), mCalendar.get(Calendar.DAY_OF_MONTH));
                             // If end date already chosen, open dialog with this date
-                            if (sEndDate != 0) {
+                            if (mEndDate != 0) {
                                 Calendar calendar = Calendar.getInstance();
-                                calendar.setTimeInMillis(sEndDate);
+                                calendar.setTimeInMillis(mEndDate);
                                 datePickerDialog.updateDate(calendar.get(Calendar.YEAR),
                                         calendar.get(Calendar.MONTH),
                                         calendar.get(Calendar.DAY_OF_MONTH));
                             }
                             // Set minimum date to start date if already chosen
-                            if (sStartDate != 0) {
-                                datePickerDialog.getDatePicker().setMinDate(sStartDate);
+                            if (mStartDate != 0) {
+                                datePickerDialog.getDatePicker().setMinDate(mStartDate);
                             } else {
                                 // Set minimum date to now
                                 datePickerDialog.getDatePicker().setMinDate(System.currentTimeMillis() - 1000);
@@ -482,9 +516,13 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    public void applyFilter() {
-        if (sStartDate != 0 && sEndDate != 0) {
-            filterByDatesRange(sStartDate, sEndDate);
+    public void applyFilter(long startDate, long endDate) {
+        if (startDate != 0 && endDate != 0) {
+            // Save final filter dates
+            mFinalStartDate = startDate;
+            mFinalEndDate = endDate;
+            // apply filter
+            filterByDatesRange(startDate, endDate);
         }
     }
 
@@ -493,7 +531,7 @@ public class SearchActivity extends BaseActivity {
         if (mFilteredCourseList != null) {
             showResults(query, mFilteredCourseList, true);
         }
-        sStartDate = sEndDate = 0;
+        mFinalEndDate = mFinalStartDate = 0;
     }
 
     private void filterByDatesRange(long startDate, long endDate) {
@@ -553,7 +591,7 @@ public class SearchActivity extends BaseActivity {
             String searchResult;
             if (filter) {
                 searchResult = String.format(getString(R.string.no_results_for_filter),
-                        mFilterDateFormat.format(sStartDate), mFilterDateFormat.format(sEndDate));
+                        mFilterDateFormat.format(mFinalStartDate), mFilterDateFormat.format(mFinalEndDate));
             } else {
                 searchResult = String.format(getString(
                         R.string.no_results_for_query), query);
