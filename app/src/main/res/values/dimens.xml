@@ -31,6 +31,7 @@
     <dimen name="screenshot_height">144dp</dimen>
     <dimen name="sub_situation_list_view_padding">8dp</dimen>
     <dimen name="ctl_overlay_height">72dp</dimen>
+    <dimen name="course_category_header_xpadding">12dp</dimen>
     <dimen name="course_category_header_title_size">20sp</dimen>
     <dimen name="course_category_header_height">48dp</dimen>
     <dimen name="course_category_header_more_size">14sp</dimen>

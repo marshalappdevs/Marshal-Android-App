@@ -11,6 +11,8 @@
         android:background="?attr/selectableItemBackground"
         android:focusable="true"
         android:minHeight="@dimen/course_category_header_height"
+        android:paddingEnd="@dimen/course_category_header_xpadding"
+        android:paddingStart="@dimen/course_category_header_xpadding"
         android:visibility="gone">
 
         <TextView
@@ -18,11 +20,11 @@
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginStart="16dp"
             android:layout_weight="1.0"
             android:ellipsize="marquee"
             android:fontFamily="sans-serif-medium"
             android:maxLines="1"
+            android:paddingEnd="16dp"
             android:textColor="?android:textColorPrimary"
             android:textSize="@dimen/course_category_header_title_size" />
 
@@ -30,9 +32,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center_vertical"
-            android:layout_marginEnd="@dimen/activity_horizontal_margin"
-            android:layout_marginStart="@dimen/activity_horizontal_margin"
             android:fontFamily="sans-serif-medium"
+            android:paddingEnd="8dp"
+            android:paddingStart="8dp"
             android:text="@string/see_all"
             android:textAppearance="@style/TextAppearance.Button"
             android:textColor="?colorAccent"
