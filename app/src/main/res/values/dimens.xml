@@ -7,19 +7,17 @@
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_horizontal_margin">16dp</dimen>
     <dimen name="activity_vertical_margin">16dp</dimen>
+    <dimen name="activity_horizontal_margin_half">8dp</dimen>
+    <dimen name="activity_vertical_margin_half">8dp</dimen>
     <dimen name="fab_margin">16dp</dimen>
     <dimen name="app_bar_height">220dp</dimen>
     <dimen name="text_margin">16dp</dimen>
+    <dimen name="course_card_view_width">130dp</dimen>
+    <dimen name="course_card_view_height">180dp</dimen>
     <dimen name="link_preview_thumb_height">80sp</dimen>
     <dimen name="link_preview_thumb_width">80dp</dimen>
-    <!-- Color picker dimens -->
-    <dimen name="color_swatch_large">64dip</dimen>
-    <dimen name="color_swatch_small">48dip</dimen>
-    <dimen name="color_swatch_margins_large">8dp</dimen>
-    <dimen name="color_swatch_margins_small">4dp</dimen>
     <dimen name="tap_target_menu_max_width">350dp</dimen>
     <dimen name="appbar_padding_top">8dp</dimen>
-    <dimen name="activity_margin_half">8dp</dimen>
     <dimen name="highlight_banner_item_card_height">190dp</dimen>
     <dimen name="highlight_banner_item_height">200dp</dimen>
     <dimen name="highlights_gradient_overlay_height">86dp</dimen>
@@ -33,4 +31,12 @@
     <dimen name="screenshot_height">144dp</dimen>
     <dimen name="sub_situation_list_view_padding">8dp</dimen>
     <dimen name="ctl_overlay_height">72dp</dimen>
+    <dimen name="course_category_header_title_size">20sp</dimen>
+    <dimen name="course_category_header_height">48dp</dimen>
+    <dimen name="course_category_header_more_size">14sp</dimen>
+    <!-- Color picker dimens -->
+    <dimen name="color_swatch_large">64dip</dimen>
+    <dimen name="color_swatch_small">48dip</dimen>
+    <dimen name="color_swatch_margins_large">8dp</dimen>
+    <dimen name="color_swatch_margins_small">4dp</dimen>
 </resources>

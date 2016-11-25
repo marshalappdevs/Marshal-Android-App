@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <!-- Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw720dp devices (e.g. 10" tablets) in landscape here. -->
+    <!--<dimen name="activity_horizontal_margin">128dp</dimen>-->
+    <dimen name="highlight_banner_item_height">368dp</dimen>
+    <dimen name="course_card_view_width">180dp</dimen>
+    <dimen name="course_card_view_height">240dp</dimen>
+    <dimen name="app_bar_height">392dp</dimen>
+    <dimen name="course_category_header_title_size">28sp</dimen>
+    <dimen name="course_category_header_height">64dp</dimen>
+    <dimen name="course_category_header_more_size">16sp</dimen>
+</resources>

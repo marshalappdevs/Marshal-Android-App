@@ -1,4 +1,9 @@
 <resources>
     <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="toolbar_height">64dp</dimen>
+    <dimen name="highlight_banner_item_height">304dp</dimen>
+    <dimen name="app_bar_height">328dp</dimen>
+    <dimen name="course_category_header_title_size">24sp</dimen>
+    <dimen name="course_category_header_height">56dp</dimen>
+    <dimen name="course_category_header_more_size">16sp</dimen>
 </resources>
