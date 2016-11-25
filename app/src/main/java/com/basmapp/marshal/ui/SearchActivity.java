@@ -535,14 +535,9 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void filterByDatesRange(long startDate, long endDate) {
-
         ArrayList<Course> currentFilteredList = new ArrayList<>();
-
         try {
             if (mFilteredCourseList != null && mFilteredCourseList.size() > 0) {
-                long rangeStartTime = DateHelper.stringToDate(mFilterDateFormat.format(startDate)).getTime();
-                long rangeEndTime = DateHelper.stringToDate(mFilterDateFormat.format(endDate)).getTime();
-
                 for (Course course : mFilteredCourseList) {
                     if (course.getCycles() != null) {
                         for (Cycle cycle : course.getCycles()) {
@@ -550,7 +545,7 @@ public class SearchActivity extends BaseActivity {
                                 long cycleStartTime = cycle.getStartDate().getTime();
                                 long cycleEndTime = cycle.getEndDate().getTime();
 
-                                if (cycleStartTime >= rangeStartTime && cycleEndTime <= rangeEndTime) {
+                                if (cycleStartTime >= startDate && cycleEndTime <= endDate) {
                                     currentFilteredList.add(course);
                                     break;
                                 }
