@@ -83,8 +83,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         if (mFaq.get(position).getAnswerImageUrl() != null) {
             Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl()).into(holder.answerImageView);
         }
-        holder.questionIndexTextView.setText(String.valueOf(position + 1));
-        holder.questionIndexTextView.setVisibility(View.VISIBLE);
 
         holder.faqFormPositive.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -168,7 +166,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 
         CardView cardView;
         LinearLayout questionContainer;
-        TextView questionIndexTextView;
         TextView questionTextView;
         ImageButton expandAnswerArrow;
         TextView answerTextView;
@@ -183,7 +180,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 
             cardView = (CardView) itemView.findViewById(R.id.faq_card);
             questionContainer = (LinearLayout) itemView.findViewById(R.id.faq_question_container);
-            questionIndexTextView = (TextView) itemView.findViewById(R.id.faq_index_number);
             questionTextView = (TextView) itemView.findViewById(R.id.faq_question);
             expandAnswerArrow = (ImageButton) itemView.findViewById(R.id.faq_expand_arrow);
             answerTextView = (TextView) itemView.findViewById(R.id.faq_answer_text);
