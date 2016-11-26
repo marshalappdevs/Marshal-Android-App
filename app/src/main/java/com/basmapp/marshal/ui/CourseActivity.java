@@ -800,7 +800,7 @@ public class CourseActivity extends BaseActivity {
                 String language_to = (bidi.getBaseLevel() == 0) ?  /* ltr */ "iw" : /* rtl */ "en";
                 startActivity(new Intent(Intent.ACTION_VIEW,
                         Uri.parse("https://translate.google.com/m/translate#"
-                                + language_from + "/" + language_to + "/" + text_input)));
+                                + language_from + "/" + language_to + "/" + Uri.encode(text_input))));
             }
         });
     }
