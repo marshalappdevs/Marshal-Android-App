@@ -59,6 +59,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     public void onBindViewHolder(final FaqVH holder, int position) {
         holder.questionContainer.setOnClickListener(new View.OnClickListener() {
             boolean answerExpanded = false;
+
             @Override
             public void onClick(View view) {
                 answerExpanded = !answerExpanded;
@@ -82,6 +83,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         if (mFaq.get(position).getAnswerImageUrl() != null) {
             Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl()).into(holder.answerImageView);
         }
+        holder.questionIndexTextView.setText(String.valueOf(position + 1));
+        holder.questionIndexTextView.setVisibility(View.VISIBLE);
 
         holder.faqFormPositive.setOnClickListener(new View.OnClickListener() {
             @Override
