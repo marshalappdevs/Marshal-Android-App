@@ -119,7 +119,7 @@
     <string name="course_filter_apply_filters_button">החל מסננים</string>
     <string name="course_filter_start_date_empty">תאריך התחלה לא יכול להיות ריק.</string>
     <string name="course_filter_end_date_empty">תאריך סוף לא יכול להיות ריק.</string>
-    <string name="no_results_for_filter">לא נמצאו תוצאות עבור טווח התאריכים הנבחר (%1$s - %2$s).</string>
+    <string name="no_results_for_filter">לא נמצאו תוצאות עבור התאריכים הנבחרים</string>
     <string name="active_filter_beginning_date_notice">מציג קורסים לאחר %1$s.</string>
     <string name="active_filter_date_range_notice">קורסים מ-%1$s עד %2$s.</string>
     <string name="active_filter_ending_date_notice">מציג קורסים לפני %1$s.</string>
