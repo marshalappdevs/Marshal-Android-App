@@ -28,7 +28,6 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -200,24 +199,9 @@ public class CourseActivity extends BaseActivity {
                     @Override
                     public void onClick(View view) {
                         if (mCycles.size() > 0) {
-                            BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CourseActivity.this);
-                            View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cycles, null);
-                            bottomSheetDialog.setContentView(sheetView);
-                            bottomSheetDialog.show();
-                            try {
-                                orderCyclesByAscending();
-                                RecyclerView recyclerView = (RecyclerView)
-                                        sheetView.findViewById(R.id.cycle_activity_recyclerView);
-                                LinearLayoutManager linearLayoutManager =
-                                        new LinearLayoutManager(CourseActivity.this);
-                                recyclerView.setLayoutManager(linearLayoutManager);
-                                recyclerView.setItemAnimator(new DefaultItemAnimator());
-                                CyclesRecyclerAdapter cyclesRecyclerAdapter =
-                                        new CyclesRecyclerAdapter(CourseActivity.this, mCycles, mCourse);
-                                recyclerView.setAdapter(cyclesRecyclerAdapter);
-                            } catch (Exception e) {
-                                e.printStackTrace();
-                            }
+                            CyclesRecyclerAdapter cyclesRecyclerAdapter =
+                                    new CyclesRecyclerAdapter(CourseActivity.this, mCycles, mCourse);
+                            showCyclesBottomSheet(cyclesRecyclerAdapter);
                         } else {
                             Toast.makeText(CourseActivity.this,
                                     getResources().getString(R.string.course_no_cycles_error),
@@ -887,36 +871,9 @@ public class CourseActivity extends BaseActivity {
                 }
 
                 private void showCycleFormsListDialog() {
-//                    new AlertDialog.Builder(CourseActivity.this)
-//                            .setTitle(R.string.course_choose_cycle)
-//                            .setAdapter(new ArrayAdapter<>(CourseActivity.this,
-//                                    android.R.layout.simple_list_item_1, mCyclesWithGoogleForms), new DialogInterface.OnClickListener() {
-//                                @Override
-//                                public void onClick(DialogInterface dialogInterface, int position) {
-//                                    showGoogleFormsActivity(mCyclesWithGoogleForms.get(position),
-//                                            mCyclesWithGoogleForms.get(position)
-//                                            .getGoogleFormUrl());
-//                                }
-//                            })
-//                            .show();
-                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CourseActivity.this);
-                    View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cycles, null);
-                    bottomSheetDialog.setContentView(sheetView);
-                    bottomSheetDialog.show();
-                    try {
-                        orderCyclesByAscending();
-                        RecyclerView recyclerView = (RecyclerView)
-                                sheetView.findViewById(R.id.cycle_activity_recyclerView);
-                        LinearLayoutManager linearLayoutManager =
-                                new LinearLayoutManager(CourseActivity.this);
-                        recyclerView.setLayoutManager(linearLayoutManager);
-                        recyclerView.setItemAnimator(new DefaultItemAnimator());
-                        CyclesGoogleFormsRecyclerAdapter cyclesGoogleFormsRecyclerAdapter =
-                                new CyclesGoogleFormsRecyclerAdapter(CourseActivity.this, mCyclesWithGoogleForms);
-                        recyclerView.setAdapter(cyclesGoogleFormsRecyclerAdapter);
-                    } catch (Exception e) {
-                        e.printStackTrace();
-                    }
+                    CyclesGoogleFormsRecyclerAdapter cyclesGoogleFormsRecyclerAdapter =
+                            new CyclesGoogleFormsRecyclerAdapter(CourseActivity.this, mCyclesWithGoogleForms);
+                    showCyclesBottomSheet(cyclesGoogleFormsRecyclerAdapter);
                 }
 
                 private void showGoogleFormsActivity(Cycle cycle, String url) {
@@ -937,6 +894,25 @@ public class CourseActivity extends BaseActivity {
                 }
 
             }.execute();
+        }
+    }
+
+    private void showCyclesBottomSheet (RecyclerView.Adapter adapter) {
+        BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CourseActivity.this);
+        View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cycles, null);
+        bottomSheetDialog.setContentView(sheetView);
+        bottomSheetDialog.show();
+        try {
+            orderCyclesByAscending();
+            RecyclerView recyclerView = (RecyclerView)
+                    sheetView.findViewById(R.id.cycle_activity_recyclerView);
+            LinearLayoutManager linearLayoutManager =
+                    new LinearLayoutManager(CourseActivity.this);
+            recyclerView.setLayoutManager(linearLayoutManager);
+            recyclerView.setItemAnimator(new DefaultItemAnimator());
+            recyclerView.setAdapter(adapter);
+        } catch (Exception e) {
+            e.printStackTrace();
         }
     }
 
