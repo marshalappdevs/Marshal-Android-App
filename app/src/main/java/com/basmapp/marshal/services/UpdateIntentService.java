@@ -326,7 +326,7 @@ public class UpdateIntentService extends IntentService {
                                 Cycle cycle = course.getCycles().get(cycleIndex);
                                 cycle.setCourseID(course.getCourseID());
                                 if (cycle.getStartDate() != null && cycle.getEndDate() != null &&
-                                        (cycle.getStartDate().compareTo(new Date()) > 0)) {
+                                        (cycle.getEndDate().getTime() > new Date().getTime())) {
                                     long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
                                     if (insertCycleId == -1)
                                         throw new Exception("Failed to insert cycle");
@@ -385,7 +385,7 @@ public class UpdateIntentService extends IntentService {
                         Cycle cycle = course.getCycles().get(cycleIndex);
                         cycle.setCourseID(course.getCourseID());
                         if (cycle.getStartDate() != null && cycle.getEndDate() != null &&
-                                (cycle.getStartDate().compareTo(new Date()) > 0)) {
+                                (cycle.getEndDate().getTime() > new Date().getTime())) {
                             long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
                             if (insertCycleId == -1)
                                 throw new Exception("Failed to insert cycle");
