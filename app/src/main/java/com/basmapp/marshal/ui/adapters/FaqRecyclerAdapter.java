@@ -29,7 +29,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     private ArrayList<FaqItem> mFaq;
     private SharedPreferences mSharedPreferences;
     private Boolean mIsDataFiltered = false;
-    private boolean answerExpanded = false;
 
     public FaqRecyclerAdapter(Context activity, ArrayList<FaqItem> faq) {
         this.mFaq = faq;
@@ -59,6 +58,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     @Override
     public void onBindViewHolder(final FaqVH holder, int position) {
         holder.questionContainer.setOnClickListener(new View.OnClickListener() {
+            boolean answerExpanded = false;
             @Override
             public void onClick(View view) {
                 answerExpanded = !answerExpanded;
@@ -80,10 +80,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerTextView.setText(mFaq.get(position).getAnswer());
         }
         if (mFaq.get(position).getAnswerImageUrl() != null) {
-            Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl())
-                    .error(R.drawable.link_image_error)
-                    .placeholder(R.drawable.link_image_placeholder)
-                    .into(holder.answerImageView);
+            Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl()).into(holder.answerImageView);
         }
 
         holder.faqFormPositive.setOnClickListener(new View.OnClickListener() {

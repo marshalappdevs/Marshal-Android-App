@@ -14,7 +14,6 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:animateLayoutChanges="true"
         android:orientation="vertical">
 
         <LinearLayout
@@ -71,11 +70,10 @@
             android:id="@+id/faq_answer_text"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginBottom="8dp"
-            android:layout_marginEnd="8dp"
-            android:layout_marginStart="8dp"
-            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:background="@color/placeholder_background"
+            android:padding="16dp"
             android:textColor="?android:textColorPrimary"
+            android:textIsSelectable="true"
             android:textSize="16sp"
             android:visibility="gone" />
 
@@ -84,7 +82,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:adjustViewBounds="true"
+            android:background="@color/placeholder_background"
             android:contentDescription="@null"
+            android:maxHeight="200dp"
             android:scaleType="centerCrop"
             android:visibility="gone" />
 
