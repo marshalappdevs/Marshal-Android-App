@@ -421,22 +421,8 @@ public class SearchActivity extends BaseActivity {
             filter.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    // Searching for courses after start date without end date limit
-                    if (mStartDate != 0 && mEndDate == 0) {
-                        getDialog().dismiss();
-                        ((SearchActivity) getActivity()).applyFilter(mStartDate, 0);
-                    }
-
-                    // Searching for courses before end date without start date limit
-                    if (mEndDate != 0 && mStartDate == 0) {
-                        getDialog().dismiss();
-                        ((SearchActivity) getActivity()).applyFilter(0, mEndDate);
-                    }
-                    // Searching for courses in a date range
-                    if (mStartDate != 0 && mEndDate != 0) {
-                        getDialog().dismiss();
-                        ((SearchActivity) getActivity()).applyFilter(mStartDate, mEndDate);
-                    }
+                    getDialog().dismiss();
+                    ((SearchActivity) getActivity()).applyFilter(mStartDate, mEndDate);
                 }
             });
 
