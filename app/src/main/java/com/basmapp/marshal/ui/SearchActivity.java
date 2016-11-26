@@ -27,10 +27,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
+import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -43,7 +46,6 @@ import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
-import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.ThemeUtils;
 
@@ -341,8 +343,10 @@ public class SearchActivity extends BaseActivity {
     public static class CourseFilterDialog extends DialogFragment {
         private Calendar mCalendar;
         private TextView mStartDatePicker, mEndDatePicker;
+        private Spinner mCourseTypeSpinner;
         private SimpleDateFormat mFilterDateFormat;
         private long mStartDate, mEndDate = 0;
+        private int mSpinnerSelection;
         private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
         private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
 
@@ -406,6 +410,30 @@ public class SearchActivity extends BaseActivity {
             rootView.findViewById(R.id.course_filter_dialog_android_view).setBackgroundColor(primaryColor);
             mStartDatePicker.setTextColor(primaryColor);
             mEndDatePicker.setTextColor(primaryColor);
+
+            // Course type spinner
+            mCourseTypeSpinner = (Spinner) rootView.findViewById(R.id.search_type_spinner);
+            // Create an ArrayAdapter using the string array and a default spinner layout
+            ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(getActivity(),
+                    R.array.filter_type_spinner, android.R.layout.simple_spinner_item);
+            // Specify the layout to use when the list of choices appears
+            adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+            // Apply the adapter to the spinner
+            mCourseTypeSpinner.setAdapter(adapter);
+            // Set default value
+            mCourseTypeSpinner.setSelection(mSpinnerSelection);
+            // Set spinner item selection listener
+            mCourseTypeSpinner.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
+                @Override
+                public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
+                    mSpinnerSelection = i;
+                }
+
+                @Override
+                public void onNothingSelected(AdapterView<?> adapterView) {
+
+                }
+            });
 
             // Dismiss dialog button
             ImageButton dismiss = (ImageButton) rootView.findViewById(R.id.course_filter_dismiss);
@@ -526,28 +554,14 @@ public class SearchActivity extends BaseActivity {
     }
 
     public void applyFilter(long startDate, long endDate) {
-        // Searching for courses after start date without end date limit
-        if (startDate != 0 && endDate == 0) {
-            // Save final filter dates
-            mFinalStartDate = startDate;
-            // apply filter
-            filterByDatesRange(startDate, 0);
+        // Save final filter parameters
+        mFinalStartDate = startDate;
+        mFinalEndDate = endDate;
+        // Don't call filter if both dates are not selected
+        if (startDate == 0 && endDate == 0) {
+            return;
         }
-        // Searching for courses before end date without start date limit
-        if (endDate != 0 && startDate == 0) {
-            // Save final filter dates
-            mFinalEndDate = endDate;
-            // apply filter
-            filterByDatesRange(0, endDate);
-        }
-        // Searching for courses in a date range
-        if (startDate != 0 && endDate != 0) {
-            // Save final filter dates
-            mFinalStartDate = startDate;
-            mFinalEndDate = endDate;
-            // apply filter
-            filterByDatesRange(startDate, endDate);
-        }
+        filterByDatesRange(startDate, endDate);
     }
 
     public void resetFilter() {
@@ -569,24 +583,21 @@ public class SearchActivity extends BaseActivity {
                                 long cycleStartTime = cycle.getStartDate().getTime();
                                 long cycleEndTime = cycle.getEndDate().getTime();
 
-                                // Searching for courses after start date without end date limit
-                                if (startDate != 0 && endDate == 0) {
+                                if (startDate != 0 && endDate != 0) {
+                                    // Searching for courses in a date range
+                                    if (cycleStartTime >= startDate && cycleEndTime <= endDate) {
+                                        currentFilteredList.add(course);
+                                        break;
+                                    }
+                                } else if (startDate != 0) {
+                                    // Searching for courses after start date without end date limit
                                     if (cycleStartTime >= startDate) {
                                         currentFilteredList.add(course);
                                         break;
                                     }
-                                }
-
-                                // Searching for courses before end date without start date limit
-                                if (endDate != 0 && startDate == 0) {
+                                } else {
+                                    // Searching for courses before end date without start date limit
                                     if (cycleEndTime <= endDate) {
-                                        currentFilteredList.add(course);
-                                        break;
-                                    }
-                                }
-                                // Searching for courses in a date range
-                                if (startDate != 0 && endDate != 0) {
-                                    if (cycleStartTime >= startDate && cycleEndTime <= endDate) {
                                         currentFilteredList.add(course);
                                         break;
                                     }
@@ -642,23 +653,22 @@ public class SearchActivity extends BaseActivity {
             isEmptyResult = false;
             if (filter) {
                 mFilterNoticeGroup.setVisibility(View.VISIBLE);
-                // Searching for courses after start date without end date limit
-                if (mFinalStartDate != 0 && mFinalEndDate == 0) {
-                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_beginning_date_notice),
-                            mFilterDateFormat.format(mFinalStartDate)));
-                }
 
-                // Searching for courses before end date without start date limit
-                if (mFinalEndDate != 0 && mFinalStartDate == 0) {
-                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_ending_date_notice),
-                            mFilterDateFormat.format(mFinalEndDate)));
-                }
-                // Searching for courses in a date range
                 if (mFinalStartDate != 0 && mFinalEndDate != 0) {
+                    // Searching for courses in a date range
                     mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_date_range_notice),
                             mFilterDateFormat.format(mFinalStartDate),
                             mFilterDateFormat.format(mFinalEndDate)));
+                } else if (mFinalStartDate != 0) {
+                    // Searching for courses after start date without end date limit
+                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_beginning_date_notice),
+                            mFilterDateFormat.format(mFinalStartDate)));
+                } else {
+                    // Searching for courses before end date without start date limit
+                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_ending_date_notice),
+                            mFilterDateFormat.format(mFinalEndDate)));
                 }
+
                 mResetFilter.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {

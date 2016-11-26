@@ -122,8 +122,10 @@
     <string name="course_filter_end_date_empty">תאריך סוף לא יכול להיות ריק.</string>
     <string name="no_results_for_filter">לא נמצאו תוצאות עבור התאריכים הנבחרים</string>
     <string name="active_filter_beginning_date_notice">מציג קורסים לאחר %1$s.</string>
+    <string name="active_filter_count_notice">%1$d מסננים פעילים.</string>
     <string name="active_filter_date_range_notice">קורסים מ-%1$s עד %2$s.</string>
     <string name="active_filter_ending_date_notice">מציג קורסים לפני %1$s.</string>
+    <string name="active_filter_type_notice">מציג רק %1$s.</string>
     <string name="filter_not_available">סינון לא זמין.</string>
     <string name="course_filter_title">מסנן</string>
     <string name="no_materials_for_course">אין חומרים עבור קורס זה.</string>
@@ -301,5 +303,11 @@
         <item>@string/review_comment8</item>
         <item>@string/review_comment9</item>
         <item>@string/review_comment10</item>
+    </string-array>
+
+    <string-array name="filter_type_spinner">
+        <item>כל הקורסים</item>
+        <item>קורסים פרונטליים</item>
+        <item>קורסים רשתיים</item>
     </string-array>
 </resources>

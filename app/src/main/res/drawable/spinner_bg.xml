@@ -6,11 +6,11 @@
                 <shape>
                     <size android:height="36dp" />
                     <corners android:radius="2dp" />
-                    <solid android:color="@android:color/white" />
+                    <solid android:color="@color/cards_and_dialogs_color" />
                 </shape>
             </item>
             <item>
-                <bitmap android:gravity="end" android:src="@drawable/ic_arrow_drop_down_black" />
+                <bitmap android:gravity="end" android:src="@drawable/ic_arrow_drop_down_black" android:tint="@color/primary_text_color" />
             </item>
         </layer-list>
     </item>

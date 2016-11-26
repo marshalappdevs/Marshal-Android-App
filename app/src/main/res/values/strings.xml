@@ -126,8 +126,10 @@
     <string name="course_filter_end_date_empty">End date cannot be empty.</string>
     <string name="no_results_for_filter">No results found for selected dates</string>
     <string name="active_filter_beginning_date_notice">Showing courses after %1$s.</string>
+    <string name="active_filter_count_notice">%1$d active filters.</string>
     <string name="active_filter_date_range_notice">Courses from %1$s to %2$s.</string>
     <string name="active_filter_ending_date_notice">Showing courses before %1$s.</string>
+    <string name="active_filter_type_notice">Showing only %1$s.</string>
     <string name="filter_not_available">Filter is not available.</string>
     <string name="course_filter_title">Filter</string>
     <string name="no_materials_for_course">This course has no materials.</string>
@@ -389,5 +391,11 @@
         <item>@string/review_comment8</item>
         <item>@string/review_comment9</item>
         <item>@string/review_comment10</item>
+    </string-array>
+
+    <string-array name="filter_type_spinner">
+        <item>All courses</item>
+        <item>Frontal courses</item>
+        <item>Online courses</item>
     </string-array>
 </resources>
