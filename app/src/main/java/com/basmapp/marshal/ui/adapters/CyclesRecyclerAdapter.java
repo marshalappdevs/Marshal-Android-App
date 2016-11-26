@@ -3,6 +3,8 @@ package com.basmapp.marshal.ui.adapters;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Typeface;
+import android.os.Build;
 import android.provider.CalendarContract;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
@@ -47,6 +49,15 @@ public class CyclesRecyclerAdapter extends RecyclerView.Adapter<CyclesRecyclerAd
                     DateHelper.dateToString(mCycles.get(position).getStartDate()),
                     DateHelper.dateToString(mCycles.get(position).getEndDate()));
             holder.mDateTextView.setText(cycleDates);
+
+            if (mCycles.get(position).isRunningNow()) {
+                holder.mDateTextView.setTypeface(Typeface.DEFAULT_BOLD);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                    holder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary, mContext.getTheme()));
+                } else {
+                    holder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }

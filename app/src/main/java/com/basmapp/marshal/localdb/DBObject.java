@@ -53,6 +53,10 @@ public abstract class DBObject {
         initialize();
     }
 
+    public Context getContext() {
+        return mContext;
+    }
+
     private void initialize() {
         getFields();
         tableName = getTableName(getClass());
@@ -249,6 +253,7 @@ public abstract class DBObject {
                 entityInstance = findOne(foreignKey.getValueColumn(), filterValueField.get(this),
                         mContext, foreignKey.getFkClass());
 
+                foreignKey.getFkClass().cast(entityInstance).Ctor(mContext);
                 Method setter = foreignKey.getSetter();
                 setter.setAccessible(true);
                 setter.invoke(this, entityInstance);
@@ -262,6 +267,10 @@ public abstract class DBObject {
 
                 entityInstance = (ArrayList<Object>) findAllByColumn(foreignKey.getValueColumn(), filterValueField.get(this),
                         foreignKey.getName(), mContext, foreignKey.getFkClass());
+
+                for (Object object : entityInstance) {
+                    foreignKey.getFkClass().cast(object).Ctor(mContext);
+                }
 
                 Method setter = foreignKey.getSetter();
                 setter.setAccessible(true);

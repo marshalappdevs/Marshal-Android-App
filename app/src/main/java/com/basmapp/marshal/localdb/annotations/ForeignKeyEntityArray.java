@@ -17,4 +17,6 @@ public @interface ForeignKeyEntityArray {
     Class<? extends DBObject> entityClass();
 
     String[] options() default {};
+
+    String[] orderBy() default {};
 }
