@@ -1,31 +1,22 @@
 package com.basmapp.marshal.ui.adapters;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Typeface;
-import android.os.Build;
-import android.provider.CalendarContract;
-import android.provider.CalendarContract.Events;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
-import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
-import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.WebViewActivity;
-import com.basmapp.marshal.util.DateHelper;
+import com.basmapp.marshal.util.ThemeUtils;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 
 public class CyclesGoogleFormsRecyclerAdapter extends RecyclerView.Adapter<CyclesGoogleFormsRecyclerAdapter.CycleVH> {
 
@@ -60,11 +51,7 @@ public class CyclesGoogleFormsRecyclerAdapter extends RecyclerView.Adapter<Cycle
 
             if (mCycles.get(position).isRunningNow()) {
                 holder.mDateTextView.setTypeface(Typeface.DEFAULT_BOLD);
-                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                    holder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary, mContext.getTheme()));
-                } else {
-                    holder.mDateTextView.setTextColor(mContext.getResources().getColor(R.color.colorPrimary));
-                }
+                holder.mDateTextView.setTextColor(ThemeUtils.getThemeColor(mContext, R.attr.colorPrimary));
             }
         } catch (Exception e) {
             e.printStackTrace();
