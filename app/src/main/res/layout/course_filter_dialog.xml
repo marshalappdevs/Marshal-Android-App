@@ -33,7 +33,7 @@
                     android:layout_height="24dp"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="15dp"
-                    android:background="@null"
+                    android:background="?selectableItemBackgroundBorderless"
                     android:contentDescription="@null"
                     app:srcCompat="@drawable/ic_clear_white" />
 
@@ -81,6 +81,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:background="?selectableItemBackgroundBorderless"
                 android:orientation="vertical">
 
                 <TextView
@@ -89,7 +90,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="8dp"
                     android:text="@string/course_filter_start_date_label"
-                    android:textColor="@color/primary_text_color"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
 
                 <TextView
@@ -115,6 +116,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1.0"
+                android:background="?selectableItemBackgroundBorderless"
                 android:orientation="vertical">
 
                 <TextView
@@ -123,7 +125,7 @@
                     android:layout_gravity="center_horizontal"
                     android:layout_marginBottom="8dp"
                     android:text="@string/course_filter_end_date_label"
-                    android:textColor="@color/primary_text_color"
+                    android:textColor="?android:textColorPrimary"
                     android:textSize="14sp" />
 
                 <TextView

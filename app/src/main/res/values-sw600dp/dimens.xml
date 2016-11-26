@@ -1,6 +1,8 @@
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
-    <dimen name="toolbar_height">64dp</dimen>
+    <!-- Customize dimensions originally defined in res/values/dimens.xml (such as
+         screen margins) for sw600dp devices (e.g. 7" tablets) in landscape here. -->
+    <dimen name="activity_horizontal_margin">64dp</dimen>
+    <dimen name="activity_horizontal_margin_half">32dp</dimen>
     <dimen name="highlight_banner_item_height">296dp</dimen>
     <dimen name="app_bar_height">320dp</dimen>
     <dimen name="course_category_header_xpadding">16dp</dimen>

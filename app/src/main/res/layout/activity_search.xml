@@ -13,14 +13,48 @@
 
         <include layout="@layout/app_bar_layout" />
 
-        <FrameLayout
+        <RelativeLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/filter_notice_bar_group"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:paddingEnd="@dimen/activity_horizontal_margin_half"
+                android:paddingStart="@dimen/activity_horizontal_margin_half"
+                android:visibility="gone">
+
+                <TextView
+                    android:id="@+id/course_filter_notice"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:layout_weight="1.0"
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="14sp" />
+
+                <Button
+                    android:id="@+id/reset_course_filter_button"
+                    style="@style/Widget.AppCompat.Button.Borderless"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="end"
+                    android:layout_weight="0.0"
+                    android:fontFamily="sans-serif-medium"
+                    android:gravity="end|center"
+                    android:text="@string/course_filter_reset_filter"
+                    android:textAllCaps="true"
+                    android:textColor="?colorPrimary"
+                    android:textSize="14sp" />
+            </LinearLayout>
 
             <android.support.v7.widget.RecyclerView
                 android:id="@+id/search_activity_recyclerView"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:layout_below="@+id/filter_notice_bar_group"
                 android:clipToPadding="false"
                 android:paddingBottom="4dp"
                 android:paddingTop="4dp" />
@@ -29,11 +63,13 @@
                 android:id="@+id/search_activity_no_results"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_centerInParent="true"
                 android:layout_gravity="center"
                 android:layout_marginEnd="@dimen/activity_horizontal_margin"
                 android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:textAppearance="?android:attr/textAppearanceMedium" />
-        </FrameLayout>
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:visibility="gone" />
+        </RelativeLayout>
 
     </LinearLayout>
 </android.support.design.widget.CoordinatorLayout>

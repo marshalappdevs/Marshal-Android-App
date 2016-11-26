@@ -30,6 +30,7 @@ import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -72,7 +73,9 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<Course> mFilteredCourseList;
 
     private String mSearchQuery;
-    private TextView mNoResults;
+    private LinearLayout mFilterNoticeGroup;
+    private TextView mNoResults, mCourseFilterNotice;
+    private Button mResetFilter;
     private boolean isEmptyResult = false;
     private SimpleDateFormat mFilterDateFormat;
     private MaterialTapTargetPrompt mFilterPrompt;
@@ -111,6 +114,9 @@ public class SearchActivity extends BaseActivity {
         mFilterDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
         mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
+        mFilterNoticeGroup = (LinearLayout) findViewById(R.id.filter_notice_bar_group);
+        mCourseFilterNotice = (TextView) findViewById(R.id.course_filter_notice);
+        mResetFilter = (Button) findViewById(R.id.reset_course_filter_button);
 
         if (mCoursesList != null)
             mFilteredCourseList = new ArrayList<>(mCoursesList);
@@ -385,6 +391,12 @@ public class SearchActivity extends BaseActivity {
             mStartDatePicker = (TextView) rootView.findViewById(R.id.start_date_picker);
             mEndDatePicker = (TextView) rootView.findViewById(R.id.end_date_picker);
 
+            // Workaround to set changeable primary color with custom dialog theme
+            int primaryColor = ThemeUtils.getThemeColor(getActivity(), R.attr.colorPrimary);
+            rootView.findViewById(R.id.course_filter_dialog_android_view).setBackgroundColor(primaryColor);
+            mStartDatePicker.setTextColor(primaryColor);
+            mEndDatePicker.setTextColor(primaryColor);
+
             // Dismiss dialog button
             ImageButton dismiss = (ImageButton) rootView.findViewById(R.id.course_filter_dismiss);
             dismiss.setOnClickListener(new View.OnClickListener() {
@@ -529,7 +541,7 @@ public class SearchActivity extends BaseActivity {
     public void resetFilter() {
         String query = mSearchView.getQuery() == null ? "" : mSearchView.getQuery().toString();
         if (mFilteredCourseList != null) {
-            showResults(query, mFilteredCourseList, true);
+            showResults(query, mFilteredCourseList, false);
         }
         mFinalEndDate = mFinalStartDate = 0;
     }
@@ -595,9 +607,24 @@ public class SearchActivity extends BaseActivity {
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
+            mFilterNoticeGroup.setVisibility(View.GONE);
         } else {
             mNoResults.setVisibility(View.GONE);
             isEmptyResult = false;
+            if (filter) {
+                mFilterNoticeGroup.setVisibility(View.VISIBLE);
+                mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_date_range_notice),
+                        mFilterDateFormat.format(mFinalStartDate),
+                        mFilterDateFormat.format(mFinalEndDate)));
+                mResetFilter.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        resetFilter();
+                    }
+                });
+            } else {
+                mFilterNoticeGroup.setVisibility(View.GONE);
+            }
         }
         mAdapter.animateTo(listToShow);
         mRecycler.scrollToPosition(0);
