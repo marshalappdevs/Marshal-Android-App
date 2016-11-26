@@ -20,7 +20,6 @@ public class Course extends DBObject implements Parcelable {
 
     public static final String TABLE_NAME = "t_course";
 
-    public static final String COL_GOOGLE_FORM_URL = "col_google_form_url";
     public static final String COL_IS_MEETUP = "is_meetup";
     public static final String COL_CATEGORY = "category";
     public static final String COL_IS_USER_SUBSCRIBE = "is_user_subscribe";
@@ -133,11 +132,6 @@ public class Course extends DBObject implements Parcelable {
     @SerializedName("PictureUrl")
     @Column(name = COL_IMAGE_URL)
     private String imageUrl;
-
-    @Expose
-    @SerializedName("GoogleFormUrl")
-    @Column(name = COL_GOOGLE_FORM_URL)
-    private String googleFormUrl;
 
     @Expose
     @SerializedName("IsMooc")
@@ -308,14 +302,6 @@ public class Course extends DBObject implements Parcelable {
         this.imageUrl = imageUrl;
     }
 
-    public String getGoogleFormUrl() {
-        return googleFormUrl;
-    }
-
-    public void setGoogleFormUrl(String googleFormUrl) {
-        this.googleFormUrl = googleFormUrl;
-    }
-
     public Boolean getIsMooc() {
         return isMooc;
     }
@@ -398,7 +384,6 @@ public class Course extends DBObject implements Parcelable {
         dest.writeInt(passingGrade);
         dest.writeTypedList(cycles);
         dest.writeString(imageUrl);
-        dest.writeString(googleFormUrl);
         dest.writeString(category);
         dest.writeInt((isMooc) ? 1 : 0);
         dest.writeInt((isMeetup) ? 1 : 0);
@@ -429,7 +414,6 @@ public class Course extends DBObject implements Parcelable {
         this.passingGrade = in.readInt();
         in.readTypedList(cycles, Cycle.CREATOR);
         this.imageUrl = in.readString();
-        this.googleFormUrl = in.readString();
         this.category = in.readString();
         this.isMooc = (in.readInt() != 0);
         this.isMeetup = (in.readInt() != 0);

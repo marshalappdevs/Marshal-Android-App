@@ -1,6 +1,7 @@
 package com.basmapp.marshal.ui;
 
 import android.annotation.SuppressLint;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
@@ -15,6 +16,7 @@ import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -26,6 +28,7 @@ import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -42,6 +45,7 @@ import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.basmapp.marshal.ui.adapters.CyclesGoogleFormsRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 import com.basmapp.marshal.util.LocaleUtils;
@@ -78,6 +82,9 @@ public class CourseActivity extends BaseActivity {
 
     private Course mCourse;
     private Rating mUserRating;
+    private ArrayList<Cycle> mCyclesWithGoogleForms;
+    private Cycle mCurrentCycle;
+    private ArrayList<Cycle> mCycles;
 
     private TextView mTextViewCourseName;
     private TextView mTextViewCourseCategory;
@@ -116,7 +123,6 @@ public class CourseActivity extends BaseActivity {
     private SharedPreferences mSharedPreferences;
 
     private MaterialTapTargetPrompt mFabPrompt;
-    private ArrayList<Cycle> mCycles;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -653,27 +659,6 @@ public class CourseActivity extends BaseActivity {
             findViewById(R.id.course_content_relativeLayout_category).setVisibility(View.GONE);
         }
 
-//        if ((mCourse.getCategory() != null)) {
-//            if (Objects.equals(mCourse.getCategory(), "software"))
-//                mTextViewCourseCategory.setText(getString(R.string.course_type_software));
-//            if (Objects.equals(mCourse.getCategory(), "cyber"))
-//                mTextViewCourseCategory.setText(getString(R.string.course_type_cyber));
-//            if (Objects.equals(mCourse.getCategory(), "it"))
-//                mTextViewCourseCategory.setText(getString(R.string.course_type_it));
-//            if (Objects.equals(mCourse.getCategory(), "tools"))
-//                mTextViewCourseCategory.setText(getString(R.string.course_type_tools));
-//            if (Objects.equals(mCourse.getCategory(), "system"))
-//                mTextViewCourseCategory.setText(getString(R.string.course_type_system));
-//            if (mCourse.getIsMooc()) {
-//                mTextViewCourseMooc.setVisibility(View.VISIBLE);
-//            } else {
-//                mTextViewCourseMooc.setVisibility(View.GONE);
-//            }
-//            isAnyDataExist = true;
-//        } else {
-//
-//        }
-
         // Set course's Code
         if ((mCourse.getCourseCode() != null) &&
                 (!mCourse.getCourseCode().equals(""))) {
@@ -802,26 +787,7 @@ public class CourseActivity extends BaseActivity {
             }
         });
 
-        if (mCourse.getGoogleFormUrl() != null && !mCourse.getGoogleFormUrl().equals("")) {
-            findViewById(R.id.course_activity_google_form_button).setVisibility(View.VISIBLE);
-            findViewById(R.id.course_activity_google_form_button).setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Intent intent = new Intent(CourseActivity.this, WebViewActivity.class);
-                    intent.putExtra(Constants.EXTRA_WEB_VIEW_TITLE,
-                            getString(R.string.details_secondary_action_google_form) + ": " + mCourse.getName());
-                    intent.putExtra(Constants.EXTRA_WEB_VIEW_URL, mCourse.getGoogleFormUrl());
-                    startActivity(intent);
-//                    new CustomTabsIntent.Builder()
-//                            .setToolbarColor(contentColor)
-//                            .setShowTitle(true)
-//                            .addDefaultShareMenuItem()
-//                            .setCloseButtonIcon(BitmapFactory.decodeResource(CourseActivity.this.getResources(), R.drawable.ic_arrow_back_wht))
-//                            .build()
-//                            .launchUrl(CourseActivity.this, Uri.parse(mCourse.getGoogleFormUrl()));
-                }
-            });
-        }
+        initCyclesGoogleForms();
 
         if (mTextViewGeneralDescription != null && !mTextViewGeneralDescription.getText().equals("")) {
             Bidi bidi = new Bidi(mTextViewGeneralDescription.getText().toString(),
@@ -853,6 +819,125 @@ public class CourseActivity extends BaseActivity {
                                 + language_from + "/" + language_to + "/" + text_input)));
             }
         });
+    }
+
+    private void initCyclesGoogleForms() {
+        if (mCourse.getCycles() != null && mCourse.getCycles().size() > 0) {
+
+            new AsyncTask<Void, Void, Cycle>() {
+                @Override
+                protected Cycle doInBackground(Void... voids) {
+                    mCyclesWithGoogleForms = new ArrayList<>();
+                    Cycle currentCycle = null;
+
+                    for (Cycle cycle : mCourse.getCycles()) {
+                        if (cycle.getGoogleFormUrl() != null &&
+                                !cycle.getGoogleFormUrl().equals("")) {
+                            mCyclesWithGoogleForms.add(cycle);
+                        }
+                        if (cycle.isRunningNow()) {
+                            currentCycle = cycle;
+                        }
+                    }
+
+                    if (mCyclesWithGoogleForms.size() > 0)
+                        orderCycles();
+
+                    return currentCycle;
+                }
+
+                @Override
+                protected void onPostExecute(Cycle currentCycle) {
+                    super.onPostExecute(currentCycle);
+
+                    mCurrentCycle = currentCycle;
+
+                    if (mCyclesWithGoogleForms.size() > 0) {
+                        findViewById(R.id.course_activity_google_form_button).setVisibility(View.VISIBLE);
+                        findViewById(R.id.course_activity_google_form_button).setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                if (mCurrentCycle != null) {
+                                    String message = String.format(CourseActivity.this
+                                                    .getString(R.string.course_cycle_feedback_current_cycle_format),
+                                            DateHelper.dateToString(mCurrentCycle.getStartDate()),
+                                            DateHelper.dateToString(mCurrentCycle.getEndDate()));
+                                    new AlertDialog.Builder(CourseActivity.this)
+                                            .setMessage(message)
+                                            .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    showGoogleFormsActivity(mCurrentCycle,
+                                                            mCurrentCycle.getGoogleFormUrl());
+                                                }
+                                            })
+                                            .setNegativeButton(R.string.other_cycle, new DialogInterface.OnClickListener() {
+                                                @Override
+                                                public void onClick(DialogInterface dialogInterface, int i) {
+                                                    showCycleFormsListDialog();
+                                                }
+                                            })
+                                            .show();
+                                } else {
+                                    showCycleFormsListDialog();
+                                }
+                            }
+                        });
+                    }
+                }
+
+                private void showCycleFormsListDialog() {
+//                    new AlertDialog.Builder(CourseActivity.this)
+//                            .setTitle(R.string.course_choose_cycle)
+//                            .setAdapter(new ArrayAdapter<>(CourseActivity.this,
+//                                    android.R.layout.simple_list_item_1, mCyclesWithGoogleForms), new DialogInterface.OnClickListener() {
+//                                @Override
+//                                public void onClick(DialogInterface dialogInterface, int position) {
+//                                    showGoogleFormsActivity(mCyclesWithGoogleForms.get(position),
+//                                            mCyclesWithGoogleForms.get(position)
+//                                            .getGoogleFormUrl());
+//                                }
+//                            })
+//                            .show();
+                    BottomSheetDialog bottomSheetDialog = new BottomSheetDialog(CourseActivity.this);
+                    View sheetView = getLayoutInflater().inflate(R.layout.bottom_sheet_cycles, null);
+                    bottomSheetDialog.setContentView(sheetView);
+                    bottomSheetDialog.show();
+                    try {
+                        orderCyclesByAscending();
+                        RecyclerView recyclerView = (RecyclerView)
+                                sheetView.findViewById(R.id.cycle_activity_recyclerView);
+                        LinearLayoutManager linearLayoutManager =
+                                new LinearLayoutManager(CourseActivity.this);
+                        recyclerView.setLayoutManager(linearLayoutManager);
+                        recyclerView.setItemAnimator(new DefaultItemAnimator());
+                        CyclesGoogleFormsRecyclerAdapter cyclesGoogleFormsRecyclerAdapter =
+                                new CyclesGoogleFormsRecyclerAdapter(CourseActivity.this, mCyclesWithGoogleForms);
+                        recyclerView.setAdapter(cyclesGoogleFormsRecyclerAdapter);
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
+                }
+
+                private void showGoogleFormsActivity(Cycle cycle, String url) {
+                    Intent intent = new Intent(CourseActivity.this, WebViewActivity.class);
+                    intent.putExtra(Constants.EXTRA_WEB_VIEW_TITLE, cycle.toDatesRangeString(CourseActivity.this));
+                    intent.putExtra(Constants.EXTRA_WEB_VIEW_URL, url);
+                    startActivity(intent);
+                }
+
+                private void orderCycles() {
+                    Collections.sort(mCyclesWithGoogleForms, new Comparator<Cycle>() {
+                        public int compare(Cycle cycle1, Cycle cycle2) {
+                            if (cycle1.getStartDate() == null || cycle2.getStartDate() == null)
+                                return 0;
+                            return cycle1.getStartDate().compareTo(cycle2.getStartDate());
+                        }
+                    });
+                }
+
+            }.execute();
+        }
     }
 
     private class SubscribeTask extends AsyncTask<Void, Void, Boolean> {

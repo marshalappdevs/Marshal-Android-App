@@ -5,6 +5,7 @@ import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
+import com.basmapp.marshal.R;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.localdb.annotations.Column;
 import com.basmapp.marshal.localdb.annotations.PrimaryKey;
@@ -27,6 +28,7 @@ public class Cycle extends DBObject implements Parcelable {
     public static final String COL_DESCRIPTION = "description";
     public static final String COL_START_DATE = "start_date";
     public static final String COL_END_DATE = "end_date";
+    public static final String COL_GOOGLE_FORM_URL = "col_google_form_url";
 
     @PrimaryKey(columnName = COL_ID, isAutoIncrement = true)
     private long id;
@@ -60,6 +62,11 @@ public class Cycle extends DBObject implements Parcelable {
     @SerializedName("EndDate")
     @Column(name = COL_END_DATE)
     private Date endDate;
+
+    @Expose
+    @SerializedName("GoogleFormsUrl")
+    @Column(name = COL_GOOGLE_FORM_URL)
+    private String googleFormUrl;
 
     public Cycle(Context context) {
         super(context);
@@ -121,14 +128,12 @@ public class Cycle extends DBObject implements Parcelable {
         this.endDate = endDate;
     }
 
-    ////////////////////// Methods ////////////////////////
-
-    public String getStartDateAsString() {
-        return DateHelper.dateToString(startDate);
+    public String getGoogleFormUrl() {
+        return googleFormUrl;
     }
 
-    public String getEndDateAsString() {
-        return DateHelper.dateToString(endDate);
+    public void setGoogleFormUrl(String googleFormUrl) {
+        this.googleFormUrl = googleFormUrl;
     }
 
     ////////////////////// Parcelable methods ////////////////////////
@@ -149,6 +154,7 @@ public class Cycle extends DBObject implements Parcelable {
         parcel.writeString(description);
         parcel.writeString(DateHelper.dateToString(startDate));
         parcel.writeString(DateHelper.dateToString(endDate));
+        parcel.writeString(googleFormUrl);
     }
 
     /**
@@ -164,6 +170,7 @@ public class Cycle extends DBObject implements Parcelable {
         this.description = in.readString();
         this.startDate = DateHelper.stringToDate(in.readString());
         this.endDate = DateHelper.stringToDate(in.readString());
+        this.googleFormUrl = in.readString();
     }
 
     public static final Parcelable.Creator<Cycle> CREATOR = new Parcelable.Creator<Cycle>() {
@@ -179,24 +186,15 @@ public class Cycle extends DBObject implements Parcelable {
         }
     };
 
-    public SQLiteStatement getStatement(SQLiteStatement statement, int courseId, long objectId) throws Exception {
-        if (startDate != null && endDate != null && (startDate.compareTo(new Date()) > 0)) {
-            statement.clearBindings();
-            statement.bindLong(1, objectId);
-            statement.bindLong(2, courseId);
+    public String toDatesRangeString(Context context) {
+        return String.format(context.getString(R.string.course_cycle_format),
+                DateHelper.dateToString(this.getStartDate()),
+                DateHelper.dateToString(this.getEndDate()));
+    }
 
-            if (name == null)
-                name = "";
-            statement.bindString(3, getName());
-            statement.bindLong(4, getMaximumPeople());
-
-            if (description == null)
-                description = "";
-            statement.bindString(5, getDescription());
-            statement.bindLong(6, startDate.getTime());
-            statement.bindLong(7, endDate.getTime());
-
-            return statement;
-        } else return null;
+    public boolean isRunningNow() {
+        long now = new Date().getTime();
+        return now > this.getStartDate().getTime() &&
+                now < (this.getEndDate().getTime() + 86400000);
     }
 }
