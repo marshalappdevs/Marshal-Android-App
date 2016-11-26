@@ -66,7 +66,7 @@
             android:layout_marginBottom="10dp"
             android:background="@drawable/spinner_bg"
             android:popupBackground="@color/cards_and_dialogs_color"
-            android:visibility="gone" />
+            android:visibility="visible" />
 
         <LinearLayout
             android:layout_width="match_parent"

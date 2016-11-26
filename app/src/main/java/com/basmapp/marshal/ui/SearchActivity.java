@@ -86,7 +86,9 @@ public class SearchActivity extends BaseActivity {
     private static final String SEARCH_PREVIOUS_QUERY = "SEARCH_PREVIOUS_QUERY";
     private static final String FILTER_PREVIOUS_START_DATE_FINAL = "FILTER_PREVIOUS_START_DATE_FINAL";
     private static final String FILTER_PREVIOUS_END_DATE_FINAL = "FILTER_PREVIOUS_END_DATE_FINAL";
+    private static final String FILTER_PREVIOUS_SPINNER_SELECTION_FINAL = "FILTER_PREVIOUS_SPINNER_SELECTION_FINAL";
     private long mFinalStartDate, mFinalEndDate;
+    private int mFinalSpinnerSelection;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -167,6 +169,9 @@ public class SearchActivity extends BaseActivity {
             outState.putLong(FILTER_PREVIOUS_START_DATE_FINAL, mFinalStartDate);
         if (mFinalEndDate != 0)
             outState.putLong(FILTER_PREVIOUS_END_DATE_FINAL, mFinalEndDate);
+        // Save final spinner selection
+        if (mFinalSpinnerSelection != 0)
+            outState.putInt(FILTER_PREVIOUS_SPINNER_SELECTION_FINAL, mFinalSpinnerSelection);
     }
 
     @Override
@@ -177,6 +182,7 @@ public class SearchActivity extends BaseActivity {
         // Restore previous final filter dates
         mFinalStartDate = savedInstanceState.getLong(FILTER_PREVIOUS_START_DATE_FINAL);
         mFinalEndDate = savedInstanceState.getLong(FILTER_PREVIOUS_END_DATE_FINAL);
+        mFinalSpinnerSelection = savedInstanceState.getInt(FILTER_PREVIOUS_SPINNER_SELECTION_FINAL);
     }
 
     @Override
@@ -226,7 +232,11 @@ public class SearchActivity extends BaseActivity {
         mSearchView.clearFocus();
 
         // Show filtered search if dates are available (from saved instance for example)
-        filterByDatesRange(mFinalStartDate, mFinalEndDate);
+        if (mFinalStartDate == 0 && mFinalEndDate == 0 && mFinalSpinnerSelection == 0) {
+            return true;
+        } else {
+            filterByDatesRange(mFinalStartDate, mFinalEndDate, mFinalSpinnerSelection);
+        }
 
         // Show target prompt for filter
         showFilterTargetPrompt();
@@ -239,7 +249,7 @@ public class SearchActivity extends BaseActivity {
         switch (item.getItemId()) {
             case R.id.m_filter:
                 if (!isEmptyResult) {
-                    CourseFilterDialog courseFilterDialog = CourseFilterDialog.newInstance(mFinalStartDate, mFinalEndDate);
+                    CourseFilterDialog courseFilterDialog = CourseFilterDialog.newInstance(mFinalStartDate, mFinalEndDate, mFinalSpinnerSelection);
                     courseFilterDialog.show(getSupportFragmentManager(), Constants.DIALOG_FRAGMENT_FILTER_BY_DATE);
                 } else {
                     Toast.makeText(this, R.string.filter_not_available,
@@ -337,13 +347,15 @@ public class SearchActivity extends BaseActivity {
         private int mSpinnerSelection;
         private static final String FILTER_PREVIOUS_START_DATE = "FILTER_PREVIOUS_START_DATE";
         private static final String FILTER_PREVIOUS_END_DATE = "FILTER_PREVIOUS_END_DATE";
+        private static final String FILTER_PREVIOUS_SPINNER_SELECTION = "FILTER_PREVIOUS_SPINNER_SELECTION";
 
-        static CourseFilterDialog newInstance(long startDate, long endDate) {
+        static CourseFilterDialog newInstance(long startDate, long endDate, int spinnerSelection) {
             CourseFilterDialog courseFilterDialog = new CourseFilterDialog();
             // Get filter dates as an argument
             Bundle args = new Bundle();
             args.putLong("start_date", startDate);
             args.putLong("end_date", endDate);
+            args.putInt("spinner_selection", spinnerSelection);
             courseFilterDialog.setArguments(args);
             return courseFilterDialog;
         }
@@ -354,14 +366,16 @@ public class SearchActivity extends BaseActivity {
             setStyle(STYLE_NO_TITLE, R.style.CourseFilterDialogTheme);
             mStartDate = getArguments().getLong("start_date");
             mEndDate = getArguments().getLong("end_date");
+            mSpinnerSelection = getArguments().getInt("spinner_selection");
         }
 
         @Override
         public void onSaveInstanceState(Bundle outState) {
             super.onSaveInstanceState(outState);
             // Save filtered dates if available
-            if (mStartDate != 0) outState.putLong(FILTER_PREVIOUS_START_DATE, mStartDate);
-            if (mEndDate != 0) outState.putLong(FILTER_PREVIOUS_END_DATE, mEndDate);
+            outState.putLong(FILTER_PREVIOUS_START_DATE, mStartDate);
+            outState.putLong(FILTER_PREVIOUS_END_DATE, mEndDate);
+            outState.putLong(FILTER_PREVIOUS_SPINNER_SELECTION, mSpinnerSelection);
         }
 
         @Override
@@ -371,14 +385,17 @@ public class SearchActivity extends BaseActivity {
                 // Restore previous filter dates
                 mStartDate = savedInstanceState.getLong(FILTER_PREVIOUS_START_DATE);
                 mEndDate = savedInstanceState.getLong(FILTER_PREVIOUS_END_DATE);
+                mSpinnerSelection = savedInstanceState.getInt(FILTER_PREVIOUS_SPINNER_SELECTION);
             }
-            // Set TextViews again after date is restored
+            // Update TextViews again after date is restored
             if (mStartDate != 0 && mStartDatePicker != null) {
                 mStartDatePicker.setText(mFilterDateFormat.format(mStartDate));
             }
             if (mEndDate != 0 && mEndDatePicker != null) {
                 mEndDatePicker.setText(mFilterDateFormat.format(mEndDate));
             }
+            // Update Spinner selection after it's restored
+            mCourseTypeSpinner.setSelection(mSpinnerSelection);
         }
 
         @Override
@@ -438,7 +455,7 @@ public class SearchActivity extends BaseActivity {
                 @Override
                 public void onClick(View view) {
                     getDialog().dismiss();
-                    ((SearchActivity) getActivity()).applyFilter(mStartDate, mEndDate);
+                    ((SearchActivity) getActivity()).applyFilter(mStartDate, mEndDate, mSpinnerSelection);
                 }
             });
 
@@ -447,9 +464,13 @@ public class SearchActivity extends BaseActivity {
             reset.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    getDialog().dismiss();
+//                    getDialog().dismiss();
                     mStartDate = mEndDate = 0;
-                    ((SearchActivity) getActivity()).resetFilter();
+                    mSpinnerSelection = 0;
+                    mCourseTypeSpinner.setSelection(0);
+                    mStartDatePicker.setText(R.string.course_filter_select_date_action);
+                    mEndDatePicker.setText(R.string.course_filter_select_date_action);
+//                    ((SearchActivity) getActivity()).resetFilter();
                 }
             });
 
@@ -541,15 +562,16 @@ public class SearchActivity extends BaseActivity {
         }
     }
 
-    public void applyFilter(long startDate, long endDate) {
+    public void applyFilter(long startDate, long endDate, int spinnerSelection) {
         // Save final filter parameters
         mFinalStartDate = startDate;
         mFinalEndDate = endDate;
-        // Don't call filter if both dates are not selected
-        if (startDate == 0 && endDate == 0) {
+        mFinalSpinnerSelection = spinnerSelection;
+        if (startDate == 0 && endDate == 0 && spinnerSelection == 0) {
+            resetFilter();
             return;
         }
-        filterByDatesRange(startDate, endDate);
+        filterByDatesRange(startDate, endDate, spinnerSelection);
     }
 
     public void resetFilter() {
@@ -557,10 +579,11 @@ public class SearchActivity extends BaseActivity {
         if (mFilteredCourseList != null) {
             showResults(query, mFilteredCourseList, false);
         }
+        mFinalSpinnerSelection = 0;
         mFinalEndDate = mFinalStartDate = 0;
     }
 
-    private void filterByDatesRange(long startDate, long endDate) {
+    private void filterByDatesRange(long startDate, long endDate, int spinnerSelection) {
         ArrayList<Course> currentFilteredList = new ArrayList<>();
         try {
             if (mFilteredCourseList != null && mFilteredCourseList.size() > 0) {
@@ -574,26 +597,81 @@ public class SearchActivity extends BaseActivity {
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
                                     if (cycleStartTime >= startDate && cycleEndTime <= endDate) {
-                                        currentFilteredList.add(course);
+                                        if (spinnerSelection == 1) {
+                                            // Add only regular courses
+                                            if (!course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add only online courses
+                                        } else if (spinnerSelection == 2) {
+                                            if (course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add all courses
+                                        } else {
+                                            currentFilteredList.add(course);
+                                        }
                                         break;
                                     }
                                 } else if (startDate != 0) {
                                     // Searching for courses after start date without end date limit
                                     if (cycleStartTime >= startDate) {
-                                        currentFilteredList.add(course);
+                                        if (spinnerSelection == 1) {
+                                            // Add only regular courses
+                                            if (!course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add only online courses
+                                        } else if (spinnerSelection == 2) {
+                                            if (course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add all courses
+                                        } else {
+                                            currentFilteredList.add(course);
+                                        }
                                         break;
                                     }
                                 } else {
                                     // Searching for courses before end date without start date limit
                                     if (cycleEndTime <= endDate) {
-                                        currentFilteredList.add(course);
+                                        if (spinnerSelection == 1) {
+                                            // Add only regular courses
+                                            if (!course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add only online courses
+                                        } else if (spinnerSelection == 2) {
+                                            if (course.getIsMooc()) {
+                                                currentFilteredList.add(course);
+                                            }
+                                            // Add all courses
+                                        } else {
+                                            currentFilteredList.add(course);
+                                        }
                                         break;
                                     }
                                 }
-
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
+                        }
+                    }
+                    // Searching only for course type
+                    if (startDate == 0 && endDate == 0 && spinnerSelection != 0) {
+                        if (spinnerSelection == 1) {
+                            // Add only regular courses
+                            if (!course.getIsMooc()) {
+                                currentFilteredList.add(course);
+                            }
+                            // Add only online courses
+                        } else if (spinnerSelection == 2) {
+                            if (course.getIsMooc()) {
+                                currentFilteredList.add(course);
+                            }
+                            // Add all courses
+                        } else {
+                            currentFilteredList.add(course);
                         }
                     }
                 }
@@ -642,19 +720,31 @@ public class SearchActivity extends BaseActivity {
             if (filter) {
                 mFilterNoticeGroup.setVisibility(View.VISIBLE);
 
-                if (mFinalStartDate != 0 && mFinalEndDate != 0) {
-                    // Searching for courses in a date range
-                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_date_range_notice),
-                            mFilterDateFormat.format(mFinalStartDate),
-                            mFilterDateFormat.format(mFinalEndDate)));
-                } else if (mFinalStartDate != 0) {
-                    // Searching for courses after start date without end date limit
-                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_beginning_date_notice),
-                            mFilterDateFormat.format(mFinalStartDate)));
+                int filterCount = mFinalStartDate != 0 || mFinalEndDate != 0 ? 1 : 0;
+                if (mFinalSpinnerSelection != 0) filterCount++;
+
+                if (filterCount > 1) {
+                    // 2 active filters
+                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_count_notice), 2));
+                } else if (mFinalSpinnerSelection != 0) {
+                    // Searching only courses by type
+                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_type_notice),
+                            getResources().getStringArray(R.array.filter_type_spinner)[mFinalSpinnerSelection]));
                 } else {
-                    // Searching for courses before end date without start date limit
-                    mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_ending_date_notice),
-                            mFilterDateFormat.format(mFinalEndDate)));
+                    if (mFinalStartDate != 0 && mFinalEndDate != 0) {
+                        // Searching for courses in a date range
+                        mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_date_range_notice),
+                                mFilterDateFormat.format(mFinalStartDate),
+                                mFilterDateFormat.format(mFinalEndDate)));
+                    } else if (mFinalStartDate != 0) {
+                        // Searching for courses after start date without end date limit
+                        mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_beginning_date_notice),
+                                mFilterDateFormat.format(mFinalStartDate)));
+                    } else {
+                        // Searching for courses before end date without start date limit
+                        mCourseFilterNotice.setText(String.format(getString(R.string.active_filter_ending_date_notice),
+                                mFilterDateFormat.format(mFinalEndDate)));
+                    }
                 }
 
                 mResetFilter.setOnClickListener(new View.OnClickListener() {

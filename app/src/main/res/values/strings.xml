@@ -124,7 +124,7 @@
     <string name="course_filter_apply_filters_button">Apply filters</string>
     <string name="course_filter_start_date_empty">Start date cannot be empty.</string>
     <string name="course_filter_end_date_empty">End date cannot be empty.</string>
-    <string name="no_results_for_filter">No results found for selected dates</string>
+    <string name="no_results_for_filter">No results found</string>
     <string name="active_filter_beginning_date_notice">Showing courses after %1$s.</string>
     <string name="active_filter_count_notice">%1$d active filters.</string>
     <string name="active_filter_date_range_notice">Courses from %1$s to %2$s.</string>
