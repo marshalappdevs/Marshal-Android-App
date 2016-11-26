@@ -225,20 +225,8 @@ public class SearchActivity extends BaseActivity {
         });
         mSearchView.clearFocus();
 
-
         // Show filtered search if dates are available (from saved instance for example)
-        // Searching for courses after start date without end date limit
-        if (mFinalStartDate != 0 && mFinalEndDate == 0) {
-            filterByDatesRange(mFinalStartDate, 0);
-        }
-        // Searching for courses before end date without start date limit
-        if (mFinalEndDate != 0 && mFinalStartDate == 0) {
-            filterByDatesRange(0, mFinalEndDate);
-        }
-        // Searching for courses in a date range
-        if (mFinalStartDate != 0 && mFinalEndDate != 0) {
-            filterByDatesRange(mFinalStartDate, mFinalEndDate);
-        }
+        filterByDatesRange(mFinalStartDate, mFinalEndDate);
 
         // Show target prompt for filter
         showFilterTargetPrompt();
