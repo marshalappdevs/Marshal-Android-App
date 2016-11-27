@@ -46,7 +46,6 @@ import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
-import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.ThemeUtils;
 
@@ -485,6 +484,11 @@ public class SearchActivity extends BaseActivity {
                     mCalendar.set(Calendar.YEAR, year);
                     mCalendar.set(Calendar.MONTH, monthOfYear);
                     mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    // Ignore the time
+                    mCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                    mCalendar.set(Calendar.MINUTE, 0);
+                    mCalendar.set(Calendar.SECOND, 0);
+                    mCalendar.set(Calendar.MILLISECOND, 0);
                     // Update TextView
                     mStartDatePicker.setText(mFilterDateFormat.format(mCalendar.getTime()));
                     // Save start date long
@@ -526,6 +530,11 @@ public class SearchActivity extends BaseActivity {
                     mCalendar.set(Calendar.YEAR, year);
                     mCalendar.set(Calendar.MONTH, monthOfYear);
                     mCalendar.set(Calendar.DAY_OF_MONTH, dayOfMonth);
+                    // Ignore the time
+                    mCalendar.set(Calendar.HOUR_OF_DAY, 0);
+                    mCalendar.set(Calendar.MINUTE, 0);
+                    mCalendar.set(Calendar.SECOND, 0);
+                    mCalendar.set(Calendar.MILLISECOND, 0);
                     // Update TextView
                     mEndDatePicker.setText(mFilterDateFormat.format(mCalendar.getTime()));
                     // Save end date long
@@ -597,8 +606,7 @@ public class SearchActivity extends BaseActivity {
 
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
-                                    if ((cycleStartTime > startDate || DateHelper.isSameDate(cycleStartTime, startDate)) &&
-                                            ((cycleEndTime < endDate) || DateHelper.isSameDate(cycleEndTime, endDate))) {
+                                    if (cycleStartTime >= startDate  && (cycleEndTime <= endDate)) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
@@ -617,7 +625,7 @@ public class SearchActivity extends BaseActivity {
                                     }
                                 } else if (startDate != 0) {
                                     // Searching for courses after start date without end date limit
-                                    if (cycleStartTime > startDate || DateHelper.isSameDate(cycleStartTime, startDate)) {
+                                    if (cycleStartTime >= startDate) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
@@ -636,7 +644,7 @@ public class SearchActivity extends BaseActivity {
                                     }
                                 } else if (endDate != 0) {
                                     // Searching for courses before end date without start date limit
-                                    if (cycleEndTime < endDate || DateHelper.isSameDate(cycleEndTime, endDate)) {
+                                    if (cycleEndTime <= endDate) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses

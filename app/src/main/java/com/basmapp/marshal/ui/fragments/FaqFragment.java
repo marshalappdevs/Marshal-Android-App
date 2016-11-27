@@ -23,7 +23,6 @@ import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.ui.adapters.FaqRecyclerAdapter;
-import com.basmapp.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 
 import java.util.ArrayList;
