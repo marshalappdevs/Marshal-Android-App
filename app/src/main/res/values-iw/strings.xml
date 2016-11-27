@@ -139,6 +139,7 @@
     <string name="faq">שאלות נפוצות</string>
     <string name="faq_helpful_question">האם זה היה מועיל?</string>
     <string name="faq_helpful_complete_toast">תודה על המשוב.</string>
+    <string name="faq_helpful_failed_toast">לא ניתן היה לשלוח את המשוב</string>
     <string name="next">הבא</string>
     <string name="choose_action">בחר פעולה</string>
     <string name="error_load_image">לא ניתן לטעון תמונה זו. אנא נסה שוב.</string>
@@ -174,6 +175,7 @@
         <item>@string/navigation_drawer_materials</item>
         <item>@string/navigation_drawer_meetups</item>
         <item>@string/navigation_drawer_malshab</item>
+        <item>@string/navigation_drawer_faq</item>
     </string-array>
 
     <!--About-->

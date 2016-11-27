@@ -2,6 +2,7 @@ package com.basmapp.marshal.ui.adapters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
@@ -19,6 +20,8 @@ import android.widget.Toast;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.FaqItem;
+import com.basmapp.marshal.util.AuthUtil;
+import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
 
 import java.util.ArrayList;
@@ -67,10 +70,16 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         answerExpanded ? 180 : 0).start();
                 holder.answerTextView.setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
+                if (mFaq.get(holder.getAdapterPosition()).getAnswerLink() != null) {
+                    holder.answerLink.setVisibility(
+                            answerExpanded ? View.VISIBLE : View.GONE);
+                }
                 holder.answerImageView.setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
-                holder.faqForm.setVisibility(
-                        answerExpanded ? View.VISIBLE : View.GONE);
+                if (!mFaq.get(holder.getAdapterPosition()).getIsRated()) {
+                    holder.faqForm.setVisibility(
+                            answerExpanded ? View.VISIBLE : View.GONE);
+                }
             }
         });
 
@@ -83,22 +92,21 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         if (mFaq.get(position).getAnswerImageUrl() != null) {
             Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl()).into(holder.answerImageView);
         }
+        if (mFaq.get(position).getAnswerLink() != null) {
+            holder.answerLink.setText(mFaq.get(position).getAnswerLink());
+        }
 
         holder.faqFormPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, R.string.faq_helpful_complete_toast, Toast.LENGTH_LONG).show();
-                holder.faqForm.setVisibility(View.GONE);
-                // TODO: send feedback to server and save in local db
+                new SendFaqIsUsefulRequest("useful", mFaq.get(holder.getAdapterPosition()), holder.faqForm).execute();
             }
         });
 
         holder.faqFormNegative.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Toast.makeText(mContext, R.string.faq_helpful_complete_toast, Toast.LENGTH_LONG).show();
-                holder.faqForm.setVisibility(View.GONE);
-                // TODO: send feedback to server and save in local db
+                new SendFaqIsUsefulRequest("unuseful", mFaq.get(holder.getAdapterPosition()), holder.faqForm).execute();
             }
         });
 
@@ -166,9 +174,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 
         CardView cardView;
         LinearLayout questionContainer;
-        TextView questionTextView;
+        TextView questionTextView, answerTextView, answerLink;
         ImageButton expandAnswerArrow;
-        TextView answerTextView;
         ImageView answerImageView;
         LinearLayout faqForm;
         Button faqFormPositive;
@@ -183,11 +190,54 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             questionTextView = (TextView) itemView.findViewById(R.id.faq_question);
             expandAnswerArrow = (ImageButton) itemView.findViewById(R.id.faq_expand_arrow);
             answerTextView = (TextView) itemView.findViewById(R.id.faq_answer_text);
+            answerLink = (TextView) itemView.findViewById(R.id.faq_answer_link);
             answerImageView = (ImageView) itemView.findViewById(R.id.faq_answer_image);
             faqForm = (LinearLayout) itemView.findViewById(R.id.faq_form);
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
+        }
+    }
+
+    private class SendFaqIsUsefulRequest extends AsyncTask<Void, Void, Boolean> {
+        private String response;
+        private FaqItem faqItem;
+        private LinearLayout faqFormContainer;
+
+        SendFaqIsUsefulRequest(String respond, FaqItem faqItem, LinearLayout faqFormContainer) {
+            this.response = respond;
+            this.faqItem = faqItem;
+            this.faqFormContainer = faqFormContainer;
+        }
+
+        @Override
+        protected Boolean doInBackground(Void... voids) {
+            try {
+                String apiToken = AuthUtil.getApiToken();
+                if (MarshalServiceProvider.getInstance(apiToken).
+                        postIsUseful(response, faqItem).execute().isSuccessful()) {
+                    // TODO Save parameter to DB
+                    faqItem.setIsRated(true);
+                    faqItem.save();
+                    return true;
+                } else {
+                    return false;
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
+                return false;
+            }
+        }
+
+        @Override
+        protected void onPostExecute(Boolean result) {
+            super.onPostExecute(result);
+            if (result) {
+                Toast.makeText(mContext, R.string.faq_helpful_complete_toast, Toast.LENGTH_LONG).show();
+                faqFormContainer.setVisibility(View.GONE);
+            } else {
+                Toast.makeText(mContext, R.string.faq_helpful_failed_toast, Toast.LENGTH_LONG).show();
+            }
         }
     }
 }

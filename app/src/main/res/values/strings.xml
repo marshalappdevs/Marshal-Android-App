@@ -142,6 +142,7 @@
     <string name="faq">Frequently Asked Questions</string>
     <string name="faq_helpful_question">Was this helpful?</string>
     <string name="faq_helpful_complete_toast">Thank you for your feedback.</string>
+    <string name="faq_helpful_failed_toast">"Couldn't send feedback."</string>
     <string name="next">Next</string>
     <string name="choose_action">Choose an action</string>
     <string name="error_load_image">"Couldn't load this photo. Please try again."</string>
@@ -180,6 +181,7 @@
         <item>@string/navigation_drawer_materials</item>
         <item>@string/navigation_drawer_meetups</item>
         <item>@string/navigation_drawer_malshab</item>
+        <item>@string/navigation_drawer_faq</item>
     </string-array>
 
     <!--About-->

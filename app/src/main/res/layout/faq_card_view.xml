@@ -69,6 +69,19 @@
                 android:textIsSelectable="true"
                 android:visibility="gone" />
 
+            <TextView
+                android:id="@+id/faq_answer_link"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autoLink="web"
+                android:paddingBottom="16dp"
+                android:paddingEnd="16dp"
+                android:paddingStart="16dp"
+                android:textColor="?android:textColorLink"
+                android:textIsSelectable="true"
+                android:textSize="16sp"
+                android:visibility="gone" />
+
             <ImageView
                 android:id="@+id/faq_answer_image"
                 android:layout_width="match_parent"

@@ -19,9 +19,11 @@ public class FaqItem extends DBObject implements Parcelable {
     public static final String COL_ID = "id";
     public static final String COL_QUESTION = "question";
     public static final String COL_ANSWER = "answer";
+    public static final String COL_ANSWER_LINK = "answerLink";
     public static final String COL_ANSWER_IMAGE_URL = "answerImageUrl";
     public static final String COL_ORDER = "item_order";
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
+    public static final String COL_IS_RATED = "is_rated";
 
     @Expose
     @SerializedName("_id")
@@ -38,6 +40,11 @@ public class FaqItem extends DBObject implements Parcelable {
     @SerializedName("Answer")
     private String answer;
 
+    @Column(name = COL_ANSWER_LINK)
+    @Expose
+    @SerializedName("Link")
+    private String answerLink;
+
     @Column(name = COL_ANSWER_IMAGE_URL)
     @Expose
     @SerializedName("ImageUrl")
@@ -48,15 +55,10 @@ public class FaqItem extends DBObject implements Parcelable {
     @SerializedName("Order")
     private int order;
 
-//    @Column(name = COL_USEFUL)
-//    @Expose
-//    @SerializedName("Useful")
-//    private long useful;
-//
-//    @Column(name = COL_UNUSEFUL)
-//    @Expose
-//    @SerializedName("Unuseful")
-//    private int unuseful;
+    @Expose
+    @SerializedName("IsRated")
+    @Column(name = COL_IS_RATED)
+    private boolean isRated;
 
     @Column(name = COL_IS_UP_TO_DATE)
     private boolean isUpToDate;
@@ -90,6 +92,14 @@ public class FaqItem extends DBObject implements Parcelable {
         this.answer = answer;
     }
 
+    public String getAnswerLink() {
+        return answerLink;
+    }
+
+    public void setAnswerLink(String answerLink) {
+        this.answerLink = answerLink;
+    }
+
     public String getAnswerImageUrl() {
         return answerImageUrl;
     }
@@ -114,6 +124,14 @@ public class FaqItem extends DBObject implements Parcelable {
         this.isUpToDate = isUpToDate;
     }
 
+    public Boolean getIsRated() {
+        return isRated;
+    }
+
+    public void setIsRated(boolean isRated) {
+        this.isRated = isRated;
+    }
+
     ///////////////////// Parcelable methods //////////////////////
 
     @Override
@@ -129,9 +147,11 @@ public class FaqItem extends DBObject implements Parcelable {
         dest.writeString(id);
         dest.writeString(question);
         dest.writeString(answer);
+        dest.writeString(answerLink);
         dest.writeString(answerImageUrl);
         dest.writeInt(order);
         dest.writeInt(isUpToDate ? 1 : 0);
+        dest.writeInt(isRated ? 1 : 0);
     }
 
     /**
@@ -143,9 +163,11 @@ public class FaqItem extends DBObject implements Parcelable {
         this.id = in.readString();
         this.question = in.readString();
         this.answer = in.readString();
+        this.answerLink = in.readString();
         this.answerImageUrl = in.readString();
         this.order = in.readInt();
         this.isUpToDate = in.readInt() != 0;
+        this.isRated = (in.readInt() != 0);
     }
 
     public static final Parcelable.Creator<FaqItem> CREATOR = new Parcelable.Creator<FaqItem>() {

@@ -42,6 +42,9 @@ public interface IMarshalService {
     @GET(MarshalServiceProvider.GET_ALL_FAQ_ITEMS)
     Call<List<FaqItem>> getAllFaqItems();
 
+    @POST(MarshalServiceProvider.GET_ALL_FAQ_ITEMS + "{isUseful}")
+    Call<FaqItem> postIsUseful(@Path("isUseful") String faqIsUseful, @Body FaqItem faqObject);
+
     //******** FCM ********//
     @POST(MarshalServiceProvider.POST_FCM_REGISTER_NEW_DEVICE)
     Call<FcmRegistration> fcmRegisterNewDevice(@Body FcmRegistration fcmRegistration);
