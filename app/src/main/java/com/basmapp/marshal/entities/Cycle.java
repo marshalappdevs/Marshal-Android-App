@@ -13,6 +13,7 @@ import com.basmapp.marshal.util.DateHelper;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.Calendar;
 import java.util.Date;
 
 @TableName(name = Cycle.TABLE_NAME)
@@ -192,8 +193,13 @@ public class Cycle extends DBObject implements Parcelable {
     }
 
     public boolean isRunningNow() {
-        long now = new Date().getTime();
-        return (now > this.getStartDate().getTime() || DateHelper.isSameDate(this.getStartDate().getTime(), now)) &&
-                ((now < this.getEndDate().getTime()) || DateHelper.isSameDate(now, this.getEndDate().getTime()));
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTimeInMillis(System.currentTimeMillis());
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+        return calendar.getTimeInMillis() >= this.getStartDate().getTime() &&
+                calendar.getTimeInMillis() <= this.getEndDate().getTime();
     }
 }
