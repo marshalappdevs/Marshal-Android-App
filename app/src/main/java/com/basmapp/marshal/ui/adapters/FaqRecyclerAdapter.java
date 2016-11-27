@@ -90,7 +90,10 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerTextView.setText(mFaq.get(position).getAnswer());
         }
         if (mFaq.get(position).getAnswerImageUrl() != null) {
-            Glide.with(mContext).load(mFaq.get(position).getAnswerImageUrl()).into(holder.answerImageView);
+            Glide.with(mContext)
+                    .load(mFaq.get(position).getAnswerImageUrl())
+                    .placeholder(R.drawable.inline_image_placeholder)
+                    .into(holder.answerImageView);
         }
         if (mFaq.get(position).getAnswerLink() != null) {
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
