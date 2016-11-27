@@ -10,7 +10,7 @@
                 </shape>
             </item>
             <item>
-                <bitmap android:gravity="end" android:src="@drawable/ic_arrow_drop_down_black" android:tint="@color/primary_text_color" />
+                <bitmap android:gravity="end" android:src="@drawable/ic_spinner_drop_down" />
             </item>
         </layer-list>
     </item>
