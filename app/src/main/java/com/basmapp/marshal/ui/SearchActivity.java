@@ -46,6 +46,7 @@ import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.localdb.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
+import com.basmapp.marshal.util.DateHelper;
 import com.basmapp.marshal.util.SuggestionProvider;
 import com.basmapp.marshal.util.ThemeUtils;
 
@@ -596,57 +597,58 @@ public class SearchActivity extends BaseActivity {
 
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
-                                    if (cycleStartTime >= startDate && cycleEndTime <= endDate) {
+                                    if ((cycleStartTime > startDate || DateHelper.isSameDay(cycleStartTime, startDate)) &&
+                                            ((cycleEndTime < endDate) || DateHelper.isSameDay(cycleEndTime, endDate))) {
                                         if (spinnerType == 1) {
-                                            // Add only regular courses
                                             if (!course.getIsMooc()) {
+                                                // Add only regular courses
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add only online courses
                                         } else if (spinnerType == 2) {
+                                            // Add only online courses
                                             if (course.getIsMooc()) {
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add all courses
                                         } else {
+                                            // Add all courses
                                             currentFilteredList.add(course);
                                         }
                                         break;
                                     }
                                 } else if (startDate != 0) {
                                     // Searching for courses after start date without end date limit
-                                    if (cycleStartTime >= startDate) {
+                                    if (cycleStartTime > startDate || DateHelper.isSameDay(cycleStartTime, startDate)) {
                                         if (spinnerType == 1) {
-                                            // Add only regular courses
                                             if (!course.getIsMooc()) {
+                                                // Add only regular courses
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add only online courses
                                         } else if (spinnerType == 2) {
+                                            // Add only online courses
                                             if (course.getIsMooc()) {
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add all courses
                                         } else {
+                                            // Add all courses
                                             currentFilteredList.add(course);
                                         }
                                         break;
                                     }
-                                } else {
+                                } else if (endDate != 0) {
                                     // Searching for courses before end date without start date limit
-                                    if (cycleEndTime <= endDate) {
+                                    if (cycleEndTime < endDate || DateHelper.isSameDay(cycleEndTime, endDate)) {
                                         if (spinnerType == 1) {
-                                            // Add only regular courses
                                             if (!course.getIsMooc()) {
+                                                // Add only regular courses
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add only online courses
                                         } else if (spinnerType == 2) {
+                                            // Add only online courses
                                             if (course.getIsMooc()) {
                                                 currentFilteredList.add(course);
                                             }
-                                            // Add all courses
                                         } else {
+                                            // Add all courses
                                             currentFilteredList.add(course);
                                         }
                                         break;
@@ -660,17 +662,17 @@ public class SearchActivity extends BaseActivity {
                     // Filter courses only by course type
                     if (startDate == 0 && endDate == 0 && spinnerType != 0) {
                         if (spinnerType == 1) {
-                            // Add only regular courses
                             if (!course.getIsMooc()) {
+                                // Add only regular courses
                                 currentFilteredList.add(course);
                             }
-                            // Add only online courses
                         } else if (spinnerType == 2) {
+                            // Add only online courses
                             if (course.getIsMooc()) {
                                 currentFilteredList.add(course);
                             }
-                            // Add all courses
                         } else {
+                            // Add all courses
                             currentFilteredList.add(course);
                         }
                     }

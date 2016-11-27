@@ -1,7 +1,6 @@
 package com.basmapp.marshal.entities;
 
 import android.content.Context;
-import android.database.sqlite.SQLiteStatement;
 import android.os.Parcel;
 import android.os.Parcelable;
 
@@ -194,7 +193,7 @@ public class Cycle extends DBObject implements Parcelable {
 
     public boolean isRunningNow() {
         long now = new Date().getTime();
-        return now > this.getStartDate().getTime() &&
-                now < (this.getEndDate().getTime() + 86400000);
+        return (now > this.getStartDate().getTime() || DateHelper.isSameDay(this.getStartDate().getTime(), now)) &&
+                ((now < this.getEndDate().getTime()) || DateHelper.isSameDay(now, this.getEndDate().getTime()));
     }
 }
