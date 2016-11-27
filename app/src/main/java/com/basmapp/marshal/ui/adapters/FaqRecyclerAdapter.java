@@ -70,15 +70,17 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         answerExpanded ? 180 : 0).start();
                 holder.answerTextView.setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
-                if (mFaq.get(holder.getAdapterPosition()).getAnswerLink() != null) {
-                    holder.answerLink.setVisibility(
-                            answerExpanded ? View.VISIBLE : View.GONE);
+                if (answerExpanded && !holder.answerLink.getText().toString().isEmpty()) {
+                    holder.answerLink.setVisibility(View.VISIBLE);
+                } else {
+                    holder.answerLink.setVisibility(View.GONE);
                 }
                 holder.answerImageView.setVisibility(
                         answerExpanded ? View.VISIBLE : View.GONE);
-                if (!mFaq.get(holder.getAdapterPosition()).getIsRated()) {
-                    holder.faqForm.setVisibility(
-                            answerExpanded ? View.VISIBLE : View.GONE);
+                if (answerExpanded && !mFaq.get(holder.getAdapterPosition()).getIsRated()) {
+                    holder.faqForm.setVisibility(View.VISIBLE);
+                } else {
+                    holder.faqForm.setVisibility(View.GONE);
                 }
             }
         });
