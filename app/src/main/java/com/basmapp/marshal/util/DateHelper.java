@@ -51,8 +51,8 @@ public class DateHelper {
         } else return "";
     }
 
-    public static boolean isSameDay(long date1, long date2) {
+    public static boolean isSameDate(long dateTime1, long dateTime2) {
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
-        return sdf.format(date1).equals(sdf.format(date2));
+        return sdf.format(dateTime1).equals(sdf.format(dateTime2));
     }
 }

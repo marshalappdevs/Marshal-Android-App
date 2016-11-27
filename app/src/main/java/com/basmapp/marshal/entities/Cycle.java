@@ -193,7 +193,7 @@ public class Cycle extends DBObject implements Parcelable {
 
     public boolean isRunningNow() {
         long now = new Date().getTime();
-        return (now > this.getStartDate().getTime() || DateHelper.isSameDay(this.getStartDate().getTime(), now)) &&
-                ((now < this.getEndDate().getTime()) || DateHelper.isSameDay(now, this.getEndDate().getTime()));
+        return (now > this.getStartDate().getTime() || DateHelper.isSameDate(this.getStartDate().getTime(), now)) &&
+                ((now < this.getEndDate().getTime()) || DateHelper.isSameDate(now, this.getEndDate().getTime()));
     }
 }

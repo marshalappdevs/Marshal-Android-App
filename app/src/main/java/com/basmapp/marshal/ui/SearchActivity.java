@@ -597,8 +597,8 @@ public class SearchActivity extends BaseActivity {
 
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
-                                    if ((cycleStartTime > startDate || DateHelper.isSameDay(cycleStartTime, startDate)) &&
-                                            ((cycleEndTime < endDate) || DateHelper.isSameDay(cycleEndTime, endDate))) {
+                                    if ((cycleStartTime > startDate || DateHelper.isSameDate(cycleStartTime, startDate)) &&
+                                            ((cycleEndTime < endDate) || DateHelper.isSameDate(cycleEndTime, endDate))) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
@@ -617,7 +617,7 @@ public class SearchActivity extends BaseActivity {
                                     }
                                 } else if (startDate != 0) {
                                     // Searching for courses after start date without end date limit
-                                    if (cycleStartTime > startDate || DateHelper.isSameDay(cycleStartTime, startDate)) {
+                                    if (cycleStartTime > startDate || DateHelper.isSameDate(cycleStartTime, startDate)) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
@@ -636,7 +636,7 @@ public class SearchActivity extends BaseActivity {
                                     }
                                 } else if (endDate != 0) {
                                     // Searching for courses before end date without start date limit
-                                    if (cycleEndTime < endDate || DateHelper.isSameDay(cycleEndTime, endDate)) {
+                                    if (cycleEndTime < endDate || DateHelper.isSameDate(cycleEndTime, endDate)) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
