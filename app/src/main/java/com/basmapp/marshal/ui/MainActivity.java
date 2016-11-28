@@ -58,6 +58,7 @@ import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.ui.fragments.CoursesFragment;
+import com.basmapp.marshal.ui.fragments.FaqFragment;
 import com.basmapp.marshal.ui.fragments.MalshabFragment;
 import com.basmapp.marshal.ui.fragments.MaterialsFragment;
 import com.basmapp.marshal.ui.fragments.MeetupsFragment;
@@ -102,6 +103,7 @@ public class MainActivity extends BaseActivity
     private MalshabFragment mMalshabFragment;
     private MeetupsFragment mMeetupsFragment;
     private WishlistFragment mWishlistFragment;
+    private FaqFragment mFaqFragment;
 
     private UpdateBroadcastReceiver mUpdateBroadcastReceiver;
 
@@ -404,6 +406,7 @@ public class MainActivity extends BaseActivity
         mMalshabFragment = null;
         mMeetupsFragment = null;
         mWishlistFragment = null;
+        mFaqFragment = null;
 
         setErrorScreenVisibility(View.GONE);
         onNavigationItemSelected(mNavigationView.getMenu().findItem(R.id.nav_courses));
@@ -929,14 +932,11 @@ public class MainActivity extends BaseActivity
             fragmentManager.beginTransaction().replace(R.id.content_frame, mMalshabFragment).commit();
             menuItemNumber = 4;
         } else if (id == R.id.nav_faq) {
-            startActivity(new Intent(this, FaqActivity.class));
-            if (LocaleUtils.isRtl(getResources())) {
-                overridePendingTransition(R.anim.activity_open_enter_rtl,
-                        R.anim.activity_open_exit);
-            } else {
-                overridePendingTransition(R.anim.activity_open_enter,
-                        R.anim.activity_open_exit);
+            if (mFaqFragment == null) {
+                mFaqFragment = new FaqFragment();
             }
+            fragmentManager.beginTransaction().replace(R.id.content_frame, mFaqFragment).commit();
+            menuItemNumber = 5;
         } else if (id == R.id.nav_contact_us) {
             new ContactUsDialog().show(getSupportFragmentManager(),
                     Constants.DIALOG_FRAGMENT_CONTACT_US);
@@ -974,7 +974,7 @@ public class MainActivity extends BaseActivity
             signIn();
         }
         // Set title only to fragments
-        if (id != R.id.nav_settings && id != R.id.nav_faq && id != R.id.nav_contact_us && id != R.id.nav_describe_problem
+        if (id != R.id.nav_settings && id != R.id.nav_contact_us && id != R.id.nav_describe_problem
                 && id != R.id.nav_about && id != R.id.account_sign_out && id != R.id.account_add) {
             setTitle(item.getTitle());
         }
