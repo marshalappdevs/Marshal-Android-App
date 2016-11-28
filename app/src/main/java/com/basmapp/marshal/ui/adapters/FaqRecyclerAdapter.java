@@ -1,7 +1,11 @@
 package com.basmapp.marshal.ui.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
@@ -23,8 +27,17 @@ import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.CameraUpdateFactory;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
+import com.google.android.gms.maps.OnMapReadyCallback;
+import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 
 public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.FaqVH> {
 
@@ -75,12 +88,18 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                             .getAnswerLink() != null ? View.VISIBLE : View.GONE);
                     holder.answerImageView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerImageUrl() != null ? View.VISIBLE : View.GONE);
+                    holder.mapView.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswerAddress() != null ? View.VISIBLE : View.GONE);
+                    holder.answerPhoneNumber.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswerPhoneNumber() != null ? View.VISIBLE : View.GONE);
                     holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getIsRated() ? View.GONE : View.VISIBLE);
                 } else {
                     holder.answerTextView.setVisibility(View.GONE);
                     holder.answerLink.setVisibility(View.GONE);
                     holder.answerImageView.setVisibility(View.GONE);
+                    holder.mapView.setVisibility(View.GONE);
+                    holder.answerPhoneNumber.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
                 }
             }
@@ -102,6 +121,37 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
         }
 
+        if (holder.mapView != null) {
+            // Initialise the MapView
+            holder.mapView.onCreate(null);
+            holder.mapView.onResume();
+            // Set the map ready callback to receive the GoogleMap object
+            holder.mapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    MapsInitializer.initialize(mContext.getApplicationContext());
+                    holder.map = googleMap;
+                    LatLng coordinates = getCoordinatesFromAddress(mContext,
+                            mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
+                    if (coordinates != null) {
+                        googleMap.addMarker(new MarkerOptions().position(coordinates));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    }
+                }
+            });
+        }
+
+        if (mFaq.get(position).getAnswerPhoneNumber() != null) {
+            holder.answerPhoneNumber.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    mContext.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(
+                            "tel:" + mFaq.get(holder.getAdapterPosition()).getAnswerPhoneNumber())));
+                }
+            });
+        }
+
         holder.faqFormPositive.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -117,38 +167,36 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         });
 
         holder.progressBar.setVisibility(View.GONE);
-
-//        if (holder.mapView != null) {
-//            holder.mapView.onCreate(null);
-//            holder.mapView.onResume();
-//            holder.mapView.getMapAsync(new OnMapReadyCallback() {
-//                @Override
-//                public void onMapReady(GoogleMap googleMap) {
-//                    MapsInitializer.initialize(mContext.getApplicationContext());
-//                    holder.map = googleMap;
-//                    if (mFaq.get(holder.getAdapterPosition()).getLatitude() != null &&
-//                            mFaq.get(holder.getAdapterPosition()).getLongitude() != null) {
-//                        LatLng coordinates = new LatLng(
-//                                mFaq.get(holder.getAdapterPosition()).getLatitude(),
-//                                mFaq.get(holder.getAdapterPosition()).getLongitude());
-//                        googleMap.addMarker(new MarkerOptions().position(coordinates)
-//                                .title(mFaq.get(holder.getAdapterPosition()).getLocationName()));
-//                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
-//                    }
-//                }
-//            });
-//        }
     }
 
-//    @Override
-//    public void onViewRecycled(FaqVH holder) {
-//        super.onViewRecycled(holder);
-//        if (holder != null && holder.map != null) {
-//            // Clear the map and free up resources by changing the map type to none
-//            holder.map.clear();
-//            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
-//        }
-//    }
+    public LatLng getCoordinatesFromAddress(Context context, String addressName) {
+        Geocoder geocoder = new Geocoder(context);
+        List<Address> address;
+        LatLng latLng = null;
+        try {
+            address = geocoder.getFromLocationName(addressName, 1);
+            if (address == null) {
+                return null;
+            }
+            Address location = address.get(0);
+            location.getLatitude();
+            location.getLongitude();
+            latLng = new LatLng(location.getLatitude(), location.getLongitude());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return latLng;
+    }
+
+    @Override
+    public void onViewRecycled(FaqVH holder) {
+        super.onViewRecycled(holder);
+        if (holder != null && holder.map != null) {
+            // Clear the map and free up resources by changing the map type to none
+            holder.map.clear();
+            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
+        }
+    }
 
     @Override
     public int getItemCount() {
@@ -212,14 +260,14 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         CardView cardView;
         LinearLayout questionContainer;
         TextView questionTextView, answerTextView, answerLink;
-        ImageButton expandAnswerArrow;
+        ImageButton expandAnswerArrow, answerPhoneNumber;
         ImageView answerImageView;
         LinearLayout faqForm;
         Button faqFormPositive;
         Button faqFormNegative;
         ProgressBar progressBar;
-//        MapView mapView;
-//        GoogleMap map;
+        MapView mapView;
+        GoogleMap map;
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -231,11 +279,12 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             answerTextView = (TextView) itemView.findViewById(R.id.faq_answer_text);
             answerLink = (TextView) itemView.findViewById(R.id.faq_answer_link);
             answerImageView = (ImageView) itemView.findViewById(R.id.faq_answer_image);
+            answerPhoneNumber = (ImageButton) itemView.findViewById(R.id.phone_number);
             faqForm = (LinearLayout) itemView.findViewById(R.id.faq_form);
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
-//            mapView = (MapView) itemView.findViewById(R.id.lite_recycler_view_map);
+            mapView = (MapView) itemView.findViewById(R.id.lite_recycler_view_map);
         }
     }
 
