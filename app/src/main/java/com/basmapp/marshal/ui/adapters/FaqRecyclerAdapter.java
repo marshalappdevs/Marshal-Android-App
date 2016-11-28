@@ -68,18 +68,19 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 answerExpanded = !answerExpanded;
                 ViewCompat.animate(holder.expandAnswerArrow).rotation(
                         answerExpanded ? 180 : 0).start();
-                holder.answerTextView.setVisibility(
-                        answerExpanded ? View.VISIBLE : View.GONE);
-                if (answerExpanded && !holder.answerLink.getText().toString().isEmpty()) {
-                    holder.answerLink.setVisibility(View.VISIBLE);
+                if (answerExpanded) {
+                    holder.answerTextView.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswer() != null ? View.VISIBLE : View.GONE);
+                    holder.answerLink.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswerLink() != null ? View.VISIBLE : View.GONE);
+                    holder.answerImageView.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswerImageUrl() != null ? View.VISIBLE : View.GONE);
+                    holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getIsRated() ? View.GONE : View.VISIBLE);
                 } else {
+                    holder.answerTextView.setVisibility(View.GONE);
                     holder.answerLink.setVisibility(View.GONE);
-                }
-                holder.answerImageView.setVisibility(
-                        answerExpanded ? View.VISIBLE : View.GONE);
-                if (answerExpanded && !mFaq.get(holder.getAdapterPosition()).getIsRated()) {
-                    holder.faqForm.setVisibility(View.VISIBLE);
-                } else {
+                    holder.answerImageView.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
                 }
             }

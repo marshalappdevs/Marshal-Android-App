@@ -86,7 +86,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
                             .addDefaultShareMenuItem()
                             .setCloseButtonIcon(BitmapFactory.decodeResource(mContext.getResources(), R.drawable.ic_arrow_back_wht))
                             .build()
-                            .launchUrl((Activity) mContext, Uri.parse(url));
+                            .launchUrl(mContext, Uri.parse(url));
                 } else {
                     mContext.startActivity(new Intent(Intent.ACTION_VIEW, Uri.parse(url)));
                 }

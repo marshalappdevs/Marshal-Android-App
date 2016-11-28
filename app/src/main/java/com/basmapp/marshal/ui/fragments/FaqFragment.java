@@ -36,7 +36,6 @@ public class FaqFragment extends Fragment {
     private FaqRecyclerAdapter mAdapter;
     private ArrayList<FaqItem> mFaqList;
     private ArrayList<FaqItem> mFilteredFaqList;
-    private String mFilterText;
     private TextView mNoResults;
     private static final String FAQ_PREVIOUS_QUERY = "FAQ_PREVIOUS_QUERY";
     private String mPreviousQuery;
@@ -91,8 +90,7 @@ public class FaqFragment extends Fragment {
 
     private void showData() {
         mFilteredFaqList = new ArrayList<>(mFaqList);
-        if (mAdapter == null)
-            mAdapter = new FaqRecyclerAdapter(getActivity(), mFilteredFaqList);
+        mAdapter = new FaqRecyclerAdapter(getActivity(), mFilteredFaqList);
         mRecycler.setAdapter(mAdapter);
     }
 
@@ -171,22 +169,21 @@ public class FaqFragment extends Fragment {
             mFilteredFaqList = new ArrayList<>(mFaqList);
             mAdapter.setIsDataFiltered(false);
         } else {
-            mFilterText = filterText.toLowerCase();
             mFilteredFaqList = new ArrayList<>();
 
             for (FaqItem item : mFaqList) {
-                if (item.getQuestion() != null && item.getQuestion().contains(filterText)) {
+                if (item.getQuestion() != null && item.getQuestion().toLowerCase().contains(filterText)) {
                     mFilteredFaqList.add(item);
-                } else if (item.getAnswer() != null && item.getAnswer().contains(filterText)) {
+                } else if (item.getAnswer() != null && item.getAnswer().toLowerCase().contains(filterText)) {
                     mFilteredFaqList.add(item);
-                } else if (item.getAnswerLink() != null && item.getAnswerLink().contains(filterText)) {
+                } else if (item.getAnswerLink() != null && item.getAnswerLink().toLowerCase().contains(filterText)) {
                     mFilteredFaqList.add(item);
                 }
             }
         }
 
         if (mFilteredFaqList.isEmpty()) {
-            String searchResult = String.format(getString(R.string.no_results_for_query), mFilterText);
+            String searchResult = String.format(getString(R.string.no_results_for_query), mSearchView.getQuery());
             mNoResults.setText(searchResult);
             mNoResults.setGravity(Gravity.CENTER);
             mNoResults.setVisibility(View.VISIBLE);
