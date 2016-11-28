@@ -1,6 +1,5 @@
 package com.basmapp.marshal.ui.adapters;
 
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -17,6 +16,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -64,7 +64,7 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
 
     @Override
     public MaterialVH onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.material_cardview, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.materials_card_view, parent, false);
         return new MaterialVH(view);
     }
 
@@ -116,19 +116,19 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
                 public boolean onLongClick(View v) {
-                    if (holder.tags.getVisibility() != View.VISIBLE) {
-                        holder.tags.setVisibility(View.VISIBLE);
-                        holder.tags.animate().alpha(1.0f);
+                    if (holder.hashTagsContainer.getVisibility() != View.VISIBLE) {
+                        holder.hashTagsContainer.setVisibility(View.VISIBLE);
+                        holder.hashTagsContainer.animate().alpha(1.0f);
                     } else {
-                        holder.tags.setVisibility(View.GONE);
-                        holder.tags.animate().alpha(0.0f);
+                        holder.hashTagsContainer.setVisibility(View.GONE);
+                        holder.hashTagsContainer.animate().alpha(0.0f);
                     }
                     return true;
                 }
             });
 
-            holder.tags.setMovementMethod(LinkMovementMethod.getInstance());
-            holder.tags.setText(holder.getHashTagsSpannableString(mMaterials.get(position).getTags()));
+            holder.hashTags.setMovementMethod(LinkMovementMethod.getInstance());
+            holder.hashTags.setText(holder.getHashTagsSpannableString(mMaterials.get(position).getTags()));
         } else {
             holder.cardView.setOnLongClickListener(new View.OnLongClickListener() {
                 @Override
@@ -207,7 +207,8 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
         TextView descriptionTextView;
         TextView siteUrlTextView;
         ProgressBar progressBar;
-        TextView tags;
+        LinearLayout hashTagsContainer;
+        TextView hashTags;
 
         public MaterialVH(View itemView) {
             super(itemView);
@@ -215,10 +216,11 @@ public class MaterialsRecyclerAdapter extends RecyclerView.Adapter<MaterialsRecy
             cardView = (CardView) itemView.findViewById(R.id.link_preview_cardView);
             imageView = (ImageView) itemView.findViewById(R.id.thumb);
             titleTextView = (TextView) itemView.findViewById(R.id.title);
-            descriptionTextView = (TextView) itemView.findViewById(R.id.description);
+            descriptionTextView = (TextView) itemView.findViewById(R.id.short_description);
             siteUrlTextView = (TextView) itemView.findViewById(R.id.url);
             progressBar = (ProgressBar) itemView.findViewById(R.id.link_preview_progressBar);
-            tags = (TextView) itemView.findViewById(R.id.tags);
+            hashTagsContainer = (LinearLayout) itemView.findViewById(R.id.hashtags_container);
+            hashTags = (TextView) itemView.findViewById(R.id.hashtags);
         }
 
         private ArrayList<int[]> getSpans(String body, char prefix) {

@@ -11,6 +11,7 @@
     <color name="cards_and_dialogs_color">@color/material_dark_cards_and_dialogs</color>
     <color name="bottom_sheet_color">@color/material_dark_cards_and_dialogs</color>
     <color name="background_color">@color/material_dark_background</color>
+    <color name="button_color">@color/material_button_dark</color>
     <color name="search_plate_hint_text_color">@color/material_dark_hint_text</color>
     <color name="ripple_color">@color/material_ripple_dark</color>
     <color name="url_color">#AAFFFFFF</color>
@@ -19,7 +20,6 @@
     <color name="user_color">#80FFFFFF</color>
     <color name="placeholder_background">#324248</color>
     <color name="materials_card_background">#08FFFFFF</color>
-    <color name="hash_tags_background">#10FFFFFF</color>
     <color name="link_color">#2B6FB2</color>
     <color name="description_background">#424242</color>
     <color name="page_indicator">#80333333</color>

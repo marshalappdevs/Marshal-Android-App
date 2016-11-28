@@ -422,8 +422,7 @@ public class MainActivity extends BaseActivity
         super.onStart();
         if (needRecreate) {
             needRecreate = false;
-//            getSupportFragmentManager().beginTransaction()
-//                    .remove(mCourseFragment).commit();
+            releaseAllDataLists();
             recreate();
         }
 
