@@ -23,8 +23,6 @@ import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
-import com.google.android.gms.maps.GoogleMap;
-import com.google.android.gms.maps.MapView;
 
 import java.util.ArrayList;
 
@@ -217,8 +215,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         Button faqFormPositive;
         Button faqFormNegative;
         ProgressBar progressBar;
-        MapView mapView;
-        GoogleMap map;
+//        MapView mapView;
+//        GoogleMap map;
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -234,7 +232,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
-            mapView = (MapView) itemView.findViewById(R.id.lite_recycler_view_map);
+//            mapView = (MapView) itemView.findViewById(R.id.lite_recycler_view_map);
         }
     }
 
