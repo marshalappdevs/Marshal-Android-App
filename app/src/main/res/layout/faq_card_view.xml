@@ -113,7 +113,6 @@
                  programmatically before it can be used. -->
             <com.google.android.gms.maps.MapView
                 android:id="@+id/lite_recycler_view_map"
-                android:name="com.google.android.gms.maps.SupportMapFragment"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
                 android:visibility="gone"
