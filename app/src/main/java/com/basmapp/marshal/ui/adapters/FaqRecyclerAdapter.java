@@ -121,17 +121,20 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 //        if (holder.mapView != null) {
 //            holder.mapView.onCreate(null);
 //            holder.mapView.onResume();
-//            holder.mapView.getMapAsync(googleMap -> {
-//                MapsInitializer.initialize(mContext.getApplicationContext());
-//                holder.map = googleMap;
-//                if (mFaq.get(position).getLatitude() != null &&
-//                        mFaq.get(position).getLongitude() != null) {
-//                    LatLng coordinates = new LatLng(
-//                            mFaq.get(position).getLatitude(),
-//                            mFaq.get(position).getLongitude());
-//                    googleMap.addMarker(new MarkerOptions().position(coordinates)
-//                            .title(mFaq.get(position).getLocationName()));
-//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+//            holder.mapView.getMapAsync(new OnMapReadyCallback() {
+//                @Override
+//                public void onMapReady(GoogleMap googleMap) {
+//                    MapsInitializer.initialize(mContext.getApplicationContext());
+//                    holder.map = googleMap;
+//                    if (mFaq.get(holder.getAdapterPosition()).getLatitude() != null &&
+//                            mFaq.get(holder.getAdapterPosition()).getLongitude() != null) {
+//                        LatLng coordinates = new LatLng(
+//                                mFaq.get(holder.getAdapterPosition()).getLatitude(),
+//                                mFaq.get(holder.getAdapterPosition()).getLongitude());
+//                        googleMap.addMarker(new MarkerOptions().position(coordinates)
+//                                .title(mFaq.get(holder.getAdapterPosition()).getLocationName()));
+//                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+//                    }
 //                }
 //            });
 //        }
