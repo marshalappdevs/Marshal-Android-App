@@ -87,6 +87,14 @@
                 android:value=".ui.MainActivity" />
         </activity>
         <activity
+            android:name=".ui.FaqActivity"
+            android:parentActivityName=".ui.MainActivity"
+            android:theme="@style/Theme.AppCompat.DayNight.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value=".ui.MainActivity" />
+        </activity>
+        <activity
             android:name=".ui.SettingsActivity"
             android:label="@string/navigation_drawer_settings"
             android:parentActivityName=".ui.MainActivity"

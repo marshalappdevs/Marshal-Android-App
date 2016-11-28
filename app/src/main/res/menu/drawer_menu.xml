@@ -30,16 +30,13 @@
             android:title="@string/navigation_drawer_malshab" />
     </group>
 
-    <group
-        android:id="@+id/grp2"
-        android:checkableBehavior="single">
+    <group android:id="@+id/grp2">
         <item
             android:id="@+id/nav_faq"
             android:icon="@drawable/ic_drawer_faq"
             android:title="@string/navigation_drawer_faq" />
         <item
             android:id="@+id/nav_contact_us"
-            android:checkable="false"
             android:icon="@drawable/ic_drawer_contact_us"
             android:title="@string/navigation_drawer_contact_us" />
     </group>
