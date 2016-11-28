@@ -23,6 +23,8 @@ import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
+import com.google.android.gms.maps.GoogleMap;
+import com.google.android.gms.maps.MapView;
 
 import java.util.ArrayList;
 
@@ -117,7 +119,35 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         });
 
         holder.progressBar.setVisibility(View.GONE);
+
+//        if (holder.mapView != null) {
+//            holder.mapView.onCreate(null);
+//            holder.mapView.onResume();
+//            holder.mapView.getMapAsync(googleMap -> {
+//                MapsInitializer.initialize(mContext.getApplicationContext());
+//                holder.map = googleMap;
+//                if (mFaq.get(position).getLatitude() != null &&
+//                        mFaq.get(position).getLongitude() != null) {
+//                    LatLng coordinates = new LatLng(
+//                            mFaq.get(position).getLatitude(),
+//                            mFaq.get(position).getLongitude());
+//                    googleMap.addMarker(new MarkerOptions().position(coordinates)
+//                            .title(mFaq.get(position).getLocationName()));
+//                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+//                }
+//            });
+//        }
     }
+
+//    @Override
+//    public void onViewRecycled(FaqVH holder) {
+//        super.onViewRecycled(holder);
+//        if (holder != null && holder.map != null) {
+//            // Clear the map and free up resources by changing the map type to none
+//            holder.map.clear();
+//            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
+//        }
+//    }
 
     @Override
     public int getItemCount() {
@@ -187,6 +217,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         Button faqFormPositive;
         Button faqFormNegative;
         ProgressBar progressBar;
+        MapView mapView;
+        GoogleMap map;
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -202,6 +234,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
+            mapView = (MapView) itemView.findViewById(R.id.lite_recycler_view_map);
         }
     }
 
@@ -222,7 +255,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 String apiToken = AuthUtil.getApiToken();
                 if (MarshalServiceProvider.getInstance(apiToken).
                         postIsUseful(response, faqItem).execute().isSuccessful()) {
-                    // TODO Save parameter to DB
                     faqItem.setIsRated(true);
                     faqItem.save();
                     return true;
