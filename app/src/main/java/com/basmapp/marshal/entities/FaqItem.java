@@ -19,11 +19,14 @@ public class FaqItem extends DBObject implements Parcelable {
     public static final String COL_ID = "id";
     public static final String COL_QUESTION = "question";
     public static final String COL_ANSWER = "answer";
-    public static final String COL_ANSWER_LINK = "answerLink";
-    public static final String COL_ANSWER_IMAGE_URL = "answerImageUrl";
+    public static final String COL_ANSWER_LINK = "answer_link";
+    public static final String COL_ANSWER_ADDRESS = "answer_address";
+    public static final String COL_ANSWER_PHONE_NUMBER = "answer_phone_number";
+    public static final String COL_ANSWER_IMAGE_URL = "answer_image_url";
     public static final String COL_ORDER = "item_order";
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_RATED = "is_rated";
+    public static final String COL_SEARCH_WORDS = "search_words";
 
     @Expose
     @SerializedName("_id")
@@ -45,10 +48,25 @@ public class FaqItem extends DBObject implements Parcelable {
     @SerializedName("Link")
     private String answerLink;
 
+    @Column(name = COL_ANSWER_ADDRESS)
+    @Expose
+    @SerializedName("Address")
+    private String answerAddress;
+
+    @Column(name = COL_ANSWER_PHONE_NUMBER)
+    @Expose
+    @SerializedName("PhoneNumber")
+    private String answerPhoneNumber;
+
     @Column(name = COL_ANSWER_IMAGE_URL)
     @Expose
     @SerializedName("ImageUrl")
     private String answerImageUrl;
+
+    @Column(name = COL_SEARCH_WORDS)
+    @Expose
+    @SerializedName("SearchWords")
+    private String searchWords;
 
     @Column(name = COL_ORDER)
     @Expose
@@ -100,6 +118,22 @@ public class FaqItem extends DBObject implements Parcelable {
         this.answerLink = answerLink;
     }
 
+    public String getAnswerAddress() {
+        return answerAddress;
+    }
+
+    public void setAnswerAddress(String answerAddress) {
+        this.answerAddress = answerAddress;
+    }
+
+    public String getAnswerPhoneNumber() {
+        return answerPhoneNumber;
+    }
+
+    public void setAnswerPhoneNumber(String answerPhoneNumber) {
+        this.answerPhoneNumber = answerPhoneNumber;
+    }
+
     public String getAnswerImageUrl() {
         return answerImageUrl;
     }
@@ -132,6 +166,14 @@ public class FaqItem extends DBObject implements Parcelable {
         this.isRated = isRated;
     }
 
+    public String getSearchWords() {
+        return searchWords;
+    }
+
+    public void setSearchWords(String searchWords) {
+        this.searchWords = searchWords;
+    }
+
     ///////////////////// Parcelable methods //////////////////////
 
     @Override
@@ -148,7 +190,10 @@ public class FaqItem extends DBObject implements Parcelable {
         dest.writeString(question);
         dest.writeString(answer);
         dest.writeString(answerLink);
+        dest.writeString(answerAddress);
+        dest.writeString(answerPhoneNumber);
         dest.writeString(answerImageUrl);
+        dest.writeString(searchWords);
         dest.writeInt(order);
         dest.writeInt(isUpToDate ? 1 : 0);
         dest.writeInt(isRated ? 1 : 0);
@@ -164,7 +209,10 @@ public class FaqItem extends DBObject implements Parcelable {
         this.question = in.readString();
         this.answer = in.readString();
         this.answerLink = in.readString();
+        this.answerAddress = in.readString();
+        this.answerPhoneNumber = in.readString();
         this.answerImageUrl = in.readString();
+        this.searchWords = in.readString();
         this.order = in.readInt();
         this.isUpToDate = in.readInt() != 0;
         this.isRated = (in.readInt() != 0);
