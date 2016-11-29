@@ -173,6 +173,7 @@
     <string name="basmapp_copyright" translatable="false">©2016 Basmach</string>
     <string name="no_hashtags">No hashtags</string>
     <string name="hours_of_operation">Hours of operation: %1$s</string>
+    <string name="call">Call</string>
 
     <!--Navigation view titles-->
     <string-array name="nav_titles">

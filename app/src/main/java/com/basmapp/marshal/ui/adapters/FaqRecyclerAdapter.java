@@ -10,8 +10,12 @@ import android.os.AsyncTask;
 import android.preference.PreferenceManager;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.CardView;
+import android.support.v7.widget.PopupMenu;
 import android.support.v7.widget.RecyclerView;
+import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -109,7 +113,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         // Keep track of MapView
                         mMaps.add(holder.mapView);
                     }
-                    holder.answerPhoneNumber.setVisibility(mFaq.get(holder.getAdapterPosition())
+                    holder.answerMoreMenu.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerPhoneNumber() != null ? View.VISIBLE : View.GONE);
                     holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getIsRated() ? View.GONE : View.VISIBLE);
@@ -118,7 +122,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerLink.setVisibility(View.GONE);
                     holder.answerImageView.setVisibility(View.GONE);
                     holder.mapView.setVisibility(View.GONE);
-                    holder.answerPhoneNumber.setVisibility(View.GONE);
+                    holder.answerMoreMenu.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
                 }
             }
@@ -141,11 +145,23 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         }
 
         if (mFaq.get(position).getAnswerPhoneNumber() != null) {
-            holder.answerPhoneNumber.setOnClickListener(new View.OnClickListener() {
+            holder.answerMoreMenu.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    mContext.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(
-                            "tel:" + mFaq.get(holder.getAdapterPosition()).getAnswerPhoneNumber())));
+                    PopupMenu popupMenu = new PopupMenu(mContext, view, Gravity.START);
+                    MenuInflater menuInflater = popupMenu.getMenuInflater();
+                    menuInflater.inflate(R.menu.faq_menu, popupMenu.getMenu());
+                    popupMenu.setOnMenuItemClickListener(new PopupMenu.OnMenuItemClickListener() {
+                        public boolean onMenuItemClick(MenuItem item) {
+                            switch (item.getItemId()) {
+                                case R.id.faq_more:
+                                    mContext.startActivity(new Intent(Intent.ACTION_DIAL).setData(Uri.parse(
+                                            "tel:" + mFaq.get(holder.getAdapterPosition()).getAnswerPhoneNumber())));
+                            }
+                            return true;
+                        }
+                    });
+                    popupMenu.show();
                 }
             });
         }
@@ -262,8 +278,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         CardView cardView;
         LinearLayout questionContainer;
         TextView questionTextView, answerTextView, answerLink;
-        ImageButton expandAnswerArrow, answerPhoneNumber;
-        ImageView answerImageView;
+        ImageButton expandAnswerArrow;
+        ImageView answerImageView, answerMoreMenu;
         LinearLayout faqForm;
         Button faqFormPositive;
         Button faqFormNegative;
@@ -281,7 +297,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             answerTextView = (TextView) itemView.findViewById(R.id.faq_answer_text);
             answerLink = (TextView) itemView.findViewById(R.id.faq_answer_link);
             answerImageView = (ImageView) itemView.findViewById(R.id.faq_answer_image);
-            answerPhoneNumber = (ImageButton) itemView.findViewById(R.id.phone_number);
+            answerMoreMenu = (ImageView) itemView.findViewById(R.id.li_overflow);
             faqForm = (LinearLayout) itemView.findViewById(R.id.faq_form);
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);

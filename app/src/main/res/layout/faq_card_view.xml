@@ -76,13 +76,18 @@
                     android:textIsSelectable="true"
                     android:visibility="gone" />
 
-                <ImageButton
-                    android:id="@+id/phone_number"
+                <ImageView
+                    android:id="@+id/li_overflow"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
+                    android:layout_marginEnd="@dimen/card_overflow_inset"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:contentDescription="@null"
+                    android:focusable="true"
+                    android:layoutDirection="locale"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_call" />
+                    app:srcCompat="@drawable/ic_more_vert" />
             </LinearLayout>
 
             <TextView

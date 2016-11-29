@@ -9,4 +9,5 @@
     <dimen name="course_category_header_title_size">24sp</dimen>
     <dimen name="course_category_header_height">56dp</dimen>
     <dimen name="course_category_header_more_size">16sp</dimen>
+    <dimen name="play_card_overflow_inset">10dp</dimen>
 </resources>
