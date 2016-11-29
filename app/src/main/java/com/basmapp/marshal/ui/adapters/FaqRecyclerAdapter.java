@@ -94,15 +94,13 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         holder.mapView.getMapAsync(new OnMapReadyCallback() {
                             @Override
                             public void onMapReady(GoogleMap googleMap) {
-                                if (googleMap != null) {
-                                    googleMap.clear();
-                                    LatLng coordinates = getCoordinatesFromAddress(mContext,
-                                            mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
-                                    if (coordinates != null) {
-                                        googleMap.addMarker(new MarkerOptions().position(coordinates));
-                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
-                                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                                    }
+                                googleMap.clear();
+                                LatLng coordinates = getCoordinatesFromAddress(mContext,
+                                        mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
+                                if (coordinates != null) {
+                                    googleMap.addMarker(new MarkerOptions().position(coordinates));
+                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+                                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
                                 }
                             }
                         });
