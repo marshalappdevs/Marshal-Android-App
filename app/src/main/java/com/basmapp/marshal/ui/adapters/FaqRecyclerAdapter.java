@@ -30,7 +30,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
-import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -88,8 +87,26 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                             .getAnswerLink() != null ? View.VISIBLE : View.GONE);
                     holder.answerImageView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerImageUrl() != null ? View.VISIBLE : View.GONE);
-                    holder.mapView.setVisibility(mFaq.get(holder.getAdapterPosition())
-                            .getAnswerAddress() != null ? View.VISIBLE : View.GONE);
+                    if (holder.mapView != null && mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
+                        holder.mapView.onCreate(null);
+                        holder.mapView.onResume();
+                        holder.mapView.setVisibility(View.VISIBLE);
+                        holder.mapView.getMapAsync(new OnMapReadyCallback() {
+                            @Override
+                            public void onMapReady(GoogleMap googleMap) {
+                                if (googleMap != null) {
+                                    googleMap.clear();
+                                    LatLng coordinates = getCoordinatesFromAddress(mContext,
+                                            mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
+                                    if (coordinates != null) {
+                                        googleMap.addMarker(new MarkerOptions().position(coordinates));
+                                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
+                                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                                    }
+                                }
+                            }
+                        });
+                    }
                     holder.answerPhoneNumber.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerPhoneNumber() != null ? View.VISIBLE : View.GONE);
                     holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
@@ -119,27 +136,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         }
         if (mFaq.get(position).getAnswerLink() != null) {
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
-        }
-
-        if (holder.mapView != null) {
-            // Initialise the MapView
-            holder.mapView.onCreate(null);
-            holder.mapView.onResume();
-            // Set the map ready callback to receive the GoogleMap object
-            holder.mapView.getMapAsync(new OnMapReadyCallback() {
-                @Override
-                public void onMapReady(GoogleMap googleMap) {
-                    MapsInitializer.initialize(mContext.getApplicationContext());
-                    holder.map = googleMap;
-                    LatLng coordinates = getCoordinatesFromAddress(mContext,
-                            mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
-                    if (coordinates != null) {
-                        googleMap.addMarker(new MarkerOptions().position(coordinates));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 15));
-                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    }
-                }
-            });
         }
 
         if (mFaq.get(position).getAnswerPhoneNumber() != null) {

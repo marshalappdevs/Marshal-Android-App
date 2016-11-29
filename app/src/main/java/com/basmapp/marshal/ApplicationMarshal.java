@@ -11,6 +11,7 @@ import android.util.Base64;
 
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.util.LocaleUtils;
+import com.squareup.leakcanary.LeakCanary;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
@@ -22,6 +23,13 @@ public class ApplicationMarshal extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
+        if (LeakCanary.isInAnalyzerProcess(this)) {
+            // This process is dedicated to LeakCanary for heap analysis.
+            // You should not init your app in this process.
+            return;
+        }
+        LeakCanary.install(this);
+        // Normal app init code...
         LocaleUtils.updateLocale(this);
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
