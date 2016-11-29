@@ -203,16 +203,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     }
 
     @Override
-    public void onViewRecycled(FaqVH holder) {
-        super.onViewRecycled(holder);
-        if (holder != null && holder.map != null) {
-            // Clear the map and free up resources by changing the map type to none
-            holder.map.clear();
-            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
-        }
-    }
-
-    @Override
     public int getItemCount() {
         return mFaq.size();
     }
@@ -285,7 +275,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         Button faqFormNegative;
         ProgressBar progressBar;
         MapView mapView;
-        GoogleMap map;
 
         public FaqVH(View itemView) {
             super(itemView);
