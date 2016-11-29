@@ -284,17 +284,19 @@ public class ContentProvider {
     }
 
     public void getCourses(Context context, ContentProviderCallBack callBack) {
-        if (sCourses != null && sCourses.size() > 0) callBack.onDataReady(sCourses, null);
+        if (sCourses != null && sCourses.size() > 0)
+            callBack.onDataReady(sCourses, null);
         else initCourses(context, callBack);
     }
 
     public void getMeetups(Context context, ContentProviderCallBack callBack) {
-        if (sMeetups != null && sMeetups.size() > 0) callBack.onDataReady(sMeetups, null);
+        if (sMeetups != null && sMeetups.size() > 0)
+            callBack.onDataReady(sMeetups, null);
         else initMeetups(context, callBack);
     }
 
     public void getMaterialItems(Context context, ContentProviderCallBack callBack) {
-        if (sMaterialItems != null && sMalshabItems.size() > 0)
+        if (sMaterialItems != null && sMaterialItems.size() > 0)
             callBack.onDataReady(sMaterialItems, null);
         else initMaterialItems(context, callBack);
     }
