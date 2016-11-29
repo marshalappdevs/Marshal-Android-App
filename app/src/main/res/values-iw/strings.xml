@@ -167,7 +167,7 @@
     <string name="welcome_malshab_subtitle">קרא אודות קורסי היסוד המתקיימים בבסמ\"ח</string>
     <string name="no_hashtags">אין תיוגים</string>
     <string name="hours_of_operation">שעות פעילות: %1$s</string>
-    <string name="call">התקשר</string>
+    <string name="title_menu_dial">חייג</string>
 
     <!--Navigation view titles-->
     <string-array name="nav_titles">
