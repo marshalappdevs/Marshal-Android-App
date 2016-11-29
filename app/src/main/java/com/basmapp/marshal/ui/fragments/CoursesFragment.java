@@ -50,7 +50,7 @@ import java.util.Set;
 
 public class CoursesFragment extends Fragment {
 
-    private static ArrayList<Course> mViewPagerCourses;
+    private ArrayList<Course> mViewPagerCourses;
 
     private HashMap<String, CategoryHolder> mCategoryHoldersMap;
     private ArrayList<Integer> mCategoryHoldersIndexes;
@@ -225,12 +225,15 @@ public class CoursesFragment extends Fragment {
 
     public static class ArrayListFragment extends Fragment {
         final static String ARG_POSITION = "position";
-        int mPosition;
+        private int mPosition;
+        final static String ARG_COURSES = "viewPagerCourses";
+        private ArrayList<Course> mViewPagerCourses;
 
-        static ArrayListFragment newInstance(int position) {
+        static ArrayListFragment newInstance(int position, ArrayList<Course> viewPagerCourses) {
             ArrayListFragment fragment = new ArrayListFragment();
             Bundle args = new Bundle();
             args.putInt(ARG_POSITION, position);
+            args.putParcelableArrayList(ARG_COURSES, viewPagerCourses);
             fragment.setArguments(args);
             return fragment;
         }
@@ -238,7 +241,12 @@ public class CoursesFragment extends Fragment {
         @Override
         public void onCreate(Bundle savedInstanceState) {
             super.onCreate(savedInstanceState);
-            mPosition = getArguments() != null ? getArguments().getInt(ARG_POSITION) : 1;
+            if (getArguments() != null) {
+                mPosition = getArguments().getInt(ARG_POSITION);
+                mViewPagerCourses = getArguments().getParcelableArrayList(ARG_COURSES);
+            } else {
+                mPosition = 1;
+            }
         }
 
         @Override
@@ -288,7 +296,7 @@ public class CoursesFragment extends Fragment {
 
         @Override
         public Fragment getItem(int position) {
-            return ArrayListFragment.newInstance(position);
+            return ArrayListFragment.newInstance(position, mViewPagerCourses);
         }
 
         @Override
