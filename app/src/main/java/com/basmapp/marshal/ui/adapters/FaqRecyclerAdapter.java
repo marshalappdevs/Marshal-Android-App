@@ -50,7 +50,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     private ArrayList<FaqItem> mFaq;
     private SharedPreferences mSharedPreferences;
     private Boolean mIsDataFiltered = false;
-    private final HashSet<MapView> mMaps = new HashSet<MapView>();
+    private final HashSet<MapView> mMaps = new HashSet<>();
 
     public FaqRecyclerAdapter(Context activity, ArrayList<FaqItem> faq) {
         this.mFaq = faq;
@@ -80,14 +80,12 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     @Override
     public void onBindViewHolder(final FaqVH holder, int position) {
         holder.questionContainer.setOnClickListener(new View.OnClickListener() {
-            boolean answerExpanded = false;
-
             @Override
             public void onClick(View view) {
-                answerExpanded = !answerExpanded;
-                ViewCompat.animate(holder.expandAnswerArrow).rotation(
-                        answerExpanded ? 180 : 0).start();
+                boolean answerExpanded = holder.answerContainer.getVisibility() != View.VISIBLE;
+                ViewCompat.animate(holder.expandAnswerArrow).rotation(answerExpanded ? 180 : 0).start();
                 if (answerExpanded) {
+                    holder.answerContainer.setVisibility(View.VISIBLE);
                     holder.answerTextView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswer() != null ? View.VISIBLE : View.GONE);
                     holder.answerLink.setVisibility(mFaq.get(holder.getAdapterPosition())
@@ -101,6 +99,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getIsRated() ? View.GONE : View.VISIBLE);
                 } else {
+                    holder.answerContainer.setVisibility(View.GONE);
                     holder.answerTextView.setVisibility(View.GONE);
                     holder.answerLink.setVisibility(View.GONE);
                     holder.answerImageView.setVisibility(View.GONE);
@@ -127,7 +126,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
         }
 
-        if (holder.mapView != null && mFaq.get(position).getAnswerAddress() != null) {
+        final String address = mFaq.get(holder.getAdapterPosition()).getAnswerAddress();
+        if (holder.mapView != null && address != null) {
             holder.mapView.onCreate(null);
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
@@ -135,9 +135,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 public void onMapReady(GoogleMap googleMap) {
                     MapsInitializer.initialize(mContext.getApplicationContext());
                     holder.map = googleMap;
-                    LatLng coordinates = getCoordinatesFromAddress(mContext,
-                            mFaq.get(holder.getAdapterPosition() == -1 ? 0 :
-                                    holder.getAdapterPosition()).getAnswerAddress());
+                    LatLng coordinates = getCoordinatesFromAddress(mContext, address);
                     if (coordinates != null) {
                         googleMap.addMarker(new MarkerOptions().position(coordinates));
                         googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13f));
@@ -188,12 +186,12 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         holder.progressBar.setVisibility(View.GONE);
     }
 
-    public LatLng getCoordinatesFromAddress(Context context, String addressName) {
+    private LatLng getCoordinatesFromAddress(Context context, String locationName) {
         Geocoder geocoder = new Geocoder(context);
         List<Address> address;
         LatLng latLng = null;
         try {
-            address = geocoder.getFromLocationName(addressName, 1);
+            address = geocoder.getFromLocationName(locationName, 1);
             if (address == null) {
                 return null;
             }
@@ -285,7 +283,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         TextView questionTextView, answerTextView, answerLink;
         ImageButton expandAnswerArrow;
         ImageView answerImageView, answerMoreMenu;
-        LinearLayout faqForm;
+        LinearLayout faqForm, answerContainer;
         Button faqFormPositive;
         Button faqFormNegative;
         ProgressBar progressBar;
@@ -299,6 +297,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             questionContainer = (LinearLayout) itemView.findViewById(R.id.faq_question_container);
             questionTextView = (TextView) itemView.findViewById(R.id.faq_question);
             expandAnswerArrow = (ImageButton) itemView.findViewById(R.id.faq_expand_arrow);
+            answerContainer = (LinearLayout) itemView.findViewById(R.id.faq_answer_container);
             answerTextView = (TextView) itemView.findViewById(R.id.faq_answer_text);
             answerLink = (TextView) itemView.findViewById(R.id.faq_answer_link);
             answerImageView = (ImageView) itemView.findViewById(R.id.faq_answer_image);
