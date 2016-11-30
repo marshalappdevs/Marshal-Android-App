@@ -79,6 +79,7 @@ public class AboutActivity extends BaseActivity {
             @Override
             public boolean onLongClick(View view) {
                 mAppIcon.clearAnimation();
+                mAppIcon.setRotation(0);
                 ViewCompat.animate(mAppIcon).rotation(360).setDuration(600).start();
                 return true;
             }
