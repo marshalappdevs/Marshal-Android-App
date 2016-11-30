@@ -127,7 +127,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
         }
 
-        if (holder.mapView != null && mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
+        if (holder.mapView != null && mFaq.get(position).getAnswerAddress() != null) {
             holder.mapView.onCreate(null);
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
