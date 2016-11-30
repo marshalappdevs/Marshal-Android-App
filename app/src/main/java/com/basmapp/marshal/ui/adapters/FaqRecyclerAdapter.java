@@ -126,11 +126,11 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
         }
 
-        final String address = mFaq.get(holder.getAdapterPosition()).getAnswerAddress();
-        if (holder.mapView != null && address != null) {
+        if (holder.mapView != null && mFaq.get(position).getAnswerAddress() != null) {
             holder.mapView.onCreate(null);
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
+                String address = mFaq.get(holder.getAdapterPosition()).getAnswerAddress();
                 @Override
                 public void onMapReady(GoogleMap googleMap) {
                     MapsInitializer.initialize(mContext.getApplicationContext());
@@ -190,17 +190,19 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         Geocoder geocoder = new Geocoder(context);
         List<Address> address;
         LatLng latLng = null;
-        try {
-            address = geocoder.getFromLocationName(locationName, 1);
-            if (address == null) {
-                return null;
+        if (locationName != null) {
+            try {
+                address = geocoder.getFromLocationName(locationName, 1);
+                if (address == null) {
+                    return null;
+                }
+                Address location = address.get(0);
+                location.getLatitude();
+                location.getLongitude();
+                latLng = new LatLng(location.getLatitude(), location.getLongitude());
+            } catch (IOException e) {
+                e.printStackTrace();
             }
-            Address location = address.get(0);
-            location.getLatitude();
-            location.getLongitude();
-            latLng = new LatLng(location.getLatitude(), location.getLongitude());
-        } catch (IOException e) {
-            e.printStackTrace();
         }
         return latLng;
     }
