@@ -34,6 +34,7 @@ import com.bumptech.glide.Glide;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
+import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
@@ -93,26 +94,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                             .getAnswerLink() != null ? View.VISIBLE : View.GONE);
                     holder.answerImageView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerImageUrl() != null ? View.VISIBLE : View.GONE);
-                    if (holder.mapView != null && mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
-                        holder.mapView.onCreate(null);
-                        holder.mapView.onResume();
-                        holder.mapView.setVisibility(View.VISIBLE);
-                        holder.mapView.getMapAsync(new OnMapReadyCallback() {
-                            @Override
-                            public void onMapReady(GoogleMap googleMap) {
-                                googleMap.clear();
-                                LatLng coordinates = getCoordinatesFromAddress(mContext,
-                                        mFaq.get(holder.getAdapterPosition()).getAnswerAddress());
-                                if (coordinates != null) {
-                                    googleMap.addMarker(new MarkerOptions().position(coordinates));
-                                    googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13f));
-                                    googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                                }
-                            }
-                        });
-                        // Keep track of MapView
-                        mMaps.add(holder.mapView);
-                    }
+                    holder.mapView.setVisibility(mFaq.get(holder.getAdapterPosition())
+                            .getAnswerAddress() != null ? View.VISIBLE : View.GONE);
                     holder.answerMoreMenu.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerPhoneNumber() != null ? View.VISIBLE : View.GONE);
                     holder.faqForm.setVisibility(mFaq.get(holder.getAdapterPosition())
@@ -142,6 +125,28 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         }
         if (mFaq.get(position).getAnswerLink() != null) {
             holder.answerLink.setText(mFaq.get(position).getAnswerLink());
+        }
+
+        if (holder.mapView != null && mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
+            holder.mapView.onCreate(null);
+            holder.mapView.onResume();
+            holder.mapView.getMapAsync(new OnMapReadyCallback() {
+                @Override
+                public void onMapReady(GoogleMap googleMap) {
+                    MapsInitializer.initialize(mContext.getApplicationContext());
+                    holder.map = googleMap;
+                    LatLng coordinates = getCoordinatesFromAddress(mContext,
+                            mFaq.get(holder.getAdapterPosition() == -1 ? 0 :
+                                    holder.getAdapterPosition()).getAnswerAddress());
+                    if (coordinates != null) {
+                        googleMap.addMarker(new MarkerOptions().position(coordinates));
+                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13f));
+                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    }
+                }
+            });
+            // Keep track of MapView
+            mMaps.add(holder.mapView);
         }
 
         if (mFaq.get(position).getAnswerPhoneNumber() != null) {
@@ -200,6 +205,16 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             e.printStackTrace();
         }
         return latLng;
+    }
+
+    @Override
+    public void onViewRecycled(FaqVH holder) {
+        super.onViewRecycled(holder);
+        if (holder.map != null) {
+            // Clear the map and free up resources by changing the map type to none
+            holder.map.clear();
+            holder.map.setMapType(GoogleMap.MAP_TYPE_NONE);
+        }
     }
 
     @Override
@@ -275,6 +290,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         Button faqFormNegative;
         ProgressBar progressBar;
         MapView mapView;
+        GoogleMap map;
 
         public FaqVH(View itemView) {
             super(itemView);
