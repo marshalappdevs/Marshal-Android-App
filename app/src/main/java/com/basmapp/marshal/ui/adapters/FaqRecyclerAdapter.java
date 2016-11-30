@@ -41,7 +41,6 @@ import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 
 public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.FaqVH> {
@@ -50,7 +49,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     private ArrayList<FaqItem> mFaq;
     private SharedPreferences mSharedPreferences;
     private Boolean mIsDataFiltered = false;
-    private final HashSet<MapView> mMaps = new HashSet<>();
 
     public FaqRecyclerAdapter(Context activity, ArrayList<FaqItem> faq) {
         this.mFaq = faq;
@@ -143,8 +141,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     }
                 }
             });
-            // Keep track of MapView
-            mMaps.add(holder.mapView);
         }
 
         if (mFaq.get(position).getAnswerPhoneNumber() != null) {
@@ -220,10 +216,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
     @Override
     public int getItemCount() {
         return mFaq.size();
-    }
-
-    public HashSet<MapView> getMaps() {
-        return mMaps;
     }
 
     public void animateTo(ArrayList<FaqItem> faqList) {
