@@ -7,6 +7,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.v4.view.ViewCompat;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
 import android.text.Spannable;
@@ -16,6 +17,7 @@ import android.text.method.LinkMovementMethod;
 import android.text.style.URLSpan;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,6 +34,7 @@ public class AboutActivity extends BaseActivity {
     private static final String KEY_SCROLL_Y = "KEY_SCROLL_Y";
     private ScrollView mScrollView;
     private int mTapCount;
+    private ImageView mAppIcon;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +58,9 @@ public class AboutActivity extends BaseActivity {
             }
         });
 
-        findViewById(R.id.about_logo_image).setOnClickListener(new View.OnClickListener() {
+        mAppIcon = (ImageView) findViewById(R.id.about_logo_image);
+
+        mAppIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (mTapCount == 7) {
@@ -67,6 +72,15 @@ public class AboutActivity extends BaseActivity {
                     mTapCount = 0;
                 }
                 mTapCount++;
+            }
+        });
+
+        mAppIcon.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                mAppIcon.clearAnimation();
+                ViewCompat.animate(mAppIcon).rotation(360).setDuration(600).start();
+                return true;
             }
         });
 

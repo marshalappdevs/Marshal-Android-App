@@ -81,6 +81,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             @Override
             public void onClick(View view) {
                 boolean answerExpanded = holder.answerContainer.getVisibility() != View.VISIBLE;
+                holder.expandAnswerArrow.clearAnimation();
                 ViewCompat.animate(holder.expandAnswerArrow).rotation(answerExpanded ? 180 : 0).start();
                 if (answerExpanded) {
                     holder.answerContainer.setVisibility(View.VISIBLE);

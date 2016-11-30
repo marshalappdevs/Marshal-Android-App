@@ -24,7 +24,7 @@
             android:layout_height="72dp"
             android:contentDescription="@null"
             android:foreground="@drawable/app_icon_ripple"
-            android:src="@mipmap/ic_launcher" />
+            android:src="@drawable/product_logo_144dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
