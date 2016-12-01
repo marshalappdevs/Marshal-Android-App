@@ -15,7 +15,7 @@ import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.support.v7.widget.Toolbar;
@@ -111,8 +111,9 @@ public class SearchActivity extends BaseActivity {
         });
 
         mRecycler = (RecyclerView) findViewById(R.id.search_activity_recyclerView);
-        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
-        mRecycler.setLayoutManager(linearLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
+                getResources().getInteger(R.integer.card_bucket_columns), GridLayoutManager.VERTICAL, false);
+        mRecycler.setLayoutManager(gridLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         mFilterDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
@@ -202,6 +203,9 @@ public class SearchActivity extends BaseActivity {
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setQueryRefinementEnabled(true);
 
+        // Show target prompt for filter
+        showFilterTargetPrompt();
+
         // Close activity when collapsing SearchView
         MenuItemCompat.setOnActionExpandListener(searchItem,
                 new MenuItemCompat.OnActionExpandListener() {
@@ -237,9 +241,6 @@ public class SearchActivity extends BaseActivity {
         } else {
             advancedFilter(mFinalStartDate, mFinalEndDate, mFinalSpinnerType);
         }
-
-        // Show target prompt for filter
-        showFilterTargetPrompt();
 
         return true;
     }

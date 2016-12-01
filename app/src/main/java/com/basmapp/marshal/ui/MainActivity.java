@@ -229,7 +229,7 @@ public class MainActivity extends BaseActivity
             @Override
             public void onClick(View view) {
                 // Update data if there is internet connection, else throw error toast
-                if (isConnected()) {
+                if (isConnected(MainActivity.this)) {
                     updateData();
                 } else {
                     Toast.makeText(MainActivity.this, getString(R.string.offline_snackbar_network_unavailable),
@@ -462,7 +462,7 @@ public class MainActivity extends BaseActivity
         boolean isUpdateServiceSuccessOnce = mSharedPreferences.getBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, false);
 
         if (isFirstRun) {
-            if (isUpdateIntentServiceRunning() && isConnected()) {
+            if (isUpdateIntentServiceRunning() && isConnected(this)) {
                 // If there is internet connection and update service is running show progress bar and dismiss error screen
                 if (mUpdateProgressDialog == null)
                     initializeUpdateProgressBar();
@@ -537,10 +537,10 @@ public class MainActivity extends BaseActivity
         registerReceiver(mUpdateBroadcastReceiver, filter);
     }
 
-    private boolean isConnected() {
+    public static boolean isConnected(Context context) {
         // Check if there is internet connection and save the result as boolean
         ConnectivityManager connectivityManager = (ConnectivityManager)
-                getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
+                context.getApplicationContext().getSystemService(Context.CONNECTIVITY_SERVICE);
         NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
@@ -548,13 +548,13 @@ public class MainActivity extends BaseActivity
     public BroadcastReceiver broadcastReceiver = new BroadcastReceiver() {
         @Override
         public void onReceive(final Context context, final Intent intent) {
-            if (!isConnected()) {
+            if (!isConnected(MainActivity.this)) {
                 // There is no internet connection, show error Snackbar
                 mNetworkSnackbar = Snackbar.make(findViewById(R.id.coordinatorLayout), R.string.offline_snackbar_network_unavailable, Snackbar.LENGTH_LONG);
                 mNetworkSnackbar.setAction(R.string.offline_snackbar_retry, new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (isConnected()) mNetworkSnackbar.dismiss();
+                        if (isConnected(MainActivity.this)) mNetworkSnackbar.dismiss();
                         else onReceive(context, intent);
                     }
                 });
@@ -808,7 +808,7 @@ public class MainActivity extends BaseActivity
     }
 
     public void updateData() {
-        if (isConnected()) {
+        if (isConnected(this)) {
             // Update data if device is connected to network
             mUpdateProgressDialog.show();
             Intent updateServiceIntent = new Intent(MainActivity.this, UpdateIntentService.class);

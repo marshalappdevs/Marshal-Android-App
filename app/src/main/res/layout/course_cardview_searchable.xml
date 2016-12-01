@@ -4,10 +4,10 @@
     style="@style/AppTheme.CardView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:layout_marginBottom="4dp"
-    android:layout_marginEnd="8dp"
-    android:layout_marginStart="8dp"
-    android:layout_marginTop="4dp"
+    android:layout_marginBottom="@dimen/card_default_inset"
+    android:layout_marginEnd="@dimen/card_default_inset"
+    android:layout_marginStart="@dimen/card_default_inset"
+    android:layout_marginTop="@dimen/card_default_inset"
     android:clickable="true"
     android:foreground="?attr/selectableItemBackground">
 

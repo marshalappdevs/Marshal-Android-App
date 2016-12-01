@@ -11,4 +11,5 @@
     <dimen name="course_category_header_title_size">28sp</dimen>
     <dimen name="course_category_header_height">64dp</dimen>
     <dimen name="course_category_header_more_size">16sp</dimen>
+    <dimen name="small_title_size">18sp</dimen>
 </resources>

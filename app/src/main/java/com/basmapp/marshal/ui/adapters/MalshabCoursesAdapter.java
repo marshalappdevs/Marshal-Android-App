@@ -57,9 +57,9 @@ public final class MalshabCoursesAdapter extends BaseAdapter {
         TextView text;
 
         if (view == null) {
-            view = mInflater.inflate(R.layout.malshab_course_gridview, viewGroup, false);
+            view = mInflater.inflate(R.layout.malshab_card_view, viewGroup, false);
             view.setTag(R.id.picture, view.findViewById(R.id.picture));
-            view.setTag(R.id.text, view.findViewById(R.id.text));
+            view.setTag(R.id.text, view.findViewById(R.id.title));
         }
 
         picture = (ImageView) view.getTag(R.id.picture);

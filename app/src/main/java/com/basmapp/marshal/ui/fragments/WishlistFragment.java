@@ -8,7 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
 import android.view.LayoutInflater;
@@ -58,8 +58,9 @@ public class WishlistFragment extends Fragment {
 
         // Initialize RecyclerView
         mRecycler = (RecyclerView) rootView.findViewById(R.id.fragment_wishlist_search_recyclerView);
-        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getActivity());
-        mRecycler.setLayoutManager(mLayoutManager);
+        GridLayoutManager gridLayoutManager = new GridLayoutManager(getActivity(),
+                getResources().getInteger(R.integer.card_bucket_columns), GridLayoutManager.VERTICAL, false);
+        mRecycler.setLayoutManager(gridLayoutManager);
         mRecycler.setItemAnimator(new DefaultItemAnimator());
 
         if (mAdapter == null) {

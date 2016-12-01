@@ -2,4 +2,6 @@
 <resources>
     <dimen name="course_category_header_title_size">20sp</dimen>
     <dimen name="card_overflow_inset">6dp</dimen>
+    <dimen name="card_content_horizontal_inset_mini">12dp</dimen>
+    <dimen name="card_content_vertical_inset_mini">8dp</dimen>
 </resources>
