@@ -28,6 +28,7 @@ import android.widget.Toast;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.FaqItem;
+import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
@@ -134,11 +135,13 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 public void onMapReady(GoogleMap googleMap) {
                     MapsInitializer.initialize(mContext.getApplicationContext());
                     holder.map = googleMap;
-                    LatLng coordinates = getCoordinatesFromAddress(mContext, address);
-                    if (coordinates != null) {
-                        googleMap.addMarker(new MarkerOptions().position(coordinates));
-                        googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13f));
-                        googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                    if (MainActivity.isConnected(mContext)) {
+                        LatLng coordinates = getCoordinatesFromAddress(mContext, address);
+                        if (coordinates != null) {
+                            googleMap.addMarker(new MarkerOptions().position(coordinates));
+                            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13f));
+                            googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
+                        }
                     }
                 }
             });
