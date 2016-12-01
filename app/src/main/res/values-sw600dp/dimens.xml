@@ -5,6 +5,8 @@
     <dimen name="activity_horizontal_margin_half">32dp</dimen>
     <dimen name="highlight_banner_item_height">296dp</dimen>
     <dimen name="app_bar_height">320dp</dimen>
+    <dimen name="course_card_view_width">160dp</dimen>
+    <dimen name="course_card_view_height">220dp</dimen>
     <dimen name="course_category_header_xpadding">16dp</dimen>
     <dimen name="course_category_header_title_size">24sp</dimen>
     <dimen name="course_category_header_height">56dp</dimen>
@@ -12,4 +14,7 @@
     <dimen name="play_card_overflow_inset">10dp</dimen>
     <dimen name="card_default_inset">6dp</dimen>
     <dimen name="small_title_size">16sp</dimen>
+    <dimen name="course_card_title_size">18sp</dimen>
+    <dimen name="course_card_subtitle_size">14sp</dimen>
+    <dimen name="course_card_star_rating_bar_height">13dp</dimen>
 </resources>

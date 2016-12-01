@@ -7,13 +7,12 @@
 
     <android.support.v7.widget.CardView
         android:id="@+id/course_cardview_widget"
-        style="@style/AppTheme.CardView"
         android:layout_width="@dimen/course_card_view_width"
         android:layout_height="@dimen/course_card_view_height"
-        android:layout_marginBottom="4dp"
-        android:layout_marginEnd="4dp"
-        android:layout_marginStart="4dp"
-        android:layout_marginTop="4dp"
+        android:layout_marginBottom="@dimen/card_default_inset"
+        android:layout_marginEnd="@dimen/card_default_inset"
+        android:layout_marginStart="@dimen/card_default_inset"
+        android:layout_marginTop="@dimen/card_default_inset"
         android:foreground="?attr/selectableItemBackground">
 
         <FrameLayout
@@ -46,7 +45,8 @@
                     android:maxLines="3"
                     android:paddingEnd="8dp"
                     android:paddingStart="8dp"
-                    android:textColor="?android:textColorPrimary" />
+                    android:textColor="?android:textColorPrimary"
+                    android:textSize="@dimen/course_card_title_size" />
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -65,13 +65,14 @@
                         android:paddingEnd="8dp"
                         android:paddingStart="8dp"
                         android:textColor="?android:textColorPrimary"
-                        android:textSize="12sp" />
+                        android:textSize="@dimen/course_card_subtitle_size" />
 
                     <LinearLayout
                         android:id="@+id/course_cardview_rating"
                         android:layout_width="wrap_content"
                         android:layout_height="match_parent"
                         android:layout_alignParentEnd="true"
+                        android:layout_marginEnd="6dp"
                         android:orientation="horizontal"
                         android:visibility="invisible">
 
@@ -81,15 +82,14 @@
                             android:layout_height="match_parent"
                             android:gravity="start|center_vertical"
                             android:maxLines="1"
+                            android:padding="4dp"
                             android:textColor="?android:textColorSecondary"
-                            android:textSize="13sp" />
+                            android:textSize="@dimen/course_card_subtitle_size" />
 
                         <ImageView
                             android:id="@+id/course_cardview_ratingIcon"
-                            android:layout_width="13dp"
+                            android:layout_width="@dimen/course_card_star_rating_bar_height"
                             android:layout_height="match_parent"
-                            android:layout_marginEnd="4dp"
-                            android:layout_marginStart="1dp"
                             android:contentDescription="@null"
                             app:srcCompat="@drawable/ic_course_rating_star" />
                     </LinearLayout>

@@ -182,12 +182,9 @@ public class CoursesRecyclerAdapter extends RecyclerView.Adapter<CoursesRecycler
             if (mRecyclerLayoutType == LAYOUT_TYPE_GRID) {
                 CardView.LayoutParams cardLayoutParams = (CardView.LayoutParams) cardView.getLayoutParams();
                 cardLayoutParams.width = CardView.LayoutParams.MATCH_PARENT;
-                cardLayoutParams.height = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 150, mContext.getResources().getDisplayMetrics());
-                int dp4 = (int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 4, mContext.getResources().getDisplayMetrics());
-                cardLayoutParams.setMargins(dp4, dp4 * 3, dp4, dp4);
-
+                cardLayoutParams.height = mContext.getResources().getDimensionPixelSize(
+                        R.dimen.course_card_view_height);
                 courseName.setMaxLines(2);
-                courseName.setEllipsize(TextUtils.TruncateAt.END);
             }
         }
     }

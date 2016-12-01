@@ -40,6 +40,9 @@
     <dimen name="card_content_horizontal_inset_mini">6dp</dimen>
     <dimen name="card_content_vertical_inset_mini">4dp</dimen>
     <dimen name="small_title_size">14sp</dimen>
+    <dimen name="course_card_title_size">14sp</dimen>
+    <dimen name="course_card_subtitle_size">12sp</dimen>
+    <dimen name="course_card_star_rating_bar_height">11dp</dimen>
     <!-- Color picker dimens -->
     <dimen name="color_swatch_large">64dip</dimen>
     <dimen name="color_swatch_small">48dip</dimen>
