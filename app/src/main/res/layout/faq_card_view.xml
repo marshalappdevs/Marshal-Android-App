@@ -137,7 +137,7 @@
 
             <!-- MapView in lite mode. Note that it needs to be initialised
                  programmatically before it can be used. -->
-            <com.basmapp.marshal.ui.widget.UnobstructedMapView
+            <com.google.android.gms.maps.MapView
                 android:id="@+id/lite_recycler_view_map"
                 android:layout_width="match_parent"
                 android:layout_height="150dp"
