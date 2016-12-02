@@ -27,6 +27,8 @@ public class FaqItem extends DBObject implements Parcelable {
     public static final String COL_IS_UP_TO_DATE = "is_up_to_date";
     public static final String COL_IS_RATED = "is_rated";
     public static final String COL_SEARCH_WORDS = "search_words";
+    public static final String COL_ADDRESS_LATITUDE = "address_latitude";
+    public static final String COL_ADDRESS_LONGITUDE = "address_longitude";
 
     @Expose
     @SerializedName("_id")
@@ -52,6 +54,16 @@ public class FaqItem extends DBObject implements Parcelable {
     @Expose
     @SerializedName("Address")
     private String answerAddress;
+
+    @Column(name = COL_ADDRESS_LATITUDE)
+    @Expose
+    @SerializedName("Latitiude")
+    private double addressLatitude;
+
+    @Column(name = COL_ADDRESS_LONGITUDE)
+    @Expose
+    @SerializedName("Longitude")
+    private double addressLongitude;
 
     @Column(name = COL_ANSWER_PHONE_NUMBER)
     @Expose
@@ -172,6 +184,22 @@ public class FaqItem extends DBObject implements Parcelable {
 
     public void setSearchWords(String searchWords) {
         this.searchWords = searchWords;
+    }
+
+    public double getAddressLatitude() {
+        return addressLatitude;
+    }
+
+    public void setAddressLatitude(double addressLatitude) {
+        this.addressLatitude = addressLatitude;
+    }
+
+    public double getAddressLongitude() {
+        return addressLongitude;
+    }
+
+    public void setAddressLongitude(double addressLongitude) {
+        this.addressLongitude = addressLongitude;
     }
 
     ///////////////////// Parcelable methods //////////////////////

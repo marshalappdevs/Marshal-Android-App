@@ -45,6 +45,7 @@ public class FcmRegistrationService extends IntentService {
         final String action = intent.getAction();
 
         if (action != null) {
+            //TODO
             DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_software));
             DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_system));
             DEFAULT_CHANNELS_SET.add(getResources().getString(R.string.fcm_channel_cyber));
