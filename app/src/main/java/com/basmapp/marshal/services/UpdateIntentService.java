@@ -205,11 +205,11 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (FaqItem faqItem : tempNewFaqItems) {
-                List<FaqItem> dbResult = null;
+                FaqItem dbResult = null;
                 try {
-                    dbResult = (List) FaqItem.findOne(FaqItem.COL_QUESTION, faqItem.getQuestion(), this, FaqItem.class);
+                    dbResult = (FaqItem) FaqItem.findOne(FaqItem.COL_QUESTION, faqItem.getQuestion(), this, FaqItem.class);
 
-                    if (dbResult != null && dbResult.size() > 0) {
+                    if (dbResult != null) {
                         newFaqItems.remove(faqItem);
                         faqItem.setIsUpToDate(true);
                         database.compileStatement(faqItem.getUpdateCommand(this, null, null)).execute();
@@ -239,12 +239,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (MaterialItem materialItem : tempNewMaterials) {
-                List<MaterialItem> dbResult = null;
+                MaterialItem dbResult = null;
                 try {
-                    dbResult = (List) MaterialItem.findAllByColumn(MaterialItem.COL_URL, materialItem.getUrl(),
-                            MaterialItem.COL_ID, this, MaterialItem.class);
+                    dbResult = (MaterialItem) MaterialItem.findOne(MaterialItem.COL_URL, materialItem.getUrl(),
+                            this, MaterialItem.class);
 
-                    if (dbResult != null && dbResult.size() > 0) {
+                    if (dbResult != null) {
                         newMaterials.remove(materialItem);
                         materialItem.setIsUpToDate(true);
                         database.compileStatement(materialItem.getUpdateCommand(this, null, null)).execute();
@@ -274,12 +274,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (MalshabItem malshabItem : tempNewMalshabItems) {
-                List<MalshabItem> dbResult = null;
+                MalshabItem dbResult = null;
                 try {
-                    dbResult = (List) MalshabItem.findAllByColumn(MalshabItem.COL_URL, malshabItem.getUrl(),
-                            MalshabItem.COL_ID, this, MalshabItem.class);
+                    dbResult = (MalshabItem) MalshabItem.findOne(MalshabItem.COL_URL, malshabItem.getUrl(),
+                            this, MalshabItem.class);
 
-                    if (dbResult != null && dbResult.size() > 0) {
+                    if (dbResult != null) {
                         newMalshabItems.remove(malshabItem);
                         malshabItem.setIsUpToDate(true);
                         database.compileStatement(malshabItem.getUpdateCommand(this, null, null)).execute();
@@ -312,12 +312,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (Course course : tempNewCourses) {
-                List<Course> dbResult = null;
+                Course dbResult = null;
                 try {
-                    dbResult = (List) Course.findAllByColumn(Course.COL_COURSE_ID, course.getCourseID(),
-                            Course.COL_ID, this, Course.class);
+                    dbResult = (Course) Course.findOne(Course.COL_COURSE_ID, course.getCourseID(),
+                            this, Course.class);
 
-                    if (dbResult != null && dbResult.size() > 0) {
+                    if (dbResult != null) {
                         //TODO: Take care to the course Cycles
                         /////////////////////////// CYCLES //////////////////////////////
                         if (course.getCycles() != null && course.getCycles().size() > 0) {

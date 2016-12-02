@@ -423,22 +423,6 @@ public class CoursesFragment extends Fragment {
             }
         }
 
-//        private String getCategoryLocaleTitle(String category) {
-//            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getContext());
-//            Set<String> categories = sharedPreferences.getStringSet(Constants.PREF_CATEGORIES, new HashSet<String>());
-//            for (String categoryValues : categories) {
-//                String[] values = categoryValues.split(";");
-//                if (values[0].equals(category)) {
-//                    if (Locale.getDefault().toString().toLowerCase().equals("en")) {
-//                        return values[1];
-//                    } else if (Locale.getDefault().toString().toLowerCase().equals("iw")) {
-//                        return values[2];
-//                    }
-//                }
-//            }
-//            return category;
-//        }
-
         private void addToMainContainer() {
             initUI();
             int categoryIndex = getCategoryIndex();
