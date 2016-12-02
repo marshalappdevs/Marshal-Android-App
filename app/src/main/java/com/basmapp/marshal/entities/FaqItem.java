@@ -57,7 +57,7 @@ public class FaqItem extends DBObject implements Parcelable {
 
     @Column(name = COL_ADDRESS_LATITUDE)
     @Expose
-    @SerializedName("Latitiude")
+    @SerializedName("Latitude")
     private double addressLatitude;
 
     @Column(name = COL_ADDRESS_LONGITUDE)
