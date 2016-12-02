@@ -271,6 +271,11 @@ public class SearchActivity extends BaseActivity {
     private void handleIntent(Intent intent) {
         if (ACTION_SEARCH.equals(intent.getAction())) {
             mSearchQuery = intent.getStringExtra(QUERY);
+
+            // Use asterisk to show all search results
+            if (mSearchQuery.equals("*"))
+                mSearchQuery = "";
+
             if (mToolbar != null) {
                 mToolbar.setTitle(mSearchQuery);
             }
@@ -284,7 +289,10 @@ public class SearchActivity extends BaseActivity {
             } else {
                 filter(mSearchQuery);
             }
-            SuggestionProvider.save(this, mSearchQuery.trim());
+
+            if (!mSearchQuery.isEmpty()) {
+                SuggestionProvider.save(this, mSearchQuery.trim());
+            }
         }
     }
 
@@ -607,7 +615,7 @@ public class SearchActivity extends BaseActivity {
 
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
-                                    if (cycleStartTime >= startDate  && (cycleEndTime <= endDate)) {
+                                    if (cycleStartTime >= startDate && (cycleEndTime <= endDate)) {
                                         if (spinnerType == 1) {
                                             if (!course.getIsMooc()) {
                                                 // Add only regular courses
@@ -695,7 +703,7 @@ public class SearchActivity extends BaseActivity {
     }
 
     private void filter(String query) {
-        if (query == null || query.equals("*")) {
+        if (query == null || query.equals("")) {
             mFilteredCourseList = new ArrayList<>(mCoursesList);
         } else {
             mFilteredCourseList = new ArrayList<>();

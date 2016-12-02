@@ -15,12 +15,15 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.SearchView;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
+import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -314,6 +317,23 @@ public class CoursesFragment extends Fragment {
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(
                 getActivity().getComponentName()));
         mSearchView.setQueryRefinementEnabled(true);
+
+        // Very dirty hack to allow empty query submit
+        EditText searchPlate = (EditText) mSearchView.findViewById(android.support.v7.appcompat.R.id.search_src_text);
+        if (searchPlate != null) {
+            searchPlate.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                @Override
+                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                    if (mSearchView.getQuery().toString().isEmpty()) {
+                        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                            mSearchView.setQuery("*", true);
+                            return true;
+                        }
+                    }
+                    return false;
+                }
+            });
+        }
 
         // Collapse search view after text submit
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
