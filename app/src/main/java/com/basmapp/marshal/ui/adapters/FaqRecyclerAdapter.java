@@ -73,10 +73,10 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         holder.questionContainer.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                boolean answerExpanded = holder.answerContainer.getVisibility() != View.VISIBLE;
+                boolean answerCollapsed = holder.answerContainer.getVisibility() == View.GONE;
                 holder.expandAnswerArrow.clearAnimation();
-                ViewCompat.animate(holder.expandAnswerArrow).rotation(answerExpanded ? 180 : 0).start();
-                if (answerExpanded) {
+                ViewCompat.animate(holder.expandAnswerArrow).rotation(answerCollapsed ? 180 : 0).start();
+                if (answerCollapsed) {
                     holder.answerContainer.setVisibility(View.VISIBLE);
                     holder.answerTextView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswer() != null ? View.VISIBLE : View.GONE);
