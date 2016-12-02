@@ -77,6 +77,9 @@ public abstract class DBObject {
             return (boolean) value ? 1 : 0;
         else if (value instanceof Date)
             return ((Date) value).getTime();
+        else if (value instanceof Integer || value instanceof Long || value instanceof Double ||
+                value instanceof Float)
+            return value;
         else return null;
     }
 

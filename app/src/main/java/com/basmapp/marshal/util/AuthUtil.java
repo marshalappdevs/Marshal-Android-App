@@ -12,12 +12,12 @@ import io.jsonwebtoken.SignatureAlgorithm;
 
 public class AuthUtil {
     public static String getApiToken() throws Exception {
-        String testToken = Jwts.builder()
+        String jwt = Jwts.builder()
                 .setSubject("hila")
                 .signWith(SignatureAlgorithm.HS256, BuildConfig.AUTH_KEY.getBytes())
                 .setExpiration(new Date(new Date().getTime() + 10000))
                 .compact();
-        return testToken;
+        return jwt;
     }
 
     public static String getHardwareId(ContentResolver contentResolver) {

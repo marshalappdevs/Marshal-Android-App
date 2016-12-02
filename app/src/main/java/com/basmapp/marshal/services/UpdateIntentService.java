@@ -51,8 +51,6 @@ public class UpdateIntentService extends IntentService {
 
     public static boolean isRunning = false;
 
-    private static String token = null;
-
     public UpdateIntentService() {
         super("UpdateIntentService");
     }
@@ -102,8 +100,8 @@ public class UpdateIntentService extends IntentService {
      */
     private void handleActionCheckForUpdate() {
         try {
-            token = AuthUtil.getApiToken();
-            Settings settings = MarshalServiceProvider.getInstance(token).getSettings().execute().body();
+            String jwt = AuthUtil.getApiToken();
+            Settings settings = MarshalServiceProvider.getInstance(jwt).getSettings().execute().body();
 
             // Fetch channels
             Set<String> channels = new HashSet<>(settings.getChannels());
@@ -153,15 +151,7 @@ public class UpdateIntentService extends IntentService {
     }
 
     private void handleActionUpdateData() {
-        try {
-            if (token == null || token.equals("")) {
-                token = AuthUtil.getApiToken();
-            }
-
-            updateData();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        updateData();
     }
 
     private void updateData() {
@@ -177,10 +167,11 @@ public class UpdateIntentService extends IntentService {
 
         database.beginTransaction();
         try {
-            newCourses = MarshalServiceProvider.getInstance(token).getAllCourses().execute().body();
-            newMaterials = MarshalServiceProvider.getInstance(token).getAllMaterials().execute().body();
-            newMalshabItems = MarshalServiceProvider.getInstance(token).getAllMalshabItems().execute().body();
-            newFaqItems = MarshalServiceProvider.getInstance(token).getAllFaqItems().execute().body();
+            String jwt = AuthUtil.getApiToken();
+            newCourses = MarshalServiceProvider.getInstance(jwt).getAllCourses().execute().body();
+            newMaterials = MarshalServiceProvider.getInstance(jwt).getAllMaterials().execute().body();
+            newMalshabItems = MarshalServiceProvider.getInstance(jwt).getAllMalshabItems().execute().body();
+            newFaqItems = MarshalServiceProvider.getInstance(jwt).getAllFaqItems().execute().body();
 
             List<Course> tempNewCourses = new ArrayList<>(newCourses);
             List<MaterialItem> tempNewMaterials = new ArrayList<>(newMaterials);
@@ -205,11 +196,11 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (FaqItem faqItem : tempNewFaqItems) {
-                FaqItem dbResult = null;
+                FaqItem dbResult;
                 try {
                     dbResult = (FaqItem) FaqItem.findOne(FaqItem.COL_QUESTION, faqItem.getQuestion(), this, FaqItem.class);
 
-                    if (dbResult != null) {
+                    if (dbResult != null && dbResult.getId() != null) {
                         newFaqItems.remove(faqItem);
                         faqItem.setIsUpToDate(true);
                         database.compileStatement(faqItem.getUpdateCommand(this, null, null)).execute();
@@ -239,12 +230,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (MaterialItem materialItem : tempNewMaterials) {
-                MaterialItem dbResult = null;
+                MaterialItem dbResult;
                 try {
                     dbResult = (MaterialItem) MaterialItem.findOne(MaterialItem.COL_URL, materialItem.getUrl(),
                             this, MaterialItem.class);
 
-                    if (dbResult != null) {
+                    if (dbResult != null && dbResult.getId() != null) {
                         newMaterials.remove(materialItem);
                         materialItem.setIsUpToDate(true);
                         database.compileStatement(materialItem.getUpdateCommand(this, null, null)).execute();
@@ -274,12 +265,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (MalshabItem malshabItem : tempNewMalshabItems) {
-                MalshabItem dbResult = null;
+                MalshabItem dbResult;
                 try {
                     dbResult = (MalshabItem) MalshabItem.findOne(MalshabItem.COL_URL, malshabItem.getUrl(),
                             this, MalshabItem.class);
 
-                    if (dbResult != null) {
+                    if (dbResult != null && dbResult.getId() != null) {
                         newMalshabItems.remove(malshabItem);
                         malshabItem.setIsUpToDate(true);
                         database.compileStatement(malshabItem.getUpdateCommand(this, null, null)).execute();
@@ -301,9 +292,6 @@ public class UpdateIntentService extends IntentService {
 
             //////////////////////// Insert Courses  /////////////////////////////////
 
-            int cycleId = 1;
-            int ratingId = 1;
-
             // Set all Courses to be NOT Up To Date
             conditionSetNotUpToDate.setColumn(Course.COL_IS_UP_TO_DATE);
             database.compileStatement(Course.getUpdateCommand(Course.TABLE_NAME,
@@ -312,12 +300,12 @@ public class UpdateIntentService extends IntentService {
 
             // Update
             for (Course course : tempNewCourses) {
-                Course dbResult = null;
+                Course dbResult;
                 try {
                     dbResult = (Course) Course.findOne(Course.COL_COURSE_ID, course.getCourseID(),
                             this, Course.class);
 
-                    if (dbResult != null) {
+                    if (dbResult != null && dbResult.getId() != null) {
                         //TODO: Take care to the course Cycles
                         /////////////////////////// CYCLES //////////////////////////////
                         if (course.getCycles() != null && course.getCycles().size() > 0) {
@@ -331,7 +319,6 @@ public class UpdateIntentService extends IntentService {
                                     if (insertCycleId == -1)
                                         throw new Exception("Failed to insert cycle");
                                     cycle.setId(insertCycleId);
-                                    cycleId++;
                                 } else {
                                     course.getCycles().remove(cycleIndex);
                                     cycleIndex--;
@@ -353,7 +340,6 @@ public class UpdateIntentService extends IntentService {
                                     if (insertRatingId == -1)
                                         throw new Exception("Failed to insert rating");
                                     rating.setId(insertRatingId);
-                                    ratingId++;
                                 } else {
                                     course.getRatings().remove(ratingIndex);
                                     ratingIndex--;
@@ -390,23 +376,10 @@ public class UpdateIntentService extends IntentService {
                             if (insertCycleId == -1)
                                 throw new Exception("Failed to insert cycle");
                             cycle.setId(insertCycleId);
-                            cycleId++;
                         } else {
                             course.getCycles().remove(cycleIndex);
                             cycleIndex--;
                         }
-//                                SQLiteStatement currCycleStatement =
-//                                        cycle.getStatement(cycleStatement, course.getCourseID(), cycleId);
-//                                if (currCycleStatement != null) {
-//                                    long insertCycleId = database.compileStatement(cycle.getInsertCommand(this)).executeInsert();
-//                                    if (insertCycleId == -1)
-//                                        throw new Exception("Failed to insert cycle");
-//                                    cycle.setId(insertCycleId);
-//                                    cycleId++;
-//                                } else {
-//                                    course.getCycles().remove(cycleIndex);
-//                                    cycleIndex--;
-//                                }
                     }
                 }
 
@@ -425,22 +398,10 @@ public class UpdateIntentService extends IntentService {
                             if (insertRatingId == -1)
                                 throw new Exception("Failed to insert rating");
                             rating.setId(insertRatingId);
-                            ratingId++;
                         } else {
                             course.getRatings().remove(ratingIndex);
                             ratingIndex--;
                         }
-//                        if (currRatingStatement != null) {
-//                            long insertRatingId = database.compileStatement(rating.getInsertCommand(this)).executeInsert();
-////                            long insertRatingId = currRatingStatement.executeInsert();
-//                            if (insertRatingId == -1)
-//                                throw new Exception("Failed to insert rating");
-//                            rating.setId(insertRatingId);
-//                            ratingId++;
-//                        } else {
-//                            course.getRatings().remove(ratingIndex);
-//                            ratingIndex--;
-//                        }
                     }
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
