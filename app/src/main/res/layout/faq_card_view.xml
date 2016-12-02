@@ -135,15 +135,32 @@
                 android:scaleType="fitCenter"
                 android:visibility="gone" />
 
-            <!-- MapView in lite mode. Note that it needs to be initialised
-                 programmatically before it can be used. -->
-            <com.google.android.gms.maps.MapView
-                android:id="@+id/lite_recycler_view_map"
+            <FrameLayout
+                android:id="@+id/map_view_container"
                 android:layout_width="match_parent"
-                android:layout_height="150dp"
-                android:visibility="gone"
-                map:liteMode="true"
-                map:mapType="none" />
+                android:layout_height="wrap_content"
+                android:visibility="gone">
+
+                <com.basmapp.marshal.ui.widget.UnobstructedMapView
+                    android:id="@+id/lite_recycler_map_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="150dp"
+                    map:liteMode="true"
+                    map:mapType="none" />
+
+                <android.support.design.widget.FloatingActionButton
+                    android:id="@+id/recenter_map_view_fab"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|end"
+                    android:layout_margin="12dp"
+                    android:alpha="0.54"
+                    android:gravity="center"
+                    app:backgroundTint="@android:color/white"
+                    app:fabSize="mini"
+                    app:srcCompat="@drawable/ic_center_map" />
+            </FrameLayout>
+
         </LinearLayout>
 
         <LinearLayout
