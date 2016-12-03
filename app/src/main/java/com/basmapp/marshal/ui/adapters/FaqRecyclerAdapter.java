@@ -128,6 +128,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
 
         if (holder.mapView != null && mFaq.get(holder.getAdapterPosition()).getAddressLatitude() != 0 &&
                 mFaq.get(holder.getAdapterPosition()).getAddressLongitude() != 0) {
+            final LatLng coordinates = new LatLng(mFaq.get(holder.getAdapterPosition()).getAddressLatitude(),
+                    mFaq.get(holder.getAdapterPosition()).getAddressLongitude());
             holder.mapView.onCreate(null);
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
@@ -135,8 +137,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 public void onMapReady(GoogleMap googleMap) {
                     MapsInitializer.initialize(mContext.getApplicationContext());
                     holder.map = googleMap;
-                    final LatLng coordinates = new LatLng(mFaq.get(holder.getAdapterPosition()).getAddressLatitude(),
-                            mFaq.get(holder.getAdapterPosition()).getAddressLongitude());
                     googleMap.addMarker(new MarkerOptions().position(coordinates));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13));
                     googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
