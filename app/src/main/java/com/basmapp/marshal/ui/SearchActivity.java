@@ -717,7 +717,7 @@ public class SearchActivity extends BaseActivity {
                     }
                     if (spinnerCategoryIndex != 0) {
                         if (startDate == 0 && endDate == 0 && spinnerTypeIndex == 0) {
-                            currentFilteredList.add(course); // not previous filter was selected, add all
+                            currentFilteredList.add(course); // no previous filter was selected, add all
                         }
                         if (!course.getCategory().equals(categoriesArray.get(spinnerCategoryIndex - 1 /*don't count title index*/))) {
                             currentFilteredList.remove(course);

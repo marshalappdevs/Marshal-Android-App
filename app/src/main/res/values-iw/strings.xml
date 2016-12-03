@@ -111,8 +111,8 @@
     <string name="got_it">הבנתי</string>
     <string name="cycle_fab_tip_title">ראה תאריכים נוספים</string>
     <string name="cycle_fab_tip_subtitle">הקש כאן בכדי לראות תאריכים נוספים של הקורס</string>
-    <string name="filter_tip_title">סנן לפי תאריך</string>
-    <string name="filter_tip_subtitle">סנן את תוצאות החיפוש לפי טווח תאריכים</string>
+    <string name="filter_tip_title">סינון מתקדם</string>
+    <string name="filter_tip_subtitle">סנן את תוצאות החיפוש לפי טווח תאריכים, סוג קורס וקטגוריה</string>
     <string name="course_filter_reset_filter">אפס את המסנן</string>
     <string name="course_filter_select_date_action">בחר תאריך</string>
     <string name="course_filter_start_date_label">תאריך התחלה</string>

@@ -115,8 +115,8 @@
     <string name="got_it">GOT IT</string>
     <string name="cycle_fab_tip_title">See more dates</string>
     <string name="cycle_fab_tip_subtitle">Tap here to see more dates of this course</string>
-    <string name="filter_tip_title">Filter by date</string>
-    <string name="filter_tip_subtitle">Filter search results by date range</string>
+    <string name="filter_tip_title">Advanced filtering</string>
+    <string name="filter_tip_subtitle">Filter search results by date range, course type and category</string>
     <string name="course_filter_reset_filter">Reset filter</string>
     <string name="course_filter_select_date_action">Select date</string>
     <string name="course_filter_start_date_label">Start date</string>
