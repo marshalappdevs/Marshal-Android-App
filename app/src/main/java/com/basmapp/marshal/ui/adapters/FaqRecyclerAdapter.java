@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.preference.PreferenceManager;
@@ -27,12 +28,14 @@ import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.model.StringLoader;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
 import com.google.android.gms.maps.MapsInitializer;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.MapStyleOptions;
 import com.google.android.gms.maps.model.MarkerOptions;
 
 import java.util.ArrayList;
@@ -90,7 +93,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                             MainActivity.playServicesAvailable(mContext)) {
                         // We got coordinates and play service is installed - show google map preview
                         holder.mapView.setVisibility(View.VISIBLE);
-                        holder.recenterMapFab.setVisibility(View.VISIBLE);
+                        holder.mapViewFab.setVisibility(View.VISIBLE);
                     } else if (mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
                         // Show get directions icon
                         holder.answerAddress.setVisibility(View.VISIBLE);
@@ -105,7 +108,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerLink.setVisibility(View.GONE);
                     holder.answerImageView.setVisibility(View.GONE);
                     holder.mapView.setVisibility(View.GONE);
-                    holder.recenterMapFab.setVisibility(View.GONE);
+                    holder.mapViewFab.setVisibility(View.GONE);
                     holder.answerAddress.setVisibility(View.GONE);
                     holder.answerDial.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
@@ -137,19 +140,50 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
                 @Override
-                public void onMapReady(GoogleMap googleMap) {
+                public void onMapReady(final GoogleMap googleMap) {
                     MapsInitializer.initialize(mContext.getApplicationContext());
                     holder.map = googleMap;
                     googleMap.addMarker(new MarkerOptions().position(coordinates));
                     googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13));
+                    // Save map coordinates after it's been set
+                    holder.mapCenter = googleMap.getCameraPosition().target.toString();
                     googleMap.setMapType(GoogleMap.MAP_TYPE_NORMAL);
-                    // Recenter map on fab click with cool animation
-                    holder.recenterMapFab.setOnClickListener(new View.OnClickListener() {
+                    googleMap.setOnCameraMoveListener(new GoogleMap.OnCameraMoveListener() {
                         @Override
-                        public void onClick(View view) {
-                            holder.map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13), 2000, null);
+                        public void onCameraMove() {
+                            // Recenter map on fab click with cool animation
+                            holder.mapViewFab.setImageResource(R.drawable.ic_center_map);
+                            holder.mapViewFab.setOnClickListener(new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    holder.map.animateCamera(CameraUpdateFactory.newLatLngZoom(coordinates, 13), 2000, null);
+                                }
+                            });
                         }
                     });
+                    googleMap.setOnCameraIdleListener(new GoogleMap.OnCameraIdleListener() {
+                        @Override
+                        public void onCameraIdle() {
+                            if (holder.mapCenter.equals(holder.map.getCameraPosition().target.toString())) {
+                                // Current camera view same as coordinates, show street view option
+                                holder.mapViewFab.setImageResource(R.drawable.ic_streetview);
+                                holder.mapViewFab.setOnClickListener(new View.OnClickListener() {
+                                    @Override
+                                    public void onClick(View view) {
+                                        mContext.startActivity(new Intent(Intent.ACTION_VIEW,
+                                                Uri.parse("google.streetview:cbll=" +
+                                                        coordinates.latitude + "," + coordinates.longitude)));
+                                    }
+                                });
+                            }
+                        }
+                    });
+                    int currentNightMode = mContext.getResources().getConfiguration().uiMode
+                            & Configuration.UI_MODE_NIGHT_MASK;
+                    if (currentNightMode == Configuration.UI_MODE_NIGHT_YES) {
+                        googleMap.setMapStyle(MapStyleOptions.loadRawResourceStyle(
+                                mContext, R.raw.night_style_map));
+                    }
                 }
             });
         }
@@ -268,7 +302,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         ProgressBar progressBar;
         MapView mapView;
         GoogleMap map;
-        FloatingActionButton recenterMapFab;
+        FloatingActionButton mapViewFab;
+        String mapCenter = "";
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -288,7 +323,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
             mapView = (MapView) itemView.findViewById(R.id.lite_recycler_map_view);
-            recenterMapFab = (FloatingActionButton) itemView.findViewById(R.id.recenter_map_view_fab);
+            mapViewFab = (FloatingActionButton) itemView.findViewById(R.id.map_view_fab);
         }
     }
 

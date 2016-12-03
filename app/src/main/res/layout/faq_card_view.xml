@@ -149,7 +149,7 @@
                     map:mapType="none" />
 
                 <android.support.design.widget.FloatingActionButton
-                    android:id="@+id/recenter_map_view_fab"
+                    android:id="@+id/map_view_fab"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|end"
@@ -157,9 +157,8 @@
                     android:alpha="0.54"
                     android:gravity="center"
                     android:visibility="gone"
-                    app:backgroundTint="@android:color/white"
-                    app:fabSize="mini"
-                    app:srcCompat="@drawable/ic_center_map" />
+                    app:backgroundTint="@color/white_day_black_night"
+                    app:fabSize="mini" />
             </FrameLayout>
 
         </LinearLayout>
