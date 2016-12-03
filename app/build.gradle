@@ -1,16 +1,5 @@
 apply plugin: 'com.android.application'
 
-def renameAPK(variant, defaultConfig, buildType) {
-    variant.outputs.each { output ->
-        def formattedDate = new Date().format('ddMMyyyy')
-        def file = output.packageApplication.outputFile
-        def fileName = defaultConfig.applicationId + "-" + defaultConfig.versionName + "-" + buildType + "-" +
-                defaultConfig.versionCode + "-" + formattedDate + "_" + 'git rev-parse --short HEAD'.
-                execute([], project.rootDir).text.trim() + ".apk"
-        output.packageApplication.outputFile = new File(file.parent, fileName)
-    }
-}
-
 android {
     signingConfigs {
         basmapp_keystore_release {
@@ -42,18 +31,12 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.basmapp_keystore_release
-            applicationVariants.all { variant ->
-                renameAPK(variant, defaultConfig, 'debug')
-            }
         }
         release {
             shrinkResources true
             minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             signingConfig signingConfigs.basmapp_keystore_release
-            applicationVariants.all { variant ->
-                renameAPK(variant, defaultConfig, 'release')
-            }
         }
         compileOptions {
             sourceCompatibility JavaVersion.VERSION_1_7

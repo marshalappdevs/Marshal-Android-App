@@ -319,21 +319,19 @@ public class CoursesFragment extends Fragment {
         mSearchView.setQueryRefinementEnabled(true);
 
         // Very dirty hack to allow empty query submit
-        EditText searchAutoComplete = (EditText) mSearchView.findViewById(R.id.search_src_text);
-        if (searchAutoComplete != null) {
-            searchAutoComplete.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-                @Override
-                public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                    if (mSearchView.getQuery().toString().isEmpty()) {
-                        if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                            mSearchView.setQuery("*", true);
-                            return true;
+        ((EditText) mSearchView.findViewById(R.id.search_src_text))
+                .setOnEditorActionListener(new TextView.OnEditorActionListener() {
+                    @Override
+                    public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
+                        if (mSearchView.getQuery().toString().isEmpty()) {
+                            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                                mSearchView.setQuery("©", true);
+                                return true;
+                            }
                         }
+                        return false;
                     }
-                    return false;
-                }
-            });
-        }
+                });
 
         // Collapse search view after text submit
         mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

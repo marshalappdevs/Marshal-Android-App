@@ -130,6 +130,7 @@
     <string name="active_filter_date_range_notice">Courses from %1$s to %2$s.</string>
     <string name="active_filter_ending_date_notice">Showing courses before %1$s.</string>
     <string name="active_filter_type_notice">Showing only %1$s.</string>
+    <string name="active_filter_category_notice">Showing only %1$s courses.</string>
     <string name="filter_not_available">Filter is not available.</string>
     <string name="course_filter_title">Filter</string>
     <string name="no_materials_for_course">This course has no materials.</string>
@@ -395,6 +396,8 @@
         <item>@string/review_comment9</item>
         <item>@string/review_comment10</item>
     </string-array>
+
+    <string name="all_course_categories">All categories</string>
 
     <string-array name="filter_type_spinner">
         <item>All courses</item>
