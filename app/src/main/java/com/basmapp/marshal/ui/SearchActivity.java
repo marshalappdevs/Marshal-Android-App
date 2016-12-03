@@ -668,81 +668,43 @@ public class SearchActivity extends BaseActivity {
                                 if (startDate != 0 && endDate != 0) {
                                     // Searching for courses in a date range
                                     if (cycleStartTime >= startDate && (cycleEndTime <= endDate)) {
-                                        if (spinnerTypeIndex == 1) {
-                                            if (!course.getIsMooc()) {
-                                                // Add only regular courses
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else if (spinnerTypeIndex == 2) {
-                                            // Add only online courses
-                                            if (course.getIsMooc()) {
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else {
-                                            // Add all courses
-                                            currentFilteredList.add(course);
-                                        }
-                                        break;
+                                        currentFilteredList.add(course);
                                     }
+                                    break;
                                 } else if (startDate != 0) {
                                     // Searching for courses after start date without end date limit
                                     if (cycleStartTime >= startDate) {
-                                        if (spinnerTypeIndex == 1) {
-                                            if (!course.getIsMooc()) {
-                                                // Add only regular courses
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else if (spinnerTypeIndex == 2) {
-                                            // Add only online courses
-                                            if (course.getIsMooc()) {
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else {
-                                            // Add all courses
-                                            currentFilteredList.add(course);
-                                        }
-                                        break;
+                                        currentFilteredList.add(course);
                                     }
+                                    break;
                                 } else if (endDate != 0) {
                                     // Searching for courses before end date without start date limit
                                     if (cycleEndTime <= endDate) {
-                                        if (spinnerTypeIndex == 1) {
-                                            if (!course.getIsMooc()) {
-                                                // Add only regular courses
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else if (spinnerTypeIndex == 2) {
-                                            // Add only online courses
-                                            if (course.getIsMooc()) {
-                                                currentFilteredList.add(course);
-                                            }
-                                        } else {
-                                            // Add all courses
-                                            currentFilteredList.add(course);
-                                        }
-                                        break;
+                                        currentFilteredList.add(course);
                                     }
+                                    break;
                                 }
                             } catch (Exception e) {
                                 e.printStackTrace();
                             }
                         }
                     }
-                    // Filter courses only by course type
-                    if (startDate == 0 && endDate == 0 && spinnerTypeIndex != 0) {
+                    // Filter courses by course type
+                    if (spinnerTypeIndex != 0) {
+                        if (startDate == 0 && endDate == 0) {
+                            // no courses was added as search filter was not selected, add all
+                            currentFilteredList.add(course);
+                        }
                         if (spinnerTypeIndex == 1) {
-                            if (!course.getIsMooc()) {
-                                // Add only regular courses
-                                currentFilteredList.add(course);
+                            if (course.getIsMooc()) {
+                                // Add only regular courses - remove MOOCs
+                                currentFilteredList.remove(course);
                             }
                         } else if (spinnerTypeIndex == 2) {
-                            // Add only online courses
-                            if (course.getIsMooc()) {
-                                currentFilteredList.add(course);
+                            // Add only online courses - remove frontal
+                            if (!course.getIsMooc()) {
+                                currentFilteredList.remove(course);
                             }
-                        } else {
-                            // Add all courses
-                            currentFilteredList.add(course);
                         }
                     }
                     // Filter courses by course category
@@ -755,7 +717,7 @@ public class SearchActivity extends BaseActivity {
                     }
                     if (spinnerCategoryIndex != 0) {
                         if (startDate == 0 && endDate == 0 && spinnerTypeIndex == 0) {
-                            currentFilteredList.add(course);
+                            currentFilteredList.add(course); // not previous filter was selected, add all
                         }
                         if (!course.getCategory().equals(categoriesArray.get(spinnerCategoryIndex - 1 /*don't count title index*/))) {
                             currentFilteredList.remove(course);
