@@ -138,13 +138,13 @@
             <FrameLayout
                 android:id="@+id/map_view_container"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:visibility="gone">
+                android:layout_height="wrap_content">
 
                 <com.basmapp.marshal.ui.widget.UnobstructedMapView
                     android:id="@+id/lite_recycler_map_view"
                     android:layout_width="match_parent"
                     android:layout_height="150dp"
+                    android:visibility="gone"
                     map:liteMode="true"
                     map:mapType="none" />
 
@@ -156,6 +156,7 @@
                     android:layout_margin="8dp"
                     android:alpha="0.54"
                     android:gravity="center"
+                    android:visibility="gone"
                     app:backgroundTint="@android:color/white"
                     app:fabSize="mini"
                     app:srcCompat="@drawable/ic_center_map" />

@@ -75,6 +75,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.gms.auth.api.signin.GoogleSignInResult;
 import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.SignInButton;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.OptionalPendingResult;
@@ -702,6 +703,12 @@ public class MainActivity extends BaseActivity
         // An unresolvable error has occurred and Google APIs (including Sign-In) will not
         // be available.
 //        Log.d(TAG, "onConnectionFailed:" + connectionResult);
+    }
+
+    public static boolean playServicesAvailable(Context context) {
+        GoogleApiAvailability googleAPI = GoogleApiAvailability.getInstance();
+        int result = googleAPI.isGooglePlayServicesAvailable(context);
+        return result == ConnectionResult.SUCCESS;
     }
 
     long lastPress;

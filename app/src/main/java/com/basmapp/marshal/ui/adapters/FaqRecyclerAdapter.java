@@ -14,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,6 +23,7 @@ import android.widget.Toast;
 
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.FaqItem;
+import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
@@ -86,9 +86,11 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerImageView.setVisibility(mFaq.get(holder.getAdapterPosition())
                             .getAnswerImageUrl() != null ? View.VISIBLE : View.GONE);
                     if (mFaq.get(holder.getAdapterPosition()).getAddressLatitude() != 0 &&
-                            mFaq.get(holder.getAdapterPosition()).getAddressLongitude() != 0) {
-                        // Show google map preview
-                        holder.mapViewContainer.setVisibility(View.VISIBLE);
+                            mFaq.get(holder.getAdapterPosition()).getAddressLongitude() != 0 &&
+                            MainActivity.playServicesAvailable(mContext)) {
+                        // We got coordinates and play service is installed - show google map preview
+                        holder.mapView.setVisibility(View.VISIBLE);
+                        holder.recenterMapFab.setVisibility(View.VISIBLE);
                     } else if (mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
                         // Show get directions icon
                         holder.answerAddress.setVisibility(View.VISIBLE);
@@ -102,7 +104,8 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerTextView.setVisibility(View.GONE);
                     holder.answerLink.setVisibility(View.GONE);
                     holder.answerImageView.setVisibility(View.GONE);
-                    holder.mapViewContainer.setVisibility(View.GONE);
+                    holder.mapView.setVisibility(View.GONE);
+                    holder.recenterMapFab.setVisibility(View.GONE);
                     holder.answerAddress.setVisibility(View.GONE);
                     holder.answerDial.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
@@ -265,7 +268,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         ProgressBar progressBar;
         MapView mapView;
         GoogleMap map;
-        FrameLayout mapViewContainer;
         FloatingActionButton recenterMapFab;
 
         public FaqVH(View itemView) {
@@ -285,7 +287,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
-            mapViewContainer = (FrameLayout) itemView.findViewById(R.id.map_view_container);
             mapView = (MapView) itemView.findViewById(R.id.lite_recycler_map_view);
             recenterMapFab = (FloatingActionButton) itemView.findViewById(R.id.recenter_map_view_fab);
         }
