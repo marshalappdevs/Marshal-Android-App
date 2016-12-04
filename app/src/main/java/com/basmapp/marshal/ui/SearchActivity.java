@@ -80,7 +80,7 @@ public class SearchActivity extends BaseActivity {
     private ArrayList<Course> mFilteredCourseList;
 
     private String mSearchQuery;
-    private LinearLayout mFilterNoticeGroup;
+    private LinearLayout mFilterNoticeGroup, mNoResultsContainer;
     private TextView mNoResults, mCourseFilterNotice;
     private Button mResetFilter;
     private boolean isEmptyResult = false;
@@ -131,6 +131,7 @@ public class SearchActivity extends BaseActivity {
         mFilterDateFormat = new SimpleDateFormat("dd/MM/yy", Locale.getDefault());
 
         mNoResults = (TextView) findViewById(R.id.search_activity_no_results);
+        mNoResultsContainer = (LinearLayout) findViewById(R.id.no_results_container);
         mFilterNoticeGroup = (LinearLayout) findViewById(R.id.filter_notice_bar_group);
         mCourseFilterNotice = (TextView) findViewById(R.id.course_filter_notice);
         mResetFilter = (Button) findViewById(R.id.reset_course_filter_button);
@@ -775,11 +776,10 @@ public class SearchActivity extends BaseActivity {
                 isEmptyResult = true;
             }
             mNoResults.setText(searchResult);
-            mNoResults.setGravity(Gravity.CENTER);
-            mNoResults.setVisibility(View.VISIBLE);
+            mNoResultsContainer.setVisibility(View.VISIBLE);
             mFilterNoticeGroup.setVisibility(View.GONE);
         } else {
-            mNoResults.setVisibility(View.GONE);
+            mNoResultsContainer.setVisibility(View.GONE);
             isEmptyResult = false;
             if (filter) {
                 mFilterNoticeGroup.setVisibility(View.VISIBLE);

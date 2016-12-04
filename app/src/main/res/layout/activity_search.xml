@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <android.support.design.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -60,18 +61,32 @@
                 android:paddingEnd="4dp"
                 android:paddingStart="4dp" />
 
-            <TextView
-                android:id="@+id/search_activity_no_results"
-                android:layout_width="wrap_content"
+            <LinearLayout
+                android:id="@+id/no_results_container"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_centerInParent="true"
-                android:layout_gravity="center"
-                android:layout_marginEnd="@dimen/activity_horizontal_margin"
-                android:layout_marginStart="@dimen/activity_horizontal_margin"
-                android:drawablePadding="@dimen/activity_vertical_margin_half"
-                android:drawableTop="@drawable/ic_empty_result"
-                android:textAppearance="?android:attr/textAppearanceMedium"
-                android:visibility="gone" />
+                android:gravity="center"
+                android:orientation="vertical"
+                android:paddingBottom="?actionBarSize"
+                android:visibility="gone">
+
+                <ImageView
+                    android:layout_width="120dp"
+                    android:layout_height="120dp"
+                    android:layout_marginBottom="@dimen/activity_vertical_margin"
+                    app:srcCompat="@drawable/ic_empty_search_mat" />
+
+                <TextView
+                    android:id="@+id/search_activity_no_results"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginEnd="@dimen/activity_horizontal_margin"
+                    android:layout_marginStart="@dimen/activity_horizontal_margin"
+                    android:gravity="center"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:textColor="?android:textColorSecondary" />
+            </LinearLayout>
         </RelativeLayout>
 
     </LinearLayout>
