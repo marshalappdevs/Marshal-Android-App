@@ -23,7 +23,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class MarshalServiceProvider {
 
-    private static final String API_BASE_URL = "http://marshalbeta.azurewebsites.net/api/";
+    private static final String API_BASE_URL = "http://marshalweb.azurewebsites.net/api/";
     public static final String GET_ALL_COURSES = API_BASE_URL + "courses";
     public static final String GET_ALL_MATERIALS = API_BASE_URL + "materials";
     public static final String POST_RATING = API_BASE_URL + "courses/ratings/";
