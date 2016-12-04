@@ -21,7 +21,7 @@ import android.widget.TextView;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBObject;
+import com.simplite.orm.DBObject;
 import com.basmapp.marshal.ui.adapters.FaqRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 

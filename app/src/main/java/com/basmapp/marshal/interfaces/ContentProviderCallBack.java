@@ -1,7 +1,6 @@
 package com.basmapp.marshal.interfaces;
 
-import com.basmapp.marshal.localdb.DBObject;
-
+import com.simplite.orm.DBObject;
 import java.util.ArrayList;
 
 public interface ContentProviderCallBack {

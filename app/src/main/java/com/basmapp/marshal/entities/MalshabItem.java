@@ -2,14 +2,14 @@ package com.basmapp.marshal.entities;
 
 import android.content.Context;
 
-import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.TableName;
+import com.simplite.orm.DBObject;
+import com.simplite.orm.annotations.Column;
+import com.simplite.orm.annotations.Entity;
+import com.simplite.orm.annotations.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@TableName(name = MalshabItem.TABLE_NAME)
+@Entity(tableName = MalshabItem.TABLE_NAME)
 public class MalshabItem extends DBObject {
 
     public static final String TABLE_NAME = "t_malshab_item";

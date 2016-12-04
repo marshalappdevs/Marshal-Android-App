@@ -19,13 +19,13 @@ import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
 import com.basmapp.marshal.entities.Settings;
-import com.basmapp.marshal.localdb.DatabaseHelper;
-import com.basmapp.marshal.localdb.entities.Condition;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.NotificationUtils;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
+import com.simplite.orm.DatabaseHelper;
+import com.simplite.orm.entities.Condition;
 
 import java.util.ArrayList;
 import java.util.Date;

@@ -23,7 +23,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.simplite.orm.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.CourseActivity;
 import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.DateHelper;
@@ -51,7 +51,7 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
     }
 
     @Override
-    public void onBindViewHolder(final CourseVH holder, final int position) {
+    public void onBindViewHolder(final CourseVH holder, int position) {
         // Set card onClickListener
         final long[] mLastClickTime = {0};
         holder.cardView.setOnClickListener(new View.OnClickListener() {
@@ -69,8 +69,8 @@ public class CoursesSearchRecyclerAdapter extends RecyclerView.Adapter<CoursesSe
                             .putBoolean("courseShared", false).apply();
                 }
                 Intent intent = new Intent(mContext, CourseActivity.class);
-                intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(position));
-                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(position)));
+                intent.putExtra(Constants.EXTRA_COURSE, mCourses.get(holder.getAdapterPosition()));
+                intent.putExtra(Constants.EXTRA_COURSE_POSITION_IN_LIST, mCourses.indexOf(mCourses.get(holder.getAdapterPosition())));
                 List<Pair<View, String>> pairs = new ArrayList<>();
                 if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                     View decor = ((Activity) mContext).getWindow().getDecorView();

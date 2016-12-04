@@ -23,7 +23,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
 import com.basmapp.marshal.interfaces.OnHashTagClickListener;
-import com.basmapp.marshal.localdb.DBObject;
+import com.simplite.orm.DBObject;
 import com.basmapp.marshal.ui.adapters.MaterialsRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 

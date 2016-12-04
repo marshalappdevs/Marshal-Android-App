@@ -11,7 +11,7 @@ import com.basmapp.marshal.entities.FaqItem;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.simplite.orm.interfaces.BackgroundTaskCallBack;
 
 import java.util.ArrayList;
 import java.util.HashMap;

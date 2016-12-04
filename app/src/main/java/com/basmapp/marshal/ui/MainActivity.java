@@ -64,7 +64,8 @@ import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
-import com.basmapp.marshal.localdb.DatabaseHelper;
+import com.simplite.orm.DatabaseHelper;
+import com.simplite.orm.ManifestProvider;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
 import com.basmapp.marshal.services.FcmRegistrationService;
 import com.basmapp.marshal.services.UpdateIntentService;
@@ -230,7 +231,8 @@ public class MainActivity extends BaseActivity
         if (mSharedPreferences != null) {
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
                     mSharedPreferences.getInt(Constants.PREF_DATABASE_VERSION,
-                            DatabaseHelper.DATABASE_VERSION) < DatabaseHelper.DATABASE_VERSION) {
+                            ManifestProvider.getDatabaseVersion(getApplicationContext())) <
+                                    ManifestProvider.getDatabaseVersion(getApplicationContext())) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
                 mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true).apply();

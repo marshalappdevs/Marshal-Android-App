@@ -43,7 +43,7 @@ import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.entities.MaterialItem;
 import com.basmapp.marshal.entities.Rating;
-import com.basmapp.marshal.localdb.interfaces.BackgroundTaskCallBack;
+import com.simplite.orm.interfaces.BackgroundTaskCallBack;
 import com.basmapp.marshal.ui.adapters.CyclesGoogleFormsRecyclerAdapter;
 import com.basmapp.marshal.ui.adapters.CyclesRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;

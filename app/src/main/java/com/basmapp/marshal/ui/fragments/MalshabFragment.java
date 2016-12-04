@@ -11,7 +11,7 @@ import android.widget.GridView;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.MalshabItem;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.localdb.DBObject;
+import com.simplite.orm.DBObject;
 import com.basmapp.marshal.ui.adapters.MalshabCoursesAdapter;
 import com.basmapp.marshal.util.ContentProvider;
 

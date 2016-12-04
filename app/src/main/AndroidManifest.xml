@@ -207,6 +207,14 @@
             android:name="com.google.android.geo.API_KEY"
             android:value="@string/google_maps_key" />
 
+        <meta-data android:name="DATABASE_NAME" android:value="marshal_local_db" />
+        <meta-data android:name="DATABASE_VERSION" android:value="6" />
+        <meta-data android:name="CONFIG_CLASS" android:value="com.basmapp.marshal.util.LocalDBConfiguration" />
+        <meta-data android:name="ENTITIES_CLASSES_NAME" android:value="com.basmapp.marshal.entities.Course,
+            com.basmapp.marshal.entities.Cycle,com.basmapp.marshal.entities.Rating,
+            com.basmapp.marshal.entities.FaqItem,com.basmapp.marshal.entities.MalshabItem,
+            com.basmapp.marshal.entities.MaterialItem" />
+
     </application>
 
 </manifest>

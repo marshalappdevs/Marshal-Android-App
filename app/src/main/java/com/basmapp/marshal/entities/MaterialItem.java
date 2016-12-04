@@ -3,15 +3,14 @@ package com.basmapp.marshal.entities;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.TableName;
+import com.simplite.orm.DBObject;
+import com.simplite.orm.annotations.Column;
+import com.simplite.orm.annotations.Entity;
+import com.simplite.orm.annotations.PrimaryKey;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-@TableName(name = MaterialItem.TABLE_NAME)
+@Entity(tableName = MaterialItem.TABLE_NAME)
 public class MaterialItem extends DBObject implements Parcelable {
 
     public static final String TABLE_NAME = "t_material_item";

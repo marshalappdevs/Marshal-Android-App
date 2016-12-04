@@ -3,19 +3,18 @@ package com.basmapp.marshal.entities;
 import android.content.Context;
 import android.os.Parcel;
 import android.os.Parcelable;
-
-import com.basmapp.marshal.localdb.DBObject;
-import com.basmapp.marshal.localdb.annotations.Column;
-import com.basmapp.marshal.localdb.annotations.ForeignKeyEntityArray;
-import com.basmapp.marshal.localdb.annotations.PrimaryKey;
-import com.basmapp.marshal.localdb.annotations.TableName;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
+import com.simplite.orm.DBObject;
+import com.simplite.orm.annotations.Column;
+import com.simplite.orm.annotations.Entity;
+import com.simplite.orm.annotations.ForeignKeyEntityArray;
+import com.simplite.orm.annotations.PrimaryKey;
 
 import java.util.ArrayList;
 import java.util.Date;
 
-@TableName(name = Course.TABLE_NAME)
+@Entity(tableName = Course.TABLE_NAME)
 public class Course extends DBObject implements Parcelable {
 
     public static final String TABLE_NAME = "t_course";
