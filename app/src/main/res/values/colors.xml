@@ -39,4 +39,5 @@
     <color name="drawer_tint_color_dark">#ff757575</color>
     <color name="white_day_black_night">#FFFFFF</color>
     <color name="black_day_white_night">#000000</color>
+    <color name="search_status_bar_color">#A1A1A1</color>
 </resources>

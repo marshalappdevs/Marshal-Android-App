@@ -1,5 +1,7 @@
 package com.basmapp.marshal.ui;
 
+import android.animation.Animator;
+import android.animation.AnimatorListenerAdapter;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
@@ -16,6 +18,7 @@ import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -29,6 +32,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -42,9 +46,14 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.ViewAnimationUtils;
+import android.view.animation.AlphaAnimation;
 import android.view.animation.Animation;
+import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
+import android.view.animation.TranslateAnimation;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -99,6 +108,7 @@ public class MainActivity extends BaseActivity
     private ImageView mProfileAvatarImage;
     private ImageView mExpandAccountMenuButton;
     private MenuItem mSearchItem;
+    private SearchView mSearchView;
     private Snackbar mNetworkSnackbar;
 
     // Fragments
@@ -808,24 +818,6 @@ public class MainActivity extends BaseActivity
         recreate();
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
-
-        mSearchItem = menu.findItem(R.id.m_search);
-
-        // Disable search if error screen shown
-        if (sErrorScreen != null) {
-            if (sErrorScreen.getVisibility() == View.VISIBLE) {
-                mSearchItem.setEnabled(false);
-            } else {
-                mSearchItem.setEnabled(true);
-            }
-        }
-
-        return true;
-    }
-
     public void updateData() {
         if (isConnected(this)) {
             // Update data if device is connected to network
@@ -902,6 +894,43 @@ public class MainActivity extends BaseActivity
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.main, menu);
+
+        mSearchItem = menu.findItem(R.id.m_search);
+        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+
+        MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
+            @Override
+            public boolean onMenuItemActionCollapse(MenuItem item) {
+                // Do something when collapsed
+                if (mSearchItem.isActionViewExpanded()) {
+                    animateSearchToolbar(R.id.toolbar, 1, false, false);
+                }
+                return true;
+            }
+
+            @Override
+            public boolean onMenuItemActionExpand(MenuItem item) {
+                // Do something when expanded
+                animateSearchToolbar(R.id.toolbar, 1, true, true);
+                return true;
+            }
+        });
+
+        // Disable search if error screen shown
+        if (sErrorScreen != null) {
+            if (sErrorScreen.getVisibility() == View.VISIBLE) {
+                mSearchItem.setEnabled(false);
+            } else {
+                mSearchItem.setEnabled(true);
+            }
+        }
+
+        return true;
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
@@ -913,6 +942,80 @@ public class MainActivity extends BaseActivity
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    public void animateSearchToolbar(int viewId, int numberOfMenuIcon, boolean containsOverflow, boolean show) {
+
+        final View toolbar = findViewById(viewId);
+
+        toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.search_status_bar_color));
+        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
+                ContextCompat.getColor(this, R.color.material_light_primary_text));
+        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
+                ContextCompat.getColor(this, R.color.material_light_hint_text));
+
+        if (show) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int width = toolbar.getWidth() -
+                        (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
+                        ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(toolbar,
+                        LocaleUtils.isRtl(getResources()) ? toolbar.getWidth() - width : width,
+                        toolbar.getHeight() / 2, 0.0f, (float) width);
+                createCircularReveal.setDuration(250);
+                createCircularReveal.start();
+            } else {
+                TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-toolbar.getHeight()), 0.0f);
+                translateAnimation.setDuration(250);
+                toolbar.clearAnimation();
+                toolbar.startAnimation(translateAnimation);
+            }
+        } else {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+                int width = toolbar.getWidth() -
+                        (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
+                        ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(toolbar,
+                        LocaleUtils.isRtl(getResources()) ? toolbar.getWidth() - width : width,
+                        toolbar.getHeight() / 2, (float) width, 0.0f);
+                createCircularReveal.setDuration(250);
+                createCircularReveal.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        toolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
+                        mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
+                    }
+                });
+                createCircularReveal.start();
+            } else {
+                AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
+                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, (float) (-toolbar.getHeight()));
+                AnimationSet animationSet = new AnimationSet(true);
+                animationSet.addAnimation(alphaAnimation);
+                animationSet.addAnimation(translateAnimation);
+                animationSet.setDuration(250);
+                animationSet.setAnimationListener(new Animation.AnimationListener() {
+                    @Override
+                    public void onAnimationStart(Animation animation) {
+
+                    }
+
+                    @Override
+                    public void onAnimationEnd(Animation animation) {
+                        toolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
+                        mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
+                    }
+
+                    @Override
+                    public void onAnimationRepeat(Animation animation) {
+
+                    }
+                });
+                toolbar.startAnimation(animationSet);
+            }
+        }
     }
 
     @SuppressWarnings("StatementWithEmptyBody")

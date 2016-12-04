@@ -318,34 +318,28 @@ public class CoursesFragment extends Fragment {
                 getActivity().getComponentName()));
         mSearchView.setQueryRefinementEnabled(true);
 
-        // Very dirty hack to allow empty query submit
+        // Dirty hack to allow empty query submit
         ((EditText) mSearchView.findViewById(R.id.search_src_text))
                 .setOnEditorActionListener(new TextView.OnEditorActionListener() {
                     @Override
                     public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
                         if (mSearchView.getQuery().toString().isEmpty()) {
                             if (actionId == EditorInfo.IME_ACTION_SEARCH) {
-                                mSearchView.setQuery("©", true);
+                                mSearchView.setQuery("*", true);
+                                mSearchView.clearFocus();
+                                return true;
+                            }
+                        } else {
+                            // Collapse search view after text submit
+                            if (actionId == EditorInfo.IME_ACTION_SEARCH) {
+                                mSearchView.setQuery(mSearchView.getQuery(), true);
+                                mSearchView.clearFocus();
                                 return true;
                             }
                         }
                         return false;
                     }
                 });
-
-        // Collapse search view after text submit
-        mSearchView.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                mSearchItem.collapseActionView();
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                return false;
-            }
-        });
 
         // Collapse search view after clicking suggestion
         mSearchView.setOnSuggestionListener(new SearchView.OnSuggestionListener() {
@@ -364,8 +358,10 @@ public class CoursesFragment extends Fragment {
         // Collapse search view and close keyboard together
         mSearchView.setOnQueryTextFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                mSearchItem.collapseActionView();
+            public void onFocusChange(View view, boolean hasFocus) {
+                if (!hasFocus) {
+                    mSearchItem.collapseActionView();
+                }
             }
         });
 

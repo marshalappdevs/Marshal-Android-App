@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.os.Build;
 import android.os.Bundle;
 
 import android.app.SearchManager;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AppCompatDelegate;
@@ -31,6 +33,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -112,6 +115,12 @@ public class SearchActivity extends BaseActivity {
                 finish();
             }
         });
+
+        // For white SearchView
+        mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.search_status_bar_color));
+        }
 
         mRecycler = (RecyclerView) findViewById(R.id.search_activity_recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
@@ -209,6 +218,12 @@ public class SearchActivity extends BaseActivity {
         mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
         mSearchView.setQueryRefinementEnabled(true);
 
+        // For white SearchView
+        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
+                ContextCompat.getColor(this, R.color.material_light_primary_text));
+        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
+                ContextCompat.getColor(this, R.color.material_light_hint_text));
+
         // Show target prompt for filter
         showFilterTargetPrompt();
 
@@ -278,8 +293,8 @@ public class SearchActivity extends BaseActivity {
         if (ACTION_SEARCH.equals(intent.getAction())) {
             mSearchQuery = intent.getStringExtra(QUERY);
 
-            // Use copyright symbol to show all search results
-            if (mSearchQuery.equals("©"))
+            // Use asterisk to show all search results
+            if (mSearchQuery.equals("*"))
                 mSearchQuery = "";
 
             if (mToolbar != null) {
