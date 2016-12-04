@@ -119,7 +119,7 @@ public class SearchActivity extends BaseActivity {
         // For white SearchView
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.search_status_bar_color));
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.status_bar_white));
         }
 
         mRecycler = (RecyclerView) findViewById(R.id.search_activity_recyclerView);
