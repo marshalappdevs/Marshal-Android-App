@@ -951,7 +951,7 @@ public class MainActivity extends BaseActivity
         final View toolbar = findViewById(viewId);
 
         toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.status_bar_white));
+        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
