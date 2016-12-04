@@ -129,6 +129,7 @@
     <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
         <item name="closeIcon">@drawable/ic_search_close</item>
         <item name="voiceIcon">@drawable/ic_search_voice</item>
+        <item name="commitIcon">@drawable/ic_search_commit</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
