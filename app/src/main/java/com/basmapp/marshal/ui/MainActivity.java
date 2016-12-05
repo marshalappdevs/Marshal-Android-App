@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -52,6 +53,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -232,7 +234,7 @@ public class MainActivity extends BaseActivity
             if (mSharedPreferences.getBoolean(Constants.PREF_IS_FIRST_RUN, true) ||
                     mSharedPreferences.getInt(Constants.PREF_DATABASE_VERSION,
                             ManifestProvider.getDatabaseVersion(getApplicationContext())) <
-                                    ManifestProvider.getDatabaseVersion(getApplicationContext())) {
+                            ManifestProvider.getDatabaseVersion(getApplicationContext())) {
                 // Show update progress bar on first app startup
                 mUpdateProgressDialog.show();
                 mSharedPreferences.edit().putBoolean(Constants.PREF_RESTART_UI_AFTER_UPDATE, true).apply();
@@ -901,6 +903,25 @@ public class MainActivity extends BaseActivity
 
         mSearchItem = menu.findItem(R.id.m_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
+
+        /*
+        // Set suggestions to full screen width
+        final AutoCompleteTextView searchEditText = (AutoCompleteTextView)
+                mSearchView.findViewById(R.id.search_src_text);
+        View dropDownAnchor = mSearchView.findViewById(searchEditText.getDropDownAnchor());
+        if (dropDownAnchor != null) {
+            dropDownAnchor.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    // Set DropDownView width
+                    Point size = new Point();
+                    getWindowManager().getDefaultDisplay().getSize(size);
+                    searchEditText.setDropDownWidth(size.x);
+                }
+            });
+        }
+        */
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
