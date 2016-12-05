@@ -7,6 +7,7 @@ import android.database.Cursor;
 import android.database.CursorWrapper;
 import android.net.Uri;
 import android.provider.SearchRecentSuggestions;
+import android.support.v7.app.AppCompatDelegate;
 
 import com.basmapp.marshal.R;
 
@@ -14,6 +15,10 @@ import com.basmapp.marshal.R;
  * Suggestions provider for recently searched for courses queries
  */
 public class SuggestionProvider extends SearchRecentSuggestionsProvider {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     public final static String AUTHORITY = "com.basmapp.marshal.SuggestionProvider";
     private final static int MODE = DATABASE_MODE_QUERIES;
