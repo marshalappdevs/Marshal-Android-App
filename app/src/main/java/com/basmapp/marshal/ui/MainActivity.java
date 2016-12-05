@@ -66,6 +66,7 @@ import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
+import com.basmapp.marshal.util.ViewUtils;
 import com.simplite.orm.DatabaseHelper;
 import com.simplite.orm.ManifestProvider;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
@@ -916,7 +917,6 @@ public class MainActivity extends BaseActivity
                     // Set DropDownView width
                     Point size = new Point();
                     getWindowManager().getDefaultDisplay().getSize(size);
-                    searchEditText.setDropDownAnchor(R.id.anchor_dropdown);
                     searchEditText.setDropDownWidth(size.x);
                 }
             });
@@ -971,11 +971,18 @@ public class MainActivity extends BaseActivity
         final View toolbar = findViewById(viewId);
 
         toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ViewUtils.setLightStatusBar(getWindow().getDecorView());
+            mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_300));
+        } else {
+            mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
+        }
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
                 ContextCompat.getColor(this, R.color.material_light_hint_text));
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
+
 
         if (show) {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -1008,6 +1015,9 @@ public class MainActivity extends BaseActivity
                         super.onAnimationEnd(animation);
                         toolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
                         mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
+                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                            ViewUtils.clearLightStatusBar(getWindow().getDecorView());
+                        }
                     }
                 });
                 createCircularReveal.start();

@@ -46,6 +46,7 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
+import com.basmapp.marshal.util.ViewUtils;
 import com.simplite.orm.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
@@ -118,7 +119,10 @@ public class SearchActivity extends BaseActivity {
 
         // For white SearchView
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            ViewUtils.setLightStatusBar(getWindow().getDecorView());
+            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.quantum_grey_300));
+        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
         }
 
