@@ -163,6 +163,14 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/faq_moovit_btn"
+            android:layout_width="match_parent"
+            android:layout_height="48dp"
+            android:visibility="gone"
+            android:background="@drawable/moovit_get_directions"
+            android:layout_margin="8dp"/>
+
         <LinearLayout
             android:id="@+id/faq_form"
             style="?android:buttonBarStyle"

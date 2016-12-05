@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.content.res.Configuration;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -94,6 +95,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         // We got coordinates and play service is installed - show google map preview
                         holder.mapView.setVisibility(View.VISIBLE);
                         holder.mapViewFab.setVisibility(View.VISIBLE);
+                        holder.btnMoovit.setVisibility(View.VISIBLE);
                     } else if (mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
                         // Show get directions icon
                         holder.answerAddress.setVisibility(View.VISIBLE);
@@ -109,6 +111,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerImageView.setVisibility(View.GONE);
                     holder.mapView.setVisibility(View.GONE);
                     holder.mapViewFab.setVisibility(View.GONE);
+                    holder.btnMoovit.setVisibility(View.GONE);
                     holder.answerAddress.setVisibility(View.GONE);
                     holder.answerDial.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
@@ -136,6 +139,34 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                 mFaq.get(holder.getAdapterPosition()).getAddressLongitude() != 0) {
             final LatLng coordinates = new LatLng(mFaq.get(holder.getAdapterPosition()).getAddressLatitude(),
                     mFaq.get(holder.getAdapterPosition()).getAddressLongitude());
+
+            // Moovit integraiton
+            holder.btnMoovit.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    try {
+                        // Assume that Moovit app exists. If not, exception will occur
+                        PackageManager pm = mContext.getPackageManager();
+                        pm.getPackageInfo("com.tranzmate", PackageManager.GET_ACTIVITIES);
+                        String uri =
+                        // Launch app call - scheme (with parameters)
+                                "moovit://directions?dest_lat=" + coordinates.latitude +
+                                        "&dest_lon=" + coordinates.longitude + "&dest_name=" +
+                                        mFaq.get(holder.getAdapterPosition()).getAnswerAddress() +
+                                        "&partner_id=com.basmapp.marshal";
+                        Intent intent = new Intent(Intent.ACTION_VIEW);
+                        intent.setData(Uri.parse(uri));
+                        mContext.startActivity(intent);
+                    } catch (PackageManager.NameNotFoundException e) {
+                        // Moovit not installed - send to store
+                        String url = "http://app.appsflyer.com/com.tranzmate?pid=DL&c=com.basmapp.marshal";
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        mContext.startActivity(i);
+                    }
+                }
+            });
+            // End of Moovit integration
             holder.mapView.onCreate(null);
             holder.mapView.onResume();
             holder.mapView.getMapAsync(new OnMapReadyCallback() {
@@ -304,6 +335,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         GoogleMap map;
         FloatingActionButton mapViewFab;
         String mapCenter = "";
+        Button btnMoovit;
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -324,6 +356,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
             mapView = (MapView) itemView.findViewById(R.id.lite_recycler_map_view);
             mapViewFab = (FloatingActionButton) itemView.findViewById(R.id.map_view_fab);
+            btnMoovit = (Button) itemView.findViewById(R.id.faq_moovit_btn);
         }
     }
 
