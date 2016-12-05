@@ -133,8 +133,8 @@
     </style>
 
     <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
-        <item name="android:popupBackground">@drawable/search_suggestions_bg</item>
-        <item name="android:popupElevation">0dp</item>
+        <item name="android:popupBackground">@color/cards_and_dialogs_color</item>
+        <item name="android:popupElevation">1dp</item>
     </style>
 
     <style name="SearchResultTitle" parent="TextAppearance.AppCompat.SearchResult.Title">
@@ -149,7 +149,7 @@
     </style>
 
     <style name="SearchViewDropDownStyle" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:divider">@color/divider_color</item>
+        <item name="android:divider">#E0E0E0</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
