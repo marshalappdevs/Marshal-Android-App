@@ -132,9 +132,22 @@
         <item name="commitIcon">@drawable/ic_search_commit</item>
     </style>
 
+    <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
+        <item name="android:popupBackground">@drawable/search_suggestions_bg</item>
+        <item name="android:popupElevation">4dp</item>
+    </style>
+
+    <style name="SearchResultTitle" parent="TextAppearance.AppCompat.SearchResult.Title">
+        <item name="android:textColor">@color/primary_text_color</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:fontFamily">sans-serif</item>
+    </style>
+
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="searchViewStyle">@style/SearchViewTheme</item>
         <item name="colorControlHighlight">@color/material_ripple_light</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
     </style>
 
     <style name="AppTheme.Red" parent="AppTheme.Base.Red" />
