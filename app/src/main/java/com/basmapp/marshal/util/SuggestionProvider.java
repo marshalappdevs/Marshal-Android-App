@@ -62,9 +62,9 @@ public class SuggestionProvider extends SearchRecentSuggestionsProvider {
             }
 
             public String getString(int columnIndex) {
-                if (columnIndex != -1
-                        && columnIndex == getColumnIndex(SearchManager.SUGGEST_COLUMN_ICON_1))
+                if (columnIndex != -1 && columnIndex == getColumnIndex(SearchManager.SUGGEST_COLUMN_ICON_1)) {
                     return String.valueOf(R.drawable.ic_search_history);
+                }
                 return super.getString(columnIndex);
             }
         }
