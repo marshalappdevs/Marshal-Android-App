@@ -14,6 +14,7 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -52,6 +53,7 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.FrameLayout;
@@ -902,7 +904,6 @@ public class MainActivity extends BaseActivity
         mSearchItem = menu.findItem(R.id.m_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
 
-        /*
         // Set suggestions to full screen width
         final AutoCompleteTextView searchEditText = (AutoCompleteTextView)
                 mSearchView.findViewById(R.id.search_src_text);
@@ -915,11 +916,11 @@ public class MainActivity extends BaseActivity
                     // Set DropDownView width
                     Point size = new Point();
                     getWindowManager().getDefaultDisplay().getSize(size);
+                    searchEditText.setDropDownAnchor(R.id.anchor_dropdown);
                     searchEditText.setDropDownWidth(size.x);
                 }
             });
         }
-        */
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
