@@ -996,7 +996,7 @@ public class MainActivity extends BaseActivity
                 createCircularReveal.start();
             } else {
                 TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-toolbar.getHeight()), 0.0f);
-                translateAnimation.setDuration(250);
+                translateAnimation.setDuration(220);
                 toolbar.clearAnimation();
                 toolbar.startAnimation(translateAnimation);
             }
@@ -1027,7 +1027,7 @@ public class MainActivity extends BaseActivity
                 AnimationSet animationSet = new AnimationSet(true);
                 animationSet.addAnimation(alphaAnimation);
                 animationSet.addAnimation(translateAnimation);
-                animationSet.setDuration(250);
+                animationSet.setDuration(220);
                 animationSet.setAnimationListener(new Animation.AnimationListener() {
                     @Override
                     public void onAnimationStart(Animation animation) {
