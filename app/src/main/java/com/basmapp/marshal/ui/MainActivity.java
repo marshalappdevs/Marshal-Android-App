@@ -968,52 +968,46 @@ public class MainActivity extends BaseActivity
 
     public void animateSearchToolbar(int viewId, int numberOfMenuIcon, boolean containsOverflow, boolean show) {
 
-        final View toolbar = findViewById(viewId);
+        final View targetView = findViewById(viewId);
 
-        toolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ViewUtils.setLightStatusBar(getWindow().getDecorView());
-            mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_300));
-        } else {
-            mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
-        }
+        targetView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
+        mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
         ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
                 ContextCompat.getColor(this, R.color.material_light_hint_text));
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 
-
         if (show) {
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int width = toolbar.getWidth() -
+            if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+                TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-targetView.getHeight()), 0.0f);
+                translateAnimation.setDuration(220);
+                targetView.clearAnimation();
+                targetView.startAnimation(translateAnimation);
+            } else if (targetView.isAttachedToWindow()) {
+                int width = targetView.getWidth() -
                         (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
                         ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
-                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(toolbar,
-                        LocaleUtils.isRtl(getResources()) ? toolbar.getWidth() - width : width,
-                        toolbar.getHeight() / 2, 0.0f, (float) width);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(targetView,
+                        LocaleUtils.isRtl(getResources()) ? targetView.getWidth() - width : width,
+                        targetView.getHeight() / 2, 0.0f, (float) width);
                 createCircularReveal.setDuration(250);
                 createCircularReveal.start();
-            } else {
-                TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-toolbar.getHeight()), 0.0f);
-                translateAnimation.setDuration(220);
-                toolbar.clearAnimation();
-                toolbar.startAnimation(translateAnimation);
             }
         } else {
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                int width = toolbar.getWidth() -
+                int width = targetView.getWidth() -
                         (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -
                         ((getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_material) * numberOfMenuIcon) / 2);
-                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(toolbar,
-                        LocaleUtils.isRtl(getResources()) ? toolbar.getWidth() - width : width,
-                        toolbar.getHeight() / 2, (float) width, 0.0f);
+                Animator createCircularReveal = ViewAnimationUtils.createCircularReveal(targetView,
+                        LocaleUtils.isRtl(getResources()) ? targetView.getWidth() - width : width,
+                        targetView.getHeight() / 2, (float) width, 0.0f);
                 createCircularReveal.setDuration(250);
                 createCircularReveal.addListener(new AnimatorListenerAdapter() {
                     @Override
                     public void onAnimationEnd(Animator animation) {
                         super.onAnimationEnd(animation);
-                        toolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
+                        targetView.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
                         mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
                         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
                             ViewUtils.clearLightStatusBar(getWindow().getDecorView());
@@ -1023,7 +1017,7 @@ public class MainActivity extends BaseActivity
                 createCircularReveal.start();
             } else {
                 AlphaAnimation alphaAnimation = new AlphaAnimation(1.0f, 0.0f);
-                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, (float) (-toolbar.getHeight()));
+                Animation translateAnimation = new TranslateAnimation(0.0f, 0.0f, 0.0f, (float) (-targetView.getHeight()));
                 AnimationSet animationSet = new AnimationSet(true);
                 animationSet.addAnimation(alphaAnimation);
                 animationSet.addAnimation(translateAnimation);
@@ -1036,8 +1030,7 @@ public class MainActivity extends BaseActivity
 
                     @Override
                     public void onAnimationEnd(Animation animation) {
-                        toolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
-                        mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
+                        targetView.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
                     }
 
                     @Override
@@ -1045,8 +1038,9 @@ public class MainActivity extends BaseActivity
 
                     }
                 });
-                toolbar.startAnimation(animationSet);
+                targetView.startAnimation(animationSet);
             }
+            mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
         }
     }
 
