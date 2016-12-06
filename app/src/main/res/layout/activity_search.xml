@@ -12,8 +12,28 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <!--Trick to get toolbar elevation in KitKat-->
-        <include layout="@layout/toolbar_shadow" />
+        <android.support.design.widget.AppBarLayout
+            android:id="@+id/appBar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <android.support.v7.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="?attr/colorPrimary"
+                android:theme="@style/SearchToolbarTheme"
+                app:collapseIcon="@drawable/ic_search_collapse"
+                app:popupTheme="@style/AppTheme.PopupOverlay" />
+
+        </android.support.design.widget.AppBarLayout>
+
+        <View
+            android:id="@+id/toolbar_shadow"
+            android:layout_width="match_parent"
+            android:layout_height="4dp"
+            android:background="@drawable/toolbar_elevation"
+            android:visibility="gone" />
 
         <RelativeLayout
             android:layout_width="match_parent"
@@ -87,6 +107,7 @@
                     android:textAppearance="?android:attr/textAppearanceMedium"
                     android:textColor="?android:textColorSecondary" />
             </LinearLayout>
+
         </RelativeLayout>
 
     </LinearLayout>

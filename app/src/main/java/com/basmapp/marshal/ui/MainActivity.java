@@ -978,6 +978,7 @@ public class MainActivity extends BaseActivity
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 
         if (show) {
+            mToolbar.getContext().getTheme().applyStyle(R.style.OverrideRippleLight, true);
             if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
                 TranslateAnimation translateAnimation = new TranslateAnimation(0.0f, 0.0f, (float) (-targetView.getHeight()), 0.0f);
                 translateAnimation.setDuration(220);
@@ -994,6 +995,7 @@ public class MainActivity extends BaseActivity
                 createCircularReveal.start();
             }
         } else {
+            mToolbar.getContext().getTheme().applyStyle(R.style.OverrideRippleDark, true);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 int width = targetView.getWidth() -
                         (containsOverflow ? getResources().getDimensionPixelSize(R.dimen.abc_action_button_min_width_overflow_material) : 0) -

@@ -122,6 +122,10 @@ public class SearchActivity extends BaseActivity {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
         }
 
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) {
+            findViewById(R.id.toolbar_shadow).setVisibility(View.VISIBLE);
+        }
+
         mRecycler = (RecyclerView) findViewById(R.id.search_activity_recyclerView);
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this,
                 getResources().getInteger(R.integer.card_bucket_columns), GridLayoutManager.VERTICAL, false);
@@ -146,6 +150,18 @@ public class SearchActivity extends BaseActivity {
 
         if (mRecycler.getAdapter() == null)
             mRecycler.setAdapter(mAdapter);
+
+        // Hide keyboard while scrolling
+        mRecycler.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                // Hide only if there are results
+                if (mFilteredCourseList != null && !mFilteredCourseList.isEmpty() && mSearchView != null) {
+                    mSearchView.clearFocus();
+                }
+                return false;
+            }
+        });
 
         mAdaptersBroadcastReceiver = new BroadcastReceiver() {
             @Override
