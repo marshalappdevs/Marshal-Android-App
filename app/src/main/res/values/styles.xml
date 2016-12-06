@@ -162,6 +162,7 @@
     </style>
 
     <style name="SearchToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
+        <item name="colorControlHighlight">@color/material_ripple_light</item>
         <item name="searchViewStyle">@style/SearchViewTheme</item>
         <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
     </style>
