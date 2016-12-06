@@ -55,7 +55,6 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -972,9 +971,9 @@ public class MainActivity extends BaseActivity
 
         targetView.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
         mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
-        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
-        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
                 ContextCompat.getColor(this, R.color.material_light_hint_text));
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 

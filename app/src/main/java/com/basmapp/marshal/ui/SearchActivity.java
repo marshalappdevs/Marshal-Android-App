@@ -31,9 +31,9 @@ import android.view.ViewGroup;
 import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.DatePicker;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
@@ -46,7 +46,6 @@ import com.basmapp.marshal.R;
 import com.basmapp.marshal.entities.Course;
 import com.basmapp.marshal.entities.Cycle;
 import com.basmapp.marshal.interfaces.ContentProviderCallBack;
-import com.basmapp.marshal.util.ViewUtils;
 import com.simplite.orm.DBObject;
 import com.basmapp.marshal.ui.adapters.CoursesSearchRecyclerAdapter;
 import com.basmapp.marshal.util.ContentProvider;
@@ -119,10 +118,7 @@ public class SearchActivity extends BaseActivity {
 
         // For white SearchView
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            ViewUtils.setLightStatusBar(getWindow().getDecorView());
-            getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.quantum_grey_300));
-        } else if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             getWindow().setStatusBarColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
         }
 
@@ -224,9 +220,9 @@ public class SearchActivity extends BaseActivity {
         mSearchView.setQueryRefinementEnabled(true);
 
         // For white SearchView
-        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
-        ((EditText) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
                 ContextCompat.getColor(this, R.color.material_light_hint_text));
 
         // Show target prompt for filter
