@@ -5,8 +5,8 @@
             <padding android:bottom="1dp" />
             <solid android:color="#03000000" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>
@@ -16,8 +16,8 @@
             <padding android:bottom="1dp" />
             <solid android:color="#05000000" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>
@@ -27,8 +27,8 @@
             <padding android:bottom="1dp" />
             <solid android:color="#08000000" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>
@@ -38,8 +38,8 @@
             <padding android:bottom="1dp" />
             <solid android:color="#0A000000" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>
@@ -50,8 +50,8 @@
                 android:width="1px"
                 android:color="@color/divider_color" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>
@@ -60,8 +60,8 @@
         <shape android:shape="rectangle">
             <solid android:color="@color/cards_and_dialogs_color" />
             <corners
-                android:bottomLeftRadius="4dp"
-                android:bottomRightRadius="4dp"
+                android:bottomLeftRadius="2dp"
+                android:bottomRightRadius="2dp"
                 android:topLeftRadius="0dp"
                 android:topRightRadius="0dp" />
         </shape>

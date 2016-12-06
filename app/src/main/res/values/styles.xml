@@ -134,31 +134,13 @@
         <item name="android:textColorHint">@color/material_light_hint_text</item>
         <item name="colorControlHighlight">@color/material_ripple_light</item>
         <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
-        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
-        <item name="android:dropDownItemStyle">@style/SearchViewSpinnerStyle</item>
-        <!--<item name="android:dropDownListViewStyle">@style/SearchViewDropDownStyle</item>-->
+        <item name="suggestionRowLayout">@layout/search_view_suggestion_row</item>
         <item name="android:maxWidth">9999dp</item>
     </style>
 
     <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
         <item name="android:popupBackground">@drawable/search_suggestions_bg</item>
         <item name="android:popupElevation">0dp</item>
-    </style>
-
-    <style name="SearchResultTitle" parent="TextAppearance.AppCompat.SearchResult.Title">
-        <item name="android:textColor">@color/primary_text_color</item>
-        <item name="android:textSize">16sp</item>
-        <item name="android:fontFamily">sans-serif</item>
-    </style>
-
-    <style name="SearchViewSpinnerStyle" parent="Widget.AppCompat.DropDownItem.Spinner">
-        <item name="android:paddingStart">12dp</item>
-        <item name="android:paddingEnd">12dp</item>
-    </style>
-
-    <style name="SearchViewDropDownStyle" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:divider">@color/divider_color</item>
-        <item name="android:dividerHeight">0.5dp</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
