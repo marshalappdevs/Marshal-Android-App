@@ -969,10 +969,6 @@ public class MainActivity extends BaseActivity
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
         mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
-        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
-                ContextCompat.getColor(this, R.color.material_light_primary_text));
-        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
-                ContextCompat.getColor(this, R.color.material_light_hint_text));
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 
         if (show) {

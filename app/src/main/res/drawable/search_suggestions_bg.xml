@@ -4,36 +4,66 @@
         <shape>
             <padding android:bottom="1dp" />
             <solid android:color="#03000000" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:bottom="1dp" />
             <solid android:color="#05000000" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:bottom="1dp" />
             <solid android:color="#08000000" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
     <item>
         <shape>
             <padding android:bottom="1dp" />
             <solid android:color="#0A000000" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
     <item>
         <shape android:shape="rectangle">
             <stroke
                 android:width="1px"
-                android:color="#E0E0E0" />
+                android:color="@color/divider_color" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
     <item android:top="1px">
         <shape android:shape="rectangle">
             <solid android:color="@color/cards_and_dialogs_color" />
+            <corners
+                android:bottomLeftRadius="4dp"
+                android:bottomRightRadius="4dp"
+                android:topLeftRadius="0dp"
+                android:topRightRadius="0dp" />
         </shape>
     </item>
 </layer-list>

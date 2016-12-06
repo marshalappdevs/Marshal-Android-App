@@ -3,6 +3,7 @@ package com.basmapp.marshal.ui;
 import android.app.DatePickerDialog;
 import android.content.BroadcastReceiver;
 import android.content.IntentFilter;
+import android.graphics.Point;
 import android.os.Build;
 import android.os.Bundle;
 
@@ -228,18 +229,38 @@ public class SearchActivity extends BaseActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.activity_search, menu);
 
-        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
         MenuItem searchItem = menu.findItem(R.id.m_search);
         MenuItemCompat.expandActionView(searchItem);
         mSearchView = (SearchView) MenuItemCompat.getActionView(searchItem);
-        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
-        mSearchView.setQueryRefinementEnabled(true);
 
         // For white SearchView
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setTextColor(
                 ContextCompat.getColor(this, R.color.material_light_primary_text));
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setHintTextColor(
                 ContextCompat.getColor(this, R.color.material_light_hint_text));
+        // Set suggestions to full screen width
+        final AutoCompleteTextView searchEditText = (AutoCompleteTextView)
+                mSearchView.findViewById(R.id.search_src_text);
+        View dropDownAnchor = mSearchView.findViewById(searchEditText.getDropDownAnchor());
+        if (dropDownAnchor != null) {
+            dropDownAnchor.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
+                @Override
+                public void onLayoutChange(View v, int left, int top, int right, int bottom,
+                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
+                    // Set DropDownView width
+                    Point size = new Point();
+                    getWindowManager().getDefaultDisplay().getSize(size);
+                    searchEditText.setDropDownWidth(size.x);
+                }
+            });
+        }
+        // Set suggestions under toolbar
+        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
+
+        SearchManager searchManager = (SearchManager) getSystemService(Context.SEARCH_SERVICE);
+        mSearchView.setSearchableInfo(searchManager.getSearchableInfo(getComponentName()));
+        mSearchView.setQueryRefinementEnabled(true);
+
 
         // Show target prompt for filter
         showFilterTargetPrompt();

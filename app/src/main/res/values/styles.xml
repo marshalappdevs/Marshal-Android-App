@@ -130,7 +130,14 @@
         <item name="closeIcon">@drawable/ic_search_close</item>
         <item name="voiceIcon">@drawable/ic_search_voice</item>
         <item name="commitIcon">@drawable/ic_search_commit</item>
+        <item name="android:textColorPrimary">@color/material_light_primary_text</item>
+        <item name="android:textColorHint">@color/material_light_hint_text</item>
         <item name="colorControlHighlight">@color/material_ripple_light</item>
+        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
+        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
+        <item name="android:dropDownItemStyle">@style/SearchViewSpinnerStyle</item>
+        <!--<item name="android:dropDownListViewStyle">@style/SearchViewDropDownStyle</item>-->
+        <item name="android:maxWidth">9999dp</item>
     </style>
 
     <style name="AutoCompleteTextViewStyle" parent="Widget.AppCompat.Light.AutoCompleteTextView">
@@ -150,21 +157,17 @@
     </style>
 
     <style name="SearchViewDropDownStyle" parent="Widget.AppCompat.ListView.DropDown">
-        <item name="android:divider">#E0E0E0</item>
+        <item name="android:divider">@color/divider_color</item>
+        <item name="android:dividerHeight">0.5dp</item>
     </style>
 
     <style name="ToolbarTheme" parent="ThemeOverlay.AppCompat.Dark.ActionBar">
         <item name="searchViewStyle">@style/SearchViewTheme</item>
-        <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
-        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
-        <item name="android:dropDownItemStyle">@style/SearchViewSpinnerStyle</item>
-        <!--<item name="android:dropDownListViewStyle">@style/SearchViewDropDownStyle</item>-->
     </style>
 
     <style name="SearchToolbarTheme" parent="ThemeOverlay.AppCompat.ActionBar">
         <item name="colorControlHighlight">@color/material_ripple_light</item>
         <item name="searchViewStyle">@style/SearchViewTheme</item>
-        <item name="textAppearanceSearchResultTitle">@style/SearchResultTitle</item>
     </style>
 
     <style name="AppTheme.Red" parent="AppTheme.Base.Red" />
@@ -271,11 +274,11 @@
         <item name="colorAccent">@color/deep_orange_accent</item>
     </style>
 
-    <style name="OverrideRippleLight" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="OverrideRippleLight">
         <item name="colorControlHighlight">@color/material_ripple_light</item>
     </style>
 
-    <style name="OverrideRippleDark" parent="ThemeOverlay.AppCompat.ActionBar">
+    <style name="OverrideRippleDark">
         <item name="colorControlHighlight">@color/material_ripple_dark</item>
     </style>
 
