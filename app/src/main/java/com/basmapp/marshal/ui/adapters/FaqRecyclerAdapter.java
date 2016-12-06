@@ -95,7 +95,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                         // We got coordinates and play service is installed - show google map preview
                         holder.mapView.setVisibility(View.VISIBLE);
                         holder.mapViewFab.setVisibility(View.VISIBLE);
-                        holder.btnMoovit.setVisibility(View.VISIBLE);
+                        holder.answerMoovit.setVisibility(View.VISIBLE);
                     } else if (mFaq.get(holder.getAdapterPosition()).getAnswerAddress() != null) {
                         // Show get directions icon
                         holder.answerAddress.setVisibility(View.VISIBLE);
@@ -111,7 +111,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     holder.answerImageView.setVisibility(View.GONE);
                     holder.mapView.setVisibility(View.GONE);
                     holder.mapViewFab.setVisibility(View.GONE);
-                    holder.btnMoovit.setVisibility(View.GONE);
+                    holder.answerMoovit.setVisibility(View.GONE);
                     holder.answerAddress.setVisibility(View.GONE);
                     holder.answerDial.setVisibility(View.GONE);
                     holder.faqForm.setVisibility(View.GONE);
@@ -141,7 +141,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
                     mFaq.get(holder.getAdapterPosition()).getAddressLongitude());
 
             // Moovit integraiton
-            holder.btnMoovit.setOnClickListener(new View.OnClickListener() {
+            holder.answerMoovit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
@@ -326,7 +326,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         LinearLayout questionContainer;
         TextView questionTextView, answerTextView, answerLink;
         ImageButton expandAnswerArrow;
-        ImageView answerImageView, answerAddress, answerDial;
+        ImageView answerImageView, answerAddress, answerDial, answerMoovit;
         LinearLayout faqForm, answerContainer;
         Button faqFormPositive;
         Button faqFormNegative;
@@ -335,7 +335,6 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
         GoogleMap map;
         FloatingActionButton mapViewFab;
         String mapCenter = "";
-        Button btnMoovit;
 
         public FaqVH(View itemView) {
             super(itemView);
@@ -350,13 +349,13 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             answerImageView = (ImageView) itemView.findViewById(R.id.faq_answer_image);
             answerAddress = (ImageView) itemView.findViewById(R.id.card_action_address);
             answerDial = (ImageView) itemView.findViewById(R.id.card_action_dial);
+            answerMoovit = (ImageView) itemView.findViewById(R.id.card_action_moovit);
             faqForm = (LinearLayout) itemView.findViewById(R.id.faq_form);
             faqFormPositive = (Button) itemView.findViewById(R.id.faq_helpful_positive);
             faqFormNegative = (Button) itemView.findViewById(R.id.faq_helpful_negative);
             progressBar = (ProgressBar) itemView.findViewById(R.id.faq_progressBar);
             mapView = (MapView) itemView.findViewById(R.id.lite_recycler_map_view);
             mapViewFab = (FloatingActionButton) itemView.findViewById(R.id.map_view_fab);
-            btnMoovit = (Button) itemView.findViewById(R.id.faq_moovit_btn);
         }
     }
 

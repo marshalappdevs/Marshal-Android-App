@@ -77,6 +77,16 @@
                     android:visibility="gone" />
 
                 <ImageView
+                    android:id="@+id/card_action_moovit"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:background="?selectableItemBackgroundBorderless"
+                    android:padding="16dp"
+                    android:visibility="gone"
+                    app:srcCompat="@drawable/ic_moovit" />
+
+                <ImageView
                     android:id="@+id/card_action_address"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -96,19 +106,6 @@
                     android:padding="16dp"
                     android:visibility="gone"
                     app:srcCompat="@drawable/ic_call_18dp" />
-
-                <ImageView
-                    android:id="@+id/card_action_menu"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_vertical"
-                    android:layout_marginEnd="@dimen/card_overflow_inset"
-                    android:background="?selectableItemBackgroundBorderless"
-                    android:contentDescription="@null"
-                    android:focusable="true"
-                    android:layoutDirection="locale"
-                    android:visibility="gone"
-                    app:srcCompat="@drawable/ic_more_vert" />
             </LinearLayout>
 
             <TextView
@@ -162,14 +159,6 @@
             </FrameLayout>
 
         </LinearLayout>
-
-        <Button
-            android:id="@+id/faq_moovit_btn"
-            android:layout_width="match_parent"
-            android:layout_height="48dp"
-            android:visibility="gone"
-            android:background="@drawable/moovit_get_directions"
-            android:layout_margin="8dp"/>
 
         <LinearLayout
             android:id="@+id/faq_form"
