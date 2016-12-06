@@ -165,6 +165,8 @@ public class FaqFragment extends Fragment {
                     mFilteredFaqList.add(item);
                 } else if (item.getAnswerLink() != null && item.getAnswerLink().toLowerCase().contains(filterText)) {
                     mFilteredFaqList.add(item);
+                } else if (item.getSearchWords() != null && item.getSearchWords().toLowerCase().contains(filterText)) {
+                    mFilteredFaqList.add(item);
                 }
             }
         }

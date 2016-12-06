@@ -29,7 +29,6 @@ import com.basmapp.marshal.ui.MainActivity;
 import com.basmapp.marshal.util.AuthUtil;
 import com.basmapp.marshal.util.MarshalServiceProvider;
 import com.bumptech.glide.Glide;
-import com.bumptech.glide.load.model.StringLoader;
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.MapView;
@@ -140,7 +139,7 @@ public class FaqRecyclerAdapter extends RecyclerView.Adapter<FaqRecyclerAdapter.
             final LatLng coordinates = new LatLng(mFaq.get(holder.getAdapterPosition()).getAddressLatitude(),
                     mFaq.get(holder.getAdapterPosition()).getAddressLongitude());
 
-            // Moovit integraiton
+            // Moovit integration
             holder.answerMoovit.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
