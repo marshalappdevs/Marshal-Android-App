@@ -63,7 +63,7 @@
                 android:layout_marginStart="@dimen/item_list_horizontal_margin"
                 android:layout_weight="1"
                 android:background="@null"
-                android:dropDownAnchor="@id/search_edit_frame"
+                android:dropDownAnchor="@id/anchor_dropdown"
                 android:dropDownHeight="wrap_content"
                 android:dropDownHorizontalOffset="0dp"
                 android:dropDownVerticalOffset="0dp"

@@ -2,7 +2,6 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="58dp"
-    android:background="?attr/selectableItemBackground"
     android:theme="@style/Theme.AppCompat.DayNight">
 
     <!-- Icons come first in the layout, since their placement doesn't depend on
@@ -73,7 +72,7 @@
     <View
         android:id="@+id/suggestion_divider"
         android:layout_width="match_parent"
-        android:layout_height="1dp"
+        android:layout_height="0.5dp"
         android:layout_alignParentBottom="true"
         android:layout_alignStart="@android:id/text1"
         android:layout_marginStart="8dp"

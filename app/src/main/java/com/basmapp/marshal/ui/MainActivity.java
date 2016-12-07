@@ -967,8 +967,6 @@ public class MainActivity extends BaseActivity
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
         mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
-        // Set suggestions view under Toolbar (avoiding overlap)
-        ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 
         if (show) {
             mToolbar.getContext().getTheme().applyStyle(R.style.OverrideRippleLight, true);
