@@ -48,4 +48,5 @@
     <dimen name="color_swatch_small">48dip</dimen>
     <dimen name="color_swatch_margins_large">8dp</dimen>
     <dimen name="color_swatch_margins_small">4dp</dimen>
+    <dimen name="item_list_horizontal_margin">0dp</dimen>
 </resources>
