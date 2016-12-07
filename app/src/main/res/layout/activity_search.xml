@@ -37,7 +37,8 @@
             android:id="@+id/toolbar_shadow"
             android:layout_width="match_parent"
             android:layout_height="4dp"
-            android:background="@drawable/toolbar_elevation"
+            android:layout_gravity="bottom"
+            android:background="@drawable/drop_shadow_down"
             android:visibility="gone" />
 
         <RelativeLayout
