@@ -65,7 +65,6 @@ import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.Constants;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.interfaces.UpdateServiceListener;
-import com.basmapp.marshal.util.ViewUtils;
 import com.simplite.orm.DatabaseHelper;
 import com.simplite.orm.ManifestProvider;
 import com.basmapp.marshal.receivers.UpdateBroadcastReceiver;
@@ -904,7 +903,7 @@ public class MainActivity extends BaseActivity
         mSearchItem = menu.findItem(R.id.m_search);
         mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
 
-        // Set suggestions to full screen width
+        // Set suggestions DropDown view to full width
         final AutoCompleteTextView searchEditText = (AutoCompleteTextView)
                 mSearchView.findViewById(R.id.search_src_text);
         View dropDownAnchor = mSearchView.findViewById(searchEditText.getDropDownAnchor());
@@ -913,7 +912,6 @@ public class MainActivity extends BaseActivity
                 @Override
                 public void onLayoutChange(View v, int left, int top, int right, int bottom,
                                            int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    // Set DropDownView width
                     Point size = new Point();
                     getWindowManager().getDefaultDisplay().getSize(size);
                     searchEditText.setDropDownWidth(size.x);
@@ -924,7 +922,7 @@ public class MainActivity extends BaseActivity
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
             public boolean onMenuItemActionCollapse(MenuItem item) {
-                // Do something when collapsed
+                // Called when SearchView is collapsing
                 if (mSearchItem.isActionViewExpanded()) {
                     animateSearchToolbar(1, false, false);
                 }
@@ -933,7 +931,7 @@ public class MainActivity extends BaseActivity
 
             @Override
             public boolean onMenuItemActionExpand(MenuItem item) {
-                // Do something when expanded
+                // Called when SearchView is expanding
                 animateSearchToolbar(1, true, true);
                 return true;
             }
@@ -969,6 +967,7 @@ public class MainActivity extends BaseActivity
 
         mToolbar.setBackgroundColor(ContextCompat.getColor(this, android.R.color.white));
         mDrawerLayout.setStatusBarBackgroundColor(ContextCompat.getColor(this, R.color.quantum_grey_600));
+        // Set suggestions view under Toolbar (avoiding overlap)
         ((AutoCompleteTextView) mSearchView.findViewById(R.id.search_src_text)).setDropDownAnchor(R.id.anchor_dropdown);
 
         if (show) {
@@ -1004,9 +1003,6 @@ public class MainActivity extends BaseActivity
                         super.onAnimationEnd(animation);
                         mToolbar.setBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimary));
                         mDrawerLayout.setStatusBarBackgroundColor(ThemeUtils.getThemeColor(MainActivity.this, R.attr.colorPrimaryDark));
-                        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-                            ViewUtils.clearLightStatusBar(getWindow().getDecorView());
-                        }
                     }
                 });
                 createCircularReveal.start();
