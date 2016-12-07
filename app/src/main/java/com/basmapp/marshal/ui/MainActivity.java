@@ -14,7 +14,6 @@ import android.content.res.Resources;
 import android.graphics.Bitmap;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.graphics.Point;
 import android.graphics.Rect;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -110,7 +109,6 @@ public class MainActivity extends BaseActivity
     private ImageView mProfileAvatarImage;
     private ImageView mExpandAccountMenuButton;
     private MenuItem mSearchItem;
-    private SearchView mSearchView;
     private Snackbar mNetworkSnackbar;
 
     // Fragments
@@ -901,23 +899,6 @@ public class MainActivity extends BaseActivity
         getMenuInflater().inflate(R.menu.main, menu);
 
         mSearchItem = menu.findItem(R.id.m_search);
-        mSearchView = (SearchView) MenuItemCompat.getActionView(mSearchItem);
-
-        // Set suggestions DropDown view to full width
-        final AutoCompleteTextView searchEditText = (AutoCompleteTextView)
-                mSearchView.findViewById(R.id.search_src_text);
-        View dropDownAnchor = mSearchView.findViewById(searchEditText.getDropDownAnchor());
-        if (dropDownAnchor != null) {
-            dropDownAnchor.addOnLayoutChangeListener(new View.OnLayoutChangeListener() {
-                @Override
-                public void onLayoutChange(View v, int left, int top, int right, int bottom,
-                                           int oldLeft, int oldTop, int oldRight, int oldBottom) {
-                    Point size = new Point();
-                    getWindowManager().getDefaultDisplay().getSize(size);
-                    searchEditText.setDropDownWidth(size.x);
-                }
-            });
-        }
 
         MenuItemCompat.setOnActionExpandListener(mSearchItem, new MenuItemCompat.OnActionExpandListener() {
             @Override
