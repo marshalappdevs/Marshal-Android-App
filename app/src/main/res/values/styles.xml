@@ -128,9 +128,8 @@
 
     <style name="SearchViewTheme" parent="Widget.AppCompat.SearchView.ActionBar">
         <item name="layout">@layout/toolbar_search_view</item>
-        <item name="closeIcon">@drawable/ic_search_close</item>
-        <item name="voiceIcon">@drawable/ic_search_voice</item>
         <item name="commitIcon">@drawable/ic_search_commit</item>
+        <item name="colorControlNormal">@color/material_light_active_icon</item>
         <item name="colorControlHighlight">@color/material_ripple_light</item>
         <item name="autoCompleteTextViewStyle">@style/AutoCompleteTextViewStyle</item>
         <item name="suggestionRowLayout">@layout/search_view_suggestion_row</item>

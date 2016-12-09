@@ -105,8 +105,13 @@ public class AboutActivity extends BaseActivity {
         findViewById(R.id.rate_app_button).setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(Intent.ACTION_VIEW,
-                        Uri.parse("market://details?id=" + getPackageName())));
+                try {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("market://details?id=" + getPackageName())));
+                } catch (android.content.ActivityNotFoundException ex) {
+                    startActivity(new Intent(Intent.ACTION_VIEW,
+                            Uri.parse("https://play.google.com/store/apps/details?id=" + getPackageName())));
+                }
             }
         });
 
