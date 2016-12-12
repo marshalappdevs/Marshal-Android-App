@@ -33,7 +33,7 @@ public class AboutActivity extends BaseActivity {
     private static final String KEY_SCROLL_X = "KEY_SCROLL_X";
     private static final String KEY_SCROLL_Y = "KEY_SCROLL_Y";
     private ScrollView mScrollView;
-    private int mTapCount;
+    private int mTapCount, mLongClickCount;
     private ImageView mAppIcon;
 
     @Override
@@ -63,6 +63,7 @@ public class AboutActivity extends BaseActivity {
         mAppIcon.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                mTapCount++;
                 if (mTapCount == 7) {
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(AboutActivity.this);
                     boolean debugMode = sharedPreferences.getBoolean(Constants.PREF_DEBUG_MODE, false);
@@ -71,16 +72,20 @@ public class AboutActivity extends BaseActivity {
 //                    Toast.makeText(AboutActivity.this, "Easter Egg!!! " + ("\ud83d\udc83"), Toast.LENGTH_LONG).show();
                     mTapCount = 0;
                 }
-                mTapCount++;
             }
         });
 
         mAppIcon.setOnLongClickListener(new View.OnLongClickListener() {
             @Override
             public boolean onLongClick(View view) {
+                mLongClickCount++;
                 mAppIcon.clearAnimation();
                 mAppIcon.setRotation(0);
                 ViewCompat.animate(mAppIcon).rotation(360).setDuration(600).start();
+                if (mLongClickCount == 3) {
+                    Toast.makeText(AboutActivity.this, "I & O", Toast.LENGTH_LONG).show();
+                    mLongClickCount = 0;
+                }
                 return true;
             }
         });
