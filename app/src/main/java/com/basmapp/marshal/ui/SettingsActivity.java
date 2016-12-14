@@ -38,6 +38,7 @@ import com.basmapp.marshal.ui.widget.colorpicker.ColorPickerSwatch;
 
 import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.Locale;
 import java.util.Set;
 
 public class SettingsActivity extends BaseActivity {
@@ -179,14 +180,26 @@ public class SettingsActivity extends BaseActivity {
 
             prefFcmChannels = (MultiSelectListPreference) findPreference(Constants.PREF_FCM_CHANNELS);
             prefFcmChannels.setOnPreferenceChangeListener(this);
-            Set<String> channels =
-                    prefFcmChannels.getSharedPreferences()
-                            .getStringSet(Constants.PREF_FCM_CHANNELS_ENTRIES, new HashSet<String>());
-            CharSequence[] channelsCharSequences =
-                    new ArrayList<>(channels).toArray(new CharSequence[channels.size()]);
-            prefFcmChannels.setEntryValues(channelsCharSequences);
-            prefFcmChannels.setEntries(channelsCharSequences);
-            prefFcmChannels.setDefaultValue(channelsCharSequences);
+
+            Set<String> categories = prefFcmChannels.getSharedPreferences()
+                    .getStringSet(Constants.PREF_CATEGORIES, new HashSet<String>());
+            ArrayList<String> channelsNames = new ArrayList<>();
+            ArrayList<String> channelsValues = new ArrayList<>();
+            for (String categoryValues : categories) {
+                String[] values = categoryValues.split(";");
+                if (Locale.getDefault().toString().toLowerCase().equals("en")) {
+                    channelsNames.add(values[1]);
+                } else if (Locale.getDefault().toString().toLowerCase().equals("iw")) {
+                    channelsNames.add(values[2]);
+                }
+                channelsValues.add(values[0]);
+            }
+            CharSequence[] channelsNamesSequences = channelsNames.toArray(new CharSequence[channelsNames.size()]);
+            CharSequence[] channelsValuesSequences = channelsValues.toArray(new CharSequence[channelsValues.size()]);
+
+            prefFcmChannels.setEntryValues(channelsValuesSequences);
+            prefFcmChannels.setEntries(channelsNamesSequences);
+            prefFcmChannels.setDefaultValue(channelsValuesSequences);
             updateFcmChannelsPrefSummary();
 
             Preference prefClearTapTargets = findPreference(Constants.PREF_CLEAR_TAP_TARGETS);
