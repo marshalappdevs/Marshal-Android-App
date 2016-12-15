@@ -17,6 +17,7 @@ import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
+import android.text.format.Formatter;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -314,15 +315,13 @@ public class DescribeProblemActivity extends BaseActivity {
         File[] filesDirs = ContextCompat.getExternalFilesDirs(this, null);
         if (filesDirs[0] != null) {
             long freeBytesInternal = new StatFs(filesDirs[0].getPath()).getAvailableBytes();
-            String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
-            debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
+            debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + Formatter.formatFileSize(this, freeBytesInternal) + ")";
         } else {
             debugInfo += "\n Free Space Built-In: Unavailable";
         }
         if (filesDirs[1] != null) {
             long freeBytesExternal = new StatFs(filesDirs[1].getPath()).getAvailableBytes();
-            String freeGBExternal = String.format(Locale.getDefault(), "%.2f", freeBytesExternal / Math.pow(2, 30));
-            debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + freeGBExternal + " GB)";
+            debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + Formatter.formatFileSize(this, freeBytesExternal) + ")";
         } else {
             debugInfo += "\n Free Space Removable: Unavailable";
         }
@@ -334,8 +333,8 @@ public class DescribeProblemActivity extends BaseActivity {
         if (density == 1.5) densityName = "hdpi";
         if (density == 1.0) densityName = "mdpi";
         if (density == 0.75) densityName = "ldpi";
-        debugInfo += "\n Screen Resolution: " + getResources().getDisplayMetrics().widthPixels + "x" +
-                getResources().getDisplayMetrics().heightPixels + " (" + densityName + ")";
+        debugInfo += "\n Screen Resolution: " + getResources().getDisplayMetrics().heightPixels + "x" +
+                getResources().getDisplayMetrics().widthPixels + " (" + densityName + ")";
         debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
         debugInfo += "\n Distribution: " + (verifyInstallerId() ? "play" : "apk");
         return debugInfo;
