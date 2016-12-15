@@ -188,7 +188,7 @@ public class DescribeProblemActivity extends BaseActivity {
                 Toast.makeText(DescribeProblemActivity.this, R.string.no_supported_mail_apps, Toast.LENGTH_LONG).show();
 //                        finish();
             } else {
-                Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.send_to));
+                Intent chooserIntent = Intent.createChooser(intentShareList.remove(0), getResources().getText(R.string.contact_support_via));
                 chooserIntent.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentShareList.toArray(new Parcelable[intentShareList.size()]));
                 startActivity(chooserIntent);
                 finish();
