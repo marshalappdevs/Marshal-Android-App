@@ -304,23 +304,27 @@ public class DescribeProblemActivity extends BaseActivity {
     public String debugInfo() {
         // Get debug info from the device for error report email and save it as string
         long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
+        long freeBytesExternal = new File(getExternalFilesDir(null).toString()).getFreeSpace();
         String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
+        String freeGBExternal = String.format(Locale.getDefault(), "%.2f", freeBytesExternal / Math.pow(2, 30));
         String debugInfo = "--Support Info--";
         debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
         debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
-        debugInfo += "\n Model: " + Build.MODEL;
-        debugInfo += "\n Locale: " + getBaseContext().getResources().getConfiguration().locale.toString();
+        debugInfo += "\n Model: " + Build.MODEL + " (" + Build.DEVICE + ")";
+        debugInfo += "\n Locale: " + Locale.getDefault().toString();
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " (" + android.os.Build.VERSION.SDK_INT + ")";
-        debugInfo += "\n Free Space: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
+        debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
+        debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + freeGBExternal + " GB)";
         float density = getResources().getDisplayMetrics().density;
-        String densityName = null;
+        String densityName = "unknown";
         if (density == 4.0) densityName = "xxxhdpi";
         if (density == 3.0) densityName = "xxhdpi";
         if (density == 2.0) densityName = "xhdpi";
         if (density == 1.5) densityName = "hdpi";
         if (density == 1.0) densityName = "mdpi";
         if (density == 0.75) densityName = "ldpi";
-        debugInfo += "\n Screen Density: " + density + " (" + densityName + ")";
+        debugInfo += "\n Screen Resolution: " + getResources().getDisplayMetrics().widthPixels + "x" +
+                getResources().getDisplayMetrics().heightPixels + " (" + densityName + ")";
         debugInfo += "\n Target: " + BuildConfig.BUILD_TYPE;
         debugInfo += "\n Distribution: " + (verifyInstallerId() ? "play" : "apk");
         return debugInfo;

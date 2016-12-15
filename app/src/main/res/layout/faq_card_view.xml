@@ -84,7 +84,7 @@
                     android:background="?selectableItemBackgroundBorderless"
                     android:padding="16dp"
                     android:visibility="gone"
-                    app:srcCompat="@drawable/ic_moovit" />
+                    app:srcCompat="@drawable/ic_moovit_18dp" />
 
                 <ImageView
                     android:id="@+id/card_action_address"
