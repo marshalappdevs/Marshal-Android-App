@@ -10,10 +10,12 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
+import android.os.StatFs;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.Menu;
@@ -303,18 +305,27 @@ public class DescribeProblemActivity extends BaseActivity {
 
     public String debugInfo() {
         // Get debug info from the device for error report email and save it as string
-        long freeBytesInternal = new File(getFilesDir().getAbsoluteFile().toString()).getFreeSpace();
-        long freeBytesExternal = new File(getExternalFilesDir(null).toString()).getFreeSpace();
-        String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
-        String freeGBExternal = String.format(Locale.getDefault(), "%.2f", freeBytesExternal / Math.pow(2, 30));
         String debugInfo = "--Support Info--";
         debugInfo += "\n Version: " + BuildConfig.VERSION_NAME + " (" + BuildConfig.VERSION_CODE + ")";
         debugInfo += "\n Manufacturer: " + Build.MANUFACTURER;
         debugInfo += "\n Model: " + Build.MODEL + " (" + Build.DEVICE + ")";
         debugInfo += "\n Locale: " + Locale.getDefault().toString();
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " (" + android.os.Build.VERSION.SDK_INT + ")";
-        debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
-        debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + freeGBExternal + " GB)";
+        File[] filesDirs = ContextCompat.getExternalFilesDirs(this, null);
+        if (filesDirs[0] != null) {
+            long freeBytesInternal = new StatFs(filesDirs[0].getPath()).getAvailableBytes();
+            String freeGBInternal = String.format(Locale.getDefault(), "%.2f", freeBytesInternal / Math.pow(2, 30));
+            debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + freeGBInternal + " GB)";
+        } else {
+            debugInfo += "\n Free Space Built-In: Unavailable";
+        }
+        if (filesDirs[1] != null) {
+            long freeBytesExternal = new StatFs(filesDirs[1].getPath()).getAvailableBytes();
+            String freeGBExternal = String.format(Locale.getDefault(), "%.2f", freeBytesExternal / Math.pow(2, 30));
+            debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + freeGBExternal + " GB)";
+        } else {
+            debugInfo += "\n Free Space Removable: Unavailable";
+        }
         float density = getResources().getDisplayMetrics().density;
         String densityName = "unknown";
         if (density == 4.0) densityName = "xxxhdpi";
