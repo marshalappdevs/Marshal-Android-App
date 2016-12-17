@@ -24,8 +24,9 @@ public class RootUtils {
             "eu.chainfire.supersu", /* Chainfire's SuperSU */
             "com.koushikdutta.superuser", /* Koush's ClockworkMod Superuser */
             "com.thirdparty.superuser", /* Koush's OpenSource Superuser */
+            "com.genymotion.superuser", /* Genymotion's Superuser */
             "com.yellowes.su",
-            "org.masteraxe.superuser",
+            "org.masteraxe.superuser"
     };
 
     private static final String[] knownRootCloakingApps = {
@@ -34,7 +35,6 @@ public class RootUtils {
             "com.devadvance.rootcloakplus", /* RootCloak Plus */
             "de.robv.android.xposed.installer", /* Xposed Installer */
             "com.saurik.substrate", /* Cydia Substrate */
-            "com.zachspong.temprootremovejb",
             "com.amphoras.hidemyroot",
             "com.formyhm.hideroot"
     };
@@ -122,7 +122,7 @@ public class RootUtils {
     }
 
     /**
-     * @param packages - check for existence of given package names
+     * @param packages - check for existence of this package names
      * @return true if one of the apps is installed
      */
     private boolean isAnyPackageFromListInstalled(List<String> packages) {
