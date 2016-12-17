@@ -3,6 +3,7 @@ package com.basmapp.marshal;
 import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
@@ -68,5 +69,9 @@ public class ApplicationMarshal extends Application {
             e.printStackTrace();
         }
         return false;
+    }
+
+    public static boolean isDebuggable(Context context) {
+        return (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
     }
 }
