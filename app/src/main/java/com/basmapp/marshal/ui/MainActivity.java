@@ -32,7 +32,6 @@ import android.support.v4.content.ContextCompat;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v4.view.ViewCompat;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.widget.SearchView;
 import android.text.TextUtils;
 import android.util.DisplayMetrics;
 import android.util.TypedValue;
@@ -52,7 +51,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationSet;
 import android.view.animation.AnimationUtils;
 import android.view.animation.TranslateAnimation;
-import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -129,7 +127,7 @@ public class MainActivity extends BaseActivity
     public static String sUserName;
     public static Uri sUserProfileImage;
 
-    private LinearLayout sErrorScreen, sNewUpdatesButton;
+    private LinearLayout mErrorScreen, mNewUpdatesButton;
 
     public static boolean needRecreate = false;
 
@@ -244,7 +242,8 @@ public class MainActivity extends BaseActivity
             }
         }
 
-        // Initialize error screen re-try button
+        // Initialize error screen
+        mErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
         Button retryButton = (Button) findViewById(R.id.retry_button);
         retryButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -327,14 +326,12 @@ public class MainActivity extends BaseActivity
     }
 
     private void setErrorScreenVisibility(int visibility) {
-        // Initialize error screen and set viability based on integer
-        if (sErrorScreen == null)
-            sErrorScreen = (LinearLayout) findViewById(R.id.placeholder_error);
-        if (visibility != sErrorScreen.getVisibility()) sErrorScreen.setVisibility(visibility);
+        // Set error screen viability based on integer
+        if (visibility != mErrorScreen.getVisibility()) mErrorScreen.setVisibility(visibility);
     }
 
     private void showNewUpdatesButton() {
-        if (sNewUpdatesButton != null) {
+        if (mNewUpdatesButton != null) {
             animateNewUpdatesButton(View.VISIBLE);
         } else {
             initializeNewUpdatesButton();
@@ -343,8 +340,8 @@ public class MainActivity extends BaseActivity
     }
 
     private void initializeNewUpdatesButton() {
-        sNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
-        sNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
+        mNewUpdatesButton = (LinearLayout) findViewById(R.id.new_updates_button);
+        mNewUpdatesButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 releaseAllDataLists();
@@ -392,7 +389,7 @@ public class MainActivity extends BaseActivity
             // Show out animation on invisible
             animation = AnimationUtils.loadAnimation(this, R.anim.new_updates_banner_out);
         }
-        sNewUpdatesButton.startAnimation(animation);
+        mNewUpdatesButton.startAnimation(animation);
         animation.setAnimationListener(new Animation.AnimationListener() {
             @Override
             public void onAnimationStart(Animation animation) {
@@ -400,7 +397,7 @@ public class MainActivity extends BaseActivity
 
             @Override
             public void onAnimationEnd(Animation animation) {
-                sNewUpdatesButton.setVisibility(visibility);
+                mNewUpdatesButton.setVisibility(visibility);
             }
 
             @Override
@@ -925,8 +922,8 @@ public class MainActivity extends BaseActivity
         });
 
         // Disable search if error screen shown
-        if (sErrorScreen != null) {
-            if (sErrorScreen.getVisibility() == View.VISIBLE) {
+        if (mErrorScreen != null) {
+            if (mErrorScreen.getVisibility() == View.VISIBLE) {
                 mSearchItem.setEnabled(false);
             } else {
                 mSearchItem.setEnabled(true);
