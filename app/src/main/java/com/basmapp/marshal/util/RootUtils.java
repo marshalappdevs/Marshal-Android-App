@@ -5,15 +5,10 @@ import android.content.pm.PackageManager;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
-import java.util.Scanner;
 
 public class RootUtils {
 
@@ -63,9 +58,8 @@ public class RootUtils {
         boolean rootCloaking = detectRootCloakingApps();
         boolean suBinary = checkForSuBinary();
         boolean busyBoxBinary = checkForBusyBoxBinary();
-        boolean dangerousProps = checkForDangerousProps();
         boolean testSuExists = checkSuExists();
-        return testKeys || rootManagement || rootCloaking || suBinary || busyBoxBinary || dangerousProps || testSuExists;
+        return testKeys || rootManagement || rootCloaking || suBinary || busyBoxBinary || testSuExists;
     }
 
     private boolean detectTestKeys() {
@@ -110,8 +104,8 @@ public class RootUtils {
     }
 
     /**
-     * @param filename - check for this existence of this file
-     * @return true if found
+     * @param filename - check for existence of this binary
+     * @return true if binary found
      */
     private boolean checkForBinary(String filename) {
         boolean result = false;
@@ -128,9 +122,8 @@ public class RootUtils {
     }
 
     /**
-     * Using the PackageManager, check for a list of given package names.
-     *
-     * @return true if one of the apps it's installed
+     * @param packages - check for existence of given package names
+     * @return true if one of the apps is installed
      */
     private boolean isAnyPackageFromListInstalled(List<String> packages) {
         boolean result = false;
@@ -150,51 +143,8 @@ public class RootUtils {
         return result;
     }
 
-    private String[] propsReader() {
-        InputStream inputstream = null;
-        try {
-            inputstream = Runtime.getRuntime().exec("getprop").getInputStream();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        // If input steam is null, we can't read the file, so return null
-        if (inputstream == null) {
-            return null;
-        }
-
-        String propValue = new Scanner(inputstream).useDelimiter("\\A").next();
-
-        return propValue.split("\n");
-    }
-
-    // Checks for system properties that are typical to test ROMs or custom ROMs
-    private boolean checkForDangerousProps() {
-        final Map<String, String> dangerousProps = new HashMap<>();
-        dangerousProps.put("ro.debuggable", "1");
-        dangerousProps.put("ro.secure", "0");
-
-        boolean result = false;
-
-        String[] lines = propsReader();
-        if (lines != null) {
-            for (String line : lines) {
-                for (String key : dangerousProps.keySet()) {
-                    if (line.contains(key)) {
-                        String badValue = dangerousProps.get(key);
-                        badValue = "[" + badValue + "]";
-                        if (line.contains(badValue)) {
-                            result = true;
-                        }
-                    }
-                }
-            }
-        }
-        return result;
-    }
-
     /**
-     * A variation on the checking for SU, this attempts a 'which su'
+     * Another method to check for su, this attempts a 'which su'
      *
      * @return true if su found
      */
