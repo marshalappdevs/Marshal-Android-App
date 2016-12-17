@@ -20,36 +20,20 @@ public class RootUtils {
 
     private static final String[] knownRootManagementApps = {
             "com.noshufou.android.su", /* ChainsDD's Superuser */
-            "com.noshufou.android.su.elite", /* ChainsDD's Superuser Elite */
             "eu.chainfire.supersu", /* Chainfire's SuperSU */
-            "com.koushikdutta.superuser", /* Koush's ClockworkMod Superuser */
-            "com.thirdparty.superuser", /* Koush's OpenSource Superuser */
+            "com.koushikdutta.superuser", /* Koush's Superuser */
             "com.genymotion.superuser", /* Genymotion's Superuser */
             "com.yellowes.su",
             "org.masteraxe.superuser"
     };
 
     private static final String[] knownRootCloakingApps = {
-            "com.devadvance.rootcloak", /* RootCloak (Deprecated) */
             "com.devadvance.rootcloak2", /* RootCloak */
             "com.devadvance.rootcloakplus", /* RootCloak Plus */
             "de.robv.android.xposed.installer", /* Xposed Installer */
             "com.saurik.substrate", /* Cydia Substrate */
             "com.amphoras.hidemyroot",
             "com.formyhm.hideroot"
-    };
-
-    private static final String[] binaryPaths = {
-            "/data/local/",
-            "/data/local/bin/",
-            "/data/local/xbin/",
-            "/system/bin/",
-            "/system/bin/.ext/",
-            "/system/bin/failsafe/",
-            "/system/xbin/",
-            "/system/sd/xbin/",
-            "/system/usr/we-need-root/",
-            "/sbin/"
     };
 
     public boolean isRooted() {
@@ -72,6 +56,8 @@ public class RootUtils {
     }
 
     private boolean detectRootManagementApps(String[] additionalRootManagementApps) {
+        // Return true if Superuser.apk found on /system
+        if (new File("/system/app/Superuser.apk").exists()) return true;
         // Create a list of package names to iterate over from constants any others provided
         ArrayList<String> packages = new ArrayList<>();
         packages.addAll(Arrays.asList(knownRootManagementApps));
@@ -96,29 +82,31 @@ public class RootUtils {
     }
 
     private boolean checkForSuBinary() {
-        return checkForBinary("su");
+        return findBinary("su");
     }
 
     private boolean checkForBusyBoxBinary() {
-        return checkForBinary("busybox");
+        return (findBinary("busybox")) || (findBinary("toybox"));
     }
 
     /**
      * @param filename - check for existence of this binary
      * @return true if binary found
      */
-    private boolean checkForBinary(String filename) {
-        boolean result = false;
-        for (String path : binaryPaths) {
-            String completePath = path + filename;
-            File f = new File(completePath);
-            boolean fileExists = f.exists();
-            if (fileExists) {
+    private boolean findBinary(String filename) {
+        // searchPaths is a list of all PATH environment variables
+        List<String> searchPaths = Arrays.asList(System.getenv("PATH").split(":"));
+        for (String path : searchPaths) {
+            if (!path.endsWith("/")) {
+                path += "/";
+            }
+            String filePath = path + filename;
+            if (new File(filePath).exists()) {
                 // binary detected
-                result = true;
+                return true;
             }
         }
-        return result;
+        return false;
     }
 
     /**
