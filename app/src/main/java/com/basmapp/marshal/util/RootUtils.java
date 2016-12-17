@@ -39,7 +39,7 @@ public class RootUtils {
             "com.formyhm.hideroot"
     };
 
-    private static final String[] suPaths = {
+    private static final String[] binaryPaths = {
             "/data/local/",
             "/data/local/bin/",
             "/data/local/xbin/",
@@ -109,7 +109,7 @@ public class RootUtils {
      */
     private boolean checkForBinary(String filename) {
         boolean result = false;
-        for (String path : suPaths) {
+        for (String path : binaryPaths) {
             String completePath = path + filename;
             File f = new File(completePath);
             boolean fileExists = f.exists();
@@ -132,7 +132,7 @@ public class RootUtils {
 
         for (String packageName : packages) {
             try {
-                // Root management app detected
+                // app detected
                 pm.getPackageInfo(packageName, 0);
                 result = true;
             } catch (PackageManager.NameNotFoundException e) {
