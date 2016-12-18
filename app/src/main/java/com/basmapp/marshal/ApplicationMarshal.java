@@ -13,9 +13,12 @@ import android.util.Base64;
 import com.basmapp.marshal.services.UpdateIntentService;
 import com.basmapp.marshal.util.LocaleUtils;
 
+import java.io.File;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 
 public class ApplicationMarshal extends Application {
     private static final String SIGNATURE = "ndtzzSJ5ftzT6vSiJH20aMp8/m8=";
@@ -23,7 +26,6 @@ public class ApplicationMarshal extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        // Normal app init code...
         LocaleUtils.updateLocale(this);
         LocaleUtils.updateConfig(this, getBaseContext().getResources().getConfiguration());
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
@@ -73,5 +75,26 @@ public class ApplicationMarshal extends Application {
 
     public static boolean isDebuggable(Context context) {
         return (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+    }
+
+    public static boolean isRooted() {
+        if (new File("/system/app/Superuser.apk").exists()) {
+            // root management app detected
+            return true;
+        } else {
+            // searchPaths is a list of all PATH environment variables
+            List<String> searchPaths = Arrays.asList(System.getenv("PATH").split(":"));
+            for (String path : searchPaths) {
+                if (!path.endsWith("/")) {
+                    path += "/";
+                }
+                String filePath = path + "su";
+                if (new File(filePath).exists()) {
+                    // su binary detected
+                    return true;
+                }
+            }
+        }
+        return false;
     }
 }

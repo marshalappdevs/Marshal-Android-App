@@ -28,12 +28,12 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.basmapp.marshal.ApplicationMarshal;
 import com.basmapp.marshal.BaseActivity;
 import com.basmapp.marshal.BuildConfig;
 import com.basmapp.marshal.R;
 import com.basmapp.marshal.util.GetFilePathFromUri;
 import com.basmapp.marshal.util.LocaleUtils;
-import com.basmapp.marshal.util.RootUtils;
 
 import java.io.File;
 import java.io.FileWriter;
@@ -313,7 +313,7 @@ public class DescribeProblemActivity extends BaseActivity {
         debugInfo += "\n Model: " + Build.MODEL + " (" + Build.DEVICE + ")";
         debugInfo += "\n Locale: " + Locale.getDefault().toString();
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " (" + android.os.Build.VERSION.SDK_INT + ")";
-        debugInfo += "\n Rooted: " + (new RootUtils(this).isRooted() ? "true" : "false");
+        debugInfo += "\n Rooted: " + (ApplicationMarshal.isRooted() ? "true" : "false");
         File[] filesDirs = ContextCompat.getExternalFilesDirs(this, null);
         if (filesDirs[0] != null) {
             long freeBytesInternal = new StatFs(filesDirs[0].getPath()).getAvailableBytes();
