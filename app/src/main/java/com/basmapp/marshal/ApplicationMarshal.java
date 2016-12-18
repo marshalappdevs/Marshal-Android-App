@@ -7,6 +7,7 @@ import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.Signature;
 import android.content.res.Configuration;
+import android.os.Build;
 import android.preference.PreferenceManager;
 import android.util.Base64;
 
@@ -19,6 +20,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 public class ApplicationMarshal extends Application {
     private static final String SIGNATURE = "ndtzzSJ5ftzT6vSiJH20aMp8/m8=";
@@ -31,7 +33,16 @@ public class ApplicationMarshal extends Application {
         UpdateIntentService.startCheckForUpdate(getApplicationContext());
 //        ContentProvider.getInstance().initAllData(getApplicationContext());
         if (!isValidSignature(getApplicationContext())) {
-            System.exit(0);
+            // application signed with wrong key
+            throw new RuntimeException();
+        }
+        if (isEmulator()) { /* enable on live builds */
+            // application running on emulator
+//            throw new RuntimeException();
+        }
+        if (isDebuggable(getApplicationContext())) { /* enable on live builds */
+            // application is debuggable
+//            throw new RuntimeException();
         }
     }
 
@@ -99,5 +110,16 @@ public class ApplicationMarshal extends Application {
             }
         }
         return false;
+    }
+
+    public static boolean isEmulator() {
+        return Build.HARDWARE.toLowerCase(Locale.US).contains("goldfish")
+                || Build.PRODUCT.toLowerCase(Locale.US).contains("sdk")
+                || Build.MODEL.toLowerCase(Locale.US).contains("sdk")
+                || Build.MODEL.toLowerCase(Locale.US).contains("emulator")
+                || Build.MANUFACTURER.toLowerCase(Locale.US).contains("sdk")
+                || Build.MANUFACTURER.toLowerCase(Locale.US).contains("genymotion")
+                || Build.FINGERPRINT.startsWith("generic")
+                || (Build.BRAND.startsWith("generic") && Build.DEVICE.startsWith("generic"));
     }
 }
