@@ -81,6 +81,9 @@ public class ApplicationMarshal extends Application {
         if (new File("/system/app/Superuser.apk").exists()) {
             // root management app detected
             return true;
+        } else if (new File("/system/framework/XposedBridge.jar").exists()) {
+            // xposed framework detected
+            return true;
         } else {
             // searchPaths is a list of all PATH environment variables
             List<String> searchPaths = Arrays.asList(System.getenv("PATH").split(":"));
