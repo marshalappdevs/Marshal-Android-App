@@ -313,7 +313,7 @@ public class DescribeProblemActivity extends BaseActivity {
         debugInfo += "\n Model: " + Build.MODEL + " (" + Build.DEVICE + ")";
         debugInfo += "\n Locale: " + Locale.getDefault().toString();
         debugInfo += "\n OS: " + Build.VERSION.RELEASE + " (" + android.os.Build.VERSION.SDK_INT + ")";
-        debugInfo += "\n Rooted: " + (ApplicationMarshal.isRooted() ? "true" : "false");
+        debugInfo += "\n Rooted: " + (ApplicationMarshal.isRooted() ? "yes" : "no");
         File[] filesDirs = ContextCompat.getExternalFilesDirs(this, null);
         if (filesDirs[0] != null) {
             long freeBytesInternal = new StatFs(filesDirs[0].getPath()).getAvailableBytes();
