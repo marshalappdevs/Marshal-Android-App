@@ -17,6 +17,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.animation.FastOutSlowInInterpolator;
 import android.support.v7.app.AlertDialog;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
@@ -73,6 +74,10 @@ import retrofit2.Response;
 import uk.co.samuelwall.materialtaptargetprompt.MaterialTapTargetPrompt;
 
 public class CourseActivity extends BaseActivity {
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
 
     private static final int RC_REVIEW_ACTIVITY = 123;
 
@@ -449,7 +454,7 @@ public class CourseActivity extends BaseActivity {
                                     Glide.with(CourseActivity.this)
                                             .load(uri)
                                             .transform(new CircleTransform(CourseActivity.this))
-                                            .placeholder(R.drawable.ic_profile_none)
+                                            .placeholder(R.drawable.ic_default_avatar)
                                             .into(mReviewProfileImageView);
                                 }
                                 mTextViewReviewHint.setVisibility(View.GONE);
@@ -552,7 +557,7 @@ public class CourseActivity extends BaseActivity {
             if (uri != null) {
                 Glide.with(CourseActivity.this)
                         .load(uri)
-                        .placeholder(R.drawable.ic_profile_none)
+                        .placeholder(R.drawable.ic_default_avatar)
                         .into(mReviewProfileImageView);
             }
             mTextViewReviewEdited.setVisibility(View.GONE);

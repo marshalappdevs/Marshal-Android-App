@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.AppCompatDelegate;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -36,6 +37,10 @@ import java.util.List;
 public class RateReviewActivity extends AppCompatActivity {
     public RateReviewActivity() {
         LocaleUtils.updateConfig(this);
+    }
+
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
     }
 
     public static final int RESULT_POST_SUCCESS = 111;
@@ -126,7 +131,7 @@ public class RateReviewActivity extends AppCompatActivity {
             Glide.with(this)
                     .load(uri)
                     .transform(new CircleTransform(this))
-                    .placeholder(R.drawable.ic_profile_none)
+                    .placeholder(R.drawable.ic_default_avatar)
                     .into(profileImageView);
         }
 
