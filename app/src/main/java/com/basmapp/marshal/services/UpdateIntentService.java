@@ -168,6 +168,7 @@ public class UpdateIntentService extends IntentService {
         database.beginTransaction();
         try {
             String jwt = AuthUtil.getApiToken();
+
             newCourses = MarshalServiceProvider.getInstance(jwt).getAllCourses().execute().body();
             newMaterials = MarshalServiceProvider.getInstance(jwt).getAllMaterials().execute().body();
             newMalshabItems = MarshalServiceProvider.getInstance(jwt).getAllMalshabItems().execute().body();

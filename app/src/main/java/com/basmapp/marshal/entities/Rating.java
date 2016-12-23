@@ -42,7 +42,7 @@ public class Rating extends DBObject implements Parcelable {
         setCourseID(rating.getCourseID());
     }
 
-    @PrimaryKey(columnName = COL_ID, isAutoIncrement = true)
+    @PrimaryKey(columnName = COL_ID, options = {OPTION_AUTOINCREAMENT})
     private long id;
 
     @Column(name = COL_USER_MAIL_ADDRESS)

@@ -8,7 +8,7 @@ import com.google.gson.annotations.SerializedName;
 import com.simplite.orm.DBObject;
 import com.simplite.orm.annotations.Column;
 import com.simplite.orm.annotations.Entity;
-import com.simplite.orm.annotations.ForeignKeyEntityArray;
+import com.simplite.orm.annotations.ForeignKeyArray;
 import com.simplite.orm.annotations.PrimaryKey;
 
 import java.util.ArrayList;
@@ -117,13 +117,13 @@ public class Course extends DBObject implements Parcelable {
 
     @Expose
     @SerializedName("cycleList")
-    @ForeignKeyEntityArray(valueColumnName = COL_COURSE_ID,
+    @ForeignKeyArray(valueColumnName = COL_COURSE_ID,
             fkColumnName = Cycle.COL_COURSE_ID, entityClass = Cycle.class)
     private ArrayList<Cycle> cycles = new ArrayList<>();
 
     @Expose
     @SerializedName("Ratings")
-    @ForeignKeyEntityArray(valueColumnName = COL_COURSE_ID,
+    @ForeignKeyArray(valueColumnName = COL_COURSE_ID,
             fkColumnName = Cycle.COL_COURSE_ID, entityClass = Rating.class)
     private ArrayList<Rating> ratings = new ArrayList<>();
 

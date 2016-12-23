@@ -15,8 +15,8 @@ android {
         applicationId "com.basmapp.marshal"
         minSdkVersion 19
         targetSdkVersion 25
-        versionCode 12
-        versionName "1.2"
+        versionCode 14
+        versionName "1.4"
         vectorDrawables.useSupportLibrary = true
         buildConfigField "String", "AUTH_KEY", "\"${auth_key}\""
         resConfigs "en", "iw"
@@ -72,7 +72,7 @@ dependencies {
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
     compile 'uk.co.samuelwall:material-tap-target-prompt:1.6.3'
     compile 'io.jsonwebtoken:jjwt:0.7.0'
-    compile 'com.simplite:simplite-orm:0.9.2'
+    compile 'com.simplite:simplite-orm:0.9.4'
 }
 
 apply plugin: 'com.google.gms.google-services'

@@ -29,7 +29,7 @@ public class Cycle extends DBObject implements Parcelable {
     public static final String COL_END_DATE = "end_date";
     public static final String COL_GOOGLE_FORM_URL = "col_google_form_url";
 
-    @PrimaryKey(columnName = COL_ID, isAutoIncrement = true)
+    @PrimaryKey(columnName = COL_ID, options = {OPTION_AUTOINCREAMENT})
     private long id;
 
     @Expose
