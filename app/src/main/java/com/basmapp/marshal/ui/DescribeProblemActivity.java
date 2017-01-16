@@ -5,8 +5,10 @@ import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.content.res.TypedArray;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Parcelable;
@@ -16,6 +18,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.os.Bundle;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatDelegate;
 import android.support.v7.widget.Toolbar;
 import android.text.format.Formatter;
 import android.view.Gravity;
@@ -45,6 +48,10 @@ import java.util.List;
 import java.util.Locale;
 
 public class DescribeProblemActivity extends BaseActivity {
+    static {
+        AppCompatDelegate.setCompatVectorFromResourcesEnabled(true);
+    }
+
     private static final int REQUEST_STORAGE = 0;
     private ImageView[] screenshots = new ImageView[3];
     private Uri[] uris = new Uri[3];
@@ -87,10 +94,35 @@ public class DescribeProblemActivity extends BaseActivity {
 //            }
 //        });
 
-        for (int i = 0; i < screenshots.length; i++) {
-            screenshots[i] = (ImageView) ((LinearLayout) findViewById(R.id.screenshots)).getChildAt(i);
-            screenshots[i].setOnClickListener(new screenshotClickListener(i));
-            screenshots[i].setOnLongClickListener(new screenshotClickListener(i));
+        LinearLayout linearLayout = (LinearLayout) findViewById(R.id.screenshots);
+        linearLayout.removeAllViews();
+        for (int i = 0; i < 3; i++) {
+            final ImageView imageView = new ImageView(this);
+            imageView.setScaleType(ImageView.ScaleType.CENTER);
+            imageView.setImageResource(R.drawable.ic_add_large);
+            imageView.setBackgroundResource(R.drawable.inline_screenshot_placeholder);
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+                imageView.setForeground(getSelectedItemDrawable());
+            }
+            imageView.setOnClickListener(new screenshotClickListener(i));
+            imageView.setOnLongClickListener(new screenshotClickListener(i));
+            LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(0, LinearLayout.LayoutParams.WRAP_CONTENT, 1.0f);
+            int margin = getResources().getDimensionPixelSize(R.dimen.medium_thumbnail_padding);
+            layoutParams.bottomMargin = margin;
+            layoutParams.rightMargin = margin;
+            layoutParams.topMargin = margin;
+            layoutParams.leftMargin = margin;
+            linearLayout.addView(imageView, layoutParams);
+            // change image view height after width is set
+            imageView.post(new Runnable() {
+                @Override
+                public void run() {
+                    imageView.getLayoutParams().height = (imageView.getWidth() * 4) / 3;
+                    imageView.requestLayout();
+                }
+            });
+            // save image view for later use
+            screenshots[i] = imageView;
         }
 
         if (savedInstanceState != null) {
@@ -208,7 +240,7 @@ public class DescribeProblemActivity extends BaseActivity {
     }
 
 
-    public class screenshotClickListener implements View.OnClickListener, View.OnLongClickListener {
+    private class screenshotClickListener implements View.OnClickListener, View.OnLongClickListener {
 
         int position;
 
@@ -305,6 +337,14 @@ public class DescribeProblemActivity extends BaseActivity {
         }
     }
 
+    public Drawable getSelectedItemDrawable() {
+        int[] attrs = new int[]{android.R.attr.selectableItemBackground};
+        TypedArray typedArray = obtainStyledAttributes(attrs);
+        Drawable drawable = typedArray.getDrawable(0);
+        typedArray.recycle();
+        return drawable;
+    }
+
     public String debugInfo() {
         // Get debug info from the device for error report email and save it as string
         String debugInfo = "--Support Info--";
@@ -316,13 +356,27 @@ public class DescribeProblemActivity extends BaseActivity {
         debugInfo += "\n Rooted: " + (ApplicationMarshal.isRooted() ? "yes" : "no");
         File[] filesDirs = ContextCompat.getExternalFilesDirs(this, null);
         if (filesDirs[0] != null) {
-            long freeBytesInternal = new StatFs(filesDirs[0].getPath()).getAvailableBytes();
+            StatFs statFs = new StatFs(filesDirs[0].getPath());
+            long freeBytesInternal;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                freeBytesInternal = statFs.getAvailableBytes();
+            } else {
+                //noinspection deprecation
+                freeBytesInternal = statFs.getBlockSize() * statFs.getAvailableBlocks();
+            }
             debugInfo += "\n Free Space Built-In: " + freeBytesInternal + " (" + Formatter.formatFileSize(this, freeBytesInternal) + ")";
         } else {
             debugInfo += "\n Free Space Built-In: Unavailable";
         }
-        if (filesDirs[1] != null) {
-            long freeBytesExternal = new StatFs(filesDirs[1].getPath()).getAvailableBytes();
+        if (filesDirs.length > 1) {
+            StatFs statFs = new StatFs(filesDirs[1].getPath());
+            long freeBytesExternal;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR2) {
+                freeBytesExternal = statFs.getAvailableBytes();
+            } else {
+                //noinspection deprecation
+                freeBytesExternal = statFs.getBlockSize() * statFs.getAvailableBlocks();
+            }
             debugInfo += "\n Free Space Removable: " + freeBytesExternal + " (" + Formatter.formatFileSize(this, freeBytesExternal) + ")";
         } else {
             debugInfo += "\n Free Space Removable: Unavailable";
