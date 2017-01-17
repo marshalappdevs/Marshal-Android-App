@@ -44,17 +44,17 @@ public class Course extends DBObject implements Parcelable {
     // TODO RETROFIT SerializedName
     @Expose
     @SerializedName("_id")
-    @PrimaryKey(columnName = COL_ID)
+    @PrimaryKey(columnName = COL_ID, options = {OPTION_UNIQUE})
     private String id;
 
     @Expose
     @SerializedName("ID")
-    @Column(name = COL_COURSE_ID, options = {OPTION_UNIQUE})
+    @Column(name = COL_COURSE_ID)
     private int courseID;
 
     @Expose
     @SerializedName("CourseCode")
-    @Column(name = COL_COURSE_CODE, options = {OPTION_UNIQUE})
+    @Column(name = COL_COURSE_CODE)
     private String courseCode;
 
     @Expose

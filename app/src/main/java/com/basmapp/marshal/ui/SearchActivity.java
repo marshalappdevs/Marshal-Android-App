@@ -791,9 +791,9 @@ public class SearchActivity extends BaseActivity {
         } else {
             mFilteredCourseList = new ArrayList<>();
             for (Course item : mCoursesList) {
-                if (item.getName().toLowerCase().contains(query.toLowerCase().trim()) ||
-                        item.getDescription().toLowerCase().contains(query.toLowerCase().trim()) ||
-                        item.getSyllabus().toLowerCase().contains(query.toLowerCase().trim()) ||
+                if ((item.getName() != null && item.getName().toLowerCase().contains(query.toLowerCase().trim())) ||
+                        (item.getDescription() != null && item.getDescription().toLowerCase().contains(query.toLowerCase().trim())) ||
+                        (item.getSyllabus() != null && item.getSyllabus().toLowerCase().contains(query.toLowerCase().trim())) ||
                         isHasCycle(item, query.toLowerCase().trim())) {
                     mFilteredCourseList.add(item);
                 }

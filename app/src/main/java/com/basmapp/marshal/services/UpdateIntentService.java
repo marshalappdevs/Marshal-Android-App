@@ -406,7 +406,9 @@ public class UpdateIntentService extends IntentService {
                     }
                 }
                 /////////////////////////// END RATINGS //////////////////////////////
-                long id = database.compileStatement(course.getInsertCommand(this)).executeInsert();
+                if (course.getCourseID() != 0) {
+                    database.compileStatement(course.getInsertCommand(this)).executeInsert();
+                }
             }
 
             PreferenceManager.getDefaultSharedPreferences(this).edit().putBoolean(Constants.PREF_IS_UPDATE_SERVICE_SUCCESS_ONCE, true).apply();
